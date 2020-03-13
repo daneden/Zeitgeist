@@ -1,0 +1,602 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		715E06DB241BDE8C00A4DA0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */; };
+		715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DC241BDE8C00A4DA0F /* ContentView.swift */; };
+		715E06DF241BDE9100A4DA0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 715E06DE241BDE9100A4DA0F /* Assets.xcassets */; };
+		715E06E2241BDE9100A4DA0F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 715E06E1241BDE9100A4DA0F /* Preview Assets.xcassets */; };
+		715E06E5241BDE9100A4DA0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 715E06E3241BDE9100A4DA0F /* Main.storyboard */; };
+		715E06F1241BDE9100A4DA0F /* ZeitgeistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */; };
+		715E06FC241BDE9100A4DA0F /* ZeitgeistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		715E06ED241BDE9100A4DA0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 715E06D6241BDE8C00A4DA0F;
+			remoteInfo = Zeitgeist;
+		};
+		715E06F8241BDE9100A4DA0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 715E06D6241BDE8C00A4DA0F;
+			remoteInfo = Zeitgeist;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		715E06DE241BDE9100A4DA0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		715E06E1241BDE9100A4DA0F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		715E06E4241BDE9100A4DA0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		715E06E6241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		715E06E7241BDE9100A4DA0F /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
+		715E06EC241BDE9100A4DA0F /* ZeitgeistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeitgeistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistTests.swift; sourceTree = "<group>"; };
+		715E06F2241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		715E06F7241BDE9100A4DA0F /* ZeitgeistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeitgeistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistUITests.swift; sourceTree = "<group>"; };
+		715E06FD241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		715E06D4241BDE8C00A4DA0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715E06E9241BDE9100A4DA0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715E06F4241BDE9100A4DA0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		715E06CE241BDE8C00A4DA0F = {
+			isa = PBXGroup;
+			children = (
+				715E06D9241BDE8C00A4DA0F /* Zeitgeist */,
+				715E06EF241BDE9100A4DA0F /* ZeitgeistTests */,
+				715E06FA241BDE9100A4DA0F /* ZeitgeistUITests */,
+				715E06D8241BDE8C00A4DA0F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		715E06D8241BDE8C00A4DA0F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */,
+				715E06EC241BDE9100A4DA0F /* ZeitgeistTests.xctest */,
+				715E06F7241BDE9100A4DA0F /* ZeitgeistUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		715E06D9241BDE8C00A4DA0F /* Zeitgeist */ = {
+			isa = PBXGroup;
+			children = (
+				715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */,
+				715E06DC241BDE8C00A4DA0F /* ContentView.swift */,
+				715E06DE241BDE9100A4DA0F /* Assets.xcassets */,
+				715E06E3241BDE9100A4DA0F /* Main.storyboard */,
+				715E06E6241BDE9100A4DA0F /* Info.plist */,
+				715E06E7241BDE9100A4DA0F /* Zeitgeist.entitlements */,
+				715E06E0241BDE9100A4DA0F /* Preview Content */,
+			);
+			path = Zeitgeist;
+			sourceTree = "<group>";
+		};
+		715E06E0241BDE9100A4DA0F /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				715E06E1241BDE9100A4DA0F /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		715E06EF241BDE9100A4DA0F /* ZeitgeistTests */ = {
+			isa = PBXGroup;
+			children = (
+				715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */,
+				715E06F2241BDE9100A4DA0F /* Info.plist */,
+			);
+			path = ZeitgeistTests;
+			sourceTree = "<group>";
+		};
+		715E06FA241BDE9100A4DA0F /* ZeitgeistUITests */ = {
+			isa = PBXGroup;
+			children = (
+				715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */,
+				715E06FD241BDE9100A4DA0F /* Info.plist */,
+			);
+			path = ZeitgeistUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		715E06D6241BDE8C00A4DA0F /* Zeitgeist */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715E0700241BDE9100A4DA0F /* Build configuration list for PBXNativeTarget "Zeitgeist" */;
+			buildPhases = (
+				715E06D3241BDE8C00A4DA0F /* Sources */,
+				715E06D4241BDE8C00A4DA0F /* Frameworks */,
+				715E06D5241BDE8C00A4DA0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Zeitgeist;
+			productName = Zeitgeist;
+			productReference = 715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */;
+			productType = "com.apple.product-type.application";
+		};
+		715E06EB241BDE9100A4DA0F /* ZeitgeistTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715E0703241BDE9100A4DA0F /* Build configuration list for PBXNativeTarget "ZeitgeistTests" */;
+			buildPhases = (
+				715E06E8241BDE9100A4DA0F /* Sources */,
+				715E06E9241BDE9100A4DA0F /* Frameworks */,
+				715E06EA241BDE9100A4DA0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				715E06EE241BDE9100A4DA0F /* PBXTargetDependency */,
+			);
+			name = ZeitgeistTests;
+			productName = ZeitgeistTests;
+			productReference = 715E06EC241BDE9100A4DA0F /* ZeitgeistTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		715E06F6241BDE9100A4DA0F /* ZeitgeistUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715E0706241BDE9100A4DA0F /* Build configuration list for PBXNativeTarget "ZeitgeistUITests" */;
+			buildPhases = (
+				715E06F3241BDE9100A4DA0F /* Sources */,
+				715E06F4241BDE9100A4DA0F /* Frameworks */,
+				715E06F5241BDE9100A4DA0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				715E06F9241BDE9100A4DA0F /* PBXTargetDependency */,
+			);
+			name = ZeitgeistUITests;
+			productName = ZeitgeistUITests;
+			productReference = 715E06F7241BDE9100A4DA0F /* ZeitgeistUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		715E06CF241BDE8C00A4DA0F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "Daniel Eden";
+				TargetAttributes = {
+					715E06D6241BDE8C00A4DA0F = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					715E06EB241BDE9100A4DA0F = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 715E06D6241BDE8C00A4DA0F;
+					};
+					715E06F6241BDE9100A4DA0F = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 715E06D6241BDE8C00A4DA0F;
+					};
+				};
+			};
+			buildConfigurationList = 715E06D2241BDE8C00A4DA0F /* Build configuration list for PBXProject "Zeitgeist" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 715E06CE241BDE8C00A4DA0F;
+			productRefGroup = 715E06D8241BDE8C00A4DA0F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				715E06D6241BDE8C00A4DA0F /* Zeitgeist */,
+				715E06EB241BDE9100A4DA0F /* ZeitgeistTests */,
+				715E06F6241BDE9100A4DA0F /* ZeitgeistUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		715E06D5241BDE8C00A4DA0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715E06E5241BDE9100A4DA0F /* Main.storyboard in Resources */,
+				715E06E2241BDE9100A4DA0F /* Preview Assets.xcassets in Resources */,
+				715E06DF241BDE9100A4DA0F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715E06EA241BDE9100A4DA0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715E06F5241BDE9100A4DA0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		715E06D3241BDE8C00A4DA0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */,
+				715E06DB241BDE8C00A4DA0F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715E06E8241BDE9100A4DA0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715E06F1241BDE9100A4DA0F /* ZeitgeistTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715E06F3241BDE9100A4DA0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715E06FC241BDE9100A4DA0F /* ZeitgeistUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		715E06EE241BDE9100A4DA0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 715E06D6241BDE8C00A4DA0F /* Zeitgeist */;
+			targetProxy = 715E06ED241BDE9100A4DA0F /* PBXContainerItemProxy */;
+		};
+		715E06F9241BDE9100A4DA0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 715E06D6241BDE8C00A4DA0F /* Zeitgeist */;
+			targetProxy = 715E06F8241BDE9100A4DA0F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		715E06E3241BDE9100A4DA0F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				715E06E4241BDE9100A4DA0F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		715E06FE241BDE9100A4DA0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		715E06FF241BDE9100A4DA0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		715E0701241BDE9100A4DA0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Zeitgeist/Preview Content\"";
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Zeitgeist/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		715E0702241BDE9100A4DA0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Zeitgeist/Preview Content\"";
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Zeitgeist/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		715E0704241BDE9100A4DA0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = ZeitgeistTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.ZeitgeistTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zeitgeist.app/Contents/MacOS/Zeitgeist";
+			};
+			name = Debug;
+		};
+		715E0705241BDE9100A4DA0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = ZeitgeistTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.ZeitgeistTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zeitgeist.app/Contents/MacOS/Zeitgeist";
+			};
+			name = Release;
+		};
+		715E0707241BDE9100A4DA0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = ZeitgeistUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.ZeitgeistUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Zeitgeist;
+			};
+			name = Debug;
+		};
+		715E0708241BDE9100A4DA0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = ZeitgeistUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.ZeitgeistUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Zeitgeist;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		715E06D2241BDE8C00A4DA0F /* Build configuration list for PBXProject "Zeitgeist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715E06FE241BDE9100A4DA0F /* Debug */,
+				715E06FF241BDE9100A4DA0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		715E0700241BDE9100A4DA0F /* Build configuration list for PBXNativeTarget "Zeitgeist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715E0701241BDE9100A4DA0F /* Debug */,
+				715E0702241BDE9100A4DA0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		715E0703241BDE9100A4DA0F /* Build configuration list for PBXNativeTarget "ZeitgeistTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715E0704241BDE9100A4DA0F /* Debug */,
+				715E0705241BDE9100A4DA0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		715E0706241BDE9100A4DA0F /* Build configuration list for PBXNativeTarget "ZeitgeistUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715E0707241BDE9100A4DA0F /* Debug */,
+				715E0708241BDE9100A4DA0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 715E06CF241BDE8C00A4DA0F /* Project object */;
+}
