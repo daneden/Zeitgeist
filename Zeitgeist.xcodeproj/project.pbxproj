@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7141D4CF241BE78600D212F0 /* NetworkEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */; };
+		7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */; };
+		7141D4D3241BE7DF00D212F0 /* NetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */; };
+		7141D4D5241BE81700D212F0 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D4241BE81700D212F0 /* Resource.swift */; };
+		7141D4D7241BE86600D212F0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D6241BE86600D212F0 /* Network.swift */; };
+		7141D4D9241BE88600D212F0 /* ZeitDeploymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */; };
+		7141D4DB241BED0300D212F0 /* NetworkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */; };
+		7141D4DD241BED4100D212F0 /* ZeitDeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */; };
+		7141D4DF241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */; };
+		7141D4E1241BF36300D212F0 /* DeploymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */; };
 		715E06DB241BDE8C00A4DA0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */; };
 		715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DC241BDE8C00A4DA0F /* ContentView.swift */; };
 		715E06DF241BDE9100A4DA0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 715E06DE241BDE9100A4DA0F /* Assets.xcassets */; };
@@ -34,6 +44,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEnvironment.swift; sourceTree = "<group>"; };
+		7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethod.swift; sourceTree = "<group>"; };
+		7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoute.swift; sourceTree = "<group>"; };
+		7141D4D4241BE81700D212F0 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		7141D4D6241BE86600D212F0 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitDeploymentNetwork.swift; sourceTree = "<group>"; };
+		7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewModel.swift; sourceTree = "<group>"; };
+		7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitDeploymentsViewModel.swift; sourceTree = "<group>"; };
+		7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitDeploymentNetworkRoute.swift; sourceTree = "<group>"; };
+		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
 		715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +95,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7141D4CD241BE76F00D212F0 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */,
+				7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */,
+				7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */,
+				7141D4D4241BE81700D212F0 /* Resource.swift */,
+				7141D4D6241BE86600D212F0 /* Network.swift */,
+				7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */,
+				7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */,
+				7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */,
+				7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		715E06CE241BDE8C00A4DA0F = {
 			isa = PBXGroup;
 			children = (
@@ -98,8 +134,10 @@
 		715E06D9241BDE8C00A4DA0F /* Zeitgeist */ = {
 			isa = PBXGroup;
 			children = (
+				7141D4CD241BE76F00D212F0 /* Networking */,
 				715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */,
 				715E06DC241BDE8C00A4DA0F /* ContentView.swift */,
+				7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */,
 				715E06DE241BDE9100A4DA0F /* Assets.xcassets */,
 				715E06E3241BDE9100A4DA0F /* Main.storyboard */,
 				715E06E6241BDE9100A4DA0F /* Info.plist */,
@@ -267,6 +305,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */,
+				7141D4DD241BED4100D212F0 /* ZeitDeploymentsViewModel.swift in Sources */,
+				7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */,
+				7141D4D3241BE7DF00D212F0 /* NetworkRoute.swift in Sources */,
+				7141D4D5241BE81700D212F0 /* Resource.swift in Sources */,
+				7141D4DB241BED0300D212F0 /* NetworkViewModel.swift in Sources */,
+				7141D4CF241BE78600D212F0 /* NetworkEnvironment.swift in Sources */,
+				7141D4E1241BF36300D212F0 /* DeploymentsListView.swift in Sources */,
+				7141D4DF241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift in Sources */,
+				7141D4D9241BE88600D212F0 /* ZeitDeploymentNetwork.swift in Sources */,
+				7141D4D7241BE86600D212F0 /* Network.swift in Sources */,
 				715E06DB241BDE8C00A4DA0F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

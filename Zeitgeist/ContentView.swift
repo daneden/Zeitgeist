@@ -7,17 +7,65 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
-    var body: some View {
-        Text("Hello, World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+  @ObservedObject var settings = UserDefaultsManager()
+  @State var inputValue = ""
+  var body: some View {
+    VStack(alignment: .leading) {
+      if(self.$settings.token.wrappedValue == nil) {
+        VStack(alignment: .leading) {
+          Text("Enter Zeit access token:")
+          
+            TextField("Token", text: $inputValue)
+          HStack {
+            Button(action: self.saveToken, label: {
+              HStack {
+                Spacer()
+                Text("Log In")
+                Spacer()
+              }
+              .frame(minWidth: 0, maxWidth: .infinity)
+            })
+              .disabled($inputValue.wrappedValue == "")
+            Spacer()
+            Button(action: self.openTokenPage) {
+              Text("Create Token")
+            }.buttonStyle(LinkButtonStyle())
+          
+          }
+        }
+      .padding()
+      } else {
+        DeploymentsListView()
+          .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .deployments)))
+          .environmentObject(settings)
+      }
     }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  }
+  
+  func openTokenPage() -> Void {
+    let url = URL(string: "https://zeit.co/account/tokens")!
+    NSWorkspace.shared.open(url)
+  }
+  
+  func saveToken() -> Void {
+    self.settings.token = inputValue
+    settings.objectWillChange.send()
+  }
+}
+
+class UserDefaultsManager: ObservableObject {
+  @Published var token: String? = UserDefaults.standard.string(forKey: "ZeitToken") {
+    didSet { UserDefaults.standard.set(self.token, forKey: "ZeitToken") }
+  }
 }
 
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }
