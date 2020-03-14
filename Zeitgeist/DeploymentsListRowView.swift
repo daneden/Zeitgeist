@@ -65,31 +65,36 @@ struct DeploymentsListRowView: View {
       if isOpen {
         VStack(alignment: .leading, spacing: 8) {
           Divider()
-          VStack(alignment: .leading) {
-            Text(deployment.meta.githubCommitAuthorName ?? "")
-              .fontWeight(.bold)
-            if deployment.meta.githubCommitAuthorLogin != nil {
-              Text("(\(deployment.meta.githubCommitAuthorLogin!))")
-            }
-          }
-          Text(deployment.meta.githubCommitMessage ?? "")
-          VStack(alignment: .leading, spacing: 4) {
-            if deployment.meta.githubCommitUrl != nil {
-                Button(action: self.openCommitUrl) {
-                  Text("View Commit")
-                  Text("(\(deployment.meta.githubCommitShortSha!))")
-                    .font(.system(.caption, design: .monospaced))
-                }
-              .buttonStyle(LinkButtonStyle())
+          if deployment.meta.githubCommitUrl != nil {
+            VStack(alignment: .leading) {
+              Text(deployment.meta.githubCommitAuthorName ?? "")
+                .fontWeight(.bold)
+              if deployment.meta.githubCommitAuthorLogin != nil {
+                Text("(\(deployment.meta.githubCommitAuthorLogin!))")
               }
+            }
+            Text(deployment.meta.githubCommitMessage ?? "")
+            VStack(alignment: .leading, spacing: 4) {
               
+              Button(action: self.openCommitUrl) {
+                Text("View Commit")
+                Text("(\(deployment.meta.githubCommitShortSha!))")
+                  .font(.system(.caption, design: .monospaced))
+              }
+              .buttonStyle(LinkButtonStyle())
               Button(action: self.openInspector) {
                 Text("View Deployment Logs")
               }
               .buttonStyle(LinkButtonStyle())
+            }
+          } else {
+            Button(action: self.openInspector) {
+              Text("View Deployment Logs")
+            }
+            .buttonStyle(LinkButtonStyle())
           }
         }
-          .font(.caption)
+        .font(.caption)
       }
     }
     .padding(.horizontal, 8)
@@ -100,7 +105,7 @@ struct DeploymentsListRowView: View {
         .fill(Color.primary)
         .opacity(isOpen ? 0.05 : 0).cornerRadius(8)
     )
-    .focusable(true) { isFocused in
+      .focusable(true) { isFocused in
         print("Focused", isFocused)
     }
     .contextMenu{

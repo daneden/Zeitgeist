@@ -13,10 +13,12 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
   var window: NSWindow!
+  var widthConstrained: Bool!
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     // Create the SwiftUI view that provides the window contents.
     let contentView = ContentView()
+    widthConstrained = false
 
     // Create the window and set the content view. 
     window = NSWindow(
@@ -34,14 +36,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
   }
   
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
-    print("Resizing")
-    return NSSize(width: 300, height: frameSize.height)
+    // We want to prevent horizontal window resizing when not in full screen
+    return NSSize(width: self.widthConstrained ? 300 : frameSize.width, height: frameSize.height)
   }
 
   func applicationWillTerminate(_ aNotification: Notification) {
     // Insert code here to tear down your application
   }
 
+  func windowWillEnterFullScreen(_ notification: Notification) {
+    self.widthConstrained = false
+  }
+  
+  func windowWillExitFullScreen(_ notification: Notification) {
+    self.widthConstrained = true
+  }
 
 }
 

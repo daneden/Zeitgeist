@@ -41,6 +41,9 @@ struct ZeitDeploymentMetadata: Decodable {
   public var githubCommitAuthorName: String?
   
   public var githubCommitUrl: URL? {
+    if(githubCommitSha == nil) {
+      return nil
+    }
     return URL(string: "https://github.com/\(githubOrg!)/\(githubCommitRepo!)/commit/\(githubCommitSha!)")
   }
   
