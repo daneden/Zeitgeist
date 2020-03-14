@@ -76,6 +76,7 @@ extension Resource {
   
   func hasError<Content: View>(@ViewBuilder content: @escaping (Error) -> Content) -> Content? {
     if let error = error {
+      print(error)
       return content(error)
     }
     

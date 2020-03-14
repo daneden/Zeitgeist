@@ -24,6 +24,8 @@
 		715E06E5241BDE9100A4DA0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 715E06E3241BDE9100A4DA0F /* Main.storyboard */; };
 		715E06F1241BDE9100A4DA0F /* ZeitgeistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */; };
 		715E06FC241BDE9100A4DA0F /* ZeitgeistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */; };
+		71CED255241CD41500B9A7ED /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
+		71CED257241CD46700B9A7ED /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED256241CD46700B9A7ED /* ProgressIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		715E06F7241BDE9100A4DA0F /* ZeitgeistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeitgeistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistUITests.swift; sourceTree = "<group>"; };
 		715E06FD241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListRowView.swift; sourceTree = "<group>"; };
+		71CED256241CD46700B9A7ED /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,8 @@
 				715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */,
 				715E06DC241BDE8C00A4DA0F /* ContentView.swift */,
 				7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */,
+				71CED256241CD46700B9A7ED /* ProgressIndicator.swift */,
+				71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */,
 				715E06DE241BDE9100A4DA0F /* Assets.xcassets */,
 				715E06E3241BDE9100A4DA0F /* Main.storyboard */,
 				715E06E6241BDE9100A4DA0F /* Info.plist */,
@@ -304,6 +310,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71CED257241CD46700B9A7ED /* ProgressIndicator.swift in Sources */,
+				71CED255241CD41500B9A7ED /* DeploymentsListRowView.swift in Sources */,
 				715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */,
 				7141D4DD241BED4100D212F0 /* ZeitDeploymentsViewModel.swift in Sources */,
 				7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */,

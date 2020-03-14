@@ -42,7 +42,7 @@ struct DeploymentsListView: View {
           Spacer()
         } else {
           List(result.deployments, id: \.id) { deployment in
-            Deployment(deployment: deployment)
+            DeploymentsListRowView(deployment: deployment)
           }
         }
       }
@@ -52,101 +52,6 @@ struct DeploymentsListView: View {
   func resetSession() -> Void {
     self.settings.token = nil
     self.settings.objectWillChange.send()
-  }
-}
-
-struct ProgressIndicator: NSViewRepresentable {
-  func makeNSView(context: NSViewRepresentableContext<ProgressIndicator>) -> NSProgressIndicator {
-    let result = NSProgressIndicator()
-    result.isIndeterminate = true
-    result.startAnimation(nil)
-    result.controlSize = .small
-    result.style = .spinning
-    return result
-  }
-  
-  func updateNSView(_ nsView: NSProgressIndicator, context: NSViewRepresentableContext<ProgressIndicator>) {
-    
-  }
-}
-
-struct DeploymentStateIndicator: View {
-  var state: ZeitDeploymentState
-  let size = CGFloat(14.0)
-  var body: some View {
-    Group {
-      if(state == .queued) {
-        Image("clock")
-          .resizable()
-          .frame(width: size, height: size, alignment: .center)
-      } else if (state == .error) {
-        Image("error")
-          .resizable()
-          .frame(width: size, height: size, alignment: .center)
-      } else if (state == .building) {
-        ProgressIndicator()
-      } else {
-        Image("check")
-          .resizable()
-          .frame(width: size, height: size, alignment: .center)
-      }
-    }
-  }
-}
-
-struct Deployment: View {
-  var deployment: ZeitDeployment
-  var body: some View {
-    Button(action: self.openDeployment) {
-      HStack {
-        VStack(alignment: .leading) {
-          Text("\(deployment.name)")
-            .fontWeight(.bold)
-          Text("\(deployment.url)")
-            .foregroundColor(.secondary)
-          Text("\(deployment.relativeTimestamp)")
-            .foregroundColor(.secondary)
-            .font(.caption)
-            .opacity(0.75)
-        }
-        Spacer()
-        DeploymentStateIndicator(state: deployment.state)
-      }
-      .contentShape(Rectangle())
-    }
-    .buttonStyle(PlainButtonStyle())
-    .padding(.vertical, 4)
-    .contextMenu{
-      Button(action: self.openDeployment) {
-        Text("Open URL")
-      }
-      
-      Button(action: self.copyURL) {
-        Text("Copy URL")
-      }
-      
-      Button(action: self.openInspector) {
-        Text("Open Deployment Inspector")
-      }
-    }
-  }
-  
-  func openDeployment() -> Void {
-    if let url = URL(string: "\(deployment.absoluteURL)") {
-      NSWorkspace.shared.open(url)
-    }
-  }
-  
-  func openInspector() -> Void {
-    if let url = URL(string: "\(deployment.absoluteURL)/_logs") {
-      NSWorkspace.shared.open(url)
-    }
-  }
-  
-  func copyURL() -> Void {
-    let pb = NSPasteboard.general
-    pb.clearContents()
-    pb.setString(deployment.absoluteURL, forType: .string)
   }
 }
 

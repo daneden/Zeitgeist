@@ -9,5 +9,5 @@
 import Foundation
 
 enum NetworkEnvironment: String {
-  case deployments = "https://api.zeit.co"
+  case zeit = "https://api.zeit.co"
 }

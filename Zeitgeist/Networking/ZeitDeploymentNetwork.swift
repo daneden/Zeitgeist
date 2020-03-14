@@ -12,5 +12,5 @@ struct ZeitDeploymentNetwork: Network {
   var enviroment: NetworkEnvironment
   
   var decoder: JSONDecoder = JSONDecoder()
-  var environment: NetworkEnvironment = .deployments
+  var environment: NetworkEnvironment = .zeit
 }

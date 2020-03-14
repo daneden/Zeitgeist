@@ -39,10 +39,11 @@ struct ContentView: View {
       .padding()
       } else {
         DeploymentsListView()
-          .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .deployments)))
+          .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .zeit)))
           .environmentObject(settings)
       }
     }
+    .padding(0)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   

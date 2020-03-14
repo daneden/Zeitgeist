@@ -10,7 +10,7 @@ import Cocoa
 import SwiftUI
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
   var window: NSWindow!
 
@@ -21,15 +21,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Create the window and set the content view. 
     window = NSWindow(
       contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
-      styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+      styleMask: [.titled, .closable, .miniaturizable, .resizable],
         backing: .buffered, defer: false)
     window.minSize = NSSize(width: 300, height: 500)
     window.maxSize = NSSize(width: 300, height: 500)
+    window.delegate = self
     window.center()
     window.setFrameAutosaveName("Main Window")
     window.title = "Zeitgeist"
     window.contentView = NSHostingView(rootView: contentView)
     window.makeKeyAndOrderFront(nil)
+  }
+  
+  func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
+    print("Resizing")
+    return NSSize(width: 300, height: frameSize.height)
   }
 
   func applicationWillTerminate(_ aNotification: Notification) {

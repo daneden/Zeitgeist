@@ -30,6 +30,29 @@ struct ZeitUser: Decodable, Identifiable {
   }
 }
 
+struct ZeitDeploymentMetadata: Decodable {
+  public var githubDeployment: String?
+  public var githubOrg: String?
+  public var githubCommitRef: String?
+  public var githubCommitRepo: String?
+  public var githubCommitSha: String?
+  public var githubCommitMessage: String?
+  public var githubCommitAuthorLogin: String?
+  public var githubCommitAuthorName: String?
+  
+  public var githubCommitUrl: URL? {
+    return URL(string: "https://github.com/\(githubOrg!)/\(githubCommitRepo!)/commit/\(githubCommitSha!)")
+  }
+  
+  public var githubCommitShortSha: String? {
+    if(githubCommitSha == nil) {
+      return nil
+    }
+    let index = githubCommitSha!.index(githubCommitSha!.startIndex, offsetBy: 7)
+    return String(githubCommitSha!.prefix(upTo: index))
+  }
+}
+
 struct ZeitDeployment: Decodable, Identifiable {
   public var id: String
   public var name: String
@@ -37,6 +60,7 @@ struct ZeitDeployment: Decodable, Identifiable {
   public var created: Int
   public var state: ZeitDeploymentState
   public var creator: ZeitUser
+  public var meta: ZeitDeploymentMetadata
   
   public var relativeTimestamp: String {
     let date = Date(timeIntervalSince1970: TimeInterval(exactly: created / 1000)!)
@@ -58,6 +82,7 @@ struct ZeitDeployment: Decodable, Identifiable {
     case created = "created"
     case state = "state"
     case creator = "creator"
+    case meta = "meta"
   }
 }
 
