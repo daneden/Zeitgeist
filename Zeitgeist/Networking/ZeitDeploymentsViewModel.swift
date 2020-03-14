@@ -104,6 +104,7 @@ class ZeitDeploymentsViewModel: NetworkViewModel, ObservableObject {
   var route: NetworkRoute = ZeitDeploymentNetworkRoute.deployments
   
   var bag: Set<AnyCancellable> = Set<AnyCancellable>()
+  var cancellable: AnyCancellable? = nil
   
   init(with network: Network) {
     self.network = network

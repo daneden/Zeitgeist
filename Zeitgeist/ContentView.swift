@@ -12,38 +12,52 @@ import Combine
 struct ContentView: View {
   @ObservedObject var settings = UserDefaultsManager()
   @State var inputValue = ""
+  
   var body: some View {
     VStack(alignment: .leading) {
       if(self.$settings.token.wrappedValue == nil) {
-        VStack(alignment: .leading) {
-          Text("Enter Zeit access token:")
-          
-            TextField("Token", text: $inputValue)
-          HStack {
-            Button(action: self.saveToken, label: {
-              HStack {
-                Spacer()
-                Text("Log In")
-                Spacer()
-              }
-              .frame(minWidth: 0, maxWidth: .infinity)
-            })
-              .disabled($inputValue.wrappedValue == "")
-            Spacer()
-            Button(action: self.openTokenPage) {
-              Text("Create Token")
-            }.buttonStyle(LinkButtonStyle())
-          
+        VStack {
+          Spacer()
+          VStack {
+            Image("splashIcon")
+            Text("Zeitgeist")
+              .fontWeight(.bold)
+              .font(Font.system(.title, design: .rounded))
           }
+          Spacer()
+          VStack(alignment: .leading) {
+            Text("Enter Zeit access token:")
+            
+            TextField("Token", text: $inputValue)
+              .textFieldStyle(RoundedBorderTextFieldStyle())
+              .font(.system(.caption, design: .monospaced))
+            
+            HStack {
+              Button(action: self.saveToken, label: {
+                HStack {
+                  Spacer()
+                  Text("Log In")
+                  Spacer()
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+              })
+                .disabled($inputValue.wrappedValue == "")
+              Spacer()
+              Button(action: self.openTokenPage) {
+                Text("Create Token")
+              }.buttonStyle(LinkButtonStyle())
+              
+            }
+          }
+          Spacer()
         }
-      .padding()
+        .padding()
       } else {
         DeploymentsListView()
           .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .zeit)))
           .environmentObject(settings)
       }
     }
-    .padding(0)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
@@ -54,13 +68,6 @@ struct ContentView: View {
   
   func saveToken() -> Void {
     self.settings.token = inputValue
-    settings.objectWillChange.send()
-  }
-}
-
-class UserDefaultsManager: ObservableObject {
-  @Published var token: String? = UserDefaults.standard.string(forKey: "ZeitToken") {
-    didSet { UserDefaults.standard.set(self.token, forKey: "ZeitToken") }
   }
 }
 

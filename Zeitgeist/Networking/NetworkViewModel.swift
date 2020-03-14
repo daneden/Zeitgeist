@@ -23,7 +23,6 @@ protocol NetworkViewModel: ObservableObject {
 
 extension NetworkViewModel {
   func fetch(route: NetworkRoute) {
-    print("Fetching \(route.path)")
     (network.fetch(route: route) as AnyPublisher<NetworkResource, Error>)
       .receive(on: RunLoop.main)
       .sink(receiveCompletion: { completion in
@@ -42,10 +41,15 @@ extension NetworkViewModel {
   }
   
   func onAppear() {
+    let prefs = UserDefaultsManager()
+    let fetchPeriod = max(prefs.fetchPeriod ?? 3, 3)
     var timer: Timer?
     fetch(route: route)
-    timer = Timer.scheduledTimer(withTimeInterval: 3.5, repeats: true) { _ in
+    
+    timer = Timer.scheduledTimer(withTimeInterval: Double(fetchPeriod), repeats: true) { _ in
       self.fetch(route: self.route)
     }
+    
+    
   }
 }
