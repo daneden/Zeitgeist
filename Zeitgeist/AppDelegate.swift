@@ -123,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       self.enqueueBuildingIconAnimation(isAnimating: false)
     }
     
-    self.statusBarItem.button?.toolTip = "Zeitgest \nLatest build: \(state)"
+    self.statusBarItem.button?.toolTip = String(format: NSLocalizedString("Zeitgeist \nLatest build: %@", comment: "Title that appears when hovering over the menu bar icon"), "\(state)")
     
     switch state {
     case .building:

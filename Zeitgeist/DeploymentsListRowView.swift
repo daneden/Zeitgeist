@@ -123,9 +123,6 @@ struct DeploymentsListRowView: View {
         .fill(Color.primary)
         .opacity(isOpen ? 0.05 : 0).cornerRadius(8)
     )
-      .focusable(true) { isFocused in
-        print("Focused", isFocused)
-    }
     .contextMenu{
       Button(action: self.openDeployment) {
         Text("Open URL")
