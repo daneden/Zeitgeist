@@ -19,17 +19,17 @@ struct DeploymentsListRowView: View {
   
   var body: some View {
     VStack {
-      Button(action: {self.isOpen.toggle()}) {
-        HStack(alignment: .top) {
-          Image("chevron")
-            .rotationEffect(isOpen ? Angle(degrees: 90.0) : Angle(degrees: 0.0))
-            .animation(.interpolatingSpring(stiffness: 200, damping: 12))
-            .padding(.top, 4)
-          
-          // MARK: Main Row
+      HStack(alignment: .top) {
+        // MARK: Main Row
+        VStack(alignment: .leading, spacing: 2) {
           VStack(alignment: .leading, spacing: 2) {
-              VStack(alignment: .leading, spacing: 2) {
-                // MARK: Deployment cause/commit
+            // MARK: Deployment cause/commit
+            Button(action: {self.isOpen.toggle()}) {
+              HStack(alignment: .top, spacing: 4) {
+                Image("chevron")
+                  .rotationEffect(isOpen ? Angle(degrees: 90.0) : Angle(degrees: 0.0))
+                  .animation(.interpolatingSpring(stiffness: 200, damping: 12))
+                  .padding(.top, 4)
                 if(deployment.meta.githubCommitMessage != nil) {
                   Text("\(deployment.meta.githubCommitMessage!.components(separatedBy: "\n")[0])")
                     .fontWeight(.bold)
@@ -38,80 +38,82 @@ struct DeploymentsListRowView: View {
                   Text("Manual Deployment")
                     .fontWeight(.bold)
                 }
-                
-                // MARK: Deployment name/URL
-                Button(action: self.openDeployment) {
-                  HStack(alignment: .lastTextBaseline, spacing: 4) {
-                    Text("\(deployment.url)")
-                      .lineLimit(1)
-                    Image("outbound")
-                      .opacity(isHovered ? 1 : 0.5)
-                  }
-                    .foregroundColor(isHovered ? .accentColor : .secondary)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .toolTip("Open Deployment URL")
-                .onHover(perform: { hovered in
-                  self.isHovered = hovered
-                })
               }
-              
-              HStack(spacing: 4) {
-                Text("\(self.timestamp ?? deployment.relativeTimestamp)")
-                  .onReceive(updateTimestampTimer, perform: { _ in
-                    self.timestamp = self.deployment.relativeTimestamp
-                  })
-                  .font(Font.caption.monospacedDigit())
-                
-                Text("•")
-                
-                if(deployment.meta.githubCommitAuthorLogin != nil) {
-                  Text(deployment.meta.githubCommitAuthorLogin ?? "").lineLimit(1)
-                } else {
-                  Text(deployment.creator.username)
-                }
-              }
-              .foregroundColor(.secondary)
-              .font(.caption)
-              .opacity(0.75)
-              
-            }
-            .contentShape(Rectangle())
-            Spacer()
+            }.buttonStyle(PlainButtonStyle())
             
-            DeploymentStateIndicator(state: deployment.state)
-              .padding(.top, 2)
-        }
-        
-        // MARK: Details
-        if isOpen {
-          VStack(alignment: .leading, spacing: 8) {
-            Divider()
-            if deployment.meta.githubCommitUrl != nil {
-              VStack(alignment: .leading, spacing: 4) {
-                Button(action: self.openCommitUrl) {
-                  Text("View Commit")
-                  Text("(\(deployment.meta.githubCommitShortSha!))")
-                    .font(.system(.caption, design: .monospaced))
-                }
-                .buttonStyle(LinkButtonStyle())
-                Button(action: self.openInspector) {
-                  Text("View Deployment Logs")
-                }
-                .buttonStyle(LinkButtonStyle())
+            // MARK: Deployment name/URL
+            Button(action: self.openDeployment) {
+              HStack(alignment: .lastTextBaseline, spacing: 4) {
+                Text("\(deployment.url)")
+                  .lineLimit(1)
+                Image("outbound")
+                  .opacity(isHovered ? 1 : 0.5)
               }
+              .foregroundColor(isHovered ? .accentColor : .secondary)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .toolTip("Open Deployment URL")
+            .onHover(perform: { hovered in
+              self.isHovered = hovered
+            }).onTapGesture {
+              self.openDeployment()
+            }.padding(.leading, 12)
+          }
+          
+          HStack(spacing: 4) {
+            Text("\(self.timestamp ?? deployment.relativeTimestamp)")
+              .onReceive(updateTimestampTimer, perform: { _ in
+                self.timestamp = self.deployment.relativeTimestamp
+              })
+              .font(Font.caption.monospacedDigit())
+            
+            Text("•")
+            
+            if(deployment.meta.githubCommitAuthorLogin != nil) {
+              Text(deployment.meta.githubCommitAuthorLogin ?? "").lineLimit(1)
             } else {
+              Text(deployment.creator.username)
+            }
+          }
+          .padding(.leading, 12)
+          .foregroundColor(.secondary)
+          .font(.caption)
+          .opacity(0.75)
+          
+        }
+        Spacer()
+        
+        DeploymentStateIndicator(state: deployment.state)
+          .padding(.top, 2)
+      }
+      
+      // MARK: Details
+      if isOpen {
+        VStack(alignment: .leading, spacing: 8) {
+          Divider()
+          if deployment.meta.githubCommitUrl != nil {
+            VStack(alignment: .leading, spacing: 4) {
+              Button(action: self.openCommitUrl) {
+                Text("View Commit")
+                Text("(\(deployment.meta.githubCommitShortSha!))")
+                  .font(.system(.caption, design: .monospaced))
+              }
+              .buttonStyle(LinkButtonStyle())
               Button(action: self.openInspector) {
                 Text("View Deployment Logs")
               }
               .buttonStyle(LinkButtonStyle())
             }
+          } else {
+            Button(action: self.openInspector) {
+              Text("View Deployment Logs")
+            }
+            .buttonStyle(LinkButtonStyle())
           }
-          .font(.caption)
         }
+        .padding(.leading, 12)
+        .font(.caption)
       }
-        .contentShape(Rectangle())
-        .buttonStyle(PlainButtonStyle())
     }
     .padding(.horizontal, 8)
     .padding(.vertical, 4)
