@@ -62,6 +62,7 @@ struct DeploymentsListRowView: View {
               .opacity(0.75)
               
             }
+            .contentShape(Rectangle())
             Spacer()
             Group {
               if !isHovered {

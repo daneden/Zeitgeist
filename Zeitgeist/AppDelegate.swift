@@ -86,6 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         self.popover.performClose(sender)
       } else {
         self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        self.popover.contentViewController?.view.window?.becomeKey()
       }
     }
   }
