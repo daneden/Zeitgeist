@@ -110,15 +110,15 @@
 		7141D4CD241BE76F00D212F0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				7141D4D6241BE86600D212F0 /* Network.swift */,
 				7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */,
 				7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */,
 				7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */,
-				7141D4D4241BE81700D212F0 /* Resource.swift */,
-				7141D4D6241BE86600D212F0 /* Network.swift */,
-				7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */,
 				7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */,
-				7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */,
+				7141D4D4241BE81700D212F0 /* Resource.swift */,
+				7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */,
 				7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */,
+				7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -150,11 +150,11 @@
 				7141D4CD241BE76F00D212F0 /* Networking */,
 				715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */,
 				715E06DC241BDE8C00A4DA0F /* ContentView.swift */,
-				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
-				71CED258241D369200B9A7ED /* PreferencesView.swift */,
 				7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */,
-				71CED256241CD46700B9A7ED /* ProgressIndicator.swift */,
 				71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */,
+				71CED258241D369200B9A7ED /* PreferencesView.swift */,
+				71CED256241CD46700B9A7ED /* ProgressIndicator.swift */,
+				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
 				715E06DE241BDE9100A4DA0F /* Assets.xcassets */,
 				715E06E3241BDE9100A4DA0F /* Main.storyboard */,
 				715E06E6241BDE9100A4DA0F /* Info.plist */,

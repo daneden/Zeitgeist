@@ -43,10 +43,9 @@ extension NetworkViewModel {
   func onAppear() {
     let prefs = UserDefaultsManager()
     let fetchPeriod = max(prefs.fetchPeriod ?? 3, 3)
-    var timer: Timer?
     fetch(route: route)
     
-    timer = Timer.scheduledTimer(withTimeInterval: Double(fetchPeriod), repeats: true) { _ in
+    _ = Timer.scheduledTimer(withTimeInterval: Double(fetchPeriod), repeats: true) { _ in
       self.fetch(route: self.route)
     }
     
