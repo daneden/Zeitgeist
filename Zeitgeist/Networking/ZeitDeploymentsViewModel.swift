@@ -58,7 +58,15 @@ struct ZeitDeploymentMetadata: Decodable {
   }
 }
 
-struct ZeitDeployment: Decodable, Identifiable {
+struct ZeitDeployment: Decodable, Identifiable, Hashable {
+  func hash(into hasher: inout Hasher) {
+      hasher.combine(id)
+  }
+  
+  static func == (lhs: ZeitDeployment, rhs: ZeitDeployment) -> Bool {
+      return lhs.hashValue == rhs.hashValue
+  }
+  
   public var id: String
   public var name: String
   public var url: String

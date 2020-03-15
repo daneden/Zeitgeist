@@ -54,11 +54,11 @@ struct DeploymentsListView: View {
           Spacer()
         } else {
           VStack(alignment: .leading, spacing: 0) {
-            List {
-              ForEach(result.deployments, id: \.id) { deployment in
-                DeploymentsListRowView(deployment: deployment)
-              }
+            List(result.deployments, id: \.self) { deployment in
+              DeploymentsListRowView(deployment: deployment)
+                .padding(.horizontal, -4)
             }
+            
             Divider()
             VStack(alignment: .leading) {
               HStack {
