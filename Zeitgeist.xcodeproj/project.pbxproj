@@ -30,6 +30,7 @@
 		71CED25B241D375C00B9A7ED /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		71CED25E241E63E200B9A7ED /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25D241E63E200B9A7ED /* Tooltip.swift */; };
 		71CED261241E69B700B9A7ED /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 71CED260241E69B700B9A7ED /* Reachability */; };
+		71CED265241E95FC00B9A7ED /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED264241E95FC00B9A7ED /* BlurView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		71CED258241D369200B9A7ED /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		71CED25D241E63E200B9A7ED /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
+		71CED264241E95FC00B9A7ED /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 		71CED25C241E63D700B9A7ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				71CED264241E95FC00B9A7ED /* BlurView.swift */,
 				71CED25D241E63E200B9A7ED /* Tooltip.swift */,
 			);
 			path = Extensions;
@@ -340,6 +343,7 @@
 				715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */,
 				7141D4DD241BED4100D212F0 /* ZeitDeploymentsViewModel.swift in Sources */,
 				7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */,
+				71CED265241E95FC00B9A7ED /* BlurView.swift in Sources */,
 				71CED25E241E63E200B9A7ED /* Tooltip.swift in Sources */,
 				7141D4D3241BE7DF00D212F0 /* NetworkRoute.swift in Sources */,
 				71CED25B241D375C00B9A7ED /* UserDefaultsManager.swift in Sources */,

@@ -27,21 +27,35 @@ struct DeploymentsListRowView: View {
             .padding(.top, 4)
           
           // MARK: Main Row
-            VStack(alignment: .leading) {
-              if(deployment.meta.githubCommitMessage != nil) {
-                Text("\(deployment.meta.githubCommitMessage!.components(separatedBy: "\n")[0])")
-                  .fontWeight(.bold)
-                  .lineLimit(2)
-                Text("\(deployment.name)")
-                  .foregroundColor(.secondary)
-                  .lineLimit(1)
-              } else {
-                Text("Manual Deployment")
-                  .fontWeight(.bold)
-                Text("\(deployment.name)")
-                  .foregroundColor(.secondary)
-                  .lineLimit(1)
+          VStack(alignment: .leading, spacing: 2) {
+              VStack(alignment: .leading, spacing: 2) {
+                // MARK: Deployment cause/commit
+                if(deployment.meta.githubCommitMessage != nil) {
+                  Text("\(deployment.meta.githubCommitMessage!.components(separatedBy: "\n")[0])")
+                    .fontWeight(.bold)
+                    .lineLimit(2)
+                } else {
+                  Text("Manual Deployment")
+                    .fontWeight(.bold)
+                }
+                
+                // MARK: Deployment name/URL
+                Button(action: self.openDeployment) {
+                  HStack(alignment: .lastTextBaseline, spacing: 4) {
+                    Text("\(deployment.url)")
+                      .lineLimit(1)
+                    Image("outbound")
+                      .opacity(isHovered ? 1 : 0.5)
+                  }
+                    .foregroundColor(isHovered ? .accentColor : .secondary)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .toolTip("Open Deployment URL")
+                .onHover(perform: { hovered in
+                  self.isHovered = hovered
+                })
               }
+              
               HStack(spacing: 4) {
                 Text("\(self.timestamp ?? deployment.relativeTimestamp)")
                   .onReceive(updateTimestampTimer, perform: { _ in
@@ -64,15 +78,9 @@ struct DeploymentsListRowView: View {
             }
             .contentShape(Rectangle())
             Spacer()
-            Group {
-              if !isHovered {
-                DeploymentStateIndicator(state: deployment.state)
-              } else {
-                Button(action: self.openDeployment) {
-                  Image("outbound")
-                  }.buttonStyle(PlainButtonStyle()).toolTip("Open Deployment URL")
-              }
-            }.padding(.top, 2)
+            
+            DeploymentStateIndicator(state: deployment.state)
+              .padding(.top, 2)
         }
         
         // MARK: Details
@@ -104,9 +112,6 @@ struct DeploymentsListRowView: View {
       }
         .contentShape(Rectangle())
         .buttonStyle(PlainButtonStyle())
-        .onHover(perform: { hovered in
-          self.isHovered = hovered
-        })
     }
     .padding(.horizontal, 8)
     .padding(.vertical, 4)

@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   var lastState: ZeitDeploymentState?
   var stateLastUpdated: Date?
   private var reachability: Reachability!
+  private var timer: Timer? = nil
+  private var animatedIconFrameCount = 0
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let contentView = ContentView()
@@ -36,6 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       )
       try self.reachability.startNotifier()
     } catch (let error) {
+      print("Unable to initialise reachability: \(error)")
     }
     
     // MARK: Set up options menu
@@ -43,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     optionsMenu.addItem(NSMenuItem(title: "Quit Zeitgeist", action: #selector(self.terminateApp(_:)), keyEquivalent: "q"))
     
     // MARK: Set up Popover (Main UI)
-    popover.contentSize = NSSize(width: 300, height: 500)
+    popover.contentSize = NSSize(width: 320, height: 500)
     popover.behavior = .transient
     popover.contentViewController = NSHostingController(rootView: contentView)
     
@@ -116,9 +119,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       self.lastState = state
     }
     
+    if(state != .building) {
+      self.enqueueBuildingIconAnimation(isAnimating: false)
+    }
+    
+    self.statusBarItem.button?.toolTip = "Zeitgest \nLatest build: \(state)"
+    
     switch state {
     case .building:
-      self.statusBarItem.button?.image = NSImage(named: "menubarSyncing01")
+      self.enqueueBuildingIconAnimation(isAnimating: true)
       break
     case .ready:
       if(currentTime.timeIntervalSince(self.stateLastUpdated ?? currentTime) >= 5) {
@@ -136,6 +145,46 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       self.statusBarItem.button?.image = NSImage(named: "menubarIcon")
       break
     }
+  }
+  
+  func enqueueBuildingIconAnimation(isAnimating: Bool) -> Void {
+    if(self.timer != nil && isAnimating) {
+      return
+    }
+    
+    if(isAnimating) {
+      let icons = [
+        NSImage(named: "menubarSyncing01"),
+        NSImage(named: "menubarSyncing02"),
+        NSImage(named: "menubarSyncing03"),
+        NSImage(named: "menubarSyncing04"),
+        NSImage(named: "menubarSyncing05"),
+        NSImage(named: "menubarSyncing06"),
+        NSImage(named: "menubarSyncing07"),
+        NSImage(named: "menubarSyncing08"),
+        NSImage(named: "menubarSyncing09"),
+        NSImage(named: "menubarSyncing10"),
+        NSImage(named: "menubarSyncing11"),
+        NSImage(named: "menubarSyncing12"),
+      ]
+      
+      func callback() {
+        self.statusBarItem.button?.image = icons[self.animatedIconFrameCount % (icons.count - 1)]
+        self.animatedIconFrameCount += 1
+      }
+      
+      self.timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+        callback()
+      }
+      
+      callback()
+      
+    } else {
+      self.timer?.invalidate()
+      self.timer = nil
+    }
+    
+    return
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
