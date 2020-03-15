@@ -14,6 +14,8 @@ enum ZeitDeploymentState: String, Codable {
   case queued = "QUEUED"
   case error = "ERROR"
   case building = "BUILDING"
+  case normal = "NORMAL"
+  case offline = "OFFLINE"
 }
 
 struct ZeitUser: Decodable, Identifiable {

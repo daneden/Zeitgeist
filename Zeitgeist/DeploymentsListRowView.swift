@@ -12,30 +12,36 @@ struct DeploymentsListRowView: View {
   var deployment: ZeitDeployment
   @State var timestamp: String? = nil
   @State var isOpen: Bool = false
+  @State var isHovered: Bool = false
   
   // We want the timestamp to update in real-time, so let's set up a Timer
   let updateTimestampTimer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
   
   var body: some View {
     VStack {
-      HStack(alignment: .firstTextBaseline) {
-        Button(action: {self.isOpen.toggle()}) {
+      Button(action: {self.isOpen.toggle()}) {
+        HStack(alignment: .top) {
           Image("chevron")
             .rotationEffect(isOpen ? Angle(degrees: 90.0) : Angle(degrees: 0.0))
             .animation(.interpolatingSpring(stiffness: 200, damping: 12))
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(PlainButtonStyle())
-        
-        // MARK: Main Row
-        Button(action: self.openDeployment) {
-          HStack {
+            .padding(.top, 4)
+          
+          // MARK: Main Row
             VStack(alignment: .leading) {
-              Text("\(deployment.name)")
-                .fontWeight(.bold)
-              Text("\(deployment.url)")
-                .foregroundColor(.secondary)
-                .lineLimit(1)
+              if(deployment.meta.githubCommitMessage != nil) {
+                Text("\(deployment.meta.githubCommitMessage!.components(separatedBy: "\n")[0])")
+                  .fontWeight(.bold)
+                  .lineLimit(2)
+                Text("\(deployment.name)")
+                  .foregroundColor(.secondary)
+                  .lineLimit(1)
+              } else {
+                Text("Manual Deployment")
+                  .fontWeight(.bold)
+                Text("\(deployment.name)")
+                  .foregroundColor(.secondary)
+                  .lineLimit(1)
+              }
               HStack(spacing: 4) {
                 Text("\(self.timestamp ?? deployment.relativeTimestamp)")
                   .onReceive(updateTimestampTimer, perform: { _ in
@@ -43,9 +49,12 @@ struct DeploymentsListRowView: View {
                   })
                   .font(Font.caption.monospacedDigit())
                 
-                if(deployment.meta.githubCommitAuthorName != nil) {
-                  Text("•")
-                  Text(deployment.meta.githubCommitAuthorName!).lineLimit(1)
+                Text("•")
+                
+                if(deployment.meta.githubCommitAuthorLogin != nil) {
+                  Text(deployment.meta.githubCommitAuthorLogin ?? "").lineLimit(1)
+                } else {
+                  Text(deployment.creator.username)
                 }
               }
               .foregroundColor(.secondary)
@@ -54,48 +63,49 @@ struct DeploymentsListRowView: View {
               
             }
             Spacer()
-            DeploymentStateIndicator(state: deployment.state)
-          }
-          .contentShape(Rectangle())
+            Group {
+              if !isHovered {
+                DeploymentStateIndicator(state: deployment.state)
+              } else {
+                Button(action: self.openDeployment) {
+                  Image("outbound")
+                  }.buttonStyle(PlainButtonStyle()).toolTip("Open Deployment URL")
+              }
+            }.padding(.top, 2)
         }
-        .buttonStyle(PlainButtonStyle())
-      }
-      
-      // MARK: Details
-      if isOpen {
-        VStack(alignment: .leading, spacing: 8) {
-          Divider()
-          if deployment.meta.githubCommitUrl != nil {
-            VStack(alignment: .leading) {
-              Text(deployment.meta.githubCommitAuthorName ?? "")
-                .fontWeight(.bold)
-              if deployment.meta.githubCommitAuthorLogin != nil {
-                Text("(\(deployment.meta.githubCommitAuthorLogin!))")
+        
+        // MARK: Details
+        if isOpen {
+          VStack(alignment: .leading, spacing: 8) {
+            Divider()
+            if deployment.meta.githubCommitUrl != nil {
+              VStack(alignment: .leading, spacing: 4) {
+                Button(action: self.openCommitUrl) {
+                  Text("View Commit")
+                  Text("(\(deployment.meta.githubCommitShortSha!))")
+                    .font(.system(.caption, design: .monospaced))
+                }
+                .buttonStyle(LinkButtonStyle())
+                Button(action: self.openInspector) {
+                  Text("View Deployment Logs")
+                }
+                .buttonStyle(LinkButtonStyle())
               }
-            }
-            Text(deployment.meta.githubCommitMessage ?? "")
-            VStack(alignment: .leading, spacing: 4) {
-              
-              Button(action: self.openCommitUrl) {
-                Text("View Commit")
-                Text("(\(deployment.meta.githubCommitShortSha!))")
-                  .font(.system(.caption, design: .monospaced))
-              }
-              .buttonStyle(LinkButtonStyle())
+            } else {
               Button(action: self.openInspector) {
                 Text("View Deployment Logs")
               }
               .buttonStyle(LinkButtonStyle())
             }
-          } else {
-            Button(action: self.openInspector) {
-              Text("View Deployment Logs")
-            }
-            .buttonStyle(LinkButtonStyle())
           }
+          .font(.caption)
         }
-        .font(.caption)
       }
+        .contentShape(Rectangle())
+        .buttonStyle(PlainButtonStyle())
+        .onHover(perform: { hovered in
+          self.isHovered = hovered
+        })
     }
     .padding(.horizontal, 8)
     .padding(.vertical, 4)

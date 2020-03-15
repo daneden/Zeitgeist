@@ -15,6 +15,8 @@ struct DeploymentsListView: View {
   @EnvironmentObject var settings: UserDefaultsManager
   @State var isPreferencesShown = false
   
+  let updateStatusOverview = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+  
   var body: some View {
     VStack {
       viewModel.resource.hasError() { error in
@@ -71,7 +73,10 @@ struct DeploymentsListView: View {
             }
             .font(.caption)
             .padding(8)
-          }
+          }.onReceive(self.updateStatusOverview, perform: { _ in
+            let delegate: AppDelegate? = NSApplication.shared.delegate as? AppDelegate
+            delegate?.setIconBasedOnState(state: result.deployments[0].state)
+          })
         }
       }
     }
