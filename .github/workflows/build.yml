@@ -12,4 +12,4 @@ jobs:
       - name: Select Xcode 11.3
         run: sudo xcode-select --switch /Applications/Xcode_11.3.app
       - name: Build using xcodebuild
-        run: xcodebuild -scheme Zeitgeist -sdk macosx10.15 clean build
+        run: xcodebuild -scheme Zeitgeist -sdk macosx10.15 clean build CODE_SIGN_STYLE=Manual
