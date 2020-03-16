@@ -27,28 +27,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let optionsMenu = NSMenu(title: NSLocalizedString("zeitgeistMenuTitle", comment: "Menu title"))
 
     // MARK: Set up network monitoring
-    do {
-      try self.reachability = Reachability()
-      NotificationCenter.default.addObserver(
-        self,
-        selector: #selector(self.reachabilityChanged),
-        name: NSNotification.Name.reachabilityChanged,
-        object: nil
-      )
-      try self.reachability.startNotifier()
-    } catch let error {
-      print("Unable to initialise reachability: \(error)")
-    }
+    self.setupNetworking()
 
     // MARK: Set up options menu
-    optionsMenu.delegate = self
-    optionsMenu.addItem(
-      NSMenuItem(
-        title: NSLocalizedString("quit", comment: "Quit Option"),
-        action: #selector(self.terminateApp(_:)),
-        keyEquivalent: "q"
-      )
-    )
+    self.setupOptionsMenu(optionsMenu)
 
     // MARK: Set up Popover (Main UI)
     popover.contentSize = NSSize(width: 320, height: 500)
@@ -87,6 +69,41 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       setIconBasedOnState(state: .normal)
     }
   }
+  
+  func setupNetworking() {
+    do {
+      try self.reachability = Reachability()
+      NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(self.reachabilityChanged),
+        name: NSNotification.Name.reachabilityChanged,
+        object: nil
+      )
+      try self.reachability.startNotifier()
+    } catch let error {
+      print("Unable to initialise reachability: \(error)")
+    }
+  }
+  
+  func setupOptionsMenu(_ optionsMenu: NSMenu) {
+    optionsMenu.delegate = self
+    
+    optionsMenu.addItem(
+      withTitle: NSLocalizedString("runOnLogin", comment: "Run on login option"),
+      action: #selector(self.openOnLogin(_:)),
+      keyEquivalent: ""
+    )
+    
+    optionsMenu.addItem(NSMenuItem.separator())
+    
+    optionsMenu.addItem(
+      NSMenuItem(
+        title: NSLocalizedString("quit", comment: "Quit Option"),
+        action: #selector(self.terminateApp(_:)),
+        keyEquivalent: "q"
+      )
+    )
+  }
 
   func togglePopover(_ sender: AnyObject?) {
     if let button = self.statusBarItem.button {
@@ -97,6 +114,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         self.popover.contentViewController?.view.window?.becomeKey()
       }
     }
+  }
+  
+  @objc func openOnLogin(_ sender: AnyObject?) {
+    NSWorkspace.shared.open(URL(string: "https://support.apple.com/en-gb/guide/mac-help/mh15189/mac")!)
   }
 
   @objc func menuDidClose(_ menu: NSMenu) {
