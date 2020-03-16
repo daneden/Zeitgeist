@@ -9,6 +9,10 @@
 import XCTest
 
 class ZeitgeistUITests: XCTestCase {
+  // TODO: Write UI tests
+  // It seems fairly straightforward to write to E2E UI tests. It's well-documented
+  // (e.g. on [Hacking With Swift](https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet)
+  // and mostly will require me to set up some mocks for ZEIT's API.
 
   override func setUp() {
     // Put setup code here. This method is called before the invocation of
