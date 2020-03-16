@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct DeploymentsListRowView: View {
+  // TODO: Fix broken buttons in DeploymentsListRowView
+  // For some reason, buttons have stopped working in DeploymentsListRowView.
   var deployment: ZeitDeployment
   @State var timestamp: String? = nil
   @State var isOpen: Bool = false
