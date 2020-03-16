@@ -26,18 +26,19 @@ struct DeploymentsListView: View {
         } else {
           VStack {
             Image("errorSplashIcon")
-            Text("Something went wrong")
+            Text("tokenErrorHeading")
               .font(.subheadline)
               .fontWeight(.bold)
-            Text("Are you sure you entered your Zeit token correctly?")
+            Text("accessHint")
               .multilineTextAlignment(.center)
               .lineLimit(10)
               .frame(minWidth: 0, minHeight: 0, maxHeight: 40)
               .layoutPriority(1)
             Button(action: self.resetSession) {
-              Text("Go Back")
+              Text("backButton")
             }
           }
+          .padding()
           .padding(.bottom, 40)
         }
       }
@@ -49,7 +50,7 @@ struct DeploymentsListView: View {
       viewModel.resource.hasResource() { result in
         if(result.deployments.count <= 0) {
           Spacer()
-          Text("No Deployments Found")
+          Text("emptyState")
             .foregroundColor(.secondary)
           Spacer()
         } else {
@@ -63,7 +64,7 @@ struct DeploymentsListView: View {
             VStack(alignment: .leading) {
               HStack {
                 Button(action: self.resetSession) {
-                  Text("Log Out")
+                  Text("logoutButton")
                 }
                 Spacer()
 //                Button(action: {self.isPreferencesShown.toggle()}) {
@@ -96,10 +97,10 @@ struct NetworkError: View {
   var body: some View {
     VStack {
       Image("networkOfflineIcon")
-      Text("Network Offline")
+      Text("offlineHeading")
         .font(.subheadline)
         .fontWeight(.bold)
-      Text("Zeitgeist will automatically try again when a network connection is available.")
+      Text("offlineDescription")
         .multilineTextAlignment(.center)
         .lineLimit(10)
         .frame(minWidth: 0, minHeight: 0, maxHeight: 40)

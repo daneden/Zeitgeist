@@ -35,7 +35,7 @@ struct DeploymentsListRowView: View {
                     .fontWeight(.bold)
                     .lineLimit(2)
                 } else {
-                  Text("Manual Deployment")
+                  Text("manualDeployment")
                     .fontWeight(.bold)
                 }
               }
@@ -52,7 +52,7 @@ struct DeploymentsListRowView: View {
               .foregroundColor(isHovered ? .accentColor : .secondary)
             }
             .buttonStyle(PlainButtonStyle())
-            .toolTip("Open Deployment URL")
+            .toolTip(NSLocalizedString("openDeploymentURL", comment: "Tooltip for a button to open a deployment URL"))
             .onHover(perform: { hovered in
               self.isHovered = hovered
             }).onTapGesture {
@@ -94,19 +94,19 @@ struct DeploymentsListRowView: View {
           if deployment.meta.githubCommitUrl != nil {
             VStack(alignment: .leading, spacing: 4) {
               Button(action: self.openCommitUrl) {
-                Text("View Commit")
+                Text("viewCommit")
                 Text("(\(deployment.meta.githubCommitShortSha!))")
                   .font(.system(.caption, design: .monospaced))
               }
               .buttonStyle(LinkButtonStyle())
               Button(action: self.openInspector) {
-                Text("View Deployment Logs")
+                Text("viewLogs")
               }
               .buttonStyle(LinkButtonStyle())
             }
           } else {
             Button(action: self.openInspector) {
-              Text("View Deployment Logs")
+              Text("viewLogs")
             }
             .buttonStyle(LinkButtonStyle())
           }
@@ -125,15 +125,15 @@ struct DeploymentsListRowView: View {
     )
     .contextMenu{
       Button(action: self.openDeployment) {
-        Text("Open URL")
+        Text("openURL")
       }
       
       Button(action: self.copyURL) {
-        Text("Copy URL")
+        Text("copyURL")
       }
       
       Button(action: self.openInspector) {
-        Text("View Deployment Logs")
+        Text("viewLogs")
       }
     }
   }

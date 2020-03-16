@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let contentView = ContentView()
     let popover = NSPopover()
-    let optionsMenu = NSMenu(title: "Zeitgeist Options")
+    let optionsMenu = NSMenu(title: NSLocalizedString("zeitgeistMenuTitle", comment: "Menu title"))
     
     // MARK: Set up network monitoring
     do {
@@ -43,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: Set up options menu
     optionsMenu.delegate = self
-    optionsMenu.addItem(NSMenuItem(title: "Quit Zeitgeist", action: #selector(self.terminateApp(_:)), keyEquivalent: "q"))
+    optionsMenu.addItem(NSMenuItem(title: NSLocalizedString("quit", comment: "Quit Option"), action: #selector(self.terminateApp(_:)), keyEquivalent: "q"))
     
     // MARK: Set up Popover (Main UI)
     popover.contentSize = NSSize(width: 320, height: 500)
@@ -73,7 +73,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   
   @objc func reachabilityChanged(note: Notification) {
     let reachability = note.object as! Reachability
-    print(reachability.connection)
     switch reachability.connection {
     case .unavailable, .none:
       setIconBasedOnState(state: .offline)
@@ -123,7 +122,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       self.enqueueBuildingIconAnimation(isAnimating: false)
     }
     
-    self.statusBarItem.button?.toolTip = String(format: NSLocalizedString("Zeitgeist \nLatest build: %@", comment: "Title that appears when hovering over the menu bar icon"), "\(state)")
+    self.statusBarItem.button?.toolTip = String(format: NSLocalizedString("menubarTitle", comment: "Title that appears when hovering over the menu bar icon"), "\(state)")
     
     switch state {
     case .building:

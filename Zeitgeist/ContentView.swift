@@ -26,9 +26,9 @@ struct ContentView: View {
           }
           Spacer()
           VStack(alignment: .leading) {
-            Text("Enter Zeit access token:")
+            Text("tokenInputLabel")
             
-            TextField("Token", text: $inputValue)
+            TextField("tokenInputPlaceholder", text: $inputValue)
               .textFieldStyle(RoundedBorderTextFieldStyle())
               .font(.system(.caption, design: .monospaced))
             
@@ -36,7 +36,7 @@ struct ContentView: View {
               Button(action: self.saveToken, label: {
                 HStack {
                   Spacer()
-                  Text("Log In")
+                  Text("loginButton")
                   Spacer()
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -44,7 +44,7 @@ struct ContentView: View {
                 .disabled($inputValue.wrappedValue == "")
               Spacer()
               Button(action: self.openTokenPage) {
-                Text("Create Token")
+                Text("createTokenButton")
               }.buttonStyle(LinkButtonStyle())
               
             }
