@@ -16,7 +16,7 @@ class UserDefaultsManager: ObservableObject {
       self.objectWillChange.send()
     }
   }
-  
+
   @Published var fetchPeriod: Int? = UserDefaults.standard.integer(forKey: "FetchPeriod") {
     didSet {
       UserDefaults.standard.set(self.fetchPeriod, forKey: "FetchPeriod")

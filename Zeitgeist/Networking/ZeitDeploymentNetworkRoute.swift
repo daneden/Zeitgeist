@@ -13,27 +13,27 @@ enum ZeitDeploymentNetworkRoute {
 }
 
 extension ZeitDeploymentNetworkRoute: NetworkRoute {
-  
+
   var path: String {
     switch self {
     case .deployments:
       return "/v5/now/deployments"
     }
   }
-  
+
   var method: NetworkMethod {
     switch self {
     case .deployments:
       return .get
     }
   }
-  
-  var headers: [String : String]? {
+
+  var headers: [String: String]? {
     switch self {
-      default:
-        return [
-          "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? "")
-        ]
+    default:
+      return [
+        "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? "")
+      ]
     }
   }
 }

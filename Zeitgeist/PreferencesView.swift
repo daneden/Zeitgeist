@@ -12,7 +12,7 @@ struct PreferencesView: View {
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var settings = UserDefaultsManager()
   @State private var fetchPeriod: Int = 3
-  
+
   var body: some View {
     VStack {
       Picker(selection: $fetchPeriod, label: Text("Refresh every:")) {
@@ -21,7 +21,7 @@ struct PreferencesView: View {
         Text("10 seconds").tag(10)
         Text("30 seconds").tag(30)
       }
-      
+
       HStack {
         Spacer()
         Button(action: self.dismissView) {
@@ -34,18 +34,18 @@ struct PreferencesView: View {
     }
       .padding()
       .frame(minWidth: 280, maxWidth: .infinity)
-      .onAppear() {
+      .onAppear {
         self.fetchPeriod = self.settings.fetchPeriod ?? 3
       }
   }
-  
-  func dismissView() -> Void {
+
+  func dismissView() {
     self.settings.fetchPeriod = self.$fetchPeriod.wrappedValue
     self.presentationMode.wrappedValue.dismiss()
     self.settings.objectWillChange.send()
   }
-  
-  func dismissViewForgettingChanges() -> Void {
+
+  func dismissViewForgettingChanges() {
     self.fetchPeriod = self.settings.fetchPeriod ?? 3
     self.presentationMode.wrappedValue.dismiss()
   }

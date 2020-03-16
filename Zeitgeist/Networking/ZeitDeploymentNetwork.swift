@@ -10,7 +10,7 @@ import Foundation
 
 struct ZeitDeploymentNetwork: Network {
   var enviroment: NetworkEnvironment
-  
+
   var decoder: JSONDecoder = JSONDecoder()
   var environment: NetworkEnvironment = .zeit
 }
