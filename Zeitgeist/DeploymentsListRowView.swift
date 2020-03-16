@@ -10,14 +10,15 @@ import SwiftUI
 
 struct DeploymentsListRowView: View {
   var deployment: ZeitDeployment
-  @State var timestamp: String? = nil
+  @State var timestamp: String?
   @State var isOpen: Bool = false
   @State var isHovered: Bool = false
-  
+
   // We want the timestamp to update in real-time, so let's set up a Timer
   let updateTimestampTimer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
-  
+
   var body: some View {
+    // swiftlint:disable multiple_closures_with_trailing_closure
     VStack {
       HStack(alignment: .top) {
         // MARK: Main Row
@@ -30,7 +31,7 @@ struct DeploymentsListRowView: View {
                   .rotationEffect(isOpen ? Angle(degrees: 90.0) : Angle(degrees: 0.0))
                   .animation(.interpolatingSpring(stiffness: 200, damping: 12))
                   .padding(.top, 4)
-                if(deployment.meta.githubCommitMessage != nil) {
+                if deployment.meta.githubCommitMessage != nil {
                   Text("\(deployment.meta.githubCommitMessage!.components(separatedBy: "\n")[0])")
                     .fontWeight(.bold)
                     .lineLimit(2)
@@ -40,7 +41,7 @@ struct DeploymentsListRowView: View {
                 }
               }
             }.buttonStyle(PlainButtonStyle())
-            
+
             // MARK: Deployment name/URL
             Button(action: self.openDeployment) {
               HStack(alignment: .lastTextBaseline, spacing: 4) {
@@ -59,17 +60,17 @@ struct DeploymentsListRowView: View {
               self.openDeployment()
             }.padding(.leading, 12)
           }
-          
+
           HStack(spacing: 4) {
             Text("\(self.timestamp ?? deployment.relativeTimestamp)")
               .onReceive(updateTimestampTimer, perform: { _ in
                 self.timestamp = self.deployment.relativeTimestamp
               })
               .font(Font.caption.monospacedDigit())
-            
+
             Text("•")
-            
-            if(deployment.meta.githubCommitAuthorLogin != nil) {
+
+            if deployment.meta.githubCommitAuthorLogin != nil {
               Text(deployment.meta.githubCommitAuthorLogin ?? "").lineLimit(1)
             } else {
               Text(deployment.creator.username)
@@ -79,14 +80,14 @@ struct DeploymentsListRowView: View {
           .foregroundColor(.secondary)
           .font(.caption)
           .opacity(0.75)
-          
+
         }
         Spacer()
-        
+
         DeploymentStateIndicator(state: deployment.state)
           .padding(.top, 2)
       }
-      
+
       // MARK: Details
       if isOpen {
         VStack(alignment: .leading, spacing: 8) {
@@ -124,41 +125,42 @@ struct DeploymentsListRowView: View {
         .opacity(isOpen ? 0.05 : 0).cornerRadius(8)
     )
     .focusable()
-    .contextMenu{
+    .contextMenu {
       Button(action: self.openDeployment) {
         Text("openURL")
       }
-      
+
       Button(action: self.copyURL) {
         Text("copyURL")
       }
-      
+
       Button(action: self.openInspector) {
         Text("viewLogs")
       }
     }
+    // swiftlint:enable multiple_closures_with_trailing_closure
   }
-  
+
   // MARK: Functions
-  func openCommitUrl() -> Void {
+  func openCommitUrl() {
     if let url = deployment.meta.githubCommitUrl {
       NSWorkspace.shared.open(url)
     }
   }
-  
-  func openDeployment() -> Void {
+
+  func openDeployment() {
     if let url = URL(string: "\(deployment.absoluteURL)") {
       NSWorkspace.shared.open(url)
     }
   }
-  
-  func openInspector() -> Void {
+
+  func openInspector() {
     if let url = URL(string: "\(deployment.absoluteURL)/_logs") {
       NSWorkspace.shared.open(url)
     }
   }
-  
-  func copyURL() -> Void {
+
+  func copyURL() {
     let pb = NSPasteboard.general
     pb.clearContents()
     pb.setString(deployment.absoluteURL, forType: .string)
@@ -169,11 +171,11 @@ struct DeploymentStateIndicator: View {
   var state: ZeitDeploymentState
   var body: some View {
     Group {
-      if(state == .queued) {
+      if state == .queued {
         Image("clock")
-      } else if (state == .error) {
+      } else if state == .error {
         Image("error")
-      } else if (state == .building) {
+      } else if state == .building {
         ProgressIndicator()
       } else {
         Image("check")

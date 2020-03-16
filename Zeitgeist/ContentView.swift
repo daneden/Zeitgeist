@@ -12,10 +12,10 @@ import Combine
 struct ContentView: View {
   @ObservedObject var settings = UserDefaultsManager()
   @State var inputValue = ""
-  
+
   var body: some View {
     VStack(alignment: .leading) {
-      if(self.$settings.token.wrappedValue == nil) {
+      if self.$settings.token.wrappedValue == nil {
         VStack {
           Spacer()
           VStack {
@@ -27,11 +27,11 @@ struct ContentView: View {
           Spacer()
           VStack(alignment: .leading) {
             Text("tokenInputLabel")
-            
+
             TextField("tokenInputPlaceholder", text: $inputValue)
               .textFieldStyle(RoundedBorderTextFieldStyle())
               .font(.system(.caption, design: .monospaced))
-            
+
             HStack {
               Button(action: self.saveToken, label: {
                 HStack {
@@ -41,12 +41,12 @@ struct ContentView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
               })
-                .disabled($inputValue.wrappedValue == "")
+                .disabled($inputValue.wrappedValue.isEmpty)
               Spacer()
               Button(action: self.openTokenPage) {
                 Text("createTokenButton")
               }.buttonStyle(LinkButtonStyle())
-              
+
             }
           }
           Spacer()
@@ -60,17 +60,16 @@ struct ContentView: View {
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
-  
-  func openTokenPage() -> Void {
+
+  func openTokenPage() {
     let url = URL(string: "https://zeit.co/account/tokens")!
     NSWorkspace.shared.open(url)
   }
-  
-  func saveToken() -> Void {
+
+  func saveToken() {
     self.settings.token = inputValue
   }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {

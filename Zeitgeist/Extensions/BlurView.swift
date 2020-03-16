@@ -12,16 +12,16 @@ import Cocoa
 
 struct BlurView: NSViewRepresentable {
   typealias NSViewType = NSVisualEffectView
-  
+
   public func makeNSView(context: NSViewRepresentableContext<BlurView>) -> NSVisualEffectView {
     let view = NSVisualEffectView()
     view.blendingMode = .behindWindow
     view.material = .toolTip
     return view
   }
-  
+
   public func updateNSView(_ nsView: NSVisualEffectView, context: NSViewRepresentableContext<BlurView>) {
-    
+
   }
 }
 

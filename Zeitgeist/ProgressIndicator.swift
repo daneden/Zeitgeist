@@ -13,15 +13,15 @@ struct ProgressIndicator: NSViewRepresentable {
     let result = NSProgressIndicator()
     result.isIndeterminate = true
     result.startAnimation(nil)
-    
+
     result.controlSize = .small
     result.style = .spinning
-    
+
     return result
   }
-  
+
   func updateNSView(_ nsView: NSProgressIndicator, context: NSViewRepresentableContext<ProgressIndicator>) {
-    
+
   }
 }
 
