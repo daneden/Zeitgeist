@@ -1,0 +1,15 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Make sure Xcode is installed
+      - run: ls /Applications | grep Xcode
+      - name: Select Xcode 11.3
+      - run: sudo xcode-select /Applications/Xcode_11.3.app
+      - name: Build using xcodebuild
+      - run: xcodebuild -scheme Zeitgeist -sdk macosx10.15 clean build
