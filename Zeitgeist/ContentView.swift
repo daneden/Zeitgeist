@@ -54,7 +54,7 @@ struct ContentView: View {
         .padding()
       } else {
         DeploymentsListView()
-          .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .zeit)))
+          .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .vercel)))
           .environmentObject(settings)
       }
     }

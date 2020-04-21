@@ -24,6 +24,7 @@
 		715E06E5241BDE9100A4DA0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 715E06E3241BDE9100A4DA0F /* Main.storyboard */; };
 		715E06F1241BDE9100A4DA0F /* ZeitgeistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */; };
 		715E06FC241BDE9100A4DA0F /* ZeitgeistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */; };
+		71BF8A9C242A7EEF005C7E9E /* test-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 71BF8A9B242A7EEF005C7E9E /* test-data.json */; };
 		71CED255241CD41500B9A7ED /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71CED257241CD46700B9A7ED /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED256241CD46700B9A7ED /* ProgressIndicator.swift */; };
 		71CED259241D369200B9A7ED /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED258241D369200B9A7ED /* PreferencesView.swift */; };
@@ -76,6 +77,7 @@
 		715E06F7241BDE9100A4DA0F /* ZeitgeistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeitgeistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistUITests.swift; sourceTree = "<group>"; };
 		715E06FD241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71BF8A9B242A7EEF005C7E9E /* test-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "test-data.json"; sourceTree = "<group>"; };
 		71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListRowView.swift; sourceTree = "<group>"; };
 		71CED256241CD46700B9A7ED /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		71CED258241D369200B9A7ED /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		715E06D9241BDE8C00A4DA0F /* Zeitgeist */ = {
 			isa = PBXGroup;
 			children = (
+				71BF8A9A242A7ED5005C7E9E /* Mock Data */,
 				71CED25C241E63D700B9A7ED /* Extensions */,
 				7141D4CD241BE76F00D212F0 /* Networking */,
 				715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */,
@@ -193,6 +196,14 @@
 				715E06FD241BDE9100A4DA0F /* Info.plist */,
 			);
 			path = ZeitgeistUITests;
+			sourceTree = "<group>";
+		};
+		71BF8A9A242A7ED5005C7E9E /* Mock Data */ = {
+			isa = PBXGroup;
+			children = (
+				71BF8A9B242A7EEF005C7E9E /* test-data.json */,
+			);
+			path = "Mock Data";
 			sourceTree = "<group>";
 		};
 		71CED25C241E63D700B9A7ED /* Extensions */ = {
@@ -315,6 +326,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71BF8A9C242A7EEF005C7E9E /* test-data.json in Resources */,
 				715E06E5241BDE9100A4DA0F /* Main.storyboard in Resources */,
 				71D5EC3B241EE13D0076BCA3 /* Localizable.strings in Resources */,
 				715E06E2241BDE9100A4DA0F /* Preview Assets.xcassets in Resources */,
