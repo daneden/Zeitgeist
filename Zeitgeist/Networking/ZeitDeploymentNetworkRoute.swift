@@ -35,7 +35,7 @@ extension ZeitDeploymentNetworkRoute: NetworkRoute {
       return [
         "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? ""),
         "Content-Type": "application/json",
-        "User-Agent": "ZG Client \(version ?? "(Unknown Version)")"
+        "User-Agent": "Zeitgeist Client \(version ?? "(Unknown Version)")"
         
       ]
     }
