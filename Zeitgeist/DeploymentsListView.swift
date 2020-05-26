@@ -49,10 +49,23 @@ struct DeploymentsListView: View {
 
       viewModel.resource.hasResource { result in
         if result.deployments.isEmpty {
-          Spacer()
-          Text("emptyState")
-            .foregroundColor(.secondary)
-          Spacer()
+          VStack(spacing: 0) {
+            Spacer()
+            Text("emptyState")
+              .foregroundColor(.secondary)
+            Spacer()
+            Divider()
+            VStack(alignment: .leading) {
+              HStack {
+                Button(action: self.resetSession) {
+                  Text("logoutButton")
+                }
+                Spacer()
+              }
+              .font(.caption)
+              .padding(8)
+            }
+          }
         } else {
           VStack(alignment: .leading, spacing: 0) {
             List(result.deployments, id: \.self) { deployment in

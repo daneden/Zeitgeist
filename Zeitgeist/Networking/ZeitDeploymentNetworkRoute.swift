@@ -17,7 +17,7 @@ extension ZeitDeploymentNetworkRoute: NetworkRoute {
   var path: String {
     switch self {
     case .deployments:
-      return "/v5/now/deployments"
+      return "/v6/now/deployments"
     }
   }
 
@@ -31,8 +31,12 @@ extension ZeitDeploymentNetworkRoute: NetworkRoute {
   var headers: [String: String]? {
     switch self {
     default:
+      let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
       return [
-        "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? "")
+        "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? ""),
+        "Content-Type": "application/json",
+        "User-Agent": "ZG Client \(version ?? "(Unknown Version)")"
+        
       ]
     }
   }

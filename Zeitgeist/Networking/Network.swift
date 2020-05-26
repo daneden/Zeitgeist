@@ -21,7 +21,9 @@ extension Network {
     return URLSession.shared
       .dataTaskPublisher(for: request)
       .tryCompactMap { result in
-        try self.decoder.decode(T.self, from: result.data)
+        // print(result)
+        let value = try self.decoder.decode(T.self, from: result.data)
+        return value
     }
     .receive(on: RunLoop.main)
     .eraseToAnyPublisher()
