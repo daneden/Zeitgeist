@@ -10,6 +10,15 @@ import SwiftUI
 
 struct UpdaterView: View {
   @ObservedObject var latestRelease: FetchLatestRelease = FetchLatestRelease()
+  
+  func releaseView() -> some View {
+    let releaseInfo = latestRelease.latestRelease.unsafelyUnwrapped
+    
+    return Text("\(releaseInfo.tag_name) (current version: v\(releaseInfo.currentRelease))")
+      .font(.caption)
+      .opacity(0.7)
+  }
+  
   var body: some View {
     VStack(spacing: 0) {
       if (latestRelease.latestRelease) != nil {
@@ -23,19 +32,26 @@ struct UpdaterView: View {
                   Image("outbound")
                     .opacity(0.75)
                 }
-                Text("\(latestRelease.latestRelease.unsafelyUnwrapped.tag_name) (current version: v\(latestRelease.latestRelease.unsafelyUnwrapped.currentRelease))")
-                  .font(.caption)
-                  .opacity(0.7)
+                releaseView()
               }
               Spacer()
             }
-              .foregroundColor(.white)
+              .foregroundColor(.primary)
               .contentShape(Rectangle())
           }
           .buttonStyle(PlainButtonStyle())
           .padding(.horizontal, 8)
           .padding(.vertical, 4)
           .background(Color.purple)
+          .colorScheme(.dark)
+          .onHover { hovered in
+            if hovered {
+              NSCursor.pointingHand.push()
+            } else {
+              NSCursor.pop()
+            }
+          }
+          Divider()
         }
       }
     }
