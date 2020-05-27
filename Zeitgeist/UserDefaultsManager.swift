@@ -15,12 +15,14 @@ class UserDefaultsManager: ObservableObject {
   var keychain: Keychain
   
   init() {
-    // Remove sensitive info stored in versions <1.1
+    self.keychain = Keychain(service: "me.daneden.Zeitgeist")
+    
+    // Migrate sensitive info stored in versions <1.1
     if UserDefaults.standard.string(forKey: "ZeitToken") != nil {
+      self.keychain["vercelToken"] = UserDefaults.standard.string(forKey: "ZeitToken")
       UserDefaults.standard.set(nil, forKey: "ZeitToken")
     }
     
-    self.keychain = Keychain(service: "me.daneden.Zeitgeist")
     self.token = self.keychain["vercelToken"]
   }
   
