@@ -9,6 +9,7 @@
 import Cocoa
 import SwiftUI
 import Reachability
+import Combine
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -17,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   var statusBarItem: NSStatusItem!
   var lastState: ZeitDeploymentState?
   var stateLastUpdated: Date?
+  var latestBuildUrl: String?
   private var reachability: Reachability!
   private var timer: Timer?
   private var animatedIconFrameCount = 0
@@ -118,6 +120,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   
   @objc func openOnLogin(_ sender: AnyObject?) {
     NSWorkspace.shared.open(URL(string: "https://support.apple.com/en-gb/guide/mac-help/mh15189/mac")!)
+  }
+  
+  @objc func openLatestVersionUrl(_ sender: AnyObject?) {
+    NSWorkspace.shared.open(URL(string: self.latestBuildUrl!)!)
   }
 
   @objc func menuDidClose(_ menu: NSMenu) {

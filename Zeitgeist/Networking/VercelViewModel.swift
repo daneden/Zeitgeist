@@ -107,11 +107,11 @@ struct ZeitDeploymentsArray: Decodable {
   }
 }
 
-class ZeitDeploymentsViewModel: NetworkViewModel, ObservableObject {
+class VercelViewModel: NetworkViewModel, ObservableObject {
   var resource: Resource<ZeitDeploymentsArray> = .loading
   var network: Network
 
-  var route: NetworkRoute = ZeitDeploymentNetworkRoute.deployments
+  var route: NetworkRoute = VercelNetworkRoute.deployments
 
   var bag: Set<AnyCancellable> = Set<AnyCancellable>()
   var cancellable: AnyCancellable?

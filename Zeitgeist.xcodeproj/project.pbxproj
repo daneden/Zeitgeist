@@ -7,15 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71103C99247D76DF0043D11B /* UpdaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C98247D76DF0043D11B /* UpdaterView.swift */; };
+		71103C9B247E7D520043D11B /* FetchLatestRelease.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9A247E7D520043D11B /* FetchLatestRelease.swift */; };
 		7141D4CF241BE78600D212F0 /* NetworkEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */; };
 		7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */; };
 		7141D4D3241BE7DF00D212F0 /* NetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */; };
 		7141D4D5241BE81700D212F0 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D4241BE81700D212F0 /* Resource.swift */; };
 		7141D4D7241BE86600D212F0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D6241BE86600D212F0 /* Network.swift */; };
-		7141D4D9241BE88600D212F0 /* ZeitDeploymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */; };
+		7141D4D9241BE88600D212F0 /* VercelDeploymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D8241BE88600D212F0 /* VercelDeploymentNetwork.swift */; };
 		7141D4DB241BED0300D212F0 /* NetworkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */; };
-		7141D4DD241BED4100D212F0 /* ZeitDeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */; };
-		7141D4DF241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */; };
+		7141D4DD241BED4100D212F0 /* VercelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DC241BED4100D212F0 /* VercelViewModel.swift */; };
+		7141D4DF241BED9100D212F0 /* VercelNetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4DE241BED9100D212F0 /* VercelNetworkRoute.swift */; };
 		7141D4E1241BF36300D212F0 /* DeploymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */; };
 		715E06DB241BDE8C00A4DA0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */; };
 		715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DC241BDE8C00A4DA0F /* ContentView.swift */; };
@@ -24,6 +26,7 @@
 		715E06E5241BDE9100A4DA0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 715E06E3241BDE9100A4DA0F /* Main.storyboard */; };
 		715E06F1241BDE9100A4DA0F /* ZeitgeistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */; };
 		715E06FC241BDE9100A4DA0F /* ZeitgeistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06FB241BDE9100A4DA0F /* ZeitgeistUITests.swift */; };
+		71AFC403247D5E5D006ECA6E /* Version in Frameworks */ = {isa = PBXBuildFile; productRef = 71AFC402247D5E5D006ECA6E /* Version */; };
 		71BF8A9C242A7EEF005C7E9E /* test-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 71BF8A9B242A7EEF005C7E9E /* test-data.json */; };
 		71CED255241CD41500B9A7ED /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71CED257241CD46700B9A7ED /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED256241CD46700B9A7ED /* ProgressIndicator.swift */; };
@@ -53,15 +56,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		71103C98247D76DF0043D11B /* UpdaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterView.swift; sourceTree = "<group>"; };
+		71103C9A247E7D520043D11B /* FetchLatestRelease.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchLatestRelease.swift; sourceTree = "<group>"; };
 		7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEnvironment.swift; sourceTree = "<group>"; };
 		7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethod.swift; sourceTree = "<group>"; };
 		7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoute.swift; sourceTree = "<group>"; };
 		7141D4D4241BE81700D212F0 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		7141D4D6241BE86600D212F0 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitDeploymentNetwork.swift; sourceTree = "<group>"; };
+		7141D4D8241BE88600D212F0 /* VercelDeploymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDeploymentNetwork.swift; sourceTree = "<group>"; };
 		7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewModel.swift; sourceTree = "<group>"; };
-		7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitDeploymentsViewModel.swift; sourceTree = "<group>"; };
-		7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitDeploymentNetworkRoute.swift; sourceTree = "<group>"; };
+		7141D4DC241BED4100D212F0 /* VercelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelViewModel.swift; sourceTree = "<group>"; };
+		7141D4DE241BED9100D212F0 /* VercelNetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelNetworkRoute.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
 		715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		715E06DA241BDE8C00A4DA0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71CED261241E69B700B9A7ED /* Reachability in Frameworks */,
+				71AFC403247D5E5D006ECA6E /* Version in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,15 +122,16 @@
 		7141D4CD241BE76F00D212F0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				71103C9A247E7D520043D11B /* FetchLatestRelease.swift */,
 				7141D4D6241BE86600D212F0 /* Network.swift */,
 				7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */,
 				7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */,
 				7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */,
 				7141D4DA241BED0300D212F0 /* NetworkViewModel.swift */,
 				7141D4D4241BE81700D212F0 /* Resource.swift */,
-				7141D4D8241BE88600D212F0 /* ZeitDeploymentNetwork.swift */,
-				7141D4DE241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift */,
-				7141D4DC241BED4100D212F0 /* ZeitDeploymentsViewModel.swift */,
+				7141D4D8241BE88600D212F0 /* VercelDeploymentNetwork.swift */,
+				7141D4DE241BED9100D212F0 /* VercelNetworkRoute.swift */,
+				7141D4DC241BED4100D212F0 /* VercelViewModel.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -162,6 +169,7 @@
 				71D5EC3D241EE13D0076BCA3 /* Localizable.strings */,
 				71CED258241D369200B9A7ED /* PreferencesView.swift */,
 				71CED256241CD46700B9A7ED /* ProgressIndicator.swift */,
+				71103C98247D76DF0043D11B /* UpdaterView.swift */,
 				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
 				715E06DE241BDE9100A4DA0F /* Assets.xcassets */,
 				715E06E3241BDE9100A4DA0F /* Main.storyboard */,
@@ -234,6 +242,7 @@
 			name = Zeitgeist;
 			packageProductDependencies = (
 				71CED260241E69B700B9A7ED /* Reachability */,
+				71AFC402247D5E5D006ECA6E /* Version */,
 			);
 			productName = Zeitgeist;
 			productReference = 715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */;
@@ -309,6 +318,7 @@
 			mainGroup = 715E06CE241BDE8C00A4DA0F;
 			packageReferences = (
 				71CED25F241E69B700B9A7ED /* XCRemoteSwiftPackageReference "Reachability" */,
+				71AFC401247D5E5D006ECA6E /* XCRemoteSwiftPackageReference "Version" */,
 			);
 			productRefGroup = 715E06D8241BDE8C00A4DA0F /* Products */;
 			projectDirPath = "";
@@ -378,7 +388,8 @@
 				71CED257241CD46700B9A7ED /* ProgressIndicator.swift in Sources */,
 				71CED255241CD41500B9A7ED /* DeploymentsListRowView.swift in Sources */,
 				715E06DD241BDE8C00A4DA0F /* ContentView.swift in Sources */,
-				7141D4DD241BED4100D212F0 /* ZeitDeploymentsViewModel.swift in Sources */,
+				7141D4DD241BED4100D212F0 /* VercelViewModel.swift in Sources */,
+				71103C9B247E7D520043D11B /* FetchLatestRelease.swift in Sources */,
 				7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */,
 				71CED265241E95FC00B9A7ED /* BlurView.swift in Sources */,
 				71CED25E241E63E200B9A7ED /* Tooltip.swift in Sources */,
@@ -386,11 +397,12 @@
 				71CED25B241D375C00B9A7ED /* UserDefaultsManager.swift in Sources */,
 				7141D4D5241BE81700D212F0 /* Resource.swift in Sources */,
 				7141D4DB241BED0300D212F0 /* NetworkViewModel.swift in Sources */,
+				71103C99247D76DF0043D11B /* UpdaterView.swift in Sources */,
 				7141D4CF241BE78600D212F0 /* NetworkEnvironment.swift in Sources */,
 				7141D4E1241BF36300D212F0 /* DeploymentsListView.swift in Sources */,
 				71CED259241D369200B9A7ED /* PreferencesView.swift in Sources */,
-				7141D4DF241BED9100D212F0 /* ZeitDeploymentNetworkRoute.swift in Sources */,
-				7141D4D9241BE88600D212F0 /* ZeitDeploymentNetwork.swift in Sources */,
+				7141D4DF241BED9100D212F0 /* VercelNetworkRoute.swift in Sources */,
+				7141D4D9241BE88600D212F0 /* VercelDeploymentNetwork.swift in Sources */,
 				7141D4D7241BE86600D212F0 /* Network.swift in Sources */,
 				715E06DB241BDE8C00A4DA0F /* AppDelegate.swift in Sources */,
 			);
@@ -580,7 +592,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -605,7 +617,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -738,6 +750,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		71AFC401247D5E5D006ECA6E /* XCRemoteSwiftPackageReference "Version" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mrackwitz/Version.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
 		71CED25F241E69B700B9A7ED /* XCRemoteSwiftPackageReference "Reachability" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
@@ -749,6 +769,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		71AFC402247D5E5D006ECA6E /* Version */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71AFC401247D5E5D006ECA6E /* XCRemoteSwiftPackageReference "Version" */;
+			productName = Version;
+		};
 		71CED260241E69B700B9A7ED /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71CED25F241E69B700B9A7ED /* XCRemoteSwiftPackageReference "Reachability" */;

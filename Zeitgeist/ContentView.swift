@@ -14,7 +14,8 @@ struct ContentView: View {
   @State var inputValue = ""
 
   var body: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 0) {
+      UpdaterView()
       if self.$settings.token.wrappedValue == nil {
         VStack {
           Spacer()
@@ -54,8 +55,9 @@ struct ContentView: View {
         .padding()
       } else {
         DeploymentsListView()
-          .environmentObject(ZeitDeploymentsViewModel(with: ZeitDeploymentNetwork(enviroment: .vercel)))
+          .environmentObject(VercelViewModel(with: VercelDeploymentNetwork()))
           .environmentObject(settings)
+        
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)

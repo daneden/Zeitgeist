@@ -11,17 +11,16 @@ import Combine
 
 protocol Network {
   var decoder: JSONDecoder { get set }
-  var enviroment: NetworkEnvironment { get set }
+  var environment: NetworkEnvironment { get set }
 }
 
 extension Network {
   func fetch<T: Decodable>(route: NetworkRoute) -> AnyPublisher<T, Error> {
-    let request = route.create(for: enviroment)
+    let request = route.create(for: environment)
 
     return URLSession.shared
       .dataTaskPublisher(for: request)
       .tryCompactMap { result in
-        // print(result)
         let value = try self.decoder.decode(T.self, from: result.data)
         return value
     }

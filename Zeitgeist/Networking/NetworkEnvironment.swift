@@ -10,4 +10,5 @@ import Foundation
 
 enum NetworkEnvironment: String {
   case vercel = "https://api.vercel.com"
+  case github = "https://api.github.com"
 }

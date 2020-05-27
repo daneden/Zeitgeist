@@ -11,7 +11,7 @@ import SwiftUI
 import Cocoa
 
 struct DeploymentsListView: View {
-  @EnvironmentObject var viewModel: ZeitDeploymentsViewModel
+  @EnvironmentObject var viewModel: VercelViewModel
   @EnvironmentObject var settings: UserDefaultsManager
   @State var isPreferencesShown = false
 
@@ -44,7 +44,9 @@ struct DeploymentsListView: View {
       }
 
       viewModel.resource.isLoading {
+        Spacer()
         ProgressIndicator()
+        Spacer()
       }
 
       viewModel.resource.hasResource { result in
@@ -87,7 +89,8 @@ struct DeploymentsListView: View {
             }
             .font(.caption)
             .padding(8)
-          }.onReceive(self.updateStatusOverview, perform: { _ in
+          }
+          .onReceive(self.updateStatusOverview, perform: { _ in
             let delegate: AppDelegate? = NSApplication.shared.delegate as? AppDelegate
             delegate?.setIconBasedOnState(state: result.deployments[0].state)
           })
