@@ -7,13 +7,13 @@
 //
 
 import Foundation
+import Cocoa
 
 enum VercelNetworkRoute {
   case deployments
 }
 
 extension VercelNetworkRoute: NetworkRoute {
-
   var path: String {
     switch self {
     case .deployments:
@@ -27,17 +27,22 @@ extension VercelNetworkRoute: NetworkRoute {
       return .get
     }
   }
+  
+  var queryItems: [URLQueryItem]? {
+    switch self {
+    case .deployments:
+      let currentTeam = UserDefaultsManager().currentTeam
+      return ( currentTeam == nil || currentTeam == "0") ? nil : [
+        URLQueryItem(name: "teamId", value: UserDefaultsManager().currentTeam.unsafelyUnwrapped)
+      ]
+    }
+  }
 
   var headers: [String: String]? {
+    let appDelegate = NSApplication.shared.delegate as? AppDelegate
     switch self {
     default:
-      let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-      return [
-        "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? ""),
-        "Content-Type": "application/json",
-        "User-Agent": "Zeitgeist Client \(version ?? "(Unknown Version)")"
-        
-      ]
+      return appDelegate?.getVercelHeaders()
     }
   }
 }

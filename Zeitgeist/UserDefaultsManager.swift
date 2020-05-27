@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import Cocoa
 
 class UserDefaultsManager: ObservableObject {
   @Published var token: String? = UserDefaults.standard.string(forKey: "ZeitToken") {
@@ -20,6 +21,13 @@ class UserDefaultsManager: ObservableObject {
   @Published var fetchPeriod: Int? = UserDefaults.standard.integer(forKey: "FetchPeriod") {
     didSet {
       UserDefaults.standard.set(self.fetchPeriod, forKey: "FetchPeriod")
+      self.objectWillChange.send()
+    }
+  }
+  
+  @Published var currentTeam: String? = UserDefaults.standard.string(forKey: "SelectedTeam") {
+    didSet {
+      UserDefaults.standard.set(self.currentTeam, forKey: "SelectedTeam")
       self.objectWillChange.send()
     }
   }

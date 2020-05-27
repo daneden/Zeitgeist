@@ -19,12 +19,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   var lastState: ZeitDeploymentState?
   var stateLastUpdated: Date?
   var latestBuildUrl: String?
+  var APP_VERSION: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+  
   private var reachability: Reachability!
   private var timer: Timer?
   private var animatedIconFrameCount = 0
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    let contentView = ContentView()
+    let contentView = ContentView().environmentObject(UserDefaultsManager())
     let popover = NSPopover()
     let optionsMenu = NSMenu(title: NSLocalizedString("zeitgeistMenuTitle", comment: "Menu title"))
 
@@ -70,6 +72,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     default:
       setIconBasedOnState(state: .normal)
     }
+  }
+  
+  public func getAppVersion() -> String {
+    return APP_VERSION
+  }
+  
+  public func getVercelHeaders() -> [String: String] {
+    return [
+      "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? ""),
+      "Content-Type": "application/json",
+      "User-Agent": "Zeitgeist Client \(self.getAppVersion())"
+    ]
   }
   
   func setupNetworking() {

@@ -11,14 +11,14 @@ import SwiftUI
 import Cocoa
 
 struct DeploymentsListView: View {
+  var teams = FetchVercelTeams()
   @EnvironmentObject var viewModel: VercelViewModel
   @EnvironmentObject var settings: UserDefaultsManager
-  @State var isPreferencesShown = false
 
   let updateStatusOverview = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
 
   var body: some View {
-    VStack {
+    return VStack {
       viewModel.resource.hasError { error in
         if error is URLError {
           NetworkError()
@@ -43,12 +43,6 @@ struct DeploymentsListView: View {
         }
       }
 
-      viewModel.resource.isLoading {
-        Spacer()
-        ProgressIndicator()
-        Spacer()
-      }
-
       viewModel.resource.hasResource { result in
         if result.deployments.isEmpty {
           VStack(spacing: 0) {
@@ -69,26 +63,9 @@ struct DeploymentsListView: View {
             }
           }
         } else {
-          VStack(alignment: .leading, spacing: 0) {
-            List(result.deployments, id: \.self) { deployment in
-              DeploymentsListRowView(deployment: deployment)
-                .padding(.horizontal, -4)
-            }
-
-            Divider()
-            VStack(alignment: .leading) {
-              HStack {
-                Button(action: self.resetSession) {
-                  Text("logoutButton")
-                }
-                Spacer()
-//                Button(action: {self.isPreferencesShown.toggle()}) {
-//                  Text("Settings")
-//                }
-              }
-            }
-            .font(.caption)
-            .padding(8)
+          List(result.deployments, id: \.self) { deployment in
+            DeploymentsListRowView(deployment: deployment)
+              .padding(.horizontal, -4)
           }
           .onReceive(self.updateStatusOverview, perform: { _ in
             let delegate: AppDelegate? = NSApplication.shared.delegate as? AppDelegate
@@ -96,13 +73,18 @@ struct DeploymentsListView: View {
           })
         }
       }
-    }
-      .onAppear(perform: viewModel.onAppear)
-      .sheet(isPresented: $isPreferencesShown) {
-        PreferencesView()
+      
+      viewModel.resource.isLoading {
+        Spacer()
+        ProgressIndicator()
+        Spacer()
       }
+    }
+    .id(self.settings.currentTeam)
+      .onAppear(perform: viewModel.onAppear)
+    .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity)
   }
-
+  
   func resetSession() {
     self.settings.token = nil
     self.settings.objectWillChange.send()

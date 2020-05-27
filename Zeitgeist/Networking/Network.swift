@@ -15,8 +15,8 @@ protocol Network {
 }
 
 extension Network {
-  func fetch<T: Decodable>(route: NetworkRoute) -> AnyPublisher<T, Error> {
-    let request = route.create(for: environment)
+  func fetch<T: Decodable>(route: NetworkRoute, append: String?) -> AnyPublisher<T, Error> {
+    let request = route.create(for: environment, append: append)
 
     return URLSession.shared
       .dataTaskPublisher(for: request)

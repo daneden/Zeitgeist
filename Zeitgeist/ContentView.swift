@@ -10,13 +10,13 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-  @ObservedObject var settings = UserDefaultsManager()
+  @EnvironmentObject var settings: UserDefaultsManager
   @State var inputValue = ""
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       UpdaterView()
-      if self.$settings.token.wrappedValue == nil {
+      if self.settings.token == nil {
         VStack {
           Spacer()
           VStack {
@@ -54,9 +54,10 @@ struct ContentView: View {
         }
         .padding()
       } else {
+        HeaderView()
         DeploymentsListView()
           .environmentObject(VercelViewModel(with: VercelDeploymentNetwork()))
-          .environmentObject(settings)
+        FooterView()
         
       }
     }
