@@ -9,11 +9,24 @@
 import Foundation
 import Combine
 import Cocoa
+import KeychainAccess
 
 class UserDefaultsManager: ObservableObject {
-  @Published var token: String? = UserDefaults.standard.string(forKey: "ZeitToken") {
+  var keychain: Keychain
+  
+  init() {
+    // Remove sensitive info stored in versions <1.1
+    if UserDefaults.standard.string(forKey: "ZeitToken") != nil {
+      UserDefaults.standard.set(nil, forKey: "ZeitToken")
+    }
+    
+    self.keychain = Keychain(service: "me.daneden.Zeitgeist")
+    self.token = self.keychain["vercelToken"]
+  }
+  
+  @Published var token: String? {
     didSet {
-      UserDefaults.standard.set(self.token, forKey: "ZeitToken")
+      self.keychain["vercelToken"] = self.token
       self.objectWillChange.send()
     }
   }

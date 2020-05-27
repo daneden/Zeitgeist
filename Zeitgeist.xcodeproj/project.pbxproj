@@ -13,6 +13,7 @@
 		71103C9F247E9C4C0043D11B /* FetchVercelBuilds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* FetchVercelBuilds.swift */; };
 		71103CA1247EEE920043D11B /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* FooterView.swift */; };
 		71103CA3247EFF090043D11B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA2247EFF090043D11B /* HeaderView.swift */; };
+		71103CA6247F04F60043D11B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71103CA5247F04F60043D11B /* KeychainAccess */; };
 		7141D4CF241BE78600D212F0 /* NetworkEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4CE241BE78600D212F0 /* NetworkEnvironment.swift */; };
 		7141D4D1241BE7C700D212F0 /* NetworkMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D0241BE7C700D212F0 /* NetworkMethod.swift */; };
 		7141D4D3241BE7DF00D212F0 /* NetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4D2241BE7DF00D212F0 /* NetworkRoute.swift */; };
@@ -34,7 +35,6 @@
 		71BF8A9C242A7EEF005C7E9E /* test-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 71BF8A9B242A7EEF005C7E9E /* test-data.json */; };
 		71CED255241CD41500B9A7ED /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71CED257241CD46700B9A7ED /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED256241CD46700B9A7ED /* ProgressIndicator.swift */; };
-		71CED259241D369200B9A7ED /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED258241D369200B9A7ED /* PreferencesView.swift */; };
 		71CED25B241D375C00B9A7ED /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		71CED25E241E63E200B9A7ED /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25D241E63E200B9A7ED /* Tooltip.swift */; };
 		71CED261241E69B700B9A7ED /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 71CED260241E69B700B9A7ED /* Reachability */; };
@@ -93,7 +93,6 @@
 		71BF8A9B242A7EEF005C7E9E /* test-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "test-data.json"; sourceTree = "<group>"; };
 		71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListRowView.swift; sourceTree = "<group>"; };
 		71CED256241CD46700B9A7ED /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
-		71CED258241D369200B9A7ED /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		71CED25D241E63E200B9A7ED /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		71CED264241E95FC00B9A7ED /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -107,6 +106,7 @@
 			files = (
 				71CED261241E69B700B9A7ED /* Reachability in Frameworks */,
 				71AFC403247D5E5D006ECA6E /* Version in Frameworks */,
+				71103CA6247F04F60043D11B /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +179,6 @@
 				71103CA0247EEE920043D11B /* FooterView.swift */,
 				71103CA2247EFF090043D11B /* HeaderView.swift */,
 				71D5EC3D241EE13D0076BCA3 /* Localizable.strings */,
-				71CED258241D369200B9A7ED /* PreferencesView.swift */,
 				71CED256241CD46700B9A7ED /* ProgressIndicator.swift */,
 				71103C98247D76DF0043D11B /* UpdaterView.swift */,
 				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
@@ -255,6 +254,7 @@
 			packageProductDependencies = (
 				71CED260241E69B700B9A7ED /* Reachability */,
 				71AFC402247D5E5D006ECA6E /* Version */,
+				71103CA5247F04F60043D11B /* KeychainAccess */,
 			);
 			productName = Zeitgeist;
 			productReference = 715E06D7241BDE8C00A4DA0F /* Zeitgeist.app */;
@@ -331,6 +331,7 @@
 			packageReferences = (
 				71CED25F241E69B700B9A7ED /* XCRemoteSwiftPackageReference "Reachability" */,
 				71AFC401247D5E5D006ECA6E /* XCRemoteSwiftPackageReference "Version" */,
+				71103CA4247F04F60043D11B /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 715E06D8241BDE8C00A4DA0F /* Products */;
 			projectDirPath = "";
@@ -415,7 +416,6 @@
 				7141D4CF241BE78600D212F0 /* NetworkEnvironment.swift in Sources */,
 				71103C9D247E8B6D0043D11B /* FetchVercelTeams.swift in Sources */,
 				7141D4E1241BF36300D212F0 /* DeploymentsListView.swift in Sources */,
-				71CED259241D369200B9A7ED /* PreferencesView.swift in Sources */,
 				7141D4DF241BED9100D212F0 /* VercelNetworkRoute.swift in Sources */,
 				7141D4D9241BE88600D212F0 /* VercelDeploymentNetwork.swift in Sources */,
 				7141D4D7241BE86600D212F0 /* Network.swift in Sources */,
@@ -766,6 +766,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		71103CA4247F04F60043D11B /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.0;
+			};
+		};
 		71AFC401247D5E5D006ECA6E /* XCRemoteSwiftPackageReference "Version" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mrackwitz/Version.git";
@@ -785,6 +793,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		71103CA5247F04F60043D11B /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71103CA4247F04F60043D11B /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		71AFC402247D5E5D006ECA6E /* Version */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71AFC401247D5E5D006ECA6E /* XCRemoteSwiftPackageReference "Version" */;

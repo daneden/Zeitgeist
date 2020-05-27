@@ -48,7 +48,7 @@ struct DeploymentsListRowView: View {
                 Text("\(deployment.url)")
                   .lineLimit(1)
                 Image("outbound")
-                  .opacity(isHovered ? 1 : 0.5)
+                  .opacity(isHovered ? 0.75 : 0.5)
               }
               .foregroundColor(isHovered ? .accentColor : .secondary)
             }
@@ -56,6 +56,11 @@ struct DeploymentsListRowView: View {
             .toolTip(NSLocalizedString("openDeploymentURL", comment: "Tooltip for a button to open a deployment URL"))
             .onHover(perform: { hovered in
               self.isHovered = hovered
+              if hovered {
+                NSCursor.pointingHand.push()
+              } else {
+                NSCursor.pop()
+              }
             }).onTapGesture {
               self.openDeployment()
             }.padding(.leading, 12)

@@ -14,6 +14,7 @@ import Combine
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   var popover: NSPopover!
+  var settings = UserDefaultsManager()
   var optionsMenu: NSMenu!
   var statusBarItem: NSStatusItem!
   var lastState: ZeitDeploymentState?
@@ -26,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   private var animatedIconFrameCount = 0
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    let contentView = ContentView().environmentObject(UserDefaultsManager())
+    let contentView = ContentView().environmentObject(settings)
     let popover = NSPopover()
     let optionsMenu = NSMenu(title: NSLocalizedString("zeitgeistMenuTitle", comment: "Menu title"))
 
@@ -80,7 +81,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   
   public func getVercelHeaders() -> [String: String] {
     return [
-      "Authorization": "Bearer " + (UserDefaults.standard.string(forKey: "ZeitToken") ?? ""),
+      "Authorization": "Bearer " + (settings.token ?? ""),
       "Content-Type": "application/json",
       "User-Agent": "Zeitgeist Client \(self.getAppVersion())"
     ]
