@@ -46,7 +46,10 @@ class VercelViewModel: NetworkViewModel, ObservableObject {
     let fetchPeriod = max(prefs.fetchPeriod ?? 3, 3)
     let currentTeam = prefs.currentTeam
     let appendage = (currentTeam == nil || currentTeam == "0") ? nil : "?teamId=\(currentTeam!)"
-    fetch(route: route, append: appendage)
+    
+    // Initial render
+    print("rendered by VercelViewModel.onAppear")
+    self.fetch(route: self.route, append: appendage)
     
     Timer.scheduledTimer(withTimeInterval: Double(fetchPeriod), repeats: true) { timer in
       if currentTeam != UserDefaultsManager().currentTeam {
@@ -54,6 +57,10 @@ class VercelViewModel: NetworkViewModel, ObservableObject {
         self.objectWillChange.send()
         self.onAppear()
       }
+      
+      // Subsequent renders
+      print("rendered by VercelViewModel.onAppear.Timer")
+      self.fetch(route: self.route, append: appendage)
     }
   }
 }

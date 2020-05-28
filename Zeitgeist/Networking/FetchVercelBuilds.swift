@@ -61,6 +61,7 @@ struct ZeitDeploymentMetadata: Decodable {
 struct ZeitDeployment: Decodable, Identifiable, Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
+    hasher.combine(state)
   }
   
   static func == (lhs: ZeitDeployment, rhs: ZeitDeployment) -> Bool {
@@ -99,8 +100,12 @@ struct ZeitDeployment: Decodable, Identifiable, Hashable {
   }
 }
 
-struct ZeitDeploymentsArray: Decodable {
+struct ZeitDeploymentsArray: Decodable, Hashable {
   public var deployments: [ZeitDeployment]
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(deployments)
+  }
   
   enum CodingKeys: String, CodingKey {
     case deployments

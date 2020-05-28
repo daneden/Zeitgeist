@@ -12,8 +12,10 @@ import Cocoa
 
 struct DeploymentsListView: View {
   var teams = FetchVercelTeams()
+  @State var ref = 0
   @EnvironmentObject var viewModel: VercelViewModel
   @EnvironmentObject var settings: UserDefaultsManager
+  @State var deployments: [ZeitDeployment] = [ZeitDeployment]()
 
   let updateStatusOverview = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
 
@@ -80,9 +82,13 @@ struct DeploymentsListView: View {
         Spacer()
       }
     }
-    .id(self.settings.currentTeam)
+      .id(self.viewModel.resource.value?.deployments[0].hashValue)
       .onAppear(perform: viewModel.onAppear)
-    .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity)
+      .onReceive(self.viewModel.objectWillChange) {
+        print("render \(self.ref)")
+        self.ref += 1
+      }
+      .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity)
   }
   
   func resetSession() {
