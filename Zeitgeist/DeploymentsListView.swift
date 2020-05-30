@@ -12,12 +12,9 @@ import Cocoa
 
 struct DeploymentsListView: View {
   var teams = FetchVercelTeams()
-  @State var ref = 0
   @EnvironmentObject var viewModel: VercelViewModel
   @EnvironmentObject var settings: UserDefaultsManager
   @State var deployments: [ZeitDeployment] = [ZeitDeployment]()
-
-  let updateStatusOverview = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
 
   var body: some View {
     return VStack {
@@ -69,10 +66,6 @@ struct DeploymentsListView: View {
             DeploymentsListRowView(deployment: deployment)
               .padding(.horizontal, -4)
           }
-          .onReceive(self.updateStatusOverview, perform: { _ in
-            let delegate: AppDelegate? = NSApplication.shared.delegate as? AppDelegate
-            delegate?.setIconBasedOnState(state: result.deployments[0].state)
-          })
         }
       }
       
@@ -83,11 +76,8 @@ struct DeploymentsListView: View {
       }
     }
       .id(self.viewModel.resource.value?.deployments[0].hashValue)
+      .onReceive(viewModel.prefs.objectWillChange, perform: viewModel.onAppear)
       .onAppear(perform: viewModel.onAppear)
-      .onReceive(self.viewModel.objectWillChange) {
-        print("render \(self.ref)")
-        self.ref += 1
-      }
       .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity)
   }
   

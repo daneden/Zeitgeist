@@ -17,6 +17,14 @@ class VercelViewModel: NetworkViewModel, ObservableObject {
 
   var bag: Set<AnyCancellable> = Set<AnyCancellable>()
   var cancellable: AnyCancellable?
+  
+  weak var timer: Timer? {
+    willSet {
+      timer?.invalidate()
+    }
+  }
+  
+  var prefs = UserDefaultsManager()
 
   init(with network: Network) {
     self.network = network
@@ -24,7 +32,7 @@ class VercelViewModel: NetworkViewModel, ObservableObject {
   
   func fetch(route: NetworkRoute, append: String?) {
     (network.fetch(route: route, append: append) as AnyPublisher<NetworkResource, Error>)
-      .receive(on: RunLoop.main)
+      .receive(on: RunLoop.current)
       .sink(receiveCompletion: { completion in
         switch completion {
         case .failure(let error):
@@ -41,26 +49,24 @@ class VercelViewModel: NetworkViewModel, ObservableObject {
   }
   
   func onAppear() {
-    let prefs = UserDefaultsManager()
-    
-    let fetchPeriod = max(prefs.fetchPeriod ?? 3, 3)
-    let currentTeam = prefs.currentTeam
-    let appendage = (currentTeam == nil || currentTeam == "0") ? nil : "?teamId=\(currentTeam!)"
-    
     // Initial render
-    print("rendered by VercelViewModel.onAppear")
-    self.fetch(route: self.route, append: appendage)
+    fetchUpdate()
     
-    Timer.scheduledTimer(withTimeInterval: Double(fetchPeriod), repeats: true) { timer in
-      if currentTeam != UserDefaultsManager().currentTeam {
-        timer.invalidate()
-        self.objectWillChange.send()
-        self.onAppear()
-      }
-      
-      // Subsequent renders
-      print("rendered by VercelViewModel.onAppear.Timer")
-      self.fetch(route: self.route, append: appendage)
-    }
+    self.timer?.invalidate()
+    self.timer = nil
+    
+    let fetchPeriod = Double(max(self.prefs.fetchPeriod ?? 3, 3))
+    self.timer = Timer.scheduledTimer(timeInterval: fetchPeriod, target: self, selector: #selector(onTimerTick), userInfo: "Tick: ", repeats: true)
+    self.timer?.tolerance = fetchPeriod * 0.1
+  }
+  
+  @objc func onTimerTick(timer: Timer) {
+    fetchUpdate()
+  }
+  
+  func fetchUpdate() {
+    let currentTeam = self.prefs.currentTeam
+    let appendage = (currentTeam == nil || currentTeam == "0") ? nil : "?teamId=\(currentTeam!)"
+    self.fetch(route: self.route, append: appendage)
   }
 }

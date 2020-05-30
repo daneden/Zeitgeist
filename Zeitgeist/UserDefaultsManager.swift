@@ -18,7 +18,7 @@ class UserDefaultsManager: ObservableObject {
     self.keychain = Keychain(service: "me.daneden.Zeitgeist")
     
     // Migrate sensitive info stored in versions <1.1
-    if UserDefaults.standard.string(forKey: "ZeitToken") != nil {
+    if UserDefaults.standard.string(forKey: "ZeitToken") != nil && self.keychain["vercelToken"] == nil {
       self.keychain["vercelToken"] = UserDefaults.standard.string(forKey: "ZeitToken")
       UserDefaults.standard.set(nil, forKey: "ZeitToken")
     }
@@ -28,6 +28,8 @@ class UserDefaultsManager: ObservableObject {
   
   @Published var token: String? {
     didSet {
+      // Prevent warnings about existing keys on KeychainAccess
+      self.keychain["vercelToken"] = nil
       self.keychain["vercelToken"] = self.token
       self.objectWillChange.send()
     }

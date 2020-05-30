@@ -23,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   var APP_VERSION: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
   
   private var reachability: Reachability!
-  private var timer: Timer?
+  private var iconAnimationTimer: Timer?
   private var animatedIconFrameCount = 0
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -38,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     self.setupOptionsMenu(optionsMenu)
 
     // MARK: Set up Popover (Main UI)
-    popover.contentSize = NSSize(width: 320, height: 500)
+    popover.contentSize = NSSize(width: 320, height: 512)
     popover.behavior = .transient
     popover.contentViewController = NSHostingController(rootView: contentView)
 
@@ -197,7 +197,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   }
 
   func enqueueBuildingIconAnimation(isAnimating: Bool) {
-    if self.timer != nil && isAnimating {
+    if self.iconAnimationTimer != nil && isAnimating {
       return
     }
 
@@ -222,14 +222,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         self.animatedIconFrameCount += 1
       }
 
-      self.timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+      self.iconAnimationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
         callback()
       }
 
       callback()
     } else {
-      self.timer?.invalidate()
-      self.timer = nil
+      self.iconAnimationTimer?.invalidate()
+      self.iconAnimationTimer = nil
     }
 
     return

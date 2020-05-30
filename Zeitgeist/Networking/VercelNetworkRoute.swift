@@ -31,9 +31,10 @@ extension VercelNetworkRoute: NetworkRoute {
   var queryItems: [URLQueryItem]? {
     switch self {
     case .deployments:
-      let currentTeam = UserDefaultsManager().currentTeam
+      let appDelegate = NSApplication.shared.delegate as? AppDelegate
+      let currentTeam = appDelegate?.settings.currentTeam
       return ( currentTeam == nil || currentTeam == "0") ? nil : [
-        URLQueryItem(name: "teamId", value: UserDefaultsManager().currentTeam.unsafelyUnwrapped)
+        URLQueryItem(name: "teamId", value: currentTeam.unsafelyUnwrapped)
       ]
     }
   }

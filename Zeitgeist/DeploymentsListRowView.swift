@@ -15,7 +15,7 @@ struct DeploymentsListRowView: View {
   @State var isHovered: Bool = false
 
   // We want the timestamp to update in real-time, so let's set up a Timer
-  let updateTimestampTimer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+  let updateTimestampTimer = Timer.publish(every: 20, on: .current, in: .common).autoconnect()
 
   var body: some View {
     // swiftlint:disable multiple_closures_with_trailing_closure
@@ -188,9 +188,3 @@ struct DeploymentStateIndicator: View {
     }
   }
 }
-
-//struct DeploymentsListRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DeploymentsListRowView()
-//    }
-//}

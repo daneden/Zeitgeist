@@ -18,7 +18,9 @@ extension Network {
   func fetch<T: Decodable>(route: NetworkRoute, append: String?) -> AnyPublisher<T, Error> {
     let request = route.create(for: environment, append: append)
 
-    return URLSession.shared
+    let config = URLSessionConfiguration.default
+    config.isDiscretionary = true
+    return URLSession.init(configuration: config)
       .dataTaskPublisher(for: request)
       .tryCompactMap { result in
         let value = try self.decoder.decode(T.self, from: result.data)
