@@ -21,7 +21,7 @@
       },
       {
         "package": "Version",
-        "repositoryURL": "https://github.com/mrackwitz/Version.git",
+        "repositoryURL": "https://github.com/mrackwitz/Version",
         "state": {
           "branch": null,
           "revision": "fd4b0eb5756aa7f1c33977fb626cf37d2140a3a0",
