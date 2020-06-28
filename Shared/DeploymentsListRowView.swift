@@ -10,12 +10,8 @@ import SwiftUI
 
 struct DeploymentsListRowView: View {
   var deployment: VercelDeployment
-  @State var timestamp: String?
   @State var isOpen: Bool = false
   @State var isHovered: Bool = false
-
-  // We want the timestamp to update in real-time, so let's set up a Timer
-  let updateTimestampTimer = Timer.publish(every: 20, on: .current, in: .common).autoconnect()
 
   var body: some View {
     return VStack {
@@ -25,32 +21,30 @@ struct DeploymentsListRowView: View {
           HStack {
             Image(systemName: "chevron.right")
               .rotationEffect(isOpen ? Angle(degrees: 90.0) : Angle(degrees: 0.0))
-              .animation(.interpolatingSpring(stiffness: 200, damping: 12))
               .imageScale(.small)
-            if deployment.meta.githubCommitMessage != nil {
-              Text("\(deployment.meta.githubCommitMessage!.components(separatedBy: "\n")[0])")
+            if deployment.meta.githubCommitMessage != nil, let commitMessage = deployment.meta.githubCommitMessage! {
+              Text("\(commitMessage.components(separatedBy: "\n")[0])")
             } else {
               Text("manualDeployment")
             }
-          }.font(.headline).lineLimit(2)
+          }.font(.headline).lineLimit(1)
 
           // MARK: Deployment name/URL
           Link(destination: URL(string: "\(deployment.absoluteURL)")!) {
-            Text("\(deployment.url)")
-            Image(systemName: "arrow.up.right.app")
-              .imageScale(.small)
+            HStack {
+              Text("\(deployment.url)")
+              Image(systemName: "arrow.up.right.app")
+                .imageScale(.small)
+            }
           }
 
           HStack(spacing: 4) {
-            Text("\(self.timestamp ?? deployment.relativeTimestamp)")
-              .onReceive(updateTimestampTimer, perform: { _ in
-                self.timestamp = self.deployment.relativeTimestamp
-              })
+            Text("\(deployment.timestamp, style: .relative) ago")
 
             Text("•")
 
-            if deployment.meta.githubCommitAuthorLogin != nil {
-              Text(deployment.meta.githubCommitAuthorLogin ?? "").lineLimit(1)
+            if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
+              Text(author).lineLimit(1)
             } else {
               Text(deployment.creator.username)
             }
@@ -73,8 +67,7 @@ struct DeploymentsListRowView: View {
           if deployment.meta.githubCommitUrl != nil {
             VStack(alignment: .leading, spacing: 4) {
               Button(action: self.openCommitUrl) {
-                Text("viewCommit")
-                Text("(\(deployment.meta.githubCommitShortSha!))")
+                Text("View Commit (\(deployment.meta.githubCommitShortSha!))")
               }
               Button(action: self.openInspector) {
                 Text("viewLogs")

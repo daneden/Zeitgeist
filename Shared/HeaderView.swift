@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct HeaderView: View {
-  @State var teams: [VercelTeam] = [VercelTeam]()
-  @EnvironmentObject var settings: UserDefaultsManager
+  @EnvironmentObject var fetcher: VercelFetcher
   @State var selectedTeam: String = ""
   
   var body: some View {
@@ -21,37 +20,38 @@ struct HeaderView: View {
       self.updateSelectedTeam()
     })
     
-    return VStack(alignment: .leading, spacing: 0) {
-      if !teams.isEmpty {
+    return HStack {
+      if !fetcher.teams.isEmpty {
         HStack {
           Spacer()
           Picker(selection: chosenTeamId, label: Text("")) {
             Text("Personal").tag("")
-            ForEach(self.teams, id: \.id) {
+            ForEach(self.fetcher.teams, id: \.id) {
               Text($0.name).tag($0.id)
             }
           }
-          .id(self.teams.count)
+          .id(self.fetcher.teams.count)
           .fixedSize()
           .pickerStyle(SegmentedPickerStyle())
           .accessibility(label: Text("Team:"))
           Spacer()
-        }.padding(8)
-        Divider()
+        }
       }
-    }
+    }.padding(.all, 8)
   }
   
   func updateSelectedTeam() {
     DispatchQueue.main.async {
       let team = self.selectedTeam.isEmpty ? nil : self.selectedTeam
-      self.settings.currentTeam = team
+      self.fetcher.teamId = team
     }
   }
 }
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
+      Group {
         HeaderView()
+      }
     }
 }

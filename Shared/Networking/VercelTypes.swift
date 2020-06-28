@@ -75,13 +75,9 @@ struct VercelDeployment: Decodable, Identifiable, Hashable {
   public var creator: VercelUser
   public var meta: VercelDeploymentMetadata
   
-  public var relativeTimestamp: String {
+  public var timestamp: Date {
     let date = Date(timeIntervalSince1970: TimeInterval(exactly: created / 1000)!)
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .full
-    let relativeDate = formatter.localizedString(for: date, relativeTo: Date())
-    
-    return relativeDate
+    return date
   }
   
   public var absoluteURL: String {

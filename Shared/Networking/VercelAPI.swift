@@ -37,17 +37,53 @@ public class VercelFetcher: ObservableObject {
   @Published var deployments = [VercelDeployment]()
   @ObservedObject var settings: UserDefaultsManager
   
-  init(_ settings: UserDefaultsManager) {
-    self.settings = settings
-    
+  var teamId: String? {
+    didSet {
+      self.fetchState = .loading
+      self.deployments = [VercelDeployment]()
+      self.loadDeployments()
+      self.objectWillChange.send()
+    }
   }
   
-  func urlForRoute(_ route: VercelRoute) -> URL {
-    return URL(string: "https://api.vercel.com/\(route.rawValue)")!
+  private var deploymentsTimer: Timer?
+  private var teamsTimer: Timer?
+  
+  init(_ settings: UserDefaultsManager) {
+    self.settings = settings
+  }
+  
+  init(_ settings: UserDefaultsManager, withTimer: Bool) {
+    self.settings = settings
+    if withTimer {
+      deploymentsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
+        self.loadDeployments()
+      })
+      
+      teamsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
+        self.loadTeams()
+      })
+      
+      deploymentsTimer?.tolerance = 1
+      teamsTimer?.tolerance = 1
+    }
+  }
+  
+  deinit {
+    deployments = [VercelDeployment]()
+    deploymentsTimer?.invalidate()
+    deploymentsTimer = nil
+    
+    teams = [VercelTeam]()
+    teamsTimer?.invalidate()
+    teamsTimer = nil
+  }
+  
+  func urlForRoute(_ route: VercelRoute, query: String? = nil) -> URL {
+    return URL(string: "https://api.vercel.com/\(route.rawValue)\(query ?? "")")!
   }
   
   func loadTeams() {
-    fetchState = .loading
     var request = URLRequest(url: urlForRoute(.teams))
     request.allHTTPHeaderFields = getHeaders()
     URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -55,26 +91,36 @@ public class VercelFetcher: ObservableObject {
         let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: data!)
         DispatchQueue.main.async {
           self.teams = decodedData.teams
-          self.fetchState = .finished
+          self.objectWillChange.send()
         }
       } catch {
         print("Error loading teams")
         print(error.localizedDescription)
-        self.fetchState = .error
       }
     }.resume()
-    
-    self.objectWillChange.send()
   }
   
   func loadDeployments() {
-    fetchState = .loading
-    var request = URLRequest(url: urlForRoute(.deployments))
+    fetchState = deployments.isEmpty ? .loading : .idle
+    var request: URLRequest
+    
+    if self.teamId != nil {
+      request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(self.teamId!)"))
+    } else {
+      request = URLRequest(url: urlForRoute(.deployments))
+    }
+    
     request.allHTTPHeaderFields = getHeaders()
     URLSession.shared.dataTask(with: request) { (data, _, error) in
+      if(data == nil) {
+        print("Error loading deployments")
+        return
+      }
+      
       do {
         let decodedData = try JSONDecoder().decode(VercelDeploymentsAPIResponse.self, from: data!)
         DispatchQueue.main.async {
+          print(request)
           self.deployments = decodedData.deployments
           self.fetchState = .finished
         }

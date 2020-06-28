@@ -10,26 +10,23 @@ import SwiftUI
 
 struct FooterView: View {
   @EnvironmentObject var settings: UserDefaultsManager
+  @EnvironmentObject var fetcher: VercelFetcher
+  @State private var selectedTeam = 0
   
   var body: some View {
     return VStack(alignment: .leading, spacing: 0) {
       Divider()
       VStack(alignment: .leading) {
         HStack {
-          Button(action: self.resetSession) {
+          Spacer()
+          Button(action: { self.settings.token = nil }) {
             Text("logoutButton")
           }
           Spacer()
         }
       }
-      .font(.caption)
-      .padding(8)
+      .padding()
     }
-  }
-  
-  func resetSession() {
-    self.settings.token = nil
-    self.settings.objectWillChange.send()
   }
 }
 

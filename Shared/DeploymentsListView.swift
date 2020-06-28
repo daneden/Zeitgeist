@@ -26,21 +26,9 @@ struct DeploymentsListView: View {
               Text("emptyState")
                 .foregroundColor(.secondary)
               Spacer()
-              Divider()
-              VStack(alignment: .leading) {
-                HStack {
-                  Button(action: self.resetSession) {
-                    Text("logoutButton")
-                  }
-                  Spacer()
-                }
-                .font(.caption)
-                .padding(8)
-              }
             }
           } else {
             List {
-              Rectangle().frame(width: 0, height: 0, alignment: .center)
               ForEach(vercelFetcher.deployments, id: \.self) { deployment in
                 DeploymentsListRowView(deployment: deployment)
               }
@@ -51,13 +39,9 @@ struct DeploymentsListView: View {
       .id(!vercelFetcher.deployments.isEmpty ? vercelFetcher.deployments[0].hashValue : 1)
       .onAppear {
         vercelFetcher.loadDeployments()
+        vercelFetcher.loadTeams()
       }
       .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity)
-  }
-  
-  func resetSession() {
-    self.settings.token = nil
-    self.settings.objectWillChange.send()
   }
 }
 

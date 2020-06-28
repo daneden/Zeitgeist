@@ -12,6 +12,11 @@ import Combine
 struct ContentView: View {
   @EnvironmentObject var settings: UserDefaultsManager
   @State var inputValue = ""
+  #if os(macOS)
+  var padding = 16.0 as CGFloat
+  #else
+  var padding = 0 as CGFloat
+  #endif
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
@@ -26,55 +31,42 @@ struct ContentView: View {
             Text("Zeitgeist")
               .fontWeight(.bold)
               .font(Font.system(.title, design: .rounded))
-          }
-          Spacer()
-          VStack(alignment: .leading) {
-            Text("tokenInputLabel")
+          }.padding(.bottom, 24)
+          
+          Form {
+            Section(header: Text("Vercel Access Token"),
+                    footer:
+                      VStack(alignment: .leading, spacing: 4) {
+                        Text("You'll need to create an access token on Vercel's website to use Zeitgeist.")
+                          .foregroundColor(.secondary)
+                        Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
+                          .foregroundColor(.accentColor)
+                      }.font(.footnote)
+            ) {
+              SecureField("Enter Access Token", text: $inputValue)
 
-            TextField("tokenInputPlaceholder", text: $inputValue)
-              .textFieldStyle(RoundedBorderTextFieldStyle())
-              .font(.system(.caption, design: .monospaced))
-
-            HStack {
-              Button(action: self.saveToken, label: {
-                HStack {
-                  Spacer()
-                  Text("loginButton")
-                  Spacer()
-                }
-                .frame(minWidth: 0, maxWidth: .infinity)
+              Button(action: { self.settings.token = self.inputValue }, label: {
+                Text("loginButton")
               })
-                .disabled($inputValue.wrappedValue.isEmpty)
-              Spacer()
-              Button(action: self.openTokenPage) {
-                Text("createTokenButton")
-              }.buttonStyle(ZeitgeistButtonStyle())
-
+                .disabled(inputValue.isEmpty)
             }
+            
           }
+          
+          Spacer()
           Spacer()
         }
-        .padding()
-      } else {
+        .padding(.all, padding)
+      } else if let fetcher = VercelFetcher(settings, withTimer: true) {
         HeaderView()
+          .environmentObject(fetcher)
         DeploymentsListView()
-          .environmentObject(VercelFetcher(settings))
+          .environmentObject(fetcher)
         FooterView()
         
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
-  }
-
-  func openTokenPage() {
-    let url = URL(string: "https://zeit.co/account/tokens")!
-    #if os(macOS)
-    NSWorkspace.shared.open(url)
-    #endif
-  }
-
-  func saveToken() {
-    self.settings.token = inputValue
   }
 }
 

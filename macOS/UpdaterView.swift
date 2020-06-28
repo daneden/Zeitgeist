@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct UpdaterView: View {
-  @ObservedObject var latestRelease: FetchLatestRelease = FetchLatestRelease()
+  @ObservedObject var latestRelease: GitHubReleaseFetcher = GitHubReleaseFetcher()
   
   func releaseView() -> some View {
     let releaseInfo = latestRelease.latestRelease.unsafelyUnwrapped

@@ -33,7 +33,7 @@ struct GitHubRelease: Decodable {
   }
 }
 
-class FetchLatestRelease: ObservableObject {
+class GitHubReleaseFetcher: ObservableObject {
   @Published var latestRelease: GitHubRelease?
   
   func load() {
