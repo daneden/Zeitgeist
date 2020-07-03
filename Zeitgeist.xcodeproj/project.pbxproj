@@ -68,9 +68,6 @@
 		71103CA2247EFF090043D11B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
 		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		715E06E1241BDE9100A4DA0F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		715E06E6241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		715E06E7241BDE9100A4DA0F /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		715E06EC241BDE9100A4DA0F /* ZeitgeistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeitgeistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		715E06F0241BDE9100A4DA0F /* ZeitgeistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistTests.swift; sourceTree = "<group>"; };
 		715E06F2241BDE9100A4DA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -91,7 +88,6 @@
 		716911F124A7E2C00023339D /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		716911F524A7E2C00023339D /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		716911F724A7E2C00023339D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		71BF8A9B242A7EEF005C7E9E /* test-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "test-data.json"; sourceTree = "<group>"; };
 		71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListRowView.swift; sourceTree = "<group>"; };
 		71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		71D5EC3C241EE13D0076BCA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -161,7 +157,6 @@
 		715E06CE241BDE8C00A4DA0F = {
 			isa = PBXGroup;
 			children = (
-				715E06D9241BDE8C00A4DA0F /* Zeitgeist */,
 				715E06EF241BDE9100A4DA0F /* ZeitgeistTests */,
 				715E06FA241BDE9100A4DA0F /* ZeitgeistUITests */,
 				716911CF24A7E2BE0023339D /* Shared */,
@@ -185,25 +180,6 @@
 				716911F124A7E2C00023339D /* Tests macOS.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		715E06D9241BDE8C00A4DA0F /* Zeitgeist */ = {
-			isa = PBXGroup;
-			children = (
-				71BF8A9A242A7ED5005C7E9E /* Mock Data */,
-				715E06E6241BDE9100A4DA0F /* Info.plist */,
-				715E06E7241BDE9100A4DA0F /* Zeitgeist.entitlements */,
-				715E06E0241BDE9100A4DA0F /* Preview Content */,
-			);
-			path = Zeitgeist;
-			sourceTree = "<group>";
-		};
-		715E06E0241BDE9100A4DA0F /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				715E06E1241BDE9100A4DA0F /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		715E06EF241BDE9100A4DA0F /* ZeitgeistTests */ = {
@@ -282,14 +258,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		71BF8A9A242A7ED5005C7E9E /* Mock Data */ = {
-			isa = PBXGroup;
-			children = (
-				71BF8A9B242A7EEF005C7E9E /* test-data.json */,
-			);
-			path = "Mock Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

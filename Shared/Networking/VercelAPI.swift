@@ -17,11 +17,6 @@ enum FetchState {
   case idle
 }
 
-struct VercelTeam: Decodable {
-  public var id: String
-  public var name: String
-}
-
 struct VercelTeamsAPIResponse: Decodable {
   public var teams: [VercelTeam] = [VercelTeam]()
 }
@@ -120,7 +115,6 @@ public class VercelFetcher: ObservableObject {
       do {
         let decodedData = try JSONDecoder().decode(VercelDeploymentsAPIResponse.self, from: data!)
         DispatchQueue.main.async {
-          print(request)
           self.deployments = decodedData.deployments
           self.fetchState = .finished
         }

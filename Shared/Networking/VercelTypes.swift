@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct VercelTeam: Decodable {
+  public var id: String
+  public var name: String
+}
+
 enum VercelDeploymentState: String, Codable {
   case ready = "READY"
   case queued = "QUEUED"

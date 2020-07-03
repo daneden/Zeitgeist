@@ -11,6 +11,7 @@ import SwiftUI
 struct HeaderView: View {
   @EnvironmentObject var fetcher: VercelFetcher
   @State var selectedTeam: String = ""
+  @State var settingsShown = false
   
   var body: some View {
     let chosenTeamId = Binding<String>(get: {
@@ -35,6 +36,21 @@ struct HeaderView: View {
           .pickerStyle(SegmentedPickerStyle())
           .accessibility(label: Text("Team:"))
           Spacer()
+        }
+      }
+      
+      Spacer()
+      
+      Button(action: { self.settingsShown.toggle() }) {
+        Label("Settings", systemImage: "gear").labelStyle(IconOnlyLabelStyle())
+      }
+      .buttonStyle(ZeitgeistButtonStyle())
+      .popover(isPresented: $settingsShown) {
+        VStack {
+          Text("It's alive!")
+          Button(action: {self.settingsShown.toggle()}) {
+            Text("Close")
+          }
         }
       }
     }.padding(.all, 8)
