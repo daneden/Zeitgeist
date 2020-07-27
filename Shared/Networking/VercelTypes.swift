@@ -13,6 +13,24 @@ struct VercelTeam: Decodable {
   public var name: String
 }
 
+struct VercelUser: Decodable, Identifiable {
+  public var id: String
+  public var name: String
+  public var email: String
+  public var avatar: String
+  
+  enum CodingKeys: String, CodingKey {
+    case id = "uid"
+    case email = "email"
+    case name = "name"
+    case avatar = "avatar"
+  }
+}
+
+struct VercelUserAPIResponse: Decodable {
+  public var user: VercelUser
+}
+
 enum VercelDeploymentState: String, Codable {
   case ready = "READY"
   case queued = "QUEUED"
@@ -22,7 +40,7 @@ enum VercelDeploymentState: String, Codable {
   case offline = "OFFLINE"
 }
 
-struct VercelUser: Decodable, Identifiable {
+struct VercelDeploymentUser: Decodable, Identifiable {
   public var id: String
   public var email: String
   public var username: String
@@ -77,7 +95,7 @@ struct VercelDeployment: Decodable, Identifiable, Hashable {
   public var url: String
   public var created: Int
   public var state: VercelDeploymentState
-  public var creator: VercelUser
+  public var creator: VercelDeploymentUser
   public var meta: VercelDeploymentMetadata
   
   public var timestamp: Date {

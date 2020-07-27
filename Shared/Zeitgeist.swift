@@ -28,7 +28,7 @@ struct Zeitgeist: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView().environmentObject(settings).environmentObject(vercelNetwork)
+      ContentView().environmentObject(settings).environmentObject(vercelNetwork).frame(maxWidth: .infinity, maxHeight: .infinity)
     }
   }
 }

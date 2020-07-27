@@ -7,83 +7,46 @@
 //
 
 import SwiftUI
+#if !os(macOS)
+import UIKit
+
+typealias TColor = UIColor
+#else
+import AppKit
+
+typealias TColor = NSColor
+#endif
 
 struct DeploymentsListRowView: View {
   var deployment: VercelDeployment
-  @State var isOpen: Bool = false
-  @State var isHovered: Bool = false
 
   var body: some View {
-    return VStack {
-      HStack(alignment: .top) {
-        VStack(alignment: .leading, spacing: 4) {
+    return VStack(alignment: .leading) {
+      HStack(alignment: .firstTextBaseline) {
+        DeploymentStateIndicator(state: deployment.state)
+        
+        VStack(alignment: .leading) {
           // MARK: Deployment cause/commit
           HStack {
-            Image(systemName: "chevron.right")
-              .rotationEffect(isOpen ? Angle(degrees: 90.0) : Angle(degrees: 0.0))
-              .imageScale(.small)
             if deployment.meta.githubCommitMessage != nil, let commitMessage = deployment.meta.githubCommitMessage! {
               Text("\(commitMessage.components(separatedBy: "\n")[0])")
             } else {
               Text("manualDeployment")
             }
-          }.font(.headline).lineLimit(1)
-
-          // MARK: Deployment name/URL
-          Link(destination: URL(string: "\(deployment.absoluteURL)")!) {
-            HStack {
-              Text("\(deployment.url)")
-              Image(systemName: "arrow.up.right.app")
-                .imageScale(.small)
-            }
-          }
+          }.font(.subheadline).lineLimit(2)
 
           HStack(spacing: 4) {
             Text("\(deployment.timestamp, style: .relative) ago")
-
             Text("•")
-
-            if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
-              Text(author).lineLimit(1)
-            } else {
-              Text(deployment.creator.username)
-            }
+            Text(deployment.name)
           }
+          .font(.caption)
           .foregroundColor(.secondary)
-
         }
-        Spacer()
-
-        DeploymentStateIndicator(state: deployment.state)
-      }.contentShape(Rectangle())
-      .onTapGesture {
-        self.isOpen.toggle()
-      }
-
-      // MARK: Details
-      if isOpen {
-        VStack(alignment: .leading, spacing: 8) {
-          Divider()
-          if deployment.meta.githubCommitUrl != nil {
-            VStack(alignment: .leading, spacing: 4) {
-              Button(action: self.openCommitUrl) {
-                Text("View Commit (\(deployment.meta.githubCommitShortSha!))")
-              }
-              Button(action: self.openInspector) {
-                Text("viewLogs")
-              }
-            }
-          } else {
-            Button(action: self.openInspector) {
-              Text("viewLogs")
-            }
-          }
-        }.buttonStyle(ZeitgeistButtonStyle())
       }
     }
-    .padding(.all, 8)
-    .background(Color.secondary.opacity(isOpen ? 0.1 : 0))
-    .cornerRadius(6.0)
+    .listRowInsets(.none)
+    .padding(.vertical, 4)
     .contextMenu {
       Button(action: self.openDeployment) {
         Text("openURL")
@@ -135,21 +98,63 @@ struct DeploymentsListRowView: View {
 
 struct DeploymentStateIndicator: View {
   var state: VercelDeploymentState
+  var verbose: Bool = false
+  
   var body: some View {
-    Group {
-      if state == .queued {
-        Image(systemName: "hourglass")
-          .foregroundColor(.secondary)
-      } else if state == .error {
-        Image(systemName: "exclamationmark.triangle.fill")
-          .foregroundColor(.orange)
-      } else if state == .building {
-        Image(systemName: "timer")
-          .foregroundColor(.secondary)
-      } else {
-        Image(systemName: "checkmark.circle.fill")
-          .foregroundColor(.green)
+    HStack(spacing: 4) {
+      iconForState(state)
+      if verbose {
+        Text(labelForState(state))
+          .padding(.trailing, 4)
       }
+    }
+    .padding(.vertical, 1)
+    .padding(.horizontal, verbose ? 2 : 1)
+    .font(.caption)
+    .foregroundColor(colorForState(state))
+    .background(colorForState(state).opacity(0.1))
+    .cornerRadius(16)
+    .padding(.bottom, 4)
+  }
+  
+  func iconForState(_ state: VercelDeploymentState) -> Image {
+    switch state {
+    case .error:
+      return Image(systemName: "exlamationmark.triangle.fill")
+    case .building:
+      return Image(systemName: "timer")
+    case .ready:
+      return Image(systemName: verbose ? "checkmark.circle.fill" : "checkmark.circle")
+    default:
+      return Image(systemName: "hourglass")
+    }
+  }
+  
+  func colorForState(_ state: VercelDeploymentState) -> Color {
+    switch state {
+    case .error:
+      return Color(TColor.systemOrange)
+    case .building:
+      return Color(TColor.systemPurple)
+    case .ready:
+      return Color(TColor.systemGreen)
+    default:
+      return Color(TColor.systemGray)
+    
+    }
+  }
+  
+  func labelForState(_ state: VercelDeploymentState) -> String {
+    switch state {
+    case .error:
+      return "Error building"
+    case .building:
+      return "Building"
+    case .ready:
+      return "Deployed"
+    default:
+      return "Ready"
+    
     }
   }
 }

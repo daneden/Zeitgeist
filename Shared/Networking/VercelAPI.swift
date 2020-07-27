@@ -24,12 +24,14 @@ struct VercelTeamsAPIResponse: Decodable {
 enum VercelRoute: String {
   case teams = "v1/teams"
   case deployments = "v6/now/deployments"
+  case user = "www/user"
 }
 
 public class VercelFetcher: ObservableObject {
   @Published var fetchState: FetchState = .idle
   @Published var teams = [VercelTeam]()
   @Published var deployments = [VercelDeployment]()
+  @Published var user: VercelUser?
   @ObservedObject var settings: UserDefaultsManager
   
   var teamId: String? {
@@ -50,6 +52,7 @@ public class VercelFetcher: ObservableObject {
   
   init(_ settings: UserDefaultsManager, withTimer: Bool) {
     self.settings = settings
+    self.loadUser()
     if withTimer {
       deploymentsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
         self.loadDeployments()
@@ -119,7 +122,32 @@ public class VercelFetcher: ObservableObject {
           self.fetchState = .finished
         }
       } catch {
-        print("Error loading deployments")
+        print("Error decoding deployments")
+        print(error.localizedDescription)
+        self.fetchState = .error
+      }
+    }.resume()
+    
+    self.objectWillChange.send()
+  }
+  
+  func loadUser() {
+    var request = URLRequest(url: urlForRoute(.user))
+    
+    request.allHTTPHeaderFields = getHeaders()
+    URLSession.shared.dataTask(with: request) { (data, _, error) in
+      if(data == nil) {
+        print("Error loading user")
+        return
+      }
+      
+      do {
+        let decodedData = try JSONDecoder().decode(VercelUserAPIResponse.self, from: data!)
+        DispatchQueue.main.async {
+          self.user = decodedData.user
+        }
+      } catch {
+        print("Error decoding user")
         print(error.localizedDescription)
         self.fetchState = .error
       }

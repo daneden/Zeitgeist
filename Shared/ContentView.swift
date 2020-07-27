@@ -17,56 +17,55 @@ struct ContentView: View {
   #else
   var padding = 0 as CGFloat
   #endif
-
+  
   var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      #if os(macOS)
-      UpdaterView()
-      #endif
+    Group {
       if self.settings.token == nil {
-        VStack {
+        Form {
           Spacer()
           VStack {
             Image("splashIcon")
             Text("Zeitgeist")
               .fontWeight(.bold)
-              .font(Font.system(.title, design: .rounded))
+              .font(.title)
           }.padding(.bottom, 24)
           
-          Form {
-            Section(header: Text("Vercel Access Token"),
-                    footer:
-                      VStack(alignment: .leading, spacing: 4) {
-                        Text("You'll need to create an access token on Vercel's website to use Zeitgeist.")
-                          .foregroundColor(.secondary)
-                        Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
-                          .foregroundColor(.accentColor)
-                      }.font(.footnote)
-            ) {
-              SecureField("Enter Access Token", text: $inputValue)
-
-              Button(action: { self.settings.token = self.inputValue }, label: {
-                Text("loginButton")
-              })
-                .disabled(inputValue.isEmpty)
-            }
+          Section(header: Text("Vercel Access Token"),
+                  footer:
+                    VStack(alignment: .leading, spacing: 4) {
+                      Text("You'll need to create an access token on Vercel's website to use Zeitgeist.")
+                        .foregroundColor(.secondary)
+                      Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
+                        .foregroundColor(.accentColor)
+                    }.font(.footnote)
+          ) {
+            SecureField("Enter Access Token", text: $inputValue)
             
+            Button(action: { self.settings.token = self.inputValue }, label: {
+              Text("loginButton")
+            })
+            .disabled(inputValue.isEmpty)
           }
-          
-          Spacer()
-          Spacer()
         }
         .padding(.all, padding)
       } else if let fetcher = VercelFetcher(settings, withTimer: true) {
-        HeaderView()
-          .environmentObject(fetcher)
-        DeploymentsListView()
-          .environmentObject(fetcher)
-        FooterView()
-        
+        NavigationView {
+          DeploymentsListView()
+            .frame(idealWidth: 250, maxWidth: .infinity)
+            .environmentObject(fetcher)
+            .navigationTitle(Text("Deployments"))
+            .toolbar {
+              ToolbarItem {
+                NavigationLink(destination: SettingsView()) {
+                  Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+                }
+              }
+            }
+          
+          EmptyDeploymentView()
+        }.frame(idealWidth: .infinity, maxWidth: .infinity, idealHeight: .infinity, maxHeight: .infinity)
       }
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
 }
 

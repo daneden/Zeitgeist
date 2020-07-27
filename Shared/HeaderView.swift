@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct HeaderView: View {
+  @EnvironmentObject var settings: UserDefaultsManager
   @EnvironmentObject var fetcher: VercelFetcher
   @State var selectedTeam: String = ""
   @State var settingsShown = false
@@ -17,14 +18,15 @@ struct HeaderView: View {
     let chosenTeamId = Binding<String>(get: {
       self.selectedTeam
     }, set: {
-      self.selectedTeam = $0
-      self.updateSelectedTeam()
+      if self.selectedTeam != $0 {
+        self.selectedTeam = $0
+        self.updateSelectedTeam()
+      }
     })
     
     return HStack {
       if !fetcher.teams.isEmpty {
         HStack {
-          Spacer()
           Picker(selection: chosenTeamId, label: Text("")) {
             Text("Personal").tag("")
             ForEach(self.fetcher.teams, id: \.id) {
@@ -32,7 +34,7 @@ struct HeaderView: View {
             }
           }
           .id(self.fetcher.teams.count)
-          .fixedSize()
+          
           .pickerStyle(SegmentedPickerStyle())
           .accessibility(label: Text("Team:"))
           Spacer()
@@ -42,18 +44,11 @@ struct HeaderView: View {
       Spacer()
       
       Button(action: { self.settingsShown.toggle() }) {
-        Label("Settings", systemImage: "gear").labelStyle(IconOnlyLabelStyle())
+        Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+          .font(.title2)
       }
       .buttonStyle(ZeitgeistButtonStyle())
-      .popover(isPresented: $settingsShown) {
-        VStack {
-          Text("It's alive!")
-          Button(action: {self.settingsShown.toggle()}) {
-            Text("Close")
-          }
-        }
-      }
-    }.padding(.all, 8)
+    }.padding()
   }
   
   func updateSelectedTeam() {

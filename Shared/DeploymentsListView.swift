@@ -9,39 +9,39 @@
 import Foundation
 import SwiftUI
 
+#if os(macOS)
+typealias ZGDeploymentsListStyle = SidebarListStyle
+#else
+typealias ZGDeploymentsListStyle = GroupedListStyle
+#endif
+
 struct DeploymentsListView: View {
   @EnvironmentObject var settings: UserDefaultsManager
   @EnvironmentObject var vercelFetcher: VercelFetcher
-
+  
   var body: some View {
-    return VStack {
-      if vercelFetcher.fetchState == .loading {
-        Spacer()
-        ProgressView("Loading...")
-        Spacer()
+    return Group {
+      if vercelFetcher.deployments.isEmpty {
+        VStack(spacing: 0) {
+          Spacer()
+          Text("emptyState")
+            .foregroundColor(.secondary)
+          Spacer()
+        }
       } else {
-        if vercelFetcher.deployments.isEmpty {
-            VStack(spacing: 0) {
-              Spacer()
-              Text("emptyState")
-                .foregroundColor(.secondary)
-              Spacer()
-            }
-          } else {
-            List {
-              ForEach(vercelFetcher.deployments, id: \.self) { deployment in
-                DeploymentsListRowView(deployment: deployment)
-              }
-            }.listStyle(PlainListStyle()).listRowInsets(.none)
+        List(vercelFetcher.deployments, id: \.self) { deployment in
+          NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
+            DeploymentsListRowView(deployment: deployment)
           }
+        }.listStyle(ZGDeploymentsListStyle())
       }
+      
     }
-      .id(!vercelFetcher.deployments.isEmpty ? vercelFetcher.deployments[0].hashValue : 1)
-      .onAppear {
-        vercelFetcher.loadDeployments()
-        vercelFetcher.loadTeams()
-      }
-      .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity)
+    .id(!vercelFetcher.deployments.isEmpty ? vercelFetcher.deployments[0].hashValue : 1)
+    .onAppear {
+      vercelFetcher.loadDeployments()
+      vercelFetcher.loadTeams()
+    }
   }
 }
 
