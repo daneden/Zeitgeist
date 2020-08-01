@@ -44,6 +44,7 @@ struct Overview: View {
 
 struct URLDetails: View {
   var deployment: VercelDeployment
+  @State private var copied: Bool = false
   
   var body: some View {
     return Group {
@@ -132,22 +133,5 @@ struct DeploymentDetailView: View {
     }
     .padding(.all, CGFloat(padding))
     .navigationTitle(Text("Deployment Details"))
-  }
-}
-
-struct EmptyDeploymentView: View {
-  var body: some View {
-    return HStack {
-      Spacer()
-      VStack {
-        Spacer()
-        Image(systemName: "triangle.circle.fill")
-          .imageScale(.large)
-          .font(.largeTitle)
-        Text("Select a deployment for details")
-        Spacer()
-      }
-      Spacer()
-    }.foregroundColor(.secondary)
   }
 }

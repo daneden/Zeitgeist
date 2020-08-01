@@ -12,7 +12,7 @@ import SwiftUI
 #if os(macOS)
 typealias ZGDeploymentsListStyle = SidebarListStyle
 #else
-typealias ZGDeploymentsListStyle = GroupedListStyle
+typealias ZGDeploymentsListStyle = DefaultListStyle
 #endif
 
 struct DeploymentsListView: View {
@@ -33,11 +33,10 @@ struct DeploymentsListView: View {
           NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
             DeploymentsListRowView(deployment: deployment)
           }
-        }.listStyle(ZGDeploymentsListStyle())
+        }
+        .listStyle(ZGDeploymentsListStyle())
       }
-      
     }
-    .id(!vercelFetcher.deployments.isEmpty ? vercelFetcher.deployments[0].hashValue : 1)
     .onAppear {
       vercelFetcher.loadDeployments()
       vercelFetcher.loadTeams()

@@ -10,6 +10,36 @@ import Foundation
 import Combine
 import SwiftUI
 
+func saveDeploymentsToDisk(deployments: [VercelDeployment]) {
+  let widgetContents = deployments.map { deployment in
+    deploymentToWidget(deployment)
+  }
+  
+  let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents.json")
+  print(">>> \(archiveURL)")
+  let fileManager = FileManager()
+  
+  if fileManager.fileExists(atPath: "\(archiveURL)"){
+    do {
+      try fileManager.removeItem(atPath: "\(archiveURL)")
+    } catch let error {
+        print("error occurred, here are the details:\n \(error)")
+    }
+  }
+  
+  let encoder = JSONEncoder()
+  if let dataToSave = try? encoder.encode(widgetContents) {
+    do {
+      try dataToSave.write(to: archiveURL)
+    } catch {
+      print("Error: Failed to write contents")
+      return
+    }
+  }
+}
+
+var APP_VERSION: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+
 enum FetchState {
   case loading
   case finished
@@ -30,7 +60,11 @@ enum VercelRoute: String {
 public class VercelFetcher: ObservableObject {
   @Published var fetchState: FetchState = .idle
   @Published var teams = [VercelTeam]()
-  @Published var deployments = [VercelDeployment]()
+  @Published var deployments = [VercelDeployment]() {
+    didSet {
+      saveDeploymentsToDisk(deployments: deployments)
+    }
+  }
   @Published var user: VercelUser?
   @ObservedObject var settings: UserDefaultsManager
   
@@ -102,8 +136,10 @@ public class VercelFetcher: ObservableObject {
     fetchState = deployments.isEmpty ? .loading : .idle
     var request: URLRequest
     
-    if self.teamId != nil {
-      request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(self.teamId!)"))
+    let team = getTeamId()
+    
+    if team != nil {
+      request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(team!)"))
     } else {
       request = URLRequest(url: urlForRoute(.deployments))
     }
@@ -154,6 +190,10 @@ public class VercelFetcher: ObservableObject {
     }.resume()
     
     self.objectWillChange.send()
+  }
+  
+  func getTeamId() -> String? {
+    return self.settings.currentTeam
   }
   
   public func getHeaders() -> [String: String] {

@@ -1,17 +1,50 @@
 {
   "images" : [
     {
-      "filename" : "zeitgeist-mac-app-128.png",
+      "filename" : "splashIcon-light.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "zeitgeist-mac-app-128@2x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "splashIcon.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "splashIcon-light@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "zeitgeist-mac-app-128@3x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "splashIcon@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "splashIcon-light@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "splashIcon@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

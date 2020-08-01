@@ -14,8 +14,6 @@ typealias ZeitgeistButtonStyle = LinkButtonStyle
 typealias ZeitgeistButtonStyle = DefaultButtonStyle
 #endif
 
-var APP_VERSION: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
-
 @main
 struct Zeitgeist: App {
   var settings: UserDefaultsManager
@@ -28,7 +26,33 @@ struct Zeitgeist: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView().environmentObject(settings).environmentObject(vercelNetwork).frame(maxWidth: .infinity, maxHeight: .infinity)
+      ContentView()
+        .environmentObject(settings)
+        .environmentObject(vercelNetwork)
+        .frame(idealWidth: 680, maxWidth: .infinity, idealHeight: 460, maxHeight: .infinity)
+        .onAppear(perform: self.loadFetcherItems)
+    }
+    
+    #if os(macOS)
+    Settings {
+      SettingsView()
+        .frame(width: 400)
+        .padding()
+        .environmentObject(settings)
+        .environmentObject(vercelNetwork)
+        .onAppear(perform: self.loadFetcherItems)
+        .onReceive(self.settings.objectWillChange) {
+          self.loadFetcherItems()
+        }
+    }
+    #endif
+  }
+  
+  func loadFetcherItems() {
+    if vercelNetwork.settings.token != nil {
+      vercelNetwork.loadUser()
+      vercelNetwork.loadTeams()
+      vercelNetwork.loadDeployments()
     }
   }
 }
