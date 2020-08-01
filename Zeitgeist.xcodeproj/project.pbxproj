@@ -81,8 +81,6 @@
 		71DC1ADD24D607D30095EF43 /* DeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1A9F24D5CD760095EF43 /* DeploymentsWidget.swift */; };
 		71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
 		71F7D9B224CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
-		71F7D9B424CDE1B300F93B88 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B324CDE1B300F93B88 /* WebView.swift */; };
-		71F7D9B724CDE29800F93B88 /* EmbeddedWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B624CDE29800F93B88 /* EmbeddedWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -191,8 +189,6 @@
 		71DC1ACA24D5E1D00095EF43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71DC1ACB24D5E1D00095EF43 /* macOSDeploymentsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOSDeploymentsWidget.entitlements; sourceTree = "<group>"; };
 		71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
-		71F7D9B324CDE1B300F93B88 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
-		71F7D9B624CDE29800F93B88 /* EmbeddedWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -338,13 +334,11 @@
 				71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */,
 				71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */,
 				71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */,
-				71F7D9B624CDE29800F93B88 /* EmbeddedWebView.swift */,
 				71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */,
 				71D5EC3D241EE13D0076BCA3 /* Localizable.strings */,
 				71C6790524D5B14B0058F334 /* LoginView.swift */,
 				71103CA0247EEE920043D11B /* SettingsView.swift */,
 				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
-				71F7D9B324CDE1B300F93B88 /* WebView.swift */,
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 				71DC1ABA24D5D2EE0095EF43 /* ContentStore.swift */,
 			);
@@ -740,7 +734,6 @@
 			files = (
 				7169121A24A7E36F0023339D /* GitHubRelease.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
-				71F7D9B724CDE29800F93B88 /* EmbeddedWebView.swift in Sources */,
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				71DC1AB024D5CED90095EF43 /* WidgetContent.swift in Sources */,
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
@@ -752,7 +745,6 @@
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
 				7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */,
 				71DC1ABB24D5D2EE0095EF43 /* ContentStore.swift in Sources */,
-				71F7D9B424CDE1B300F93B88 /* WebView.swift in Sources */,
 				71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */,
 				7169120C24A7E31B0023339D /* ContentView.swift in Sources */,
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
