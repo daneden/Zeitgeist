@@ -47,4 +47,11 @@ class UserDefaultsManager: ObservableObject {
       self.objectWillChange.send()
     }
   }
+  
+  @Published var isSubscribed: Bool? = UserDefaults.standard.bool(forKey: "IsSubscribed") {
+    didSet {
+      UserDefaults.standard.set(self.isSubscribed, forKey: "IsSubscribed")
+      self.objectWillChange.send()
+    }
+  }
 }

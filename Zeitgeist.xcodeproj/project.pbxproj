@@ -17,6 +17,10 @@
 		7163C60224D6E3F5000DAE1A /* Zeitgeist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CD24A7A9BF0023339D /* Zeitgeist.swift */; };
 		7163C60724D6EF58000DAE1A /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 7163C60624D6EF58000DAE1A /* Preferences */; };
 		7163C60C24D6F04A000DAE1A /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C60B24D6F04A000DAE1A /* Preferences.swift */; };
+		7163C60E24D70B63000DAE1A /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C60D24D70B63000DAE1A /* TipJarView.swift */; };
+		7163C61124D711FE000DAE1A /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 7163C61024D711FE000DAE1A /* Purchases */; };
+		7163C61324D71213000DAE1A /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C61224D71213000DAE1A /* PurchaseManager.swift */; };
+		7163C61524D7159D000DAE1A /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C61424D7159D000DAE1A /* PurchaseView.swift */; };
 		716911EB24A7E2C00023339D /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911EA24A7E2C00023339D /* Tests_iOS.swift */; };
 		716911F624A7E2C00023339D /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911F524A7E2C00023339D /* Tests_macOS.swift */; };
 		716911FC24A7E2C00023339D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
@@ -160,6 +164,9 @@
 		7163C5F524D6C987000DAE1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		7163C60B24D6F04A000DAE1A /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		7163C60D24D70B63000DAE1A /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
+		7163C61224D71213000DAE1A /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
+		7163C61424D7159D000DAE1A /* PurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
 		716911CB24A7A8230023339D /* VercelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAPI.swift; sourceTree = "<group>"; };
 		716911CD24A7A9BF0023339D /* Zeitgeist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zeitgeist.swift; sourceTree = "<group>"; };
 		716911D224A7E2C00023339D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -207,6 +214,7 @@
 				7169123424A7E71C0023339D /* Version in Frameworks */,
 				7169123224A7E7190023339D /* KeychainAccess in Frameworks */,
 				7169123024A7E7160023339D /* Reachability in Frameworks */,
+				7163C61124D711FE000DAE1A /* Purchases in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +361,9 @@
 			children = (
 				71DC1AB824D5D2070095EF43 /* Zeitgeist.entitlements */,
 				716911D924A7E2C00023339D /* Info.plist */,
+				7163C60D24D70B63000DAE1A /* TipJarView.swift */,
+				7163C61224D71213000DAE1A /* PurchaseManager.swift */,
+				7163C61424D7159D000DAE1A /* PurchaseView.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -440,6 +451,7 @@
 				7169122F24A7E7160023339D /* Reachability */,
 				7169123124A7E7190023339D /* KeychainAccess */,
 				7169123324A7E71C0023339D /* Version */,
+				7163C61024D711FE000DAE1A /* Purchases */,
 			);
 			productName = iOS;
 			productReference = 716911D724A7E2C00023339D /* Zeitgeist.app */;
@@ -591,6 +603,7 @@
 				7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				7169122924A7E6120023339D /* XCRemoteSwiftPackageReference "Version" */,
 				7163C60524D6EF58000DAE1A /* XCRemoteSwiftPackageReference "Preferences" */,
+				7163C60F24D711FE000DAE1A /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 715E06D8241BDE8C00A4DA0F /* Products */;
 			projectDirPath = "";
@@ -662,8 +675,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7163C61524D7159D000DAE1A /* PurchaseView.swift in Sources */,
 				7169121A24A7E36F0023339D /* GitHubRelease.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
+				7163C60E24D70B63000DAE1A /* TipJarView.swift in Sources */,
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				71DC1AB024D5CED90095EF43 /* WidgetContent.swift in Sources */,
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
@@ -675,6 +690,7 @@
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
 				7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */,
 				7163C5F324D6C89F000DAE1A /* VercelDeploymentMock.swift in Sources */,
+				7163C61324D71213000DAE1A /* PurchaseManager.swift in Sources */,
 				7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */,
 				71DC1ABB24D5D2EE0095EF43 /* ContentStore.swift in Sources */,
 				71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */,
@@ -1286,6 +1302,14 @@
 				minimumVersion = 2.0.1;
 			};
 		};
+		7163C60F24D711FE000DAE1A /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.5.2;
+			};
+		};
 		7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
@@ -1317,6 +1341,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7163C60524D6EF58000DAE1A /* XCRemoteSwiftPackageReference "Preferences" */;
 			productName = Preferences;
+		};
+		7163C61024D711FE000DAE1A /* Purchases */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7163C60F24D711FE000DAE1A /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = Purchases;
 		};
 		7169122724A7E5D70023339D /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;

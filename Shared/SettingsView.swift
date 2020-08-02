@@ -14,6 +14,10 @@ struct SettingsView: View {
   @State var selectedTeam: String? = nil
   @State var presented = true
   
+  #if os(iOS)
+  let purchaseManager = PurchaseManager()
+  #endif
+  
   var body: some View {
     let chosenTeamId = Binding<String>(get: {
       self.selectedTeam ?? self.settings.currentTeam ?? self.fetcher.teamId ?? ""
@@ -65,6 +69,38 @@ struct SettingsView: View {
               Text("logoutButton")
           }.foregroundColor(Color(TColor.systemRed))
         }
+        
+        #if os(iOS)
+        /*
+        PurchaseView(source: .settings).environmentObject(purchaseManager)
+        
+        Section(
+          header: Text("Tip The Developer"),
+          footer: Text("Currently, tipping doesn’t unlock any special features; that might change, though! Keep your feedback coming.")
+        ) {
+          Text("Zeitgeist is developed by Daniel Eden. If you like the app, consider showing your support with a one-off or recurring tip.")
+            .padding(.vertical, 4)
+          
+          Button(action: {}) {
+            HStack {
+              Text("One-off Tip")
+              Spacer()
+              Image(systemName: "gift.fill")
+                .foregroundColor(.secondary)
+            }
+          }
+          
+          Button(action: {}) {
+            HStack {
+              Text("Recurring Tip")
+              Spacer()
+              Image(systemName: "heart.fill")
+                .foregroundColor(Color(TColor.systemPink))
+            }
+          }
+        }
+         */
+        #endif
       }
       
     }

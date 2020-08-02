@@ -34,7 +34,7 @@ struct ContentView: View {
               .toolbar {
                 #if os(iOS)
                 ToolbarItem {
-                  NavigationLink(destination: SettingsView()) {
+                  NavigationLink(destination: SettingsView().environmentObject(fetcher)) {
                     Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
                   }
                 }
