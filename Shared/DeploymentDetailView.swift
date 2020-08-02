@@ -135,3 +135,9 @@ struct DeploymentDetailView: View {
     .navigationTitle(Text("Deployment Details"))
   }
 }
+
+struct DeploymentDetailView_Previews: PreviewProvider {
+  static var previews: some View {
+    DeploymentDetailView(deployment: mockDeployment)
+  }
+}

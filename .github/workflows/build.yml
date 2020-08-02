@@ -9,7 +9,13 @@ jobs:
       - uses: actions/checkout@v1
       - name: Make sure Xcode is installed
         run: ls /Applications | grep Xcode
-      - name: Select Xcode 11.3
-        run: sudo xcode-select --switch /Applications/Xcode_11.3.app
-      - name: Build using xcodebuild
-        run: xcodebuild -scheme Zeitgeist -sdk macosx10.15 clean build CODE_SIGNING_ALLOWED=NO
+      - name: Select Xcode 12
+        run: sudo xcode-select --switch /Applications/Xcode_12.app
+      - name: Build for macOS using xcodebuild
+        run:
+          xcodebuild -scheme macOS -sdk macosx11.0 clean build
+          CODE_SIGNING_ALLOWED=NO
+      - name: Build for iOS using xcodebuild
+        run:
+          xcodebuild -scheme iOS -sdk iphoneos14.0 clean build
+          CODE_SIGNING_ALLOWED=NO

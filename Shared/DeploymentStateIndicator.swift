@@ -11,14 +11,23 @@ import SwiftUI
 #if !os(macOS)
 import UIKit
 typealias TColor = UIColor
+
 #else
 import AppKit
 typealias TColor = NSColor
+
+
 #endif
 
 struct DeploymentStateIndicator: View {
   var state: VercelDeploymentState
   var verbose: Bool = false
+  
+  #if os(macOS)
+  let badgeBackground = VisualEffectView(effect: .windowBackground)
+  #else
+  let badgeBackground = VisualEffectView(effect: UIBlurEffect(style: .systemThickMaterial))
+  #endif
   
   var body: some View {
     HStack(spacing: 4) {
@@ -33,6 +42,7 @@ struct DeploymentStateIndicator: View {
     .font(Font.caption.bold())
     .foregroundColor(colorForState(state))
     .background(verbose ? colorForState(state).opacity(0.1) : nil)
+    .background(badgeBackground.opacity(verbose ? 1.0 : 0))
     .cornerRadius(verbose ? 8 : 0)
     .padding(.bottom, 4)
   }

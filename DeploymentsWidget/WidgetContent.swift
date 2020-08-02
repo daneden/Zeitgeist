@@ -34,7 +34,7 @@ func readContents() -> [WidgetContent] {
   let archiveURL =
     FileManager.sharedContainerURL()
       .appendingPathComponent("contents.json")
-  print(">>> \(archiveURL)")
+  // print(">>> \(archiveURL)")
 
   let decoder = JSONDecoder()
   if let codeData = try? Data(contentsOf: archiveURL) {

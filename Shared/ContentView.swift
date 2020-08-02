@@ -8,9 +8,16 @@
 
 import SwiftUI
 import Combine
+#if os(macOS)
+import Preferences
+#endif
+
 
 struct ContentView: View {
   @EnvironmentObject var settings: UserDefaultsManager
+  #if os(macOS)
+  var prefsViewController: PreferencesWindowController
+  #endif
   @State var inputValue = ""
   
   var body: some View {
@@ -18,35 +25,54 @@ struct ContentView: View {
       if self.settings.token == nil {
         LoginView()
       } else if let fetcher = VercelFetcher(settings, withTimer: true) {
-        NavigationView {
-          DeploymentsListView()
-            .environmentObject(fetcher)
-            .navigationTitle(Text("Deployments"))
-            .frame(minWidth: 200, idealWidth: 300)
-            .toolbar {
-              #if os(iOS)
-              ToolbarItem {
-                NavigationLink(destination: SettingsView()) {
-                  Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+        VStack(spacing: 0) {
+          NavigationView {
+            DeploymentsListView()
+              .environmentObject(fetcher)
+              .navigationTitle(Text("Deployments"))
+              .frame(minWidth: 200, idealWidth: 300)
+              .toolbar {
+                #if os(iOS)
+                ToolbarItem {
+                  NavigationLink(destination: SettingsView()) {
+                    Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+                  }
                 }
+                #endif
               }
-              #else
-              ToolbarItem {
-                EmptyView()
-              }
-              #endif
-            }
+            
+            EmptyDeploymentView()
+          }
+          .frame(idealWidth: .infinity, maxWidth: .infinity, idealHeight: .infinity, maxHeight: .infinity)
           
-          EmptyDeploymentView()
+          #if os(macOS)
+          Divider()
+          
+          HStack {
+            Spacer()
+            Button(action: {
+              prefsViewController.show()
+            }) {
+              Label("Settings", systemImage: "slider.horizontal.3")
+            }
+
+            Button(action: {
+              self.quitApplication()
+            }) {
+              Label("Quit", systemImage: "escape")
+            }
+          }.padding(.horizontal).padding(.vertical, 8)
+          #endif
         }
-        .frame(idealWidth: .infinity, maxWidth: .infinity, idealHeight: .infinity, maxHeight: .infinity)
       }
     }
   }
-}
-
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
+  
+  #if os(macOS)
+  func quitApplication() {
+    DispatchQueue.main.async {
+      NSApp.terminate(nil)
+    }
   }
+  #endif
 }

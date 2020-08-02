@@ -16,7 +16,7 @@ func saveDeploymentsToDisk(deployments: [VercelDeployment]) {
   }
   
   let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents.json")
-  print(">>> \(archiveURL)")
+  // print(">>> \(archiveURL)")
   let fileManager = FileManager()
   
   if fileManager.fileExists(atPath: "\(archiveURL)"){

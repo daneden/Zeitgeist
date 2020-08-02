@@ -7,6 +7,9 @@
 //
 
 import SwiftUI
+#if os(macOS)
+import LaunchAtLogin
+#endif
 
 struct SettingsView: View {
   @EnvironmentObject var settings: UserDefaultsManager
