@@ -10,31 +10,37 @@ import WidgetKit
 import SwiftUI
 
 let snapshotEntry = WidgetContent(
-  title: "Test deployment",
-  author: "blah",
-  project: "This is a plain text description lol",
-  status: VercelDeploymentState.building
+  title: "Example Deployment",
+  author: "Johnny Appleseed",
+  project: "example-project",
+  status: .building
 )
 
 struct Provider: TimelineProvider {
   public typealias Entry = WidgetContent
   
-  public func snapshot(with context: Context, completion: @escaping (WidgetContent) -> ()) {
-    let entry = snapshotEntry
+  public func getSnapshot(in context: Context, completion: @escaping (WidgetContent) -> Void) {
+    var entry: WidgetContent
+    let storedEntries = readContents()
+    
+    if(context.isPreview || storedEntries.isEmpty) {
+      entry = snapshotEntry
+    } else {
+      entry = storedEntries[0]
+    }
+    
     completion(entry)
   }
   
-  public func timeline(with context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+  public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetContent>) -> Void) {
     let entries = readContents()
     
     let timeline = Timeline(entries: entries, policy: .atEnd)
     completion(timeline)
   }
-}
-
-struct PlaceholderView : View {
-  var body: some View {
-    DeploymentView(model: snapshotEntry).redacted(reason: .placeholder)
+  
+  public func placeholder(in context: Context) -> WidgetContent {
+    return snapshotEntry
   }
 }
 
@@ -43,7 +49,7 @@ struct DeploymentsWidget: Widget {
   private let kind: String = "DeploymentsWidget"
   
   public var body: some WidgetConfiguration {
-    StaticConfiguration(kind: kind, provider: Provider(), placeholder: PlaceholderView()) { entry in
+    StaticConfiguration(kind: kind, provider: Provider()) { entry in
       DeploymentView(model: entry)
     }
     .supportedFamilies([.systemSmall])

@@ -22,6 +22,7 @@ typealias TColor = NSColor
 struct DeploymentStateIndicator: View {
   var state: VercelDeploymentState
   var verbose: Bool = false
+  var isWidget: Bool = false
   
   #if os(macOS)
   let badgeBackground = VisualEffectView(effect: .windowBackground)
@@ -42,15 +43,15 @@ struct DeploymentStateIndicator: View {
     .font(Font.caption.bold())
     .foregroundColor(colorForState(state))
     .background(verbose ? colorForState(state).opacity(0.1) : nil)
-    .background(badgeBackground.opacity(verbose ? 1.0 : 0))
+    .background(badgeBackground.opacity(verbose && !isWidget ? 1.0 : 0))
     .cornerRadius(verbose ? 8 : 0)
-    .padding(.bottom, 4)
+    .padding(.bottom, isWidget ? -4 : 4)
   }
   
   func iconForState(_ state: VercelDeploymentState) -> Image {
     switch state {
     case .error:
-      return Image(systemName: "exclamationmark.triangle.fill")
+      return Image(systemName: verbose ? "exclamationmark.circle.fill" : "exclamationmark.triangle.fill")
     case .building:
       return Image(systemName: "timer")
     case .ready:
@@ -63,7 +64,7 @@ struct DeploymentStateIndicator: View {
   func colorForState(_ state: VercelDeploymentState) -> Color {
     switch state {
     case .error:
-      return Color(TColor.systemOrange)
+      return Color(TColor.systemRed)
     case .building:
       return Color(TColor.systemPurple)
     case .ready:

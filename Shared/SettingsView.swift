@@ -15,7 +15,7 @@ struct SettingsView: View {
   @State var presented = true
   
   #if os(iOS)
-  let purchaseManager = PurchaseManager()
+//  let purchaseManager = PurchaseManager()
   #endif
   
   var body: some View {
@@ -99,7 +99,7 @@ struct SettingsView: View {
             }
           }
         }
-         */
+        */
         #endif
       }
       

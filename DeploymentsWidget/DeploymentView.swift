@@ -22,9 +22,9 @@ struct DeploymentView: View {
 
       Spacer()
       
-      DeploymentStateIndicator(state: model.status, verbose: true)
+      DeploymentStateIndicator(state: model.status, verbose: true, isWidget: true)
       Text(model.title)
-        .font(Font.body.bold())
+        .font(Font.caption.bold())
         .lineLimit(3)
         .foregroundColor(.primary)
           

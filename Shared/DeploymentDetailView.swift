@@ -23,19 +23,18 @@ struct Overview: View {
         Text(firstLine)
           .font(.headline)
         
-        HStack(spacing: 4) {
+        VStack(alignment: .leading, spacing: 2) {
           Text("\(deployment.timestamp, style: .relative) ago")
           
-          Text("•")
-          
-          if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
-            Text(author).lineLimit(1)
-          } else {
-            Text(deployment.creator.username)
-          }
+          Group {
+            if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
+              Text(author).lineLimit(1)
+            } else {
+              Text(deployment.creator.username)
+            }
+          }.foregroundColor(.secondary)
         }
         .font(.caption)
-        .foregroundColor(.secondary)
       }.padding(.vertical, 8)
     }
     }

@@ -31,15 +31,13 @@ struct ContentView: View {
               .environmentObject(fetcher)
               .navigationTitle(Text("Deployments"))
               .frame(minWidth: 200, idealWidth: 300)
-              .toolbar {
+              .navigationBarItems(trailing: Group {
                 #if os(iOS)
-                ToolbarItem {
-                  NavigationLink(destination: SettingsView().environmentObject(fetcher)) {
-                    Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
-                  }
+                NavigationLink(destination: SettingsView().environmentObject(fetcher)) {
+                  Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
                 }
                 #endif
-              }
+              })
             
             EmptyDeploymentView()
           }

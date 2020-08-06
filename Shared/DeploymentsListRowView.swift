@@ -26,13 +26,12 @@ struct DeploymentsListRowView: View {
             }
           }.font(.subheadline).lineLimit(2)
 
-          HStack(spacing: 4) {
+          VStack(alignment: .leading, spacing: 2) {
             Text("\(deployment.timestamp, style: .relative) ago")
-            Text("•")
             Text(deployment.name)
+              .foregroundColor(.secondary)
           }
           .font(.caption)
-          .foregroundColor(.secondary)
         }
       }
     }
