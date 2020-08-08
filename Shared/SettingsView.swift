@@ -37,9 +37,12 @@ struct SettingsView: View {
           if let user: VercelUser = fetcher.user {
             HStack {
               Text(user.name)
+                .lineLimit(2)
               Spacer()
               Text(user.email)
                 .foregroundColor(.secondary)
+                .fixedSize()
+                .lineLimit(1)
             }.padding(.vertical, 4)
           }
         }
