@@ -26,8 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     print("Launched application")
     
-    let settings = UserDefaultsManager()
-    let fetcher = VercelFetcher(settings)
+    let settings = UserDefaultsManager.shared
+    let fetcher = VercelFetcher.shared
     let view = ContentView(prefsViewController: preferencesWindowController).environmentObject(settings).environmentObject(fetcher)
     
     let popover = NSPopover()

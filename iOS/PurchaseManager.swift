@@ -12,7 +12,7 @@ import Purchases
 
 public class PurchaseManager: ObservableObject {
   public static let shared = PurchaseManager()
-  let userDefaults = UserDefaultsManager()
+  let userDefaults = UserDefaultsManager.shared
   
   public enum SubscriptionStatus {
     case subscribed, notSubscribed
@@ -21,7 +21,7 @@ public class PurchaseManager: ObservableObject {
   @Published public var tipPurchase: Purchases.Package?
   @Published public var supporterSubscription: Purchases.Package?
   @Published public var inPaymentProgress = false
-  @Published public var subscriptionStatus: SubscriptionStatus = UserDefaultsManager().isSubscribed ?? false ? .subscribed : .notSubscribed
+  @Published public var subscriptionStatus: SubscriptionStatus = UserDefaultsManager.shared.isSubscribed ?? false ? .subscribed : .notSubscribed
     
   init() {
     Purchases.configure(withAPIKey: "BtsJTlCfcJkRXMbWTTraNErvIsCcLkLb")

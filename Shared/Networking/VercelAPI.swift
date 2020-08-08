@@ -10,34 +10,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-func saveDeploymentsToDisk(deployments: [VercelDeployment]) {
-  let widgetContents = deployments.map { deployment in
-    deploymentToWidget(deployment)
-  }
-  
-  let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents.json")
-  // print(">>> \(archiveURL)")
-  let fileManager = FileManager()
-  
-  if fileManager.fileExists(atPath: "\(archiveURL)"){
-    do {
-      try fileManager.removeItem(atPath: "\(archiveURL)")
-    } catch let error {
-        print("error occurred, here are the details:\n \(error)")
-    }
-  }
-  
-  let encoder = JSONEncoder()
-  if let dataToSave = try? encoder.encode(widgetContents) {
-    do {
-      try dataToSave.write(to: archiveURL)
-    } catch {
-      print("Error: Failed to write contents")
-      return
-    }
-  }
-}
-
 var APP_VERSION: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
 
 enum FetchState {
@@ -58,6 +30,8 @@ enum VercelRoute: String {
 }
 
 public class VercelFetcher: ObservableObject {
+  static let shared = VercelFetcher(UserDefaultsManager.shared)
+  
   @Published var fetchState: FetchState = .idle
   @Published var teams = [VercelTeam]()
   @Published var deployments = [VercelDeployment]() {

@@ -28,8 +28,8 @@ struct PrefPane: View {
   var vercelNetwork: VercelFetcher
   
   init() {
-    settings = UserDefaultsManager()
-    vercelNetwork = VercelFetcher(settings)
+    settings = UserDefaultsManager.shared
+    vercelNetwork = VercelFetcher.shared
   }
   
   var body: some View {

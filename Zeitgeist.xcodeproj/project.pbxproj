@@ -89,6 +89,7 @@
 		71DC1ADA24D606F60095EF43 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1ABA24D5D2EE0095EF43 /* ContentStore.swift */; };
 		71DC1ADC24D607100095EF43 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71DC1ADB24D607100095EF43 /* KeychainAccess */; };
 		71DC1ADD24D607D30095EF43 /* DeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1A9F24D5CD760095EF43 /* DeploymentsWidget.swift */; };
+		71F6571D24DEDD6600C08D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6571C24DEDD6600C08D01 /* AppDelegate.swift */; };
 		71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
 		71F7D9B224CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -203,6 +204,7 @@
 		71DC1AC824D5E1D00095EF43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71DC1ACA24D5E1D00095EF43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71DC1ACB24D5E1D00095EF43 /* macOSDeploymentsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOSDeploymentsWidget.entitlements; sourceTree = "<group>"; };
+		71F6571C24DEDD6600C08D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -335,6 +337,7 @@
 		716911CF24A7E2BE0023339D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				71F6571E24DEE4B200C08D01 /* Extensions */,
 				7163C5F024D6C877000DAE1A /* Mocks */,
 				7141D4CD241BE76F00D212F0 /* Networking */,
 				716911D224A7E2C00023339D /* Assets.xcassets */,
@@ -364,6 +367,7 @@
 				7163C60D24D70B63000DAE1A /* TipJarView.swift */,
 				7163C61224D71213000DAE1A /* PurchaseManager.swift */,
 				7163C61424D7159D000DAE1A /* PurchaseView.swift */,
+				71F6571C24DEDD6600C08D01 /* AppDelegate.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -427,6 +431,13 @@
 				71DC1ACB24D5E1D00095EF43 /* macOSDeploymentsWidget.entitlements */,
 			);
 			path = macOSDeploymentsWidget;
+			sourceTree = "<group>";
+		};
+		71F6571E24DEE4B200C08D01 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -675,6 +686,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71F6571D24DEDD6600C08D01 /* AppDelegate.swift in Sources */,
 				7163C61524D7159D000DAE1A /* PurchaseView.swift in Sources */,
 				7169121A24A7E36F0023339D /* GitHubRelease.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
@@ -937,7 +949,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -965,7 +977,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -996,6 +1008,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -1023,6 +1036,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -1132,7 +1146,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1162,7 +1176,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;

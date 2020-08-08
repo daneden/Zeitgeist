@@ -34,8 +34,8 @@ struct Provider: TimelineProvider {
   
   public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetContent>) -> Void) {
     let entries = readContents()
-    
-    let timeline = Timeline(entries: entries, policy: .atEnd)
+    let expiryDate = Calendar.current.date(byAdding: .minute, value: 2, to: Date()) ?? Date()
+    let timeline = Timeline(entries: entries, policy: .after(expiryDate))
     completion(timeline)
   }
   

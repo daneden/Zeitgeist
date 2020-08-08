@@ -17,3 +17,49 @@ extension FileManager {
     )!
   }
 }
+
+func readContents() -> [WidgetContent] {
+  var contents: [WidgetContent] = []
+  let archiveURL =
+    FileManager.sharedContainerURL()
+      .appendingPathComponent("contents.json")
+  // print(">>> \(archiveURL)")
+
+  let decoder = JSONDecoder()
+  if let codeData = try? Data(contentsOf: archiveURL) {
+    do {
+      contents = try decoder.decode([WidgetContent].self, from: codeData)
+    } catch {
+      print("Error: Can't decode contents")
+    }
+  }
+  return contents
+}
+
+func saveDeploymentsToDisk(deployments: [VercelDeployment]) {
+  let widgetContents = deployments.map { deployment in
+    deploymentToWidget(deployment)
+  }
+  
+  let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents.json")
+  // print(">>> \(archiveURL)")
+  let fileManager = FileManager()
+  
+  if fileManager.fileExists(atPath: "\(archiveURL)"){
+    do {
+      try fileManager.removeItem(atPath: "\(archiveURL)")
+    } catch let error {
+        print("Error removing cached entries file:\n \(error)")
+    }
+  }
+  
+  let encoder = JSONEncoder()
+  if let dataToSave = try? encoder.encode(widgetContents) {
+    do {
+      try dataToSave.write(to: archiveURL)
+    } catch {
+      print("Error: Failed to write contents")
+      return
+    }
+  }
+}

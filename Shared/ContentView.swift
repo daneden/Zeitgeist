@@ -19,6 +19,7 @@ struct ContentView: View {
   var prefsViewController: PreferencesWindowController
   #endif
   @State var inputValue = ""
+  @State var settingsPresented = false
   
   var body: some View {
     Group {
@@ -31,13 +32,28 @@ struct ContentView: View {
               .environmentObject(fetcher)
               .navigationTitle(Text("Deployments"))
               .frame(minWidth: 200, idealWidth: 300)
-              .navigationBarItems(trailing: Group {
+              .toolbar {
                 #if os(iOS)
-                NavigationLink(destination: SettingsView().environmentObject(fetcher)) {
-                  Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+                ToolbarItem(placement: .navigationBarTrailing) {
+                  Button(action: { self.settingsPresented.toggle() }) {
+                    Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+                  }.sheet(isPresented: $settingsPresented, content: {
+                    NavigationView {
+                      SettingsView()
+                        .environmentObject(fetcher)
+                        .environmentObject(settings)
+                        .toolbar {
+                          ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: { self.settingsPresented.toggle() }) {
+                              Text("Done")
+                            }
+                          }
+                        }
+                    }
+                  })
                 }
                 #endif
-              })
+              }
             
             EmptyDeploymentView()
           }

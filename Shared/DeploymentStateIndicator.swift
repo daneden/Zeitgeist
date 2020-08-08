@@ -16,7 +16,6 @@ typealias TColor = UIColor
 import AppKit
 typealias TColor = NSColor
 
-
 #endif
 
 struct DeploymentStateIndicator: View {
@@ -56,6 +55,8 @@ struct DeploymentStateIndicator: View {
       return Image(systemName: "timer")
     case .ready:
       return Image(systemName: verbose ? "checkmark.circle.fill" : "checkmark.circle")
+    case .queued:
+      return Image(systemName: "hourglass")
     default:
       return Image(systemName: "hourglass")
     }
@@ -83,6 +84,8 @@ struct DeploymentStateIndicator: View {
       return "Building"
     case .ready:
       return "Deployed"
+    case .queued:
+      return "Queued"
     default:
       return "Ready"
     
