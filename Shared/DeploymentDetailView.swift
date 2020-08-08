@@ -25,6 +25,7 @@ struct Overview: View {
         
         VStack(alignment: .leading, spacing: 2) {
           Text("\(deployment.timestamp, style: .relative) ago")
+            .fixedSize()
           
           Group {
             if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {

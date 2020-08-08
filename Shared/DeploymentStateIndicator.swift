@@ -51,14 +51,13 @@ struct DeploymentStateIndicator: View {
     switch state {
     case .error:
       return Image(systemName: verbose ? "exclamationmark.circle.fill" : "exclamationmark.triangle.fill")
+    case .queued:
     case .building:
       return Image(systemName: "timer")
     case .ready:
       return Image(systemName: verbose ? "checkmark.circle.fill" : "checkmark.circle")
-    case .queued:
-      return Image(systemName: "hourglass")
     default:
-      return Image(systemName: "hourglass")
+      return Image(systemName: "arrowtriangle.up.circle.fill")
     }
   }
   

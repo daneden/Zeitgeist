@@ -79,7 +79,7 @@ struct ContentView: View {
           #endif
         }
       }
-    }
+    }.accentColor(Color(TColor.systemIndigo))
   }
   
   #if os(macOS)

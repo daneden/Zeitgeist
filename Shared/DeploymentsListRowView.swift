@@ -28,6 +28,7 @@ struct DeploymentsListRowView: View {
 
           VStack(alignment: .leading, spacing: 2) {
             Text("\(deployment.timestamp, style: .relative) ago")
+              .fixedSize()
             Text(deployment.name)
               .foregroundColor(.secondary)
           }
