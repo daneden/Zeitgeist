@@ -44,7 +44,7 @@ struct Overview: View {
 
 struct URLDetails: View {
   var deployment: VercelDeployment
-  @State private var copied: Bool = false
+  @Binding var copied: Bool
   
   var body: some View {
     return Group {
@@ -55,19 +55,19 @@ struct URLDetails: View {
       #endif
       
       Section(header: Text("Deployment URL").font(Font.caption.bold()).foregroundColor(.secondary)) {
-      // MARK: Deployment name/URL
-      Link(destination: URL(string: deployment.absoluteURL)!) {
-        Text("\(deployment.url)").lineLimit(1)
-      }
-      
-      Button(action: self.copyUrl) {
-        HStack {
-          Text("Copy URL")
-          Spacer()
-          Image(systemName: "doc.on.doc")
+        // MARK: Deployment name/URL
+        Link(destination: URL(string: deployment.absoluteURL)!) {
+          Text("\(deployment.url)").lineLimit(1)
+        }
+        
+        Button(action: self.copyUrl) {
+          HStack {
+            Text("Copy URL")
+            Spacer()
+            Image(systemName: "doc.on.doc")
+          }
         }
       }
-    }
     }
   }
   
@@ -80,6 +80,7 @@ struct URLDetails: View {
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     pasteboard.setString(deployment.absoluteURL, forType: NSPasteboard.PasteboardType.string)
     #endif
+    copied.toggle()
   }
 }
 
@@ -113,6 +114,13 @@ struct DeploymentDetails: View {
 
 struct DeploymentDetailView: View {
   var deployment: VercelDeployment
+  @State var copied = false {
+    didSet {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        copied = false
+      }
+    }
+  }
   #if os(macOS)
   let padding = 12.0
   #else
@@ -120,19 +128,47 @@ struct DeploymentDetailView: View {
   #endif
   
   var body: some View {
-    return HStack {
-      VStack {
-        Form {
-          Overview(deployment: deployment)
-          URLDetails(deployment: deployment)
-          DeploymentDetails(deployment: deployment)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+    return ZStack(alignment: .bottom) {
+      HStack {
+        VStack {
+          Form {
+            Overview(deployment: deployment)
+            URLDetails(deployment: deployment, copied: Binding(
+                        get: { self.copied },
+                        set: { (newValue) in
+                          self.copied = newValue
+                          if newValue == true {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                              self.copied = false
+                            }
+                          }
+                        }))
+            DeploymentDetails(deployment: deployment)
+          }.frame(maxWidth: .infinity, maxHeight: .infinity)
+          Spacer(minLength: 0)
+        }
         Spacer(minLength: 0)
       }
-      Spacer(minLength: 0)
+      .padding(.all, CGFloat(padding))
+      .navigationTitle(Text("Deployment Details"))
+      
+      #if os(iOS)
+      Group {
+        HStack {
+          Image(systemName: "checkmark")
+          Text("Copied to clipboard")
+        }
+          .padding()
+          .background(Color(TColor.tertiarySystemBackground))
+          .background(VisualEffectView(effect: UIBlurEffect.init(style: .systemThinMaterial)))
+          .foregroundColor(Color(TColor.secondaryLabel))
+          .cornerRadius(44)
+      }
+      .opacity(copied ? 1.0 : 0.0)
+      .offset(x: 0, y: copied ? 0.0 : 100)
+      .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.8))
+      #endif
     }
-    .padding(.all, CGFloat(padding))
-    .navigationTitle(Text("Deployment Details"))
   }
 }
 
