@@ -9,7 +9,7 @@
 import WidgetKit
 import SwiftUI
 
-struct WidgetContent: TimelineEntry, Codable {
+struct WidgetContent: TimelineEntry, Codable, Hashable {
   var date = Date()
   let title: String
   let author: String
@@ -18,11 +18,11 @@ struct WidgetContent: TimelineEntry, Codable {
 }
 
 func deploymentToWidget(_ deployment: VercelDeployment) -> WidgetContent {
-  let title = deployment.meta.githubCommitMessage ?? "Manual Deployment"
+  let title = deployment.meta.githubCommitMessage?.split(separator: "\n")[0] ?? "Manual Deployment"
   let author = deployment.meta.githubCommitAuthorLogin ?? deployment.creator.username
   return WidgetContent(
     date: deployment.timestamp,
-    title: title,
+    title: String(title),
     author: author,
     project: deployment.name,
     status: deployment.state

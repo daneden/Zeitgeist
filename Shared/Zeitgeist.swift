@@ -32,7 +32,6 @@ struct Zeitgeist: App {
     #if os(macOS)
     Settings {
       SettingsView()
-        .frame(width: 400)
         .padding()
         .environmentObject(settings)
         .environmentObject(vercelNetwork)
@@ -45,7 +44,6 @@ struct Zeitgeist: App {
     WindowGroup {
       ContentView()
         .environmentObject(settings)
-        .frame(idealWidth: 680, maxWidth: .infinity, idealHeight: 460, maxHeight: .infinity)
         .onAppear(perform: self.loadFetcherItems)
     }
     #endif

@@ -66,6 +66,7 @@ struct ContentView: View {
         #endif
       }
     }
+    .navigationViewStyle(StackNavigationViewStyle())
     .accentColor(Color(TColor.systemIndigo))
   }
   

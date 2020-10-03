@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct WidgetView: View {
+struct LatestDeploymentWidgetView: View {
   var model: WidgetContent
   @Environment(\.colorScheme) var colorScheme
   
@@ -17,6 +17,7 @@ struct WidgetView: View {
       DeploymentStateIndicator(state: model.status, verbose: true, isWidget: true)
       
       Text(model.title)
+        .font(.subheadline)
         .fontWeight(.bold)
         .lineLimit(3)
         .foregroundColor(.primary)

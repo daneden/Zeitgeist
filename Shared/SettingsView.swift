@@ -14,10 +14,6 @@ struct SettingsView: View {
   @State var selectedTeam: String? = nil
   @Binding var presented: Bool
   
-  #if os(iOS)
-  //  let purchaseManager = PurchaseManager()
-  #endif
-  
   var body: some View {
     let chosenTeamId = Binding<String>(get: {
       self.selectedTeam ?? self.settings.currentTeam ?? self.fetcher.teamId ?? ""
