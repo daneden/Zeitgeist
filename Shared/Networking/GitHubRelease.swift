@@ -1,5 +1,5 @@
 //
-//  FetchLatestRelease.swift
+//  GitHubRelease.swift
 //  Zeitgeist
 //
 //  Created by Daniel Eden on 27/05/2020.

@@ -20,23 +20,20 @@ struct Provider: TimelineProvider {
   public typealias Entry = WidgetContent
   
   public func getSnapshot(in context: Context, completion: @escaping (WidgetContent) -> Void) {
-    var entry: WidgetContent
-    let storedEntries = readContents()
-    
-    if(context.isPreview || storedEntries.isEmpty) {
-      entry = snapshotEntry
-    } else {
-      entry = storedEntries[0]
-    }
-    
-    completion(entry)
+    completion(snapshotEntry)
   }
   
   public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetContent>) -> Void) {
-    let entries = readContents()
-    let expiryDate = Calendar.current.date(byAdding: .minute, value: 2, to: Date()) ?? Date()
-    let timeline = Timeline(entries: entries, policy: .after(expiryDate))
-    completion(timeline)
+    VercelFetcher.shared.loadDeployments { (entries, error) in
+      if entries != nil, let entry = entries?[0] {
+        let timeline = Timeline(entries: [deploymentToWidget(entry)], policy: .atEnd)
+        completion(timeline)
+      } else {
+        let entry = snapshotEntry
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
+        completion(timeline)
+      }
+    }
   }
   
   public func placeholder(in context: Context) -> WidgetContent {
@@ -50,7 +47,7 @@ struct DeploymentsWidget: Widget {
   
   public var body: some WidgetConfiguration {
     StaticConfiguration(kind: kind, provider: Provider()) { entry in
-      DeploymentView(model: entry)
+      WidgetView(model: entry)
     }
     .supportedFamilies([.systemSmall])
     .configurationDisplayName("Zeitgeist Deployments")
@@ -60,7 +57,7 @@ struct DeploymentsWidget: Widget {
 
 struct DeploymentsWidget_Previews: PreviewProvider {
   static var previews: some View {
-    DeploymentView(model: snapshotEntry)
+    WidgetView(model: snapshotEntry)
       .previewContext(WidgetPreviewContext(family: .systemMedium))
   }
 }

@@ -18,33 +18,27 @@ struct LoginView: View {
   #endif
   
   var body: some View {
-    VStack {
-      Form {
-        ZeitgeistLogo()
+    Form {
+      ZeitgeistLogo()
+      
+      Section(header: Text("Vercel Access Token"),
+              footer:
+                VStack(alignment: .leading, spacing: 4) {
+                  Text("You'll need to create an access token on Vercel's website to use Zeitgeist.")
+                    .foregroundColor(.secondary)
+                  Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
+                    .foregroundColor(.accentColor)
+                }.font(.footnote)
+      ) {
+        SecureField("Enter Access Token", text: $inputValue)
         
-        Section(header: Text("Vercel Access Token"),
-                footer:
-                  VStack(alignment: .leading, spacing: 4) {
-                    Text("You'll need to create an access token on Vercel's website to use Zeitgeist.")
-                      .foregroundColor(.secondary)
-                    Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
-                      .foregroundColor(.accentColor)
-                  }.font(.footnote)
-        ) {
-          SecureField("Enter Access Token", text: $inputValue)
-          
-          Button(action: { self.settings.token = self.inputValue }, label: {
-            Text("loginButton")
-          })
-          .disabled(inputValue.isEmpty)
-        }
+        Button(action: { self.settings.token = self.inputValue }, label: {
+          Text("loginButton")
+        })
+        .disabled(inputValue.isEmpty)
       }
-      .padding(.all, padding)
-      .frame(maxWidth: 400)
-    }.frame(maxHeight: .infinity)
-    
-    #if os(macOS)
-    Spacer(minLength: 24)
-    #endif
+    }
+    .padding(.all, padding)
+    .frame(maxWidth: 400)
   }
 }

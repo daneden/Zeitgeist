@@ -12,10 +12,10 @@ struct SettingsView: View {
   @EnvironmentObject var settings: UserDefaultsManager
   @EnvironmentObject var fetcher: VercelFetcher
   @State var selectedTeam: String? = nil
-  @State var presented = true
+  @Binding var presented: Bool
   
   #if os(iOS)
-//  let purchaseManager = PurchaseManager()
+  //  let purchaseManager = PurchaseManager()
   #endif
   
   var body: some View {
@@ -26,91 +26,68 @@ struct SettingsView: View {
       self.updateSelectedTeam()
     })
     
-    return Form {
-      if settings.token == nil {
-        VStack {
-          Text("Not signed in")
-          Text("Sign in to Zeitgeist to see your deployments").foregroundColor(.secondary)
-        }
-      } else {
-        Section(header: Text("Current User")) {
-          if let user: VercelUser = fetcher.user {
-            HStack {
-              Text(user.name)
-                .lineLimit(2)
-              Spacer()
-              Text(user.email)
-                .foregroundColor(.secondary)
-                .fixedSize()
-                .lineLimit(1)
-            }.padding(.vertical, 4)
+    return NavigationView {
+      Form {
+        if settings.token == nil {
+          VStack(alignment: .leading) {
+            Text("Not signed in").font(.headline)
+            Text("Sign in to Zeitgeist to see your deployments").foregroundColor(.secondary)
+          }.padding()
+        } else {
+          Section(header: Text("Current User")) {
+            if let user: VercelUser = fetcher.user {
+              HStack {
+                Text(user.name)
+                  .lineLimit(2)
+                Spacer()
+                Text(user.email)
+                  .foregroundColor(.secondary)
+                  .fixedSize()
+                  .lineLimit(1)
+              }.padding(.vertical, 4)
+            }
+            
+            if !fetcher.teams.isEmpty {
+              #if os(macOS)
+              Divider().padding(.vertical, 16)
+              #endif
+              
+              Picker(selection: chosenTeamId, label: Text("Selected Team")) {
+                Text("Personal").tag("")
+                ForEach(self.fetcher.teams, id: \.id) {
+                  Text($0.name).tag($0.id)
+                }
+              }
+            }
           }
-        }
-        
-        if !fetcher.teams.isEmpty {
+          
           #if os(macOS)
-          Divider().padding(.vertical, 16)
+          Divider().padding(.vertical, 8)
           #endif
           
           Section {
-            Picker(selection: chosenTeamId, label: Text("Selected Team")) {
-              Text("Personal").tag("")
-              ForEach(self.fetcher.teams, id: \.id) {
-                Text($0.name).tag($0.id)
-              }
-            }
-
-          }
-        }
-        
-        #if os(macOS)
-        Divider().padding(.vertical, 8)
-        #endif
-        
-        Section {
-          Button(action: { self.settings.token = nil }) {
+            Button(action: { self.settings.token = nil }) {
               Text("logoutButton")
-          }.foregroundColor(Color(TColor.systemRed))
-        }
-        
-        #if os(iOS)
-        /*
-        PurchaseView(source: .settings).environmentObject(purchaseManager)
-        
-        Section(
-          header: Text("Tip The Developer"),
-          footer: Text("Currently, tipping doesn’t unlock any special features; that might change, though! Keep your feedback coming.")
-        ) {
-          Text("Zeitgeist is developed by Daniel Eden. If you like the app, consider showing your support with a one-off or recurring tip.")
-            .padding(.vertical, 4)
-          
-          Button(action: {}) {
-            HStack {
-              Text("One-off Tip")
-              Spacer()
-              Image(systemName: "gift.fill")
-                .foregroundColor(.secondary)
-            }
-          }
-          
-          Button(action: {}) {
-            HStack {
-              Text("Recurring Tip")
-              Spacer()
-              Image(systemName: "heart.fill")
-                .foregroundColor(Color(TColor.systemPink))
-            }
+            }.foregroundColor(Color(TColor.systemRed))
           }
         }
-        */
-        #endif
+        
       }
-      
-    }
-    .navigationTitle(Text("Settings"))
-    .onAppear {
-      fetcher.loadUser()
-      fetcher.loadTeams()
+      .navigationTitle(Text("Settings"))
+      .onAppear {
+        fetcher.loadUser()
+        fetcher.loadTeams()
+      }
+      .navigationBarItems(trailing: Button(action: {
+        self.presented = false
+      }) {
+        Text("Dismiss")
+      })
+      .onChange(of: self.settings.token) { value in
+        if self.settings.token == nil {
+          self.presented = false
+        }
+      }
     }
   }
   
@@ -123,8 +100,8 @@ struct SettingsView: View {
   }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-      SettingsView(selectedTeam: "")
-    }
-}
+//struct SettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//      SettingsView(selectedTeam: "", presented: Binding(true)!)
+//    }
+//}

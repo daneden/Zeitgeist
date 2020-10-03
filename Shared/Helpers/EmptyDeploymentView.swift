@@ -10,14 +10,18 @@ import SwiftUI
 
 struct EmptyDeploymentView: View {
   var body: some View {
-    return VStack {
+    return HStack {
       Spacer()
-      Image(systemName: "triangle.circle.fill")
-        .imageScale(.large)
-        .font(.largeTitle)
-      Text("Select a deployment for details")
+      VStack {
+        Spacer()
+        Image(systemName: "triangle.circle.fill")
+          .imageScale(.large)
+          .font(.largeTitle)
+        Text("Select a deployment for details")
+        Spacer()
+      }.foregroundColor(.secondary)
       Spacer()
-    }.foregroundColor(.secondary)
+    }
   }
 }
 

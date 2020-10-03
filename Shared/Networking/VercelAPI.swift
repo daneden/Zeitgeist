@@ -32,20 +32,44 @@ enum VercelRoute: String {
 public class VercelFetcher: ObservableObject {
   static let shared = VercelFetcher(UserDefaultsManager.shared)
   
-  @Published var fetchState: FetchState = .idle
-  @Published var teams = [VercelTeam]()
-  @Published var deployments = [VercelDeployment]() {
+  @Published var fetchState: FetchState = .idle {
     didSet {
-      saveDeploymentsToDisk(deployments: deployments)
+      DispatchQueue.main.async {
+        self.objectWillChange.send()
+      }
     }
   }
-  @Published var user: VercelUser?
+  
+  @Published var teams = [VercelTeam]() {
+    didSet {
+      DispatchQueue.main.async {
+        self.objectWillChange.send()
+      }
+    }
+  }
+  
+  @Published var deployments = [VercelDeployment]() {
+    didSet {
+      DispatchQueue.main.async {
+        self.objectWillChange.send()
+      }
+    }
+  }
+  
+  @Published var user: VercelUser? {
+    didSet {
+      DispatchQueue.main.async {
+        self.objectWillChange.send()
+      }
+    }
+  }
+  
   @ObservedObject var settings: UserDefaultsManager
   
   var teamId: String? {
     didSet {
       self.fetchState = .loading
-      self.deployments = [VercelDeployment]()
+      self.deployments = []
       self.loadDeployments()
       self.objectWillChange.send()
     }
@@ -97,7 +121,6 @@ public class VercelFetcher: ObservableObject {
         let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: data!)
         DispatchQueue.main.async {
           self.teams = decodedData.teams
-          self.objectWillChange.send()
         }
       } catch {
         print("Error loading teams")
@@ -107,18 +130,31 @@ public class VercelFetcher: ObservableObject {
   }
   
   func loadDeployments() {
+    self.loadDeployments { (entries, error) in
+      if let deployments = entries {
+        DispatchQueue.main.async {
+          self.deployments = deployments
+        }
+      }
+      
+      if let errorMessage = error?.localizedDescription {
+        print(errorMessage)
+      }
+    }
+  }
+  
+  func loadDeployments(completion: @escaping ([VercelDeployment]?, Error?) -> Void) {
     fetchState = deployments.isEmpty ? .loading : .idle
     var request: URLRequest
     
-    let team = getTeamId()
-    
-    if team != nil {
-      request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(team!)"))
+    if let teamId = getTeamId() {
+      request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(teamId)"))
     } else {
       request = URLRequest(url: urlForRoute(.deployments))
     }
     
     request.allHTTPHeaderFields = getHeaders()
+    
     URLSession.shared.dataTask(with: request) { (data, _, error) in
       if(data == nil) {
         print("Error loading deployments")
@@ -131,10 +167,14 @@ public class VercelFetcher: ObservableObject {
           self.deployments = decodedData.deployments
           self.fetchState = .finished
         }
+        completion(decodedData.deployments, nil)
       } catch {
         print("Error decoding deployments")
         print(error.localizedDescription)
-        self.fetchState = .error
+        DispatchQueue.main.async {
+          self.fetchState = .error
+        }
+        completion(nil, error)
       }
     }.resume()
     
@@ -159,7 +199,9 @@ public class VercelFetcher: ObservableObject {
       } catch {
         print("Error decoding user")
         print(error.localizedDescription)
-        self.fetchState = .error
+        DispatchQueue.main.async {
+          self.fetchState = .error
+        }
       }
     }.resume()
     
@@ -174,7 +216,7 @@ public class VercelFetcher: ObservableObject {
     return [
       "Authorization": "Bearer " + (settings.token ?? ""),
       "Content-Type": "application/json",
-      "User-Agent": "Zeitgeist Client \(APP_VERSION)"
+      "User-Agent": "ZG Client \(APP_VERSION)"
     ]
   }
 }

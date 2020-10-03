@@ -12,30 +12,40 @@ struct Overview: View {
   var deployment: VercelDeployment
   
   var body: some View {
-    let commitMessage: String = deployment.meta.githubCommitMessage ?? "Manual Deploment"
+    let commitMessage: String = deployment.meta.githubCommitMessage ?? "Manual Deployment"
     let firstLine = commitMessage.components(separatedBy: "\n")[0]
+    
+    let extra = commitMessage.components(separatedBy: "\n").dropFirst().joined(separator: "\n")
     return Group {
       Section(header: Text("Overview").font(Font.caption.bold()).foregroundColor(.secondary)) {
       // MARK: Deployment cause/commit
       VStack(alignment: .leading, spacing: 4) {
         DeploymentStateIndicator(state: deployment.state, verbose: true)
         
+        Text(deployment.name)
+          .font(.footnote)
+          .foregroundColor(.secondary)
+        
         Text(firstLine)
           .font(.headline)
         
-        VStack(alignment: .leading, spacing: 2) {
-          Text("\(deployment.timestamp, style: .relative) ago")
-            .fixedSize()
+        Text("\(deployment.timestamp, style: .relative) ago")
+          .fixedSize()
+          .font(.caption)
+          .foregroundColor(.secondary)
+        
+        Text(extra).font(.footnote).lineLimit(10)
+        
           
-          Group {
-            if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
-              Text(author).lineLimit(1)
-            } else {
-              Text(deployment.creator.username)
-            }
-          }.foregroundColor(.secondary)
+        Group {
+          if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
+            Text("Author: \(author)").lineLimit(1)
+          } else {
+            Text("Author: \(deployment.creator.username)")
+          }
         }
         .font(.caption)
+        .foregroundColor(.secondary)
       }.padding(.vertical, 8)
     }
     }
@@ -62,7 +72,7 @@ struct URLDetails: View {
         
         Button(action: self.copyUrl) {
           HStack {
-            Text("Copy URL")
+            Text(copied ? "Copied" : "Copy URL")
             Spacer()
             Image(systemName: "doc.on.doc")
           }
@@ -80,7 +90,8 @@ struct URLDetails: View {
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     pasteboard.setString(deployment.absoluteURL, forType: NSPasteboard.PasteboardType.string)
     #endif
-    copied.toggle()
+  
+    copied = true
   }
 }
 
@@ -114,13 +125,7 @@ struct DeploymentDetails: View {
 
 struct DeploymentDetailView: View {
   var deployment: VercelDeployment
-  @State var copied = false {
-    didSet {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-        copied = false
-      }
-    }
-  }
+  @State var copied = false
   #if os(macOS)
   let padding = 12.0
   #else
@@ -128,46 +133,25 @@ struct DeploymentDetailView: View {
   #endif
   
   var body: some View {
-    return ZStack(alignment: .bottom) {
-      HStack {
-        VStack {
-          Form {
-            Overview(deployment: deployment)
-            URLDetails(deployment: deployment, copied: Binding(
-                        get: { self.copied },
-                        set: { (newValue) in
-                          self.copied = newValue
-                          if newValue == true {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                              self.copied = false
-                            }
-                          }
-                        }))
-            DeploymentDetails(deployment: deployment)
-          }.frame(maxWidth: .infinity, maxHeight: .infinity)
-          Spacer(minLength: 0)
-        }
+    return HStack {
+      VStack {
+        Form {
+          Overview(deployment: deployment)
+          URLDetails(deployment: deployment, copied: $copied)
+          DeploymentDetails(deployment: deployment)
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
         Spacer(minLength: 0)
       }
-      .padding(.all, CGFloat(padding))
-      .navigationTitle(Text("Deployment Details"))
-      
-      #if os(iOS)
-      Group {
-        HStack {
-          Image(systemName: "checkmark")
-          Text("Copied to clipboard")
+      Spacer(minLength: 0)
+    }
+    .padding(.all, CGFloat(padding))
+    .navigationTitle(Text("Deployment Details"))
+    .onChange(of: self.copied) { value in
+      if copied == true {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          self.copied = false
         }
-          .padding()
-          .background(Color(TColor.tertiarySystemBackground))
-          .background(VisualEffectView(effect: UIBlurEffect.init(style: .systemThinMaterial)))
-          .foregroundColor(Color(TColor.secondaryLabel))
-          .cornerRadius(44)
       }
-      .opacity(copied ? 1.0 : 0.0)
-      .offset(x: 0, y: copied ? 0.0 : 100)
-      .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.8))
-      #endif
     }
   }
 }

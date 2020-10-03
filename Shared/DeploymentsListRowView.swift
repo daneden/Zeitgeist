@@ -13,26 +13,28 @@ struct DeploymentsListRowView: View {
 
   var body: some View {
     return VStack(alignment: .leading) {
-      HStack(alignment: .firstTextBaseline) {
+      HStack(alignment: .top) {
         DeploymentStateIndicator(state: deployment.state)
         
         VStack(alignment: .leading) {
-          // MARK: Deployment cause/commit
+          Text(deployment.name)
+            .foregroundColor(.secondary)
+            .font(.caption)
+          
           HStack {
             if deployment.meta.githubCommitMessage != nil, let commitMessage = deployment.meta.githubCommitMessage! {
               Text("\(commitMessage.components(separatedBy: "\n")[0])")
             } else {
               Text("manualDeployment")
             }
-          }.font(.subheadline).lineLimit(2)
+          }.lineLimit(2)
 
           VStack(alignment: .leading, spacing: 2) {
             Text("\(deployment.timestamp, style: .relative) ago")
               .fixedSize()
-            Text(deployment.name)
               .foregroundColor(.secondary)
+              .font(.caption)
           }
-          .font(.caption)
         }
       }
     }

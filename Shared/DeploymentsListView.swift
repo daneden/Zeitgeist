@@ -12,7 +12,7 @@ import SwiftUI
 #if os(macOS)
 typealias ZGDeploymentsListStyle = SidebarListStyle
 #else
-typealias ZGDeploymentsListStyle = DefaultListStyle
+typealias ZGDeploymentsListStyle = PlainListStyle
 #endif
 
 struct DeploymentsListView: View {
@@ -22,11 +22,15 @@ struct DeploymentsListView: View {
   var body: some View {
     return Group {
       if vercelFetcher.deployments.isEmpty {
-        VStack(spacing: 0) {
-          Spacer()
-          Text("emptyState")
-            .foregroundColor(.secondary)
-          Spacer()
+        if vercelFetcher.fetchState == .loading {
+          ProgressView("Loading deployments...")
+        } else {
+          VStack(spacing: 0) {
+            Spacer()
+            Text("emptyState")
+              .foregroundColor(.secondary)
+            Spacer()
+          }
         }
       } else {
         List(vercelFetcher.deployments, id: \.self) { deployment in

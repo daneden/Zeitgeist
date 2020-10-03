@@ -15,7 +15,7 @@ class UserDefaultsManager: ObservableObject {
   static let shared = UserDefaultsManager()
   
   init() {
-    self.keychain = Keychain(service: "me.daneden.Zeitgeist")
+    self.keychain = Keychain(service: "me.daneden.Zeitgeist", accessGroup: "group.me.daneden.Zeitgeist.shared")
     
     self.token = self.keychain["vercelToken"]
   }

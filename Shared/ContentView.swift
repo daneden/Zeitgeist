@@ -22,64 +22,51 @@ struct ContentView: View {
   @State var settingsPresented = false
   
   var body: some View {
-    Group {
+    NavigationView {
       if self.settings.token == nil {
-        LoginView()
-      } else if let fetcher = VercelFetcher(settings, withTimer: true) {
-        VStack(spacing: 0) {
-          NavigationView {
-            DeploymentsListView()
-              .environmentObject(fetcher)
-              .navigationTitle(Text("Deployments"))
-              .frame(minWidth: 200, idealWidth: 300)
-              .toolbar {
-                #if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                  Button(action: { self.settingsPresented.toggle() }) {
-                    Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
-                  }.sheet(isPresented: $settingsPresented, content: {
-                    NavigationView {
-                      SettingsView()
-                        .environmentObject(fetcher)
-                        .environmentObject(settings)
-                        .toolbar {
-                          ToolbarItem(placement: .navigationBarLeading) {
-                            Button(action: { self.settingsPresented.toggle() }) {
-                              Text("Done")
-                            }
-                          }
-                        }
-                    }
-                  })
-                }
-                #endif
-              }
-            
-            EmptyDeploymentView()
-          }
-          .frame(idealWidth: .infinity, maxWidth: .infinity, idealHeight: .infinity, maxHeight: .infinity)
-          
-          #if os(macOS)
-          Divider()
-          
-          HStack {
-            Spacer()
-            Button(action: {
-              prefsViewController.show()
-            }) {
-              Label("Settings", systemImage: "slider.horizontal.3")
-            }
-
-            Button(action: {
-              self.quitApplication()
-            }) {
-              Label("Quit", systemImage: "escape")
-            }
-          }.padding(.horizontal).padding(.vertical, 8)
-          #endif
+        ZStack {
+          Color(TColor.secondarySystemBackground)
+          LoginView()
         }
+      } else if let fetcher = VercelFetcher(settings, withTimer: true) {
+        DeploymentsListView()
+          .environmentObject(fetcher)
+          .navigationTitle(Text("Deployments"))
+          .frame(minWidth: 200, idealWidth: 300)
+          .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+              Button(action: { self.settingsPresented.toggle() }) {
+                Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+              }.sheet(isPresented: $settingsPresented, content: {
+                SettingsView(presented: $settingsPresented)
+                  .environmentObject(fetcher)
+                  .environmentObject(settings)
+              })
+            }
+          }
+          
+        EmptyDeploymentView()
+          
+        #if os(macOS)
+        // TODO: Fix macOS build from here, probably adding toolbars above instead
+        HStack {
+          Spacer()
+          NavigationLink(destination: {
+            SettingsView()
+          }) {
+            Label("Settings", systemImage: "slider.horizontal.3")
+          }
+
+          Button(action: {
+            self.quitApplication()
+          }) {
+            Label("Quit", systemImage: "escape")
+          }
+        }.padding(.horizontal).padding(.vertical, 8)
+        #endif
       }
-    }.accentColor(Color(TColor.systemIndigo))
+    }
+    .accentColor(Color(TColor.systemIndigo))
   }
   
   #if os(macOS)

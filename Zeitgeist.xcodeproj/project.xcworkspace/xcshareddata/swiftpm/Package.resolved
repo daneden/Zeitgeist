@@ -20,15 +20,6 @@
         }
       },
       {
-        "package": "Purchases",
-        "repositoryURL": "https://github.com/RevenueCat/purchases-ios.git",
-        "state": {
-          "branch": null,
-          "revision": "bc0e76d02984bafc7cabc1d2204145cbad575173",
-          "version": "3.5.2"
-        }
-      },
-      {
         "package": "Reachability",
         "repositoryURL": "https://github.com/ashleymills/Reachability.swift",
         "state": {

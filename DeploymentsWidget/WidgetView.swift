@@ -8,37 +8,29 @@
 
 import SwiftUI
 
-struct DeploymentView: View {
-  let model: WidgetContent
+struct WidgetView: View {
+  var model: WidgetContent
+  @Environment(\.colorScheme) var colorScheme
   
   var body: some View {
     VStack(alignment: .leading) {
-      HStack {
-        Text("Latest deployment:")
-          .font(.caption)
-          .foregroundColor(.secondary)
-        Spacer()
-      }
-
-      Spacer()
-      
       DeploymentStateIndicator(state: model.status, verbose: true, isWidget: true)
+      
       Text(model.title)
-        .font(Font.caption.bold())
+        .fontWeight(.bold)
         .lineLimit(3)
         .foregroundColor(.primary)
-          
-      Text("\(model.project)")
-        .font(.caption).font(.caption)
-      
-      
       Text(model.date, style: .relative)
         .font(.caption)
         .foregroundColor(.secondary)
       
       Spacer()
+      
+      Text("\(model.project)")
+        .font(.caption).font(.caption)
+      
     }
-    .cornerRadius(6)
     .padding()
+    .background(Color(TColor.systemBackground))
   }
 }
