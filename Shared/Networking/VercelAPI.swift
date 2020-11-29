@@ -118,7 +118,11 @@ public class VercelFetcher: ObservableObject {
     request.allHTTPHeaderFields = getHeaders()
     URLSession.shared.dataTask(with: request) { (data, _, error) in
       do {
-        let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: data!)
+        guard let response = data else {
+          print("error")
+          return 
+        }
+        let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: response)
         DispatchQueue.main.async {
           self.teams = decodedData.teams
         }

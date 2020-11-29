@@ -61,16 +61,19 @@
       "size" : "20x20"
     },
     {
+      "filename" : "app-icon-20@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
+      "filename" : "Icon-App-29x29@1x-1.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
+      "filename" : "app-icon-29@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
@@ -82,6 +85,7 @@
       "size" : "40x40"
     },
     {
+      "filename" : "app-icon-40@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
@@ -105,7 +109,7 @@
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "app-icon-1024@1x-1.png",
+      "filename" : "app-icon-1024@1x.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
@@ -135,37 +139,37 @@
       "size" : "32x32"
     },
     {
-      "filename" : "Icon-128.png",
+      "filename" : "zeitgeist-128.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "Icon-257.png",
+      "filename" : "zeitgeist-257.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "Icon-256.png",
+      "filename" : "zeitgeist-256.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "Icon-513.png",
+      "filename" : "zeitgeist-513.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "Icon-512.png",
+      "filename" : "zeitgeist-512.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "Icon-1024.png",
+      "filename" : "zeitgeist.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

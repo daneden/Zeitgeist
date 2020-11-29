@@ -19,7 +19,7 @@ struct RecentDeploymentsWidgetView: View {
       
       Divider().padding(.bottom, 4)
       
-      ForEach(entries.prefix(7), id: \.self) { model in
+      ForEach(entries.prefix(6), id: \.self) { model in
         HStack(alignment: .top) {
           DeploymentStateIndicator(state: model.status, verbose: false, isWidget: true)
         

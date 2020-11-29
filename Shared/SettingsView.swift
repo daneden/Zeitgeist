@@ -8,11 +8,17 @@
 
 import SwiftUI
 
+#if os(macOS)
+typealias SettingsContainer = Group
+#else
+typealias SettingsContainer = NavigationView
+#endif
+
 struct SettingsView: View {
-  @EnvironmentObject var settings: UserDefaultsManager
-  @EnvironmentObject var fetcher: VercelFetcher
+  @Environment(\.presentationMode) var presentationMode
+  @ObservedObject var settings: UserDefaultsManager = UserDefaultsManager.shared
+  @ObservedObject var fetcher: VercelFetcher = VercelFetcher.shared
   @State var selectedTeam: String? = nil
-  @Binding var presented: Bool
   
   var body: some View {
     let chosenTeamId = Binding<String>(get: {
@@ -22,7 +28,7 @@ struct SettingsView: View {
       self.updateSelectedTeam()
     })
     
-    return NavigationView {
+    return SettingsContainer {
       Form {
         if settings.token == nil {
           VStack(alignment: .leading) {
@@ -62,36 +68,37 @@ struct SettingsView: View {
           #endif
           
           Section {
-            Button(action: { self.settings.token = nil }) {
+            Button(action: {
+              self.settings.token = nil
+              self.presentationMode.wrappedValue.dismiss()
+            }) {
               Text("logoutButton")
             }.foregroundColor(Color(TColor.systemRed))
           }
         }
-        
       }
       .navigationTitle(Text("Settings"))
       .onAppear {
         fetcher.loadUser()
         fetcher.loadTeams()
       }
-      .navigationBarItems(trailing: Button(action: {
-        self.presented = false
-      }) {
-        Text("Dismiss")
-      })
-      .onChange(of: self.settings.token) { value in
-        if self.settings.token == nil {
-          self.presented = false
+      .toolbar(content: {
+        ToolbarItem {
+          Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+            Text("Close")
+          }
         }
-      }
+      })
     }
   }
   
   func updateSelectedTeam() {
     DispatchQueue.main.async {
+      print("updating")
       let team = self.selectedTeam?.isEmpty ?? true ? nil : self.selectedTeam
       self.fetcher.teamId = team
       self.settings.currentTeam = team
+      self.fetcher.loadDeployments()
     }
   }
 }

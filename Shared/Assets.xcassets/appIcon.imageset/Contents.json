@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "app-icon-1024@1x-2.png",
+      "filename" : "zeitgeist-128.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "app-icon-1024@1x-1.png",
+      "filename" : "zeitgeist-256.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "app-icon-1024@1x.png",
+      "filename" : "zeitgeist-512.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

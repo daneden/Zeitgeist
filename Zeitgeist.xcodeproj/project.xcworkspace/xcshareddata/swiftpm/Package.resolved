@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "Preferences",
-        "repositoryURL": "https://github.com/sindresorhus/Preferences",
-        "state": {
-          "branch": null,
-          "revision": "dfb7457dc26891b0e9eb55d602f49c54b8e771fd",
-          "version": "2.0.1"
-        }
-      },
-      {
         "package": "Reachability",
         "repositoryURL": "https://github.com/ashleymills/Reachability.swift",
         "state": {

@@ -8,11 +8,7 @@
 
 import SwiftUI
 
-#if os(macOS)
-typealias ZeitgeistButtonStyle = LinkButtonStyle
-#else
 typealias ZeitgeistButtonStyle = DefaultButtonStyle
-#endif
 
 @main
 struct Zeitgeist: App {

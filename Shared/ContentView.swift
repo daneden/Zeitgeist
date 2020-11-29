@@ -8,55 +8,50 @@
 
 import SwiftUI
 import Combine
-#if os(macOS)
-import Preferences
-#endif
-
 
 struct ContentView: View {
   @EnvironmentObject var settings: UserDefaultsManager
-  #if os(macOS)
-  var prefsViewController: PreferencesWindowController
-  #endif
   @State var inputValue = ""
   @State var settingsPresented = false
   
   var body: some View {
-    NavigationView {
+    VStack(spacing: 0) {
       if self.settings.token == nil {
-        ZStack {
-          Color(TColor.secondarySystemBackground)
-          LoginView()
-        }
+        LoginView()
       } else if let fetcher = VercelFetcher(settings, withTimer: true) {
-        DeploymentsListView()
-          .environmentObject(fetcher)
-          .navigationTitle(Text("Deployments"))
-          .frame(minWidth: 200, idealWidth: 300)
-          .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-              Button(action: { self.settingsPresented.toggle() }) {
-                Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
-              }.sheet(isPresented: $settingsPresented, content: {
-                SettingsView(presented: $settingsPresented)
-                  .environmentObject(fetcher)
-                  .environmentObject(settings)
-              })
+        NavigationView {
+          DeploymentsListView()
+            .environmentObject(fetcher)
+            .navigationTitle(Text("Deployments"))
+            .frame(minWidth: 200, idealWidth: 300)
+            .toolbar {
+              ToolbarItem {
+                Button(action: { self.settingsPresented.toggle() }) {
+                  Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+                }.sheet(isPresented: $settingsPresented, content: {
+                  SettingsView()
+                    .environmentObject(fetcher)
+                    .environmentObject(settings)
+                })
+              }
             }
-          }
           
-        EmptyDeploymentView()
-          
+          EmptyDeploymentView()
+        }.sheet(isPresented: $settingsPresented) {
+          SettingsView()
+        }
+        
         #if os(macOS)
-        // TODO: Fix macOS build from here, probably adding toolbars above instead
+        Divider()
+        
         HStack {
           Spacer()
-          NavigationLink(destination: {
-            SettingsView()
+          Button(action: {
+            NSApp.sendAction(#selector(AppDelegate.openPreferencesWindow), to: nil, from:nil)
           }) {
             Label("Settings", systemImage: "slider.horizontal.3")
           }
-
+          
           Button(action: {
             self.quitApplication()
           }) {
@@ -66,7 +61,6 @@ struct ContentView: View {
         #endif
       }
     }
-    .navigationViewStyle(StackNavigationViewStyle())
     .accentColor(Color(TColor.systemIndigo))
   }
   

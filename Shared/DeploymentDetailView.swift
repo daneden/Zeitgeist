@@ -8,6 +8,12 @@
 
 import SwiftUI
 
+#if os(macOS)
+typealias Container = ScrollView
+#else
+typealias Container = Group
+#endif
+
 struct Overview: View {
   var deployment: VercelDeployment
   
@@ -133,25 +139,27 @@ struct DeploymentDetailView: View {
   #endif
   
   var body: some View {
-    return HStack {
-      VStack {
-        Form {
-          Overview(deployment: deployment)
-          URLDetails(deployment: deployment, copied: $copied)
-          DeploymentDetails(deployment: deployment)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+    return Container {
+      HStack {
+        VStack {
+          Form {
+            Overview(deployment: deployment)
+            URLDetails(deployment: deployment, copied: $copied)
+            DeploymentDetails(deployment: deployment)
+          }.frame(maxWidth: .infinity, maxHeight: .infinity)
+          Spacer(minLength: 0)
+        }
         Spacer(minLength: 0)
       }
-      Spacer(minLength: 0)
-    }
-    .padding(.all, CGFloat(padding))
-    .navigationTitle(Text("Deployment Details"))
-    .onChange(of: self.copied) { value in
-      if copied == true {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-          self.copied = false
+      .padding(.all, CGFloat(padding))
+      .navigationTitle(Text("Deployment Details"))
+      .onChange(of: self.copied) { value in
+        if copied == true {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.copied = false
+          }
         }
-      }
+    }
     }
   }
 }

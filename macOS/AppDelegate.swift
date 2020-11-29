@@ -1,59 +1,58 @@
 //
 //  AppDelegate.swift
-//  macOS
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 02/08/2020.
+//  Created by Daniel Eden on 29/11/2020.
 //  Copyright © 2020 Daniel Eden. All rights reserved.
 //
 
 import Cocoa
 import SwiftUI
-import Preferences
 
+@main
 class AppDelegate: NSObject, NSApplicationDelegate {
-  var popover: NSPopover!
-  var statusBarItem: NSStatusItem!
-  var mainView: ContentView?
+  var popover = NSPopover.init()
+  var statusBar: StatusBarController?
+  var preferencesWindow: NSWindow!
   
-  lazy var preferences: [PreferencePane] = [ZeitgeistPreferencesViewController()]
-  lazy var preferencesWindowController = PreferencesWindowController(
-    preferencePanes: preferences,
-    style: .toolbarItems,
-    animated: true,
-    hidesToolbarForSingleItem: true
-  )
-  
-  func applicationDidFinishLaunching(_ notification: Notification) {
-    print("Launched application")
-    
+  func applicationDidFinishLaunching(_ aNotification: Notification) {
     let settings = UserDefaultsManager.shared
     let fetcher = VercelFetcher.shared
-    let view = ContentView(prefsViewController: preferencesWindowController).environmentObject(settings).environmentObject(fetcher)
     
-    let popover = NSPopover()
-    popover.contentSize = NSSize(width: 680, height: 460)
-    popover.behavior = .transient
-    popover.contentViewController = NSHostingController(rootView: view)
+    let contentView = ContentView().environmentObject(settings).environmentObject(fetcher)
     
-    self.popover = popover
+    // Set the SwiftUI's ContentView to the Popover's ContentViewController
+    popover.contentViewController = MainViewController()
+    popover.contentSize = NSSize(width: 600, height: 360)
+    popover.contentViewController = NSHostingController(rootView: contentView)
     
-    self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
-    
-    if let button = self.statusBarItem.button {
-      button.image = NSImage(named: "zeitgeist-menu-bar")
-      button.action = #selector(togglePopover(_:))
-      self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-    }
+    // Create the Status Bar Item with the above Popover
+    statusBar = StatusBarController.init(popover)
   }
   
-  @objc func togglePopover(_ sender: AnyObject?) {
-    if let button = self.statusBarItem.button {
-      if self.popover.isShown {
-        self.popover.performClose(sender)
-      } else {
-        self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        self.popover.contentViewController?.view.window?.makeKey()
-      }
+  func applicationWillTerminate(_ aNotification: Notification) {
+    // Insert code here to tear down your application
+  }
+  
+  @objc func openPreferencesWindow() {
+    let settings = UserDefaultsManager.shared
+    let fetcher = VercelFetcher.shared
+    if nil == preferencesWindow {
+      let preferencesView = SettingsView().padding()
+      
+      // Create the preferences window and set content
+      preferencesWindow = NSWindow(
+        contentRect: NSRect(x: 0, y: 0, width: 360, height: 300),
+        styleMask: [.titled, .closable, .fullSizeContentView],
+        backing: .buffered,
+        defer: false)
+      preferencesWindow.center()
+      preferencesWindow.title = "Zeitgeist Settings"
+      preferencesWindow.isReleasedWhenClosed = false
+      preferencesWindow.contentView = NSHostingView(rootView: preferencesView)
     }
+    NSApp.activate(ignoringOtherApps: true)
+    preferencesWindow.makeKeyAndOrderFront(nil)
   }
 }
+
