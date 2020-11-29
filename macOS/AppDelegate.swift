@@ -35,8 +35,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   @objc func openPreferencesWindow() {
-    let settings = UserDefaultsManager.shared
-    let fetcher = VercelFetcher.shared
     if nil == preferencesWindow {
       let preferencesView = SettingsView().padding()
       
