@@ -115,25 +115,25 @@
       "size" : "1024x1024"
     },
     {
-      "filename" : "Group 6.png",
+      "filename" : "app-icon-16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "Group 6@2x.png",
+      "filename" : "app-icon-16@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "Group 6@2x-1.png",
+      "filename" : "app-icon-32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "Group 6@3x.png",
+      "filename" : "app-icon-32@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
@@ -145,7 +145,7 @@
       "size" : "128x128"
     },
     {
-      "filename" : "zeitgeist-257.png",
+      "filename" : "zeitgeist-128@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
@@ -157,7 +157,7 @@
       "size" : "256x256"
     },
     {
-      "filename" : "zeitgeist-513.png",
+      "filename" : "zeitgeist-256@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
@@ -169,7 +169,7 @@
       "size" : "512x512"
     },
     {
-      "filename" : "zeitgeist.png",
+      "filename" : "zeitgeist-1024.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
