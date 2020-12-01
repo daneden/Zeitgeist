@@ -13,32 +13,39 @@ struct ContentView: View {
   @EnvironmentObject var settings: UserDefaultsManager
   @State var inputValue = ""
   @State var settingsPresented = false
+  @State var isValidated = false
   
   var body: some View {
     VStack(spacing: 0) {
       if self.settings.token == nil {
         LoginView()
       } else if let fetcher = VercelFetcher(settings, withTimer: true) {
-        NavigationView {
-          DeploymentsListView()
-            .environmentObject(fetcher)
-            .navigationTitle(Text("Deployments"))
-            .frame(minWidth: 200, idealWidth: 300)
-            .toolbar {
-              ToolbarItem {
-                Button(action: { self.settingsPresented.toggle() }) {
-                  Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
-                }.sheet(isPresented: $settingsPresented, content: {
-                  SettingsView()
-                    .environmentObject(fetcher)
-                    .environmentObject(settings)
-                })
+        if !isValidated {
+          Spacer()
+          SessionValidationView(isValidated: $isValidated)
+          Spacer()
+        } else {
+          NavigationView {
+            DeploymentsListView()
+              .environmentObject(fetcher)
+              .navigationTitle(Text("Deployments"))
+              .frame(minWidth: 200, idealWidth: 300)
+              .toolbar {
+                ToolbarItem {
+                  Button(action: { self.settingsPresented.toggle() }) {
+                    Label("Settings", systemImage: "slider.horizontal.3").labelStyle(IconOnlyLabelStyle())
+                  }.sheet(isPresented: $settingsPresented, content: {
+                    SettingsView()
+                      .environmentObject(fetcher)
+                      .environmentObject(settings)
+                  })
+                }
               }
-            }
-          
-          EmptyDeploymentView()
-        }.sheet(isPresented: $settingsPresented) {
-          SettingsView()
+            
+            EmptyDeploymentView()
+          }.sheet(isPresented: $settingsPresented) {
+            SettingsView()
+          }
         }
         
         #if os(macOS)

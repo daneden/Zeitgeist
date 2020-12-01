@@ -64,20 +64,18 @@ struct LoginView: View {
     request.allHTTPHeaderFields = ["Authorization": "Bearer \(self.inputValue)"]
 
     let task = URLSession.shared.dataTask(with: request) {data, response, error in
-
-        if let httpResponse = response as? HTTPURLResponse {
-          switch httpResponse.statusCode {
-          case 200:
-            DispatchQueue.main.async {
-              self.settings.token = self.inputValue
-            }
-          default:
-            self.errorMessage = "Invalid Vercel access token."
+      if let httpResponse = response as? HTTPURLResponse {
+        switch httpResponse.statusCode {
+        case 200:
+          DispatchQueue.main.async {
+            self.settings.token = self.inputValue
           }
-          
-          self.validating = false
+        default:
+          self.errorMessage = "Invalid Vercel access token."
         }
-
+        
+        self.validating = false
+      }
     }
     task.resume()
   }
