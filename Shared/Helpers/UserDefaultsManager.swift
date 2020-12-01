@@ -25,7 +25,9 @@ class UserDefaultsManager: ObservableObject {
       // Prevent warnings about existing keys on KeychainAccess
       self.keychain["vercelToken"] = nil
       self.keychain["vercelToken"] = self.token
-      self.objectWillChange.send()
+      DispatchQueue.main.async {
+        self.objectWillChange.send()
+      }
     }
   }
   

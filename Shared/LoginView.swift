@@ -68,7 +68,9 @@ struct LoginView: View {
         if let httpResponse = response as? HTTPURLResponse {
           switch httpResponse.statusCode {
           case 200:
-            self.settings.token = self.inputValue
+            DispatchQueue.main.async {
+              self.settings.token = self.inputValue
+            }
           default:
             self.errorMessage = "Invalid Vercel access token."
           }

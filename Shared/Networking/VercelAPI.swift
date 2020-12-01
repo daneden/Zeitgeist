@@ -69,8 +69,7 @@ public class VercelFetcher: ObservableObject {
   var teamId: String? {
     didSet {
       self.fetchState = .loading
-      self.deployments = []
-      self.loadDeployments()
+      resetTimers()
       self.objectWillChange.send()
     }
   }
@@ -86,27 +85,31 @@ public class VercelFetcher: ObservableObject {
     self.settings = settings
     self.loadUser()
     if withTimer {
-      deploymentsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
-        self.loadDeployments()
-      })
-      
-      teamsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
-        self.loadTeams()
-      })
-      
-      deploymentsTimer?.tolerance = 1
-      teamsTimer?.tolerance = 1
+      resetTimers()
     }
   }
   
   deinit {
     deployments = [VercelDeployment]()
+    teams = [VercelTeam]()
+    deploymentsTimer?.invalidate()
+    deploymentsTimer = nil
+  }
+  
+  func resetTimers(reinit: Bool = true) {
+    deployments = [VercelDeployment]()
     deploymentsTimer?.invalidate()
     deploymentsTimer = nil
     
-    teams = [VercelTeam]()
-    teamsTimer?.invalidate()
-    teamsTimer = nil
+    if reinit {
+      deploymentsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
+        self.loadDeployments()
+        self.loadTeams()
+      })
+      
+      deploymentsTimer?.tolerance = 1
+      deploymentsTimer?.fire()
+    }
   }
   
   func urlForRoute(_ route: VercelRoute, query: String? = nil) -> URL {
