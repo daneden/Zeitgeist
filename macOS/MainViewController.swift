@@ -15,6 +15,7 @@ class MainViewController: NSViewController {
   }
   
   @IBAction public func openPopover(_ sender: AnyObject) {
+    // swiftlint:disable force_cast
     let delegate = NSApplication.shared.delegate as! AppDelegate
     if !delegate.popover.isShown {
       delegate.statusBar?.showPopover(sender)

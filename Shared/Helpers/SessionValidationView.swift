@@ -28,7 +28,7 @@ struct SessionValidationView: View {
       var request = URLRequest(url: url)
       request.allHTTPHeaderFields = ["Authorization": "Bearer \(token)"]
       
-      let task = URLSession.shared.dataTask(with: request) {data, response, error in
+      let task = URLSession.shared.dataTask(with: request) {_, response, _ in
         if let httpResponse = response as? HTTPURLResponse {
           switch httpResponse.statusCode {
           case 200:

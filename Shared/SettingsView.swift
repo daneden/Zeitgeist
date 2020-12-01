@@ -5,6 +5,7 @@
 //  Created by Daniel Eden on 27/05/2020.
 //  Copyright © 2020 Daniel Eden. All rights reserved.
 //
+// swiftlint:disable multiple_closures_with_trailing_closure
 
 import SwiftUI
 
@@ -18,7 +19,7 @@ struct SettingsView: View {
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var settings: UserDefaultsManager = UserDefaultsManager.shared
   @ObservedObject var fetcher: VercelFetcher = VercelFetcher.shared
-  @State var selectedTeam: String? = nil
+  @State var selectedTeam: String?
   
   var body: some View {
     let chosenTeamId = Binding<String>(get: {

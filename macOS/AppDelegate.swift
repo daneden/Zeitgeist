@@ -53,4 +53,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     preferencesWindow.makeKeyAndOrderFront(nil)
   }
 }
-

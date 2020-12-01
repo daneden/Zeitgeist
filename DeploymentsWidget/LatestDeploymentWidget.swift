@@ -24,7 +24,7 @@ struct LatestDeploymentProvider: TimelineProvider {
   }
   
   public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetContent>) -> Void) {
-    VercelFetcher.shared.loadDeployments { (entries, error) in
+    VercelFetcher.shared.loadDeployments { (entries, _) in
       if entries != nil, let entry = entries?[0] {
         let timeline = Timeline(entries: [deploymentToWidget(entry)], policy: .atEnd)
         completion(timeline)
@@ -50,7 +50,7 @@ struct RecentDeploymentsProvider: TimelineProvider {
   }
   
   public func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-    VercelFetcher.shared.loadDeployments { (entries, error) in
+    VercelFetcher.shared.loadDeployments { (entries, _) in
       if entries != nil, let entries = entries {
         let widgetContents = entries.map { entry in
           deploymentToWidget(entry)

@@ -102,7 +102,7 @@ public class VercelFetcher: ObservableObject {
     deploymentsTimer = nil
     
     if reinit {
-      deploymentsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { time in
+      deploymentsTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { _ in
         self.loadDeployments()
         self.loadTeams()
       })
@@ -163,7 +163,7 @@ public class VercelFetcher: ObservableObject {
     request.allHTTPHeaderFields = getHeaders()
     
     URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if(data == nil) {
+      if data == nil {
         print("Error loading deployments")
         return
       }
@@ -193,7 +193,7 @@ public class VercelFetcher: ObservableObject {
     
     request.allHTTPHeaderFields = getHeaders()
     URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if(data == nil) {
+      if data == nil {
         print("Error loading user")
         return
       }

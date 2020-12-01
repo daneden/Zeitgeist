@@ -22,6 +22,7 @@ struct ZeitgeistLogo: View {
       Text("Zeitgeist")
         .fontWeight(.bold)
         .font(.title)
+      // swiftlint:disable line_length
       Text("Zeitgeist helps you stay on top of your Vercel deployments. See deployments wait, build, and finish (or fail), and quickly access their URLs, logs, or commits.")
       
     }

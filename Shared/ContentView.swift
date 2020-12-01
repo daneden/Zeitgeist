@@ -5,6 +5,7 @@
 //  Created by Daniel Eden on 13/03/2020.
 //  Copyright © 2020 Daniel Eden. All rights reserved.
 //
+// swiftlint:disable multiple_closures_with_trailing_closure
 
 import SwiftUI
 import Combine
@@ -54,7 +55,7 @@ struct ContentView: View {
         HStack {
           Spacer()
           Button(action: {
-            NSApp.sendAction(#selector(AppDelegate.openPreferencesWindow), to: nil, from:nil)
+            NSApp.sendAction(#selector(AppDelegate.openPreferencesWindow), to: nil, from: nil)
           }) {
             Label("Settings", systemImage: "slider.horizontal.3")
           }

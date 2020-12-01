@@ -234,7 +234,6 @@
 				71D5EC3D241EE13D0076BCA3 /* Localizable.strings */,
 				71C6790524D5B14B0058F334 /* LoginView.swift */,
 				71103CA0247EEE920043D11B /* SettingsView.swift */,
-				7193C8532576B15C00D4A2AB /* SessionValidationView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -294,6 +293,7 @@
 			children = (
 				71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */,
 				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
+				7193C8532576B15C00D4A2AB /* SessionValidationView.swift */,
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 			);
 			path = Helpers;

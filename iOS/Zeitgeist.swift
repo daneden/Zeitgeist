@@ -13,7 +13,7 @@ typealias ZeitgeistButtonStyle = DefaultButtonStyle
 @main
 struct Zeitgeist: App {
   #if os(macOS)
-  @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  @NSApplicationDelegateAdaptor(AppDelegate.self) weak var appDelegate
   #endif
   
   var settings: UserDefaultsManager

@@ -41,7 +41,6 @@ struct Overview: View {
           .foregroundColor(.secondary)
         
         Text(extra).font(.footnote).lineLimit(10)
-        
           
         Group {
           if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
@@ -101,7 +100,6 @@ struct URLDetails: View {
   }
 }
 
-
 struct DeploymentDetails: View {
   var deployment: VercelDeployment
   
@@ -153,7 +151,7 @@ struct DeploymentDetailView: View {
       }
       .padding(.all, CGFloat(padding))
       .navigationTitle(Text("Deployment Details"))
-      .onChange(of: self.copied) { value in
+      .onChange(of: self.copied) { _ in
         if copied == true {
           DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.copied = false
