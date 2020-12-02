@@ -48,7 +48,7 @@ public class VercelFetcher: ObservableObject {
     }
   }
   
-  @Published var deployments = [VercelDeployment]() {
+  @Published var deployments = [Deployment]() {
     didSet {
       DispatchQueue.main.async {
         self.objectWillChange.send()
@@ -90,14 +90,11 @@ public class VercelFetcher: ObservableObject {
   }
   
   deinit {
-    deployments = [VercelDeployment]()
-    teams = [VercelTeam]()
-    deploymentsTimer?.invalidate()
-    deploymentsTimer = nil
+    resetTimers(reinit: false)
   }
   
   func resetTimers(reinit: Bool = true) {
-    deployments = [VercelDeployment]()
+    deployments = [Deployment]()
     deploymentsTimer?.invalidate()
     deploymentsTimer = nil
     
@@ -150,15 +147,9 @@ public class VercelFetcher: ObservableObject {
     }
   }
   
-  func loadDeployments(completion: @escaping ([VercelDeployment]?, Error?) -> Void) {
+  func loadDeployments(completion: @escaping ([Deployment]?, Error?) -> Void) {
     fetchState = deployments.isEmpty ? .loading : .idle
-    var request: URLRequest
-    
-    if let teamId = getTeamId() {
-      request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(teamId)"))
-    } else {
-      request = URLRequest(url: urlForRoute(.deployments))
-    }
+    var request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(getTeamId() ?? "")"))
     
     request.allHTTPHeaderFields = getHeaders()
     
@@ -169,18 +160,41 @@ public class VercelFetcher: ObservableObject {
       }
       
       do {
-        let decodedData = try JSONDecoder().decode(VercelDeploymentsAPIResponse.self, from: data!)
-        DispatchQueue.main.async {
-          self.deployments = decodedData.deployments
-          self.fetchState = .finished
+        if let serialised = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] {
+          let deployments = (serialised["deployments"] as! [[String : Any]]).map { (deployment: [String: Any]) -> Deployment in
+            let _creator = deployment["creator"] as! [String: String]
+            let creator = VercelDeploymentUser(
+              id: _creator["uid"]!,
+              email: _creator["email"]!,
+              username: _creator["username"]!
+            )
+            
+            return Deployment(
+              project: deployment["name"] as! String,
+              id: deployment["uid"] as! String,
+              createdAt: Date(timeIntervalSince1970: TimeInterval(deployment["created"] as! Int / 1000)),
+              state: DeploymentState(rawValue: deployment["state"] as! String)!,
+              url: URL(string: "https://\(deployment["url"] as! String)")!,
+              creator: creator,
+              svnInfo: GitCommit.from(json: deployment["meta"] as! [String: String])
+            )
+          }
+          
+          DispatchQueue.main.async {
+            self.deployments = deployments
+            self.fetchState = .finished
+          }
+          
+          completion(deployments, nil)
         }
-        completion(decodedData.deployments, nil)
-      } catch {
+      } catch let error as NSError {
         print("Error decoding deployments")
         print(error.localizedDescription)
+        
         DispatchQueue.main.async {
           self.fetchState = .error
         }
+        
         completion(nil, error)
       }
     }.resume()

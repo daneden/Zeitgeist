@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DeploymentsListRowView: View {
-  var deployment: VercelDeployment
+  var deployment: Deployment
 
   var body: some View {
     return VStack(alignment: .leading) {
@@ -17,20 +17,20 @@ struct DeploymentsListRowView: View {
         DeploymentStateIndicator(state: deployment.state)
         
         VStack(alignment: .leading) {
-          Text(deployment.name)
+          Text(deployment.project)
             .foregroundColor(.secondary)
             .font(.caption)
           
           HStack {
-            if deployment.meta.githubCommitMessage != nil, let commitMessage = deployment.meta.githubCommitMessage! {
-              Text("\(commitMessage.components(separatedBy: "\n")[0])")
+            if deployment.svnInfo != nil, let commitMessage = deployment.svnInfo!.commitMessageSummary {
+              Text(commitMessage)
             } else {
               Text("manualDeployment")
             }
           }.lineLimit(2)
 
           VStack(alignment: .leading, spacing: 2) {
-            Text("\(deployment.timestamp, style: .relative) ago")
+            Text("\(deployment.createdAt, style: .relative) ago")
               .fixedSize()
               .foregroundColor(.secondary)
               .font(.caption)

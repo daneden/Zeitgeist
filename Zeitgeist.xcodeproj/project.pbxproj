@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7163C5F324D6C89F000DAE1A /* VercelDeploymentMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5F124D6C885000DAE1A /* VercelDeploymentMock.swift */; };
+		7154E3942577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
+		7154E3952577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
+		7154E39D2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
+		7154E39E2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
+		7154E3A825781BA800B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
+		7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
 		7163C5FC24D6D45E000DAE1A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */; };
 		7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */; };
 		716911FC24A7E2C00023339D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
@@ -43,7 +48,6 @@
 		718DD0172573FF51001CB92A /* EmptyDeploymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */; };
 		718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
-		718DD0322573FF5E001CB92A /* VercelDeploymentMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5F124D6C885000DAE1A /* VercelDeploymentMock.swift */; };
 		718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */; };
 		718DD0592574003B001CB92A /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 718DD0582574003B001CB92A /* Reachability */; };
 		718DD05B2574003B001CB92A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 718DD05A2574003B001CB92A /* KeychainAccess */; };
@@ -104,8 +108,9 @@
 		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; };
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
+		7154E3932577FADB00B2117E /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
+		7154E39C2578007B00B2117E /* GitCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCommit.swift; sourceTree = "<group>"; };
 		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		7163C5F124D6C885000DAE1A /* VercelDeploymentMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDeploymentMock.swift; sourceTree = "<group>"; };
 		7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		716911CB24A7A8230023339D /* VercelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAPI.swift; sourceTree = "<group>"; };
 		716911CD24A7A9BF0023339D /* Zeitgeist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zeitgeist.swift; sourceTree = "<group>"; };
@@ -187,6 +192,15 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		7154E3922577FAC900B2117E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7154E3932577FADB00B2117E /* Deployment.swift */,
+				7154E39C2578007B00B2117E /* GitCommit.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		715E06CE241BDE8C00A4DA0F = {
 			isa = PBXGroup;
 			children = (
@@ -210,19 +224,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7163C5F024D6C877000DAE1A /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				7163C5F124D6C885000DAE1A /* VercelDeploymentMock.swift */,
-			);
-			path = Mocks;
-			sourceTree = "<group>";
-		};
 		716911CF24A7E2BE0023339D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7154E3922577FAC900B2117E /* Models */,
 				71F6571E24DEE4B200C08D01 /* Extensions */,
-				7163C5F024D6C877000DAE1A /* Mocks */,
 				71D3B19C2528C50500B0A2CC /* Helpers */,
 				7141D4CD241BE76F00D212F0 /* Networking */,
 				716911D224A7E2C00023339D /* Assets.xcassets */,
@@ -482,11 +488,12 @@
 				71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */,
 				71C6790724D5B16E0058F334 /* LoginView.swift in Sources */,
 				7169120A24A7E30C0023339D /* Zeitgeist.swift in Sources */,
+				7154E39D2578007B00B2117E /* GitCommit.swift in Sources */,
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
 				7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */,
-				7163C5F324D6C89F000DAE1A /* VercelDeploymentMock.swift in Sources */,
 				7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */,
 				71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */,
+				7154E3942577FADB00B2117E /* Deployment.swift in Sources */,
 				7169120C24A7E31B0023339D /* ContentView.swift in Sources */,
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
 			);
@@ -497,6 +504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				718DCFE12573FF39001CB92A /* DeploymentsListRowView.swift in Sources */,
+				7154E3952577FADB00B2117E /* Deployment.swift in Sources */,
 				718DCFCF2573FF32001CB92A /* DeploymentStateIndicator.swift in Sources */,
 				718DCFF32573FF40001CB92A /* ContentView.swift in Sources */,
 				718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */,
@@ -510,8 +518,8 @@
 				718DCFD82573FF35001CB92A /* DeploymentDetailView.swift in Sources */,
 				7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
 				718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */,
-				718DD0322573FF5E001CB92A /* VercelDeploymentMock.swift in Sources */,
 				718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */,
+				7154E39E2578007B00B2117E /* GitCommit.swift in Sources */,
 				718DD0712574018A001CB92A /* StatusBarController.swift in Sources */,
 				718DD07B257401A6001CB92A /* EventMonitor.swift in Sources */,
 				718DCFFC2573FF44001CB92A /* GitHubRelease.swift in Sources */,
@@ -524,9 +532,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
+				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
 				71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */,
 				71DC1AA024D5CD760095EF43 /* LatestDeploymentWidget.swift in Sources */,
 				7163C5FC24D6D45E000DAE1A /* VisualEffectView.swift in Sources */,
+				7154E3A825781BA800B2117E /* Deployment.swift in Sources */,
 				71DC1AB724D5D1D50095EF43 /* DeploymentStateIndicator.swift in Sources */,
 				71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */,
 				71DC1AB224D5CEDD0095EF43 /* WidgetContent.swift in Sources */,
@@ -693,7 +703,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -704,6 +714,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -721,7 +732,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -732,6 +743,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -751,7 +763,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -779,7 +791,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -805,7 +817,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -816,6 +828,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -835,7 +848,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -846,6 +859,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

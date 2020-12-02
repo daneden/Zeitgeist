@@ -14,17 +14,17 @@ struct WidgetContent: TimelineEntry, Codable, Hashable {
   let title: String
   let author: String
   let project: String
-  let status: VercelDeploymentState
+  let status: DeploymentState
 }
 
-func deploymentToWidget(_ deployment: VercelDeployment) -> WidgetContent {
-  let title = deployment.meta.githubCommitMessage?.split(separator: "\n")[0] ?? "Manual Deployment"
-  let author = deployment.meta.githubCommitAuthorLogin ?? deployment.creator.username
+func deploymentToWidget(_ deployment: Deployment) -> WidgetContent {
+  let title = deployment.svnInfo?.commitMessageSummary ?? "Manual Deployment"
+  let author = deployment.svnInfo?.commitAuthorName ?? deployment.creator.username
   return WidgetContent(
-    date: deployment.timestamp,
+    date: deployment.createdAt,
     title: String(title),
     author: author,
-    project: deployment.name,
+    project: deployment.project,
     status: deployment.state
   )
 }

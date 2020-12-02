@@ -15,11 +15,11 @@ typealias Container = Group
 #endif
 
 struct Overview: View {
-  var deployment: VercelDeployment
+  var deployment: Deployment
   
   var body: some View {
-    let commitMessage: String = deployment.meta.githubCommitMessage ?? "Manual Deployment"
-    let firstLine = commitMessage.components(separatedBy: "\n")[0]
+    let commitMessage: String = deployment.svnInfo?.commitMessage ?? ""
+    let firstLine = deployment.svnInfo?.commitMessageSummary ?? "Manual Deployment"
     
     let extra = commitMessage.components(separatedBy: "\n").dropFirst().joined(separator: "\n")
     return Group {
@@ -28,14 +28,14 @@ struct Overview: View {
       VStack(alignment: .leading, spacing: 4) {
         DeploymentStateIndicator(state: deployment.state, verbose: true)
         
-        Text(deployment.name)
+        Text(deployment.project)
           .font(.footnote)
           .foregroundColor(.secondary)
         
         Text(firstLine)
           .font(.headline)
         
-        Text("\(deployment.timestamp, style: .relative) ago")
+        Text("\(deployment.createdAt, style: .relative) ago")
           .fixedSize()
           .font(.caption)
           .foregroundColor(.secondary)
@@ -43,8 +43,8 @@ struct Overview: View {
         Text(extra).font(.footnote).lineLimit(10)
           
         Group {
-          if deployment.meta.githubCommitAuthorLogin != nil, let author = deployment.meta.githubCommitAuthorLogin! {
-            Text("Author: \(author)").lineLimit(1)
+          if let commit: GitCommit = deployment.svnInfo {
+            Text("Author: \(commit.commitAuthorName)").lineLimit(1)
           } else {
             Text("Author: \(deployment.creator.username)")
           }
@@ -58,7 +58,7 @@ struct Overview: View {
 }
 
 struct URLDetails: View {
-  var deployment: VercelDeployment
+  var deployment: Deployment
   @Binding var copied: Bool
   
   var body: some View {
@@ -71,8 +71,8 @@ struct URLDetails: View {
       
       Section(header: Text("Deployment URL").font(Font.caption.bold()).foregroundColor(.secondary)) {
         // MARK: Deployment name/URL
-        Link(destination: URL(string: deployment.absoluteURL)!) {
-          Text("\(deployment.url)").lineLimit(1)
+        Link(destination: deployment.url) {
+          Text(deployment.url.absoluteString).lineLimit(1)
         }
         
         Button(action: self.copyUrl) {
@@ -89,11 +89,11 @@ struct URLDetails: View {
   func copyUrl() {
     #if os(iOS)
     let pasteboard = UIPasteboard.general
-    pasteboard.string = deployment.absoluteURL
+    pasteboard.string = deployment.url.absoluteString
     #else
     let pasteboard = NSPasteboard.general
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-    pasteboard.setString(deployment.absoluteURL, forType: NSPasteboard.PasteboardType.string)
+    pasteboard.setString(deployment.url.absoluteString, forType: NSPasteboard.PasteboardType.string)
     #endif
   
     copied = true
@@ -101,7 +101,7 @@ struct URLDetails: View {
 }
 
 struct DeploymentDetails: View {
-  var deployment: VercelDeployment
+  var deployment: Deployment
   
   var body: some View {
     return Group {
@@ -112,14 +112,15 @@ struct DeploymentDetails: View {
       #endif
       Section(header: Text("Details").font(Font.caption.bold()).foregroundColor(.secondary)) {
         // MARK: Details
-        if let commitUrl: URL = deployment.meta.githubCommitUrl,
-           let shortSha: String = deployment.meta.githubCommitShortSha {
+        if let svnInfo: GitCommit = deployment.svnInfo,
+           let commitUrl: URL = svnInfo.commitURL,
+           let shortSha: String = svnInfo.shortSha {
           Link(destination: commitUrl) {
             Text("View Commit (\(shortSha))")
           }
         }
         
-        Link(destination: URL(string: "\(deployment.absoluteURL)/_logs")!) {
+        Link(destination: URL(string: "\(deployment.url.absoluteString)/_logs")!) {
           Text("viewLogs")
         }
       }
@@ -128,7 +129,7 @@ struct DeploymentDetails: View {
 }
 
 struct DeploymentDetailView: View {
-  var deployment: VercelDeployment
+  var deployment: Deployment
   @State var copied = false
   #if os(macOS)
   let padding = 12.0
@@ -162,8 +163,8 @@ struct DeploymentDetailView: View {
   }
 }
 
-struct DeploymentDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    DeploymentDetailView(deployment: mockDeployment)
-  }
-}
+//struct DeploymentDetailView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    DeploymentDetailView(deployment: mockDeployment)
+//  }
+//}

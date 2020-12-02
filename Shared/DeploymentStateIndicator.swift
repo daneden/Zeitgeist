@@ -19,7 +19,7 @@ typealias TColor = NSColor
 #endif
 
 struct DeploymentStateIndicator: View {
-  var state: VercelDeploymentState
+  var state: DeploymentState
   var verbose: Bool = false
   var isWidget: Bool = false
   
@@ -47,7 +47,7 @@ struct DeploymentStateIndicator: View {
     .padding(.bottom, isWidget ? -4 : 4)
   }
   
-  func iconForState(_ state: VercelDeploymentState) -> Image {
+  func iconForState(_ state: DeploymentState) -> Image {
     switch state {
     case .error:
       return Image(systemName: verbose ? "exclamationmark.circle.fill" : "exclamationmark.triangle.fill")
@@ -60,7 +60,7 @@ struct DeploymentStateIndicator: View {
     }
   }
   
-  func colorForState(_ state: VercelDeploymentState) -> Color {
+  func colorForState(_ state: DeploymentState) -> Color {
     switch state {
     case .error:
       return Color(TColor.systemRed)
@@ -74,7 +74,7 @@ struct DeploymentStateIndicator: View {
     }
   }
   
-  func labelForState(_ state: VercelDeploymentState) -> String {
+  func labelForState(_ state: DeploymentState) -> String {
     switch state {
     case .error:
       return "Error building"
