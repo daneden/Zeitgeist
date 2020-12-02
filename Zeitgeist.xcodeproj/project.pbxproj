@@ -347,9 +347,9 @@
 			productReference = 716911D724A7E2C00023339D /* Zeitgeist.app */;
 			productType = "com.apple.product-type.application";
 		};
-		718DCF682573FEF8001CB92A /* Zeitgeist */ = {
+		718DCF682573FEF8001CB92A /* macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 718DCF8F2573FEF9001CB92A /* Build configuration list for PBXNativeTarget "Zeitgeist" */;
+			buildConfigurationList = 718DCF8F2573FEF9001CB92A /* Build configuration list for PBXNativeTarget "macOS" */;
 			buildPhases = (
 				718DCF652573FEF8001CB92A /* Sources */,
 				718DCF662573FEF8001CB92A /* Frameworks */,
@@ -359,7 +359,7 @@
 			);
 			dependencies = (
 			);
-			name = Zeitgeist;
+			name = macOS;
 			packageProductDependencies = (
 				718DD0582574003B001CB92A /* Reachability */,
 				718DD05A2574003B001CB92A /* KeychainAccess */,
@@ -430,7 +430,7 @@
 			targets = (
 				716911D624A7E2C00023339D /* iOS */,
 				71DC1A9A24D5CD760095EF43 /* DeploymentsWidgetExtension */,
-				718DCF682573FEF8001CB92A /* Zeitgeist */,
+				718DCF682573FEF8001CB92A /* macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -764,7 +764,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -792,7 +792,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -879,7 +879,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		718DCF8F2573FEF9001CB92A /* Build configuration list for PBXNativeTarget "Zeitgeist" */ = {
+		718DCF8F2573FEF9001CB92A /* Build configuration list for PBXNativeTarget "macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				718DCF902573FEF9001CB92A /* Debug */,
