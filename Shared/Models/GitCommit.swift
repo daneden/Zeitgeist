@@ -30,61 +30,71 @@ struct GitCommit {
   }
   
   static func from(json: [String: String]) -> GitCommit? {
+    var builder = CommitBuilder()
     for(key, _ ) in json.prefix(1) {
       if key.hasPrefix("github") {
-        return buildGitHubCommit(from: json)
+        builder = .init(provider: .github)
       } else if key.hasPrefix("bitbucket") {
-        return buildBitBucketCommit(from: json)
+        builder = .init(provider: .bitbucket)
       } else if key.hasPrefix("gitlab") {
-        return buildGitLabCommit(from: json)
+        builder = .init(provider: .gitlab)
       }
     }
     
-    return nil
+    return builder.build(from: json)
   }
 }
 
-func buildGitHubCommit(from: [String: String]) -> GitCommit {
-  func pfx(_ val: String) -> String {
-    return "\(GitSVNProvider.github.rawValue)\(val)"
+class CommitBuilder {
+  var provider: GitSVNProvider? = nil
+  var repoKey: String?
+  var namespaceKey: String?
+  var urlPattern: String?
+  
+  init() {}
+  
+  init(provider: GitSVNProvider) {
+    self.provider = provider
+    
+    switch provider {
+    case .bitbucket:
+      self.urlPattern = "https://bitbucket.com/%@/%@/commits/%@"
+      self.repoKey = "RepoSlug"
+      self.namespaceKey = "RepoOwner"
+    case .github:
+      self.urlPattern = "https://github.com/%@/%@/commit/%@"
+      self.repoKey = "CommitRepo"
+      self.namespaceKey = "CommitOrg"
+    case .gitlab:
+      self.urlPattern = "https://gitlab.com/%@/%@/-/commit/%@"
+      self.repoKey = "ProjectNamespace"
+      self.namespaceKey = "ProjectName"
+    }
   }
   
-  return GitCommit(
-    provider: .github,
-    commitSha: from[pfx("CommitSha")]!,
-    commitMessage: from[pfx("CommitMessage")]!,
-    commitAuthorName: from[pfx("CommitAuthorName")]!,
-    commitURL: URL(string: "https://github.com/\(from[pfx("CommitOrg")]!)/\(from[pfx("CommitRepo")]!)/commit/\(from[pfx("CommitSha")]!)")!,
-    repo: from[pfx("CommitRepo")]!
-  )
-}
-
-func buildGitLabCommit(from: [String: String]) -> GitCommit {
   func pfx(_ val: String) -> String {
-    return "\(GitSVNProvider.gitlab.rawValue)\(val)"
+    return "\(provider!.rawValue)\(val)"
   }
   
-  return GitCommit(
-    provider: .gitlab,
-    commitSha: from[pfx("CommitSha")]!,
-    commitMessage: from[pfx("CommitMessage")]!,
-    commitAuthorName: from[pfx("CommitAuthorName")]!,
-    commitURL: URL(string: "https://gitlab.com/\(from[pfx("ProjectNamespace")]!)/\(from[pfx("ProjectName")]!)/-/commit/\(from[pfx("CommitSha")]!)")!,
-    repo: from[pfx("ProjectName")]!
-  )
-}
-
-func buildBitBucketCommit(from: [String: String]) -> GitCommit {
-  func pfx(_ val: String) -> String {
-    return "\(GitSVNProvider.bitbucket.rawValue)\(val)"
+  func build(from: [String: String]) -> GitCommit? {
+    if provider == nil {
+      return nil
+    }
+    
+    let sha = from[pfx("CommitSha")] ?? ""
+    let message = from[pfx("CommitMessage")] ?? ""
+    let authorName = from[pfx("CommitAuthorName")] ?? ""
+    let repo = from[pfx(repoKey!)] ?? ""
+    let namespace = from[pfx(namespaceKey!)] ?? ""
+    let url = String(format: urlPattern!, namespace, repo, sha)
+    
+    return GitCommit(
+      provider: provider,
+      commitSha: sha,
+      commitMessage: message,
+      commitAuthorName: authorName,
+      commitURL: URL(string: url)!,
+      repo: repo
+    )
   }
-  
-  return GitCommit(
-    provider: .bitbucket,
-    commitSha: from[pfx("CommitSha")]!,
-    commitMessage: from[pfx("CommitMessage")]!,
-    commitAuthorName: from[pfx("CommitAuthorName")]!,
-    commitURL: URL(string: "https://bitbucket.com/\(from[pfx("RepoOwner")]!)/\(from[pfx("RepoSlug")]!)/commits/\(from[pfx("CommitSha")]!)")!,
-    repo: from[pfx("RepoName")]!
-  )
 }
