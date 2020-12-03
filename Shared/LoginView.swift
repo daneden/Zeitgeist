@@ -38,10 +38,13 @@ struct LoginView: View {
         Button(action: { self.validateToken() }, label: {
           HStack {
             Text("loginButton")
-            Spacer()
+            
+            #if os(iOS)
             if validating {
+              Spacer()
               ProgressView()
             }
+            #endif
           }
         })
         .disabled(inputValue.isEmpty || validating)

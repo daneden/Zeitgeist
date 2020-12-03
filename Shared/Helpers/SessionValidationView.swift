@@ -31,8 +31,17 @@ struct SessionValidationView: View {
       let task = URLSession.shared.dataTask(with: request) {_, response, _ in
         if let httpResponse = response as? HTTPURLResponse {
           switch httpResponse.statusCode {
+          // a-ok
           case 200:
             self.isValidated = true
+          // bad token/permission
+          case 403:
+            self.isValidated = false
+            DispatchQueue.main.async {
+              self.settings.token = nil
+            }
+          // all other (unknown) cases, such as server errors
+          // TODO: Stub out additional API response codes
           default:
             self.isValidated = false
           }

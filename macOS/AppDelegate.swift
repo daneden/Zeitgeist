@@ -49,6 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       preferencesWindow.isReleasedWhenClosed = false
       preferencesWindow.contentView = NSHostingView(rootView: preferencesView)
     }
+    
     NSApp.activate(ignoringOtherApps: true)
     preferencesWindow.makeKeyAndOrderFront(nil)
   }
