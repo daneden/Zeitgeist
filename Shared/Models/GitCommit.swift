@@ -13,7 +13,7 @@ enum GitSVNProvider: String, Codable {
 }
 
 struct GitCommit {
-  var provider: GitSVNProvider? = nil
+  var provider: GitSVNProvider?
   var commitSha: String
   var commitMessage: String
   var commitAuthorName: String
@@ -46,7 +46,7 @@ struct GitCommit {
 }
 
 class CommitBuilder {
-  var provider: GitSVNProvider? = nil
+  var provider: GitSVNProvider?
   var repoKey: String?
   var namespaceKey: String?
   var urlPattern: String?

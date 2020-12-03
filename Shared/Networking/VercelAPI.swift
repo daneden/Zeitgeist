@@ -160,8 +160,9 @@ public class VercelFetcher: ObservableObject {
       }
       
       do {
+        // swiftlint:disable force_cast
         if let serialised = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] {
-          let deployments = (serialised["deployments"] as! [[String : Any]]).map { (deployment: [String: Any]) -> Deployment in
+          let deployments = (serialised["deployments"] as! [[String: Any]]).map { (deployment: [String: Any]) -> Deployment in
             let _creator = deployment["creator"] as! [String: String]
             let creator = VercelDeploymentUser(
               id: _creator["uid"]!,
