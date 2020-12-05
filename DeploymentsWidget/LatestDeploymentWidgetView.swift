@@ -9,25 +9,25 @@
 import SwiftUI
 
 struct LatestDeploymentWidgetView: View {
-  var model: WidgetContent
+  var deployment: Deployment
   @Environment(\.colorScheme) var colorScheme
   
   var body: some View {
     VStack(alignment: .leading) {
-      DeploymentStateIndicator(state: model.status, verbose: true, isWidget: true)
+      DeploymentStateIndicator(state: deployment.state, verbose: true, isWidget: true)
       
-      Text(model.title)
+      Text(deployment.svnInfo?.commitMessage ?? "Manual Deployment")
         .font(.subheadline)
         .fontWeight(.bold)
         .lineLimit(3)
         .foregroundColor(.primary)
-      Text(model.date, style: .relative)
+      Text(deployment.date, style: .relative)
         .font(.caption)
         .foregroundColor(.secondary)
       
       Spacer()
       
-      Text("\(model.project)")
+      Text("\(deployment.project)")
         .font(.caption).font(.caption)
       
     }

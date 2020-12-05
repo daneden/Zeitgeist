@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct RecentDeploymentsWidgetView: View {
-  var entries: [WidgetContent]
+  var deployments: [Deployment]
   @Environment(\.colorScheme) var colorScheme
   
   var body: some View {
@@ -19,21 +19,21 @@ struct RecentDeploymentsWidgetView: View {
       
       Divider().padding(.bottom, 4)
       
-      ForEach(entries.prefix(6), id: \.self) { model in
+      ForEach(deployments.prefix(6), id: \.self) { deployment in
         HStack(alignment: .top) {
-          DeploymentStateIndicator(state: model.status, verbose: false, isWidget: true)
+          DeploymentStateIndicator(state: deployment.state, verbose: false, isWidget: true)
         
           VStack(alignment: .leading) {
-            Text(model.title)
+            Text(deployment.svnInfo?.commitMessage ?? "Manual Deployment")
               .fontWeight(.bold)
               .lineLimit(3)
               .foregroundColor(.primary)
             
             HStack {
-              Text("\(model.project)")
+              Text("\(deployment.project)")
                 .foregroundColor(.secondary)
               
-              Text(model.date, style: .relative)
+              Text(deployment.date, style: .relative)
                 .foregroundColor(.secondary)
             }
           }
@@ -53,6 +53,6 @@ struct RecentDeploymentsWidgetView: View {
 
 struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-      RecentDeploymentsWidgetView(entries: [snapshotEntry, snapshotEntry])
+      RecentDeploymentsWidgetView(deployments: [snapshotEntry, snapshotEntry])
     }
 }

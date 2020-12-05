@@ -9,37 +9,20 @@
 import WidgetKit
 import SwiftUI
 
-let snapshotEntry = WidgetContent(
-  title: "Example Deployment",
-  author: "Johnny Appleseed",
-  project: "example-project",
-  status: .building
+let snapshotEntry = Deployment(
+  project: "Zeitgeist",
+  id: "1",
+  createdAt: Date(),
+  state: .queued,
+  url: URL(string: "https://vercel.com")!,
+  creator: VercelDeploymentUser(
+    id: "1",
+    email: "example@example.com",
+    username: "example-user",
+    githubLogin: "example_user"
+  ),
+  svnInfo: nil
 )
-
-struct LatestDeploymentProvider: TimelineProvider {
-  public typealias Entry = WidgetContent
-  
-  public func getSnapshot(in context: Context, completion: @escaping (WidgetContent) -> Void) {
-    completion(snapshotEntry)
-  }
-  
-  public func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetContent>) -> Void) {
-    VercelFetcher.shared.loadDeployments { (entries, _) in
-      if entries != nil, let entry = entries?[0] {
-        let timeline = Timeline(entries: [deploymentToWidget(entry)], policy: .atEnd)
-        completion(timeline)
-      } else {
-        let entry = snapshotEntry
-        let timeline = Timeline(entries: [entry], policy: .atEnd)
-        completion(timeline)
-      }
-    }
-  }
-  
-  public func placeholder(in context: Context) -> WidgetContent {
-    return snapshotEntry
-  }
-}
 
 struct RecentDeploymentsProvider: TimelineProvider {
   public typealias Entry = RecentsTimeline
@@ -52,11 +35,7 @@ struct RecentDeploymentsProvider: TimelineProvider {
   public func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
     VercelFetcher.shared.loadDeployments { (entries, _) in
       if entries != nil, let entries = entries {
-        let widgetContents = entries.map { entry in
-          deploymentToWidget(entry)
-        }
-        
-        let timeline = Timeline(entries: [RecentsTimeline(entries: widgetContents)], policy: .atEnd)
+        let timeline = Timeline(entries: [RecentsTimeline(entries: entries)], policy: .atEnd)
         completion(timeline)
       } else {
         let snapshot = RecentsTimeline(entries: [snapshotEntry])
@@ -74,19 +53,59 @@ struct RecentDeploymentsProvider: TimelineProvider {
 
 struct RecentsTimeline: TimelineEntry {
   var date = Date()
-  var entries: [WidgetContent]
+  var entries: [Deployment]
+}
+
+struct DeploymentTimelineProvider: IntentTimelineProvider {
+  func placeholder(in context: Context) -> Deployment {
+    return snapshotEntry
+  }
+  
+  func getSnapshot(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Deployment) -> Void) {
+    VercelFetcher.shared.teamId = configuration.team?.identifier
+    VercelFetcher.shared.loadDeployments { (entries, _) in
+      if entries != nil, let entry = entries?[0] {
+        completion(entry)
+      } else {
+        let entry = snapshotEntry
+        completion(entry)
+      }
+    }
+  }
+  
+  typealias Entry = Deployment
+  
+  typealias Intent = SelectTeamIntent
+  
+  func getTimeline(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Timeline<Deployment>) -> Void) {
+    VercelFetcher.shared.teamId = configuration.team?.identifier
+    VercelFetcher.shared.loadDeployments { (entries, _) in
+      if entries != nil, let entry = entries?[0] {
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
+        completion(timeline)
+      } else {
+        let entry = snapshotEntry
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
+        completion(timeline)
+      }
+    }
+  }
 }
 
 struct LatestDeploymentWidget: Widget {
   private let kind: String = "LatestDeploymentWidget"
   
   public var body: some WidgetConfiguration {
-    StaticConfiguration(kind: kind, provider: LatestDeploymentProvider()) { entry in
-      LatestDeploymentWidgetView(model: entry)
+    IntentConfiguration(
+      kind: kind,
+      intent: SelectTeamIntent.self,
+      provider: DeploymentTimelineProvider()
+    ) { entry in
+      LatestDeploymentWidgetView(deployment: entry)
     }
     .supportedFamilies([.systemSmall])
     .configurationDisplayName("Latest Deployment")
-    .description("View the most recent Vercel deployment from Zeitgeist")
+    .description("View the most recent Vercel deployment")
   }
 }
 
@@ -95,7 +114,7 @@ struct RecentDeploymentsWidget: Widget {
   
   public var body: some WidgetConfiguration {
     StaticConfiguration(kind: kind, provider: RecentDeploymentsProvider()) { entry in
-      RecentDeploymentsWidgetView(entries: entry.entries)
+      RecentDeploymentsWidgetView(deployments: entry.entries)
     }
     .supportedFamilies([.systemLarge])
     .configurationDisplayName("Recent Deployments")
@@ -114,7 +133,7 @@ struct VercelWidgets: WidgetBundle {
 
 struct DeploymentsWidget_Previews: PreviewProvider {
   static var previews: some View {
-    LatestDeploymentWidgetView(model: snapshotEntry)
+    LatestDeploymentWidgetView(deployment: snapshotEntry)
       .previewContext(WidgetPreviewContext(family: .systemMedium))
   }
 }

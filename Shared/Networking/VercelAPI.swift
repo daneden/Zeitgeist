@@ -114,6 +114,20 @@ public class VercelFetcher: ObservableObject {
   }
   
   func loadTeams() {
+    loadTeams { (teams, error) in
+      if error != nil { print(error!) }
+      
+      if teams != nil {
+        DispatchQueue.main.async {
+          self.teams = teams!
+        }
+      } else {
+        print("Found `nil` instead of teams array")
+      }
+    }
+  }
+  
+  func loadTeams(completion: @escaping ([VercelTeam]?, Error?) -> Void) {
     var request = URLRequest(url: urlForRoute(.teams))
     request.allHTTPHeaderFields = getHeaders()
     URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -124,9 +138,10 @@ public class VercelFetcher: ObservableObject {
         }
         let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: response)
         DispatchQueue.main.async {
-          self.teams = decodedData.teams
+          completion(decodedData.teams, nil)
         }
       } catch {
+        completion(nil, error)
         print("Error loading teams")
         print(error.localizedDescription)
       }

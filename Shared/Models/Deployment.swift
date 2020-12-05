@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WidgetKit
 
 enum DeploymentState: String, Codable {
   case ready = "READY"
@@ -17,10 +18,15 @@ enum DeploymentState: String, Codable {
   case offline = "OFFLINE"
 }
 
-struct Deployment: Hashable {
+struct Deployment: Hashable, TimelineEntry {
   var project: String
   var id: String
   var createdAt: Date
+  
+  var date: Date {
+    return self.createdAt
+  }
+  
   var state: DeploymentState
   var url: URL
   var creator: VercelDeploymentUser

@@ -7,5 +7,9 @@
 		<string>group.me.daneden.Zeitgeist.contents</string>
 		<string>group.me.daneden.Zeitgeist.shared</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)me.daneden.Zeitgeist</string>
+	</array>
 </dict>
 </plist>

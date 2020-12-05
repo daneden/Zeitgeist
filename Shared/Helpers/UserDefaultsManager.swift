@@ -11,20 +11,23 @@ import Combine
 import KeychainAccess
 
 class UserDefaultsManager: ObservableObject {
-  var keychain: Keychain
+  var keychain: KeyStore
   static let shared = UserDefaultsManager()
   
   init() {
-    self.keychain = Keychain(service: "me.daneden.Zeitgeist", accessGroup: "group.me.daneden.Zeitgeist.shared")
+    self.keychain = KeyStore()
     
-    self.token = self.keychain["vercelToken"]
+    self.token = migrateKeychain() ?? self.keychain.retrieve()
   }
   
   @Published var token: String? {
     didSet {
-      // Prevent warnings about existing keys on KeychainAccess
-      self.keychain["vercelToken"] = nil
-      self.keychain["vercelToken"] = self.token
+      if let newValue = self.token {
+        self.keychain.store(token: newValue)
+      } else {
+        self.keychain.clear()
+      }
+
       DispatchQueue.main.async {
         self.objectWillChange.send()
       }
@@ -44,4 +47,10 @@ class UserDefaultsManager: ObservableObject {
       self.objectWillChange.send()
     }
   }
+}
+
+func migrateKeychain() -> String? {
+  let keychain = Keychain(service: "me.daneden.Zeitgeist", accessGroup: "group.me.daneden.Zeitgeist.shared")
+  
+  return keychain["vercelToken"]
 }

@@ -13,6 +13,25 @@
 		7154E39E2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
 		7154E3A825781BA800B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
+		715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
+		715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BB98F257A4BFA00D22BDE /* IntentHandler.swift */; };
+		715BB998257A4BFA00D22BDE /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715BB997257A4BFA00D22BDE /* IntentsUI.framework */; };
+		715BB99B257A4BFA00D22BDE /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BB99A257A4BFA00D22BDE /* IntentViewController.swift */; };
+		715BB99E257A4BFA00D22BDE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 715BB99C257A4BFA00D22BDE /* MainInterface.storyboard */; };
+		715BB9A2257A4BFA00D22BDE /* SelectTeamIntentUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		715BB9A5257A4BFA00D22BDE /* SelectTeamIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		715BB9B6257A4C2800D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
+		715BB9BC257A4C2900D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
+		715BB9C7257A4E3700D22BDE /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
+		715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
+		715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
+		715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
+		715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
+		715BB9E6257A520B00D22BDE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 715BB9E5257A520B00D22BDE /* KeychainAccess */; };
+		715BBA15257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
+		715BBA16257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
+		715BBA17257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
+		715BBA18257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
 		7163C5FC24D6D45E000DAE1A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */; };
 		7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */; };
 		716911FC24A7E2C00023339D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
@@ -72,14 +91,26 @@
 		71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		71DC1AAC24D5CE5E0095EF43 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		71DC1AAE24D5CE980095EF43 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71DC1AAD24D5CE980095EF43 /* KeychainAccess */; };
-		71DC1AB024D5CED90095EF43 /* WidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1AAF24D5CED90095EF43 /* WidgetContent.swift */; };
-		71DC1AB224D5CEDD0095EF43 /* WidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1AAF24D5CED90095EF43 /* WidgetContent.swift */; };
 		71DC1AB624D5CF4A0095EF43 /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */; };
 		71DC1AB724D5D1D50095EF43 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */; };
 		71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		715BB9A0257A4BFA00D22BDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 715BB995257A4BFA00D22BDE;
+			remoteInfo = SelectTeamIntentUI;
+		};
+		715BB9A3257A4BFA00D22BDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 715BB98C257A4BFA00D22BDE;
+			remoteInfo = SelectTeamIntent;
+		};
 		71DC1AA424D5CD780095EF43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
@@ -96,7 +127,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				715BB9A5257A4BFA00D22BDE /* SelectTeamIntent.appex in Embed App Extensions */,
 				71DC1AA624D5CD780095EF43 /* DeploymentsWidgetExtension.appex in Embed App Extensions */,
+				715BB9A2257A4BFA00D22BDE /* SelectTeamIntentUI.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +143,16 @@
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
 		7154E3932577FADB00B2117E /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
 		7154E39C2578007B00B2117E /* GitCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCommit.swift; sourceTree = "<group>"; };
+		715BB984257A4A5100D22BDE /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectTeamIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		715BB98F257A4BFA00D22BDE /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		715BB991257A4BFA00D22BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectTeamIntentUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		715BB997257A4BFA00D22BDE /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = Library/Frameworks/IntentsUI.framework; sourceTree = DEVELOPER_DIR; };
+		715BB99A257A4BFA00D22BDE /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
+		715BB99D257A4BFA00D22BDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		715BB99F257A4BFA00D22BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		715BBA14257B9CB700D22BDE /* KeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStore.swift; sourceTree = "<group>"; };
 		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		716911CB24A7A8230023339D /* VercelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAPI.swift; sourceTree = "<group>"; };
@@ -141,7 +184,6 @@
 		71DC1A9F24D5CD760095EF43 /* LatestDeploymentWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidget.swift; sourceTree = "<group>"; };
 		71DC1AA124D5CD780095EF43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71DC1AA324D5CD780095EF43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		71DC1AAF24D5CED90095EF43 /* WidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetContent.swift; sourceTree = "<group>"; };
 		71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidgetView.swift; sourceTree = "<group>"; };
 		71DC1AB824D5D2070095EF43 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71DC1AB924D5D2720095EF43 /* DeploymentsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeploymentsWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -149,6 +191,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		715BB98A257A4BFA00D22BDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715BB9E6257A520B00D22BDE /* KeychainAccess in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715BB993257A4BFA00D22BDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715BB998257A4BFA00D22BDE /* IntentsUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		716911D424A7E2C00023339D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -201,6 +259,26 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		715BB98E257A4BFA00D22BDE /* SelectTeamIntent */ = {
+			isa = PBXGroup;
+			children = (
+				715BB984257A4A5100D22BDE /* Intents.intentdefinition */,
+				715BB98F257A4BFA00D22BDE /* IntentHandler.swift */,
+				715BB991257A4BFA00D22BDE /* Info.plist */,
+			);
+			path = SelectTeamIntent;
+			sourceTree = "<group>";
+		};
+		715BB999257A4BFA00D22BDE /* SelectTeamIntentUI */ = {
+			isa = PBXGroup;
+			children = (
+				715BB99A257A4BFA00D22BDE /* IntentViewController.swift */,
+				715BB99C257A4BFA00D22BDE /* MainInterface.storyboard */,
+				715BB99F257A4BFA00D22BDE /* Info.plist */,
+			);
+			path = SelectTeamIntentUI;
+			sourceTree = "<group>";
+		};
 		715E06CE241BDE8C00A4DA0F = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +287,8 @@
 				716911D824A7E2C00023339D /* iOS */,
 				71DC1A9E24D5CD760095EF43 /* DeploymentsWidget */,
 				718DCF6A2573FEF8001CB92A /* macOS */,
+				715BB98E257A4BFA00D22BDE /* SelectTeamIntent */,
+				715BB999257A4BFA00D22BDE /* SelectTeamIntentUI */,
 				715E06D8241BDE8C00A4DA0F /* Products */,
 				7169122E24A7E7160023339D /* Frameworks */,
 			);
@@ -220,6 +300,8 @@
 				716911D724A7E2C00023339D /* Zeitgeist.app */,
 				71DC1A9B24D5CD760095EF43 /* DeploymentsWidgetExtension.appex */,
 				718DCF692573FEF8001CB92A /* Zeitgeist.app */,
+				715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */,
+				715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +341,7 @@
 			children = (
 				71DC1A7024D5CA0C0095EF43 /* WidgetKit.framework */,
 				71DC1A7224D5CA0C0095EF43 /* SwiftUI.framework */,
+				715BB997257A4BFA00D22BDE /* IntentsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -299,6 +382,7 @@
 			children = (
 				71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */,
 				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
+				715BBA14257B9CB700D22BDE /* KeyStore.swift */,
 				7193C8532576B15C00D4A2AB /* SessionValidationView.swift */,
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 			);
@@ -309,7 +393,6 @@
 			isa = PBXGroup;
 			children = (
 				71DC1A9F24D5CD760095EF43 /* LatestDeploymentWidget.swift */,
-				71DC1AAF24D5CED90095EF43 /* WidgetContent.swift */,
 				71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */,
 				71DC1AA124D5CD780095EF43 /* Assets.xcassets */,
 				71DC1AA324D5CD780095EF43 /* Info.plist */,
@@ -329,6 +412,43 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		715BB98C257A4BFA00D22BDE /* SelectTeamIntent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715BB9A9257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntent" */;
+			buildPhases = (
+				715BB989257A4BFA00D22BDE /* Sources */,
+				715BB98A257A4BFA00D22BDE /* Frameworks */,
+				715BB98B257A4BFA00D22BDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelectTeamIntent;
+			packageProductDependencies = (
+				715BB9E5257A520B00D22BDE /* KeychainAccess */,
+			);
+			productName = SelectTeamIntent;
+			productReference = 715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		715BB995257A4BFA00D22BDE /* SelectTeamIntentUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715BB9A6257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntentUI" */;
+			buildPhases = (
+				715BB992257A4BFA00D22BDE /* Sources */,
+				715BB993257A4BFA00D22BDE /* Frameworks */,
+				715BB994257A4BFA00D22BDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelectTeamIntentUI;
+			productName = SelectTeamIntentUI;
+			productReference = 715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		716911D624A7E2C00023339D /* iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 716911FE24A7E2C00023339D /* Build configuration list for PBXNativeTarget "iOS" */;
@@ -342,6 +462,8 @@
 			);
 			dependencies = (
 				71DC1AA524D5CD780095EF43 /* PBXTargetDependency */,
+				715BB9A1257A4BFA00D22BDE /* PBXTargetDependency */,
+				715BB9A4257A4BFA00D22BDE /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -405,6 +527,12 @@
 				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Daniel Eden";
 				TargetAttributes = {
+					715BB98C257A4BFA00D22BDE = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					715BB995257A4BFA00D22BDE = {
+						CreatedOnToolsVersion = 12.2;
+					};
 					716911D624A7E2C00023339D = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -437,11 +565,28 @@
 				716911D624A7E2C00023339D /* iOS */,
 				71DC1A9A24D5CD760095EF43 /* DeploymentsWidgetExtension */,
 				718DCF682573FEF8001CB92A /* macOS */,
+				715BB98C257A4BFA00D22BDE /* SelectTeamIntent */,
+				715BB995257A4BFA00D22BDE /* SelectTeamIntentUI */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		715BB98B257A4BFA00D22BDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715BB994257A4BFA00D22BDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715BB99E257A4BFA00D22BDE /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		716911D524A7E2C00023339D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -473,6 +618,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		715BB989257A4BFA00D22BDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715BB9B6257A4C2800D22BDE /* Intents.intentdefinition in Sources */,
+				715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */,
+				715BB9C7257A4E3700D22BDE /* VercelAPI.swift in Sources */,
+				715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */,
+				715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */,
+				715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */,
+				715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */,
+				715BBA18257B9CB700D22BDE /* KeyStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		715BB992257A4BFA00D22BDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715BB9BC257A4C2900D22BDE /* Intents.intentdefinition in Sources */,
+				715BB99B257A4BFA00D22BDE /* IntentViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		716911D324A7E2C00023339D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -481,10 +650,10 @@
 				7169121A24A7E36F0023339D /* GitHubRelease.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
-				71DC1AB024D5CED90095EF43 /* WidgetContent.swift in Sources */,
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
 				7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */,
 				7169121C24A7E36F0023339D /* VercelAPI.swift in Sources */,
+				715BBA15257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */,
 				71C6790724D5B16E0058F334 /* LoginView.swift in Sources */,
 				7169120A24A7E30C0023339D /* Zeitgeist.swift in Sources */,
@@ -518,6 +687,7 @@
 				718DCFD82573FF35001CB92A /* DeploymentDetailView.swift in Sources */,
 				7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
 				718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */,
+				715BBA17257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */,
 				7154E39E2578007B00B2117E /* GitCommit.swift in Sources */,
 				718DD0712574018A001CB92A /* StatusBarController.swift in Sources */,
@@ -531,6 +701,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */,
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
 				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
 				71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */,
@@ -539,7 +710,7 @@
 				7154E3A825781BA800B2117E /* Deployment.swift in Sources */,
 				71DC1AB724D5D1D50095EF43 /* DeploymentStateIndicator.swift in Sources */,
 				71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */,
-				71DC1AB224D5CEDD0095EF43 /* WidgetContent.swift in Sources */,
+				715BBA16257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				71DC1AAC24D5CE5E0095EF43 /* UserDefaultsManager.swift in Sources */,
 				71DC1AAA24D5CE460095EF43 /* VercelAPI.swift in Sources */,
 				71DC1AB624D5CF4A0095EF43 /* LatestDeploymentWidgetView.swift in Sources */,
@@ -550,6 +721,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		715BB9A1257A4BFA00D22BDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 715BB995257A4BFA00D22BDE /* SelectTeamIntentUI */;
+			targetProxy = 715BB9A0257A4BFA00D22BDE /* PBXContainerItemProxy */;
+		};
+		715BB9A4257A4BFA00D22BDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 715BB98C257A4BFA00D22BDE /* SelectTeamIntent */;
+			targetProxy = 715BB9A3257A4BFA00D22BDE /* PBXContainerItemProxy */;
+		};
 		71DC1AA524D5CD780095EF43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 71DC1A9A24D5CD760095EF43 /* DeploymentsWidgetExtension */;
@@ -558,6 +739,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		715BB99C257A4BFA00D22BDE /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				715BB99D257A4BFA00D22BDE /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		718DCF742573FEF8001CB92A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -577,6 +766,96 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		715BB9A7257A4BFA00D22BDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = SelectTeamIntentUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntentUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		715BB9A8257A4BFA00D22BDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = SelectTeamIntentUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntentUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		715BB9AA257A4BFA00D22BDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		715BB9AB257A4BFA00D22BDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		715E06FE241BDE9100A4DA0F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -714,7 +993,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -743,7 +1022,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -828,7 +1107,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -859,7 +1138,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -875,6 +1154,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		715BB9A6257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntentUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715BB9A7257A4BFA00D22BDE /* Debug */,
+				715BB9A8257A4BFA00D22BDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		715BB9A9257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715BB9AA257A4BFA00D22BDE /* Debug */,
+				715BB9AB257A4BFA00D22BDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		715E06D2241BDE8C00A4DA0F /* Build configuration list for PBXProject "Zeitgeist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -941,6 +1238,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		715BB9E5257A520B00D22BDE /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		7169122F24A7E7160023339D /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71CED25F241E69B700B9A7ED /* XCRemoteSwiftPackageReference "Reachability" */;
