@@ -17,7 +17,7 @@ class IntentHandler: INExtension, SelectTeamIntentHandling {
   
   func provideTeamOptionsCollection(for intent: SelectTeamIntent, with completion: @escaping (INObjectCollection<Team>?, Error?) -> Void) {
     let fetcher = VercelFetcher.shared
-    print("token: \(fetcher.settings.token)")
+    print("token: \(String(describing: fetcher.settings.token))")
     print("loading teams...")
     fetcher.loadTeams { (teams, error) in
       if let result = teams {

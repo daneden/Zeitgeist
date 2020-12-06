@@ -47,14 +47,6 @@ public class VercelFetcher: ObservableObject {
   
   @ObservedObject var settings: UserDefaultsManager
   
-  var teamId: String? {
-    didSet {
-      self.fetchState = .loading
-      resetTimers()
-      self.objectWillChange.send()
-    }
-  }
-  
   private var pollingTimer: Timer?
   
   init(_ settings: UserDefaultsManager) {

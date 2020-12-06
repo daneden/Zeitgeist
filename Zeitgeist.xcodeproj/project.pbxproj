@@ -19,13 +19,8 @@
 		7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
 		715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
 		715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BB98F257A4BFA00D22BDE /* IntentHandler.swift */; };
-		715BB998257A4BFA00D22BDE /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715BB997257A4BFA00D22BDE /* IntentsUI.framework */; };
-		715BB99B257A4BFA00D22BDE /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BB99A257A4BFA00D22BDE /* IntentViewController.swift */; };
-		715BB99E257A4BFA00D22BDE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 715BB99C257A4BFA00D22BDE /* MainInterface.storyboard */; };
-		715BB9A2257A4BFA00D22BDE /* SelectTeamIntentUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		715BB9A5257A4BFA00D22BDE /* SelectTeamIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		715BB9B6257A4C2800D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
-		715BB9BC257A4C2900D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
 		715BB9C7257A4E3700D22BDE /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
@@ -101,13 +96,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		715BB9A0257A4BFA00D22BDE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 715BB995257A4BFA00D22BDE;
-			remoteInfo = SelectTeamIntentUI;
-		};
 		715BB9A3257A4BFA00D22BDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
@@ -133,7 +121,6 @@
 			files = (
 				715BB9A5257A4BFA00D22BDE /* SelectTeamIntent.appex in Embed App Extensions */,
 				71DC1AA624D5CD780095EF43 /* DeploymentsWidgetExtension.appex in Embed App Extensions */,
-				715BB9A2257A4BFA00D22BDE /* SelectTeamIntentUI.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,17 +133,14 @@
 		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; };
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
+		714AB622257D06810070ABB6 /* SelectTeamIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectTeamIntent.entitlements; sourceTree = "<group>"; };
 		7154E3932577FADB00B2117E /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
 		7154E39C2578007B00B2117E /* GitCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCommit.swift; sourceTree = "<group>"; };
 		715BB984257A4A5100D22BDE /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectTeamIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		715BB98F257A4BFA00D22BDE /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		715BB991257A4BFA00D22BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectTeamIntentUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		715BB997257A4BFA00D22BDE /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = Library/Frameworks/IntentsUI.framework; sourceTree = DEVELOPER_DIR; };
-		715BB99A257A4BFA00D22BDE /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
-		715BB99D257A4BFA00D22BDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		715BB99F257A4BFA00D22BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		715BBA14257B9CB700D22BDE /* KeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStore.swift; sourceTree = "<group>"; };
 		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -201,14 +185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				715BB9E6257A520B00D22BDE /* KeychainAccess in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		715BB993257A4BFA00D22BDE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				715BB998257A4BFA00D22BDE /* IntentsUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,21 +244,12 @@
 		715BB98E257A4BFA00D22BDE /* SelectTeamIntent */ = {
 			isa = PBXGroup;
 			children = (
+				714AB622257D06810070ABB6 /* SelectTeamIntent.entitlements */,
 				715BB984257A4A5100D22BDE /* Intents.intentdefinition */,
 				715BB98F257A4BFA00D22BDE /* IntentHandler.swift */,
 				715BB991257A4BFA00D22BDE /* Info.plist */,
 			);
 			path = SelectTeamIntent;
-			sourceTree = "<group>";
-		};
-		715BB999257A4BFA00D22BDE /* SelectTeamIntentUI */ = {
-			isa = PBXGroup;
-			children = (
-				715BB99A257A4BFA00D22BDE /* IntentViewController.swift */,
-				715BB99C257A4BFA00D22BDE /* MainInterface.storyboard */,
-				715BB99F257A4BFA00D22BDE /* Info.plist */,
-			);
-			path = SelectTeamIntentUI;
 			sourceTree = "<group>";
 		};
 		715E06CE241BDE8C00A4DA0F = {
@@ -294,7 +261,6 @@
 				71DC1A9E24D5CD760095EF43 /* DeploymentsWidget */,
 				718DCF6A2573FEF8001CB92A /* macOS */,
 				715BB98E257A4BFA00D22BDE /* SelectTeamIntent */,
-				715BB999257A4BFA00D22BDE /* SelectTeamIntentUI */,
 				715E06D8241BDE8C00A4DA0F /* Products */,
 				7169122E24A7E7160023339D /* Frameworks */,
 			);
@@ -307,7 +273,6 @@
 				71DC1A9B24D5CD760095EF43 /* DeploymentsWidgetExtension.appex */,
 				718DCF692573FEF8001CB92A /* Zeitgeist.app */,
 				715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */,
-				715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -438,23 +403,6 @@
 			productReference = 715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		715BB995257A4BFA00D22BDE /* SelectTeamIntentUI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 715BB9A6257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntentUI" */;
-			buildPhases = (
-				715BB992257A4BFA00D22BDE /* Sources */,
-				715BB993257A4BFA00D22BDE /* Frameworks */,
-				715BB994257A4BFA00D22BDE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SelectTeamIntentUI;
-			productName = SelectTeamIntentUI;
-			productReference = 715BB996257A4BFA00D22BDE /* SelectTeamIntentUI.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		716911D624A7E2C00023339D /* iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 716911FE24A7E2C00023339D /* Build configuration list for PBXNativeTarget "iOS" */;
@@ -468,7 +416,6 @@
 			);
 			dependencies = (
 				71DC1AA524D5CD780095EF43 /* PBXTargetDependency */,
-				715BB9A1257A4BFA00D22BDE /* PBXTargetDependency */,
 				715BB9A4257A4BFA00D22BDE /* PBXTargetDependency */,
 			);
 			name = iOS;
@@ -536,9 +483,6 @@
 					715BB98C257A4BFA00D22BDE = {
 						CreatedOnToolsVersion = 12.2;
 					};
-					715BB995257A4BFA00D22BDE = {
-						CreatedOnToolsVersion = 12.2;
-					};
 					716911D624A7E2C00023339D = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -568,11 +512,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				718DCF682573FEF8001CB92A /* macOS */,
 				716911D624A7E2C00023339D /* iOS */,
 				71DC1A9A24D5CD760095EF43 /* DeploymentsWidgetExtension */,
-				718DCF682573FEF8001CB92A /* macOS */,
 				715BB98C257A4BFA00D22BDE /* SelectTeamIntent */,
-				715BB995257A4BFA00D22BDE /* SelectTeamIntentUI */,
 			);
 		};
 /* End PBXProject section */
@@ -582,14 +525,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		715BB994257A4BFA00D22BDE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				715BB99E257A4BFA00D22BDE /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,15 +572,6 @@
 				715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */,
 				715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */,
 				715BBA18257B9CB700D22BDE /* KeyStore.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		715BB992257A4BFA00D22BDE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				715BB9BC257A4C2900D22BDE /* Intents.intentdefinition in Sources */,
-				715BB99B257A4BFA00D22BDE /* IntentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,11 +657,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		715BB9A1257A4BFA00D22BDE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 715BB995257A4BFA00D22BDE /* SelectTeamIntentUI */;
-			targetProxy = 715BB9A0257A4BFA00D22BDE /* PBXContainerItemProxy */;
-		};
 		715BB9A4257A4BFA00D22BDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 715BB98C257A4BFA00D22BDE /* SelectTeamIntent */;
@@ -749,14 +670,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		715BB99C257A4BFA00D22BDE /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				715BB99D257A4BFA00D22BDE /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 		718DCF742573FEF8001CB92A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -776,58 +689,12 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		715BB9A7257A4BFA00D22BDE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = YC249PY26F;
-				INFOPLIST_FILE = SelectTeamIntentUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntentUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		715BB9A8257A4BFA00D22BDE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = YC249PY26F;
-				INFOPLIST_FILE = SelectTeamIntentUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntentUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		715BB9AA257A4BFA00D22BDE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -849,8 +716,9 @@
 		715BB9AB257A4BFA00D22BDE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -996,7 +864,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1025,7 +893,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1053,7 +921,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1081,7 +949,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1110,7 +978,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1141,7 +1009,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1168,15 +1036,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		715BB9A6257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntentUI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				715BB9A7257A4BFA00D22BDE /* Debug */,
-				715BB9A8257A4BFA00D22BDE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		715BB9A9257A4BFA00D22BDE /* Build configuration list for PBXNativeTarget "SelectTeamIntent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

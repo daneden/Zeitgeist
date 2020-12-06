@@ -23,7 +23,7 @@ struct SettingsView: View {
   
   var body: some View {
     let chosenTeamId = Binding<String>(get: {
-      self.selectedTeam ?? self.settings.currentTeam ?? self.fetcher.teamId ?? ""
+      self.selectedTeam ?? self.settings.currentTeam ?? ""
     }, set: {
       self.selectedTeam = $0
       self.updateSelectedTeam()
@@ -96,7 +96,6 @@ struct SettingsView: View {
   func updateSelectedTeam() {
     DispatchQueue.main.async {
       let team = self.selectedTeam?.isEmpty ?? true ? nil : self.selectedTeam
-      self.fetcher.teamId = team
       self.settings.currentTeam = team
       self.fetcher.loadDeployments()
     }

@@ -62,7 +62,7 @@ struct DeploymentTimelineProvider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Deployment) -> Void) {
-    VercelFetcher.shared.teamId = configuration.team?.identifier
+    VercelFetcher.shared.settings.currentTeam = configuration.team?.identifier
     VercelFetcher.shared.loadDeployments { (entries, _) in
       if entries != nil, let entry = entries?[0] {
         completion(entry)
@@ -78,7 +78,7 @@ struct DeploymentTimelineProvider: IntentTimelineProvider {
   typealias Intent = SelectTeamIntent
   
   func getTimeline(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Timeline<Deployment>) -> Void) {
-    VercelFetcher.shared.teamId = configuration.team?.identifier
+    VercelFetcher.shared.settings.currentTeam = configuration.team?.identifier
     VercelFetcher.shared.loadDeployments { (entries, _) in
       if entries != nil, let entry = entries?[0] {
         let timeline = Timeline(entries: [entry], policy: .atEnd)
