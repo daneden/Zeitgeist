@@ -95,7 +95,6 @@ struct SettingsView: View {
   
   func updateSelectedTeam() {
     DispatchQueue.main.async {
-      print("updating")
       let team = self.selectedTeam?.isEmpty ?? true ? nil : self.selectedTeam
       self.fetcher.teamId = team
       self.settings.currentTeam = team
