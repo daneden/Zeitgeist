@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
+		710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
+		710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
+		710D0361257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
 		7154E3942577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E3952577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E39D2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
@@ -137,6 +141,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		710D035D257CEDA400411A89 /* VercelFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelFetcher.swift; sourceTree = "<group>"; };
 		71103C9A247E7D520043D11B /* GitHubRelease.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubRelease.swift; sourceTree = "<group>"; };
 		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; };
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -246,6 +251,7 @@
 				71103C9A247E7D520043D11B /* GitHubRelease.swift */,
 				71103C9E247E9C4C0043D11B /* VercelTypes.swift */,
 				716911CB24A7A8230023339D /* VercelAPI.swift */,
+				710D035D257CEDA400411A89 /* VercelFetcher.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -626,6 +632,7 @@
 				715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */,
 				715BB9C7257A4E3700D22BDE /* VercelAPI.swift in Sources */,
 				715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */,
+				710D0361257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */,
 				715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */,
 				715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */,
@@ -662,6 +669,7 @@
 				7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */,
 				7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */,
 				71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */,
+				710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				7154E3942577FADB00B2117E /* Deployment.swift in Sources */,
 				7169120C24A7E31B0023339D /* ContentView.swift in Sources */,
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
@@ -679,6 +687,7 @@
 				718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */,
 				718DCFBD2573FF29001CB92A /* LoginView.swift in Sources */,
 				718DD080257401B3001CB92A /* MainViewController.swift in Sources */,
+				710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				718DD0052573FF48001CB92A /* VercelTypes.swift in Sources */,
 				718DCF6C2573FEF8001CB92A /* AppDelegate.swift in Sources */,
 				718DCFEA2573FF3C001CB92A /* DeploymentsListView.swift in Sources */,
@@ -702,6 +711,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */,
+				710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
 				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
 				71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */,
@@ -770,7 +780,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntentUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -793,7 +803,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntentUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -817,7 +827,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -840,7 +850,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -986,7 +996,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1015,7 +1025,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1100,7 +1110,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1131,7 +1141,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;

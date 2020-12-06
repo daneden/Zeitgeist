@@ -20,16 +20,20 @@ class KeyStore {
     self.group = group
   }
   
-  func store(token : String) {
-    let data = token.data(using: .utf8)!
+  func store(token: String) {
+    guard let data = token.data(using: .utf8) else {
+      print("Error encoding token as data")
+      return
+    }
+    
     let addquery: [String: Any] = [kSecClass as String: kSecClassGenericPassword as String,
                                    kSecAttrAccount as String: account,
                                    kSecValueData as String: data,
-                                   kSecAttrSynchronizable as String : kCFBooleanTrue!,
-                                   kSecAttrAccessGroup as String : group
+                                   kSecAttrSynchronizable as String: kCFBooleanTrue!,
+                                   kSecAttrAccessGroup as String: group
     ]
     SecItemDelete(addquery as CFDictionary)
-    let status : OSStatus = SecItemAdd(addquery as CFDictionary, nil)
+    let status: OSStatus = SecItemAdd(addquery as CFDictionary, nil)
     guard status == errSecSuccess else {
       print("Error storing key")
       return
@@ -39,8 +43,8 @@ class KeyStore {
   func clear() {
     let addquery: [String: Any] = [kSecClass as String: kSecClassGenericPassword as String,
                                    kSecAttrAccount as String: account,
-                                   kSecAttrSynchronizable as String : kCFBooleanTrue!,
-                                   kSecAttrAccessGroup as String : group
+                                   kSecAttrSynchronizable as String: kCFBooleanTrue!,
+                                   kSecAttrAccessGroup as String: group
     ]
     SecItemDelete(addquery as CFDictionary)
   }
@@ -49,9 +53,9 @@ class KeyStore {
     let getquery: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                    kSecAttrAccount as String: account,
                                    kSecReturnData as String: kCFBooleanTrue!,
-                                   kSecMatchLimit as String : kSecMatchLimitOne,
-                                   kSecAttrSynchronizable as String : kCFBooleanTrue!,
-                                   kSecAttrAccessGroup as String : group
+                                   kSecMatchLimit as String: kSecMatchLimitOne,
+                                   kSecAttrSynchronizable as String: kCFBooleanTrue!,
+                                   kSecAttrAccessGroup as String: group
     ]
     
     var item: CFTypeRef?
