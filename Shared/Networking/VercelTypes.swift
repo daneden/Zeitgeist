@@ -9,8 +9,8 @@
 import Foundation
 
 struct VercelTeam: Decodable {
-  public var id: String
-  public var name: String
+  public var id: String?
+  public var name: String? = "Personal"
 }
 
 struct VercelUser: Decodable, Identifiable {

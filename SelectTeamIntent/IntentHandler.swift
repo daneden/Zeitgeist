@@ -23,7 +23,7 @@ class IntentHandler: INExtension, SelectTeamIntentHandling {
       if let result = teams {
         print("returning teams!")
         var fetchedTeams = result.map { (team) -> Team in
-          Team(identifier: team.id, display: team.name)
+          Team(identifier: team.id, display: team.name ?? "Unknown")
         }
         
         fetchedTeams.append(Team(identifier: nil, display: "Personal"))

@@ -10,12 +10,22 @@ import SwiftUI
 
 struct RecentDeploymentsWidgetView: View {
   var deployments: [Deployment]
-  @Environment(\.colorScheme) var colorScheme
+  var team: VercelTeam
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text("Recent deployments")
-        .font(.footnote).fontWeight(.semibold)
+      HStack {
+        Text("Recent deployments")
+          .font(.footnote).fontWeight(.semibold)
+      
+        if let currentTeam = team {
+          Spacer()
+          HStack(spacing: 2) {
+            Image(systemName: "person.2.fill")
+            Text(currentTeam.name ?? "Personal")
+          }.font(.footnote).foregroundColor(.secondary).imageScale(.small)
+        }
+      }
       
       Divider().padding(.bottom, 4)
       
@@ -48,11 +58,21 @@ struct RecentDeploymentsWidgetView: View {
     }
     .padding()
     .background(Color(TColor.systemBackground))
+    .background(LinearGradient(
+                  gradient: Gradient(
+                    colors: [Color(TColor.systemBackground), Color(TColor.secondarySystemBackground)]
+                  ),
+                  startPoint: .top,
+                  endPoint: .bottom
+    ))
   }
 }
 
 struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-      RecentDeploymentsWidgetView(deployments: [snapshotEntry, snapshotEntry])
+      RecentDeploymentsWidgetView(
+        deployments: [exampleDeployment, exampleDeployment],
+        team: VercelTeam()
+      )
     }
 }

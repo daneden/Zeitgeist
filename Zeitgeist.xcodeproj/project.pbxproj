@@ -76,6 +76,7 @@
 		718DD08C25740A07001CB92A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
 		7193C8542576B15C00D4A2AB /* SessionValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193C8532576B15C00D4A2AB /* SessionValidationView.swift */; };
 		7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193C8532576B15C00D4A2AB /* SessionValidationView.swift */; };
+		71BF8C43257D0C04005D7246 /* RecentDeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */; };
 		71C6790724D5B16E0058F334 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790524D5B14B0058F334 /* LoginView.swift */; };
 		71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
 		71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */; };
@@ -160,6 +161,7 @@
 		718DD0702574018A001CB92A /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
 		718DD07A257401A6001CB92A /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
 		7193C8532576B15C00D4A2AB /* SessionValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionValidationView.swift; sourceTree = "<group>"; };
+		71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidget.swift; sourceTree = "<group>"; };
 		71C6790524D5B14B0058F334 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistLogo.swift; sourceTree = "<group>"; };
 		71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDeploymentView.swift; sourceTree = "<group>"; };
@@ -365,9 +367,10 @@
 			children = (
 				71DC1A9F24D5CD760095EF43 /* LatestDeploymentWidget.swift */,
 				71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */,
+				71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */,
+				71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */,
 				71DC1AA124D5CD780095EF43 /* Assets.xcassets */,
 				71DC1AA324D5CD780095EF43 /* Info.plist */,
-				71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */,
 			);
 			path = DeploymentsWidget;
 			sourceTree = "<group>";
@@ -637,6 +640,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */,
+				71BF8C43257D0C04005D7246 /* RecentDeploymentsWidget.swift in Sources */,
 				710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
 				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
@@ -694,7 +698,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -718,7 +722,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -864,7 +868,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -893,7 +897,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -978,7 +982,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;
@@ -1009,7 +1013,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = NO;

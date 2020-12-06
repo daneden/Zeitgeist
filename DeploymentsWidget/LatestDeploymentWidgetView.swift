@@ -9,29 +9,41 @@
 import SwiftUI
 
 struct LatestDeploymentWidgetView: View {
-  var deployment: Deployment
-  @Environment(\.colorScheme) var colorScheme
+  var config: LatestDeploymentEntry
   
   var body: some View {
     VStack(alignment: .leading) {
-      DeploymentStateIndicator(state: deployment.state, verbose: true, isWidget: true)
+      DeploymentStateIndicator(state: config.deployment.state, verbose: true, isWidget: true)
       
-      Text(deployment.svnInfo?.commitMessage ?? "Manual Deployment")
+      Text(config.deployment.svnInfo?.commitMessage ?? "Manual Deployment")
         .font(.subheadline)
         .fontWeight(.bold)
         .lineLimit(3)
         .foregroundColor(.primary)
-      Text(deployment.date, style: .relative)
+      
+      Text(config.deployment.date, style: .relative)
+        .font(.caption)
+      Text(config.deployment.project)
+        .lineLimit(1)
         .font(.caption)
         .foregroundColor(.secondary)
       
       Spacer()
       
-      Text("\(deployment.project)")
-        .font(.caption).font(.caption)
+      HStack(spacing: 2) {
+        Image(systemName: "person.2.fill")
+        Text(config.team.name ?? "Personal")
+      }.font(.caption2).foregroundColor(.secondary).imageScale(.small)
       
     }
     .padding()
     .background(Color(TColor.systemBackground))
+    .background(LinearGradient(
+      gradient: Gradient(
+        colors: [Color(TColor.systemBackground), Color(TColor.secondarySystemBackground)]
+      ),
+      startPoint: .top,
+      endPoint: .bottom
+    ))
   }
 }
