@@ -28,4 +28,3 @@ enum VercelRoute: String {
   case deployments = "v6/now/deployments"
   case user = "www/user"
 }
-
