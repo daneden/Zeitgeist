@@ -58,7 +58,7 @@ struct SettingsView: View {
               Picker(selection: chosenTeamId, label: Text("Selected Team")) {
                 Text("Personal").tag("")
                 ForEach(self.fetcher.teams, id: \.id) {
-                  Text($0.name ?? "Unknown").tag($0.id)
+                  Text($0.name).tag($0.id)
                 }
               }
             }
