@@ -22,7 +22,7 @@ struct RecentDeploymentsWidgetView: View {
           Spacer()
           HStack(spacing: 2) {
             Image(systemName: "person.2.fill")
-            Text(currentTeam.name ?? "Personal")
+            Text(currentTeam.name)
           }.font(.footnote).foregroundColor(.secondary).imageScale(.small)
         }
       }

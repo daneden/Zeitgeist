@@ -32,7 +32,7 @@ struct LatestDeploymentWidgetView: View {
       
       HStack(spacing: 2) {
         Image(systemName: "person.2.fill")
-        Text(config.team.name ?? "Personal")
+        Text(config.team.name)
       }.font(.caption2).foregroundColor(.secondary).imageScale(.small)
       
     }
