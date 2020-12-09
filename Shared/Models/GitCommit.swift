@@ -67,8 +67,8 @@ class CommitBuilder {
       self.namespaceKey = "CommitOrg"
     case .gitlab:
       self.urlPattern = "https://gitlab.com/%@/%@/-/commit/%@"
-      self.repoKey = "ProjectNamespace"
-      self.namespaceKey = "ProjectName"
+      self.repoKey = "ProjectName"
+      self.namespaceKey = "ProjectNamespace"
     }
   }
   
@@ -81,11 +81,26 @@ class CommitBuilder {
       return nil
     }
     
+    // GitLab commits provide a different repo resolution from the other providers
+    // so we need to get a bit clever with that case
+    // (https://github.com/daneden/zeitgeist/issues/25)
+    var repo: String
+    var namespace: String
+    
     let sha = from[pfx("CommitSha")] ?? ""
     let message = from[pfx("CommitMessage")] ?? ""
     let authorName = from[pfx("CommitAuthorName")] ?? ""
-    let repo = from[pfx(repoKey!)] ?? ""
-    let namespace = from[pfx(namespaceKey!)] ?? ""
+    
+    switch provider {
+    case .gitlab:
+        let repoPath = from[pfx("ProjectPath")]?.split(separator: .init("/"))
+        namespace = String(repoPath?[0] ?? "")
+        repo = String(repoPath?[1] ?? "")
+    default:
+        repo = from[pfx(repoKey!)] ?? ""
+        namespace = from[pfx(namespaceKey!)] ?? ""
+    }
+    
     let url = String(format: urlPattern!, namespace, repo, sha)
     
     return GitCommit(
