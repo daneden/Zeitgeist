@@ -22,7 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let contentView = ContentView().environmentObject(settings).environmentObject(fetcher)
     
     // Set the SwiftUI's ContentView to the Popover's ContentViewController
-    popover.contentViewController = MainViewController()
     popover.contentSize = NSSize(width: 600, height: 360)
     popover.contentViewController = NSHostingController(rootView: contentView)
     

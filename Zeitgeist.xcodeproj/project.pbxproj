@@ -47,7 +47,6 @@
 		71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */; };
 		718DCF6C2573FEF8001CB92A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DCF6B2573FEF8001CB92A /* AppDelegate.swift */; };
-		718DCF732573FEF8001CB92A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 718DCF722573FEF8001CB92A /* Preview Assets.xcassets */; };
 		718DCF762573FEF8001CB92A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 718DCF742573FEF8001CB92A /* Main.storyboard */; };
 		718DCFB42573FF21001CB92A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* SettingsView.swift */; };
 		718DCFBD2573FF29001CB92A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790524D5B14B0058F334 /* LoginView.swift */; };
@@ -66,7 +65,6 @@
 		718DD05B2574003B001CB92A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 718DD05A2574003B001CB92A /* KeychainAccess */; };
 		718DD0712574018A001CB92A /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DD0702574018A001CB92A /* StatusBarController.swift */; };
 		718DD07B257401A6001CB92A /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DD07A257401A6001CB92A /* EventMonitor.swift */; };
-		718DD080257401B3001CB92A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DD06A25740150001CB92A /* MainViewController.swift */; };
 		718DD08C25740A07001CB92A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
 		7193C8542576B15C00D4A2AB /* SessionValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193C8532576B15C00D4A2AB /* SessionValidationView.swift */; };
 		7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193C8532576B15C00D4A2AB /* SessionValidationView.swift */; };
@@ -146,11 +144,9 @@
 		71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidgetView.swift; sourceTree = "<group>"; };
 		718DCF692573FEF8001CB92A /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		718DCF6B2573FEF8001CB92A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		718DCF722573FEF8001CB92A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		718DCF752573FEF8001CB92A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		718DCF772573FEF8001CB92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		718DCF782573FEF8001CB92A /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		718DD06A25740150001CB92A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		718DD0702574018A001CB92A /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
 		718DD07A257401A6001CB92A /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
 		7193C8532576B15C00D4A2AB /* SessionValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionValidationView.swift; sourceTree = "<group>"; };
@@ -315,18 +311,8 @@
 				718DCF742573FEF8001CB92A /* Main.storyboard */,
 				718DCF772573FEF8001CB92A /* Info.plist */,
 				718DCF782573FEF8001CB92A /* macOS.entitlements */,
-				718DCF712573FEF8001CB92A /* Preview Content */,
-				718DD06A25740150001CB92A /* MainViewController.swift */,
 			);
 			path = macOS;
-			sourceTree = "<group>";
-		};
-		718DCF712573FEF8001CB92A /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				718DCF722573FEF8001CB92A /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		718DD06F25740172001CB92A /* Helpers */ = {
@@ -528,7 +514,6 @@
 			files = (
 				718DCF762573FEF8001CB92A /* Main.storyboard in Resources */,
 				718DCFC62573FF2E001CB92A /* Localizable.strings in Resources */,
-				718DCF732573FEF8001CB92A /* Preview Assets.xcassets in Resources */,
 				718DD08C25740A07001CB92A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -596,7 +581,6 @@
 				718DCFF32573FF40001CB92A /* ContentView.swift in Sources */,
 				718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */,
 				718DCFBD2573FF29001CB92A /* LoginView.swift in Sources */,
-				718DD080257401B3001CB92A /* MainViewController.swift in Sources */,
 				710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				718DD0052573FF48001CB92A /* VercelTypes.swift in Sources */,
 				718DCF6C2573FEF8001CB92A /* AppDelegate.swift in Sources */,
@@ -909,7 +893,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -937,7 +921,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
