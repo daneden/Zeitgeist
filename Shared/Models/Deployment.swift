@@ -16,6 +16,7 @@ enum DeploymentState: String, Codable {
   case building = "BUILDING"
   case normal = "NORMAL"
   case offline = "OFFLINE"
+  case cancelled = "CANCELED"
 }
 
 struct Deployment: Hashable, TimelineEntry {
@@ -23,6 +24,7 @@ struct Deployment: Hashable, TimelineEntry {
   var id: String
   var createdAt: Date
   
+  // `date` is required to conform to `TimelineEntry`
   var date: Date {
     return self.createdAt
   }

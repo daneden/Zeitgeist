@@ -55,6 +55,8 @@ struct DeploymentStateIndicator: View {
       return Image(systemName: "timer")
     case .ready:
       return Image(systemName: verbose ? "checkmark.circle.fill" : "checkmark.circle")
+    case .cancelled:
+      return Image(systemName: "nosign")
     default:
       return Image(systemName: "arrowtriangle.up.circle.fill")
     }
@@ -84,6 +86,8 @@ struct DeploymentStateIndicator: View {
       return "Deployed"
     case .queued:
       return "Queued"
+    case .cancelled:
+      return "Cancelled"
     default:
       return "Ready"
     
