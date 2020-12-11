@@ -9,6 +9,7 @@
 import Foundation
 
 let DEFAULT_ACCOUNT = "Token"
+// swiftlint:disable:next force_cast
 let DEFAULT_GROUP = "\(Bundle.main.infoDictionary!["AppIdentifierPrefix"] as! String)me.daneden.Zeitgeist"
 
 class KeyStore {
