@@ -12,10 +12,6 @@ typealias ZeitgeistButtonStyle = DefaultButtonStyle
 
 @main
 struct Zeitgeist: App {
-  #if os(macOS)
-  @NSApplicationDelegateAdaptor(AppDelegate.self) weak var appDelegate
-  #endif
-  
   var settings: UserDefaultsManager
   var vercelNetwork: VercelFetcher
   
@@ -25,24 +21,11 @@ struct Zeitgeist: App {
   }
   
   var body: some Scene {
-    #if os(macOS)
-    Settings {
-      SettingsView()
-        .padding()
-        .environmentObject(settings)
-        .environmentObject(vercelNetwork)
-        .onAppear(perform: self.loadFetcherItems)
-        .onReceive(self.settings.objectWillChange) {
-          self.loadFetcherItems()
-        }
-    }
-    #else
     WindowGroup {
       ContentView()
         .environmentObject(settings)
         .onAppear(perform: self.loadFetcherItems)
     }
-    #endif
   }
   
   func loadFetcherItems() {

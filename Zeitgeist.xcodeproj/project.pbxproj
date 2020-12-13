@@ -11,6 +11,10 @@
 		710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
 		710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
 		710D0361257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
+		710FB50E25864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
+		710FB50F25864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
+		710FB51025864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
+		710FB51125864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
 		7154E3942577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E3952577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E39D2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
@@ -21,7 +25,6 @@
 		715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BB98F257A4BFA00D22BDE /* IntentHandler.swift */; };
 		715BB9A5257A4BFA00D22BDE /* SelectTeamIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		715BB9B6257A4C2800D22BDE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
-		715BB9C7257A4E3700D22BDE /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
@@ -40,7 +43,6 @@
 		7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */; };
 		7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
-		7169121C24A7E36F0023339D /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		7169122C24A7E6D60023339D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71D5EC3D241EE13D0076BCA3 /* Localizable.strings */; };
 		71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */; };
@@ -55,7 +57,6 @@
 		718DCFEA2573FF3C001CB92A /* DeploymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */; };
 		718DCFF32573FF40001CB92A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DC241BDE8C00A4DA0F /* ContentView.swift */; };
 		718DD0052573FF48001CB92A /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
-		718DD00E2573FF4C001CB92A /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		718DD0172573FF51001CB92A /* EmptyDeploymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */; };
 		718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
@@ -76,7 +77,6 @@
 		71DC1AA024D5CD760095EF43 /* LatestDeploymentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1A9F24D5CD760095EF43 /* LatestDeploymentWidget.swift */; };
 		71DC1AA224D5CD780095EF43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71DC1AA124D5CD780095EF43 /* Assets.xcassets */; };
 		71DC1AA624D5CD780095EF43 /* DeploymentsWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71DC1A9B24D5CD760095EF43 /* DeploymentsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		71DC1AAA24D5CE460095EF43 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		71DC1AAC24D5CE5E0095EF43 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		71DC1AB624D5CF4A0095EF43 /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */; };
@@ -117,8 +117,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		710D035D257CEDA400411A89 /* VercelFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelFetcher.swift; sourceTree = "<group>"; };
-		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; };
+		710D035D257CEDA400411A89 /* VercelFetcher.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelFetcher.swift; sourceTree = "<group>"; tabWidth = 2; };
+		710FB50D25864F5F004F060A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; tabWidth = 2; };
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
 		714AB622257D06810070ABB6 /* SelectTeamIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectTeamIntent.entitlements; sourceTree = "<group>"; };
@@ -132,7 +133,6 @@
 		715BBA14257B9CB700D22BDE /* KeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStore.swift; sourceTree = "<group>"; };
 		715E06DC241BDE8C00A4DA0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
-		716911CB24A7A8230023339D /* VercelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAPI.swift; sourceTree = "<group>"; };
 		716911CD24A7A9BF0023339D /* Zeitgeist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zeitgeist.swift; sourceTree = "<group>"; };
 		716911D224A7E2C00023339D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		716911D724A7E2C00023339D /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,7 +162,7 @@
 		71DC1AA324D5CD780095EF43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidgetView.swift; sourceTree = "<group>"; };
 		71DC1AB824D5D2070095EF43 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
-		71DC1AB924D5D2720095EF43 /* DeploymentsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeploymentsWidgetExtension.entitlements; sourceTree = "<group>"; };
+		71DC1AB924D5D2720095EF43 /* WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.entitlements; sourceTree = "<group>"; };
 		71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -204,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				71103C9E247E9C4C0043D11B /* VercelTypes.swift */,
-				716911CB24A7A8230023339D /* VercelAPI.swift */,
 				710D035D257CEDA400411A89 /* VercelFetcher.swift */,
 			);
 			path = Networking;
@@ -233,10 +232,9 @@
 		715E06CE241BDE8C00A4DA0F = {
 			isa = PBXGroup;
 			children = (
-				71DC1AB924D5D2720095EF43 /* DeploymentsWidgetExtension.entitlements */,
 				716911CF24A7E2BE0023339D /* Shared */,
 				716911D824A7E2C00023339D /* iOS */,
-				71DC1A9E24D5CD760095EF43 /* DeploymentsWidget */,
+				71DC1A9E24D5CD760095EF43 /* Widgets */,
 				718DCF6A2573FEF8001CB92A /* macOS */,
 				715BB98E257A4BFA00D22BDE /* SelectTeamIntent */,
 				715E06D8241BDE8C00A4DA0F /* Products */,
@@ -320,25 +318,27 @@
 			isa = PBXGroup;
 			children = (
 				71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */,
-				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
+				710FB50D25864F5F004F060A /* Globals.swift */,
 				715BBA14257B9CB700D22BDE /* KeyStore.swift */,
 				7193C8532576B15C00D4A2AB /* SessionValidationView.swift */,
+				71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */,
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		71DC1A9E24D5CD760095EF43 /* DeploymentsWidget */ = {
+		71DC1A9E24D5CD760095EF43 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				71DC1AA124D5CD780095EF43 /* Assets.xcassets */,
 				71DC1A9F24D5CD760095EF43 /* LatestDeploymentWidget.swift */,
 				71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */,
 				71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */,
 				71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */,
-				71DC1AA124D5CD780095EF43 /* Assets.xcassets */,
+				71DC1AB924D5D2720095EF43 /* WidgetExtension.entitlements */,
 				71DC1AA324D5CD780095EF43 /* Info.plist */,
 			);
-			path = DeploymentsWidget;
+			path = Widgets;
 			sourceTree = "<group>";
 		};
 		71F6571E24DEE4B200C08D01 /* Extensions */ = {
@@ -561,12 +561,12 @@
 			files = (
 				715BB9B6257A4C2800D22BDE /* Intents.intentdefinition in Sources */,
 				715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */,
-				715BB9C7257A4E3700D22BDE /* VercelAPI.swift in Sources */,
 				715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */,
 				710D0361257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */,
 				715BB990257A4BFA00D22BDE /* IntentHandler.swift in Sources */,
 				715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */,
+				710FB51125864F5F004F060A /* Globals.swift in Sources */,
 				715BBA18257B9CB700D22BDE /* KeyStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,9 +580,9 @@
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
 				7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */,
-				7169121C24A7E36F0023339D /* VercelAPI.swift in Sources */,
 				715BBA15257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */,
+				710FB50F25864F5F004F060A /* Globals.swift in Sources */,
 				71C6790724D5B16E0058F334 /* LoginView.swift in Sources */,
 				7169120A24A7E30C0023339D /* Zeitgeist.swift in Sources */,
 				7154E39D2578007B00B2117E /* GitCommit.swift in Sources */,
@@ -612,11 +612,11 @@
 				718DCF6C2573FEF8001CB92A /* AppDelegate.swift in Sources */,
 				718DCFEA2573FF3C001CB92A /* DeploymentsListView.swift in Sources */,
 				718DD0172573FF51001CB92A /* EmptyDeploymentView.swift in Sources */,
-				718DD00E2573FF4C001CB92A /* VercelAPI.swift in Sources */,
 				718DCFD82573FF35001CB92A /* DeploymentDetailView.swift in Sources */,
 				7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
 				718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */,
 				715BBA17257B9CB700D22BDE /* KeyStore.swift in Sources */,
+				710FB50E25864F5F004F060A /* Globals.swift in Sources */,
 				718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */,
 				7154E39E2578007B00B2117E /* GitCommit.swift in Sources */,
 				718DD0712574018A001CB92A /* StatusBarController.swift in Sources */,
@@ -633,6 +633,7 @@
 				71BF8C43257D0C04005D7246 /* RecentDeploymentsWidget.swift in Sources */,
 				710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
+				710FB51025864F5F004F060A /* Globals.swift in Sources */,
 				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
 				71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */,
 				71DC1AA024D5CD760095EF43 /* LatestDeploymentWidget.swift in Sources */,
@@ -642,7 +643,6 @@
 				71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */,
 				715BBA16257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				71DC1AAC24D5CE5E0095EF43 /* UserDefaultsManager.swift in Sources */,
-				71DC1AAA24D5CE460095EF43 /* VercelAPI.swift in Sources */,
 				71DC1AB624D5CF4A0095EF43 /* LatestDeploymentWidgetView.swift in Sources */,
 				71D3B19E2528C51700B0A2CC /* ZeitgeistLogo.swift in Sources */,
 			);
@@ -861,7 +861,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -890,7 +890,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -970,13 +970,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
-				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = DeploymentsWidget/Info.plist;
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = Widgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1002,13 +1002,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_ENTITLEMENTS = DeploymentsWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
-				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = DeploymentsWidget/Info.plist;
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = Widgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (

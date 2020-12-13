@@ -16,7 +16,7 @@ let exampleDeployment = Deployment(
   state: .queued,
   url: URL(string: "https://vercel.com")!,
   creator: VercelDeploymentUser(
-    id: "1",
+    uid: "1",
     email: "example@example.com",
     username: "example-user",
     githubLogin: "example_user"

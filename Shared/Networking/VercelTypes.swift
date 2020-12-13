@@ -32,15 +32,11 @@ struct VercelUserAPIResponse: Decodable {
 }
 
 struct VercelDeploymentUser: Decodable, Identifiable {
-  public var id: String
+  public var uid: String
+  public var id: String {
+    return uid
+  }
   public var email: String
   public var username: String
   public var githubLogin: String?
-  
-  enum CodingKeys: String, CodingKey {
-    case id = "uid"
-    case email = "email"
-    case username = "username"
-    case githubLogin = "githubLogin"
-  }
 }

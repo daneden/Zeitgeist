@@ -10,7 +10,24 @@ import Foundation
 import SwiftUI
 import Combine
 
+struct VercelTeamsAPIResponse: Decodable {
+  public var teams: [VercelTeam] = [VercelTeam]()
+}
+
+enum VercelRoute: String {
+  case teams = "v1/teams"
+  case deployments = "v6/now/deployments"
+  case user = "www/user"
+}
+
 public class VercelFetcher: ObservableObject {
+  enum FetchState {
+    case loading
+    case finished
+    case error
+    case idle
+  }
+    
   static let shared = VercelFetcher(UserDefaultsManager.shared)
   
   @Published var fetchState: FetchState = .idle {
@@ -155,7 +172,7 @@ public class VercelFetcher: ObservableObject {
           let deployments = _deployments.map { (deployment: [String: Any]) -> Deployment in
             let _creator = deployment["creator"] as! [String: String]
             let creator = VercelDeploymentUser(
-              id: _creator["uid"]!,
+              uid: _creator["uid"]!,
               email: _creator["email"]!,
               username: _creator["username"]!
             )
