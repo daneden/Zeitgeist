@@ -8,7 +8,6 @@
 
 import Foundation
 import Combine
-import KeychainAccess
 
 class UserDefaultsManager: ObservableObject {
   var keychain: KeyStore
@@ -17,7 +16,7 @@ class UserDefaultsManager: ObservableObject {
   init() {
     self.keychain = KeyStore()
     
-    self.token = migrateKeychain() ?? self.keychain.retrieve()
+    self.token = self.keychain.retrieve()
   }
   
   @Published var token: String? {
@@ -51,10 +50,4 @@ class UserDefaultsManager: ObservableObject {
       self.objectWillChange.send()
     }
   }
-}
-
-func migrateKeychain() -> String? {
-  let keychain = Keychain(service: "me.daneden.Zeitgeist", accessGroup: "group.me.daneden.Zeitgeist.shared")
-  
-  return keychain["vercelToken"]
 }

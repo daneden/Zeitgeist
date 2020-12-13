@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,7 +26,6 @@
 		715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
-		715BB9E6257A520B00D22BDE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 715BB9E5257A520B00D22BDE /* KeychainAccess */; };
 		715BBA15257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
 		715BBA16257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
 		715BBA17257B9CB700D22BDE /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715BBA14257B9CB700D22BDE /* KeyStore.swift */; };
@@ -43,7 +42,6 @@
 		7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		7169121C24A7E36F0023339D /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		7169122C24A7E6D60023339D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71D5EC3D241EE13D0076BCA3 /* Localizable.strings */; };
-		7169123224A7E7190023339D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7169123124A7E7190023339D /* KeychainAccess */; };
 		71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */; };
 		718DCF6C2573FEF8001CB92A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DCF6B2573FEF8001CB92A /* AppDelegate.swift */; };
@@ -62,7 +60,6 @@
 		718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
 		718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
 		718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */; };
-		718DD05B2574003B001CB92A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 718DD05A2574003B001CB92A /* KeychainAccess */; };
 		718DD0712574018A001CB92A /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DD0702574018A001CB92A /* StatusBarController.swift */; };
 		718DD07B257401A6001CB92A /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718DD07A257401A6001CB92A /* EventMonitor.swift */; };
 		718DD08C25740A07001CB92A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
@@ -82,7 +79,6 @@
 		71DC1AAA24D5CE460095EF43 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CB24A7A8230023339D /* VercelAPI.swift */; };
 		71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		71DC1AAC24D5CE5E0095EF43 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */; };
-		71DC1AAE24D5CE980095EF43 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71DC1AAD24D5CE980095EF43 /* KeychainAccess */; };
 		71DC1AB624D5CF4A0095EF43 /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */; };
 		71DC1AB724D5D1D50095EF43 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */; };
 		71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
@@ -175,7 +171,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				715BB9E6257A520B00D22BDE /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +178,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7169123224A7E7190023339D /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +185,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				718DD05B2574003B001CB92A /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +194,6 @@
 			files = (
 				71DC1A9D24D5CD760095EF43 /* SwiftUI.framework in Frameworks */,
 				71DC1A9C24D5CD760095EF43 /* WidgetKit.framework in Frameworks */,
-				71DC1AAE24D5CE980095EF43 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +366,6 @@
 			);
 			name = SelectTeamIntent;
 			packageProductDependencies = (
-				715BB9E5257A520B00D22BDE /* KeychainAccess */,
 			);
 			productName = SelectTeamIntent;
 			productReference = 715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */;
@@ -398,7 +389,6 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
-				7169123124A7E7190023339D /* KeychainAccess */,
 			);
 			productName = iOS;
 			productReference = 716911D724A7E2C00023339D /* Zeitgeist.app */;
@@ -419,7 +409,6 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				718DD05A2574003B001CB92A /* KeychainAccess */,
 			);
 			productName = Zeitgeist;
 			productReference = 718DCF692573FEF8001CB92A /* Zeitgeist.app */;
@@ -439,7 +428,6 @@
 			);
 			name = DeploymentsWidgetExtension;
 			packageProductDependencies = (
-				71DC1AAD24D5CE980095EF43 /* KeychainAccess */,
 			);
 			productName = DeploymentsWidgetExtension;
 			productReference = 71DC1A9B24D5CD760095EF43 /* DeploymentsWidgetExtension.appex */;
@@ -479,7 +467,6 @@
 			);
 			mainGroup = 715E06CE241BDE8C00A4DA0F;
 			packageReferences = (
-				7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 715E06D8241BDE8C00A4DA0F /* Products */;
 			projectDirPath = "";
@@ -710,7 +697,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -734,7 +721,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -882,7 +869,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -911,7 +898,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -942,7 +929,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -970,7 +957,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -997,7 +984,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1029,7 +1016,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1091,40 +1078,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		715BB9E5257A520B00D22BDE /* KeychainAccess */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
-			productName = KeychainAccess;
-		};
-		7169123124A7E7190023339D /* KeychainAccess */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
-			productName = KeychainAccess;
-		};
-		718DD05A2574003B001CB92A /* KeychainAccess */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
-			productName = KeychainAccess;
-		};
-		71DC1AAD24D5CE980095EF43 /* KeychainAccess */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7169122624A7E5D70023339D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
-			productName = KeychainAccess;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 715E06CF241BDE8C00A4DA0F /* Project object */;
 }
