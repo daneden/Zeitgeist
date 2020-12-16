@@ -19,24 +19,48 @@ enum DeploymentState: String, Codable {
   case cancelled = "CANCELED"
 }
 
-struct Deployment: Hashable, TimelineEntry {
+struct DeploymentCreator: Codable, Identifiable {
+    var uid: String
+    var username: String
+    var email: String
+    
+    var id: String {
+        return uid
+    }
+}
+
+struct Deployment: Hashable, TimelineEntry, Decodable {
   var project: String
   var id: String
-  var createdAt: Date
+  var createdAt: Int
   
   // `date` is required to conform to `TimelineEntry`
   var date: Date {
-    return self.createdAt
+    return Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
   }
   
   var state: DeploymentState
-  var url: URL
-  var creator: VercelDeploymentUser
-  var svnInfo: GitCommit?
+  var urlString: String
+  
+  var url: URL {
+    URL(string: "https://\(urlString)")!
+  }
+  
+  var creator: DeploymentCreator
+  var meta: AnyCommit?
   
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
     hasher.combine(state)
+  }
+  
+  enum CodingKeys: String, CodingKey {
+    case project = "name"
+    case urlString = "url"
+    case createdAt = "created"
+    case id = "uid"
+    
+    case state, creator, meta
   }
   
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {

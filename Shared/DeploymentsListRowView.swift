@@ -22,7 +22,7 @@ struct DeploymentsListRowView: View {
             .font(.caption)
           
           HStack {
-            if deployment.svnInfo != nil, let commitMessage = deployment.svnInfo!.commitMessageSummary {
+            if let commit = deployment.meta, let commitMessage = commit.commitMessageSummary {
               Text(commitMessage)
             } else {
               Text("manualDeployment")
@@ -30,7 +30,7 @@ struct DeploymentsListRowView: View {
           }.lineLimit(2)
 
           VStack(alignment: .leading, spacing: 2) {
-            Text("\(deployment.createdAt, style: .relative) ago")
+            Text("\(deployment.date, style: .relative) ago")
               .fixedSize()
               .foregroundColor(.secondary)
               .font(.caption)

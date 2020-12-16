@@ -12,16 +12,15 @@ import SwiftUI
 let exampleDeployment = Deployment(
   project: "Zeitgeist",
   id: "1",
-  createdAt: Date(),
+  createdAt: Int(Date().timeIntervalSince1970 * 1000),
   state: .queued,
-  url: URL(string: "https://vercel.com")!,
-  creator: VercelDeploymentUser(
+  urlString: "vercel.com",
+  creator: DeploymentCreator(
     uid: "1",
-    email: "example@example.com",
     username: "example-user",
-    githubLogin: "example_user"
+    email: "example@example.com"
   ),
-  svnInfo: nil
+  meta: nil
 )
 
 struct LatestDeploymentEntry: TimelineEntry {

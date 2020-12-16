@@ -15,7 +15,7 @@ struct LatestDeploymentWidgetView: View {
     VStack(alignment: .leading) {
       DeploymentStateIndicator(state: config.deployment.state, verbose: true, isWidget: true)
       
-      Text(config.deployment.svnInfo?.commitMessage ?? "Manual Deployment")
+      Text(config.deployment.meta?.commitMessage ?? "Manual Deployment")
         .font(.subheadline)
         .fontWeight(.bold)
         .lineLimit(3)

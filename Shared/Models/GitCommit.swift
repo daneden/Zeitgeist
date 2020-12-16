@@ -8,108 +8,118 @@
 
 import Foundation
 
-enum GitSVNProvider: String, Codable {
-  case github, gitlab, bitbucket
+enum GitSVNProvider: String {
+  case bitbucket, github, gitlab
 }
 
-struct GitCommit {
-  var provider: GitSVNProvider?
-  var commitSha: String
-  var commitMessage: String
-  var commitAuthorName: String
-  var commitURL: URL
-  var repo: String
-  
-  var shortSha: String {
-    let index = commitSha.index(commitSha.startIndex, offsetBy: 7)
-    return String(commitSha.prefix(upTo: index))
+let commitURLPattern: [GitSVNProvider: String] = [
+  .bitbucket: "https://bitbucket.com/%@/%@/commits/%@",
+  .github: "https://github.com/%@/%@/commit/%@",
+  .gitlab: "https://gitlab.com/%@/%@/-/commit/%@"
+]
+
+protocol Commit {
+  var provider: GitSVNProvider { get }
+  var commitSha: String { get }
+  var commitMessage: String { get }
+  var commitAuthorName: String { get }
+  var repo: String { get }
+  var org: String { get }
+}
+
+extension Commit {
+  static func decode(from decoder: Decoder) throws -> Commit {
+    guard let decoded: Commit =
+            (try? BitBucketCommit(from: decoder)) ??
+            (try? GithubCommit(from: decoder)) ??
+            (try? GitlabCommit(from: decoder)) else {
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: ""))
+    }
+    
+    return decoded
+    
   }
+}
+
+struct AnyCommit: Commit, Decodable {
+  private var wrapped: Commit
+  
+  init(from decoder: Decoder) throws {
+    if let commit = try? BitBucketCommit(from: decoder) {
+      wrapped = commit
+    } else if let commit = try? GithubCommit(from: decoder) {
+      wrapped = commit
+    } else if let commit = try? GitlabCommit(from: decoder) {
+      wrapped = commit
+    } else {
+      throw DecodingError.dataCorrupted(
+        DecodingError.Context(codingPath: decoder.codingPath, debugDescription: ""))
+    }
+  }
+  
+  var provider: GitSVNProvider { wrapped.provider }
+  var commitMessage: String { wrapped.commitMessage }
+  var commitAuthorName: String { wrapped.commitAuthorName }
+  var commitSha: String { wrapped.commitSha }
+  var repo: String { wrapped.repo }
+  var org: String { wrapped.org }
   
   var commitMessageSummary: String {
     return commitMessage.components(separatedBy: "\n").first ?? "(Empty Commit Message)"
   }
   
-  static func from(json: [String: String]) -> GitCommit? {
-    var builder = CommitBuilder()
-    for(key, _ ) in json.prefix(1) {
-      if key.hasPrefix("github") {
-        builder = .init(provider: .github)
-      } else if key.hasPrefix("bitbucket") {
-        builder = .init(provider: .bitbucket)
-      } else if key.hasPrefix("gitlab") {
-        builder = .init(provider: .gitlab)
-      }
-    }
-    
-    return builder.build(from: json)
+  var commitURL: URL? {
+    let pattern = commitURLPattern[provider]!
+    let string = String(format: pattern, org, repo, commitSha)
+    return URL(string: string)
+  }
+  
+  var shortSha: String {
+    let index = commitSha.index(commitSha.startIndex, offsetBy: 7)
+    return String(commitSha.prefix(upTo: index))
   }
 }
 
-class CommitBuilder {
-  var provider: GitSVNProvider?
-  var repoKey: String?
-  var namespaceKey: String?
-  var urlPattern: String?
+struct BitBucketCommit: Decodable, Commit {
+  var provider: GitSVNProvider { .bitbucket }
+  var commitSha: String { bitbucketCommitSha }
+  var repo: String { bitbucketRepoSlug }
+  var org: String { bitbucketRepoOwner }
+  var commitMessage: String { bitbucketCommitMessage }
+  var commitAuthorName: String { bitbucketCommitMessage }
   
-  init() {}
+  var bitbucketCommitAuthorName: String
+  var bitbucketCommitSha: String
+  var bitbucketCommitMessage: String
+  var bitbucketRepoSlug: String
+  var bitbucketRepoOwner: String
+}
+
+struct GithubCommit: Decodable, Commit {
+  var provider: GitSVNProvider { .github }
+  var commitSha: String { githubCommitSha }
+  var commitMessage: String { githubCommitMessage }
+  var repo: String { githubCommitRepo }
+  var org: String { githubCommitOrg }
+  var commitAuthorName: String { githubCommitMessage }
   
-  init(provider: GitSVNProvider) {
-    self.provider = provider
-    
-    switch provider {
-    case .bitbucket:
-      self.urlPattern = "https://bitbucket.com/%@/%@/commits/%@"
-      self.repoKey = "RepoSlug"
-      self.namespaceKey = "RepoOwner"
-    case .github:
-      self.urlPattern = "https://github.com/%@/%@/commit/%@"
-      self.repoKey = "CommitRepo"
-      self.namespaceKey = "CommitOrg"
-    case .gitlab:
-      self.urlPattern = "https://gitlab.com/%@/%@/-/commit/%@"
-      self.repoKey = "ProjectName"
-      self.namespaceKey = "ProjectNamespace"
-    }
-  }
+  var githubCommitAuthorName: String
+  var githubCommitSha: String
+  var githubCommitMessage: String
+  var githubCommitRepo: String
+  var githubCommitOrg: String
+}
+
+struct GitlabCommit: Decodable, Commit {
+  var provider: GitSVNProvider { .gitlab }
+  var commitSha: String { gitlabCommitSha }
+  var commitMessage: String { gitlabCommitMessage }
+  var repo: String { gitlabProjectPath.components(separatedBy: "/")[1] }
+  var org: String { gitlabProjectPath.components(separatedBy: "/")[0] }
+  var commitAuthorName: String { gitlabCommitAuthorName }
   
-  func pfx(_ val: String) -> String {
-    return "\(provider!.rawValue)\(val)"
-  }
-  
-  func build(from: [String: String]) -> GitCommit? {
-    if provider == nil {
-      return nil
-    }
-    
-    // GitLab commits provide a different repo resolution from the other providers
-    // so we need to get a bit clever with that case
-    // (https://github.com/daneden/zeitgeist/issues/25)
-    var repo: String
-    var namespace: String
-    
-    let sha = from[pfx("CommitSha")] ?? ""
-    let message = from[pfx("CommitMessage")] ?? ""
-    let authorName = from[pfx("CommitAuthorName")] ?? ""
-    
-    switch provider {
-    case .gitlab:
-        let repoPath = from[pfx("ProjectPath")]?.split(separator: .init("/"))
-        namespace = String(repoPath?[0] ?? "")
-        repo = String(repoPath?[1] ?? "")
-    default:
-        repo = from[pfx(repoKey!)] ?? ""
-        namespace = from[pfx(namespaceKey!)] ?? ""
-    }
-    
-    let url = String(format: urlPattern!, namespace, repo, sha)
-    
-    return GitCommit(
-      provider: provider,
-      commitSha: sha,
-      commitMessage: message,
-      commitAuthorName: authorName,
-      commitURL: URL(string: url)!,
-      repo: repo
-    )
-  }
+  var gitlabCommitAuthorName: String
+  var gitlabCommitSha: String
+  var gitlabCommitMessage: String
+  var gitlabProjectPath: String
 }

@@ -10,8 +10,18 @@ import Foundation
 import SwiftUI
 import Combine
 
+let decoder = JSONDecoder()
+
+enum FetcherError: Error {
+  case decoding, fetching, updating
+}
+
 struct VercelTeamsAPIResponse: Decodable {
-  public var teams: [VercelTeam] = [VercelTeam]()
+  public var teams: [VercelTeam] = []
+}
+
+struct DeploymentResponse: Decodable {
+  public var deployments: [Deployment] = []
 }
 
 enum VercelRoute: String {
@@ -27,7 +37,7 @@ public class VercelFetcher: ObservableObject {
     case error
     case idle
   }
-    
+  
   static let shared = VercelFetcher(UserDefaultsManager.shared)
   
   @Published var fetchState: FetchState = .idle {
@@ -124,7 +134,10 @@ public class VercelFetcher: ObservableObject {
     URLSession.shared.dataTask(with: request) { (data, _, error) in
       do {
         guard let response = data else {
-          print("error")
+          print("Error fetching teams")
+          if let fetchError = error {
+            print(fetchError.localizedDescription)
+          }
           return
         }
         let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: response)
@@ -160,49 +173,27 @@ public class VercelFetcher: ObservableObject {
     request.allHTTPHeaderFields = getHeaders()
     
     URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if data == nil {
+      if let data = data {
+        do {
+          let response = try decoder.decode(DeploymentResponse.self, from: data)
+          completion(response.deployments, nil)
+        } catch let DecodingError.dataCorrupted(context) {
+          print(context)
+        } catch let DecodingError.keyNotFound(key, context) {
+          print("Key '\(key)' not found:", context.debugDescription)
+          print("codingPath:", context.codingPath)
+        } catch let DecodingError.valueNotFound(value, context) {
+          print("Value '\(value)' not found:", context.debugDescription)
+          print("codingPath:", context.codingPath)
+        } catch let DecodingError.typeMismatch(type, context) {
+          print("Type '\(type)' mismatch:", context.debugDescription)
+          print("codingPath:", context.codingPath)
+        } catch {
+          print("error: ", error)
+        }
+      } else {
         print("Error loading deployments")
         return
-      }
-      
-      do {
-        // swiftlint:disable force_cast
-        if let serialised = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any],
-           let _deployments = (serialised["deployments"] as? [[String: Any]]) {
-          let deployments = _deployments.map { (deployment: [String: Any]) -> Deployment in
-            let _creator = deployment["creator"] as! [String: String]
-            let creator = VercelDeploymentUser(
-              uid: _creator["uid"]!,
-              email: _creator["email"]!,
-              username: _creator["username"]!
-            )
-            
-            return Deployment(
-              project: deployment["name"] as! String,
-              id: deployment["uid"] as! String,
-              createdAt: Date(timeIntervalSince1970: TimeInterval(deployment["created"] as! Int / 1000)),
-              state: DeploymentState(rawValue: deployment["state"] as! String)!,
-              url: URL(string: "https://\(deployment["url"] as! String)")!,
-              creator: creator,
-              svnInfo: GitCommit.from(json: deployment["meta"] as! [String: String])
-            )
-          }
-          
-          DispatchQueue.main.async { [weak self] in
-            self?.fetchState = .finished
-          }
-          
-          completion(deployments, nil)
-        }
-      } catch let error as NSError {
-        print("Error decoding deployments")
-        print(error.localizedDescription)
-        
-        DispatchQueue.main.async { [weak self] in
-          self?.fetchState = .error
-        }
-        
-        completion(nil, error)
       }
     }.resume()
     

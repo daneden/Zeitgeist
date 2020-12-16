@@ -30,13 +30,3 @@ struct VercelUser: Decodable, Identifiable {
 struct VercelUserAPIResponse: Decodable {
   public var user: VercelUser
 }
-
-struct VercelDeploymentUser: Decodable, Identifiable {
-  public var uid: String
-  public var id: String {
-    return uid
-  }
-  public var email: String
-  public var username: String
-  public var githubLogin: String?
-}
