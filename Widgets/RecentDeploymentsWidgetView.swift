@@ -23,35 +23,46 @@ struct RecentDeploymentsWidgetView: View {
           HStack(spacing: 2) {
             Image(systemName: "person.2.fill")
             Text(currentTeam.name)
-          }.font(.footnote).foregroundColor(.secondary).imageScale(.small)
+          }.font(.footnote).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
         }
       }
       
       Divider().padding(.bottom, 4)
       
-      ForEach(deployments.prefix(6), id: \.self) { deployment in
-        HStack(alignment: .top) {
-          DeploymentStateIndicator(state: deployment.state, verbose: false, isWidget: true)
-        
-          VStack(alignment: .leading) {
-            Text(deployment.meta?.commitMessage ?? "Manual Deployment")
-              .fontWeight(.bold)
-              .lineLimit(3)
-              .foregroundColor(.primary)
-            
-            HStack {
-              Text("\(deployment.project)")
-                .foregroundColor(.secondary)
-              
-              Text(deployment.date, style: .relative)
-                .foregroundColor(.secondary)
-            }
-          }
+      if !deployments.isEmpty {
+        ForEach(deployments.prefix(6), id: \.self) { deployment in
+          HStack(alignment: .top) {
+            DeploymentStateIndicator(state: deployment.state, verbose: false, isWidget: true)
           
+            VStack(alignment: .leading) {
+              Text(deployment.meta?.commitMessage ?? "Manual Deployment")
+                .fontWeight(.bold)
+                .lineLimit(3)
+                .foregroundColor(.primary)
+              
+              HStack {
+                Text("\(deployment.project)")
+                  .foregroundColor(.secondary)
+                
+                Text(deployment.date, style: .relative)
+                  .foregroundColor(.secondary)
+              }
+            }
+            
+            Spacer()
+          }
+          .padding(.bottom, 4)
+          .font(.footnote)
+        }
+      } else {
+        VStack {
+          Spacer()
+          Text("No Deployments Found")
+            .font(.footnote)
+            .foregroundColor(.secondary)
           Spacer()
         }
-        .padding(.bottom, 4)
-        .font(.footnote)
+        .frame(minWidth: 0, maxWidth: .infinity)
       }
       
       Spacer()

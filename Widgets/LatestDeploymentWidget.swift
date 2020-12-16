@@ -27,6 +27,7 @@ struct LatestDeploymentEntry: TimelineEntry {
   var date = Date()
   var deployment: Deployment
   var team: VercelTeam
+  var isMockDeployment: Bool?
 }
 
 struct DeploymentTimelineProvider: IntentTimelineProvider {
@@ -59,12 +60,19 @@ struct DeploymentTimelineProvider: IntentTimelineProvider {
     VercelFetcher.shared.settings.currentTeam = team.id
     
     VercelFetcher.shared.loadDeployments { (entries, _) in
-      if entries != nil, let deployment = entries?[0] {
+      if entries != nil, !entries!.isEmpty, let deployment = entries?[0] {
         let entry = LatestDeploymentEntry(deployment: deployment, team: team)
         let timeline = Timeline(entries: [entry], policy: .atEnd)
         completion(timeline)
       } else {
-        let timeline = Timeline(entries: [snapshotEntry], policy: .atEnd)
+        let mockEntry = LatestDeploymentEntry(
+          date: Date(),
+          deployment: snapshotEntry.deployment,
+          team: team,
+          isMockDeployment: true
+        )
+        
+        let timeline = Timeline(entries: [mockEntry], policy: .atEnd)
         completion(timeline)
       }
     }

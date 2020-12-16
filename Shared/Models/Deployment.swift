@@ -30,6 +30,7 @@ struct DeploymentCreator: Codable, Identifiable {
 }
 
 struct Deployment: Hashable, TimelineEntry, Decodable {
+  var isMockDeployment: Bool?
   var project: String
   var id: String
   var createdAt: Int

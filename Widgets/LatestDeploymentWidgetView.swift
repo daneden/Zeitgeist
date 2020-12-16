@@ -13,28 +13,35 @@ struct LatestDeploymentWidgetView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      DeploymentStateIndicator(state: config.deployment.state, verbose: true, isWidget: true)
-      
-      Text(config.deployment.meta?.commitMessage ?? "Manual Deployment")
-        .font(.subheadline)
-        .fontWeight(.bold)
-        .lineLimit(3)
-        .foregroundColor(.primary)
-      
-      Text(config.deployment.date, style: .relative)
-        .font(.caption)
-      Text(config.deployment.project)
-        .lineLimit(1)
-        .font(.caption)
-        .foregroundColor(.secondary)
+      if config.isMockDeployment != true {
+        DeploymentStateIndicator(state: config.deployment.state, verbose: true, isWidget: true)
+        
+        Text(config.deployment.meta?.commitMessage ?? "Manual Deployment")
+          .font(.subheadline)
+          .fontWeight(.bold)
+          .lineLimit(3)
+          .foregroundColor(.primary)
+        
+        Text(config.deployment.date, style: .relative)
+          .font(.caption)
+        Text(config.deployment.project)
+          .lineLimit(1)
+          .font(.caption)
+          .foregroundColor(.secondary)
+      } else {
+        Text("No Deployments Found")
+          .font(.caption)
+          .fontWeight(.bold)
+          .foregroundColor(.secondary)
+          .frame(minWidth: 0, maxWidth: .infinity)
+      }
       
       Spacer()
       
-      HStack(spacing: 2) {
+      HStack(alignment: .firstTextBaseline, spacing: 2) {
         Image(systemName: "person.2.fill")
         Text(config.team.name)
-      }.font(.caption2).foregroundColor(.secondary).imageScale(.small)
-      
+      }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
     }
     .padding()
     .background(Color(TColor.systemBackground))

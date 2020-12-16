@@ -27,20 +27,6 @@ protocol Commit {
   var org: String { get }
 }
 
-extension Commit {
-  static func decode(from decoder: Decoder) throws -> Commit {
-    guard let decoded: Commit =
-            (try? BitBucketCommit(from: decoder)) ??
-            (try? GithubCommit(from: decoder)) ??
-            (try? GitlabCommit(from: decoder)) else {
-      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: ""))
-    }
-    
-    return decoded
-    
-  }
-}
-
 struct AnyCommit: Commit, Decodable {
   private var wrapped: Commit
   
