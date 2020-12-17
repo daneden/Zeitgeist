@@ -176,8 +176,8 @@ public class VercelFetcher: ObservableObject {
       if let data = data {
         do {
           let response = try decoder.decode(DeploymentResponse.self, from: data)
-          DispatchQueue.main.async {
-            self.fetchState = .finished
+          DispatchQueue.main.async { [weak self] in
+            self?.fetchState = .finished
           }
           completion(response.deployments, nil)
         } catch {
