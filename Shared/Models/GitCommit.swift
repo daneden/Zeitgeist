@@ -72,7 +72,7 @@ struct BitBucketCommit: Decodable, Commit {
   var repo: String { bitbucketRepoSlug }
   var org: String { bitbucketRepoOwner }
   var commitMessage: String { bitbucketCommitMessage }
-  var commitAuthorName: String { bitbucketCommitMessage }
+  var commitAuthorName: String { bitbucketCommitAuthorName }
   
   var bitbucketCommitAuthorName: String
   var bitbucketCommitSha: String
@@ -87,7 +87,7 @@ struct GithubCommit: Decodable, Commit {
   var commitMessage: String { githubCommitMessage }
   var repo: String { githubCommitRepo }
   var org: String { githubCommitOrg }
-  var commitAuthorName: String { githubCommitMessage }
+  var commitAuthorName: String { githubCommitAuthorName }
   
   var githubCommitAuthorName: String
   var githubCommitSha: String

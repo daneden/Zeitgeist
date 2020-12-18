@@ -19,7 +19,7 @@ struct DeploymentsListRowView: View {
         VStack(alignment: .leading) {
           Text(deployment.project)
             .foregroundColor(.secondary)
-            .font(.caption)
+            .font(.footnote)
           
           HStack {
             if let commit = deployment.commit, let commitMessage = commit.commitMessageSummary {

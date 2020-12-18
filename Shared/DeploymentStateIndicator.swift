@@ -39,7 +39,7 @@ struct DeploymentStateIndicator: View {
     }
     .padding(.vertical, 1)
     .padding(.horizontal, verbose ? 2 : 1)
-    .font(Font.caption.bold())
+    .font(Font.footnote.bold())
     .foregroundColor(colorForState(state))
     .background(verbose ? colorForState(state).opacity(0.1) : nil)
     .background(badgeBackground.opacity(verbose && !isWidget ? 1.0 : 0))

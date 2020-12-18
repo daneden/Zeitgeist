@@ -18,41 +18,37 @@ struct Overview: View {
   var deployment: Deployment
   
   var body: some View {
-    let commitMessage: String = deployment.commit?.commitMessage ?? ""
     let firstLine = deployment.commit?.commitMessageSummary ?? "Manual Deployment"
     
-    let extra = commitMessage.components(separatedBy: "\n").dropFirst().joined(separator: "\n")
     return Group {
       Section(header: Text("Overview").font(Font.caption.bold()).foregroundColor(.secondary)) {
-      // MARK: Deployment cause/commit
-      VStack(alignment: .leading, spacing: 4) {
-        DeploymentStateIndicator(state: deployment.state, verbose: true)
-        
-        Text(deployment.project)
-          .font(.footnote)
-          .foregroundColor(.secondary)
-        
-        Text(firstLine)
-          .font(.headline)
-        
-        Text("\(deployment.date, style: .relative) ago")
-          .fixedSize()
-          .font(.caption)
-          .foregroundColor(.secondary)
-        
-        Text(extra).font(.footnote).lineLimit(10)
+        // MARK: Deployment cause/commit
+        VStack(alignment: .leading) {
+          DeploymentStateIndicator(state: deployment.state, verbose: true)
           
-        Group {
-          if let commit = deployment.commit {
-            Text("Author: \(commit.commitAuthorName)").lineLimit(1)
-          } else {
-            Text("Author: \(deployment.creator.username)")
+          Text(deployment.project)
+            .font(.footnote)
+            .foregroundColor(.secondary)
+          
+          Text(firstLine)
+            .font(.headline)
+          
+          Text("\(deployment.date, style: .relative) ago")
+            .fixedSize()
+            .font(.caption)
+            .foregroundColor(.secondary)
+          
+          HStack {
+            if let commit = deployment.commit {
+              GitProviderImage(provider: commit.provider)
+              Text("\(commit.commitAuthorName)").lineLimit(1)
+            } else {
+              Text("Deployed by \(deployment.creator.username)")
+                .padding(.top, 4)
+            }
           }
-        }
-        .font(.caption)
-        .foregroundColor(.secondary)
-      }.padding(.vertical, 8)
-    }
+        }.padding(.vertical, 8)
+      }
     }
   }
 }
@@ -95,7 +91,7 @@ struct URLDetails: View {
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     pasteboard.setString(deployment.url.absoluteString, forType: NSPasteboard.PasteboardType.string)
     #endif
-  
+    
     copied = true
   }
 }
@@ -158,7 +154,7 @@ struct DeploymentDetailView: View {
             self.copied = false
           }
         }
-    }
+      }
     }
   }
 }
