@@ -71,6 +71,12 @@
 		71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
 		71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */; };
 		71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */; };
+		71CF0366258CA8C100DDB605 /* ExampleDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */; };
+		71CF0367258CA8C100DDB605 /* ExampleDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */; };
+		71CF0368258CA8C100DDB605 /* ExampleDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */; };
+		71CF037E258CAB9A00DDB605 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
+		71CF037F258CAB9A00DDB605 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
+		71CF0380258CAB9A00DDB605 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
 		71D3B19E2528C51700B0A2CC /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
 		71DC1A9C24D5CD760095EF43 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DC1A7024D5CA0C0095EF43 /* WidgetKit.framework */; };
 		71DC1A9D24D5CD760095EF43 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DC1A7224D5CA0C0095EF43 /* SwiftUI.framework */; };
@@ -153,6 +159,8 @@
 		71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentStateIndicator.swift; sourceTree = "<group>"; };
 		71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListRowView.swift; sourceTree = "<group>"; };
 		71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleDeployment.swift; sourceTree = "<group>"; };
+		71CF037D258CAB9A00DDB605 /* exampleDeployment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampleDeployment.json; sourceTree = "<group>"; };
 		71D5EC3C241EE13D0076BCA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		71DC1A7024D5CA0C0095EF43 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		71DC1A7224D5CA0C0095EF43 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -212,6 +220,7 @@
 		7154E3922577FAC900B2117E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				71CF037D258CAB9A00DDB605 /* exampleDeployment.json */,
 				7154E3932577FADB00B2117E /* Deployment.swift */,
 				7154E39C2578007B00B2117E /* GitCommit.swift */,
 			);
@@ -319,6 +328,7 @@
 		71D3B19C2528C50500B0A2CC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */,
 				71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */,
 				710FB50D25864F5F004F060A /* Globals.swift */,
 				715BBA14257B9CB700D22BDE /* KeyStore.swift */,
@@ -495,6 +505,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				716911FC24A7E2C00023339D /* Assets.xcassets in Resources */,
+				71CF037F258CAB9A00DDB605 /* exampleDeployment.json in Resources */,
 				7169122C24A7E6D60023339D /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -506,6 +517,7 @@
 				718DCF762573FEF8001CB92A /* Main.storyboard in Resources */,
 				718DCFC62573FF2E001CB92A /* Localizable.strings in Resources */,
 				718DD08C25740A07001CB92A /* Assets.xcassets in Resources */,
+				71CF037E258CAB9A00DDB605 /* exampleDeployment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71DC1AA224D5CD780095EF43 /* Assets.xcassets in Resources */,
+				71CF0380258CAB9A00DDB605 /* exampleDeployment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +609,7 @@
 				7154E3942577FADB00B2117E /* Deployment.swift in Sources */,
 				7169120C24A7E31B0023339D /* ContentView.swift in Sources */,
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
+				71CF0367258CA8C100DDB605 /* ExampleDeployment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +622,7 @@
 				718DCFCF2573FF32001CB92A /* DeploymentStateIndicator.swift in Sources */,
 				718DCFF32573FF40001CB92A /* ContentView.swift in Sources */,
 				718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */,
+				71CF0366258CA8C100DDB605 /* ExampleDeployment.swift in Sources */,
 				718DCFBD2573FF29001CB92A /* LoginView.swift in Sources */,
 				710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				718DD0052573FF48001CB92A /* VercelTypes.swift in Sources */,
@@ -643,6 +658,7 @@
 				7154E3A825781BA800B2117E /* Deployment.swift in Sources */,
 				71DC1AB724D5D1D50095EF43 /* DeploymentStateIndicator.swift in Sources */,
 				71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */,
+				71CF0368258CA8C100DDB605 /* ExampleDeployment.swift in Sources */,
 				715BBA16257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				71DC1AAC24D5CE5E0095EF43 /* UserDefaultsManager.swift in Sources */,
 				71DC1AB624D5CF4A0095EF43 /* LatestDeploymentWidgetView.swift in Sources */,

@@ -16,7 +16,7 @@ struct LatestDeploymentWidgetView: View {
       if config.isMockDeployment != true {
         DeploymentStateIndicator(state: config.deployment.state, verbose: true, isWidget: true)
         
-        Text(config.deployment.meta?.commitMessage ?? "Manual Deployment")
+        Text(config.deployment.commit?.commitMessage ?? "Manual Deployment")
           .font(.subheadline)
           .fontWeight(.bold)
           .lineLimit(3)

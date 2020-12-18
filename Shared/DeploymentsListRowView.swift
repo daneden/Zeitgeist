@@ -22,7 +22,7 @@ struct DeploymentsListRowView: View {
             .font(.caption)
           
           HStack {
-            if let commit = deployment.meta, let commitMessage = commit.commitMessageSummary {
+            if let commit = deployment.commit, let commitMessage = commit.commitMessageSummary {
               Text(commitMessage)
             } else {
               Text("manualDeployment")

@@ -9,19 +9,8 @@
 import WidgetKit
 import SwiftUI
 
-let exampleDeployment = Deployment(
-  project: "Zeitgeist",
-  id: "1",
-  createdAt: Int(Date().timeIntervalSince1970 * 1000),
-  state: .queued,
-  urlString: "vercel.com",
-  creator: DeploymentCreator(
-    uid: "1",
-    username: "example-user",
-    email: "example@example.com"
-  ),
-  meta: nil
-)
+
+let exampleDeployment = ExampleDeployment().deployment!
 
 struct LatestDeploymentEntry: TimelineEntry {
   var date = Date()
@@ -96,6 +85,13 @@ struct LatestDeploymentWidget: Widget {
   }
 }
 
+struct DeploymentsWidget_Previews: PreviewProvider {
+  static var previews: some View {
+    LatestDeploymentWidgetView(config: LatestDeploymentEntry(deployment: exampleDeployment, team: VercelTeam()))
+      .previewContext(WidgetPreviewContext(family: .systemMedium))
+  }
+}
+
 @main
 struct VercelWidgets: WidgetBundle {
     @WidgetBundleBuilder
@@ -103,11 +99,4 @@ struct VercelWidgets: WidgetBundle {
       LatestDeploymentWidget()
       RecentDeploymentsWidget()
     }
-}
-
-struct DeploymentsWidget_Previews: PreviewProvider {
-  static var previews: some View {
-    LatestDeploymentWidgetView(config: LatestDeploymentEntry(deployment: exampleDeployment, team: VercelTeam()))
-      .previewContext(WidgetPreviewContext(family: .systemMedium))
-  }
 }

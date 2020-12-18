@@ -1,0 +1,21 @@
+{
+  "uid":"dpl_6QKd4VeLyyUbWVKAjpK21H4PhNm4",
+  "name":"test-deployment",
+  "url":"test-deployment-ctx4nlkep.vercel.app",
+  "created":1608279991637,
+  "state":"READY",
+  "type":"LAMBDAS",
+  "creator":{
+    "uid":"v9dkldDUzwdLE3GZaVteSbJq",
+    "email":"dan.eden@me.com",
+    "username":"daneden",
+    "githubLogin":"daneden",
+    "gitlabLogin":"daneden"
+  },
+  "instanceCount":0,
+  "scale":{},
+  "meta":{},
+  "target":"production",
+  "aliasError":null,
+  "aliasAssigned":1608280000123
+}

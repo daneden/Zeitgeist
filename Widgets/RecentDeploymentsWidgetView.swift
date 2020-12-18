@@ -35,7 +35,7 @@ struct RecentDeploymentsWidgetView: View {
             DeploymentStateIndicator(state: deployment.state, verbose: false, isWidget: true)
           
             VStack(alignment: .leading) {
-              Text(deployment.meta?.commitMessage ?? "Manual Deployment")
+              Text(deployment.commit?.commitMessage ?? "Manual Deployment")
                 .fontWeight(.bold)
                 .lineLimit(3)
                 .foregroundColor(.primary)

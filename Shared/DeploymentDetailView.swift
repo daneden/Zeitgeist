@@ -18,8 +18,8 @@ struct Overview: View {
   var deployment: Deployment
   
   var body: some View {
-    let commitMessage: String = deployment.meta?.commitMessage ?? ""
-    let firstLine = deployment.meta?.commitMessageSummary ?? "Manual Deployment"
+    let commitMessage: String = deployment.commit?.commitMessage ?? ""
+    let firstLine = deployment.commit?.commitMessageSummary ?? "Manual Deployment"
     
     let extra = commitMessage.components(separatedBy: "\n").dropFirst().joined(separator: "\n")
     return Group {
@@ -43,7 +43,7 @@ struct Overview: View {
         Text(extra).font(.footnote).lineLimit(10)
           
         Group {
-          if let commit = deployment.meta {
+          if let commit = deployment.commit {
             Text("Author: \(commit.commitAuthorName)").lineLimit(1)
           } else {
             Text("Author: \(deployment.creator.username)")
@@ -112,7 +112,7 @@ struct DeploymentDetails: View {
       #endif
       Section(header: Text("Details").font(Font.caption.bold()).foregroundColor(.secondary)) {
         // MARK: Details
-        if let svnInfo = deployment.meta,
+        if let svnInfo = deployment.commit,
            let commitUrl: URL = svnInfo.commitURL,
            let shortSha: String = svnInfo.shortSha {
           Link(destination: commitUrl) {

@@ -33,7 +33,7 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
   var isMockDeployment: Bool?
   var project: String
   var id: String
-  var createdAt: Int
+  private var createdAt: Int = Int(Date().timeIntervalSince1970) / 1000
   
   // `date` is required to conform to `TimelineEntry`
   var date: Date {
@@ -41,14 +41,14 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
   }
   
   var state: DeploymentState
-  var urlString: String
+  private var urlString: String = "vercel.com"
   
   var url: URL {
     URL(string: "https://\(urlString)")!
   }
   
   var creator: DeploymentCreator
-  var meta: AnyCommit?
+  var commit: AnyCommit?
   
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
@@ -60,8 +60,20 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
     case urlString = "url"
     case createdAt = "created"
     case id = "uid"
+    case commit = "meta"
     
-    case state, creator, meta
+    case state, creator
+  }
+  
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    project = try container.decode(String.self, forKey: .project)
+    urlString = try container.decode(String.self, forKey: .urlString)
+    createdAt = try container.decode(Int.self, forKey: .createdAt)
+    id = try container.decode(String.self, forKey: .id)
+    commit = try? container.decode(AnyCommit.self, forKey: .commit)
+    state = try container.decode(DeploymentState.self, forKey: .state)
+    creator = try container.decode(DeploymentCreator.self, forKey: .creator)
   }
   
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {
