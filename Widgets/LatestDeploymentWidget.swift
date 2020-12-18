@@ -9,7 +9,6 @@
 import WidgetKit
 import SwiftUI
 
-
 let exampleDeployment = ExampleDeployment().deployment!
 
 struct LatestDeploymentEntry: TimelineEntry {
