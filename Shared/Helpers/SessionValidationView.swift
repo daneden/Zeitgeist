@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SessionValidationView: View {
-  let settings = UserDefaultsManager.shared
+  @ObservedObject var settings = UserDefaultsManager.shared
   @Binding var isValidated: Bool
   
   var body: some View {

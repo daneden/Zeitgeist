@@ -32,22 +32,4 @@ class UserDefaultsManager: ObservableObject {
       }
     }
   }
-  
-  @Published var currentTeam: String? = UserDefaults.standard.string(forKey: "SelectedTeam") {
-    didSet {
-      if currentTeam == "-1" {
-        currentTeam = nil
-      }
-      
-      UserDefaults.standard.set(self.currentTeam, forKey: "SelectedTeam")
-      self.objectWillChange.send()
-    }
-  }
-  
-  @Published var isSubscribed: Bool? = UserDefaults.standard.bool(forKey: "IsSubscribed") {
-    didSet {
-      UserDefaults.standard.set(self.isSubscribed, forKey: "IsSubscribed")
-      self.objectWillChange.send()
-    }
-  }
 }

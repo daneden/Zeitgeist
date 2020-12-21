@@ -27,8 +27,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
   
   func getSnapshot(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (RecentsTimeline) -> Void) {
     let team = VercelTeam(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
-    VercelFetcher.shared.settings.currentTeam = team.id
-    VercelFetcher.shared.loadDeployments { (entries, _) in
+    VercelFetcher(UserDefaultsManager.shared).loadDeployments(teamId: team.id) { (entries, _) in
       if let deployments = entries {
         completion(RecentsTimeline(deployments: deployments, team: team))
       } else {
@@ -39,9 +38,8 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
   
   func getTimeline(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Timeline<RecentsTimeline>) -> Void) {
     let team = VercelTeam(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
-    VercelFetcher.shared.settings.currentTeam = team.id
     
-    VercelFetcher.shared.loadDeployments { (entries, _) in
+    VercelFetcher(UserDefaultsManager.shared).loadDeployments(teamId: team.id) { (entries, _) in
       if let deployments = entries {
         let timeline = Timeline(
           entries: [RecentsTimeline(deployments: deployments, team: team)],

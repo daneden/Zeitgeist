@@ -31,7 +31,9 @@ struct LoginView: View {
                     .foregroundColor(.secondary)
                   Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
                     .foregroundColor(.accentColor)
-                }.font(.footnote)
+                }
+                .font(.footnote)
+                .padding(.bottom)
       ) {
         SecureField("Enter Access Token", text: $inputValue)
         
@@ -55,7 +57,6 @@ struct LoginView: View {
       }
     }
     .padding(.all, padding)
-    .frame(maxWidth: 400)
   }
   
   func validateToken() {

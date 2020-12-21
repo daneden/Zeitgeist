@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VercelTeam: Decodable {
+struct VercelTeam: Decodable, Hashable {
   public var id: String = "-1"
   public var name: String = "Personal"
 }
@@ -21,12 +21,19 @@ struct VercelUser: Decodable, Identifiable {
   
   enum CodingKeys: String, CodingKey {
     case id = "uid"
-    case email = "email"
-    case name = "name"
-    case avatar = "avatar"
+    
+    case email, name, avatar
   }
 }
 
 struct VercelUserAPIResponse: Decodable {
   public var user: VercelUser
+}
+
+struct VercelTeamsAPIResponse: Decodable {
+  public var teams: [VercelTeam] = []
+}
+
+struct DeploymentResponse: Decodable {
+  public var deployments: [Deployment] = []
 }

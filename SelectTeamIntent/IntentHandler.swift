@@ -16,7 +16,7 @@ class IntentHandler: INExtension, SelectTeamIntentHandling {
   }
   
   func provideTeamOptionsCollection(for intent: SelectTeamIntent, with completion: @escaping (INObjectCollection<Team>?, Error?) -> Void) {
-    let fetcher = VercelFetcher.shared
+    let fetcher = VercelFetcher(UserDefaultsManager.shared)
     fetcher.loadTeams { (teams, error) in
       if let result = teams {
         var fetchedTeams = result.map { (team) -> Team in

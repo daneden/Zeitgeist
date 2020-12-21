@@ -12,18 +12,14 @@ typealias ZeitgeistButtonStyle = DefaultButtonStyle
 
 @main
 struct Zeitgeist: App {
-  var settings: UserDefaultsManager
-  var vercelNetwork: VercelFetcher
-  
-  init() {
-    settings = UserDefaultsManager.shared
-    vercelNetwork = VercelFetcher(settings)
-  }
+  var settings: UserDefaultsManager = UserDefaultsManager.shared
+  var vercelNetwork: VercelFetcher = VercelFetcher.shared
   
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environmentObject(settings)
+        .environmentObject(vercelNetwork)
         .onAppear(perform: self.loadFetcherItems)
     }
   }

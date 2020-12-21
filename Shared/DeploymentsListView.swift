@@ -18,10 +18,12 @@ typealias ZGDeploymentsListStyle = PlainListStyle
 struct DeploymentsListView: View {
   @EnvironmentObject var settings: UserDefaultsManager
   @EnvironmentObject var vercelFetcher: VercelFetcher
+  @State var team: VercelTeam = VercelTeam()
   
   var body: some View {
+    let deployments = vercelFetcher.deploymentsStore.deployments[team.id] ?? []
     return Group {
-      if vercelFetcher.deployments.isEmpty {
+      if deployments.isEmpty {
         if vercelFetcher.fetchState == .loading {
           ProgressView("Loading deployments...")
         } else {
@@ -33,41 +35,31 @@ struct DeploymentsListView: View {
           }
         }
       } else {
-        List(vercelFetcher.deployments, id: \.self) { deployment in
+        List(deployments, id: \.self) { deployment in
           NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
             DeploymentsListRowView(deployment: deployment)
+              .id(deployment.id)
           }
         }
         .listStyle(ZGDeploymentsListStyle())
       }
     }
+    .navigationTitle(Text("Deployments"))
+    .toolbar {
+      ToolbarItem(placement: .status) {
+        Text(team.name)
+          .font(.caption)
+          .foregroundColor(.secondary)
+      }
+    }
     .onAppear {
-      vercelFetcher.loadDeployments()
-      vercelFetcher.loadTeams()
+      vercelFetcher.tick()
     }
   }
 }
 
-struct NetworkError: View {
-  var body: some View {
-    VStack {
-      Image("networkOfflineIcon")
-        .foregroundColor(.secondary)
-      Text("offlineHeading")
-        .font(.subheadline)
-        .fontWeight(.bold)
-      Text("offlineDescription")
-        .multilineTextAlignment(.center)
-        .lineLimit(10)
-        .frame(minWidth: 0, minHeight: 0, maxHeight: 40)
-        .layoutPriority(1)
-        .foregroundColor(.secondary)
-    }.padding()
+struct DeploymentsListView_Previews: PreviewProvider {
+  static var previews: some View {
+    DeploymentsListView()
   }
 }
-
-//struct DeploymentsListView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    DeploymentsListView()
-//  }
-//}

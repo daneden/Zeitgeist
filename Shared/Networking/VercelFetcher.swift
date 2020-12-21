@@ -12,16 +12,17 @@ import Combine
 
 let decoder = JSONDecoder()
 
+struct DeploymentsStore {
+  var deployments: [String: [Deployment]] = ["-1": []]
+  
+  mutating func updateDeployments(forTeam teamId: String?, newDeployments: [Deployment]) {
+    let id = teamId ?? "-1"
+    deployments[id] = newDeployments
+  }
+}
+
 enum FetcherError: Error {
   case decoding, fetching, updating
-}
-
-struct VercelTeamsAPIResponse: Decodable {
-  public var teams: [VercelTeam] = []
-}
-
-struct DeploymentResponse: Decodable {
-  public var deployments: [Deployment] = []
 }
 
 enum VercelRoute: String {
@@ -38,39 +39,19 @@ public class VercelFetcher: ObservableObject {
     case idle
   }
   
-  static let shared = VercelFetcher(UserDefaultsManager.shared)
+  static let shared = VercelFetcher(UserDefaultsManager.shared, withTimer: true)
   
-  @Published var fetchState: FetchState = .idle {
+  @Published var fetchState: FetchState = .idle
+  
+  @Published var teams: [VercelTeam] = [] {
     didSet {
-      DispatchQueue.main.async { [weak self] in
-        self?.objectWillChange.send()
-      }
+      self.loadAllDeployments()
     }
   }
   
-  @Published var teams = [VercelTeam]() {
-    didSet {
-      DispatchQueue.main.async { [weak self] in
-        self?.objectWillChange.send()
-      }
-    }
-  }
-  
-  @Published var deployments = [Deployment]() {
-    didSet {
-      DispatchQueue.main.async { [weak self] in
-        self?.objectWillChange.send()
-      }
-    }
-  }
-  
-  @Published var user: VercelUser? {
-    didSet {
-      DispatchQueue.main.async { [weak self] in
-        self?.objectWillChange.send()
-      }
-    }
-  }
+  @Published var deployments: [Deployment] = []
+  @Published var user: VercelUser?
+  @Published var deploymentsStore = DeploymentsStore()
   
   @ObservedObject var settings: UserDefaultsManager
   
@@ -94,20 +75,24 @@ public class VercelFetcher: ObservableObject {
   }
   
   func resetTimers(reinit: Bool = true) {
-    deployments = [Deployment]()
     pollingTimer?.invalidate()
     pollingTimer = nil
     
     if reinit {
       pollingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] _ in
-        self?.loadDeployments()
-        self?.loadTeams()
+        self?.tick()
       })
       
       pollingTimer?.tolerance = 0.5
       RunLoop.current.add(pollingTimer!, forMode: .common)
       pollingTimer?.fire()
     }
+  }
+  
+  func tick() {
+    self.loadUser()
+    self.loadTeams()
+    self.loadAllDeployments()
   }
   
   func urlForRoute(_ route: VercelRoute, query: String? = nil) -> URL {
@@ -166,9 +151,29 @@ public class VercelFetcher: ObservableObject {
     }
   }
   
-  func loadDeployments(completion: @escaping ([Deployment]?, Error?) -> Void) {
+  func loadAllDeployments() {
+    let personalTeam = VercelTeam()
+    var teams = [personalTeam]
+    teams.append(contentsOf: self.teams)
+    for team in teams {
+      loadDeployments(teamId: team.id) { [weak self] (entries, error) in
+        if let deployments = entries {
+          DispatchQueue.main.async {
+            self?.deploymentsStore.updateDeployments(forTeam: team.id, newDeployments: deployments)
+          }
+        }
+        
+        if let errorMessage = error?.localizedDescription {
+          print(errorMessage)
+        }
+      }
+    }
+  }
+  
+  func loadDeployments(teamId: String? = nil, completion: @escaping ([Deployment]?, Error?) -> Void) {
     fetchState = deployments.isEmpty ? .loading : .idle
-    var request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(getTeamId() ?? "")"))
+    let unmaskedTeamId = teamId == "-1" ? "" : teamId ?? ""
+    var request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(unmaskedTeamId)"))
     
     request.allHTTPHeaderFields = getHeaders()
     
@@ -217,10 +222,6 @@ public class VercelFetcher: ObservableObject {
     }.resume()
     
     self.objectWillChange.send()
-  }
-  
-  func getTeamId() -> String? {
-    return self.settings.currentTeam
   }
   
   public func getHeaders() -> [String: String] {
