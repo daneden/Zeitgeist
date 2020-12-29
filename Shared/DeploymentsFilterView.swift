@@ -43,8 +43,8 @@ struct DeploymentsFilterView: View {
               }
             }
             
-            Picker("State", selection: $stateFilter) {
-              Text("All states").tag(StateFilter.allStates)
+            Picker("Status", selection: $stateFilter) {
+              Text("All statuses").tag(StateFilter.allStates)
               
               Label("Deployed", systemImage: "checkmark.circle.fill")
                 .tag(StateFilter.filteredByState(state: .ready))
@@ -55,7 +55,7 @@ struct DeploymentsFilterView: View {
                 .tag(StateFilter.filteredByState(state: .error))
               Label("Cancelled", systemImage: "x.circle.fill")
                 .tag(StateFilter.filteredByState(state: .cancelled))
-              Label("Cancelled", systemImage: "hourglass")
+              Label("Queued", systemImage: "hourglass")
                 .tag(StateFilter.filteredByState(state: .queued))
             }
             
