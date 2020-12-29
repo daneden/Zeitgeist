@@ -68,8 +68,11 @@ struct Overview: View {
 }
 
 struct URLDetails: View {
+  @EnvironmentObject var fetcher: VercelFetcher
   var deployment: Deployment
+  @State var aliases: [Alias] = []
   @Binding var copied: Bool
+  @State var loadingAliases = true
   
   var body: some View {
     return Group {
@@ -93,6 +96,28 @@ struct URLDetails: View {
           }
         }
       }
+      
+      Section(header: Text("Deployment Aliases").font(Font.caption.bold()).foregroundColor(.secondary)) {
+        if loadingAliases {
+          HStack(spacing: 8) {
+            ProgressView()
+            Text("Loading")
+              .foregroundColor(.secondary)
+          }
+        } else if !aliases.isEmpty {
+          ForEach(self.aliases, id: \.self) { alias in
+            Link(destination: alias.url) {
+              Text(alias.url.absoluteString).lineLimit(1)
+            }
+          }
+        } else {
+          Text("No aliases for deployment found")
+            .foregroundColor(.secondary)
+        }
+      }
+    }
+    .onAppear {
+      self.loadAliases()
     }
   }
   
@@ -107,6 +132,22 @@ struct URLDetails: View {
     #endif
     
     copied = true
+  }
+  
+  func loadAliases() {
+    self.fetcher.loadAliases(deploymentId: deployment.id) { result, error in
+      DispatchQueue.main.async {
+        self.loadingAliases = false
+        if error != nil {
+          print(error?.localizedDescription ?? "Error fetching aliases")
+          return
+        }
+        
+        if let aliases = result {
+          self.aliases = aliases
+        }
+      }
+    }
   }
 }
 

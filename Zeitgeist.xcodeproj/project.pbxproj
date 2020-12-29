@@ -108,6 +108,10 @@
 		71EA8657259BB55300AC611F /* DeploymentsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */; };
 		71EA8658259BB55300AC611F /* DeploymentsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */; };
 		71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
+		71F985E2259BE5CF00E27F0D /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
+		71F985E3259BE5CF00E27F0D /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
+		71F985E4259BE5CF00E27F0D /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
+		71F985E5259BE5CF00E27F0D /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,6 +204,7 @@
 		71EA8629259B8E6E00AC611F /* VercelStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelStore.swift; sourceTree = "<group>"; };
 		71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsFilterView.swift; sourceTree = "<group>"; };
 		71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
+		71F985E1259BE5CF00E27F0D /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +257,7 @@
 				7154E3932577FADB00B2117E /* Deployment.swift */,
 				7154E39C2578007B00B2117E /* GitCommit.swift */,
 				71EA8620259B8C3900AC611F /* Project.swift */,
+				71F985E1259BE5CF00E27F0D /* Alias.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -614,6 +620,7 @@
 				715BB9D3257A4EE700D22BDE /* UserDefaultsManager.swift in Sources */,
 				715BB9CD257A4EDB00D22BDE /* VercelTypes.swift in Sources */,
 				71EA8624259B8C3900AC611F /* Project.swift in Sources */,
+				71F985E5259BE5CF00E27F0D /* Alias.swift in Sources */,
 				710D0361257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71EA862D259B8E6E00AC611F /* VercelStore.swift in Sources */,
 				715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */,
@@ -630,6 +637,7 @@
 			files = (
 				7193C8542576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
+				71F985E3259BE5CF00E27F0D /* Alias.swift in Sources */,
 				71EA862B259B8E6E00AC611F /* VercelStore.swift in Sources */,
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				7187447C2590CC1F003F994C /* RemoteImage.swift in Sources */,
@@ -683,6 +691,7 @@
 				710FB50E25864F5F004F060A /* Globals.swift in Sources */,
 				718744652590C48B003F994C /* VercelUserAvatarView.swift in Sources */,
 				71EA8621259B8C3900AC611F /* Project.swift in Sources */,
+				71F985E2259BE5CF00E27F0D /* Alias.swift in Sources */,
 				7187447B2590CC1F003F994C /* RemoteImage.swift in Sources */,
 				71EA862A259B8E6E00AC611F /* VercelStore.swift in Sources */,
 				718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */,
@@ -704,6 +713,7 @@
 				71BF8C43257D0C04005D7246 /* RecentDeploymentsWidget.swift in Sources */,
 				710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
+				71F985E4259BE5CF00E27F0D /* Alias.swift in Sources */,
 				710FB51025864F5F004F060A /* Globals.swift in Sources */,
 				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
 				71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */,
@@ -762,7 +772,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -771,7 +781,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -786,7 +796,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -795,7 +805,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectTeamIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -932,7 +942,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -943,7 +953,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -961,7 +971,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -972,7 +982,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
@@ -1046,7 +1056,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1058,7 +1068,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1078,7 +1088,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1090,7 +1100,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.DeploymentsWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

@@ -242,6 +242,29 @@ public class VercelFetcher: ObservableObject {
     self.objectWillChange.send()
   }
   
+  func loadAliases(deploymentId: String, completion: @escaping ([Alias]?, Error?) -> Void) {
+    var request = URLRequest(url: urlForRoute(.deployments, query: "/\(deploymentId)/aliases"))
+    
+    request.allHTTPHeaderFields = getHeaders()
+    
+    URLSession.shared.dataTask(with: request) { (data, _, error) in
+      if let data = data {
+        do {
+          let response = try decoder.decode(AliasesResponse.self, from: data)
+          DispatchQueue.main.async { [weak self] in
+            self?.fetchState = .finished
+          }
+          completion(response.aliases, nil)
+        } catch {
+          print("error: ", error)
+        }
+      } else {
+        print("Error loading aliases")
+        return
+      }
+    }.resume()
+  }
+  
   func loadUser() {
     var request = URLRequest(url: urlForRoute(.user))
     
