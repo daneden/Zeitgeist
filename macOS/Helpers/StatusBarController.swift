@@ -8,6 +8,12 @@
 
 import AppKit
 
+let statusImageMap: [DeploymentState: String] = [
+  .building: "arrow.triangle.2.circlepath.circle.fill",
+  .error: "exclamationmark.circle.fill",
+  .ready: "arrowtriangle.up.circle.fill"
+]
+
 class StatusBarController {
   private var statusBar: NSStatusBar
   private var statusItem: NSStatusItem
@@ -23,7 +29,11 @@ class StatusBarController {
     statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
     
     if let statusBarButton = statusItem.button {
-      statusBarButton.image = NSImage(named: "zeitgeist-menu-bar")
+      statusBarButton.image = NSImage(
+        systemSymbolName: "arrowtriangle.up.circle.fill",
+        accessibilityDescription: "Zeitgeist"
+      )?.withSymbolConfiguration(.init(scale: .large))
+      
       statusBarButton.image?.isTemplate = true
       statusBarButton.imagePosition = .imageLeft
       
@@ -58,6 +68,15 @@ class StatusBarController {
   func mouseEventHandler(_ event: NSEvent?) {
     if popover.isShown {
       hidePopover(event!)
+    }
+  }
+  
+  func updateStatusBarIcon(withState state: DeploymentState, forTeam teamId: String? = nil) {
+    if let button = self.statusItem.button {
+      button.image = NSImage(
+        systemSymbolName: statusImageMap[state] ?? "arrowtriangle.up.circle.fill",
+        accessibilityDescription: "Zeitgeist"
+      )?.withSymbolConfiguration(.init(scale: .large))
     }
   }
 }

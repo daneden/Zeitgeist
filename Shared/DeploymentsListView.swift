@@ -52,7 +52,7 @@ struct DeploymentsListView: View {
           }
         }
         .listStyle(ZGDeploymentsListStyle())
-        .animation(.default)
+        .animation(IS_MACOS ? nil : .default)
       }
     }
     .navigationTitle(Text("Deployments"))
