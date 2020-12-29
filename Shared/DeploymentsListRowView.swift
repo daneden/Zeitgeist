@@ -17,9 +17,16 @@ struct DeploymentsListRowView: View {
         DeploymentStateIndicator(state: deployment.state)
         
         VStack(alignment: .leading) {
-          Text(deployment.project)
-            .foregroundColor(.secondary)
-            .font(.footnote)
+          HStack(spacing: 4) {
+            if deployment.target == .production {
+              Label("Production Deployment", systemImage: "bolt.fill")
+                .labelStyle(IconOnlyLabelStyle())
+            }
+            
+            Text(deployment.project)
+          }
+          .foregroundColor(.secondary)
+          .font(.footnote)
           
           HStack {
             if let commit = deployment.commit, let commitMessage = commit.commitMessageSummary {
@@ -42,4 +49,12 @@ struct DeploymentsListRowView: View {
     .listRowInsets(.none)
     .padding(.vertical, 4)
   }
+}
+
+struct DeploymentListRowView_Previews: PreviewProvider {
+    static var previews: some View {
+      Group {
+        DeploymentsListRowView(deployment: ExampleDeployment().deployment!)
+      }
+    }
 }

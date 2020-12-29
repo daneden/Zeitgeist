@@ -12,15 +12,6 @@ import Combine
 
 let decoder = JSONDecoder()
 
-struct DeploymentsStore {
-  var deployments: [String: [Deployment]] = ["-1": []]
-  
-  mutating func updateDeployments(forTeam teamId: String?, newDeployments: [Deployment]) {
-    let id = teamId ?? "-1"
-    deployments[id] = newDeployments
-  }
-}
-
 enum FetcherError: Error {
   case decoding, fetching, updating
 }
@@ -28,6 +19,7 @@ enum FetcherError: Error {
 enum VercelRoute: String {
   case teams = "v1/teams"
   case deployments = "v6/now/deployments"
+  case projects = "v4/projects"
   case user = "www/user"
 }
 
@@ -49,9 +41,15 @@ public class VercelFetcher: ObservableObject {
     }
   }
   
-  @Published var deployments: [Deployment] = []
   @Published var user: VercelUser?
+  
+  /**
+   Since the deployments array is recycled across teams, it’s advisable to use self.deploymentsStore instead
+   */
+  @Published var deployments: [Deployment] = []
+  
   @Published var deploymentsStore = DeploymentsStore()
+  @Published var projectsStore = ProjectsStore()
   
   @ObservedObject var settings: UserDefaultsManager
   
@@ -93,6 +91,7 @@ public class VercelFetcher: ObservableObject {
     self.loadUser()
     self.loadTeams()
     self.loadAllDeployments()
+    self.loadAllProjects()
   }
   
   func urlForRoute(_ route: VercelRoute, query: String? = nil) -> URL {
@@ -159,7 +158,7 @@ public class VercelFetcher: ObservableObject {
       loadDeployments(teamId: team.id) { [weak self] (entries, error) in
         if let deployments = entries {
           DispatchQueue.main.async {
-            self?.deploymentsStore.updateDeployments(forTeam: team.id, newDeployments: deployments)
+            self?.deploymentsStore.updateStore(forTeam: team.id, newValue: deployments)
           }
         }
         
@@ -170,10 +169,56 @@ public class VercelFetcher: ObservableObject {
     }
   }
   
+  func loadAllProjects() {
+    let personalTeam = VercelTeam()
+    var teams = [personalTeam]
+    teams.append(contentsOf: self.teams)
+    for team in teams {
+      loadProjects(teamId: team.id) { [weak self] (entries, error) in
+        if let projects = entries {
+          DispatchQueue.main.async {
+            self?.projectsStore.updateStore(forTeam: team.id, newValue: projects)
+          }
+        }
+        
+        if let errorMessage = error?.localizedDescription {
+          print(errorMessage)
+        }
+      }
+    }
+  }
+  
+  func loadProjects(teamId: String? = nil, completion: @escaping ([Project]?, Error?) -> Void) {
+    fetchState = deployments.isEmpty ? .loading : .idle
+    let unmaskedTeamId = teamId == "-1" ? "" : teamId ?? ""
+    var request = URLRequest(url: urlForRoute(.projects, query: "?teamId=\(unmaskedTeamId)"))
+    
+    request.allHTTPHeaderFields = getHeaders()
+    
+    URLSession.shared.dataTask(with: request) { (data, _, error) in
+      if let data = data {
+        do {
+          let response = try decoder.decode(ProjectResponse.self, from: data)
+          DispatchQueue.main.async { [weak self] in
+            self?.fetchState = .finished
+          }
+          completion(response.projects, nil)
+        } catch {
+          print("error: ", error)
+        }
+      } else {
+        print("Error loading deployments")
+        return
+      }
+    }.resume()
+    
+    self.objectWillChange.send()
+  }
+  
   func loadDeployments(teamId: String? = nil, completion: @escaping ([Deployment]?, Error?) -> Void) {
     fetchState = deployments.isEmpty ? .loading : .idle
     let unmaskedTeamId = teamId == "-1" ? "" : teamId ?? ""
-    var request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(unmaskedTeamId)"))
+    var request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(unmaskedTeamId)&limit=100"))
     
     request.allHTTPHeaderFields = getHeaders()
     

@@ -37,3 +37,7 @@ struct VercelTeamsAPIResponse: Decodable {
 struct DeploymentResponse: Decodable {
   public var deployments: [Deployment] = []
 }
+
+struct ProjectResponse: Decodable {
+  public var projects: [Project] = []
+}

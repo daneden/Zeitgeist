@@ -9,7 +9,11 @@
 import Foundation
 import WidgetKit
 
-enum DeploymentState: String, Codable {
+enum DeploymentTarget: String, Codable, CaseIterable {
+  case production, staging
+}
+
+enum DeploymentState: String, Codable, CaseIterable {
   case ready = "READY"
   case queued = "QUEUED"
   case error = "ERROR"
@@ -33,6 +37,7 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
   var isMockDeployment: Bool?
   var project: String
   var id: String
+  var target: DeploymentTarget?
   private var createdAt: Int = Int(Date().timeIntervalSince1970) / 1000
   
   // `date` is required to conform to `TimelineEntry`
@@ -62,7 +67,7 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
     case id = "uid"
     case commit = "meta"
     
-    case state, creator
+    case state, creator, target
   }
   
   init(from decoder: Decoder) throws {
@@ -74,6 +79,7 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
     state = try container.decode(DeploymentState.self, forKey: .state)
     creator = try container.decode(DeploymentCreator.self, forKey: .creator)
+    target = try? container.decode(DeploymentTarget.self, forKey: .target)
   }
   
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {

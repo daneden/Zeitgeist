@@ -24,7 +24,21 @@ struct Overview: View {
       Section(header: Text("Overview").font(Font.caption.bold()).foregroundColor(.secondary)) {
         // MARK: Deployment cause/commit
         VStack(alignment: .leading) {
-          DeploymentStateIndicator(state: deployment.state, verbose: true)
+          HStack(alignment: .firstTextBaseline) {
+            DeploymentStateIndicator(state: deployment.state, verbose: true)
+              .fixedSize()
+            
+            Spacer()
+            
+            if deployment.target == .production {
+              HStack(spacing: 2) {
+                Image(systemName: "bolt.fill")
+                  .foregroundColor(.secondary)
+                Text("Production")
+              }
+              .font(Font.footnote.bold())
+            }
+          }
           
           Text(deployment.project)
             .font(.footnote)
