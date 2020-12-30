@@ -280,11 +280,11 @@
 		715E06CE241BDE8C00A4DA0F = {
 			isa = PBXGroup;
 			children = (
-				716911CF24A7E2BE0023339D /* Shared */,
 				716911D824A7E2C00023339D /* iOS */,
-				71DC1A9E24D5CD760095EF43 /* Widgets */,
 				718DCF6A2573FEF8001CB92A /* macOS */,
 				715BB98E257A4BFA00D22BDE /* SelectTeamIntent */,
+				716911CF24A7E2BE0023339D /* Shared */,
+				71DC1A9E24D5CD760095EF43 /* Widgets */,
 				715E06D8241BDE8C00A4DA0F /* Products */,
 				7169122E24A7E7160023339D /* Frameworks */,
 			);
@@ -612,7 +612,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\nperl \"${PROJECT_DIR}/script/sort-project-files\"\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
