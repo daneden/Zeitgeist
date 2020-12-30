@@ -71,7 +71,7 @@ struct RecentDeploymentsWidgetView: View {
     .background(Color(TColor.systemBackground))
     .background(LinearGradient(
                   gradient: Gradient(
-                    colors: [Color(TColor.systemBackground), Color(TColor.secondarySystemBackground)]
+                    colors: [.systemBackground, .secondarySystemBackground]
                   ),
                   startPoint: .top,
                   endPoint: .bottom

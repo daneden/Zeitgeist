@@ -52,7 +52,7 @@ struct LoginView: View {
         .disabled(inputValue.isEmpty || validating)
         
         if !errorMessage.isEmpty {
-          Text(errorMessage).foregroundColor(Color(TColor.systemRed))
+          Text(errorMessage).foregroundColor(.systemRed)
         }
       }
     }

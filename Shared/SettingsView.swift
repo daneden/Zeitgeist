@@ -45,7 +45,7 @@ struct SettingsView: View {
             self.settings.token = nil
           }, label: {
             Text("logoutButton")
-          }).foregroundColor(Color(TColor.systemRed))
+          }).foregroundColor(.systemRed)
           
           #if os(macOS)
           Button(action: {

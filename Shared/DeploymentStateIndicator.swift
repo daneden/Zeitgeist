@@ -8,16 +8,6 @@
 
 import SwiftUI
 
-#if !os(macOS)
-import UIKit
-typealias TColor = UIColor
-
-#else
-import AppKit
-typealias TColor = NSColor
-
-#endif
-
 struct DeploymentStateIndicator: View {
   var state: DeploymentState
   var verbose: Bool = false
@@ -65,13 +55,13 @@ struct DeploymentStateIndicator: View {
   func colorForState(_ state: DeploymentState) -> Color {
     switch state {
     case .error:
-      return Color(TColor.systemRed)
+      return .systemRed
     case .building:
-      return Color(TColor.systemPurple)
+      return .systemPurple
     case .ready:
-      return Color(TColor.systemGreen)
+      return .systemGreen
     default:
-      return Color(TColor.systemGray)
+      return .systemGray
     
     }
   }

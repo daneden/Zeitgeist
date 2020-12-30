@@ -15,6 +15,9 @@
 		710FB50F25864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
 		710FB51025864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
 		710FB51125864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
+		71379746259C9FA40079A37C /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
+		71379747259C9FA40079A37C /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
+		71379748259C9FA40079A37C /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
 		7154E3942577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E3952577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E39D2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
@@ -151,6 +154,7 @@
 		710FB50D25864F5F004F060A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; tabWidth = 2; };
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		71379745259C9FA40079A37C /* Color.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.extension.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
 		714AB622257D06810070ABB6 /* SelectTeamIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectTeamIntent.entitlements; sourceTree = "<group>"; };
 		7154E3932577FADB00B2117E /* Deployment.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -399,6 +403,7 @@
 			children = (
 				7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */,
 				718744812590ECCF003F994C /* Sheet.swift */,
+				71379745259C9FA40079A37C /* Color.extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -653,6 +658,7 @@
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
 				71EA8658259BB55300AC611F /* DeploymentsFilterView.swift in Sources */,
 				7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */,
+				71379747259C9FA40079A37C /* Color.extension.swift in Sources */,
 				7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */,
 				718744832590ECCF003F994C /* Sheet.swift in Sources */,
 				71A8A763258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
@@ -697,6 +703,7 @@
 				718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */,
 				718744822590ECCF003F994C /* Sheet.swift in Sources */,
 				7154E39E2578007B00B2117E /* GitCommit.swift in Sources */,
+				71379746259C9FA40079A37C /* Color.extension.swift in Sources */,
 				7187445E258FD1EA003F994C /* SidebarNavigation.swift in Sources */,
 				718DD0712574018A001CB92A /* StatusBarController.swift in Sources */,
 				71EA8657259BB55300AC611F /* DeploymentsFilterView.swift in Sources */,
@@ -709,6 +716,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71379748259C9FA40079A37C /* Color.extension.swift in Sources */,
 				715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */,
 				71BF8C43257D0C04005D7246 /* RecentDeploymentsWidget.swift in Sources */,
 				710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */,

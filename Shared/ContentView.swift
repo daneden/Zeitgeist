@@ -29,7 +29,7 @@ struct ContentView: View {
       }
     }
     .redacted(reason: needsLogin ? .placeholder : [])
-    .accentColor(Color(TColor.systemIndigo))
+    .accentColor(.systemIndigo)
     .sheet(isPresented: .constant(needsLogin)) {
       LoginView().allowAutoDismiss(false)
     }
