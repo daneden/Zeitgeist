@@ -32,7 +32,7 @@ struct RecentDeploymentsWidgetView: View {
       if !deployments.isEmpty {
         ForEach(deployments.prefix(6), id: \.self) { deployment in
           HStack(alignment: .top) {
-            DeploymentStateIndicator(state: deployment.state, verbose: false, isWidget: true)
+            DeploymentStateIndicator(state: deployment.state, verbose: false)
           
             VStack(alignment: .leading) {
               Text(deployment.commit?.commitMessage ?? "Manual Deployment")
@@ -40,13 +40,8 @@ struct RecentDeploymentsWidgetView: View {
                 .lineLimit(3)
                 .foregroundColor(.primary)
               
-              HStack {
-                Text("\(deployment.project)")
+              Text("\(deployment.project), \(deployment.date, style: .relative) ago")
                   .foregroundColor(.secondary)
-                
-                Text(deployment.date, style: .relative)
-                  .foregroundColor(.secondary)
-              }
             }
             
             Spacer()

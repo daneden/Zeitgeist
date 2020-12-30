@@ -14,7 +14,9 @@ struct LatestDeploymentWidgetView: View {
   var body: some View {
     VStack(alignment: .leading) {
       if config.isMockDeployment != true {
-        DeploymentStateIndicator(state: config.deployment.state, verbose: true, isWidget: true)
+        DeploymentStateIndicator(state: config.deployment.state, verbose: true)
+          .font(Font.caption.bold())
+          .padding(.bottom, 2)
         
         Text(config.deployment.commit?.commitMessage ?? "Manual Deployment")
           .font(.subheadline)

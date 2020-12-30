@@ -88,10 +88,14 @@ public class VercelFetcher: ObservableObject {
   }
   
   func tick() {
-    self.loadUser()
-    self.loadTeams()
-    self.loadAllDeployments()
-    self.loadAllProjects()
+    if self.settings.token != nil {
+      self.loadUser()
+      self.loadTeams()
+      self.loadAllDeployments()
+      self.loadAllProjects()
+    } else {
+      print("Awaiting authentication token...")
+    }
   }
   
   func urlForRoute(_ route: VercelRoute, query: String? = nil) -> URL {

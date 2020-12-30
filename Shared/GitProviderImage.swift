@@ -17,8 +17,7 @@ let imageMap: [GitSVNProvider: String] = [
 struct GitProviderImage: View {
   var provider: GitSVNProvider
     var body: some View {
-        Image(imageMap[provider]!)
-          
+        Image(imageMap[provider]!) 
     }
 }
 

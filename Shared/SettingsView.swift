@@ -20,7 +20,7 @@ struct SettingsView: View {
           Text("Sign in to Zeitgeist to see your deployments").foregroundColor(.secondary)
         }.padding()
       } else {
-        Section(header: Text("Current User")) {
+        Section(header: Label("Current User", systemImage: "person")) {
           if let user: VercelUser = fetcher.user {
             HStack {
               VercelUserAvatarView(avatarID: user.avatar)

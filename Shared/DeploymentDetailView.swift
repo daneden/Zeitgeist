@@ -14,6 +14,30 @@ typealias Container = ScrollView
 typealias Container = Group
 #endif
 
+struct DetailSection<Content: View>: View {
+  var title: Text
+  var content: Content
+  
+  init(title: Text, @ViewBuilder content: () -> Content) {
+    self.content = content()
+    self.title = title
+  }
+  
+  var body: some View {
+    // TODO: Explore using GroupBox for containment in macOS
+//    #if os(macOS)
+//    GroupBox(label: title, content: {
+//      content
+//    })
+//    #else
+    Section(header: title) {
+      content
+    }
+//    #endif
+  }
+}
+
+// MARK: Deployment cause/commit and status
 struct Overview: View {
   var deployment: Deployment
   
@@ -21,52 +45,53 @@ struct Overview: View {
     let firstLine = deployment.commit?.commitMessageSummary ?? "Manual Deployment"
     
     return Group {
-      Section(header: Text("Overview").font(Font.caption.bold()).foregroundColor(.secondary)) {
-        // MARK: Deployment cause/commit
+      DetailSection(title: Text("Overview")) {
         VStack(alignment: .leading) {
-          HStack(alignment: .firstTextBaseline) {
-            DeploymentStateIndicator(state: deployment.state, verbose: true)
-              .fixedSize()
-            
-            Spacer()
-            
-            if deployment.target == .production {
-              HStack(spacing: 2) {
-                Image(systemName: "bolt.fill")
-                  .foregroundColor(.secondary)
-                Text("Production")
-              }
-              .font(Font.footnote.bold())
-            }
-          }
-          
           Text(deployment.project)
             .font(.footnote)
             .foregroundColor(.secondary)
           
           Text(firstLine)
+            .lineLimit(3)
             .font(.headline)
+        }.padding(.vertical, 8)
+        
+        HStack {
+          DeploymentStateIndicator(state: deployment.state, verbose: true)
+          
+          Spacer()
+   
+          if deployment.target == .production {
+            HStack(spacing: 2) {
+              Image(systemName: "bolt.fill")
+              Text("Production")
+            }
+            .foregroundColor(.secondary)
+          }
+        }.font(Font.subheadline.weight(.semibold))
+        
+        HStack {
+          if let commit = deployment.commit {
+            Label(
+              title: { Text("\(commit.commitAuthorName)").lineLimit(1) },
+              icon: { GitProviderImage(provider: commit.provider) }
+            )
+          } else {
+            Text("Deployed by \(deployment.creator.username)")
+          }
+          
+          Spacer()
           
           Text("\(deployment.date, style: .relative) ago")
             .fixedSize()
-            .font(.caption)
             .foregroundColor(.secondary)
-          
-          HStack {
-            if let commit = deployment.commit {
-              GitProviderImage(provider: commit.provider)
-              Text("\(commit.commitAuthorName)").lineLimit(1)
-            } else {
-              Text("Deployed by \(deployment.creator.username)")
-                .padding(.top, 4)
-            }
-          }
-        }.padding(.vertical, 8)
+        }.font(Font.subheadline)
       }
     }
   }
 }
 
+// MARK: Deployment name/URL and aliases
 struct URLDetails: View {
   @EnvironmentObject var fetcher: VercelFetcher
   var deployment: Deployment
@@ -82,8 +107,7 @@ struct URLDetails: View {
         .padding(.top, 12)
       #endif
       
-      Section(header: Text("Deployment URL").font(Font.caption.bold()).foregroundColor(.secondary)) {
-        // MARK: Deployment name/URL
+      DetailSection(title: Text("Deployment URL")) {
         Link(destination: deployment.url) {
           Text(deployment.url.absoluteString).lineLimit(1)
         }
@@ -97,24 +121,36 @@ struct URLDetails: View {
         }
       }
       
-      Section(header: Text("Deployment Aliases").font(Font.caption.bold()).foregroundColor(.secondary)) {
-        if loadingAliases {
-          HStack(spacing: 8) {
-            ProgressView()
-            Text("Loading")
+      DisclosureGroup(
+        content: {
+          if loadingAliases {
+            HStack(spacing: 8) {
+              ProgressView()
+              Text("Loading")
+                .foregroundColor(.secondary)
+            }
+          } else if !aliases.isEmpty {
+            ForEach(self.aliases, id: \.self) { alias in
+              HStack {
+                Link(destination: alias.url) {
+                  Text(alias.url.absoluteString).lineLimit(1)
+                }
+                Spacer()
+              }
+            }
+          } else {
+            Text("No aliases for deployment found")
               .foregroundColor(.secondary)
           }
-        } else if !aliases.isEmpty {
-          ForEach(self.aliases, id: \.self) { alias in
-            Link(destination: alias.url) {
-              Text(alias.url.absoluteString).lineLimit(1)
-            }
+        },
+        label: {
+          HStack {
+            Text("Deployment Aliases")
+            Spacer()
+            Text("\(aliases.count)").foregroundColor(.secondary)
           }
-        } else {
-          Text("No aliases for deployment found")
-            .foregroundColor(.secondary)
         }
-      }
+      )
     }
     .onAppear {
       self.loadAliases()
@@ -151,6 +187,7 @@ struct URLDetails: View {
   }
 }
 
+// MARK: Details and links to logs and commit details
 struct DeploymentDetails: View {
   var deployment: Deployment
   
@@ -161,8 +198,7 @@ struct DeploymentDetails: View {
         .padding(.bottom, 16)
         .padding(.top, 12)
       #endif
-      Section(header: Text("Details").font(Font.caption.bold()).foregroundColor(.secondary)) {
-        // MARK: Details
+      DetailSection(title: Text("Details")) {
         if let svnInfo = deployment.commit,
            let commitUrl: URL = svnInfo.commitURL,
            let shortSha: String = svnInfo.shortSha {
@@ -196,7 +232,7 @@ struct DeploymentDetailView: View {
             Overview(deployment: deployment)
             URLDetails(deployment: deployment, copied: $copied)
             DeploymentDetails(deployment: deployment)
-          }.frame(maxWidth: .infinity, maxHeight: .infinity)
+          }
           Spacer(minLength: 0)
         }
         Spacer(minLength: 0)
@@ -213,9 +249,3 @@ struct DeploymentDetailView: View {
     }
   }
 }
-
-//struct DeploymentDetailView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    DeploymentDetailView(deployment: mockDeployment)
-//  }
-//}

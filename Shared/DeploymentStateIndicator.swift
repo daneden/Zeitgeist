@@ -11,44 +11,31 @@ import SwiftUI
 struct DeploymentStateIndicator: View {
   var state: DeploymentState
   var verbose: Bool = false
-  var isWidget: Bool = false
-  
-  #if os(macOS)
-  let badgeBackground = VisualEffectView(effect: .windowBackground)
-  #else
-  let badgeBackground = VisualEffectView(effect: UIBlurEffect(style: .systemThickMaterial))
-  #endif
   
   var body: some View {
-    HStack(spacing: 4) {
-      iconForState(state).imageScale(verbose ? .medium : .large)
+    return Group {
       if verbose {
-        Text(labelForState(state))
-          .padding(.trailing, 4)
+        Label(labelForState(state), systemImage: iconNameForState(state))
+      } else {
+        Label(labelForState(state), systemImage: iconNameForState(state))
+          .labelStyle(IconOnlyLabelStyle())
       }
     }
-    .padding(.vertical, 1)
-    .padding(.horizontal, verbose ? 2 : 1)
-    .font(Font.footnote.bold())
     .foregroundColor(colorForState(state))
-    .background(verbose ? colorForState(state).opacity(0.1) : nil)
-    .background(badgeBackground.opacity(verbose && !isWidget ? 1.0 : 0))
-    .cornerRadius(verbose ? 8 : 0)
-    .padding(.bottom, isWidget ? -4 : 4)
   }
   
-  func iconForState(_ state: DeploymentState) -> Image {
+  func iconNameForState(_ state: DeploymentState) -> String {
     switch state {
     case .error:
-      return Image(systemName: verbose ? "exclamationmark.circle.fill" : "exclamationmark.triangle.fill")
+      return verbose ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
     case .queued, .building:
-      return Image(systemName: "timer")
+      return "timer"
     case .ready:
-      return Image(systemName: verbose ? "checkmark.circle.fill" : "checkmark.circle")
+      return verbose ? "checkmark.circle.fill" : "checkmark.circle"
     case .cancelled:
-      return Image(systemName: "nosign")
+      return "nosign"
     default:
-      return Image(systemName: "arrowtriangle.up.circle.fill")
+      return "arrowtriangle.up.circle.fill"
     }
   }
   
