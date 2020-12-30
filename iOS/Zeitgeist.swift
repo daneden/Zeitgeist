@@ -21,6 +21,7 @@ struct Zeitgeist: App {
         .environmentObject(settings)
         .environmentObject(vercelNetwork)
         .onAppear(perform: self.loadFetcherItems)
+        .accentColor(.systemIndigo)
     }
   }
   

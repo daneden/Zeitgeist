@@ -24,6 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       .environmentObject(settings)
       .environmentObject(fetcher)
       .frame(width: frame.width, height: frame.height)
+      .accentColor(.systemIndigo)
     
     popover.contentSize = NSSize(width: frame.width, height: frame.height)
     popover.contentViewController = NSHostingController(rootView: contentView)
