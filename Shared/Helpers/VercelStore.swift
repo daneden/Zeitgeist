@@ -8,28 +8,28 @@
 
 import Foundation
 
-protocol VercelStore {
+protocol VercelStore: ObservableObject {
   associatedtype Element
   
-  var store: [String: [Element]] { get set }
+  var store: [String: [Element]] { get }
   
-  mutating func updateStore(forTeam: String?, newValue: [Element])
+  func updateStore(forTeam: String?, newValue: [Element])
 }
 
-struct DeploymentsStore: VercelStore {
+class DeploymentsStore: VercelStore {
   // Deployments always start with an empty array for personal teams (identified in Zeitgeist by "-1")
-  var store: [String: [Deployment]] = ["-1": []]
+  @Published var store: [String: [Deployment]] = ["-1": []]
   
-  mutating func updateStore(forTeam teamId: String?, newValue: [Deployment]) {
+  func updateStore(forTeam teamId: String?, newValue: [Deployment]) {
     let id = teamId ?? "-1"
     store[id] = newValue
   }
 }
 
-struct ProjectsStore: VercelStore {
-  var store: [String: [Project]] = ["-1": []]
+class ProjectsStore: VercelStore {
+  @Published var store: [String: [Project]] = ["-1": []]
   
-  mutating func updateStore(forTeam teamId: String?, newValue: [Project]) {
+  func updateStore(forTeam teamId: String?, newValue: [Project]) {
     let id = teamId ?? "-1"
     store[id] = newValue
   }
