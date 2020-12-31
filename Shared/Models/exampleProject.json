@@ -1,0 +1,339 @@
+{
+  "accountId": "v9dkldDUzwdLE3GZaVteSbJq",
+  "alias": [
+    {
+      "configuredBy": "A",
+      "configuredChangedAt": 1580040148506,
+      "createdAt": 1580035698437,
+      "deployment": {
+        "alias": [
+          "daneden.me",
+          "danedenme.daneden.vercel.app",
+          "danedenme-git-main.daneden.vercel.app",
+          "danedenme.daneden.now.sh",
+          "danedenme-git-main.daneden.now.sh"
+        ],
+        "aliasAssigned": 1609242204937,
+        "builds": [],
+        "createdAt": 1609242124149,
+        "createdIn": "sfo1",
+        "creator": {
+          "uid": "v9dkldDUzwdLE3GZaVteSbJq",
+          "email": "dan.eden@me.com",
+          "username": "daneden",
+          "githubLogin": "daneden"
+        },
+        "deploymentHostname": "danedenme-6k6ymaqwj",
+        "forced": false,
+        "id": "dpl_3dA1fvMA9LjTL7Q3SGb7ycWqAnPy",
+        "meta": {
+          "githubCommitAuthorName": "Daniel Eden",
+          "githubCommitMessage": "Use older version of remark-math",
+          "githubCommitOrg": "daneden",
+          "githubCommitRef": "main",
+          "githubCommitRepo": "daneden.me",
+          "githubCommitRepoId": "22672346",
+          "githubCommitSha": "1786fb2f0468363811d26d8c96f01a00262905d5",
+          "githubDeployment": "1",
+          "githubOrg": "daneden",
+          "githubRepo": "daneden.me",
+          "githubRepoId": "22672346",
+          "githubCommitAuthorLogin": "daneden"
+        },
+        "plan": "hobby",
+        "private": false,
+        "readyState": "READY",
+        "target": "production",
+        "teamId": null,
+        "type": "LAMBDAS",
+        "url": "danedenme-6k6ymaqwj.vercel.app",
+        "userId": "v9dkldDUzwdLE3GZaVteSbJq",
+        "withCache": false
+      },
+      "domain": "daneden.me",
+      "environment": "production",
+      "gitBranch": null,
+      "redirect": null,
+      "target": "PRODUCTION"
+    }
+  ],
+  "analytics": {
+    "id": "sG3KnYC43LLSP7z3GN85m2S6BFv",
+    "enabledAt": 1603816016672,
+    "disabledAt": 0,
+    "canceledAt": null
+  },
+  "buildCommand": null,
+  "createdAt": 1575639512292,
+  "devCommand": null,
+  "directoryListing": true,
+  "env": [
+    {
+      "value": "VERCEL_URL",
+      "target": ["production"],
+      "configurationId": null,
+      "key": "VERCEL_URL",
+      "createdAt": 1591540780193,
+      "updatedAt": 1591540780193,
+      "type": "system",
+      "id": "Qtr9KlIeLcTv1AyW"
+    },
+    {
+      "value": "VERCEL_URL",
+      "target": ["preview"],
+      "configurationId": null,
+      "key": "VERCEL_URL",
+      "createdAt": 1591540789009,
+      "updatedAt": 1591540789009,
+      "type": "system",
+      "id": "nPiyAcG4LaEBq1C2"
+    },
+    {
+      "value": "VERCEL_URL",
+      "target": ["development"],
+      "configurationId": null,
+      "key": "VERCEL_URL",
+      "createdAt": 1591540795778,
+      "updatedAt": 1591540795778,
+      "type": "system",
+      "id": "FsKzbd34aZkjIrYg"
+    },
+    {
+      "type": "secret",
+      "value": "sec_TV8i82txwDZtY5jXoHvgxrY3",
+      "target": ["production"],
+      "configurationId": null,
+      "id": "G3ReyiS3VHwpPUE0",
+      "key": "APPLE_MUSIC_USER_TOKEN",
+      "createdAt": 1599754353245,
+      "updatedAt": 1599754353245
+    },
+    {
+      "type": "secret",
+      "value": "sec_XXi8XF8TXo4NZmhjQ7Ev90bj",
+      "target": ["production"],
+      "configurationId": null,
+      "id": "oO8mIilsgT3qJDx0",
+      "key": "APPLE_MUSIC_TEAM_ID",
+      "createdAt": 1599754361543,
+      "updatedAt": 1599754361543
+    },
+    {
+      "type": "secret",
+      "value": "sec_5XrZbqOjIDW0xajujG5GhmKz",
+      "target": ["production"],
+      "configurationId": null,
+      "id": "4MW7tPhNJ9NSdhBC",
+      "key": "APPLE_MUSIC_KEY_ID",
+      "createdAt": 1599754375259,
+      "updatedAt": 1599754375259
+    },
+    {
+      "type": "secret",
+      "value": "sec_h0VSdAH4OAtDRi7to1r7G6Cw",
+      "target": ["preview"],
+      "configurationId": null,
+      "id": "N8UI6tSxb5qxBc0c",
+      "key": "APPLE_MUSIC_KEY_ID",
+      "createdAt": 1599754424755,
+      "updatedAt": 1599754424755
+    },
+    {
+      "type": "secret",
+      "value": "sec_GBH9b5YKAyY30sMInOfMisWo",
+      "target": ["preview"],
+      "configurationId": null,
+      "id": "c5tpkOLQuplgBURT",
+      "key": "APPLE_MUSIC_TEAM_ID",
+      "createdAt": 1599754430407,
+      "updatedAt": 1599754430407
+    },
+    {
+      "type": "secret",
+      "value": "sec_r9P2fIWCHpTeOTJBA1vTHLm4",
+      "target": ["preview"],
+      "configurationId": null,
+      "id": "BEqrAWNoF6iuxN4E",
+      "key": "APPLE_MUSIC_USER_TOKEN",
+      "createdAt": 1599754438525,
+      "updatedAt": 1599754438525
+    },
+    {
+      "type": "secret",
+      "value": "sec_yUvSCKsfie6D5sIFAmGJsipN",
+      "target": ["production"],
+      "configurationId": null,
+      "id": "HUKsdUNjPn1Kge63",
+      "key": "APPLE_MUSIC_KEY",
+      "createdAt": 1599757215195,
+      "updatedAt": 1599757215195
+    },
+    {
+      "type": "secret",
+      "value": "sec_3MeIbZDoNHVqN54Ngj5hakKD",
+      "target": ["preview"],
+      "configurationId": null,
+      "id": "llILPZ09Oi02joc9",
+      "key": "APPLE_MUSIC_KEY",
+      "createdAt": 1599757226666,
+      "updatedAt": 1599757226666
+    }
+  ],
+  "framework": "nextjs",
+  "id": "Qmb5um1cBnzXVMdjUt6SsDaT1XvXHU4z8YrNRXoCvYyx7f",
+  "name": "daneden.me",
+  "outputDirectory": null,
+  "publicSource": true,
+  "rootDirectory": null,
+  "serverlessFunctionRegion": null,
+  "updatedAt": 1609242124296,
+  "link": {
+    "type": "github",
+    "repo": "daneden.me",
+    "repoId": 22672346,
+    "org": "daneden",
+    "createdAt": 1579985933107,
+    "updatedAt": 1579985933107,
+    "gitCredentialId": "cred_12b37941f59069f0586f83abdc572bc322975186",
+    "deployHooks": []
+  },
+  "latestDeployments": [
+    {
+      "alias": [
+        "daneden.me",
+        "danedenme.daneden.vercel.app",
+        "danedenme-git-main.daneden.vercel.app",
+        "danedenme.daneden.now.sh",
+        "danedenme-git-main.daneden.now.sh"
+      ],
+      "aliasAssigned": 1609242204937,
+      "builds": [],
+      "createdAt": 1609242124149,
+      "createdIn": "sfo1",
+      "creator": {
+        "uid": "v9dkldDUzwdLE3GZaVteSbJq",
+        "email": "dan.eden@me.com",
+        "username": "daneden",
+        "githubLogin": "daneden"
+      },
+      "deploymentHostname": "danedenme-6k6ymaqwj",
+      "forced": false,
+      "id": "dpl_3dA1fvMA9LjTL7Q3SGb7ycWqAnPy",
+      "meta": {
+        "githubCommitAuthorName": "Daniel Eden",
+        "githubCommitMessage": "Use older version of remark-math",
+        "githubCommitOrg": "daneden",
+        "githubCommitRef": "main",
+        "githubCommitRepo": "daneden.me",
+        "githubCommitRepoId": "22672346",
+        "githubCommitSha": "1786fb2f0468363811d26d8c96f01a00262905d5",
+        "githubDeployment": "1",
+        "githubOrg": "daneden",
+        "githubRepo": "daneden.me",
+        "githubRepoId": "22672346",
+        "githubCommitAuthorLogin": "daneden"
+      },
+      "plan": "hobby",
+      "private": false,
+      "readyState": "READY",
+      "target": "production",
+      "teamId": null,
+      "type": "LAMBDAS",
+      "url": "danedenme-6k6ymaqwj.vercel.app",
+      "userId": "v9dkldDUzwdLE3GZaVteSbJq",
+      "withCache": false
+    },
+    {
+      "alias": [
+        "daneden.me",
+        "danedenme.daneden.vercel.app",
+        "danedenme-git-main.daneden.vercel.app",
+        "danedenme.daneden.now.sh",
+        "danedenme-git-main.daneden.now.sh"
+      ],
+      "aliasAssigned": 1609242024282,
+      "builds": [],
+      "createdAt": 1609241977233,
+      "createdIn": "sfo1",
+      "creator": {
+        "uid": "v9dkldDUzwdLE3GZaVteSbJq",
+        "email": "dan.eden@me.com",
+        "username": "daneden",
+        "githubLogin": "daneden"
+      },
+      "deploymentHostname": "danedenme-px1qnih8r",
+      "forced": false,
+      "id": "dpl_EVnhQf6tz1tx5YuHDufZDdEj64KH",
+      "meta": {
+        "githubCommitAuthorName": "Daniel Eden",
+        "githubCommitMessage": "Fix meta color",
+        "githubCommitOrg": "daneden",
+        "githubCommitRef": "main",
+        "githubCommitRepo": "daneden.me",
+        "githubCommitRepoId": "22672346",
+        "githubCommitSha": "241360610e7c9e4d182d026a5770a8c28ecd76b9",
+        "githubDeployment": "1",
+        "githubOrg": "daneden",
+        "githubRepo": "daneden.me",
+        "githubRepoId": "22672346",
+        "githubCommitAuthorLogin": "daneden"
+      },
+      "plan": "hobby",
+      "private": false,
+      "readyState": "READY",
+      "target": "production",
+      "teamId": null,
+      "type": "LAMBDAS",
+      "url": "danedenme-px1qnih8r.vercel.app",
+      "userId": "v9dkldDUzwdLE3GZaVteSbJq",
+      "withCache": false
+    }
+  ],
+  "targets": {
+    "production": {
+      "alias": [
+        "daneden.me",
+        "danedenme.daneden.vercel.app",
+        "danedenme-git-main.daneden.vercel.app",
+        "danedenme.daneden.now.sh",
+        "danedenme-git-main.daneden.now.sh"
+      ],
+      "aliasAssigned": 1609242204937,
+      "builds": [],
+      "createdAt": 1609242124149,
+      "createdIn": "sfo1",
+      "creator": {
+        "uid": "v9dkldDUzwdLE3GZaVteSbJq",
+        "email": "dan.eden@me.com",
+        "username": "daneden",
+        "githubLogin": "daneden"
+      },
+      "deploymentHostname": "danedenme-6k6ymaqwj",
+      "forced": false,
+      "id": "dpl_3dA1fvMA9LjTL7Q3SGb7ycWqAnPy",
+      "meta": {
+        "githubCommitAuthorName": "Daniel Eden",
+        "githubCommitMessage": "Use older version of remark-math",
+        "githubCommitOrg": "daneden",
+        "githubCommitRef": "main",
+        "githubCommitRepo": "daneden.me",
+        "githubCommitRepoId": "22672346",
+        "githubCommitSha": "1786fb2f0468363811d26d8c96f01a00262905d5",
+        "githubDeployment": "1",
+        "githubOrg": "daneden",
+        "githubRepo": "daneden.me",
+        "githubRepoId": "22672346",
+        "githubCommitAuthorLogin": "daneden"
+      },
+      "plan": "hobby",
+      "private": false,
+      "readyState": "READY",
+      "target": "production",
+      "teamId": null,
+      "type": "LAMBDAS",
+      "url": "danedenme-6k6ymaqwj.vercel.app",
+      "userId": "v9dkldDUzwdLE3GZaVteSbJq",
+      "withCache": false
+    }
+  }
+}

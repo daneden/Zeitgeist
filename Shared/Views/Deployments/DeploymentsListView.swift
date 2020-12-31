@@ -9,9 +9,8 @@
 import Foundation
 import SwiftUI
 
-enum FilterType: Hashable {
-  case allProjects
-  case projectWithName(name: String)
+enum ViewType: String, CaseIterable {
+  case deployments = "Deployments", projects = "Projects"
 }
 
 #if os(macOS)
@@ -23,6 +22,8 @@ typealias ZGDeploymentsListStyle = PlainListStyle
 struct DeploymentsListView: View {
   @EnvironmentObject var vercelFetcher: VercelFetcher
   @State var team: VercelTeam = VercelTeam()
+  @State var listOf: ViewType = .deployments
+  
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
   @State var productionFilter = false
@@ -33,29 +34,51 @@ struct DeploymentsListView: View {
     let projects = vercelFetcher.projectsStore.store[team.id] ?? []
     
     return Group {
-      if filteredDeployments(deployments).isEmpty {
-        if vercelFetcher.fetchState == .loading {
-          ProgressView("Loading deployments...")
+      if listOf == .deployments {
+        if filteredDeployments(deployments).isEmpty {
+          if vercelFetcher.fetchState == .loading {
+            ProgressView("Loading deployments...")
+          } else {
+            VStack(spacing: 0) {
+              Spacer()
+              Text("emptyState")
+                .foregroundColor(.secondary)
+              Spacer()
+            }
+          }
         } else {
+          List(filteredDeployments(deployments), id: \.self) { deployment in
+            NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
+              DeploymentsListRowView(deployment: deployment)
+                .id(deployment.id)
+            }
+          }
+          .listStyle(ZGDeploymentsListStyle())
+        }
+      } else if listOf == .projects {
+        if projects.isEmpty {
           VStack(spacing: 0) {
             Spacer()
             Text("emptyState")
               .foregroundColor(.secondary)
             Spacer()
           }
-        }
-      } else {
-        List(filteredDeployments(deployments), id: \.self) { deployment in
-          NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
-            DeploymentsListRowView(deployment: deployment)
-              .id(deployment.id)
+        } else {
+          List(projects, id: \.self) { project in
+            NavigationLink(destination: ProjectDetailView(project: project)) {
+              VStack(alignment: .leading) {
+                Text(project.name)
+                Text("Updated \(project.updated, style: .relative) ago")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+            }
           }
+          .listStyle(ZGDeploymentsListStyle())
         }
-        .listStyle(ZGDeploymentsListStyle())
-        .animation(IS_MACOS ? nil : .default)
       }
     }
-    .navigationTitle(Text("Deployments"))
+    .navigationTitle(Text(listOf.rawValue))
     .toolbar {
       ToolbarItem(placement: .status) {
         VStack {
@@ -75,6 +98,15 @@ struct DeploymentsListView: View {
         .font(.caption)
         .foregroundColor(.secondary)
       }
+      
+      // TODO: Allow switching to Projects view
+//      ToolbarItem(placement: .principal) {
+//        Picker(selection: $listOf, label: Text("View:")) {
+//          ForEach(ViewType.allCases, id: \.self) { item in
+//            Text(item.rawValue)
+//          }
+//        }
+//      }
       
       #if !os(macOS)
       ToolbarItem(placement: .bottomBar) {

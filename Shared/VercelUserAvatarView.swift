@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct VercelUserAvatarView: View {
-  @State var size: CGFloat = 32
   var avatarID: String
+  @State var size: CGFloat = 32
   
   var body: some View {
     

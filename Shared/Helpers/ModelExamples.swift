@@ -23,3 +23,19 @@ struct ExampleDeployment {
     }
   }
 }
+
+struct ExampleProject {
+  var project: Project?
+  
+  init() {
+    if let path = Bundle.main.path(forResource: "exampleProject", ofType: "json") {
+      do {
+        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        let result = try JSONDecoder().decode(Project.self, from: data)
+        project = result
+      } catch {
+        project = nil
+      }
+    }
+  }
+}

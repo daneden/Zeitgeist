@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GitSVNProvider: String {
+enum GitSVNProvider: String, Codable {
   case bitbucket, github, gitlab
 }
 

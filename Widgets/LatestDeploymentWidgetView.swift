@@ -14,7 +14,7 @@ struct LatestDeploymentWidgetView: View {
   var body: some View {
     VStack(alignment: .leading) {
       if config.isMockDeployment != true {
-        DeploymentStateIndicator(state: config.deployment.state, verbose: true)
+        DeploymentStateIndicator(state: config.deployment.state!, verbose: true)
           .font(Font.caption.bold())
           .padding(.bottom, 2)
         
@@ -26,7 +26,7 @@ struct LatestDeploymentWidgetView: View {
         
         Text(config.deployment.date, style: .relative)
           .font(.caption)
-        Text(config.deployment.project)
+        Text(config.deployment.project!)
           .lineLimit(1)
           .font(.caption)
           .foregroundColor(.secondary)

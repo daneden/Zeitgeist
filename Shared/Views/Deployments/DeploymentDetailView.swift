@@ -15,77 +15,86 @@ typealias Container = Group
 #endif
 
 struct DetailSection<Content: View>: View {
-  var title: Text
+  var title: Text?
   var content: Content
   
-  init(title: Text, @ViewBuilder content: () -> Content) {
+  init(title: Text? = nil, @ViewBuilder content: () -> Content) {
     self.content = content()
     self.title = title
   }
   
   var body: some View {
     // TODO: Explore using GroupBox for containment in macOS
-//    #if os(macOS)
-//    GroupBox(label: title, content: {
-//      content
-//    })
-//    #else
+    //    #if os(macOS)
+    //    GroupBox(label: title, content: {
+    //      content
+    //    })
+    //    #else
     Section(header: title) {
       content
     }
-//    #endif
+    //    #endif
   }
 }
 
 // MARK: Deployment cause/commit and status
 struct Overview: View {
   var deployment: Deployment
+  var projectName: String = "Project"
   
   var body: some View {
     let firstLine = deployment.commit?.commitMessageSummary ?? "Manual Deployment"
     
-    return Group {
-      DetailSection(title: Text("Overview")) {
-        VStack(alignment: .leading) {
-          Text(deployment.project)
-            .font(.footnote)
-            .foregroundColor(.secondary)
-          
-          Text(firstLine)
-            .lineLimit(3)
-            .font(.headline)
-        }.padding(.vertical, 8)
-        
+    return DetailSection {
+      DeploymentDetailLabel("Project") {
+        Text(deployment.project ?? projectName)
+      }
+      
+      DeploymentDetailLabel("Commit Message") {
+        Text(firstLine)
+          .lineLimit(3)
+          .font(.headline)
+      }
+      
+      DeploymentDetailLabel("Author") {
+        if let commit = deployment.commit {
+          Label(
+            title: {
+              VStack(alignment: .leading) {
+                Text("\(commit.commitAuthorName)").lineLimit(1)
+                Text("\(deployment.date, style: .relative) ago")
+                  .foregroundColor(.secondary)
+                  .font(Font.footnote)
+              }
+            },
+            icon: { GitProviderImage(provider: commit.provider) }
+          )
+        } else {
+          VStack(alignment: .leading) {
+            Text("Deployed by \(deployment.creator.username)")
+            Text("\(deployment.date, style: .relative) ago")
+              .foregroundColor(.secondary)
+              .font(.footnote)
+          }
+        }
+      }
+      
+      DeploymentDetailLabel("Deployment Status") {
         HStack {
-          DeploymentStateIndicator(state: deployment.state, verbose: true)
+          DeploymentStateIndicator(state: deployment.state!, verbose: true)
           
-          Spacer()
-   
           if deployment.target == .production {
+            Spacer()
+            
             HStack(spacing: 2) {
               Image(systemName: "bolt.fill")
               Text("Production")
             }
             .foregroundColor(.secondary)
           }
-        }.font(Font.subheadline.weight(.semibold))
-        
-        HStack {
-          if let commit = deployment.commit {
-            Label(
-              title: { Text("\(commit.commitAuthorName)").lineLimit(1) },
-              icon: { GitProviderImage(provider: commit.provider) }
-            )
-          } else {
-            Text("Deployed by \(deployment.creator.username)")
-          }
-          
-          Spacer()
-          
-          Text("\(deployment.date, style: .relative) ago")
-            .fixedSize()
-            .foregroundColor(.secondary)
-        }.font(Font.subheadline)
+        }
+        .padding(.vertical, 4)
+        .font(Font.subheadline.weight(.semibold))
       }
     }
   }
@@ -119,38 +128,38 @@ struct URLDetails: View {
             Image(systemName: "doc.on.doc")
           }
         }
-      }
-      
-      DisclosureGroup(
-        content: {
-          if loadingAliases {
-            HStack(spacing: 8) {
-              ProgressView()
-              Text("Loading")
+        
+        DisclosureGroup(
+          content: {
+            if loadingAliases {
+              HStack(spacing: 8) {
+                ProgressView()
+                Text("Loading")
+                  .foregroundColor(.secondary)
+              }
+            } else if !aliases.isEmpty {
+              ForEach(self.aliases, id: \.self) { alias in
+                HStack {
+                  Link(destination: alias.url) {
+                    Text(alias.url.absoluteString).lineLimit(1)
+                  }
+                  Spacer()
+                }
+              }
+            } else {
+              Text("No aliases for deployment found")
                 .foregroundColor(.secondary)
             }
-          } else if !aliases.isEmpty {
-            ForEach(self.aliases, id: \.self) { alias in
-              HStack {
-                Link(destination: alias.url) {
-                  Text(alias.url.absoluteString).lineLimit(1)
-                }
-                Spacer()
-              }
+          },
+          label: {
+            HStack {
+              Text("Deployment Aliases")
+              Spacer()
+              Text("\(aliases.count)").foregroundColor(.secondary)
             }
-          } else {
-            Text("No aliases for deployment found")
-              .foregroundColor(.secondary)
           }
-        },
-        label: {
-          HStack {
-            Text("Deployment Aliases")
-            Spacer()
-            Text("\(aliases.count)").foregroundColor(.secondary)
-          }
-        }
-      )
+        )
+      }
     }
     .onAppear {
       self.loadAliases()
@@ -171,7 +180,7 @@ struct URLDetails: View {
   }
   
   func loadAliases() {
-    self.fetcher.loadAliases(deploymentId: deployment.id) { result, error in
+    self.fetcher.loadAliases(deploymentId: deployment.id ?? "") { result, error in
       DispatchQueue.main.async {
         self.loadingAliases = false
         if error != nil {
@@ -217,6 +226,7 @@ struct DeploymentDetails: View {
 
 struct DeploymentDetailView: View {
   var deployment: Deployment
+  var projectName: String?
   @State var copied = false
   #if os(macOS)
   let padding = 12.0
@@ -229,7 +239,7 @@ struct DeploymentDetailView: View {
       HStack {
         VStack {
           Form {
-            Overview(deployment: deployment)
+            Overview(deployment: deployment, projectName: projectName ?? deployment.project!)
             URLDetails(deployment: deployment, copied: $copied)
             DeploymentDetails(deployment: deployment)
           }

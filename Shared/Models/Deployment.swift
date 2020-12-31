@@ -8,6 +8,7 @@
 
 import Foundation
 import WidgetKit
+import SwiftUI
 
 enum DeploymentTarget: String, Codable, CaseIterable {
   case production, staging
@@ -33,10 +34,10 @@ struct DeploymentCreator: Codable, Identifiable {
     }
 }
 
-struct Deployment: Hashable, TimelineEntry, Decodable {
+struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   var isMockDeployment: Bool?
-  var project: String
-  var id: String
+  var project: String?
+  var id: String?
   var target: DeploymentTarget?
   private var createdAt: Int = Int(Date().timeIntervalSince1970) / 1000
   
@@ -45,7 +46,7 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
     return Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
   }
   
-  var state: DeploymentState
+  @State var state: DeploymentState? = .ready
   private var urlString: String = "vercel.com"
   
   var url: URL {
@@ -64,25 +65,29 @@ struct Deployment: Hashable, TimelineEntry, Decodable {
     case project = "name"
     case urlString = "url"
     case createdAt = "created"
+    case createdAtFallback = "createdAt"
     case id = "uid"
+    case idFallback = "id"
     case commit = "meta"
+    case stateFallback = "readyState"
     
     case state, creator, target
   }
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    project = try container.decode(String.self, forKey: .project)
+    project = try? container.decode(String.self, forKey: .project)
     urlString = try container.decode(String.self, forKey: .urlString)
     createdAt = try container.decode(Int.self, forKey: .createdAt)
-    id = try container.decode(String.self, forKey: .id)
+    id = try? container.decode(String?.self, forKey: .id) ?? container.decode(String.self, forKey: .idFallback)
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
-    state = try container.decode(DeploymentState.self, forKey: .state)
     creator = try container.decode(DeploymentCreator.self, forKey: .creator)
     target = try? container.decode(DeploymentTarget.self, forKey: .target)
+    
+    state = try? container.decode(DeploymentState?.self, forKey: .state) ?? container.decode(DeploymentState.self, forKey: .stateFallback)
   }
   
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {
-    return lhs.hashValue == rhs.hashValue
+    return lhs.id == rhs.id && lhs.state == rhs.state
   }
 }

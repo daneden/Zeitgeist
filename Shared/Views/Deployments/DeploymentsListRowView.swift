@@ -10,11 +10,12 @@ import SwiftUI
 
 struct DeploymentsListRowView: View {
   var deployment: Deployment
+  var projectName: String?
 
   var body: some View {
     return VStack(alignment: .leading) {
       HStack(alignment: .top) {
-        DeploymentStateIndicator(state: deployment.state)
+        DeploymentStateIndicator(state: deployment.state!)
         
         VStack(alignment: .leading) {
           HStack(spacing: 4) {
@@ -23,7 +24,9 @@ struct DeploymentsListRowView: View {
                 .labelStyle(IconOnlyLabelStyle())
             }
             
-            Text(deployment.project)
+            if let projectName = deployment.project ?? projectName {
+              Text(projectName)
+            }
           }
           .foregroundColor(.secondary)
           .font(.footnote)

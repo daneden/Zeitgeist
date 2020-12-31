@@ -19,7 +19,7 @@ enum FetcherError: Error {
 enum VercelRoute: String {
   case teams = "v1/teams"
   case deployments = "v6/now/deployments"
-  case projects = "v4/projects"
+  case projects = "v6/projects"
   case user = "www/user"
 }
 

@@ -79,14 +79,20 @@
 		7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7193C8532576B15C00D4A2AB /* SessionValidationView.swift */; };
 		71A8A762258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A8A761258CC0EF00B6F4AF /* GitProviderImage.swift */; };
 		71A8A763258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A8A761258CC0EF00B6F4AF /* GitProviderImage.swift */; };
+		71BE1D37259E213700CBAFAA /* DeploymentDetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BE1D36259E213700CBAFAA /* DeploymentDetailLabel.swift */; };
+		71BE1D38259E213700CBAFAA /* DeploymentDetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BE1D36259E213700CBAFAA /* DeploymentDetailLabel.swift */; };
+		71BE1D47259E36C400CBAFAA /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BE1D46259E36C400CBAFAA /* ProjectDetailView.swift */; };
+		71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BE1D46259E36C400CBAFAA /* ProjectDetailView.swift */; };
+		71BE1D56259E388B00CBAFAA /* exampleProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 71BE1D55259E388B00CBAFAA /* exampleProject.json */; };
+		71BE1D57259E388B00CBAFAA /* exampleProject.json in Resources */ = {isa = PBXBuildFile; fileRef = 71BE1D55259E388B00CBAFAA /* exampleProject.json */; };
 		71BF8C43257D0C04005D7246 /* RecentDeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */; };
 		71C6790724D5B16E0058F334 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790524D5B14B0058F334 /* LoginView.swift */; };
 		71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */; };
 		71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */; };
 		71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */; };
-		71CF0366258CA8C100DDB605 /* ExampleDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */; };
-		71CF0367258CA8C100DDB605 /* ExampleDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */; };
-		71CF0368258CA8C100DDB605 /* ExampleDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */; };
+		71CF0366258CA8C100DDB605 /* ModelExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ModelExamples.swift */; };
+		71CF0367258CA8C100DDB605 /* ModelExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ModelExamples.swift */; };
+		71CF0368258CA8C100DDB605 /* ModelExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ModelExamples.swift */; };
 		71CF037E258CAB9A00DDB605 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
 		71CF037F258CAB9A00DDB605 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
 		71CF0380258CAB9A00DDB605 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
@@ -185,6 +191,9 @@
 		718DD07A257401A6001CB92A /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
 		7193C8532576B15C00D4A2AB /* SessionValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionValidationView.swift; sourceTree = "<group>"; };
 		71A8A761258CC0EF00B6F4AF /* GitProviderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitProviderImage.swift; sourceTree = "<group>"; };
+		71BE1D36259E213700CBAFAA /* DeploymentDetailLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailLabel.swift; sourceTree = "<group>"; };
+		71BE1D46259E36C400CBAFAA /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		71BE1D55259E388B00CBAFAA /* exampleProject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampleProject.json; sourceTree = "<group>"; };
 		71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidget.swift; sourceTree = "<group>"; };
 		71C6790524D5B14B0058F334 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistLogo.swift; sourceTree = "<group>"; };
@@ -192,7 +201,7 @@
 		71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentStateIndicator.swift; sourceTree = "<group>"; };
 		71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListRowView.swift; sourceTree = "<group>"; };
 		71CED25A241D375C00B9A7ED /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleDeployment.swift; sourceTree = "<group>"; };
+		71CF0365258CA8C100DDB605 /* ModelExamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelExamples.swift; sourceTree = "<group>"; };
 		71CF037D258CAB9A00DDB605 /* exampleDeployment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampleDeployment.json; sourceTree = "<group>"; };
 		71D5EC3C241EE13D0076BCA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		71DC1A7024D5CA0C0095EF43 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -260,6 +269,7 @@
 				71F985E1259BE5CF00E27F0D /* Alias.swift */,
 				7154E3932577FADB00B2117E /* Deployment.swift */,
 				71CF037D258CAB9A00DDB605 /* exampleDeployment.json */,
+				71BE1D55259E388B00CBAFAA /* exampleProject.json */,
 				7154E39C2578007B00B2117E /* GitCommit.swift */,
 				71EA8620259B8C3900AC611F /* Project.swift */,
 			);
@@ -310,13 +320,9 @@
 				71D3B19C2528C50500B0A2CC /* Helpers */,
 				7154E3922577FAC900B2117E /* Models */,
 				7141D4CD241BE76F00D212F0 /* Networking */,
+				71BE1D31259E20EF00CBAFAA /* Views */,
 				716911D224A7E2C00023339D /* Assets.xcassets */,
 				715E06DC241BDE8C00A4DA0F /* ContentView.swift */,
-				71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */,
-				71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */,
-				71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */,
-				7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */,
-				71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */,
 				71A8A761258CC0EF00B6F4AF /* GitProviderImage.swift */,
 				71D5EC3D241EE13D0076BCA3 /* Localizable.strings */,
 				71C6790524D5B14B0058F334 /* LoginView.swift */,
@@ -368,11 +374,41 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		71BE1D30259E20DC00CBAFAA /* Deployments */ = {
+			isa = PBXGroup;
+			children = (
+				71BE1D36259E213700CBAFAA /* DeploymentDetailLabel.swift */,
+				71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */,
+				71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */,
+				71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */,
+				7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */,
+				71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */,
+			);
+			path = Deployments;
+			sourceTree = "<group>";
+		};
+		71BE1D31259E20EF00CBAFAA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				71BE1D45259E36B900CBAFAA /* Projects */,
+				71BE1D30259E20DC00CBAFAA /* Deployments */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		71BE1D45259E36B900CBAFAA /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				71BE1D46259E36C400CBAFAA /* ProjectDetailView.swift */,
+			);
+			path = Projects;
+			sourceTree = "<group>";
+		};
 		71D3B19C2528C50500B0A2CC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				71C6790C24D5B2510058F334 /* EmptyDeploymentView.swift */,
-				71CF0365258CA8C100DDB605 /* ExampleDeployment.swift */,
+				71CF0365258CA8C100DDB605 /* ModelExamples.swift */,
 				710FB50D25864F5F004F060A /* Globals.swift */,
 				715BBA14257B9CB700D22BDE /* KeyStore.swift */,
 				7187447A2590CC1F003F994C /* RemoteImage.swift */,
@@ -553,6 +589,7 @@
 			files = (
 				716911FC24A7E2C00023339D /* Assets.xcassets in Resources */,
 				71CF037F258CAB9A00DDB605 /* exampleDeployment.json in Resources */,
+				71BE1D57259E388B00CBAFAA /* exampleProject.json in Resources */,
 				7169122C24A7E6D60023339D /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,6 +601,7 @@
 				718DD08C25740A07001CB92A /* Assets.xcassets in Resources */,
 				71CF037E258CAB9A00DDB605 /* exampleDeployment.json in Resources */,
 				718DCFC62573FF2E001CB92A /* Localizable.strings in Resources */,
+				71BE1D56259E388B00CBAFAA /* exampleProject.json in Resources */,
 				718DCF762573FEF8001CB92A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -646,11 +684,12 @@
 				7154E3942577FADB00B2117E /* Deployment.swift in Sources */,
 				71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */,
 				71EA8658259BB55300AC611F /* DeploymentsFilterView.swift in Sources */,
+				71BE1D38259E213700CBAFAA /* DeploymentDetailLabel.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
-				71CF0367258CA8C100DDB605 /* ExampleDeployment.swift in Sources */,
+				71CF0367258CA8C100DDB605 /* ModelExamples.swift in Sources */,
 				7154E39D2578007B00B2117E /* GitCommit.swift in Sources */,
 				71A8A763258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
 				710FB50F25864F5F004F060A /* Globals.swift in Sources */,
@@ -662,6 +701,7 @@
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				718744832590ECCF003F994C /* Sheet.swift in Sources */,
 				7187445F258FD1EA003F994C /* SidebarNavigation.swift in Sources */,
+				71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
 				7169121824A7E3620023339D /* UserDefaultsManager.swift in Sources */,
 				710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71EA862B259B8E6E00AC611F /* VercelStore.swift in Sources */,
@@ -689,13 +729,14 @@
 				718DCFCF2573FF32001CB92A /* DeploymentStateIndicator.swift in Sources */,
 				718DD0172573FF51001CB92A /* EmptyDeploymentView.swift in Sources */,
 				718DD07B257401A6001CB92A /* EventMonitor.swift in Sources */,
-				71CF0366258CA8C100DDB605 /* ExampleDeployment.swift in Sources */,
+				71CF0366258CA8C100DDB605 /* ModelExamples.swift in Sources */,
 				7154E39E2578007B00B2117E /* GitCommit.swift in Sources */,
 				71A8A762258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
 				710FB50E25864F5F004F060A /* Globals.swift in Sources */,
 				715BBA17257B9CB700D22BDE /* KeyStore.swift in Sources */,
 				718DCFBD2573FF29001CB92A /* LoginView.swift in Sources */,
 				71EA8621259B8C3900AC611F /* Project.swift in Sources */,
+				71BE1D47259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
 				7187447B2590CC1F003F994C /* RemoteImage.swift in Sources */,
 				7193C8552576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
 				718DCFB42573FF21001CB92A /* SettingsView.swift in Sources */,
@@ -704,6 +745,7 @@
 				718DD0712574018A001CB92A /* StatusBarController.swift in Sources */,
 				718DD0202573FF55001CB92A /* UserDefaultsManager.swift in Sources */,
 				710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */,
+				71BE1D37259E213700CBAFAA /* DeploymentDetailLabel.swift in Sources */,
 				71EA862A259B8E6E00AC611F /* VercelStore.swift in Sources */,
 				718DD0052573FF48001CB92A /* VercelTypes.swift in Sources */,
 				718744652590C48B003F994C /* VercelUserAvatarView.swift in Sources */,
@@ -721,7 +763,7 @@
 				7154E3A825781BA800B2117E /* Deployment.swift in Sources */,
 				71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */,
 				71DC1AB724D5D1D50095EF43 /* DeploymentStateIndicator.swift in Sources */,
-				71CF0368258CA8C100DDB605 /* ExampleDeployment.swift in Sources */,
+				71CF0368258CA8C100DDB605 /* ModelExamples.swift in Sources */,
 				7154E3AC25781BAB00B2117E /* GitCommit.swift in Sources */,
 				710FB51025864F5F004F060A /* Globals.swift in Sources */,
 				715BB985257A4A5100D22BDE /* Intents.intentdefinition in Sources */,
@@ -780,7 +822,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -804,7 +846,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -950,7 +992,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -979,7 +1021,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1064,7 +1106,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1096,7 +1138,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
