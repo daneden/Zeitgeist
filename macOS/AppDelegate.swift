@@ -15,8 +15,8 @@ enum UDKey: String {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  @AppStorage("showInDock") private var showInDock = false
-  @AppStorage("showInMenuBar") private var showInMenuBar = false
+  @AppStorage(UDKey.showInDock.rawValue) private var showInDock = false
+  @AppStorage(UDKey.showInMenuBar.rawValue) private var showInMenuBar = true
   
   var statusBar: StatusBarController?
   let fetcher = VercelFetcher.shared
@@ -31,16 +31,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    statusBar = StatusBarController.init()
+    if showInMenuBar {
+      statusBar = StatusBarController()
+    }
     
     if self.fetcher.settings.token != nil {
       fetcher.tick()
     }
     
     AppDelegate.updateDockPreference()
-    AppDelegate.updateMenuBarPreference()
     
-    cancellable = fetcher.$deploymentsStore.sink { deploymentStore in
+    cancellable = fetcher.$deploymentsStore.sink { [weak self] deploymentStore in
       let reduction: [String: DeploymentState?] = deploymentStore.store.reduce([:]) {
         let currentTeamID = $1.key
         let currentTeamDeployments = $1.value
@@ -57,13 +58,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       if let erroredPair = status.first(where: { (_, state) -> Bool in
         state == .error
       }) {
-        self.statusBar?.updateStatusBarIcon(withState: .error, forTeam: erroredPair.key)
+        self?.statusBar?.updateStatusBarIcon(withState: .error, forTeam: erroredPair.key)
       } else if let buildingPair = status.first(where: { (_, state) -> Bool in
         state == .building
       }) {
-        self.statusBar?.updateStatusBarIcon(withState: .building, forTeam: buildingPair.key)
+        self?.statusBar?.updateStatusBarIcon(withState: .building, forTeam: buildingPair.key)
       } else {
-        self.statusBar?.updateStatusBarIcon(withState: .ready)
+        self?.statusBar?.updateStatusBarIcon(withState: .ready)
       }
     }
   }
@@ -77,16 +78,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
     NSApp.activate(ignoringOtherApps: true)
-  }
-  
-  static func updateMenuBarPreference(_ showInMenuBar: Bool? = nil) {
-    let showInMenuBar = UserDefaults.standard.bool(forKey: UDKey.showInMenuBar.rawValue)
-    guard let delegate = NSApplication.shared.delegate as? AppDelegate else { return }
-    if showInMenuBar {
-      delegate.statusBar = StatusBarController.init()
-    } else {
-      delegate.statusBar = nil
-    }
   }
   
   static func updatePreference(key: UDKey, value: Any) {

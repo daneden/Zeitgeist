@@ -68,8 +68,12 @@ struct AppearanceSettingsView: View {
           })
         }
       }.padding(8)
-    }.onChange(of: showInDock) { showInDock in
+    }
+    .onChange(of: showInDock) { showInDock in
       AppDelegate.updatePreference(key: .showInDock, value: showInDock)
+    }
+    .onChange(of: showInMenuBar) { _ in
+      // Handled by Zeitgeist.swift
     }
   }
   

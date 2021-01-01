@@ -17,8 +17,6 @@ let statusImageMap: [DeploymentState: String] = [
 class StatusBarController {
   private var statusBar: NSStatusBar
   private var statusItem: NSStatusItem
-  private var eventMonitor: EventMonitor?
-  private var timer: Timer = Timer()
   
   init() {
     statusBar = NSStatusBar.system
@@ -36,10 +34,7 @@ class StatusBarController {
       
       statusBarButton.action = #selector(mouseEventHandler)
       statusBarButton.target = self
-      
     }
-    
-    eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown], handler: mouseEventHandler)
   }
   
   @objc func mouseEventHandler(_ event: NSEvent?) {
@@ -53,7 +48,7 @@ class StatusBarController {
   }
   
   func updateStatusBarIcon(withState state: DeploymentState, forTeam teamId: String? = nil) {
-    if let button = self.statusItem.button {
+    if let button = statusItem.button {
       button.image = NSImage(
         systemSymbolName: statusImageMap[state] ?? "arrowtriangle.up.circle.fill",
         accessibilityDescription: "Zeitgeist"
