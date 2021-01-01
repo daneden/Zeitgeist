@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SessionValidationView: View {
-  @ObservedObject var settings = UserDefaultsManager.shared
+  @ObservedObject var session = Session.shared
   @Binding var isValidated: Bool
   
   var body: some View {
@@ -23,7 +23,7 @@ struct SessionValidationView: View {
   }
   
   func validateSession() {
-    if let token = self.settings.token {
+    if let token = self.session.token {
       let url = URL(string: "https://api.vercel.com/www/user")!
       var request = URLRequest(url: url)
       request.allHTTPHeaderFields = ["Authorization": "Bearer \(token)"]
@@ -38,7 +38,7 @@ struct SessionValidationView: View {
           case 403:
             self.isValidated = false
             DispatchQueue.main.async {
-              self.settings.token = nil
+              self.session.token = nil
             }
           // all other (unknown) cases, such as server errors
           // TODO: Stub out additional API response codes

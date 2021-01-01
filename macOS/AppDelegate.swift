@@ -10,31 +10,35 @@ import Cocoa
 import SwiftUI
 import Combine
 
-@main
+enum UDKey: String {
+  case showInDock, showInMenuBar
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
-  var popover = NSPopover.init()
+  @AppStorage("showInDock") private var showInDock = false
+  @AppStorage("showInMenuBar") private var showInMenuBar = false
+  
   var statusBar: StatusBarController?
-  let frame = NSSize(width: 680, height: 360)
-  let settings = UserDefaultsManager.shared
   let fetcher = VercelFetcher.shared
   var cancellable: AnyCancellable?
   
+  func applicationDidBecomeActive(_ notification: Notification) {
+    let app = NSApplication.shared
+    
+    if app.windows.filter({ $0.isResizable }).isEmpty {
+      app.delegate?.application?(app, open: [URL(string: "zeitgeist://home")!])
+    }
+  }
+  
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    let contentView = ContentView()
-      .environmentObject(settings)
-      .environmentObject(fetcher)
-      .frame(width: frame.width, height: frame.height)
-      .accentColor(.systemIndigo)
+    statusBar = StatusBarController.init()
     
-    popover.contentSize = NSSize(width: frame.width, height: frame.height)
-    popover.contentViewController = NSHostingController(rootView: contentView)
-    
-    // Create the Status Bar Item with the above Popover
-    statusBar = StatusBarController.init(popover)
-    
-    if settings.token != nil {
+    if self.fetcher.settings.token != nil {
       fetcher.tick()
     }
+    
+    AppDelegate.updateDockPreference()
+    AppDelegate.updateMenuBarPreference()
     
     cancellable = fetcher.$deploymentsStore.sink { deploymentStore in
       let reduction: [String: DeploymentState?] = deploymentStore.store.reduce([:]) {
@@ -66,5 +70,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   
   func applicationWillTerminate(_ aNotification: Notification) {
     // Insert code here to tear down your application
+  }
+  
+  static func updateDockPreference(_ showInDock: Bool? = nil) {
+    let showInDock = UserDefaults.standard.bool(forKey: UDKey.showInDock.rawValue)
+
+    NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
+    NSApp.activate(ignoringOtherApps: true)
+  }
+  
+  static func updateMenuBarPreference(_ showInMenuBar: Bool? = nil) {
+    let showInMenuBar = UserDefaults.standard.bool(forKey: UDKey.showInMenuBar.rawValue)
+    guard let delegate = NSApplication.shared.delegate as? AppDelegate else { return }
+    if showInMenuBar {
+      delegate.statusBar = StatusBarController.init()
+    } else {
+      delegate.statusBar = nil
+    }
+  }
+  
+  static func updatePreference(key: UDKey, value: Any) {
+    switch key {
+    case .showInDock:
+      guard let value = value as? Bool else { break }
+      self.updateDockPreference(value)
+    default:
+      break
+    }
   }
 }

@@ -10,17 +10,25 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-  @EnvironmentObject var settings: UserDefaultsManager
+  #if os(macOS)
+  var horizontalSizeClass: SizeClassHack = .regular
+  #else
+  @Environment(\.horizontalSizeClass) var horizontalSizeClass
+  #endif
   
   @State var isValidated = false
-  @State var currentViewTag: String?
   @State var needsLogin = false
+  @ObservedObject var session = Session.shared
   
   var body: some View {
     NavigationView {
       if isValidated && !needsLogin {
-        SidebarNavigation(selection: $currentViewTag)
-        DeploymentsListView()
+        SidebarNavigation()
+        if horizontalSizeClass == .regular {
+          EmptyView()
+        } else {
+          DeploymentsListView()
+        }
         EmptyDeploymentView()
       } else {
         Spacer()
@@ -33,11 +41,11 @@ struct ContentView: View {
       LoginView().allowAutoDismiss(false)
     }
     .onAppear {
-      self.needsLogin = self.settings.token == nil
+      self.needsLogin = session.token == nil
       self.isValidated = false
     }
-    .onReceive(self.settings.objectWillChange) {
-      self.needsLogin = self.settings.token == nil
+    .onReceive(session.objectWillChange) {
+      self.needsLogin = session.token == nil
       self.isValidated = true
     }
   }

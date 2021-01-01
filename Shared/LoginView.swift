@@ -9,10 +9,7 @@
 import SwiftUI
 
 struct LoginView: View {
-  @State var inputValue = ""
-  @EnvironmentObject var settings: UserDefaultsManager
-  @State var validating = false
-  @State var errorMessage = ""
+  @StateObject var viewModel = SignInViewModel()
   
   #if os(macOS)
   var padding = 16.0 as CGFloat
@@ -35,52 +32,12 @@ struct LoginView: View {
                 .font(.footnote)
                 .padding(.bottom)
       ) {
-        SecureField("Enter Access Token", text: $inputValue)
         
-        Button(action: { self.validateToken() }, label: {
-          HStack {
-            Text("loginButton")
-            
-            #if os(iOS)
-            if validating {
-              Spacer()
-              ProgressView()
-            }
-            #endif
-          }
+        Button(action: { viewModel.signIn() }, label: {
+          Label("Sign in with Vercel", systemImage: "triangle.fill")
         })
-        .disabled(inputValue.isEmpty || validating)
-        
-        if !errorMessage.isEmpty {
-          Text(errorMessage).foregroundColor(.systemRed)
-        }
       }
     }
     .padding(.all, padding)
-  }
-  
-  func validateToken() {
-    self.validating = true
-    self.errorMessage = ""
-    
-    let url = URL(string: "https://api.vercel.com/www/user")!
-    var request = URLRequest(url: url)
-    request.allHTTPHeaderFields = ["Authorization": "Bearer \(self.inputValue)"]
-
-    let task = URLSession.shared.dataTask(with: request) {_, response, _ in
-      if let httpResponse = response as? HTTPURLResponse {
-        switch httpResponse.statusCode {
-        case 200:
-          DispatchQueue.main.async {
-            self.settings.token = self.inputValue
-          }
-        default:
-          self.errorMessage = "Invalid Vercel access token."
-        }
-        
-        self.validating = false
-      }
-    }
-    task.resume()
   }
 }

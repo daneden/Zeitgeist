@@ -17,13 +17,10 @@ let statusImageMap: [DeploymentState: String] = [
 class StatusBarController {
   private var statusBar: NSStatusBar
   private var statusItem: NSStatusItem
-  private var popover: NSPopover
   private var eventMonitor: EventMonitor?
   private var timer: Timer = Timer()
   
-  init(_ popover: NSPopover) {
-    self.popover = popover
-    
+  init() {
     statusBar = NSStatusBar.system
     // Creating a status bar item having a fixed length
     statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
@@ -37,7 +34,7 @@ class StatusBarController {
       statusBarButton.image?.isTemplate = true
       statusBarButton.imagePosition = .imageLeft
       
-      statusBarButton.action = #selector(togglePopover(sender:))
+      statusBarButton.action = #selector(mouseEventHandler)
       statusBarButton.target = self
       
     }
@@ -45,30 +42,14 @@ class StatusBarController {
     eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown], handler: mouseEventHandler)
   }
   
-  @objc func togglePopover(sender: AnyObject) {
-    if popover.isShown {
-      hidePopover(sender)
-    } else {
-      showPopover(sender)
+  @objc func mouseEventHandler(_ event: NSEvent?) {
+    let app = NSApplication.shared
+    
+    if app.windows.filter({ $0.isMainWindow }).isEmpty {
+      app.delegate?.application?(NSApplication.shared, open: [URL(string: "zeitgeist://home")!])
     }
-  }
-  
-  func showPopover(_ sender: AnyObject) {
-    if let statusBarButton = statusItem.button {
-      popover.show(relativeTo: statusBarButton.bounds, of: statusBarButton, preferredEdge: NSRectEdge.maxY)
-      eventMonitor?.start()
-    }
-  }
-  
-  func hidePopover(_ sender: AnyObject) {
-    popover.performClose(sender)
-    eventMonitor?.stop()
-  }
-  
-  func mouseEventHandler(_ event: NSEvent?) {
-    if popover.isShown {
-      hidePopover(event!)
-    }
+    
+    app.activate(ignoringOtherApps: true)
   }
   
   func updateStatusBarIcon(withState state: DeploymentState, forTeam teamId: String? = nil) {

@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-  @EnvironmentObject var settings: UserDefaultsManager
   @EnvironmentObject var fetcher: VercelFetcher
+  @Environment(\.presentationMode) var presentationMode
   
   var body: some View {
     Form {
-      if settings.token == nil {
+      if fetcher.settings.token == nil {
         VStack(alignment: .leading) {
           Text("Not signed in").font(.headline)
           Text("Sign in to Zeitgeist to see your deployments").foregroundColor(.secondary)
@@ -36,37 +36,18 @@ struct SettingsView: View {
           }
         }
         
-        #if os(macOS)
-        Divider().padding(.vertical, 8)
-        #endif
-        
         Section {
           Button(action: {
-            self.settings.token = nil
+            self.fetcher.settings.token = nil
+            self.presentationMode.wrappedValue.dismiss()
           }, label: {
             Text("logoutButton")
           }).foregroundColor(.systemRed)
-          
-          #if os(macOS)
-          Button(action: {
-            self.quitApplication()
-          }, label: {
-            Text("Quit Zeitgeist")
-          })
-          #endif
         }
       }
     }
     .navigationTitle(Text("Settings"))
   }
-  
-  #if os(macOS)
-  func quitApplication() {
-    DispatchQueue.main.async {
-      NSApp.terminate(nil)
-    }
-  }
-  #endif
 }
 
 //struct SettingsView_Previews: PreviewProvider {

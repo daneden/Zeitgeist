@@ -31,7 +31,7 @@ public class VercelFetcher: ObservableObject {
     case idle
   }
   
-  static let shared = VercelFetcher(UserDefaultsManager.shared, withTimer: true)
+  static let shared = VercelFetcher(withTimer: true)
   
   @Published var fetchState: FetchState = .idle
   
@@ -51,16 +51,15 @@ public class VercelFetcher: ObservableObject {
   @Published var deploymentsStore = DeploymentsStore()
   @Published var projectsStore = ProjectsStore()
   
-  @ObservedObject var settings: UserDefaultsManager
+  @ObservedObject var settings = Session.shared
   
   private var pollingTimer: Timer?
   
-  init(_ settings: UserDefaultsManager) {
-    self.settings = settings
+  init() {
+    
   }
   
-  init(_ settings: UserDefaultsManager, withTimer: Bool) {
-    self.settings = settings
+  init(withTimer: Bool) {
     self.loadUser()
     
     if withTimer {

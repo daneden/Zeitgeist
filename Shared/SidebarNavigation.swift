@@ -15,35 +15,42 @@ typealias PreferredListStyle = GroupedListStyle
 #endif
 
 struct SidebarNavigation: View {
+  #if os(macOS)
+  var horizontalSizeClass: SizeClassHack = .regular
+  #else
+  @Environment(\.horizontalSizeClass) var horizontalSizeClass
+  #endif
   @State var settingsVisible = false
-  @Binding var selection: String?
+  @State var selection: String?
   @EnvironmentObject var fetcher: VercelFetcher
   
     var body: some View {
       List(selection: $selection) {
         Section(header: Text("Teams")) {
-          NavigationLink(destination: DeploymentsListView()) {
+          NavigationLink(
+            destination: DeploymentsListView(),
+            tag: "-1",
+            selection: $selection
+          ) {
             Label("Personal", systemImage: "person")
-          }.tag("-1")
+          }
           
           ForEach(fetcher.teams, id: \.id) { team in
-            NavigationLink(destination: DeploymentsListView(team: team)) {
+            NavigationLink(
+              destination: DeploymentsListView(team: team),
+              tag: team.id,
+              selection: $selection
+            ) {
               Label(team.name, systemImage: "person.2")
             }.tag(team.id)
           }
+        }.onAppear {
+          if self.selection == nil && horizontalSizeClass == .regular {
+            self.selection = "-1"
+          }
         }
         
-        #if os(macOS)
-        Divider()
-        
-        HStack {
-          Label("Settings", systemImage: "gearshape")
-        }.onTapGesture {
-          self.settingsVisible.toggle()
-        }.popover(isPresented: $settingsVisible) {
-          SettingsView().padding()
-        }
-        #else
+        #if !os(macOS)
         NavigationLink(destination: SettingsView()) {
           Label("Settings", systemImage: "gearshape")
         }.tag("settings")
@@ -58,6 +65,6 @@ struct SidebarNavigation: View {
 
 struct SidebarNavigation_Previews: PreviewProvider {
     static var previews: some View {
-      SidebarNavigation(selection: .constant("-1"))
+      SidebarNavigation()
     }
 }

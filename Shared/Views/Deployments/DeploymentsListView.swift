@@ -13,16 +13,30 @@ enum ViewType: String, CaseIterable {
   case deployments = "Deployments", projects = "Projects"
 }
 
+enum SizeClassHack {
+  case regular
+}
+
 #if os(macOS)
 typealias ZGDeploymentsListStyle = SidebarListStyle
+let filterToolbarButtonPosition: ToolbarItemPlacement = .automatic
+let filterStatusAlignment: HorizontalAlignment = .trailing
 #else
 typealias ZGDeploymentsListStyle = PlainListStyle
+let filterToolbarButtonPosition: ToolbarItemPlacement = .bottomBar
+let filterStatusAlignment: HorizontalAlignment = .center
 #endif
 
 struct DeploymentsListView: View {
   @EnvironmentObject var vercelFetcher: VercelFetcher
+  #if os(macOS)
+  var horizontalSizeClass: SizeClassHack = .regular
+  #else
+  @Environment(\.horizontalSizeClass) var horizontalSizeClass
+  #endif
   @State var team: VercelTeam = VercelTeam()
   @State var listOf: ViewType = .deployments
+  @State var selectedID: String?
   
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
@@ -48,49 +62,39 @@ struct DeploymentsListView: View {
           }
         } else {
           List(filteredDeployments(deployments), id: \.self) { deployment in
-            NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
+            NavigationLink(
+              destination: DeploymentDetailView(deployment: deployment),
+              tag: deployment.id ?? "",
+              selection: $selectedID
+            ) {
               DeploymentsListRowView(deployment: deployment)
                 .id(deployment.id)
             }
           }
           .listStyle(ZGDeploymentsListStyle())
-        }
-      } else if listOf == .projects {
-        if projects.isEmpty {
-          VStack(spacing: 0) {
-            Spacer()
-            Text("emptyState")
-              .foregroundColor(.secondary)
-            Spacer()
-          }
-        } else {
-          List(projects, id: \.self) { project in
-            NavigationLink(destination: ProjectDetailView(project: project)) {
-              VStack(alignment: .leading) {
-                Text(project.name)
-                Text("Updated \(project.updated, style: .relative) ago")
-                  .font(.caption)
-                  .foregroundColor(.secondary)
-              }
+          .onAppear {
+            if self.selectedID == nil && horizontalSizeClass == .regular {
+              self.selectedID = filteredDeployments(deployments).first?.id
             }
           }
-          .listStyle(ZGDeploymentsListStyle())
         }
       }
     }
     .navigationTitle(Text(listOf.rawValue))
     .toolbar {
       ToolbarItem(placement: .status) {
-        VStack {
+        VStack(alignment: filterStatusAlignment) {
           Text(team.name).fontWeight(.semibold)
             
           if filtersApplied() {
             Text("\(filteredDeployments(deployments).count) of \(deployments.count) deployments shown")
-            Button(action: { self.filterVisible.toggle() }, label: {
-              Text("Filters applied")
-                .font(.caption)
-                .foregroundColor(.accentColor)
-            })
+            if !IS_MACOS {
+              Button(action: { self.filterVisible.toggle() }, label: {
+                Text("Filters applied")
+                  .font(.caption)
+                  .foregroundColor(.accentColor)
+              })
+            }
           } else {
             Text("\(deployments.count) deployments shown")
           }
@@ -99,17 +103,7 @@ struct DeploymentsListView: View {
         .foregroundColor(.secondary)
       }
       
-      // TODO: Allow switching to Projects view
-//      ToolbarItem(placement: .principal) {
-//        Picker(selection: $listOf, label: Text("View:")) {
-//          ForEach(ViewType.allCases, id: \.self) { item in
-//            Text(item.rawValue)
-//          }
-//        }
-//      }
-      
-      #if !os(macOS)
-      ToolbarItem(placement: .bottomBar) {
+      ToolbarItem(placement: filterToolbarButtonPosition) {
         Button(action: { self.filterVisible.toggle() }, label: {
           Label(
             "Filter by project",
@@ -118,16 +112,27 @@ struct DeploymentsListView: View {
             : "line.horizontal.3.decrease.circle"
           ).labelStyle(IconOnlyLabelStyle())
         })
+        .if(IS_MACOS) {
+          $0.popover(isPresented: self.$filterVisible) {
+            DeploymentsFilterView(
+              projects: projects,
+              projectFilter: self.$projectFilter,
+              stateFilter: self.$stateFilter,
+              productionFilter: self.$productionFilter
+            )
+          }
+        }
+        .if(!IS_MACOS) {
+          $0.sheet(isPresented: self.$filterVisible) {
+            DeploymentsFilterView(
+              projects: projects,
+              projectFilter: self.$projectFilter,
+              stateFilter: self.$stateFilter,
+              productionFilter: self.$productionFilter
+            )
+          }
+        }
       }
-      #endif
-    }
-    .sheet(isPresented: self.$filterVisible) {
-      DeploymentsFilterView(
-        projects: projects,
-        projectFilter: self.$projectFilter,
-        stateFilter: self.$stateFilter,
-        productionFilter: self.$productionFilter
-      )
     }
     .onAppear {
       vercelFetcher.tick()
