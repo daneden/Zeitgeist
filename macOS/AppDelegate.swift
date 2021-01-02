@@ -61,8 +61,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     AppDelegate.updateDockPreference()
     
-    cancellable = fetcher.$deploymentsStore.sink { [weak self] deploymentStore in
-      let reduction: [String: DeploymentState?] = deploymentStore.store.reduce([:]) {
+    cancellable = fetcher.deploymentsStore.$store.sink { [weak self] store in
+      let reduction: [String: DeploymentState?] = store.reduce([:]) {
         let currentTeamID = $1.key
         let currentTeamDeployments = $1.value
         
