@@ -16,15 +16,15 @@ struct ContentView: View {
   @Environment(\.horizontalSizeClass) var horizontalSizeClass
   #endif
   
-  @State var isValidated = false
-  @State var needsLogin = false
+  @AppStorage("isSessionValidated") var isValidated = false
+  @AppStorage("userNeedsLogin") var needsLogin = false
   @ObservedObject var session = Session.shared
   
   var body: some View {
     NavigationView {
       if isValidated && !needsLogin {
         SidebarNavigation()
-        if horizontalSizeClass == .regular {
+        if horizontalSizeClass == .regular && IS_MACOS {
           EmptyView()
         } else {
           DeploymentsListView()
@@ -42,11 +42,11 @@ struct ContentView: View {
     }
     .onAppear {
       self.needsLogin = session.token == nil
-      self.isValidated = false
+      self.isValidated = !self.needsLogin
     }
     .onReceive(session.objectWillChange) {
       self.needsLogin = session.token == nil
-      self.isValidated = true
+      self.isValidated = !self.needsLogin
     }
   }
 }

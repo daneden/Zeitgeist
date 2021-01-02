@@ -6,6 +6,12 @@
 //  Copyright © 2020 Daniel Eden. All rights reserved.
 //
 
+struct DefaultStore<T> {
+  static func create() -> [String: [T]] {
+    return ["-1": [T]()]
+  }
+}
+
 import Foundation
 
 protocol VercelStore: ObservableObject {
@@ -18,7 +24,7 @@ protocol VercelStore: ObservableObject {
 
 class DeploymentsStore: VercelStore {
   // Deployments always start with an empty array for personal teams (identified in Zeitgeist by "-1")
-  @Published var store: [String: [Deployment]] = ["-1": []]
+  @Published var store: [String: [Deployment]] = DefaultStore<Deployment>.create()
   
   func updateStore(forTeam teamId: String?, newValue: [Deployment]) {
     let id = teamId ?? "-1"
@@ -27,7 +33,7 @@ class DeploymentsStore: VercelStore {
 }
 
 class ProjectsStore: VercelStore {
-  @Published var store: [String: [Project]] = ["-1": []]
+  @Published var store: [String: [Project]] = DefaultStore<Project>.create()
   
   func updateStore(forTeam teamId: String?, newValue: [Project]) {
     let id = teamId ?? "-1"

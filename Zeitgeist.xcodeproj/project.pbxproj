@@ -125,6 +125,30 @@
 		71EA862D259B8E6E00AC611F /* VercelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8629259B8E6E00AC611F /* VercelStore.swift */; };
 		71EA8657259BB55300AC611F /* DeploymentsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */; };
 		71EA8658259BB55300AC611F /* DeploymentsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */; };
+		71EE8E8B25A094250003E885 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DC1A7024D5CA0C0095EF43 /* WidgetKit.framework */; };
+		71EE8E8C25A094250003E885 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DC1A7224D5CA0C0095EF43 /* SwiftUI.framework */; };
+		71EE8E9225A094260003E885 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71EE8E9125A094260003E885 /* Assets.xcassets */; };
+		71EE8E9925A094260003E885 /* MacOSWidgetsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71EE8E8A25A094250003E885 /* MacOSWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		71EE8EA325A094500003E885 /* RecentDeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BF8C42257D0C04005D7246 /* RecentDeploymentsWidget.swift */; };
+		71EE8EA925A094550003E885 /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */; };
+		71EE8EAF25A094590003E885 /* LatestDeploymentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1A9F24D5CD760095EF43 /* LatestDeploymentWidget.swift */; };
+		71EE8EB525A0945C0003E885 /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC1AB324D5CF430095EF43 /* LatestDeploymentWidgetView.swift */; };
+		71EE8EBB25A0946D0003E885 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
+		71EE8EC125A094700003E885 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
+		71EE8EC725A094730003E885 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
+		71EE8ECD25A094750003E885 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8620259B8C3900AC611F /* Project.swift */; };
+		71EE8ED325A0947D0003E885 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
+		71EE8ED925A094850003E885 /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
+		71EE8EDF25A0948E0003E885 /* ModelExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF0365258CA8C100DDB605 /* ModelExamples.swift */; };
+		71EE8EE525A094910003E885 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
+		71EE8EEB25A094950003E885 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
+		71EE8EF125A0949A0003E885 /* VercelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA8629259B8E6E00AC611F /* VercelStore.swift */; };
+		71EE8EF725A0949D0003E885 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9DC259F7E1000367AF0 /* Session.swift */; };
+		71EE8EFD25A094A30003E885 /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
+		71EE8F0325A094B80003E885 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 715BB984257A4A5100D22BDE /* Intents.intentdefinition */; };
+		71EE8F0925A094C40003E885 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6790F24D5B2860058F334 /* DeploymentStateIndicator.swift */; };
+		71EE8F0F25A094CC0003E885 /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
+		71EE8F1525A095810003E885 /* exampleDeployment.json in Resources */ = {isa = PBXBuildFile; fileRef = 71CF037D258CAB9A00DDB605 /* exampleDeployment.json */; };
 		71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */; };
 		71F985E2259BE5CF00E27F0D /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
 		71F985E3259BE5CF00E27F0D /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F985E1259BE5CF00E27F0D /* Alias.swift */; };
@@ -147,6 +171,13 @@
 			remoteGlobalIDString = 71DC1A9A24D5CD760095EF43;
 			remoteInfo = DeploymentsWidgetExtension;
 		};
+		71EE8E9725A094260003E885 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 715E06CF241BDE8C00A4DA0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 71EE8E8925A094250003E885;
+			remoteInfo = MacOSWidgetsExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -158,6 +189,17 @@
 			files = (
 				71DC1AA624D5CD780095EF43 /* DeploymentsWidgetExtension.appex in Embed App Extensions */,
 				715BB9A5257A4BFA00D22BDE /* SelectTeamIntent.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71EE8E9D25A094260003E885 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				71EE8E9925A094260003E885 /* MacOSWidgetsExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,6 +272,10 @@
 		71EA8620259B8C3900AC611F /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		71EA8629259B8E6E00AC611F /* VercelStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelStore.swift; sourceTree = "<group>"; };
 		71EA8656259BB55300AC611F /* DeploymentsFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsFilterView.swift; sourceTree = "<group>"; };
+		71EE8E8A25A094250003E885 /* MacOSWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MacOSWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		71EE8E9125A094260003E885 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		71EE8E9325A094260003E885 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71EE8E9425A094260003E885 /* MacOSWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacOSWidgets.entitlements; sourceTree = "<group>"; };
 		71F7D9B024CDD04D00F93B88 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
 		71F985E1259BE5CF00E27F0D /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -262,6 +308,15 @@
 			files = (
 				71DC1A9D24D5CD760095EF43 /* SwiftUI.framework in Frameworks */,
 				71DC1A9C24D5CD760095EF43 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71EE8E8725A094250003E885 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71EE8E8C25A094250003E885 /* SwiftUI.framework in Frameworks */,
+				71EE8E8B25A094250003E885 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +367,7 @@
 				715BB98E257A4BFA00D22BDE /* SelectTeamIntent */,
 				716911CF24A7E2BE0023339D /* Shared */,
 				71DC1A9E24D5CD760095EF43 /* Widgets */,
+				71EE8E8D25A094250003E885 /* MacOSWidgets */,
 				715E06D8241BDE8C00A4DA0F /* Products */,
 				7169122E24A7E7160023339D /* Frameworks */,
 			);
@@ -326,6 +382,7 @@
 				715BB98D257A4BFA00D22BDE /* SelectTeamIntent.appex */,
 				716911D724A7E2C00023339D /* Zeitgeist.app */,
 				718DCF692573FEF8001CB92A /* Zeitgeist.app */,
+				71EE8E8A25A094250003E885 /* MacOSWidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -452,6 +509,16 @@
 			path = Widgets;
 			sourceTree = "<group>";
 		};
+		71EE8E8D25A094250003E885 /* MacOSWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				71EE8E9125A094260003E885 /* Assets.xcassets */,
+				71EE8E9325A094260003E885 /* Info.plist */,
+				71EE8E9425A094260003E885 /* MacOSWidgets.entitlements */,
+			);
+			path = MacOSWidgets;
+			sourceTree = "<group>";
+		};
 		71F6571E24DEE4B200C08D01 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -516,10 +583,12 @@
 				718DCF662573FEF8001CB92A /* Frameworks */,
 				718DCF672573FEF8001CB92A /* Resources */,
 				716416CC2583BA3100584587 /* ShellScript */,
+				71EE8E9D25A094260003E885 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				71EE8E9825A094260003E885 /* PBXTargetDependency */,
 			);
 			name = macOS;
 			packageProductDependencies = (
@@ -547,13 +616,30 @@
 			productReference = 71DC1A9B24D5CD760095EF43 /* DeploymentsWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		71EE8E8925A094250003E885 /* MacOSWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 71EE8E9A25A094260003E885 /* Build configuration list for PBXNativeTarget "MacOSWidgetsExtension" */;
+			buildPhases = (
+				71EE8E8625A094250003E885 /* Sources */,
+				71EE8E8725A094250003E885 /* Frameworks */,
+				71EE8E8825A094250003E885 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacOSWidgetsExtension;
+			productName = MacOSWidgetsExtension;
+			productReference = 71EE8E8A25A094250003E885 /* MacOSWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		715E06CF241BDE8C00A4DA0F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Daniel Eden";
 				TargetAttributes = {
@@ -568,6 +654,9 @@
 					};
 					71DC1A9A24D5CD760095EF43 = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					71EE8E8925A094250003E885 = {
+						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
@@ -587,6 +676,7 @@
 			projectRoot = "";
 			targets = (
 				718DCF682573FEF8001CB92A /* macOS */,
+				71EE8E8925A094250003E885 /* MacOSWidgetsExtension */,
 				716911D624A7E2C00023339D /* iOS */,
 				71DC1A9A24D5CD760095EF43 /* DeploymentsWidgetExtension */,
 				715BB98C257A4BFA00D22BDE /* SelectTeamIntent */,
@@ -631,6 +721,15 @@
 			files = (
 				71DC1AA224D5CD780095EF43 /* Assets.xcassets in Resources */,
 				71CF0380258CAB9A00DDB605 /* exampleDeployment.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71EE8E8825A094250003E885 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71EE8E9225A094260003E885 /* Assets.xcassets in Resources */,
+				71EE8F1525A095810003E885 /* exampleDeployment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +909,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		71EE8E8625A094250003E885 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71EE8EFD25A094A30003E885 /* Color.extension.swift in Sources */,
+				71EE8EC125A094700003E885 /* Alias.swift in Sources */,
+				71EE8EF725A0949D0003E885 /* Session.swift in Sources */,
+				71EE8F0325A094B80003E885 /* Intents.intentdefinition in Sources */,
+				71EE8EAF25A094590003E885 /* LatestDeploymentWidget.swift in Sources */,
+				71EE8EEB25A094950003E885 /* KeychainItem.swift in Sources */,
+				71EE8EBB25A0946D0003E885 /* Deployment.swift in Sources */,
+				71EE8ECD25A094750003E885 /* Project.swift in Sources */,
+				71EE8EA925A094550003E885 /* RecentDeploymentsWidgetView.swift in Sources */,
+				71EE8F0F25A094CC0003E885 /* DeploymentsListRowView.swift in Sources */,
+				71EE8EB525A0945C0003E885 /* LatestDeploymentWidgetView.swift in Sources */,
+				71EE8ED925A094850003E885 /* VercelTypes.swift in Sources */,
+				71EE8ED325A0947D0003E885 /* VercelFetcher.swift in Sources */,
+				71EE8F0925A094C40003E885 /* DeploymentStateIndicator.swift in Sources */,
+				71EE8EF125A0949A0003E885 /* VercelStore.swift in Sources */,
+				71EE8EA325A094500003E885 /* RecentDeploymentsWidget.swift in Sources */,
+				71EE8EC725A094730003E885 /* GitCommit.swift in Sources */,
+				71EE8EDF25A0948E0003E885 /* ModelExamples.swift in Sources */,
+				71EE8EE525A094910003E885 /* Globals.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -822,6 +947,11 @@
 			isa = PBXTargetDependency;
 			target = 71DC1A9A24D5CD760095EF43 /* DeploymentsWidgetExtension */;
 			targetProxy = 71DC1AA424D5CD780095EF43 /* PBXContainerItemProxy */;
+		};
+		71EE8E9825A094260003E885 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 71EE8E8925A094250003E885 /* MacOSWidgetsExtension */;
+			targetProxy = 71EE8E9725A094260003E885 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -850,7 +980,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -864,6 +994,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -874,7 +1005,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -888,6 +1019,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1020,7 +1152,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1035,6 +1167,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1049,7 +1183,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1064,6 +1198,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1073,6 +1209,7 @@
 		718DCF902573FEF9001CB92A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
@@ -1080,7 +1217,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1101,6 +1238,7 @@
 		718DCF912573FEF9001CB92A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
@@ -1108,7 +1246,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1134,13 +1272,12 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Widgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1151,10 +1288,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = YES;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1166,13 +1303,12 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Widgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1183,11 +1319,63 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = YES;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		71EE8E9B25A094260003E885 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = MacOSWidgets/MacOSWidgets.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = MacOSWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.MacOSWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		71EE8E9C25A094260003E885 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = MacOSWidgets/MacOSWidgets.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = MacOSWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.MacOSWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1235,6 +1423,15 @@
 			buildConfigurations = (
 				71DC1AA824D5CD780095EF43 /* Debug */,
 				71DC1AA924D5CD780095EF43 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		71EE8E9A25A094260003E885 /* Build configuration list for PBXNativeTarget "MacOSWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71EE8E9B25A094260003E885 /* Debug */,
+				71EE8E9C25A094260003E885 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

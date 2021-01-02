@@ -88,5 +88,8 @@ extension Color {
   static var systemGroupedBackground = Color(TColor.systemGroupedBackground)
   static var secondarySystemGroupedBackground = Color(TColor.secondarySystemGroupedBackground)
   static var tertiarySystemGroupedBackground = Color(TColor.tertiarySystemGroupedBackground)
+  #else
+  static var systemBackground = Color(TColor.windowBackgroundColor)
+  static var secondarySystemBackground = Color(TColor.underPageBackgroundColor)
   #endif
 }

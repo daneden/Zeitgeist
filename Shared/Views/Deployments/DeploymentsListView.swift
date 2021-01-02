@@ -134,9 +134,6 @@ struct DeploymentsListView: View {
         }
       }
     }
-    .onAppear {
-      vercelFetcher.tick()
-    }
   }
   
   func filteredDeployments(_ deployments: [Deployment]) -> [Deployment] {

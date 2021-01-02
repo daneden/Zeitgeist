@@ -81,7 +81,7 @@ struct Overview: View {
       
       DeploymentDetailLabel("Deployment Status") {
         HStack {
-          DeploymentStateIndicator(state: deployment.state!, verbose: true)
+          DeploymentStateIndicator(state: deployment.state, verbose: true)
           
           if deployment.target == .production {
             Spacer()

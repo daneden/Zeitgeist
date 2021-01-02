@@ -15,7 +15,7 @@ struct DeploymentsListRowView: View {
   var body: some View {
     return VStack(alignment: .leading) {
       HStack(alignment: .top) {
-        DeploymentStateIndicator(state: deployment.state!)
+        DeploymentStateIndicator(state: deployment.state)
         
         VStack(alignment: .leading) {
           HStack(spacing: 4) {

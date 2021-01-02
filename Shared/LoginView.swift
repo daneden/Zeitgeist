@@ -21,18 +21,7 @@ struct LoginView: View {
     Form {
       ZeitgeistLogo()
       
-      Section(header: Text("Vercel Access Token"),
-              footer:
-                VStack(alignment: .leading, spacing: 4) {
-                  Text("You'll need to create an access token on Vercel's website to use Zeitgeist.")
-                    .foregroundColor(.secondary)
-                  Link("Create Token", destination: URL(string: "https://vercel.com/account/tokens")!)
-                    .foregroundColor(.accentColor)
-                }
-                .font(.footnote)
-                .padding(.bottom)
-      ) {
-        
+      Section {
         Button(action: { viewModel.signIn() }, label: {
           Label("Sign in with Vercel", systemImage: "triangle.fill")
         })

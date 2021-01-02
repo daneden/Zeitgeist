@@ -32,7 +32,7 @@ struct RecentDeploymentsWidgetView: View {
       if !deployments.isEmpty {
         ForEach(deployments.prefix(6), id: \.self) { deployment in
           HStack(alignment: .top) {
-            DeploymentStateIndicator(state: deployment.state!, verbose: false)
+            DeploymentStateIndicator(state: deployment.state, verbose: false)
           
             VStack(alignment: .leading) {
               Text(deployment.commit?.commitMessage ?? "Manual Deployment")
@@ -63,7 +63,7 @@ struct RecentDeploymentsWidgetView: View {
       Spacer()
     }
     .padding()
-    .background(Color(TColor.systemBackground))
+    .background(Color.systemBackground)
     .background(LinearGradient(
                   gradient: Gradient(
                     colors: [.systemBackground, .secondarySystemBackground]

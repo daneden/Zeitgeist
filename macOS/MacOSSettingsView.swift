@@ -44,7 +44,7 @@ struct AccountSettingsView: View {
 }
 
 struct AppearanceSettingsView: View {
-  @AppStorage(UDKey.showInDock.rawValue) var showInDock = false
+  @AppStorage(UDKey.showInDock.rawValue) var showInDock = true
   @AppStorage(UDKey.showInMenuBar.rawValue) var showInMenuBar = true
   
   var body: some View {

@@ -14,7 +14,7 @@ struct LatestDeploymentWidgetView: View {
   var body: some View {
     VStack(alignment: .leading) {
       if config.isMockDeployment != true {
-        DeploymentStateIndicator(state: config.deployment.state!, verbose: true)
+        DeploymentStateIndicator(state: config.deployment.state, verbose: true)
           .font(Font.caption.bold())
           .padding(.bottom, 2)
         
@@ -46,7 +46,7 @@ struct LatestDeploymentWidgetView: View {
       }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
     }
     .padding()
-    .background(Color(TColor.systemBackground))
+    .background(Color.systemBackground)
     .background(LinearGradient(
       gradient: Gradient(
         colors: [.systemBackground, .secondarySystemBackground]

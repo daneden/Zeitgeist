@@ -4,11 +4,5 @@
 <dict>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
-	<key>com.apple.security.network.client</key>
-	<true/>
-	<key>keychain-access-groups</key>
-	<array>
-		<string>$(AppIdentifierPrefix)me.daneden.Zeitgeist</string>
-	</array>
 </dict>
 </plist>

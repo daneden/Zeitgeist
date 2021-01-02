@@ -29,14 +29,18 @@ struct Zeitgeist: App {
         .onAppear(perform: self.loadFetcherItems)
         .accentColor(Color("AccentColor"))
         .onChange(of: showInMenuBar) { showInMenuBar in
+          #if os(macOS)
           if showInMenuBar && appDelegate.statusBar == nil {
             appDelegate.statusBar = StatusBarController()
           } else if !showInMenuBar {
             appDelegate.statusBar = nil
           }
+          #endif
         }
     }.commands {
       CommandGroup(replacing: .newItem, addition: {})
+      SidebarCommands()
+      ToolbarCommands()
     }.handlesExternalEvents(matching: ["*"])
     
     #if os(macOS)

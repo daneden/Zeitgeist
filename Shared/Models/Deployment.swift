@@ -46,7 +46,7 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
     return Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
   }
   
-  @State var state: DeploymentState? = .ready
+  var state: DeploymentState
   private var urlString: String = "vercel.com"
   
   var url: URL {
@@ -67,9 +67,7 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
     case createdAt = "created"
     case createdAtFallback = "createdAt"
     case id = "uid"
-    case idFallback = "id"
     case commit = "meta"
-    case stateFallback = "readyState"
     
     case state, creator, target
   }
@@ -77,14 +75,13 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     project = try? container.decode(String.self, forKey: .project)
+    state = try container.decode(DeploymentState.self, forKey: .state)
     urlString = try container.decode(String.self, forKey: .urlString)
     createdAt = try container.decode(Int.self, forKey: .createdAt)
-    id = try? container.decode(String?.self, forKey: .id) ?? container.decode(String.self, forKey: .idFallback)
+    id = try container.decode(String.self, forKey: .id)
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
     creator = try container.decode(DeploymentCreator.self, forKey: .creator)
     target = try? container.decode(DeploymentTarget.self, forKey: .target)
-    
-    state = try? container.decode(DeploymentState?.self, forKey: .state) ?? container.decode(DeploymentState.self, forKey: .stateFallback)
   }
   
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {

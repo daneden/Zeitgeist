@@ -15,18 +15,38 @@ enum UDKey: String {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  @AppStorage(UDKey.showInDock.rawValue) private var showInDock = false
+  @AppStorage(UDKey.showInDock.rawValue) private var showInDock = true
   @AppStorage(UDKey.showInMenuBar.rawValue) private var showInMenuBar = true
   
   var statusBar: StatusBarController?
   let fetcher = VercelFetcher.shared
   var cancellable: AnyCancellable?
   
-  func applicationDidBecomeActive(_ notification: Notification) {
+  func applicationWillBecomeActive(_ notification: Notification) {
     let app = NSApplication.shared
+    let resizableWindows = app.windows.filter({ $0.isResizable })
     
-    if app.windows.filter({ $0.isResizable }).isEmpty {
+    if resizableWindows.isEmpty {
+      print("Found no active windows, opening a new one")
       app.delegate?.application?(app, open: [URL(string: "zeitgeist://home")!])
+    } else if resizableWindows.count >= 2 {
+      print("Found multiple windows, closing extras")
+      for window in resizableWindows.suffix(resizableWindows.count - 1) {
+        window.close()
+      }
+    }
+  }
+  
+  func applicationWillResignActive(_ notification: Notification) {
+    let app = NSApplication.shared
+    let resizableWindows = app.windows.filter({ $0.isResizable })
+    
+    // Close windows when entering background if the app is running as agent
+    if !showInDock {
+      print("Entering background; closing windows")
+      for window in resizableWindows {
+        window.close()
+      }
     }
   }
   
