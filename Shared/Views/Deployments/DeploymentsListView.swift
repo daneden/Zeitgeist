@@ -61,14 +61,13 @@ struct DeploymentsListView: View {
             }
           }
         } else {
-          List(filteredDeployments(deployments), id: \.self) { deployment in
+          List(filteredDeployments(deployments), id: \.self.id) { deployment in
             NavigationLink(
               destination: DeploymentDetailView(deployment: deployment),
               tag: deployment.id ?? "",
               selection: $selectedID
             ) {
               DeploymentsListRowView(deployment: deployment)
-                .id(deployment.id)
             }
           }
           .listStyle(ZGDeploymentsListStyle())
