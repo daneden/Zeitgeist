@@ -41,31 +41,60 @@ struct Zeitgeist: App {
       CommandGroup(replacing: .newItem, addition: {})
       SidebarCommands()
       ToolbarCommands()
-    }.handlesExternalEvents(matching: ["*"])
+    }
+    .handlesExternalEvents(matching: ["*"])
     
     #if os(macOS)
     Settings {
-      TabView {
-        AccountSettingsView()
-          .environmentObject(vercelNetwork)
-          .fixedSize()
-          .tabItem {
-            Label("Account", systemImage: "person.crop.circle")
-          }
-        
-        AppearanceSettingsView()
-          .fixedSize()
-          .tabItem {
-            Label("Appearance", systemImage: "paintpalette")
-          }
-      }.padding().fixedSize()
-    }
+      MacOSSettingsView()
+        .environmentObject(vercelNetwork)
+    }.handlesExternalEvents(matching: ["settings"])
     #endif
   }
   
   func loadFetcherItems() {
     if vercelNetwork.settings.token != nil {
       vercelNetwork.tick()
+    }
+  }
+}
+
+enum TabIdentifier: Hashable {
+  case home, settings, deploymentDetail, team
+}
+
+extension URL {
+  var isDeeplink: Bool {
+    return scheme == "zeitgeist" // matches my-url-scheme://<rest-of-the-url>
+  }
+
+  var tabIdentifier: TabIdentifier? {
+    guard isDeeplink else { return nil }
+
+    switch host {
+    case "home": return .home
+    case "settings": return .settings
+    case "deployment": return .deploymentDetail
+    case "team": return .team
+    default: return nil
+    }
+  }
+}
+
+enum PageIdentifier: Hashable {
+  case deployment(team: String, id: String)
+}
+
+extension URL {
+  // Deployment pages are linked by zeitgeist://deployment/{teamID}/{deploymentID}
+  var detailPage: PageIdentifier? {
+    guard let tabIdentifier = tabIdentifier, pathComponents.count > 2 else {
+      return nil
+    }
+
+    switch tabIdentifier {
+    case .deploymentDetail: return .deployment(team: pathComponents[1], id: pathComponents[2])
+    default: return nil
     }
   }
 }

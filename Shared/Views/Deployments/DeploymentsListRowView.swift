@@ -24,9 +24,7 @@ struct DeploymentsListRowView: View {
                 .labelStyle(IconOnlyLabelStyle())
             }
             
-            if let projectName = deployment.project ?? projectName {
-              Text(projectName)
-            }
+            Text(deployment.project)  
           }
           .foregroundColor(.secondary)
           .font(.footnote)

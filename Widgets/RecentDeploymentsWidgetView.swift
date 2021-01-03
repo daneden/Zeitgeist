@@ -31,23 +31,25 @@ struct RecentDeploymentsWidgetView: View {
       
       if !deployments.isEmpty {
         ForEach(deployments.prefix(6), id: \.self) { deployment in
-          HStack(alignment: .top) {
-            DeploymentStateIndicator(state: deployment.state, verbose: false)
-          
-            VStack(alignment: .leading) {
-              Text(deployment.commit?.commitMessage ?? "Manual Deployment")
-                .fontWeight(.bold)
-                .lineLimit(3)
-                .foregroundColor(.primary)
-              
-              Text("\(deployment.project!), \(deployment.date, style: .relative) ago")
-                  .foregroundColor(.secondary)
-            }
+          Link(destination: URL(string: "zeitgeist://deployment/\(team.id)/\(deployment.id)")!) {
+            HStack(alignment: .top) {
+              DeploymentStateIndicator(state: deployment.state, verbose: false)
             
-            Spacer()
+              VStack(alignment: .leading) {
+                Text(deployment.commit?.commitMessage ?? "Manual Deployment")
+                  .fontWeight(.bold)
+                  .lineLimit(3)
+                  .foregroundColor(.primary)
+                
+                Text("\(deployment.project), \(deployment.date, style: .relative) ago")
+                    .foregroundColor(.secondary)
+              }
+              
+              Spacer()
+            }
+            .padding(.bottom, 4)
+            .font(.footnote)
           }
-          .padding(.bottom, 4)
-          .font(.footnote)
         }
       } else {
         VStack {

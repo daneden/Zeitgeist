@@ -36,8 +36,8 @@ struct DeploymentCreator: Codable, Identifiable {
 
 struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   var isMockDeployment: Bool?
-  var project: String?
-  var id: String?
+  var project: String
+  var id: String
   var target: DeploymentTarget?
   private var createdAt: Int = Int(Date().timeIntervalSince1970) / 1000
   
@@ -74,7 +74,7 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    project = try? container.decode(String.self, forKey: .project)
+    project = try container.decode(String.self, forKey: .project)
     state = try container.decode(DeploymentState.self, forKey: .state)
     urlString = try container.decode(String.self, forKey: .urlString)
     createdAt = try container.decode(Int.self, forKey: .createdAt)

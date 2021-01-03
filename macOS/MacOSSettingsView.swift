@@ -8,6 +8,25 @@
 
 import SwiftUI
 
+struct MacOSSettingsView: View {
+  var body: some View {
+    TabView {
+      AccountSettingsView()
+        .fixedSize()
+        .tabItem {
+          Label("Account", systemImage: "person.crop.circle")
+        }
+      
+      AppearanceSettingsView()
+        .fixedSize()
+        .tabItem {
+          Label("Appearance", systemImage: "paintpalette")
+        }
+    }
+    .frame(minWidth: 300, minHeight: 100).padding()
+  }
+}
+
 struct AccountSettingsView: View {
   @EnvironmentObject var fetcher: VercelFetcher
   

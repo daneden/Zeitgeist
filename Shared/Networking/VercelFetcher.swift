@@ -105,9 +105,9 @@ public class VercelFetcher: ObservableObject {
     self.loadTeams { [weak self] (teams, error) in
       if error != nil { print(error!) }
       
-      if teams != nil {
+      if let teams = teams {
         DispatchQueue.main.async {
-          self?.teams = teams!
+          self?.teams = [VercelTeam()] + teams
         }
       } else {
         print("Found `nil` instead of teams array")

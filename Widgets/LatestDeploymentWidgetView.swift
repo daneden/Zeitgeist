@@ -26,7 +26,7 @@ struct LatestDeploymentWidgetView: View {
         
         Text(config.deployment.date, style: .relative)
           .font(.caption)
-        Text(config.deployment.project!)
+        Text(config.deployment.project)
           .lineLimit(1)
           .font(.caption)
           .foregroundColor(.secondary)
@@ -54,5 +54,6 @@ struct LatestDeploymentWidgetView: View {
       startPoint: .top,
       endPoint: .bottom
     ))
+    .widgetURL(URL(string: "zeitgeist://deployment/\(config.team.id)/\(config.deployment.id)")!)
   }
 }

@@ -23,21 +23,22 @@ class StatusBarController {
     // Creating a status bar item having a fixed length
     statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
     
-    if let statusBarButton = statusItem.button {
-      statusBarButton.image = NSImage(
-        systemSymbolName: "arrowtriangle.up.circle.fill",
-        accessibilityDescription: "Zeitgeist"
-      )?.withSymbolConfiguration(.init(scale: .large))
-      
-      statusBarButton.image?.isTemplate = true
-      statusBarButton.imagePosition = .imageLeft
-      
-      statusBarButton.action = #selector(mouseEventHandler)
-      statusBarButton.target = self
-    }
+    guard let statusBarButton = statusItem.button else { return }
+    statusBarButton.image = NSImage(
+      systemSymbolName: "arrowtriangle.up.circle.fill",
+      accessibilityDescription: "Zeitgeist"
+    )?.withSymbolConfiguration(.init(scale: .large))
+    
+    statusBarButton.image?.isTemplate = true
+    statusBarButton.imagePosition = .imageLeft
+    
+    statusBarButton.action = #selector(mouseEventHandler(_:))
+    statusBarButton.target = self
+    
+    statusBarButton.sendAction(on: [.rightMouseDown, .leftMouseDown])
   }
   
-  @objc func mouseEventHandler(_ event: NSEvent?) {
+  @objc func mouseEventHandler(_ sender: NSStatusItem?) {
     let app = NSApplication.shared
     
     if app.windows.filter({ $0.isMainWindow }).isEmpty {

@@ -40,14 +40,13 @@ struct DetailSection<Content: View>: View {
 // MARK: Deployment cause/commit and status
 struct Overview: View {
   var deployment: Deployment
-  var projectName: String = "Project"
   
   var body: some View {
     let firstLine = deployment.commit?.commitMessageSummary ?? "Manual Deployment"
     
     return DetailSection {
       DeploymentDetailLabel("Project") {
-        Text(deployment.project ?? projectName)
+        Text(deployment.project)
       }
       
       DeploymentDetailLabel("Commit Message") {
@@ -180,7 +179,7 @@ struct URLDetails: View {
   }
   
   func loadAliases() {
-    self.fetcher.loadAliases(deploymentId: deployment.id ?? "") { result, error in
+    self.fetcher.loadAliases(deploymentId: deployment.id) { result, error in
       DispatchQueue.main.async {
         self.loadingAliases = false
         if error != nil {
@@ -225,8 +224,11 @@ struct DeploymentDetails: View {
 }
 
 struct DeploymentDetailView: View {
-  var deployment: Deployment
-  var projectName: String?
+  @Environment(\.presentationMode) var presentationMode
+  @EnvironmentObject var fetcher: VercelFetcher
+  @State var teamID: String
+  @State var deploymentID: String
+  
   @State var copied = false
   #if os(macOS)
   let padding = 12.0
@@ -238,12 +240,19 @@ struct DeploymentDetailView: View {
     return Container {
       HStack {
         VStack {
+          if let deployments = fetcher.deploymentsStore.store[teamID],
+             let deployment = deployments.first(where: { $0.id == deploymentID }) {
           Form {
-            Overview(deployment: deployment, projectName: projectName ?? deployment.project!)
+            Overview(deployment: deployment)
             URLDetails(deployment: deployment, copied: $copied)
             DeploymentDetails(deployment: deployment)
           }
           Spacer(minLength: 0)
+          } else {
+            Spacer()
+            Text("No deployment found")
+            Spacer()
+          }
         }
         Spacer(minLength: 0)
       }
@@ -256,6 +265,14 @@ struct DeploymentDetailView: View {
           }
         }
       }
+      .onOpenURL(perform: { url in
+        DispatchQueue.main.async {
+          if case .deployment(let teamID, let id) = url.detailPage {
+            self.teamID = teamID
+            self.deploymentID = id
+          }
+        }
+      })
     }
   }
 }

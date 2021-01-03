@@ -9,10 +9,6 @@
 import Foundation
 import SwiftUI
 
-enum ViewType: String, CaseIterable {
-  case deployments = "Deployments", projects = "Projects"
-}
-
 enum SizeClassHack {
   case regular
 }
@@ -34,9 +30,8 @@ struct DeploymentsListView: View {
   #else
   @Environment(\.horizontalSizeClass) var horizontalSizeClass
   #endif
-  @State var team: VercelTeam = VercelTeam()
-  @State var listOf: ViewType = .deployments
-  @State var selectedID: String?
+  @State var teamID: String?
+  @State var selectedDeploymentID: String?
   
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
@@ -44,47 +39,54 @@ struct DeploymentsListView: View {
   @State var filterVisible = false
   
   var body: some View {
+    let team = vercelFetcher.teams.first(where: { $0.id == teamID }) ?? VercelTeam()
     let deployments = vercelFetcher.deploymentsStore.store[team.id] ?? []
     let projects = vercelFetcher.projectsStore.store[team.id] ?? []
     
     return Group {
-      if listOf == .deployments {
-        if filteredDeployments(deployments).isEmpty {
-          if vercelFetcher.fetchState == .loading {
-            ProgressView("Loading deployments...")
-          } else {
-            VStack(spacing: 0) {
-              Spacer()
-              Text("emptyState")
-                .foregroundColor(.secondary)
-              Spacer()
-            }
-          }
+      if filteredDeployments(deployments).isEmpty {
+        if vercelFetcher.fetchState == .loading {
+          ProgressView("Loading deployments...")
         } else {
-          List(filteredDeployments(deployments), id: \.self.id) { deployment in
-            NavigationLink(
-              destination: DeploymentDetailView(deployment: deployment),
-              tag: deployment.id ?? "",
-              selection: $selectedID
-            ) {
-              DeploymentsListRowView(deployment: deployment)
-            }
+          VStack(spacing: 0) {
+            Spacer()
+            Text("emptyState")
+              .foregroundColor(.secondary)
+            Spacer()
           }
-          .listStyle(ZGDeploymentsListStyle())
-          .onAppear {
-            if self.selectedID == nil && horizontalSizeClass == .regular {
-              self.selectedID = filteredDeployments(deployments).first?.id
-            }
+        }
+      } else {
+        List(filteredDeployments(deployments), id: \.self.id) { deployment in
+          NavigationLink(
+            destination: DeploymentDetailView(teamID: teamID ?? "-1", deploymentID: deployment.id),
+            tag: deployment.id,
+            selection: $selectedDeploymentID
+          ) {
+            DeploymentsListRowView(deployment: deployment)
           }
+        }
+        .listStyle(ZGDeploymentsListStyle())
+      }
+    }
+    .onAppear {
+      if self.selectedDeploymentID == nil && horizontalSizeClass == .regular {
+        self.selectedDeploymentID = filteredDeployments(deployments).first?.id
+      }
+    }
+    .onOpenURL { url in
+      DispatchQueue.main.async {
+        if case .deployment(let teamID, let id) = url.detailPage {
+          self.teamID = teamID
+          self.selectedDeploymentID = id
         }
       }
     }
-    .navigationTitle(Text(listOf.rawValue))
+    .navigationTitle(Text("Deployments"))
     .toolbar {
       ToolbarItem(placement: .status) {
         VStack(alignment: filterStatusAlignment) {
           Text(team.name).fontWeight(.semibold)
-            
+          
           if filtersApplied() {
             Text("\(filteredDeployments(deployments).count) of \(deployments.count) deployments shown")
             if !IS_MACOS {
@@ -107,8 +109,8 @@ struct DeploymentsListView: View {
           Label(
             "Filter by project",
             systemImage: filtersApplied()
-            ? "line.horizontal.3.decrease.circle.fill"
-            : "line.horizontal.3.decrease.circle"
+              ? "line.horizontal.3.decrease.circle.fill"
+              : "line.horizontal.3.decrease.circle"
           ).labelStyle(IconOnlyLabelStyle())
         })
         .if(IS_MACOS) {
@@ -167,6 +169,6 @@ struct DeploymentsListView: View {
 
 struct DeploymentsListView_Previews: PreviewProvider {
   static var previews: some View {
-    DeploymentsListView()
+    DeploymentsListView(teamID: "-1")
   }
 }
