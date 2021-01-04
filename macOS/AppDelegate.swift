@@ -41,11 +41,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let app = NSApplication.shared
     let resizableWindows = app.windows.filter({ $0.isResizable })
     
-    // Close windows when entering background if the app is running as agent
     if !showInDock {
-      print("Entering background; closing windows")
       for window in resizableWindows {
-        window.close()
+        window.hidesOnDeactivate = true
+      }
+    } else {
+      for window in resizableWindows {
+        window.hidesOnDeactivate = false
       }
     }
   }
@@ -94,9 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   static func updateDockPreference(_ showInDock: Bool? = nil) {
-    let showInDock = UserDefaults.standard.bool(forKey: UDKey.showInDock.rawValue)
-
-    NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
+    NSApp.setActivationPolicy(showInDock ?? true ? .regular : .accessory)
     NSApp.activate(ignoringOtherApps: true)
   }
   
