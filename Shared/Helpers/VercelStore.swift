@@ -28,7 +28,10 @@ class DeploymentsStore: VercelStore {
   
   func updateStore(forTeam teamId: String?, newValue: [Deployment]) {
     let id = teamId ?? "-1"
-    store[id] = newValue
+    if store[id] != newValue {
+      print("Updating deployment store for \(id)")
+      store[id] = newValue
+    }
   }
 }
 
@@ -37,6 +40,9 @@ class ProjectsStore: VercelStore {
   
   func updateStore(forTeam teamId: String?, newValue: [Project]) {
     let id = teamId ?? "-1"
-    store[id] = newValue
+    if store[id] != newValue {
+      print("Updating project store for \(id)")
+      store[id] = newValue
+    }
   }
 }

@@ -31,15 +31,15 @@ public class VercelFetcher: ObservableObject {
     case idle
   }
   
-  static let shared = VercelFetcher(withTimer: true)
+  static let shared: VercelFetcher = {
+    print("Initialising")
+    let instance = VercelFetcher(withTimer: true)
+    return instance
+  }()
   
   @Published var fetchState: FetchState = .idle
   
-  @Published var teams: [VercelTeam] = [] {
-    didSet {
-      self.loadAllDeployments()
-    }
-  }
+  @Published var teams: [VercelTeam] = [VercelTeam()]
   
   @Published var user: VercelUser?
   
@@ -60,8 +60,6 @@ public class VercelFetcher: ObservableObject {
   }
   
   init(withTimer: Bool) {
-    self.loadUser()
-    
     if withTimer {
       resetTimers()
     }
@@ -101,13 +99,17 @@ public class VercelFetcher: ObservableObject {
     return URL(string: "https://api.vercel.com/\(route.rawValue)\(query ?? "")")!
   }
   
-  func loadTeams() {
-    self.loadTeams { [weak self] (teams, error) in
-      if error != nil { print(error!) }
+  func loadTeams() {  
+    self.loadTeams { [unowned self] (teams, error) in
+      if let error = error { print(error) }
       
       if let teams = teams {
         DispatchQueue.main.async {
-          self?.teams = [VercelTeam()] + teams
+          let newTeams = [VercelTeam()] + teams
+          
+          if self.teams != newTeams {
+            self.teams = newTeams
+          }
         }
       } else {
         print("Found `nil` instead of teams array")
@@ -140,10 +142,10 @@ public class VercelFetcher: ObservableObject {
   }
   
   func loadDeployments() {
-    self.loadDeployments { [weak self] (entries, error) in
+    self.loadDeployments { [unowned self] (entries, error) in
       if let deployments = entries {
         DispatchQueue.main.async {
-          self?.deployments = deployments
+          self.deployments = deployments
         }
       }
       
@@ -154,14 +156,11 @@ public class VercelFetcher: ObservableObject {
   }
   
   func loadAllDeployments() {
-    let personalTeam = VercelTeam()
-    var teams = [personalTeam]
-    teams.append(contentsOf: self.teams)
     for team in teams {
-      loadDeployments(teamId: team.id) { [weak self] (entries, error) in
+      loadDeployments(teamId: team.id) { [unowned self] (entries, error) in
         if let deployments = entries {
           DispatchQueue.main.async {
-            self?.deploymentsStore.updateStore(forTeam: team.id, newValue: deployments)
+            self.deploymentsStore.updateStore(forTeam: team.id, newValue: deployments)
           }
         }
         
@@ -173,14 +172,11 @@ public class VercelFetcher: ObservableObject {
   }
   
   func loadAllProjects() {
-    let personalTeam = VercelTeam()
-    var teams = [personalTeam]
-    teams.append(contentsOf: self.teams)
     for team in teams {
-      loadProjects(teamId: team.id) { [weak self] (entries, error) in
+      loadProjects(teamId: team.id) { [unowned self] (entries, error) in
         if let projects = entries {
           DispatchQueue.main.async {
-            self?.projectsStore.updateStore(forTeam: team.id, newValue: projects)
+            self.projectsStore.updateStore(forTeam: team.id, newValue: projects)
           }
         }
         
@@ -192,7 +188,6 @@ public class VercelFetcher: ObservableObject {
   }
   
   func loadProjects(teamId: String? = nil, completion: @escaping ([Project]?, Error?) -> Void) {
-    fetchState = deployments.isEmpty ? .loading : .idle
     let unmaskedTeamId = teamId == "-1" ? "" : teamId ?? ""
     var request = URLRequest(url: urlForRoute(.projects, query: "?teamId=\(unmaskedTeamId)"))
     
@@ -202,15 +197,13 @@ public class VercelFetcher: ObservableObject {
       if let data = data {
         do {
           let response = try decoder.decode(ProjectResponse.self, from: data)
-          DispatchQueue.main.async { [weak self] in
-            self?.fetchState = .finished
-          }
+          
           completion(response.projects, nil)
         } catch {
           print("error: ", error)
         }
       } else {
-        print("Error loading deployments")
+        print("Error loading projects")
         return
       }
     }.resume()
@@ -229,8 +222,8 @@ public class VercelFetcher: ObservableObject {
       if let data = data {
         do {
           let response = try decoder.decode(DeploymentResponse.self, from: data)
-          DispatchQueue.main.async { [weak self] in
-            self?.fetchState = .finished
+          DispatchQueue.main.async { [unowned self] in
+            self.fetchState = .finished
           }
           completion(response.deployments, nil)
         } catch {
@@ -272,7 +265,7 @@ public class VercelFetcher: ObservableObject {
     var request = URLRequest(url: urlForRoute(.user))
     
     request.allHTTPHeaderFields = getHeaders()
-    URLSession.shared.dataTask(with: request) { [weak self] (data, _, error) in
+    URLSession.shared.dataTask(with: request) { [unowned self] (data, _, error) in
       if data == nil {
         print("Error loading user")
         return
@@ -280,15 +273,12 @@ public class VercelFetcher: ObservableObject {
       
       do {
         let decodedData = try JSONDecoder().decode(VercelUserAPIResponse.self, from: data!)
-        DispatchQueue.main.async { [weak self] in
-          self?.user = decodedData.user
+        DispatchQueue.main.async { [unowned self] in
+          self.user = decodedData.user
         }
       } catch {
         print("Error decoding user")
         print(error.localizedDescription)
-        DispatchQueue.main.async { [weak self] in
-          self?.fetchState = .error
-        }
       }
     }.resume()
     

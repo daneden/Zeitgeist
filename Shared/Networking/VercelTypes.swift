@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VercelTeam: Decodable, Identifiable {
+struct VercelTeam: Decodable, Identifiable, Equatable {
   public var id: String = "-1"
   public var name: String = "Personal"
   public var avatar: String?

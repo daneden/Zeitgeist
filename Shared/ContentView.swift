@@ -37,16 +37,20 @@ struct ContentView: View {
       }
     }
     .redacted(reason: needsLogin ? .placeholder : [])
-    .sheet(isPresented: .constant(needsLogin)) {
+    .sheet(isPresented: $needsLogin) {
       LoginView().allowAutoDismiss(false)
     }
     .onAppear {
-      self.needsLogin = session.token == nil
-      self.isValidated = !self.needsLogin
+      DispatchQueue.main.async {
+        self.needsLogin = session.token == nil
+        self.isValidated = !self.needsLogin
+      }
     }
     .onReceive(session.objectWillChange) {
-      self.needsLogin = session.token == nil
-      self.isValidated = !self.needsLogin
+      DispatchQueue.main.async {
+        self.needsLogin = session.token == nil
+        self.isValidated = !self.needsLogin
+      }
     }
   }
 }
