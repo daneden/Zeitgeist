@@ -16,7 +16,6 @@ typealias PreferredListStyle = GroupedListStyle
 
 struct SidebarNavigation: View {
   #if os(macOS)
-  @AppStorage(UDKey.showInDock.rawValue) var showInDock = true
   var horizontalSizeClass: SizeClassHack = .regular
   #else
   @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -53,31 +52,44 @@ struct SidebarNavigation: View {
           Label("Settings", systemImage: "gearshape")
         }.isDetailLink(true).tag("settings")
         #else
-        if !showInDock {
-          Divider()
-            .padding(.vertical, 8)
-          VStack(spacing: 4) {
+        Divider()
+          .padding(.vertical, 8)
+        VStack(alignment: .leading, spacing: 8) {
+          Button(action: { openPreferences() }) {
             HStack {
-              Text("Preferences")
+              Label("Preferences", systemImage: "gearshape")
               Spacer()
-              Text("⌘ ,")
             }
-            
+          }
+          .buttonStyle(PlainButtonStyle())
+          
+          Button(action: { quitApplication() }) {
             HStack {
-              Text("Quit")
+              Label("Quit", systemImage: "xmark.circle")
               Spacer()
-              Text("⌘Q")
             }
-          }.font(.caption)
-          .foregroundColor(.secondary)
+          }
+          .buttonStyle(PlainButtonStyle())
+          
         }
         #endif
         
       }
       .listStyle(PreferredListStyle())
       .navigationTitle(Text("Zeitgeist"))
-      
     }
+  
+  #if os(macOS)
+  func openPreferences() {
+    let delegate = NSApplication.shared.delegate as? AppDelegate
+    print(NSApp.delegate as? AppDelegate)
+    delegate?.openPreferences()
+  }
+  
+  func quitApplication() {
+    NSApp.terminate(nil)
+  }
+  #endif
 }
 
 struct SidebarNavigation_Previews: PreviewProvider {

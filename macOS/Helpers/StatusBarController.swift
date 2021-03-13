@@ -45,7 +45,10 @@ class StatusBarController {
 //      app.delegate?.application?(NSApplication.shared, open: [URL(string: "zeitgeist://home")!])
 //    }
     
+    app.windows.first?.makeKeyAndOrderFront(nil)
+    
     app.activate(ignoringOtherApps: true)
+    
   }
   
   func updateStatusBarIcon(withState state: DeploymentState, forTeam teamId: String? = nil) {

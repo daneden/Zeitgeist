@@ -15,7 +15,6 @@ struct Zeitgeist: App {
   #if os(macOS)
   // swiftlint:disable weak_delegate
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-  @AppStorage(UDKey.showInMenuBar.rawValue) private var showInMenuBar = false
   #else
   @State var showInMenuBar = true
   #endif
@@ -28,28 +27,12 @@ struct Zeitgeist: App {
         .environmentObject(vercelNetwork)
         .onAppear(perform: self.loadFetcherItems)
         .accentColor(Color("AccentColor"))
-        .onChange(of: showInMenuBar) { showInMenuBar in
-          #if os(macOS)
-          if showInMenuBar && appDelegate.statusBar == nil {
-            appDelegate.statusBar = StatusBarController()
-          } else if !showInMenuBar {
-            appDelegate.statusBar = nil
-          }
-          #endif
-        }
     }.commands {
       CommandGroup(replacing: .newItem, addition: {})
       SidebarCommands()
       ToolbarCommands()
     }
     .handlesExternalEvents(matching: ["*"])
-    
-    #if os(macOS)
-    Settings {
-      MacOSSettingsView()
-        .environmentObject(vercelNetwork)
-    }.handlesExternalEvents(matching: ["settings"])
-    #endif
   }
   
   func loadFetcherItems() {
