@@ -17,6 +17,7 @@ typealias PreferredListStyle = GroupedListStyle
 struct SidebarNavigation: View {
   #if os(macOS)
   var horizontalSizeClass: SizeClassHack = .regular
+  @State var preferencesWindow: WindowViewController<AnyView>?
   #else
   @Environment(\.horizontalSizeClass) var horizontalSizeClass
   #endif
@@ -81,9 +82,13 @@ struct SidebarNavigation: View {
   
   #if os(macOS)
   func openPreferences() {
-    let delegate = NSApplication.shared.delegate as? AppDelegate
-    print(NSApp.delegate as? AppDelegate)
-    delegate?.openPreferences()
+    if let window = self.preferencesWindow {
+      window.showWindow(nil)
+    } else {
+      self.preferencesWindow = WindowViewController(rootView: AnyView(MacOSSettingsView().environmentObject(fetcher)))
+      self.preferencesWindow?.window?.title = "Preferences"
+      self.preferencesWindow?.showWindow(nil)
+    }
   }
   
   func quitApplication() {

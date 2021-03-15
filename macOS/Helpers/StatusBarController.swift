@@ -41,9 +41,10 @@ class StatusBarController {
   @objc func mouseEventHandler(_ sender: NSStatusItem?) {
     let app = NSApplication.shared
     
-//    if app.windows.filter({ $0.isMainWindow }).isEmpty {
-//      app.delegate?.application?(NSApplication.shared, open: [URL(string: "zeitgeist://home")!])
-//    }
+    if app.windows.count == 1
+        && app.windows.filter({ $0.title == "Preferences" }).isEmpty {
+      app.delegate?.application?(NSApplication.shared, open: [URL(string: "zeitgeist://home")!])
+    }
     
     app.windows.first?.makeKeyAndOrderFront(nil)
     
