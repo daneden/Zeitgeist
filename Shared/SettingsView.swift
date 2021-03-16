@@ -38,6 +38,7 @@ struct SettingsView: View {
             Button(action: {
               self.fetcher.settings.token = nil
               self.presentationMode.wrappedValue.dismiss()
+              UIApplication.shared.unregisterForRemoteNotifications()
             }, label: {
               Text("logoutButton")
             }).foregroundColor(.systemRed)
