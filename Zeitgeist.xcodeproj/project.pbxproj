@@ -15,6 +15,9 @@
 		710FB50F25864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
 		710FB51025864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
 		710FB51125864F5F004F060A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710FB50D25864F5F004F060A /* Globals.swift */; };
+		7115AAA3260130CA00381E23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115AAA2260130CA00381E23 /* AppDelegate.swift */; };
+		7115AAA92601320F00381E23 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* SettingsView.swift */; };
+		7115AAB526013AFB00381E23 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115AAB426013AFB00381E23 /* NotificationManager.swift */; };
 		7133C9D4259F7D6300367AF0 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
 		7133C9D5259F7D6300367AF0 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
 		7133C9D6259F7D6300367AF0 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
@@ -48,7 +51,7 @@
 		716911FC24A7E2C00023339D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 716911D224A7E2C00023339D /* Assets.xcassets */; };
 		7169120A24A7E30C0023339D /* Zeitgeist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716911CD24A7A9BF0023339D /* Zeitgeist.swift */; };
 		7169120C24A7E31B0023339D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E06DC241BDE8C00A4DA0F /* ContentView.swift */; };
-		7169120E24A7E3300023339D /* iOSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* iOSSettingsView.swift */; };
+		7169120E24A7E3300023339D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* SettingsView.swift */; };
 		7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */; };
 		7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
@@ -211,7 +214,9 @@
 		710D035D257CEDA400411A89 /* VercelFetcher.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelFetcher.swift; sourceTree = "<group>"; tabWidth = 2; };
 		710FB50D25864F5F004F060A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		71103C9E247E9C4C0043D11B /* VercelTypes.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelTypes.swift; sourceTree = "<group>"; tabWidth = 2; };
-		71103CA0247EEE920043D11B /* iOSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSettingsView.swift; sourceTree = "<group>"; };
+		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		7115AAA2260130CA00381E23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7115AAB426013AFB00381E23 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		7133C9D3259F7D6300367AF0 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		7133C9DC259F7E1000367AF0 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		7133CA1D259F908E00367AF0 /* View.if.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.if.swift; sourceTree = "<group>"; };
@@ -402,6 +407,7 @@
 				71A8A761258CC0EF00B6F4AF /* GitProviderImage.swift */,
 				71D5EC3D241EE13D0076BCA3 /* Localizable.strings */,
 				71C6790524D5B14B0058F334 /* LoginView.swift */,
+				71103CA0247EEE920043D11B /* SettingsView.swift */,
 				7187445D258FD1EA003F994C /* SidebarNavigation.swift */,
 				718744642590C48B003F994C /* VercelUserAvatarView.swift */,
 				716911CD24A7A9BF0023339D /* Zeitgeist.swift */,
@@ -412,9 +418,9 @@
 		716911D824A7E2C00023339D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				71103CA0247EEE920043D11B /* iOSSettingsView.swift */,
 				716911D924A7E2C00023339D /* Info.plist */,
 				71DC1AB824D5D2070095EF43 /* Zeitgeist.entitlements */,
+				7115AAA2260130CA00381E23 /* AppDelegate.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -502,6 +508,7 @@
 				71EA8629259B8E6E00AC611F /* VercelStore.swift */,
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 				7133C9DC259F7E1000367AF0 /* Session.swift */,
+				7115AAB426013AFB00381E23 /* NotificationManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -820,6 +827,7 @@
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
 				71CF0367258CA8C100DDB605 /* ModelExamples.swift in Sources */,
 				71BE1D71259F577400CBAFAA /* VercelAPIConfiguration.swift in Sources */,
+				7115AAA3260130CA00381E23 /* AppDelegate.swift in Sources */,
 				7154E39D2578007B00B2117E /* GitCommit.swift in Sources */,
 				71A8A763258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
 				710FB50F25864F5F004F060A /* Globals.swift in Sources */,
@@ -827,7 +835,7 @@
 				71EA8622259B8C3900AC611F /* Project.swift in Sources */,
 				7187447C2590CC1F003F994C /* RemoteImage.swift in Sources */,
 				7193C8542576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
-				7169120E24A7E3300023339D /* iOSSettingsView.swift in Sources */,
+				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				718744832590ECCF003F994C /* Sheet.swift in Sources */,
 				7187445F258FD1EA003F994C /* SidebarNavigation.swift in Sources */,
 				71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
@@ -840,6 +848,7 @@
 				71BE1D7F259F596A00CBAFAA /* VercelAuthenticationURLBuilder.swift in Sources */,
 				7163C5FE24D6D45F000DAE1A /* VisualEffectView.swift in Sources */,
 				7133CA1F259F908E00367AF0 /* View.if.swift in Sources */,
+				7115AAB526013AFB00381E23 /* NotificationManager.swift in Sources */,
 				7169120A24A7E30C0023339D /* Zeitgeist.swift in Sources */,
 				71BE1D62259F551A00CBAFAA /* SignInViewModel.swift in Sources */,
 				71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */,
@@ -869,6 +878,7 @@
 				7154E39E2578007B00B2117E /* GitCommit.swift in Sources */,
 				71A8A762258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
 				710FB50E25864F5F004F060A /* Globals.swift in Sources */,
+				7115AAA92601320F00381E23 /* SettingsView.swift in Sources */,
 				7133C9DD259F7E1000367AF0 /* Session.swift in Sources */,
 				718DCFBD2573FF29001CB92A /* LoginView.swift in Sources */,
 				71EA8621259B8C3900AC611F /* Project.swift in Sources */,

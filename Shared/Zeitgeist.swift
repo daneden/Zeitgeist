@@ -16,6 +16,7 @@ struct Zeitgeist: App {
   // swiftlint:disable weak_delegate
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   #else
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   @State var showInMenuBar = true
   #endif
   var vercelNetwork: VercelFetcher = VercelFetcher.shared

@@ -11,6 +11,7 @@ import SwiftUI
 struct SettingsView: View {
   @EnvironmentObject var fetcher: VercelFetcher
   @Environment(\.presentationMode) var presentationMode
+  @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
   var body: some View {
     Form {
@@ -32,17 +33,23 @@ struct SettingsView: View {
                   .foregroundColor(.secondary)
                   .lineLimit(1)
               }
-            }
+            }.padding(.vertical, 8)
+            
+            Button(action: {
+              self.fetcher.settings.token = nil
+              self.presentationMode.wrappedValue.dismiss()
+            }, label: {
+              Text("logoutButton")
+            }).foregroundColor(.systemRed)
           }
         }
         
-        Section {
-          Button(action: {
-            self.fetcher.settings.token = nil
-            self.presentationMode.wrappedValue.dismiss()
-          }, label: {
-            Text("logoutButton")
-          }).foregroundColor(.systemRed)
+        Section(header: Label("Notifications", systemImage: "bell.badge")) {
+          Toggle("Enable Notifications", isOn: $notificationsEnabled)
+            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
+              NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
+            })
         }
       }
     }
