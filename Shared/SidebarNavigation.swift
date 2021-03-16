@@ -56,20 +56,20 @@ struct SidebarNavigation: View {
         Divider()
           .padding(.vertical, 8)
         VStack(alignment: .leading, spacing: 8) {
-          Button(action: { openPreferences() }) {
+          Button(action: { openPreferences() }, label: {
             HStack {
               Label("Preferences", systemImage: "gearshape")
               Spacer()
             }
-          }
+          })
           .buttonStyle(PlainButtonStyle())
           
-          Button(action: { quitApplication() }) {
+          Button(action: { quitApplication() }, label: {
             HStack {
               Label("Quit", systemImage: "xmark.circle")
               Spacer()
             }
-          }
+          })
           .buttonStyle(PlainButtonStyle())
           
         }

@@ -145,7 +145,7 @@
       "size" : "128x128"
     },
     {
-      "filename" : "zeitgeist-128@2x.png",
+      "filename" : "zeitgeist-257.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
@@ -157,7 +157,7 @@
       "size" : "256x256"
     },
     {
-      "filename" : "zeitgeist-256@2x.png",
+      "filename" : "zeitgeist-513.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"

@@ -113,27 +113,15 @@ struct DeploymentsListView: View {
               : "line.horizontal.3.decrease.circle"
           ).labelStyle(IconOnlyLabelStyle())
         })
-        .if(IS_MACOS) {
-          $0.popover(isPresented: self.$filterVisible) {
-            DeploymentsFilterView(
-              projects: projects,
-              projectFilter: self.$projectFilter,
-              stateFilter: self.$stateFilter,
-              productionFilter: self.$productionFilter
-            )
-          }
-        }
-        .if(!IS_MACOS) {
-          $0.sheet(isPresented: self.$filterVisible) {
-            DeploymentsFilterView(
-              projects: projects,
-              projectFilter: self.$projectFilter,
-              stateFilter: self.$stateFilter,
-              productionFilter: self.$productionFilter
-            )
-          }
-        }
       }
+    }
+    .sheet(isPresented: self.$filterVisible) {
+      DeploymentsFilterView(
+        projects: projects,
+        projectFilter: self.$projectFilter,
+        stateFilter: self.$stateFilter,
+        productionFilter: self.$productionFilter
+      )
     }
   }
   

@@ -9,7 +9,7 @@
 import SwiftUI
 
 /// A class to handle opening windows for posts when doubling clicking the entry
-class WindowViewController<RootView : View>: NSWindowController {
+class WindowViewController<RootView: View>: NSWindowController {
   convenience init(rootView: RootView) {
     let hostingController = NSHostingController(rootView: rootView)
     let window = NSWindow(contentViewController: hostingController)

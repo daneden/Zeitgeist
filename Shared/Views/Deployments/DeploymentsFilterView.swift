@@ -76,21 +76,23 @@ struct DeploymentsFilterView: View {
           })
           .disabled(!filtersApplied())
         }
-      }
-      .if(!IS_MACOS) {
-        $0.toolbar {
-          ToolbarItem {
-            Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {
-              Text("Done")
-            })
-          }
+        
+        #if os(macOS)
+        Section {
+          Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+          }, label: {
+            Text("Close")
+          })
+          .keyboardShortcut(.escape)
         }
+        #endif
       }
       .if(IS_MACOS) {
-        $0.padding().fixedSize()
+        $0.padding()
       }
       .navigationTitle(Text("Filters"))
-    }
+    } 
   }
   
   func filtersApplied() -> Bool {
