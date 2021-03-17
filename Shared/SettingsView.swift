@@ -13,6 +13,10 @@ struct SettingsView: View {
   @Environment(\.presentationMode) var presentationMode
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
+  @AppStorage("allowDeploymentNotifications") var allowDeploymentNotifications = true
+  @AppStorage("allowDeploymentErrorNotifications") var allowDeploymentErrorNotifications = true
+  @AppStorage("allowDeploymentReadyNotifications") var allowDeploymentReadyNotifications = true
+  
   var body: some View {
     Form {
       if fetcher.settings.token == nil {
@@ -51,6 +55,24 @@ struct SettingsView: View {
             .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
               NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
             })
+          
+          Toggle(isOn: $allowDeploymentNotifications) {
+            Label("New Builds", systemImage: "timer")
+          }
+          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+          .disabled(!notificationsEnabled)
+          
+          Toggle(isOn: $allowDeploymentErrorNotifications) {
+            Label("Build Errors", systemImage: "exclamationmark.triangle")
+          }
+          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+          .disabled(!notificationsEnabled)
+          
+          Toggle(isOn: $allowDeploymentReadyNotifications) {
+            Label("Deployment Ready", systemImage: "checkmark.circle")
+          }
+          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+          .disabled(!notificationsEnabled)
         }
       }
     }

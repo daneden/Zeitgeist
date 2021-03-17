@@ -48,4 +48,20 @@ class NotificationManager {
       }
     }
   }
+  
+  @AppStorage("allowDeploymentNotifications") static var allowDeploymentNotifications = true
+  @AppStorage("allowDeploymentErrorNotifications") static var allowDeploymentErrorNotifications = true
+  @AppStorage("allowDeploymentReadyNotifications") static var allowDeploymentReadyNotifications = true
+  
+  static func notificationsAllowedForEventType(_ eventType: ZPSEventType) -> Bool {
+    switch eventType {
+    case .Deployment:
+      return allowDeploymentNotifications
+    case .DeploymentError:
+      return allowDeploymentErrorNotifications
+    case .DeploymentReady:
+      return allowDeploymentReadyNotifications
+    }
+    
+  }
 }

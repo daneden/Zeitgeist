@@ -33,6 +33,7 @@
 		71379746259C9FA40079A37C /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
 		71379747259C9FA40079A37C /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
 		71379748259C9FA40079A37C /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71379745259C9FA40079A37C /* Color.extension.swift */; };
+		7142FD7326029B6400AAEA71 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142FD7226029B6400AAEA71 /* PostalService.swift */; };
 		7154E3942577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E3952577FADB00B2117E /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E3932577FADB00B2117E /* Deployment.swift */; };
 		7154E39D2578007B00B2117E /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154E39C2578007B00B2117E /* GitCommit.swift */; };
@@ -223,6 +224,7 @@
 		7133CA24259FAB7900367AF0 /* MacOSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacOSSettingsView.swift; sourceTree = "<group>"; };
 		71379745259C9FA40079A37C /* Color.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.extension.swift; sourceTree = "<group>"; };
 		7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsListView.swift; sourceTree = "<group>"; };
+		7142FD7226029B6400AAEA71 /* PostalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalService.swift; sourceTree = "<group>"; };
 		714AB622257D06810070ABB6 /* SelectTeamIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectTeamIntent.entitlements; sourceTree = "<group>"; };
 		7154E3932577FADB00B2117E /* Deployment.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; tabWidth = 2; };
 		7154E39C2578007B00B2117E /* GitCommit.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = GitCommit.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -509,6 +511,7 @@
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 				7133C9DC259F7E1000367AF0 /* Session.swift */,
 				7115AAB426013AFB00381E23 /* NotificationManager.swift */,
+				7142FD7226029B6400AAEA71 /* PostalService.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -838,6 +841,7 @@
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
 				718744832590ECCF003F994C /* Sheet.swift in Sources */,
 				7187445F258FD1EA003F994C /* SidebarNavigation.swift in Sources */,
+				7142FD7326029B6400AAEA71 /* PostalService.swift in Sources */,
 				71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
 				710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71EA862B259B8E6E00AC611F /* VercelStore.swift in Sources */,
@@ -1002,7 +1006,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1027,7 +1031,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1174,7 +1178,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1205,7 +1209,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1294,7 +1298,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1325,7 +1329,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
