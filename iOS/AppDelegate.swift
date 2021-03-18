@@ -61,7 +61,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
       
-      let deployment = VercelFetcher.shared.deployments.filter { $0.id == deploymentId }.first
+      let deployment = VercelFetcher.shared.deploymentsStore.store[teamId ?? "-1"]?.filter { $0.id == deploymentId }.first
       
       if NotificationManager.notificationsAllowedForEventType(eventType) {
         let content = UNMutableNotificationContent()
