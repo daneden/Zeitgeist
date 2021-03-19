@@ -18,14 +18,18 @@ let platform = "ios"
 class AppDelegate: NSObject, UIApplicationDelegate {
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
-  func applicationDidFinishLaunching(_ application: UIApplication) {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
     if notificationsEnabled {
       UIApplication.shared.registerForRemoteNotifications()
-      UNUserNotificationCenter.current().delegate = self
+      registerNotificationCategories()
     }
+    
+    UNUserNotificationCenter.current().delegate = self
+    
+    return true
   }
   
-  func applicationDidBecomeActive(_ application: UIApplication) {
+  func applicationWillEnterForeground(_ application: UIApplication) {
     UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
   
@@ -86,6 +90,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             content.body = body
           }
           
+          if let commit = deployment?.commit {
+            content.subtitle = "Caused by commit “\(commit.commitMessageSummary)”"
+          } else {
+            content.subtitle = "Manual deployment"
+          }
+          
           content.sound = .default
           content.threadIdentifier = deploymentId ?? UUID().uuidString
           content.userInfo = [
@@ -131,27 +141,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                               withCompletionHandler completionHandler:
                                 @escaping () -> Void) {
     
-    // Get the meeting ID from the original notification.
     let userInfo = response.notification.request.content.userInfo
+    
     guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String else {
       completionHandler()
       return
     }
-    
+
     guard let teamID = userInfo["TEAM_ID"] as? String else {
       completionHandler()
       return
     }
-    
-    // Perform the task associated with the action.
+
     switch response.actionIdentifier {
     case "VIEW_DEPLOYMENT_ACTION":
       UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
     default:
       break
     }
-    
-    // Always call the completion handler when done.
+
     completionHandler()
   }
 }

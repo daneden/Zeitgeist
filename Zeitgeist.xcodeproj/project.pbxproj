@@ -18,6 +18,12 @@
 		7115AAA3260130CA00381E23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115AAA2260130CA00381E23 /* AppDelegate.swift */; };
 		7115AAA92601320F00381E23 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* SettingsView.swift */; };
 		7115AAB526013AFB00381E23 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115AAB426013AFB00381E23 /* NotificationManager.swift */; };
+		712458F6260545840099B3A3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712458F5260545840099B3A3 /* IAPHelper.swift */; };
+		712459022605467B0099B3A3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712459012605467B0099B3A3 /* Config.swift */; };
+		71245909260546C40099B3A3 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71245908260546C40099B3A3 /* Preferences.swift */; };
+		71245911260546F60099B3A3 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71245910260546F60099B3A3 /* Sequence.swift */; };
+		71245919260548990099B3A3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71245918260548990099B3A3 /* SupporterPromoView.swift */; };
+		71245925260549A00099B3A3 /* SubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71245924260549A00099B3A3 /* SubscribeButton.swift */; };
 		7133C9D4259F7D6300367AF0 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
 		7133C9D5259F7D6300367AF0 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
 		7133C9D6259F7D6300367AF0 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7133C9D3259F7D6300367AF0 /* KeychainItem.swift */; };
@@ -218,6 +224,12 @@
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7115AAA2260130CA00381E23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7115AAB426013AFB00381E23 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		712458F5260545840099B3A3 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		712459012605467B0099B3A3 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		71245908260546C40099B3A3 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		71245910260546F60099B3A3 /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		71245918260548990099B3A3 /* SupporterPromoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterPromoView.swift; sourceTree = "<group>"; };
+		71245924260549A00099B3A3 /* SubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButton.swift; sourceTree = "<group>"; };
 		7133C9D3259F7D6300367AF0 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		7133C9DC259F7E1000367AF0 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		7133CA1D259F908E00367AF0 /* View.if.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.if.swift; sourceTree = "<group>"; };
@@ -332,6 +344,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		712458F4260545740099B3A3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				712458F5260545840099B3A3 /* IAPHelper.swift */,
+				712459012605467B0099B3A3 /* Config.swift */,
+				71245908260546C40099B3A3 /* Preferences.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		7124590F260546ED0099B3A3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				71245910260546F60099B3A3 /* Sequence.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		712459172605487B0099B3A3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				71245918260548990099B3A3 /* SupporterPromoView.swift */,
+				71245924260549A00099B3A3 /* SubscribeButton.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		7124592B260549A70099B3A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				712459172605487B0099B3A3 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7141D4CD241BE76F00D212F0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +467,9 @@
 		716911D824A7E2C00023339D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7124592B260549A70099B3A3 /* Views */,
+				7124590F260546ED0099B3A3 /* Extensions */,
+				712458F4260545740099B3A3 /* Helpers */,
 				716911D924A7E2C00023339D /* Info.plist */,
 				71DC1AB824D5D2070095EF43 /* Zeitgeist.entitlements */,
 				7115AAA2260130CA00381E23 /* AppDelegate.swift */,
@@ -822,8 +872,10 @@
 				7169120C24A7E31B0023339D /* ContentView.swift in Sources */,
 				7154E3942577FADB00B2117E /* Deployment.swift in Sources */,
 				71F7D9B124CDD04D00F93B88 /* DeploymentDetailView.swift in Sources */,
+				712459022605467B0099B3A3 /* Config.swift in Sources */,
 				71EA8658259BB55300AC611F /* DeploymentsFilterView.swift in Sources */,
 				71BE1D38259E213700CBAFAA /* DeploymentDetailLabel.swift in Sources */,
+				71245909260546C40099B3A3 /* Preferences.swift in Sources */,
 				7169120F24A7E3300023339D /* DeploymentsListRowView.swift in Sources */,
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
@@ -834,17 +886,20 @@
 				7154E39D2578007B00B2117E /* GitCommit.swift in Sources */,
 				71A8A763258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
 				710FB50F25864F5F004F060A /* Globals.swift in Sources */,
+				71245919260548990099B3A3 /* SupporterPromoView.swift in Sources */,
 				71C6790724D5B16E0058F334 /* LoginView.swift in Sources */,
 				71EA8622259B8C3900AC611F /* Project.swift in Sources */,
 				7187447C2590CC1F003F994C /* RemoteImage.swift in Sources */,
 				7193C8542576B15C00D4A2AB /* SessionValidationView.swift in Sources */,
 				7169120E24A7E3300023339D /* SettingsView.swift in Sources */,
+				71245911260546F60099B3A3 /* Sequence.swift in Sources */,
 				718744832590ECCF003F994C /* Sheet.swift in Sources */,
 				7187445F258FD1EA003F994C /* SidebarNavigation.swift in Sources */,
 				7142FD7326029B6400AAEA71 /* PostalService.swift in Sources */,
 				71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
 				710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71EA862B259B8E6E00AC611F /* VercelStore.swift in Sources */,
+				712458F6260545840099B3A3 /* IAPHelper.swift in Sources */,
 				7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */,
 				7133C9DE259F7E1000367AF0 /* Session.swift in Sources */,
 				7133C9D5259F7D6300367AF0 /* KeychainItem.swift in Sources */,
@@ -854,6 +909,7 @@
 				7133CA1F259F908E00367AF0 /* View.if.swift in Sources */,
 				7115AAB526013AFB00381E23 /* NotificationManager.swift in Sources */,
 				7169120A24A7E30C0023339D /* Zeitgeist.swift in Sources */,
+				71245925260549A00099B3A3 /* SubscribeButton.swift in Sources */,
 				71BE1D62259F551A00CBAFAA /* SignInViewModel.swift in Sources */,
 				71C6790A24D5B18C0058F334 /* ZeitgeistLogo.swift in Sources */,
 			);
@@ -1006,7 +1062,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1031,7 +1087,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1178,7 +1234,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1209,7 +1265,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1298,7 +1354,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1329,7 +1385,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;

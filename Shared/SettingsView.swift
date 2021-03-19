@@ -17,6 +17,10 @@ struct SettingsView: View {
   @AppStorage("allowDeploymentErrorNotifications") var allowDeploymentErrorNotifications = true
   @AppStorage("allowDeploymentReadyNotifications") var allowDeploymentReadyNotifications = true
   
+  #if os(iOS)
+  @ObservedObject var iapHelper = IAPHelper.shared
+  #endif
+  
   var body: some View {
     Form {
       if fetcher.settings.token == nil {
@@ -49,31 +53,39 @@ struct SettingsView: View {
           }
         }
         
-        Section(header: Label("Notifications", systemImage: "bell.badge")) {
-          Toggle("Enable Notifications", isOn: $notificationsEnabled)
-            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-            .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
-              NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
-            })
-          
-          Toggle(isOn: $allowDeploymentNotifications) {
-            Label("New Builds", systemImage: "timer")
+        #if os(iOS)
+        if iapHelper.canMakePayments(), let isSubscriber = iapHelper.hasPurchased(productId: .supporter) {
+          if !isSubscriber {
+            
+          } else {
+            Section(header: Label("Notifications", systemImage: "bell.badge")) {
+              Toggle("Enable Notifications", isOn: $notificationsEnabled)
+                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
+                  NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
+                })
+              
+              Toggle(isOn: $allowDeploymentNotifications) {
+                Label("New Builds", systemImage: "timer")
+              }
+              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+              .disabled(!notificationsEnabled)
+              
+              Toggle(isOn: $allowDeploymentErrorNotifications) {
+                Label("Build Errors", systemImage: "exclamationmark.triangle")
+              }
+              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+              .disabled(!notificationsEnabled)
+              
+              Toggle(isOn: $allowDeploymentReadyNotifications) {
+                Label("Deployment Ready", systemImage: "checkmark.circle")
+              }
+              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+              .disabled(!notificationsEnabled)
+            }
           }
-          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-          .disabled(!notificationsEnabled)
-          
-          Toggle(isOn: $allowDeploymentErrorNotifications) {
-            Label("Build Errors", systemImage: "exclamationmark.triangle")
-          }
-          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-          .disabled(!notificationsEnabled)
-          
-          Toggle(isOn: $allowDeploymentReadyNotifications) {
-            Label("Deployment Ready", systemImage: "checkmark.circle")
-          }
-          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-          .disabled(!notificationsEnabled)
         }
+        #endif
       }
     }
     .navigationTitle(Text("Settings"))
