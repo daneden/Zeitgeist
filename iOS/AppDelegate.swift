@@ -104,8 +104,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
           ]
           content.categoryIdentifier = "DEPLOYMENT"
           
+          let notificationID = "\(deploymentId)-\(eventType.rawValue)"
+          
           let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
-          let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+          let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: trigger)
           UNUserNotificationCenter.current().add(request)
           completionHandler(.newData)
         } else {
