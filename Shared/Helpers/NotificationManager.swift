@@ -20,7 +20,7 @@ class NotificationManager {
    */
   func toggleNotifications(on enabled: Bool, bindingTo: Binding<Bool>? = nil) {
     if enabled {
-      notificationCenter.requestAuthorization(options: [.alert]) { success, error in
+      notificationCenter.requestAuthorization(options: [.alert, .sound]) { success, error in
         if success {
           print("Enabled notifications")
           

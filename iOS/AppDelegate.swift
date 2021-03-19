@@ -21,7 +21,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func applicationDidFinishLaunching(_ application: UIApplication) {
     if notificationsEnabled {
       UIApplication.shared.registerForRemoteNotifications()
+      UNUserNotificationCenter.current().delegate = self
     }
+  }
+  
+  func applicationDidBecomeActive(_ application: UIApplication) {
+    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
   
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -61,34 +66,41 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
       
-      let deployment = VercelFetcher.shared.deploymentsStore.store[teamId ?? "-1"]?.filter { $0.id == deploymentId }.first
-      
-      if NotificationManager.notificationsAllowedForEventType(eventType) {
-        let content = UNMutableNotificationContent()
-        
-        if let title = title {
-          content.title = title
-        } else if deployment != nil {
-          content.title = body
-          content.body = "Tap to view deployment information"
-        } else {
-          content.body = body
+      VercelFetcher.shared.loadDeployments(teamId: teamId) { (deployments, error) in
+        if let error = error {
+          print(error.localizedDescription)
+          return
         }
         
-        content.sound = .default
-        content.threadIdentifier = deploymentId ?? UUID().uuidString
-        content.userInfo = [
-          "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
-          "TEAM_ID": "\(teamId ?? "-1")"
-        ]
-        content.categoryIdentifier = "DEPLOYMENT"
+        let deployment = deployments?.filter { $0.id == deploymentId }.first
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request)
-        completionHandler(.newData)
-      } else {
-        completionHandler(.noData)
+        if NotificationManager.notificationsAllowedForEventType(eventType) {
+          let content = UNMutableNotificationContent()
+          
+          if let title = title {
+            content.title = title
+          } else if deployment != nil {
+            content.title = body
+            content.body = "Tap to view deployment information"
+          } else {
+            content.body = body
+          }
+          
+          content.sound = .default
+          content.threadIdentifier = deploymentId ?? UUID().uuidString
+          content.userInfo = [
+            "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
+            "TEAM_ID": "\(teamId ?? "-1")"
+          ]
+          content.categoryIdentifier = "DEPLOYMENT"
+          
+          let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
+          let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+          UNUserNotificationCenter.current().add(request)
+          completionHandler(.newData)
+        } else {
+          completionHandler(.noData)
+        }
       }
     } catch {
       switch error {
@@ -111,7 +123,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     let deploymentCategory = UNNotificationCategory(identifier: "DEPLOYMENT", actions: [viewDeploymentAction], intentIdentifiers: [], options: [])
     UNUserNotificationCenter.current().setNotificationCategories([deploymentCategory])
   }
-  
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter,
                               didReceive response: UNNotificationResponse,
                               withCompletionHandler completionHandler:
@@ -132,7 +146,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     // Perform the task associated with the action.
     switch response.actionIdentifier {
     case "VIEW_DEPLOYMENT_ACTION":
-      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [.universalLinksOnly: true])
+      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
     default:
       break
     }
