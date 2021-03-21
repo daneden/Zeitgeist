@@ -12,6 +12,10 @@ typealias ZeitgeistButtonStyle = DefaultButtonStyle
 
 @main
 struct Zeitgeist: App {
+  @State var teamID = "-1"
+  @State var deploymentID: String?
+  @State var deeplink: Deeplinker.Deeplink?
+  
   #if os(macOS)
   // swiftlint:disable weak_delegate
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -20,65 +24,29 @@ struct Zeitgeist: App {
   @State var showInMenuBar = true
   #endif
   var vercelNetwork: VercelFetcher = VercelFetcher.shared
-  @Environment(\.scenePhase) var scenePhase
-  
+
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environmentObject(vercelNetwork)
+        .environment(\.deeplink, deeplink)
         .onAppear { self.loadFetcherItems() }
         .accentColor(Color("AccentColor"))
+        .onOpenURL { url in
+          let deeplinker = Deeplinker()
+          guard let deeplink = deeplinker.manage(url: url) else { return }
+          self.deeplink = deeplink
+        }
     }.commands {
       CommandGroup(replacing: .newItem, addition: {})
       SidebarCommands()
       ToolbarCommands()
     }
-    .handlesExternalEvents(matching: ["*"])
   }
   
   func loadFetcherItems() {
     if vercelNetwork.settings.token != nil {
       vercelNetwork.tick()
-    }
-  }
-}
-
-enum TabIdentifier: Hashable {
-  case home, settings, deploymentDetail, team
-}
-
-extension URL {
-  var isDeeplink: Bool {
-    return scheme == "zeitgeist" // matches my-url-scheme://<rest-of-the-url>
-  }
-
-  var tabIdentifier: TabIdentifier? {
-    guard isDeeplink else { return nil }
-
-    switch host {
-    case "home": return .home
-    case "settings": return .settings
-    case "deployment": return .deploymentDetail
-    case "team": return .team
-    default: return nil
-    }
-  }
-}
-
-enum PageIdentifier: Hashable {
-  case deployment(team: String, id: String)
-}
-
-extension URL {
-  // Deployment pages are linked by zeitgeist://deployment/{teamID}/{deploymentID}
-  var detailPage: PageIdentifier? {
-    guard let tabIdentifier = tabIdentifier, pathComponents.count > 2 else {
-      return nil
-    }
-
-    switch tabIdentifier {
-    case .deploymentDetail: return .deployment(team: pathComponents[1], id: pathComponents[2])
-    default: return nil
     }
   }
 }

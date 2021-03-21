@@ -15,6 +15,8 @@ typealias PreferredListStyle = GroupedListStyle
 #endif
 
 struct SidebarNavigation: View {
+  @Environment(\.deeplink) var deeplink
+  
   #if os(macOS)
   var horizontalSizeClass: SizeClassHack = .regular
   @State var preferencesWindow: WindowViewController<AnyView>?
@@ -40,13 +42,11 @@ struct SidebarNavigation: View {
           if self.selectedTeamID == nil && horizontalSizeClass == .regular {
             self.selectedTeamID = "-1"
           }
-        }.onOpenURL(perform: { url in
-          DispatchQueue.main.async {
-            if case .deployment(let teamID, _) = url.detailPage {
-              self.selectedTeamID = teamID
-            }
+        }.onChange(of: deeplink) { deeplink in
+          if case .deployment(let teamId, _) = deeplink {
+            self.selectedTeamID = teamId
           }
-        })
+        }
         
         #if !os(macOS)
         NavigationLink(destination: SettingsView()) {

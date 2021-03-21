@@ -25,6 +25,8 @@ let filterStatusAlignment: HorizontalAlignment = .center
 
 struct DeploymentsListView: View {
   @EnvironmentObject var vercelFetcher: VercelFetcher
+  @Environment(\.deeplink) var deeplink
+  
   #if os(macOS)
   var horizontalSizeClass: SizeClassHack = .regular
   #else
@@ -73,11 +75,11 @@ struct DeploymentsListView: View {
         self.selectedDeploymentID = filteredDeployments(deployments).first?.id
       }
     }
-    .onOpenURL { url in
+    .onChange(of: deeplink) { deeplink in
       DispatchQueue.main.async {
-        if case .deployment(let teamID, let id) = url.detailPage {
-          self.teamID = teamID
-          self.selectedDeploymentID = id
+        if case .deployment(let teamId, let deploymentId) = deeplink {
+          self.selectedDeploymentID = deploymentId
+          self.teamID = teamId
         }
       }
     }

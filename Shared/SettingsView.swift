@@ -11,6 +11,7 @@ import SwiftUI
 struct SettingsView: View {
   @EnvironmentObject var fetcher: VercelFetcher
   @Environment(\.presentationMode) var presentationMode
+  @Environment(\.deeplink) var deeplink
   
   @AppStorage(UDValues.activeSupporterSubscription) var activeSubscription
   @AppStorage(UDValues.notificationsEnabled) var notificationsEnabled

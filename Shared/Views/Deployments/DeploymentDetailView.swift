@@ -224,6 +224,7 @@ struct DeploymentDetails: View {
 }
 
 struct DeploymentDetailView: View {
+  @Environment(\.deeplink) var deeplink
   @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var fetcher: VercelFetcher
   @State var teamID: String
@@ -265,14 +266,12 @@ struct DeploymentDetailView: View {
           }
         }
       }
-      .onOpenURL(perform: { url in
-        DispatchQueue.main.async {
-          if case .deployment(let teamID, let id) = url.detailPage {
-            self.teamID = teamID
-            self.deploymentID = id
-          }
+      .onChange(of: deeplink) { deeplink in
+        if case .deployment(let teamId, let deploymentId) = deeplink {
+          self.teamID = teamId
+          self.deploymentID = deploymentId
         }
-      })
+      }
     }
   }
 }
