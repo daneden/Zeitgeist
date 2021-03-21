@@ -29,7 +29,7 @@ struct SubscribeButton: View {
           }
         }, label: {
           HStack {
-            Text("\(product.localizedTitle) (\(formattedPriceForProduct(product)))")
+            Text("\(product.localizedTitle) (\(product.localizedPrice))")
             
             Spacer()
             
@@ -44,17 +44,6 @@ struct SubscribeButton: View {
         .disabled(purchaseState != .idle)
       }
     }
-  }
-  
-  func formattedPriceForProduct(_ product: SKProduct) -> String {
-    let price = product.price
-    let locale = product.priceLocale
-    
-    let formatter = NumberFormatter()
-    formatter.locale = locale
-    formatter.numberStyle = .currency
-    
-    return formatter.string(from: price)!
   }
 }
 

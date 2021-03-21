@@ -97,8 +97,24 @@ struct SettingsView: View {
         
         if activeSubscription {
           Section(header: Label("Supporter Subscription", systemImage: "heart")) {
+            ForEach(iapHelper.activeSubscriptions, id: \.productIdentifier) { product in
+              VStack(alignment: .leading) {
+                Text("Current Subscription")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+                
+                HStack {
+                  Text(product.localizedTitle)
+                  
+                  Spacer()
+                  
+                  Text(product.localizedPrice)
+                    .foregroundColor(.secondary)
+                }
+              }
+            }
             Button(action: { UIApplication.openSubscriptionManagement() }, label: {
-              Text("Manage Subscriptions")
+              Text("Manage in App Store")
             })
           }
         }

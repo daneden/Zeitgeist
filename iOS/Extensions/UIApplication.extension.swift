@@ -15,7 +15,7 @@ extension UIApplication {
   }
   
   class func openSubscriptionManagement() {
-    guard let url = URL(string: "itms://apps.apple.com/account/subscriptions") else { return }
+    guard let url = URL(string: "itms-apps://apps.apple.com/account/subscriptions") else { return }
     self.shared.open(url, options: [:], completionHandler: nil)
   }
 }

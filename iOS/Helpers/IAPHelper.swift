@@ -19,6 +19,7 @@ enum IAPSubscriptionType: String, CaseIterable {
 class IAPHelper: ObservableObject {
   @AppStorage(UDValues.activeSupporterSubscription) private var activeSubscriber
   
+  @Published var activeSubscriptions = [SKProduct]()
   @Published var subscriptionProducts = [SKProduct]()
   
   static var shared = IAPHelper()
@@ -36,6 +37,10 @@ class IAPHelper: ObservableObject {
   
   func refresh() {
     // Check if the user has an active subscription
+    Purchases.shared.products(IAPSubscriptionType.allCases.map { $0.rawValue }) { (products) in
+      self.subscriptionProducts = products
+    }
+    
     Purchases.shared.purchaserInfo { (info, error) in
       // Check user info for active entitlements
       if let error = error {
@@ -43,10 +48,16 @@ class IAPHelper: ObservableObject {
       }
       
       self.activeSubscriber = info?.entitlements["supporter"]?.isActive == true
-    }
-    
-    Purchases.shared.products(IAPSubscriptionType.allCases.map { $0.rawValue }) { (products) in
-      self.subscriptionProducts = products
+      
+      guard let activeSubscriptions = info?.activeSubscriptions.map { id in
+        self.subscriptionProducts.first { $0.productIdentifier == id }
+      }.filter({ product in
+        product != nil
+      }) as? [SKProduct] else {
+        return
+      }
+      
+      self.activeSubscriptions = activeSubscriptions
     }
   }
 }
