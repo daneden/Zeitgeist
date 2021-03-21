@@ -47,7 +47,9 @@ struct SettingsView: View {
             Button(action: {
               self.fetcher.settings.token = nil
               self.presentationMode.wrappedValue.dismiss()
+              #if os(iOS)
               UIApplication.shared.unregisterForRemoteNotifications()
+              #endif
             }, label: {
               Text("logoutButton")
             }).foregroundColor(.systemRed)
@@ -91,11 +93,23 @@ struct SettingsView: View {
           }
         }
         .transition(.slide)
+        
+        if activeSubscription {
+          Section(header: Label("Supporter Subscription", systemImage: "heart")) {
+            Button(action: { UIApplication.openSubscriptionManagement() }, label: {
+              Text("Manage Subscriptions")
+            })
+          }
+        }
         #endif
       }
     }
     .navigationTitle(Text("Settings"))
-    .onAppear { IAPHelper.shared.refresh() }
+    .onAppear {
+      #if os(iOS)
+      IAPHelper.shared.refresh()
+      #endif
+    }
   }
 }
 
