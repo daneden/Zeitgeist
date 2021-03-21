@@ -19,30 +19,36 @@ struct SubscribeButton: View {
   @State var purchaseState: PurchaseState = .idle
   
   var body: some View {
-    ForEach(iapHelper.subscriptionProducts, id: \.productIdentifier) { product in
-      if let productType = IAPSubscriptionType(rawValue: product.productIdentifier) {
-        Button(action: {
-          self.purchaseState = .purchasing(product: productType)
-          
-          iapHelper.makeSubscriptionPurchase(type: productType) { _ in
-            self.purchaseState = .idle
-          }
-        }, label: {
-          HStack {
-            Text("\(product.localizedTitle) (\(product.localizedPrice))")
+    Group {
+      ForEach(iapHelper.subscriptionProducts, id: \.productIdentifier) { product in
+        if let productType = IAPSubscriptionType(rawValue: product.productIdentifier) {
+          Button(action: {
+            self.purchaseState = .purchasing(product: productType)
             
-            Spacer()
-            
-            if case .purchasing(let value) = purchaseState,
-               value == productType {
-              ProgressView()
-            } else if productType == .annual {
-              SavingsBadge()
+            iapHelper.makeSubscriptionPurchase(type: productType) { _ in
+              self.purchaseState = .idle
             }
-          }
-        })
-        .disabled(purchaseState != .idle)
+          }, label: {
+            HStack {
+              Text("\(product.localizedTitle) (\(product.localizedPrice))")
+              
+              Spacer()
+              
+              if case .purchasing(let value) = purchaseState,
+                 value == productType {
+                ProgressView()
+              } else if productType == .annual {
+                SavingsBadge()
+              }
+            }
+          })
+          .disabled(purchaseState != .idle)
+        }
       }
+      
+      Button(action: { SKPaymentQueue.default().presentCodeRedemptionSheet() }, label: {
+        Label("Redeem Offer Code", systemImage: "tag")
+      })
     }
   }
 }
