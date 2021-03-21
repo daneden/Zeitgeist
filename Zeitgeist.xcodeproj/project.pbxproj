@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		7115AAA3260130CA00381E23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115AAA2260130CA00381E23 /* AppDelegate.swift */; };
 		7115AAA92601320F00381E23 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103CA0247EEE920043D11B /* SettingsView.swift */; };
 		7115AAB526013AFB00381E23 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115AAB426013AFB00381E23 /* NotificationManager.swift */; };
-		712458F6260545840099B3A3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712458F5260545840099B3A3 /* IAPHelper.swift */; };
 		712459022605467B0099B3A3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712459012605467B0099B3A3 /* Config.swift */; };
 		71245909260546C40099B3A3 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71245908260546C40099B3A3 /* Preferences.swift */; };
 		71245911260546F60099B3A3 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71245910260546F60099B3A3 /* Sequence.swift */; };
@@ -63,6 +62,14 @@
 		7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141D4E0241BF36300D212F0 /* DeploymentsListView.swift */; };
 		7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71103C9E247E9C4C0043D11B /* VercelTypes.swift */; };
 		7169122C24A7E6D60023339D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71D5EC3D241EE13D0076BCA3 /* Localizable.strings */; };
+		716F6CED2605F5B0003A6639 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 716F6CEC2605F5B0003A6639 /* StoreKit.framework */; };
+		716F6D06260616DC003A6639 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F6D05260616DC003A6639 /* IAPHelper.swift */; };
+		716F6D0E26062005003A6639 /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 716F6D0D26062005003A6639 /* Purchases */; };
+		716F6D292606585B003A6639 /* AppStorage.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F6D282606585A003A6639 /* AppStorage.extension.swift */; };
+		716F6D2A2606585B003A6639 /* AppStorage.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F6D282606585A003A6639 /* AppStorage.extension.swift */; };
+		716F6D2B2606585B003A6639 /* AppStorage.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F6D282606585A003A6639 /* AppStorage.extension.swift */; };
+		716F6D2C2606585B003A6639 /* AppStorage.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F6D282606585A003A6639 /* AppStorage.extension.swift */; };
+		716F6D2D2606585B003A6639 /* AppStorage.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F6D282606585A003A6639 /* AppStorage.extension.swift */; };
 		71740AC72528DD1E00DD03A6 /* DeploymentsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CED254241CD41500B9A7ED /* DeploymentsListRowView.swift */; };
 		71740ADE2528DF5600DD03A6 /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */; };
 		7187445E258FD1EA003F994C /* SidebarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7187445D258FD1EA003F994C /* SidebarNavigation.swift */; };
@@ -224,7 +231,6 @@
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7115AAA2260130CA00381E23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7115AAB426013AFB00381E23 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		712458F5260545840099B3A3 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		712459012605467B0099B3A3 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		71245908260546C40099B3A3 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		71245910260546F60099B3A3 /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
@@ -251,6 +257,9 @@
 		716911D224A7E2C00023339D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		716911D724A7E2C00023339D /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		716911D924A7E2C00023339D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		716F6CEC2605F5B0003A6639 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		716F6D05260616DC003A6639 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		716F6D282606585A003A6639 /* AppStorage.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.extension.swift; sourceTree = "<group>"; };
 		71740AD72528DDD100DD03A6 /* RecentDeploymentsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidgetView.swift; sourceTree = "<group>"; };
 		7187445D258FD1EA003F994C /* SidebarNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarNavigation.swift; sourceTree = "<group>"; };
 		718744642590C48B003F994C /* VercelUserAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelUserAvatarView.swift; sourceTree = "<group>"; };
@@ -313,6 +322,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				716F6CED2605F5B0003A6639 /* StoreKit.framework in Frameworks */,
+				716F6D0E26062005003A6639 /* Purchases in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,9 +358,10 @@
 		712458F4260545740099B3A3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				712458F5260545840099B3A3 /* IAPHelper.swift */,
+				7142FD7226029B6400AAEA71 /* PostalService.swift */,
 				712459012605467B0099B3A3 /* Config.swift */,
 				71245908260546C40099B3A3 /* Preferences.swift */,
+				716F6D05260616DC003A6639 /* IAPHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -480,6 +492,7 @@
 		7169122E24A7E7160023339D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				716F6CEC2605F5B0003A6639 /* StoreKit.framework */,
 				715BB997257A4BFA00D22BDE /* IntentsUI.framework */,
 				71DC1A7224D5CA0C0095EF43 /* SwiftUI.framework */,
 				71DC1A7024D5CA0C0095EF43 /* WidgetKit.framework */,
@@ -561,7 +574,6 @@
 				71C6790924D5B18C0058F334 /* ZeitgeistLogo.swift */,
 				7133C9DC259F7E1000367AF0 /* Session.swift */,
 				7115AAB426013AFB00381E23 /* NotificationManager.swift */,
-				7142FD7226029B6400AAEA71 /* PostalService.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -597,6 +609,7 @@
 				718744812590ECCF003F994C /* Sheet.swift */,
 				7163C5FA24D6D2D1000DAE1A /* VisualEffectView.swift */,
 				7133CA1D259F908E00367AF0 /* View.if.swift */,
+				716F6D282606585A003A6639 /* AppStorage.extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -641,6 +654,7 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
+				716F6D0D26062005003A6639 /* Purchases */,
 			);
 			productName = iOS;
 			productReference = 716911D724A7E2C00023339D /* Zeitgeist.app */;
@@ -741,6 +755,7 @@
 			);
 			mainGroup = 715E06CE241BDE8C00A4DA0F;
 			packageReferences = (
+				716F6D0C26062005003A6639 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 715E06D8241BDE8C00A4DA0F /* Products */;
 			projectDirPath = "";
@@ -851,6 +866,7 @@
 				7133C9E0259F7E1000367AF0 /* Session.swift in Sources */,
 				71F985E5259BE5CF00E27F0D /* Alias.swift in Sources */,
 				715BB9D9257A4EF000D22BDE /* Deployment.swift in Sources */,
+				716F6D2D2606585B003A6639 /* AppStorage.extension.swift in Sources */,
 				7133C9D7259F7D6300367AF0 /* KeychainItem.swift in Sources */,
 				715BB9DF257A4EF300D22BDE /* GitCommit.swift in Sources */,
 				710FB51125864F5F004F060A /* Globals.swift in Sources */,
@@ -880,8 +896,10 @@
 				7169121124A7E3300023339D /* DeploymentsListView.swift in Sources */,
 				71C6791024D5B2860058F334 /* DeploymentStateIndicator.swift in Sources */,
 				71C6790D24D5B2510058F334 /* EmptyDeploymentView.swift in Sources */,
+				716F6D06260616DC003A6639 /* IAPHelper.swift in Sources */,
 				71CF0367258CA8C100DDB605 /* ModelExamples.swift in Sources */,
 				71BE1D71259F577400CBAFAA /* VercelAPIConfiguration.swift in Sources */,
+				716F6D2B2606585B003A6639 /* AppStorage.extension.swift in Sources */,
 				7115AAA3260130CA00381E23 /* AppDelegate.swift in Sources */,
 				7154E39D2578007B00B2117E /* GitCommit.swift in Sources */,
 				71A8A763258CC0EF00B6F4AF /* GitProviderImage.swift in Sources */,
@@ -899,7 +917,6 @@
 				71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
 				710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71EA862B259B8E6E00AC611F /* VercelStore.swift in Sources */,
-				712458F6260545840099B3A3 /* IAPHelper.swift in Sources */,
 				7169121B24A7E36F0023339D /* VercelTypes.swift in Sources */,
 				7133C9DE259F7E1000367AF0 /* Session.swift in Sources */,
 				7133C9D5259F7D6300367AF0 /* KeychainItem.swift in Sources */,
@@ -959,6 +976,7 @@
 				718DD0052573FF48001CB92A /* VercelTypes.swift in Sources */,
 				718744652590C48B003F994C /* VercelUserAvatarView.swift in Sources */,
 				718DD03B2573FF63001CB92A /* VisualEffectView.swift in Sources */,
+				716F6D292606585B003A6639 /* AppStorage.extension.swift in Sources */,
 				718DD0292573FF58001CB92A /* ZeitgeistLogo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -987,6 +1005,7 @@
 				7133C9DF259F7E1000367AF0 /* Session.swift in Sources */,
 				71DC1AAB24D5CE5A0095EF43 /* VercelTypes.swift in Sources */,
 				7163C5FC24D6D45E000DAE1A /* VisualEffectView.swift in Sources */,
+				716F6D2C2606585B003A6639 /* AppStorage.extension.swift in Sources */,
 				71D3B19E2528C51700B0A2CC /* ZeitgeistLogo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1005,6 +1024,7 @@
 				71EE8ECD25A094750003E885 /* Project.swift in Sources */,
 				71EE8EA925A094550003E885 /* RecentDeploymentsWidgetView.swift in Sources */,
 				71EE8F0F25A094CC0003E885 /* DeploymentsListRowView.swift in Sources */,
+				716F6D2A2606585B003A6639 /* AppStorage.extension.swift in Sources */,
 				71EE8EB525A0945C0003E885 /* LatestDeploymentWidgetView.swift in Sources */,
 				71EE8ED925A094850003E885 /* VercelTypes.swift in Sources */,
 				71EE8ED325A0947D0003E885 /* VercelFetcher.swift in Sources */,
@@ -1062,7 +1082,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1087,7 +1107,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectTeamIntent/SelectTeamIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectTeamIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1234,7 +1254,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 29;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1265,7 +1285,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 29;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1354,7 +1374,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 29;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1385,7 +1405,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = Widgets/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 29;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_BITCODE = YES;
@@ -1519,6 +1539,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		716F6D0C26062005003A6639 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.10.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		716F6D0D26062005003A6639 /* Purchases */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 716F6D0C26062005003A6639 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = Purchases;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 715E06CF241BDE8C00A4DA0F /* Project object */;
 }

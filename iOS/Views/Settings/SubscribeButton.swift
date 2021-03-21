@@ -9,67 +9,69 @@
 import SwiftUI
 import StoreKit
 
+enum PurchaseState: Equatable {
+  case idle
+  case purchasing(product: IAPSubscriptionType)
+}
+
 struct SubscribeButton: View {
-  @Binding var purchased: Bool
-  @ObservedObject var products = ProductsDB.shared
-  @State var isPurchasing = false
-  @State var isRestoring = false
+  @ObservedObject var iapHelper = IAPHelper.shared
+  @State var purchaseState: PurchaseState = .idle
   
   var body: some View {
-    ForEach((0 ..< self.products.items.count), id: \.self) { column in
-      if let product = self.products.items[column],
-         let price = IAPHelper.shared.getPriceFormatted(for: product) {
+    ForEach(iapHelper.subscriptionProducts, id: \.productIdentifier) { product in
+      if let productType = IAPSubscriptionType(rawValue: product.productIdentifier) {
         Button(action: {
-          purchaseItem(product: product)
+          self.purchaseState = .purchasing(product: productType)
+          
+          iapHelper.makeSubscriptionPurchase(type: productType) { _ in
+            self.purchaseState = .idle
+          }
         }, label: {
-          HStack(spacing: 8) {
-            Label("Buy \(product.localizedTitle) for \(price)", systemImage: "app.gift")
+          HStack {
+            Text("\(product.localizedTitle) (\(formattedPriceForProduct(product)))")
+            
             Spacer()
-            if isPurchasing { ProgressView().colorScheme(.light) }
+            
+            if case .purchasing(let value) = purchaseState,
+               value == productType {
+              ProgressView()
+            } else if productType == .annual {
+              SavingsBadge()
+            }
           }
         })
-        .buttonStyle(BorderlessButtonStyle())
-        .disabled(isPurchasing)
+        .disabled(purchaseState != .idle)
       }
     }
+  }
+  
+  func formattedPriceForProduct(_ product: SKProduct) -> String {
+    let price = product.price
+    let locale = product.priceLocale
     
-    Button(action: restorePurchases) {
-      HStack(spacing: 8) {
-        Text("Restore Purchases")
-        Spacer()
-        if isRestoring { ProgressView() }
-      }
-      .padding()
-    }
-    .disabled(isRestoring)
-    .onReceive(purchasePublisher) { (_, _, _, complete) in
-      if self.isPurchasing {
-        self.isPurchasing = !complete
-        if complete {
-          isPurchasing = false
-        }
-      } else if self.isRestoring {
-        self.isRestoring = !complete
-        if complete {
-          isRestoring = false
-        }
-      }
-    }
-  }
-  
-  func restorePurchases() {
-    IAPHelper.shared.restorePurchases()
-    self.isRestoring = true
-  }
-  
-  func purchaseItem(product: SKProduct) {
-    _ = IAPHelper.shared.purchase(product: product)
-    self.isPurchasing = true
+    let formatter = NumberFormatter()
+    formatter.locale = locale
+    formatter.numberStyle = .currency
+    
+    return formatter.string(from: price)!
   }
 }
 
 struct SubscribeButton_Previews: PreviewProvider {
   static var previews: some View {
-    SubscribeButton(purchased: .constant(false))
+    SubscribeButton()
+  }
+}
+
+struct SavingsBadge: View {
+  var body: some View {
+    Text("2 Months Free")
+      .padding(4)
+      .padding(.horizontal, 2)
+      .background(Color.systemPink)
+      .font(Font.caption.weight(.bold))
+      .foregroundColor(.white)
+      .cornerRadius(8, antialiased: true)
   }
 }

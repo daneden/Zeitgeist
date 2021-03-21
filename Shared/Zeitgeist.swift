@@ -26,7 +26,7 @@ struct Zeitgeist: App {
     WindowGroup {
       ContentView()
         .environmentObject(vercelNetwork)
-        .onAppear(perform: self.loadFetcherItems)
+        .onAppear { self.loadFetcherItems() }
         .accentColor(Color("AccentColor"))
     }.commands {
       CommandGroup(replacing: .newItem, addition: {})

@@ -27,3 +27,7 @@ struct ZPSNotificationPayload: Hashable {
   let body: String
   let category: ZPSEventType
 }
+
+enum ZPSNotificationCategory: String, RawRepresentable {
+  case Deployment
+}

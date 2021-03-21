@@ -11,11 +11,12 @@ import SwiftUI
 struct SettingsView: View {
   @EnvironmentObject var fetcher: VercelFetcher
   @Environment(\.presentationMode) var presentationMode
-  @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
-  @AppStorage("allowDeploymentNotifications") var allowDeploymentNotifications = true
-  @AppStorage("allowDeploymentErrorNotifications") var allowDeploymentErrorNotifications = true
-  @AppStorage("allowDeploymentReadyNotifications") var allowDeploymentReadyNotifications = true
+  @AppStorage(UDValues.activeSupporterSubscription) var activeSubscription
+  @AppStorage(UDValues.notificationsEnabled) var notificationsEnabled
+  @AppStorage(UDValues.allowDeploymentNotifications) var allowDeploymentNotifications
+  @AppStorage(UDValues.allowDeploymentErrorNotifications) var allowDeploymentErrorNotifications
+  @AppStorage(UDValues.allowDeploymentReadyNotifications) var allowDeploymentReadyNotifications
   
   #if os(iOS)
   @ObservedObject var iapHelper = IAPHelper.shared
@@ -54,41 +55,47 @@ struct SettingsView: View {
         }
         
         #if os(iOS)
-        if iapHelper.canMakePayments(), let isSubscriber = iapHelper.hasPurchased(productId: .supporter) {
-          if !isSubscriber {
+        Section(
+          header: Label("Notifications", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
+        ) {
+          Group {
+            Toggle("Enable Notifications", isOn: $notificationsEnabled)
+              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+              .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
+                NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
+              })
             
-          } else {
-            Section(header: Label("Notifications", systemImage: "bell.badge")) {
-              Toggle("Enable Notifications", isOn: $notificationsEnabled)
-                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
-                  NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
-                })
-              
-              Toggle(isOn: $allowDeploymentNotifications) {
-                Label("New Builds", systemImage: "timer")
-              }
-              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-              .disabled(!notificationsEnabled)
-              
-              Toggle(isOn: $allowDeploymentErrorNotifications) {
-                Label("Build Errors", systemImage: "exclamationmark.triangle")
-              }
-              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-              .disabled(!notificationsEnabled)
-              
-              Toggle(isOn: $allowDeploymentReadyNotifications) {
-                Label("Deployment Ready", systemImage: "checkmark.circle")
-              }
-              .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-              .disabled(!notificationsEnabled)
+            Toggle(isOn: $allowDeploymentNotifications) {
+              Label("New Builds", systemImage: "timer")
             }
+            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            .disabled(!notificationsEnabled)
+            
+            Toggle(isOn: $allowDeploymentErrorNotifications) {
+              Label("Build Errors", systemImage: "exclamationmark.triangle")
+            }
+            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            .disabled(!notificationsEnabled)
+            
+            Toggle(isOn: $allowDeploymentReadyNotifications) {
+              Label("Deployment Ready", systemImage: "checkmark.circle")
+            }
+            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            .disabled(!notificationsEnabled)
+          }
+          .disabled(!activeSubscription)
+          .opacity(activeSubscription ? 1.0 : 0.35)
+          
+          if !activeSubscription {
+            SupporterPromoView()
           }
         }
+        .transition(.slide)
         #endif
       }
     }
     .navigationTitle(Text("Settings"))
+    .onAppear { IAPHelper.shared.refresh() }
   }
 }
 

@@ -2,193 +2,84 @@
 //  IAPHelper.swift
 //  iOS
 //
-//  Created by Daniel Eden on 19/03/2021.
+//  Created by Daniel Eden on 20/03/2021.
 //  Copyright © 2021 Daniel Eden. All rights reserved.
 //
 
-import StoreKit
+import Foundation
 import Combine
+import Purchases
 import SwiftUI
 
-enum TransactionType {
-  case purchase, restore
+enum IAPSubscriptionType: String, CaseIterable {
+  case monthly = "me.daneden.Zeitgeist.IAPSupporter"
+  case annual = "me.daneden.Zeitgeist.IAPSupporter.annual"
 }
 
-enum IAPProduct: String, CaseIterable {
-  case supporter = "me.daneden.Zeitgeist.IAPSupporter"
-}
-
-let purchasePublisher = PassthroughSubject<(String, TransactionType, Bool, Bool), Never>()
-var totalRestoredPurchases = 0
-
-class IAPHelper: NSObject, ObservableObject {
-  static let shared = IAPHelper()
-  private let prefs = Preferences.shared.store
+class IAPHelper: ObservableObject {
+  @AppStorage(UDValues.activeSupporterSubscription) private var activeSubscriber
   
-  var purchasedItems: [String] {
-    get {
-      return prefs.stringArray(forKey: "purchasedProductIDs") ?? []
+  @Published var subscriptionProducts = [SKProduct]()
+  
+  static var shared = IAPHelper()
+  
+  init() {
+    self.refresh()
+  }
+  
+  func makeSubscriptionPurchase(type: IAPSubscriptionType, completion: @escaping (_ wasSuccessful: Bool) -> Void) {
+    PurchaseService.purchase(productID: type.rawValue) { wasSuccessful in
+      self.activeSubscriber = wasSuccessful
+      completion(wasSuccessful)
     }
-    
-    set {
-      prefs.set(newValue.unique(), forKey: "purchasedProductIDs")
-      prefs.synchronize()
-      DispatchQueue.main.async {
-        self.objectWillChange.send()
+  }
+  
+  func refresh() {
+    // Check if the user has an active subscription
+    Purchases.shared.purchaserInfo { (info, error) in
+      // Check user info for active entitlements
+      if let error = error {
+        print(error.localizedDescription)
       }
-    }
-  }
-  
-  private override init() {
-    super.init()
-  }
-  
-  func hasPurchased(productId: IAPProduct) -> Bool {
-    // Always enable IAP features in TestFlight and debugging
-    if Config.appConfiguration == .TestFlight || Config.appConfiguration == .Debug {
-      return true
+      
+      self.activeSubscriber = info?.entitlements["supporter"]?.isActive == true
     }
     
-    return self.purchasedItems.contains(productId.rawValue)
-  }
-  
-  func returnProductIDs() -> [String] {
-    return IAPProduct.allCases.map { (productId) -> String in
-      productId.rawValue
-    }
-  }
-  
-  func canMakePayments() -> Bool {
-    // Always enable IAP features in TestFlight and debugging
-    if Config.appConfiguration == .TestFlight || Config.appConfiguration == .Debug {
-      return true
-    }
-    
-    return SKPaymentQueue.canMakePayments()
-  }
-  
-  func getProducts() {
-    let productIDs = Set(returnProductIDs())
-    let request = SKProductsRequest(productIdentifiers: Set(productIDs))
-    request.delegate = self
-    request.start()
-  }
-  
-  func getPriceFormatted(for product: SKProduct) -> String? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    formatter.locale = product.priceLocale
-    return formatter.string(from: product.price)
-  }
-  
-  func startObserving() {
-    SKPaymentQueue.default().add(self)
-  }
-  
-  func stopObserving() {
-    SKPaymentQueue.default().remove(self)
-  }
-  
-  func purchase(product: SKProduct) -> Bool {
-    if !IAPHelper.shared.canMakePayments() {
-      return false
-    } else {
-      let payment = SKPayment(product: product)
-      SKPaymentQueue.default().add(payment)
-    }
-    return true
-  }
-  
-  func restorePurchases() {
-    totalRestoredPurchases = 0
-    SKPaymentQueue.default().restoreCompletedTransactions()
-  }
-}
-
-extension IAPHelper: SKProductsRequestDelegate, SKRequestDelegate {
-  func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-    let badProducts = response.invalidProductIdentifiers
-    let goodProducts = response.products
-    if !goodProducts.isEmpty {
-      ProductsDB.shared.items = response.products
-    }
-    
-    if !badProducts.isEmpty {
-      print("Encountered \(badProducts.count) invalid IDs ", badProducts)
+    Purchases.shared.products(IAPSubscriptionType.allCases.map { $0.rawValue }) { (products) in
+      self.subscriptionProducts = products
     }
   }
 }
 
-final class ProductsDB: ObservableObject, Identifiable {
-  static let shared = ProductsDB()
-  var items: [SKProduct] = [] {
-    willSet {
-      DispatchQueue.main.async {
-        self.objectWillChange.send()
-      }
-    }
-  }
-}
-
-extension IAPHelper: SKPaymentTransactionObserver {
-  func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-    if totalRestoredPurchases != 0 {
-      purchasePublisher.send(("Purchases successfully restored", .restore, true, true))
-      print("Purchases restored")
-    } else {
-      purchasePublisher.send(("No purchases to restore", .restore, true, true))
-      print("No purchases restored")
+class PurchaseService {
+  static func purchase(productID: String?, completion: @escaping (_ successful: Bool) -> Void) {
+    guard productID != nil else {
+      return
     }
     
-    DispatchQueue.main.async {
-      self.objectWillChange.send()
-    }
-  }
-  
-  func paymentQueue(_ queue: SKPaymentQueue, shouldAddStorePayment payment: SKPayment, for product: SKProduct) -> Bool {
-    if !IAPHelper.shared.canMakePayments() {
-      return false
-    } else {
-      SKPaymentQueue.default().add(payment)
-    }
+    var skProduct: SKProduct?
     
-    return true
-  }
-  
-  func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-    transactions.forEach { (transaction) in
-      switch transaction.transactionState {
-      case .purchased:
-        SKPaymentQueue.default().finishTransaction(transaction)
-        purchasePublisher.send(("Purchased ", .purchase, true, true))
-        purchasedItems.append(transaction.payment.productIdentifier)
+    Purchases.shared.products([productID!]) { products in
+      if !products.isEmpty {
+        skProduct = products.first
         
-      case .restored:
-        totalRestoredPurchases += 1
-        SKPaymentQueue.default().finishTransaction(transaction)
-        purchasePublisher.send(("Restored ", .restore, true, true))
-        if let id = transaction.original?.payment.productIdentifier {
-          purchasedItems.append(id)
+        Purchases.shared.purchaseProduct(skProduct!) { (transaction, purchaseInfo, error, userCancelled) in
+          if let error = error {
+            print(error.localizedDescription)
+            completion(false)
+            return
+          }
+          
+          if error == nil && !userCancelled {
+            completion(true)
+          } else if userCancelled {
+            completion(false)
+          }
+          
+          print(purchaseInfo as Any)
+          print(transaction as Any)
         }
-      case .failed:
-        if let error = transaction.error as? SKError {
-          purchasePublisher.send(("Payment Error \(error.code) ", .purchase, false, true))
-          print("Payment Failed \(error.code)")
-        }
-        SKPaymentQueue.default().finishTransaction(transaction)
-      case .deferred:
-        print("Payment Deferred")
-        purchasePublisher.send(("Payment Deferred ", .purchase, false, true))
-      case .purchasing:
-        print("Purchasing...")
-        purchasePublisher.send(("Payment in Process ", .purchase, false, false))
-      default:
-        break
       }
-    }
-    
-    DispatchQueue.main.async {
-      self.objectWillChange.send()
     }
   }
 }

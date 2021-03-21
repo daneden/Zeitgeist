@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import Purchases
 
 #if DEBUG
 let platform = "ios_sandbox"
@@ -17,14 +18,16 @@ let platform = "ios"
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
+  @AppStorage(UDValues.activeSupporterSubscription) var activeSubscription
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
     if notificationsEnabled {
       UIApplication.shared.registerForRemoteNotifications()
-      registerNotificationCategories()
     }
     
     UNUserNotificationCenter.current().delegate = self
+    
+    setupRevenueCat()
     
     return true
   }
@@ -33,6 +36,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
   
+  // MARK: In-App Purchase Setup
+  func setupRevenueCat() {
+    Purchases.configure(withAPIKey: "BtsJTlCfcJkRXMbWTTraNErvIsCcLkLb")
+  }
+  
+  // MARK: Notifications
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
     guard let userId = VercelFetcher.shared.user?.id else { return }
@@ -58,6 +67,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   }
   
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    print("Received remote notification")
+    
+    if !activeSubscription {
+      print("User is not know to be an active subscriber; supressing notification")
+      completionHandler(.noData)
+      return
+    }
+    
     do {
       let title: String? = userInfo["title"] as? String
       guard let body: String = userInfo["body"] as? String else {
@@ -69,50 +86,32 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       guard let eventType: ZPSEventType = ZPSEventType(rawValue: userInfo["eventType"] as? String ?? "") else {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
-      
-      VercelFetcher.shared.loadDeployments(teamId: teamId) { (deployments, error) in
-        if let error = error {
-          print(error.localizedDescription)
-          return
-        }
         
-        let deployment = deployments?.filter { $0.id == deploymentId }.first
+      if NotificationManager.notificationsAllowedForEventType(eventType) {
+        let content = UNMutableNotificationContent()
         
-        if NotificationManager.notificationsAllowedForEventType(eventType) {
-          let content = UNMutableNotificationContent()
-          
-          if let title = title {
-            content.title = title
-          } else if deployment != nil {
-            content.title = body
-            content.body = "Tap to view deployment information"
-          } else {
-            content.body = body
-          }
-          
-          if let commit = deployment?.commit {
-            content.subtitle = "Caused by commit “\(commit.commitMessageSummary)”"
-          } else {
-            content.subtitle = "Manual deployment"
-          }
-          
-          content.sound = .default
-          content.threadIdentifier = deploymentId ?? UUID().uuidString
-          content.userInfo = [
-            "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
-            "TEAM_ID": "\(teamId ?? "-1")"
-          ]
-          content.categoryIdentifier = "DEPLOYMENT"
-          
-          let notificationID = "\(deploymentId)-\(eventType.rawValue)"
-          
-          let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
-          let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: trigger)
-          UNUserNotificationCenter.current().add(request)
-          completionHandler(.newData)
+        if let title = title {
+          content.title = title
+          content.body = body
         } else {
-          completionHandler(.noData)
+          content.title = body
         }
+        
+        content.sound = .default
+        content.threadIdentifier = deploymentId ?? UUID().uuidString
+        content.categoryIdentifier = ZPSNotificationCategory.Deployment.rawValue
+        content.userInfo = [
+          "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
+          "TEAM_ID": "\(teamId ?? "-1")"
+        ]
+        
+        let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
+        
+        let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
+        completionHandler(.newData)
+      } else {
+        completionHandler(.noData)
       }
     } catch {
       switch error {
@@ -127,13 +126,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       print(error.localizedDescription)
       completionHandler(.failed)
     }
-  }
-  
-  func registerNotificationCategories() {
-    let viewDeploymentAction = UNNotificationAction(identifier: "VIEW_DEPLOYMENT_ACTION", title: "View Deployment", options: .foreground)
-    
-    let deploymentCategory = UNNotificationCategory(identifier: "DEPLOYMENT", actions: [viewDeploymentAction], intentIdentifiers: [], options: [])
-    UNUserNotificationCenter.current().setNotificationCategories([deploymentCategory])
   }
 }
 
@@ -154,12 +146,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       completionHandler()
       return
     }
-
-    switch response.actionIdentifier {
-    case "VIEW_DEPLOYMENT_ACTION":
+    
+    switch response.notification.request.content.categoryIdentifier {
+    case ZPSNotificationCategory.Deployment.rawValue:
       UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
     default:
-      break
+      print("Uncaught notification category identifies")
     }
 
     completionHandler()
