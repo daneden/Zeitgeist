@@ -12,7 +12,7 @@ import SwiftUI
 struct RecentsTimeline: TimelineEntry {
   var date = Date()
   var deployments: [Deployment]
-  var team: VercelTeam?
+  var team: VercelAccount?
 }
 
 struct RecentDeploymentsProvider: IntentTimelineProvider {
@@ -26,8 +26,9 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (RecentsTimeline) -> Void) {
-    let team = VercelTeam(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
-    VercelFetcher().loadDeployments(teamId: team.id) { (entries, _) in
+    let team = VercelAccount(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
+    let account = VercelAccount(id: team.id)
+    VercelFetcher(account: account, withTimer: false).loadDeployments { (entries, _) in
       if let deployments = entries {
         completion(RecentsTimeline(deployments: deployments, team: team))
       } else {
@@ -37,9 +38,9 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
   }
   
   func getTimeline(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Timeline<RecentsTimeline>) -> Void) {
-    let team = VercelTeam(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
-    
-    VercelFetcher().loadDeployments(teamId: team.id) { (entries, _) in
+    let team = VercelAccount(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
+    let account = VercelAccount(id: team.id)
+    VercelFetcher(account: account, withTimer: false).loadDeployments { (entries, _) in
       if let deployments = entries {
         let timeline = Timeline(
           entries: [RecentsTimeline(deployments: deployments, team: team)],
@@ -69,7 +70,7 @@ struct RecentDeploymentsWidget: Widget {
     ) { config in
       RecentDeploymentsWidgetView(
         deployments: config.deployments,
-        team: config.team ?? VercelTeam()
+        team: config.team ?? VercelAccount(id: "")
       )
     }
     .supportedFamilies([.systemLarge])

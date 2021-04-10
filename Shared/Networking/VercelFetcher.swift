@@ -10,8 +10,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-let decoder = JSONDecoder()
-
 enum FetcherError: Error {
   case decoding, fetching, updating
 }
@@ -31,37 +29,20 @@ public class VercelFetcher: ObservableObject {
     case idle
   }
   
-  static let shared: VercelFetcher = {
-    print("Initialising")
-    let instance = VercelFetcher(withTimer: true)
-    return instance
-  }()
+  private let decoder = JSONDecoder()
   
+  @Published var account: VercelAccount
+  @Published var deployments = [Deployment]()
+  @Published var projects = [Project]()
   @Published var fetchState: FetchState = .idle
-  
-  @Published var teams: [VercelTeam] = [VercelTeam()]
-  
-  @Published var user: VercelUser?
-  
-  /**
-   Since the deployments array is recycled across teams, it’s advisable to use self.deploymentsStore instead
-   */
-  @Published var deployments: [Deployment] = []
-  
-  @Published var deploymentsStore = DeploymentsStore()
-  @Published var projectsStore = ProjectsStore()
-  
-  @ObservedObject var settings = Session.shared
   
   private var pollingTimer: Timer?
   
-  init() {
+  init(account: VercelAccount, withTimer: Bool? = nil) {
+    self.account = account
     
-  }
-  
-  init(withTimer: Bool) {
-    if withTimer {
-      resetTimers()
+    if withTimer == true {
+      self.resetTimers()
     }
   }
   
@@ -85,62 +66,51 @@ public class VercelFetcher: ObservableObject {
   }
   
   func tick() {
-    if self.settings.token != nil {
-      self.loadUser()
-      self.loadTeams()
-      self.loadAllDeployments()
-      self.loadAllProjects()
-    } else {
-      print("Awaiting authentication token...")
+    self.loadUser()
+    self.loadDeployments()
+  }
+  
+  // MARK: Helper Functions
+  func urlForRoute(_ route: VercelRoute, appending: String? = nil, queryItems: [URLQueryItem] = .init()) -> URL {
+    let query = account.isTeam ? queryItems + [URLQueryItem(name: "teamId", value: account.id)] : queryItems
+    var urlComponents = URLComponents(string: "https://api.vercel.com/\(route.rawValue)\(appending ?? "")")!
+    urlComponents.queryItems = query
+    return urlComponents.url!
+  }
+  
+  func getHeaders() -> [String: String]? {
+    let token = KeychainItem(account: account.id)
+    var headers = [
+      "Content-Type": "application/json",
+      "User-Agent": "ZG Client \(APP_VERSION)"
+    ]
+    
+    if let token = token.wrappedValue {
+      headers["Authorization"] = "Bearer \(token)"
     }
+    
+    return headers
   }
   
-  func urlForRoute(_ route: VercelRoute, query: String? = nil) -> URL {
-    return URL(string: "https://api.vercel.com/\(route.rawValue)\(query ?? "")")!
-  }
-  
-  func loadTeams() {  
-    self.loadTeams { [unowned self] (teams, error) in
-      if let error = error { print(error) }
-      
-      if let teams = teams {
-        DispatchQueue.main.async {
-          let newTeams = [VercelTeam()] + teams
-          
-          if self.teams != newTeams {
-            self.teams = newTeams
-          }
-        }
-      } else {
-        print("Found `nil` instead of teams array")
-      }
-    }
-  }
-  
-  func loadTeams(completion: @escaping ([VercelTeam]?, Error?) -> Void) {
-    var request = URLRequest(url: urlForRoute(.teams))
-    request.allHTTPHeaderFields = getHeaders()
+  func fetch<T>(request: URLRequest, decodingType: T.Type, completion: @escaping (T?, Error?) -> Void) where T: Decodable {
+    let decoder = JSONDecoder()
+    self.fetchState = .loading
     URLSession.shared.dataTask(with: request) { (data, _, error) in
       do {
-        guard let response = data else {
-          print("Error fetching teams")
-          if let fetchError = error {
-            print(fetchError.localizedDescription)
-          }
-          return
-        }
-        let decodedData = try JSONDecoder().decode(VercelTeamsAPIResponse.self, from: response)
+        let decodedData = try decoder.decode(decodingType, from: data!)
         DispatchQueue.main.async {
-          completion(decodedData.teams, nil)
+          completion(decodedData, nil)
         }
       } catch {
-        completion(nil, error)
-        print("Error loading teams")
         print(error.localizedDescription)
+        completion(nil, error)
       }
+      
+      self.fetchState = .idle
     }.resume()
   }
   
+  // MARK: Deployments
   func loadDeployments() {
     self.loadDeployments { [unowned self] (entries, error) in
       if let deployments = entries {
@@ -155,141 +125,86 @@ public class VercelFetcher: ObservableObject {
     }
   }
   
-  func loadAllDeployments() {
-    for team in teams {
-      loadDeployments(teamId: team.id) { [unowned self] (entries, error) in
-        if let deployments = entries {
-          DispatchQueue.main.async {
-            self.deploymentsStore.updateStore(forTeam: team.id, newValue: deployments)
-          }
-        }
-        
-        if let errorMessage = error?.localizedDescription {
-          print(errorMessage)
-        }
-      }
-    }
-  }
-  
-  func loadAllProjects() {
-    for team in teams {
-      loadProjects(teamId: team.id) { [unowned self] (entries, error) in
-        if let projects = entries {
-          DispatchQueue.main.async {
-            self.projectsStore.updateStore(forTeam: team.id, newValue: projects)
-          }
-        }
-        
-        if let errorMessage = error?.localizedDescription {
-          print(errorMessage)
-        }
-      }
-    }
-  }
-  
-  func loadProjects(teamId: String? = nil, completion: @escaping ([Project]?, Error?) -> Void) {
-    let unmaskedTeamId = teamId == "-1" ? "" : teamId ?? ""
-    var request = URLRequest(url: urlForRoute(.projects, query: "?teamId=\(unmaskedTeamId)"))
-    
-    request.allHTTPHeaderFields = getHeaders()
-    
-    URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if let data = data {
-        do {
-          let response = try decoder.decode(ProjectResponse.self, from: data)
-          
-          completion(response.projects, nil)
-        } catch {
-          print("error: ", error)
-        }
-      } else {
-        print("Error loading projects")
-        return
-      }
-    }.resume()
-    
-    self.objectWillChange.send()
-  }
-  
-  func loadDeployments(teamId: String? = nil, completion: @escaping ([Deployment]?, Error?) -> Void) {
+  func loadDeployments(completion: @escaping ([Deployment]?, Error?) -> Void) {
     fetchState = deployments.isEmpty ? .loading : .idle
-    let unmaskedTeamId = teamId == "-1" ? "" : teamId ?? ""
-    var request = URLRequest(url: urlForRoute(.deployments, query: "?teamId=\(unmaskedTeamId)&limit=100"))
+    var request = URLRequest(url: urlForRoute(.deployments, queryItems: [URLQueryItem(name: "limit", value: "100")]))
     
     request.allHTTPHeaderFields = getHeaders()
     
-    URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if let data = data {
-        do {
-          let response = try decoder.decode(DeploymentResponse.self, from: data)
-          DispatchQueue.main.async { [unowned self] in
-            self.fetchState = .finished
-          }
-          completion(response.deployments, nil)
-        } catch {
-          print("error: ", error)
+    fetch(request: request, decodingType: VercelAPIResponse.Deployments.self) { (deploymentsResponse, _) in
+      if let deployments = deploymentsResponse?.deployments {
+        DispatchQueue.main.async {
+          self.deployments = deployments
         }
-      } else {
-        print("Error loading deployments")
-        return
       }
-    }.resume()
-    
-    self.objectWillChange.send()
+    }
   }
   
   func loadAliases(deploymentId: String, completion: @escaping ([Alias]?, Error?) -> Void) {
-    var request = URLRequest(url: urlForRoute(.deployments, query: "/\(deploymentId)/aliases"))
+    fetchState = deployments.isEmpty ? .loading : .idle
+    var request = URLRequest(
+      url: urlForRoute(
+        .deployments,
+        appending: "\(deploymentId)/aliases",
+        queryItems: [URLQueryItem(name: "limit", value: "100")]
+      )
+    )
     
     request.allHTTPHeaderFields = getHeaders()
     
-    URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if let data = data {
-        do {
-          let response = try decoder.decode(AliasesResponse.self, from: data)
-          DispatchQueue.main.async { [weak self] in
-            self?.fetchState = .finished
-          }
-          completion(response.aliases, nil)
-        } catch {
-          print("error: ", error)
+    fetch(request: request, decodingType: VercelAPIResponse.Deployments.self) { (deploymentsResponse, _) in
+      if let deployments = deploymentsResponse?.deployments {
+        DispatchQueue.main.async {
+          self.deployments = deployments
         }
-      } else {
-        print("Error loading aliases")
-        return
       }
-    }.resume()
+    }
   }
   
+  // MARK: Account
   func loadUser() {
+    loadUser { (user, error) in
+      if let user = user {
+        self.account.user = user
+      } else if let error = error {
+        print(error.localizedDescription)
+      }
+    }
+  }
+  
+  func loadUser(completion: @escaping (VercelUser?, Error?) -> Void) {
     var request = URLRequest(url: urlForRoute(.user))
     
     request.allHTTPHeaderFields = getHeaders()
-    URLSession.shared.dataTask(with: request) { [unowned self] (data, _, error) in
-      if data == nil {
-        print("Error loading user")
-        return
-      }
-      
-      do {
-        let decodedData = try JSONDecoder().decode(VercelUserAPIResponse.self, from: data!)
-        DispatchQueue.main.async { [unowned self] in
-          self.user = decodedData.user
-        }
-      } catch {
-        print("Error decoding user")
-        print(error.localizedDescription)
-      }
-    }.resume()
     
-    self.objectWillChange.send()
+    fetch(request: request, decodingType: VercelAPIResponse.User.self) { (userResponse, error) in
+      if let user = userResponse?.user {
+        DispatchQueue.main.async {
+          completion(user, nil)
+        }
+      } else if let error = error {
+        completion(nil, error)
+      }
+    }
   }
   
-  public func getHeaders() -> [String: String] {
-    return [
-      "Authorization": "Bearer " + (settings.token ?? ""),
-      "Content-Type": "application/json",
-      "User-Agent": "ZG Client \(APP_VERSION)"
-    ]
+  func loadAccount(completion: @escaping (VercelAccount?, Error?) -> Void) {
+    if !account.isTeam {
+      self.loadUser()
+      return
+    }
+    
+    var request = URLRequest(url: urlForRoute(.teams, appending: "\(account.id)"))
+    request.allHTTPHeaderFields = getHeaders()
+    
+    fetch(request: request, decodingType: VercelAPIResponse.Team.self) { (accountResponse, error) in
+      if let account = accountResponse {
+        DispatchQueue.main.async {
+          completion(account, nil)
+        }
+      } else if let error = error {
+        completion(nil, error)
+      }
+    }
   }
 }

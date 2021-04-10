@@ -1,8 +1,8 @@
 //
-//  Sequence.swift
-//  iOS
+//  Sequence.extension.swift
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 19/03/2021.
+//  Created by Daniel Eden on 10/04/2021.
 //  Copyright © 2021 Daniel Eden. All rights reserved.
 //
 

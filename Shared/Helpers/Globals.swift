@@ -8,8 +8,6 @@
 
 import Foundation
 
-typealias UDValuePair<T> = (key: String, value: T)
-
 var APP_VERSION = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
 var UD_STORE_NAME = "group.me.daneden.Zeitgeist.shared"
 let UD_STORE = UserDefaults(suiteName: UD_STORE_NAME)
@@ -24,6 +22,7 @@ struct UDValues {
   static let allowDeploymentNotifications = ("allowDeploymentNotifications", true)
   static let allowDeploymentErrorNotifications = ("allowDeploymentErrorNotifications", true)
   static let allowDeploymentReadyNotifications = ("allowDeploymentReadyNotifications", true)
+  static let authenticatedAccountIDs = ("authenticatedAccountIDs", [String]())
 }
 
 #if os(macOS)

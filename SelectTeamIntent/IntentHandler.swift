@@ -16,20 +16,27 @@ class IntentHandler: INExtension, SelectTeamIntentHandling {
   }
   
   func provideTeamOptionsCollection(for intent: SelectTeamIntent, with completion: @escaping (INObjectCollection<Team>?, Error?) -> Void) {
-    let fetcher = VercelFetcher()
-    fetcher.loadTeams { (teams, error) in
-      if let result = teams {
-        var fetchedTeams = result.map { (team) -> Team in
-          Team(identifier: team.id, display: team.name)
+    let dispatchGroup = DispatchGroup()
+    var teams = [Team]()
+    _ = Session.shared.accounts.map { (account) in
+      dispatchGroup.enter()
+      
+      let account = VercelAccount(id: account.key)
+      let fetcher = VercelFetcher(account: account, withTimer: false)
+      fetcher.loadAccount { (account, error) in
+        if let account = account {
+          teams.append(Team(identifier: account.id, display: account.name ?? ""))
+        } else if error == nil {
+          teams.append(Team(identifier: nil, display: "Personal"))
         }
         
-        fetchedTeams.append(Team(identifier: nil, display: "Personal"))
-        
-        let collection = INObjectCollection(items: fetchedTeams)
-        completion(collection, nil)
-      } else {
-        print(error?.localizedDescription ?? "Error fetching teams")
+        dispatchGroup.leave()
       }
+    }
+    
+    dispatchGroup.notify(queue: .main) {
+      let collection = INObjectCollection(items: teams)
+      completion(collection, nil)
     }
   }
   

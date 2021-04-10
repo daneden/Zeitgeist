@@ -53,7 +53,10 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
     
     if let queryItems = components?.queryItems,
        let token = queryItems.filter({ $0.name  == "token" }).first?.value {
-      Session.shared.token = token
+      let teamId = queryItems.filter({ $0.name == "teamId" }).first?.value ?? nil
+      let userId = queryItems.filter({ $0.name == "userId" }).first?.value ?? nil
+      
+      Session.shared.addAccount(id: teamId ?? userId ?? "-1", token: token)
     } else {
       print("Something went wrong!")
     }

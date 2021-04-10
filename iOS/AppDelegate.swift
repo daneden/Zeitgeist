@@ -44,22 +44,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   // MARK: Notifications
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
-    guard let userId = VercelFetcher.shared.user?.id else { return }
-    let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-    let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(userId)&device_id=\(token)&platform=\(platform)")!
-    let request = URLRequest(url: url)
     
-    URLSession.shared.dataTask(with: request) { (data, _, error) in
-      if let error = error {
-        print(error)
-        self.notificationsEnabled = false
-      }
+    _ = Session.shared.accounts.map { (id, _) in
+      let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+      let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(id)&device_id=\(token)&platform=\(platform)")!
+      let request = URLRequest(url: url)
       
-      if data != nil {
-        print("Successfully registered device ID to ZPS")
-        self.notificationsEnabled = true
-      }
-    }.resume()
+      URLSession.shared.dataTask(with: request) { (data, _, error) in
+        if let error = error {
+          print(error)
+          self.notificationsEnabled = false
+        }
+        
+        if data != nil {
+          print("Successfully registered device ID to ZPS")
+          self.notificationsEnabled = true
+        }
+      }.resume()
+    }
+    
   }
   
   func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

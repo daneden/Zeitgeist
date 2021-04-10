@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-  @EnvironmentObject var fetcher: VercelFetcher
+  @Environment(\.session) var session
   @Environment(\.presentationMode) var presentationMode
   @Environment(\.deeplink) var deeplink
   
@@ -25,14 +25,14 @@ struct SettingsView: View {
   
   var body: some View {
     Form {
-      if fetcher.settings.token == nil {
+      if session?.accounts.isEmpty == true {
         VStack(alignment: .leading) {
           Text("Not signed in").font(.headline)
           Text("Sign in to Zeitgeist to see your deployments").foregroundColor(.secondary)
         }.padding()
       } else {
         Section(header: Label("Current User", systemImage: "person")) {
-          if let user: VercelUser = fetcher.user {
+          if let user: VercelUser = session?.current?.account.user {
             HStack {
               VercelUserAvatarView(avatarID: user.avatar)
               
@@ -46,7 +46,7 @@ struct SettingsView: View {
             }.padding(.vertical, 8)
             
             Button(action: {
-              self.fetcher.settings.token = nil
+              self.session?.removeAllAccounts()
               self.presentationMode.wrappedValue.dismiss()
               #if os(iOS)
               UIApplication.shared.unregisterForRemoteNotifications()
@@ -126,6 +126,8 @@ struct SettingsView: View {
       #if os(iOS)
       IAPHelper.shared.refresh()
       #endif
+      
+      session?.current?.loadUser()
     }
   }
 }

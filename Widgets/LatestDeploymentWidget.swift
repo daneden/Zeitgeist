@@ -14,7 +14,7 @@ let exampleDeployment = ExampleDeployment().deployment!
 struct LatestDeploymentEntry: TimelineEntry {
   var date = Date()
   var deployment: Deployment
-  var team: VercelTeam
+  var account: VercelAccount
   var isMockDeployment: Bool?
 }
 
@@ -22,7 +22,7 @@ struct DeploymentTimelineProvider: IntentTimelineProvider {
   typealias Entry = LatestDeploymentEntry
   typealias Intent = SelectTeamIntent
   
-  let snapshotEntry = LatestDeploymentEntry(deployment: exampleDeployment, team: VercelTeam())
+  let snapshotEntry = LatestDeploymentEntry(deployment: exampleDeployment, account: VercelAccount(id: ""))
   
   func placeholder(in context: Context) -> Entry {
     
@@ -30,11 +30,11 @@ struct DeploymentTimelineProvider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Entry) -> Void) {
-    let team = VercelTeam(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
-    
-    VercelFetcher().loadDeployments(teamId: team.id) { (entries, _) in
+    let team = VercelAccount(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
+    let account = VercelAccount(id: team.id)
+    VercelFetcher(account: account, withTimer: false).loadDeployments { (entries, _) in
       if entries != nil, let deployment = entries?[0] {
-        let entry = LatestDeploymentEntry(deployment: deployment, team: team)
+        let entry = LatestDeploymentEntry(deployment: deployment, account: account)
         completion(entry)
       } else {
         completion(snapshotEntry)
@@ -43,18 +43,18 @@ struct DeploymentTimelineProvider: IntentTimelineProvider {
   }
   
   func getTimeline(for configuration: SelectTeamIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-    let team = VercelTeam(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
-    
-    VercelFetcher().loadDeployments(teamId: team.id) { (entries, _) in
+    let team = VercelAccount(id: configuration.team?.identifier ?? "-1", name: configuration.team?.displayString ?? "Personal")
+    let account = VercelAccount(id: team.id)
+    VercelFetcher(account: account, withTimer: false).loadDeployments { (entries, _) in
       if entries != nil, !entries!.isEmpty, let deployment = entries?[0] {
-        let entry = LatestDeploymentEntry(deployment: deployment, team: team)
+        let entry = LatestDeploymentEntry(deployment: deployment, account: account)
         let timeline = Timeline(entries: [entry], policy: .atEnd)
         completion(timeline)
       } else {
         let mockEntry = LatestDeploymentEntry(
           date: Date(),
           deployment: snapshotEntry.deployment,
-          team: team,
+          account: account,
           isMockDeployment: true
         )
         
@@ -84,7 +84,7 @@ struct LatestDeploymentWidget: Widget {
 
 struct DeploymentsWidget_Previews: PreviewProvider {
   static var previews: some View {
-    LatestDeploymentWidgetView(config: LatestDeploymentEntry(deployment: exampleDeployment, team: VercelTeam()))
+    LatestDeploymentWidgetView(config: LatestDeploymentEntry(deployment: exampleDeployment, account: VercelAccount(id: "")))
       .previewContext(WidgetPreviewContext(family: .systemMedium))
   }
 }

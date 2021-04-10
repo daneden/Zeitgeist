@@ -101,7 +101,7 @@ struct Overview: View {
 
 // MARK: Deployment name/URL and aliases
 struct URLDetails: View {
-  @EnvironmentObject var fetcher: VercelFetcher
+  @Environment(\.session) var session
   var deployment: Deployment
   @State var aliases: [Alias] = []
   @Binding var copied: Bool
@@ -179,7 +179,7 @@ struct URLDetails: View {
   }
   
   func loadAliases() {
-    self.fetcher.loadAliases(deploymentId: deployment.id) { result, error in
+    self.session?.current?.loadAliases(deploymentId: deployment.id) { result, error in
       DispatchQueue.main.async {
         self.loadingAliases = false
         if error != nil {
@@ -226,7 +226,7 @@ struct DeploymentDetails: View {
 struct DeploymentDetailView: View {
   @Environment(\.deeplink) var deeplink
   @Environment(\.presentationMode) var presentationMode
-  @EnvironmentObject var fetcher: VercelFetcher
+  @Environment(\.session) var session
   @State var teamID: String
   @State var deploymentID: String
   
@@ -241,7 +241,7 @@ struct DeploymentDetailView: View {
     return Container {
       HStack {
         VStack {
-          if let deployments = fetcher.deploymentsStore.store[teamID],
+          if let deployments = session?.current?.deployments,
              let deployment = deployments.first(where: { $0.id == deploymentID }) {
           Form {
             Overview(deployment: deployment)

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RecentDeploymentsWidgetView: View {
   var deployments: [Deployment]
-  var team: VercelTeam
+  var team: VercelAccount
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -22,7 +22,7 @@ struct RecentDeploymentsWidgetView: View {
           Spacer()
           HStack(spacing: 2) {
             Image(systemName: "person.2.fill")
-            Text(currentTeam.name)
+            Text(currentTeam.name ?? "")
           }.font(.footnote).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
         }
       }
@@ -80,7 +80,7 @@ struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
     static var previews: some View {
       RecentDeploymentsWidgetView(
         deployments: [exampleDeployment, exampleDeployment],
-        team: VercelTeam()
+        team: VercelAccount(id: "")
       )
     }
 }

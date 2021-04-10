@@ -24,11 +24,7 @@ struct ContentView: View {
     NavigationView {
       if isValidated && !needsLogin {
         SidebarNavigation()
-        if horizontalSizeClass == .regular && IS_MACOS {
-          EmptyView()
-        } else {
-          DeploymentsListView()
-        }
+        DeploymentsListView()
         EmptyDeploymentView()
       } else {
         Spacer()
@@ -42,13 +38,13 @@ struct ContentView: View {
     }
     .onAppear {
       DispatchQueue.main.async {
-        self.needsLogin = session.token == nil
+        self.needsLogin = session.accounts.isEmpty
         self.isValidated = !self.needsLogin
       }
     }
     .onReceive(session.objectWillChange) {
       DispatchQueue.main.async {
-        self.needsLogin = session.token == nil
+        self.needsLogin = session.accounts.isEmpty
         self.isValidated = !self.needsLogin
       }
     }

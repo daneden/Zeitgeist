@@ -9,10 +9,6 @@
 import Foundation
 import SwiftUI
 
-enum SizeClassHack {
-  case regular
-}
-
 #if os(macOS)
 typealias ZGDeploymentsListStyle = SidebarListStyle
 let filterToolbarButtonPosition: ToolbarItemPlacement = .automatic
@@ -24,15 +20,8 @@ let filterStatusAlignment: HorizontalAlignment = .center
 #endif
 
 struct DeploymentsListView: View {
-  @EnvironmentObject var vercelFetcher: VercelFetcher
+  @Environment(\.session) var session
   @Environment(\.deeplink) var deeplink
-  
-  #if os(macOS)
-  var horizontalSizeClass: SizeClassHack = .regular
-  #else
-  @Environment(\.horizontalSizeClass) var horizontalSizeClass
-  #endif
-  @State var teamID: String?
   @State var selectedDeploymentID: String?
   
   @State var projectFilter: ProjectNameFilter = .allProjects
@@ -41,13 +30,14 @@ struct DeploymentsListView: View {
   @State var filterVisible = false
   
   var body: some View {
-    let team = vercelFetcher.teams.first(where: { $0.id == teamID }) ?? VercelTeam()
-    let deployments = vercelFetcher.deploymentsStore.store[team.id] ?? []
-    let projects = vercelFetcher.projectsStore.store[team.id] ?? []
+    let deployments = session?.current?.deployments ?? []
+    let projects = session?.current?.projects ?? []
+
+    let filteredDeployments = filterDeployments(deployments)
     
     return Group {
-      if filteredDeployments(deployments).isEmpty {
-        if vercelFetcher.fetchState == .loading {
+      if filteredDeployments.isEmpty {
+        if session?.current?.fetchState == .loading {
           ProgressView("Loading deployments...")
         } else {
           VStack(spacing: 0) {
@@ -58,9 +48,9 @@ struct DeploymentsListView: View {
           }
         }
       } else {
-        List(filteredDeployments(deployments), id: \.self.id) { deployment in
+        List(filterDeployments(deployments), id: \.self.id) { deployment in
           NavigationLink(
-            destination: DeploymentDetailView(teamID: teamID ?? "-1", deploymentID: deployment.id),
+            destination: DeploymentDetailView(teamID: session?.current?.account.id ?? "", deploymentID: deployment.id),
             tag: deployment.id,
             selection: $selectedDeploymentID
           ) {
@@ -71,15 +61,17 @@ struct DeploymentsListView: View {
       }
     }
     .onAppear {
-      if self.selectedDeploymentID == nil && horizontalSizeClass == .regular {
-        self.selectedDeploymentID = filteredDeployments(deployments).first?.id
+      session?.current?.loadDeployments()
+      
+      if self.selectedDeploymentID == nil {
+        self.selectedDeploymentID = filteredDeployments.first?.id
       }
     }
     .onChange(of: deeplink) { deeplink in
       DispatchQueue.main.async {
         if case .deployment(let teamId, let deploymentId) = deeplink {
           self.selectedDeploymentID = deploymentId
-          self.teamID = teamId
+          self.session?.selectedAccount = teamId
         }
       }
     }
@@ -87,10 +79,8 @@ struct DeploymentsListView: View {
     .toolbar {
       ToolbarItem(placement: .status) {
         VStack(alignment: filterStatusAlignment) {
-          Text(team.name).fontWeight(.semibold)
-          
           if filtersApplied() {
-            Text("\(filteredDeployments(deployments).count) of \(deployments.count) deployments shown")
+            Text("\(filterDeployments(deployments).count) of \(deployments.count) deployments shown")
             if !IS_MACOS {
               Button(action: { self.filterVisible.toggle() }, label: {
                 Text("Filters applied")
@@ -127,7 +117,7 @@ struct DeploymentsListView: View {
     }
   }
   
-  func filteredDeployments(_ deployments: [Deployment]) -> [Deployment] {
+  func filterDeployments(_ deployments: [Deployment]) -> [Deployment] {
     return deployments.filter { deployment -> Bool in
       switch self.projectFilter {
       case .allProjects:
@@ -159,6 +149,6 @@ struct DeploymentsListView: View {
 
 struct DeploymentsListView_Previews: PreviewProvider {
   static var previews: some View {
-    DeploymentsListView(teamID: "-1")
+    DeploymentsListView()
   }
 }

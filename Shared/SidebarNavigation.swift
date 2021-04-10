@@ -24,27 +24,23 @@ struct SidebarNavigation: View {
   @Environment(\.horizontalSizeClass) var horizontalSizeClass
   #endif
   @State var selectedTeamID: String?
-  @EnvironmentObject var fetcher: VercelFetcher
+  @EnvironmentObject var session: Session
   
     var body: some View {
       List(selection: $selectedTeamID) {
-        Section(header: Text("Teams")) {
-          ForEach(fetcher.teams, id: \.id) { team in
+        Section(header: Text("Accounts")) {
+          ForEach(session.fetchers, id: \.account.id) { fetcher in
             NavigationLink(
-              destination: DeploymentsListView(teamID: team.id),
-              tag: team.id,
+              destination: DeploymentsListView(),
+              tag: fetcher.account.id,
               selection: $selectedTeamID
             ) {
-              Label(team.name, systemImage: team.id == "-1" ? "person" : "person.2")
-            }.tag(team.id)
-          }
-        }.onAppear {
-          if self.selectedTeamID == nil && horizontalSizeClass == .regular {
-            self.selectedTeamID = "-1"
+              Label(fetcher.account.name ?? "Personal", systemImage: fetcher.account.isTeam ? "person.2" : "person")
+            }
           }
         }.onChange(of: deeplink) { deeplink in
           if case .deployment(let teamId, _) = deeplink {
-            self.selectedTeamID = teamId
+            session.selectedAccount = teamId
           }
         }
         

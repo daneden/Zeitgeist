@@ -25,7 +25,7 @@ class VercelURLAuthenticationBuilder {
     components.path = "/oauth/authorize"
     components.queryItems = [
       "client_id": clientID,
-      "state": uid.uuidString
+      "v": "2"
     ].map { URLQueryItem(name: $0, value: $1)}
     
     return components.url!

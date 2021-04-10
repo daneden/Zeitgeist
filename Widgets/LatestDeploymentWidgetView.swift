@@ -42,7 +42,7 @@ struct LatestDeploymentWidgetView: View {
       
       HStack(alignment: .firstTextBaseline, spacing: 2) {
         Image(systemName: "person.2.fill")
-        Text(config.team.name)
+        Text(config.account.name ?? "")
       }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
     }
     .padding()
@@ -54,6 +54,6 @@ struct LatestDeploymentWidgetView: View {
       startPoint: .top,
       endPoint: .bottom
     ))
-    .widgetURL(URL(string: "zeitgeist://deployment/\(config.team.id)/\(config.deployment.id)")!)
+    .widgetURL(URL(string: "zeitgeist://deployment/\(config.account.id)/\(config.deployment.id)")!)
   }
 }

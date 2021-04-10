@@ -23,7 +23,8 @@ struct SessionValidationView: View {
   }
   
   func validateSession() {
-    if let token = self.session.token {
+    let account = self.session.accounts.first
+    if let token = account?.value {
       let url = URL(string: "https://api.vercel.com/www/user")!
       var request = URLRequest(url: url)
       request.allHTTPHeaderFields = ["Authorization": "Bearer \(token)"]
@@ -38,7 +39,7 @@ struct SessionValidationView: View {
           case 403:
             self.isValidated = false
             DispatchQueue.main.async {
-              self.session.token = nil
+              self.session.removeAccount(id: account?.key ?? "-1")
             }
           // all other (unknown) cases, such as server errors
           // TODO: Stub out additional API response codes
