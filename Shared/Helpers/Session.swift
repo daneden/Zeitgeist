@@ -63,6 +63,14 @@ final class Session: ObservableObject {
     debugPrint(fetchers)
   }
   
+  func fetcherForAccount(id: String) -> VercelFetcher? {
+    let fetcher = fetchers.first { candidate in
+      candidate.account.id == id
+    }
+    
+    return fetcher
+  }
+  
   func addAccount(id: String, token: String) {
     DispatchQueue.main.async {
       self._accounts = self.accounts.adding(key: id, value: token)

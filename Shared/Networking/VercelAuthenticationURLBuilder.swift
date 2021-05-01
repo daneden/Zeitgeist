@@ -22,7 +22,7 @@ class VercelURLAuthenticationBuilder {
     var components = URLComponents()
     components.scheme = "https"
     components.host = domain
-    components.path = "/oauth/authorize"
+    components.path = "/integrations/zeitgeist/new"
     components.queryItems = [
       "client_id": clientID,
       "v": "2"

@@ -32,8 +32,10 @@ struct VercelAccount: Codable, Hashable {
   
   var user: VercelUser?
   
-  mutating func fetchDetails() {
+  enum CodingKeys: String, CodingKey {
+    case id
     
+    case name, avatar
   }
 }
 

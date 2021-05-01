@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710AD817263D50CA008B6889 /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710AD816263D50CA008B6889 /* UserListRow.swift */; };
+		710AD818263D50CA008B6889 /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710AD816263D50CA008B6889 /* UserListRow.swift */; };
 		710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
 		710D035F257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
 		710D0360257CEDA400411A89 /* VercelFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D035D257CEDA400411A89 /* VercelFetcher.swift */; };
@@ -247,6 +249,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		710AD816263D50CA008B6889 /* UserListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRow.swift; sourceTree = "<group>"; };
 		710D035D257CEDA400411A89 /* VercelFetcher.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelFetcher.swift; sourceTree = "<group>"; tabWidth = 2; };
 		710FB50D25864F5F004F060A /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		71103CA0247EEE920043D11B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -382,6 +385,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		710AD815263D50B1008B6889 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				710AD816263D50CA008B6889 /* UserListRow.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		712458F4260545740099B3A3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,6 +585,7 @@
 		71BE1D31259E20EF00CBAFAA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				710AD815263D50B1008B6889 /* Settings */,
 				71BE1D45259E36B900CBAFAA /* Projects */,
 				71BE1D30259E20DC00CBAFAA /* Deployments */,
 			);
@@ -954,6 +966,7 @@
 				7142FD7326029B6400AAEA71 /* PostalService.swift in Sources */,
 				717A95DE260771D700584810 /* SKProduct.extension.swift in Sources */,
 				71BE1D48259E36C400CBAFAA /* ProjectDetailView.swift in Sources */,
+				710AD818263D50CA008B6889 /* UserListRow.swift in Sources */,
 				710D035E257CEDA400411A89 /* VercelFetcher.swift in Sources */,
 				71EA862B259B8E6E00AC611F /* VercelStore.swift in Sources */,
 				7133C9DE259F7E1000367AF0 /* Session.swift in Sources */,
@@ -992,6 +1005,7 @@
 				718DCFEA2573FF3C001CB92A /* DeploymentsListView.swift in Sources */,
 				718DCFCF2573FF32001CB92A /* DeploymentStateIndicator.swift in Sources */,
 				718DD0172573FF51001CB92A /* EmptyDeploymentView.swift in Sources */,
+				710AD817263D50CA008B6889 /* UserListRow.swift in Sources */,
 				71BE1D7E259F596A00CBAFAA /* VercelAuthenticationURLBuilder.swift in Sources */,
 				718DD07B257401A6001CB92A /* EventMonitor.swift in Sources */,
 				71CF0366258CA8C100DDB605 /* ModelExamples.swift in Sources */,

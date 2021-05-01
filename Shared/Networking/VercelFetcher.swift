@@ -44,6 +44,8 @@ public class VercelFetcher: ObservableObject {
     if withTimer == true {
       self.resetTimers()
     }
+    
+    self.tick()
   }
   
   deinit {
@@ -66,7 +68,7 @@ public class VercelFetcher: ObservableObject {
   }
   
   func tick() {
-    self.loadUser()
+    self.loadAccount()
     self.loadDeployments()
   }
   
@@ -184,6 +186,16 @@ public class VercelFetcher: ObservableObject {
         }
       } else if let error = error {
         completion(nil, error)
+      }
+    }
+  }
+  
+  func loadAccount() {
+    self.loadAccount { (account, error) in
+      if let error = error {
+        print(error.localizedDescription)
+      } else if let account = account {
+        self.account = account
       }
     }
   }

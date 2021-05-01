@@ -19,6 +19,8 @@ struct SettingsView: View {
   @AppStorage(UDValues.allowDeploymentErrorNotifications) var allowDeploymentErrorNotifications
   @AppStorage(UDValues.allowDeploymentReadyNotifications) var allowDeploymentReadyNotifications
   
+  @State var addAccountSheetPresented = false
+  
   #if os(iOS)
   @ObservedObject var iapHelper = IAPHelper.shared
   #endif
@@ -31,29 +33,15 @@ struct SettingsView: View {
           Text("Sign in to Zeitgeist to see your deployments").foregroundColor(.secondary)
         }.padding()
       } else {
-        Section(header: Label("Current User", systemImage: "person")) {
-          if let user: VercelUser = session?.current?.account.user {
-            HStack {
-              VercelUserAvatarView(avatarID: user.avatar)
-              
-              VStack(alignment: .leading) {
-                Text(user.name)
-                
-                Text(user.email)
-                  .foregroundColor(.secondary)
-                  .lineLimit(1)
-              }
-            }.padding(.vertical, 8)
-            
-            Button(action: {
-              self.session?.removeAllAccounts()
-              self.presentationMode.wrappedValue.dismiss()
-              #if os(iOS)
-              UIApplication.shared.unregisterForRemoteNotifications()
-              #endif
-            }, label: {
-              Text("logoutButton")
-            }).foregroundColor(.systemRed)
+        Section(header: Label("Accounts", systemImage: "person.2")) {
+          if let accountKeys = session?.accounts.keys, let accounts = Array(accountKeys) {
+            ForEach(accounts, id: \.self) { account in
+              UserListRow(userId: account)
+            }
+          }
+          
+          Button(action: { addAccountSheetPresented = true }) {
+            Label("Add Account", systemImage: "plus.circle")
           }
         }
         
@@ -128,6 +116,14 @@ struct SettingsView: View {
       #endif
       
       session?.current?.loadUser()
+    }
+    .sheet(isPresented: $addAccountSheetPresented) {
+      LoginView()
+    }
+    .onChange(of: session?.accounts) { newValue in
+      if newValue?.isEmpty == true {
+        self.presentationMode.wrappedValue.dismiss()
+      }
     }
   }
 }
