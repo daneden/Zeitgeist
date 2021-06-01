@@ -13,6 +13,28 @@ enum SessionError: Error {
   case notAuthenticated
 }
 
+typealias AccountIDs = [String]
+
+extension AccountIDs: RawRepresentable {
+  public init?(rawValue: String) {
+    guard let data = rawValue.data(using: .utf8),
+          let result = try? JSONDecoder().decode(AccountIDs.self, from: data)
+    else {
+      return nil
+    }
+    self = result
+  }
+  
+  public var rawValue: String {
+    guard let data = try? JSONEncoder().encode(self),
+          let result = String(data: data, encoding: .utf8)
+    else {
+      return "[]"
+    }
+    return result
+  }
+}
+
 extension SessionError: CustomStringConvertible {
   var description: String {
     switch self {
@@ -31,19 +53,9 @@ class Session: ObservableObject {
     }
   }
   
-  @Published var authenticatedAccountIds: [String] {
-    didSet {
-      Preferences.store.set(authenticatedAccountIds, forKey: "authenticatedAccountIds")
-    }
-  }
+  @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = []
   
   init() {
-    if let authenticatedAccountIds = Preferences.store.array(forKey: "authenticatedAccountIds") as? [String] {
-      self.authenticatedAccountIds = authenticatedAccountIds
-    } else {
-      self.authenticatedAccountIds = .init()
-    }
-    
     if let currentAccountId = Preferences.store.string(forKey: "currentAccountId") {
       do {
         try self.setCurrentAccount(id: currentAccountId)

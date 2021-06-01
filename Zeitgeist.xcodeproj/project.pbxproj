@@ -143,7 +143,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		71155343266279CF00A73CD6 /* Zeitgeist (iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zeitgeist (iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71155343266279CF00A73CD6 /* iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71155346266279CF00A73CD6 /* VerdantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerdantApp.swift; sourceTree = "<group>"; };
 		71155348266279CF00A73CD6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7115534A266279D000A73CD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 		71155344266279CF00A73CD6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71155343266279CF00A73CD6 /* Zeitgeist (iOS).app */,
+				71155343266279CF00A73CD6 /* iOS.app */,
 				711553A1266548BD00A73CD6 /* Zeitgeist.app */,
 				711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */,
 				71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */,
@@ -407,9 +407,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		71155342266279CF00A73CD6 /* Zeitgeist (iOS) */ = {
+		71155342266279CF00A73CD6 /* iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 71155352266279D000A73CD6 /* Build configuration list for PBXNativeTarget "Zeitgeist (iOS)" */;
+			buildConfigurationList = 71155352266279D000A73CD6 /* Build configuration list for PBXNativeTarget "iOS" */;
 			buildPhases = (
 				7115533F266279CF00A73CD6 /* Sources */,
 				71155340266279CF00A73CD6 /* Frameworks */,
@@ -422,9 +422,9 @@
 				711553E6266552AF00A73CD6 /* PBXTargetDependency */,
 				71611C062665667100119324 /* PBXTargetDependency */,
 			);
-			name = "Zeitgeist (iOS)";
+			name = iOS;
 			productName = Verdant;
-			productReference = 71155343266279CF00A73CD6 /* Zeitgeist (iOS).app */;
+			productReference = 71155343266279CF00A73CD6 /* iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		711553A0266548BD00A73CD6 /* Zeitgeist */ = {
@@ -514,7 +514,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				71155342266279CF00A73CD6 /* Zeitgeist (iOS) */,
+				71155342266279CF00A73CD6 /* iOS */,
 				711553A0266548BD00A73CD6 /* Zeitgeist */,
 				711553D5266552AD00A73CD6 /* ZeitgeistWidgetsExtension */,
 				71611BFE2665667100119324 /* SelectWidgetAccountIntent */,
@@ -818,6 +818,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -844,6 +845,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -921,6 +923,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -929,6 +932,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -944,6 +948,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -952,6 +957,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -965,6 +971,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -972,6 +979,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -985,6 +993,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -992,6 +1001,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1012,7 +1022,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		71155352266279D000A73CD6 /* Build configuration list for PBXNativeTarget "Zeitgeist (iOS)" */ = {
+		71155352266279D000A73CD6 /* Build configuration list for PBXNativeTarget "iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				71155353266279D000A73CD6 /* Debug */,
