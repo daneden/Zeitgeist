@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import WidgetKit
 
 struct DeploymentsResponse: Decodable {
   var deployments: [Deployment]
@@ -14,6 +13,7 @@ struct DeploymentsResponse: Decodable {
 
 class DeploymentsLoader {
   private let decoder = JSONDecoder()
+  var useURLCache = true
   
   func loadDeployments(withID id: Account.ID, completion: @escaping (Result<[Deployment]>) -> Void) {
     let isTeam = id.starts(with: "team_")
@@ -31,12 +31,14 @@ class DeploymentsLoader {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
     // Synchronously check and return a cached value if there's one available
-    let cache = URLCache.shared
-    if let cachedResponse = cache.cachedResponse(for: request) {
-      let data = cachedResponse.data
-      let decoded = try? self.decoder.decode(DeploymentsResponse.self, from: data)
-      if let deployments = decoded?.deployments {
-        completion(.success(deployments))
+    if useURLCache {
+      let cache = URLCache.shared
+      if let cachedResponse = cache.cachedResponse(for: request) {
+        let data = cachedResponse.data
+        let decoded = try? self.decoder.decode(DeploymentsResponse.self, from: data)
+        if let deployments = decoded?.deployments {
+          completion(.success(deployments))
+        }
       }
     }
     
@@ -50,7 +52,6 @@ class DeploymentsLoader {
       }
       
       completion(.success(decoded.deployments))
-      WidgetCenter.shared.reloadAllTimelines()
     }.resume()
   }
 }

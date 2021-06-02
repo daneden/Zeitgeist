@@ -13,6 +13,6 @@ struct ZeitgeistWidgets: WidgetBundle {
   @WidgetBundleBuilder
   var body: some Widget {
     LatestDeploymentWidget()
-//    RecentDeploymentsWidget()
+    RecentDeploymentsWidget()
   }
 }

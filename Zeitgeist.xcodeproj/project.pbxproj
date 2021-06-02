@@ -93,6 +93,8 @@
 		711553FE26655E5000A73CD6 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* Deployment.swift */; };
 		711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
 		7115540026655F3B00A73CD6 /* DeploymentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */; };
+		711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */; };
+		711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -195,6 +197,7 @@
 		711553F82665584400A73CD6 /* ZeitgeistWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeitgeistWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		711553F926655DB000A73CD6 /* LatestDeploymentWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidget.swift; sourceTree = "<group>"; };
 		71155406266562C100A73CD6 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidget.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -390,6 +393,7 @@
 				711553E0266552AF00A73CD6 /* Assets.xcassets */,
 				711553E2266552AF00A73CD6 /* Info.plist */,
 				711553F926655DB000A73CD6 /* LatestDeploymentWidget.swift */,
+				711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */,
 			);
 			path = ZeitgeistWidgets;
 			sourceTree = "<group>";
@@ -655,8 +659,10 @@
 				711553FB26655DB000A73CD6 /* LatestDeploymentWidget.swift in Sources */,
 				711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */,
 				711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
+				711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */,
 				711553FE26655E5000A73CD6 /* Deployment.swift in Sources */,
 				711553F02665542200A73CD6 /* AccountLoader.swift in Sources */,
+				711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);
@@ -818,7 +824,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -845,7 +851,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -923,7 +929,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -948,7 +954,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -971,7 +977,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -993,7 +999,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
