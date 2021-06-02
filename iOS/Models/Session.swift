@@ -24,7 +24,7 @@ extension AccountIDs: RawRepresentable {
     }
     self = result
   }
-  
+
   public var rawValue: String {
     guard let data = try? JSONEncoder().encode(self),
           let result = String(data: data, encoding: .utf8)
@@ -46,15 +46,13 @@ extension SessionError: CustomStringConvertible {
 
 class Session: ObservableObject {
   static let shared = Session()
-  
-  @Published var accountId: String? {
-    didSet {
-      Preferences.store.set(accountId, forKey: "currentAccountId")
-    }
-  }
-  
+
   @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = []
   
+  var accountId: String? {
+    authenticatedAccountIds.first
+  }
+
   init() {
     if let currentAccountId = Preferences.store.string(forKey: "currentAccountId") {
       do {
@@ -64,36 +62,26 @@ class Session: ObservableObject {
       }
     }
   }
-  
+
   func addAccount(id: String, token: String) {
-    DispatchQueue.main.async {
-      self.accountId = id
-    }
-    
     KeychainItem(account: id).wrappedValue = token
-    
+
     authenticatedAccountIds.append(id)
     authenticatedAccountIds = authenticatedAccountIds.removingDuplicates()
   }
-  
+
   func setCurrentAccount(id: String) throws {
     guard let _ = KeychainItem(account: id).wrappedValue else {
       throw SessionError.notAuthenticated
     }
-    
-    self.accountId = id
   }
-  
+
   func deleteAccount(id: String) {
     let keychain = KeychainItem(account: id)
     keychain.wrappedValue = nil
-    
+
     authenticatedAccountIds.removeAll { candidate in
       id == candidate
-    }
-    
-    if authenticatedAccountIds.isEmpty {
-      accountId = nil
     }
   }
 }

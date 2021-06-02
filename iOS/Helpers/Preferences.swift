@@ -8,5 +8,5 @@
 import Foundation
 
 class Preferences {
-  static let store = UserDefaults(suiteName: "group.me.daneden.Zeigeist")!
+  static let store = UserDefaults(suiteName: "group.me.daneden.Zeitgeist")!
 }
