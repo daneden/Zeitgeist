@@ -48,7 +48,7 @@ struct DeploymentListView: View {
         }
         
         List {
-          ForEach(filteredDeployments) { deployment in
+          ForEach(filteredDeployments, id: \.id) { deployment in
             NavigationLink(destination: DeploymentDetailView(accountId: accountId, deployment: deployment)) {
               DeploymentListRowView(deployment: deployment)
                 .transition(.slide)

@@ -7,9 +7,12 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class DeploymentsViewModel: LoadableObject {
   @Published private(set) var state: LoadingState<[Deployment]> = .idle
+  
+  private var mostRecentDeployments: [Deployment] = []
   
   private var timer: Timer?
   
@@ -39,7 +42,13 @@ class DeploymentsViewModel: LoadableObject {
       switch result {
       case .success(let deployments):
         DispatchQueue.main.async {
-          self?.state = .loaded(deployments)
+          if self?.mostRecentDeployments.elementsEqual(deployments) == false {
+            withAnimation { self?.state = .loaded(deployments) }
+          } else {
+            self?.state = .loaded(deployments)
+          }
+          
+          self?.mostRecentDeployments = deployments
         }
       case .failure(let error):
         DispatchQueue.main.async {

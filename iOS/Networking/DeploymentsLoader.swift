@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WidgetKit
 
 struct DeploymentsResponse: Decodable {
   var deployments: [Deployment]
@@ -49,6 +50,7 @@ class DeploymentsLoader {
       }
       
       completion(.success(decoded.deployments))
+      WidgetCenter.shared.reloadAllTimelines()
     }.resume()
   }
 }
