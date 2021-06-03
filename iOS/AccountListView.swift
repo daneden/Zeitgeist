@@ -10,12 +10,17 @@ import SwiftUI
 struct AccountListView: View {
   @EnvironmentObject var session: Session
   @State var signInModel = SignInViewModel()
+  @State var activeAccountID: String?
   
   var body: some View {
     List {
       Section(header: Text("Accounts")) {
         ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
-          NavigationLink(destination: DeploymentListView(accountId: accountId)) {
+          NavigationLink(
+            destination: DeploymentListView(accountId: accountId),
+            tag: accountId,
+            selection: $activeAccountID
+          ) {
             AccountListRowView(accountId: accountId)
           }
           .contextMenu {
@@ -38,6 +43,16 @@ struct AccountListView: View {
       }
     }
     .navigationTitle("Zeitgeist")
+    .onOpenURL(perform: { url in
+      switch url.detailPage {
+      case .account(let id):
+        self.activeAccountID = id
+      case .deployment(let id, _):
+        self.activeAccountID = id
+      default:
+        return
+      }
+    })
   }
   
   func deleteAccount(at offsets: IndexSet) {

@@ -98,7 +98,7 @@ struct RecentDeploymentsWidgetView: View {
       Divider()
       if let deployments = config.deployments {
         ForEach(deployments.prefix(5)) { deployment in
-          RecentDeploymentsListRowView(deployment: deployment)
+          RecentDeploymentsListRowView(accountId: config.account.identifier ?? "0", deployment: deployment)
             .font(.caption)
         }
       } else {
@@ -125,18 +125,19 @@ struct RecentDeploymentsWidgetView: View {
 }
 
 struct RecentDeploymentsListRowView: View {
+  var accountId: String
   var deployment: Deployment
   
   var body: some View {
     Label(
       title: {
-        VStack {
-          Text(deployment.deploymentCause).lineLimit(1)
-          HStack {
+        Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
+          VStack {
+            Text(deployment.deploymentCause).lineLimit(1)
             Text("\(deployment.project) • \(deployment.date, style: .relative)")
+              .font(.caption)
+              .foregroundColor(.secondary)
           }
-          .font(.caption)
-          .foregroundColor(.secondary)
         }
       },
       icon: {

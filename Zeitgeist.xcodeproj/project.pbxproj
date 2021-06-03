@@ -95,6 +95,8 @@
 		7115540026655F3B00A73CD6 /* DeploymentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */; };
 		711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */; };
 		711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
+		711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
+		711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -198,6 +200,7 @@
 		711553F926655DB000A73CD6 /* LatestDeploymentWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidget.swift; sourceTree = "<group>"; };
 		71155406266562C100A73CD6 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidget.swift; sourceTree = "<group>"; };
+		711A4A35266976CA00DA9EE3 /* URL.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.extension.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -338,6 +341,7 @@
 			children = (
 				71155363266282C900A73CD6 /* Array.extension.swift */,
 				7115537E2663AD9B00A73CD6 /* Color.extension.swift */,
+				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -600,6 +604,7 @@
 				71F9020926656A21000A8873 /* Preferences.swift in Sources */,
 				71155347266279CF00A73CD6 /* VerdantApp.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
+				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
 				711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -647,6 +652,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */,
 				711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */,
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
 				711553EF266553F400A73CD6 /* Session.swift in Sources */,

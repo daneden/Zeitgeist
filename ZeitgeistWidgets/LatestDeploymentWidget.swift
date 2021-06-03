@@ -93,38 +93,40 @@ struct LatestDeploymentWidgetView: View {
   var config: LatestDeploymentEntry
   
   var body: some View {
-    VStack(alignment: .leading) {
-      if let deployment = config.deployment {
-        DeploymentStateIndicator(state: deployment.state)
-          .font(Font.caption.bold())
-          .padding(.bottom, 2)
+    Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
+      VStack(alignment: .leading) {
+        if let deployment = config.deployment {
+          DeploymentStateIndicator(state: deployment.state)
+            .font(Font.caption.bold())
+            .padding(.bottom, 2)
+          
+          Text(deployment.deploymentCause)
+            .font(.subheadline)
+            .fontWeight(.bold)
+            .lineLimit(3)
+            .foregroundColor(.primary)
+          
+          Text(deployment.date, style: .relative)
+            .font(.caption)
+          Text(deployment.project)
+            .lineLimit(1)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        } else {
+          Text("No Deployments Found")
+            .font(.caption)
+            .fontWeight(.bold)
+            .foregroundColor(.secondary)
+            .frame(minWidth: 0, maxWidth: .infinity)
+        }
         
-        Text(deployment.deploymentCause)
-          .font(.subheadline)
-          .fontWeight(.bold)
-          .lineLimit(3)
-          .foregroundColor(.primary)
+        Spacer()
         
-        Text(deployment.date, style: .relative)
-          .font(.caption)
-        Text(deployment.project)
-          .lineLimit(1)
-          .font(.caption)
-          .foregroundColor(.secondary)
-      } else {
-        Text("No Deployments Found")
-          .font(.caption)
-          .fontWeight(.bold)
-          .foregroundColor(.secondary)
-          .frame(minWidth: 0, maxWidth: .infinity)
+        HStack(alignment: .firstTextBaseline, spacing: 2) {
+          Image(systemName: "person.2.fill")
+          Text(config.account.displayString)
+        }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
       }
-      
-      Spacer()
-      
-      HStack(alignment: .firstTextBaseline, spacing: 2) {
-        Image(systemName: "person.2.fill")
-        Text(config.account.displayString)
-      }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
     }
     .padding()
     .background(Color.systemBackground)

@@ -15,6 +15,8 @@ struct DeploymentListView: View {
   @State var productionFilter = false
   @State var filterVisible = false
   
+  @State var activeDeploymentID: String?
+  
   var filtersApplied: Bool {
     projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
   }
@@ -49,7 +51,11 @@ struct DeploymentListView: View {
         
         List {
           ForEach(filteredDeployments, id: \.id) { deployment in
-            NavigationLink(destination: DeploymentDetailView(accountId: accountId, deployment: deployment)) {
+            NavigationLink(
+              destination: DeploymentDetailView(accountId: accountId, deployment: deployment),
+              tag: deployment.id,
+              selection: $activeDeploymentID
+            ) {
               DeploymentListRowView(deployment: deployment)
                 .transition(.slide)
             }
@@ -63,19 +69,28 @@ struct DeploymentListView: View {
             productionFilter: self.$productionFilter
           )
         }
-        .toolbar {
-          Button(action: { self.filterVisible.toggle() }) {
-            Label(
-              "Filter Deployments",
-              systemImage: !filtersApplied
-                ? "line.horizontal.3.decrease.circle"
-                : "line.horizontal.3.decrease.circle.fill"
-            )
-          }
-        }
+      }
+    }
+    .toolbar {
+      Button(action: { self.filterVisible.toggle() }) {
+        Label(
+          "Filter Deployments",
+          systemImage: !filtersApplied
+            ? "line.horizontal.3.decrease.circle"
+            : "line.horizontal.3.decrease.circle.fill"
+        )
       }
     }
     .navigationTitle("Deployments")
+    .onOpenURL(perform: { url in
+      switch url.detailPage {
+      case .deployment(_, let deploymentId):
+        self.activeDeploymentID = deploymentId
+        return
+      default:
+        return
+      }
+    })
   }
   
   func clearFilters() {
