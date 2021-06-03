@@ -86,6 +86,8 @@ struct DeploymentDetailView: View {
   
   struct URLDetails: View {
     @Binding var copied: Bool
+    @State var aliasesVisible = false
+    
     var accountId: Account.ID
     var deployment: Deployment
     
@@ -104,7 +106,7 @@ struct DeploymentDetailView: View {
         }
         
         AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id)) { aliases in
-          DisclosureGroup(content: {
+          DisclosureGroup(isExpanded: $aliasesVisible, content: {
             if aliases.isEmpty {
               Text("No aliases assigned to deployment")
                 .foregroundColor(.secondary)
@@ -123,6 +125,10 @@ struct DeploymentDetailView: View {
               Text("Deployment Aliases")
               Spacer()
               Text("\(aliases.count)").foregroundColor(.secondary)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+              withAnimation { self.aliasesVisible.toggle() }
             }
           })
           
