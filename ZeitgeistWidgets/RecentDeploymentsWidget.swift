@@ -93,11 +93,23 @@ struct RecentDeploymentsWidgetView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text("Recent Deployments")
-        .font(.footnote.bold())
-      Divider()
-      if let deployments = config.deployments {
-        ForEach(deployments.prefix(5)) { deployment in
+      HStack {
+        Text("Recent Deployments")
+          .font(.footnote.bold())
+        
+        Spacer()
+        
+        HStack(alignment: .firstTextBaseline, spacing: 2) {
+          Image(systemName: "person.fill")
+          Text(config.account.displayString)
+        }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
+      }
+      
+      if let deployments = config.deployments?.prefix(5) {
+        ForEach(deployments) { deployment in
+          Spacer()
+          Divider()
+          Spacer()
           RecentDeploymentsListRowView(accountId: config.account.identifier ?? "0", deployment: deployment)
             .font(.caption)
         }
@@ -110,11 +122,6 @@ struct RecentDeploymentsWidgetView: View {
       }
       
       Spacer()
-      
-      HStack(alignment: .firstTextBaseline, spacing: 2) {
-        Image(systemName: "person.2.fill")
-        Text(config.account.displayString)
-      }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
     }
     .padding()
     .background(Color.systemBackground)
@@ -133,7 +140,8 @@ struct RecentDeploymentsListRowView: View {
       title: {
         Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
           VStack {
-            Text(deployment.deploymentCause).lineLimit(1)
+            Text(deployment.deploymentCause)
+              .lineLimit(1)
             Text("\(deployment.project) • \(deployment.date, style: .relative)")
               .font(.caption)
               .foregroundColor(.secondary)
@@ -142,6 +150,7 @@ struct RecentDeploymentsListRowView: View {
       },
       icon: {
         DeploymentStateIndicator(state: deployment.state, style: .compact)
+          .fixedSize()
       }
     )
     .font(.footnote)
