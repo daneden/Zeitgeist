@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AccountListView: View {
   @EnvironmentObject var session: Session
+  @State var signInModel = SignInViewModel()
+  
   var body: some View {
     List {
       Section(header: Text("Accounts")) {
@@ -25,7 +27,13 @@ struct AccountListView: View {
         .onDelete(perform: deleteAccount)
         .onMove(perform: move)
         
-        AddAccountButton(label: "Add Account", iconName: "person.badge.plus")
+        Button(action: { signInModel.signIn() }) {
+          HStack {
+            Label("Add Account", systemImage: "person.badge.plus")
+            Spacer()
+          }
+          .contentShape(Rectangle())
+        }
           .buttonStyle(PlainButtonStyle())
       }
     }
