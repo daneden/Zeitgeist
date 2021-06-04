@@ -97,7 +97,6 @@
 		711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
 		711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
 		711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
-		711A4A38266A269300DA9EE3 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -270,18 +269,10 @@
 		71155345266279CF00A73CD6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				711A4A39266A368500DA9EE3 /* Views */,
 				711553982665197100A73CD6 /* Zeitgeist.entitlements */,
 				7115534F266279D000A73CD6 /* Info.plist */,
-				7115536A266291BC00A73CD6 /* AccountListRowView.swift */,
-				711553842663B00B00A73CD6 /* AccountListView.swift */,
 				71155348266279CF00A73CD6 /* ContentView.swift */,
-				7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */,
-				7115538826642A5100A73CD6 /* DeploymentDetailView.swift */,
-				7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */,
-				711553802663AE0900A73CD6 /* DeploymentListView.swift */,
-				7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */,
-				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
-				711553862663B03C00A73CD6 /* PlaceholderView.swift */,
 				71155346266279CF00A73CD6 /* VerdantApp.swift */,
 				7115534A266279D000A73CD6 /* Assets.xcassets */,
 				71155362266282BE00A73CD6 /* Extensions */,
@@ -322,6 +313,7 @@
 				7115535B26627BB900A73CD6 /* AddAccountButton.swift */,
 				71155370266294BB00A73CD6 /* AsyncContentView.swift */,
 				7115538E2664E1B400A73CD6 /* GitProviderImage.swift */,
+				711553862663B03C00A73CD6 /* PlaceholderView.swift */,
 				7115535D26627EFE00A73CD6 /* RemoteImage.swift */,
 				7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */,
 			);
@@ -393,14 +385,45 @@
 			isa = PBXGroup;
 			children = (
 				711553F82665584400A73CD6 /* ZeitgeistWidgetsExtension.entitlements */,
-				711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */,
 				711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */,
-				711553E0266552AF00A73CD6 /* Assets.xcassets */,
 				711553E2266552AF00A73CD6 /* Info.plist */,
 				711553F926655DB000A73CD6 /* LatestDeploymentWidget.swift */,
 				711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */,
+				711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */,
+				711553E0266552AF00A73CD6 /* Assets.xcassets */,
 			);
 			path = ZeitgeistWidgets;
+			sourceTree = "<group>";
+		};
+		711A4A39266A368500DA9EE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				711A4A3B266A369600DA9EE3 /* Accounts */,
+				711A4A3A266A368D00DA9EE3 /* Deployments */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		711A4A3A266A368D00DA9EE3 /* Deployments */ = {
+			isa = PBXGroup;
+			children = (
+				7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */,
+				7115538826642A5100A73CD6 /* DeploymentDetailView.swift */,
+				7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */,
+				711553802663AE0900A73CD6 /* DeploymentListView.swift */,
+				7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */,
+				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
+			);
+			path = Deployments;
+			sourceTree = "<group>";
+		};
+		711A4A3B266A369600DA9EE3 /* Accounts */ = {
+			isa = PBXGroup;
+			children = (
+				7115536A266291BC00A73CD6 /* AccountListRowView.swift */,
+				711553842663B00B00A73CD6 /* AccountListView.swift */,
+			);
+			path = Accounts;
 			sourceTree = "<group>";
 		};
 		71611C012665667100119324 /* SelectWidgetAccountIntent */ = {
@@ -671,7 +694,6 @@
 				711553F02665542200A73CD6 /* AccountLoader.swift in Sources */,
 				711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
-				711A4A38266A269300DA9EE3 /* PlaceholderView.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
