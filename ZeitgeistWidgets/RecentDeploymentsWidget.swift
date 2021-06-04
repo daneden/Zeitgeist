@@ -17,7 +17,9 @@ struct RecentDeploymentsEntry: TimelineEntry {
 struct RecentDeploymentsProvider: IntentTimelineProvider {
   typealias Entry = RecentDeploymentsEntry
   func placeholder(in context: Context) -> Entry {
-    Entry(account: WidgetAccount(identifier: nil, display: "Placeholder Account"))
+    return Entry(
+      account: WidgetAccount(identifier: nil, display: "Placeholder Account")
+    )
   }
   
   func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Entry) -> ()) {
@@ -100,8 +102,12 @@ struct RecentDeploymentsWidgetView: View {
         Spacer()
         
         HStack(alignment: .firstTextBaseline, spacing: 2) {
-          Image(systemName: "person.fill")
-          Text(config.account.displayString)
+          if config.account.identifier != nil {
+            Image(systemName: "person.fill")
+            Text(config.account.displayString)
+          } else {
+            Text("No Account Selected")
+          }
         }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
       }
       
@@ -114,11 +120,13 @@ struct RecentDeploymentsWidgetView: View {
             .font(.caption)
         }
       } else {
-        Text("No Deployments Found")
-          .font(.caption)
-          .fontWeight(.bold)
-          .foregroundColor(.secondary)
-          .frame(minWidth: 0, maxWidth: .infinity)
+        VStack(alignment: .center) {
+          Spacer()
+          PlaceholderView(forRole: .NoDeployments)
+            .frame(maxWidth: .infinity)
+            .font(.footnote)
+          Spacer()
+        }
       }
       
       Spacer()
@@ -139,13 +147,13 @@ struct RecentDeploymentsListRowView: View {
     Label(
       title: {
         Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
-          VStack {
+          VStack(alignment: .leading) {
             Text(deployment.deploymentCause)
               .lineLimit(1)
             Text("\(deployment.project) • \(deployment.date, style: .relative)")
               .font(.caption)
               .foregroundColor(.secondary)
-          }
+          }.frame(maxWidth: .infinity)
         }
       },
       icon: {

@@ -83,4 +83,22 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {
     return lhs.id == rhs.id && lhs.state == rhs.state
   }
+  
+  init(asMockDeployment: Bool) throws {
+    guard asMockDeployment == true else {
+      throw DeploymentError.MockDeploymentInitError
+    }
+    
+    project = "Example Project"
+    state = .allCases.randomElement()!
+    urlString = "zeitgeist.daneden.me"
+    createdAt = Int(Date().timeIntervalSince1970 * 1000)
+    id = "0000"
+    creator = DeploymentCreator(uid: "0000", username: "zeitgeist", email: "dan.eden@me.com")
+    target = DeploymentTarget.staging
+  }
+  
+  enum DeploymentError: Error {
+    case MockDeploymentInitError
+  }
 }

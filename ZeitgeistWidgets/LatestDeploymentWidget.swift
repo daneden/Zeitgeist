@@ -26,6 +26,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
     
     guard let account = configuration.account,
           let accountId = account.identifier else {
+      completion(placeholder(in: context))
       return
     }
     
@@ -50,6 +51,9 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
     
     guard let account = configuration.account,
           let accountId = account.identifier else {
+      completion(
+        Timeline(entries: [placeholder(in: context)], policy: .atEnd)
+      )
       return
     }
     
@@ -113,18 +117,19 @@ struct LatestDeploymentWidgetView: View {
             .font(.caption)
             .foregroundColor(.secondary)
         } else {
-          Text("No Deployments Found")
+          PlaceholderView(forRole: .NoDeployments, alignment: .leading)
             .font(.caption)
-            .fontWeight(.bold)
-            .foregroundColor(.secondary)
-            .frame(minWidth: 0, maxWidth: .infinity)
         }
         
         Spacer()
         
         HStack(alignment: .firstTextBaseline, spacing: 2) {
-          Image(systemName: "person.2.fill")
-          Text(config.account.displayString)
+          if config.account.identifier != nil {
+            Image(systemName: "person.2.fill")
+            Text(config.account.displayString)
+          } else {
+            Text("No Account Selected")
+          }
         }.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
       }
     }

@@ -57,7 +57,6 @@ struct DeploymentListView: View {
               selection: $activeDeploymentID
             ) {
               DeploymentListRowView(deployment: deployment)
-                .transition(.slide)
             }
           }
         }

@@ -14,6 +14,7 @@ enum PlaceholderRole {
 struct PlaceholderView: View {
   @ScaledMetric var spacing: CGFloat = 4
   var forRole: PlaceholderRole
+  var alignment: HorizontalAlignment = .center
   
   var imageName: String {
     switch forRole {
@@ -22,7 +23,7 @@ struct PlaceholderView: View {
     case .DeploymentList:
       return "person.2.fill"
     case .NoDeployments:
-      return "text.badge.xmark"
+      return "text.magnifyingglass"
     case .NoAccounts:
       return "person.3.fill"
     }
@@ -42,13 +43,12 @@ struct PlaceholderView: View {
   }
   
   var body: some View {
-    VStack(spacing: spacing) {
+    VStack(alignment: alignment, spacing: spacing) {
       Image(systemName: imageName)
         .imageScale(.large)
       Text(text)
     }
     .foregroundColor(.secondary)
-    .padding()
   }
 }
 
