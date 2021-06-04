@@ -8,6 +8,8 @@
 import Intents
 
 class IntentHandler: INExtension, SelectAccountIntentHandling {
+  private var storedAccounts = [WidgetAccount]()
+  
   func provideAccountOptionsCollection(for intent: SelectAccountIntent, with completion: @escaping (INObjectCollection<WidgetAccount>?, Error?) -> Void) {
     let dispatchGroup = DispatchGroup()
     var accounts = [WidgetAccount]()
@@ -31,6 +33,8 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
         let collection = INObjectCollection(items: accounts)
         completion(collection, nil)
       }
+      
+      storedAccounts = accounts
     }
   }
   
@@ -39,5 +43,9 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
     // you can override this and return the handler you want for that particular intent.
     
     return self
+  }
+  
+  func defaultAccount(for intent: SelectAccountIntent) -> WidgetAccount? {
+    return storedAccounts.first
   }
 }
