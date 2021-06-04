@@ -36,6 +36,18 @@ struct Team: Codable {
 enum LoaderError: Error {
   case unknown
   case decodingError
+  case unauthorized
+}
+
+extension LoaderError: LocalizedError {
+  var errorDescription: String? {
+    switch self {
+    case .unauthorized:
+      return "The request couldn’t be authorized. Try deleting and re-authenticating your account."
+    default:
+      return "An unknown error occured: \(self)"
+    }
+  }
 }
 
 class AccountLoader {
@@ -68,6 +80,13 @@ class AccountLoader {
     }
     
     URLSession.shared.dataTask(with: request) { data, response, error in
+      if let response = response as? HTTPURLResponse,
+         response.statusCode == 403 {
+        completion(.failure(LoaderError.unauthorized))
+        URLCache.shared.removeAllCachedResponses()
+        return
+      }
+      
       guard let data = data, let account = self.handleResponseData(data: data, isTeam: isTeam) else {
         completion(.failure(LoaderError.decodingError))
         return

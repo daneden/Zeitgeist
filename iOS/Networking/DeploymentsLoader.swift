@@ -45,6 +45,13 @@ class DeploymentsLoader {
     // Asynchronously fetch data from origin, updating the cache automatically,
     // and invoke the completion callback again once received
     URLSession.shared.dataTask(with: request) { data, response, error in
+      if let response = response as? HTTPURLResponse,
+         response.statusCode == 403 {
+        completion(.failure(LoaderError.unauthorized))
+        URLCache.shared.removeAllCachedResponses()
+        return
+      }
+      
       guard let data = data,
             let decoded = try? self.decoder.decode(DeploymentsResponse.self, from: data) else {
         completion(.failure(LoaderError.decodingError))

@@ -16,7 +16,11 @@ struct AccountListRowView: View {
   }
   
   var body: some View {
-    AsyncContentView(source: AccountViewModel(accountId: accountId), placeholderData: placeholderAccount) { account in
+    AsyncContentView(
+      source: AccountViewModel(accountId: accountId),
+      placeholderData: placeholderAccount,
+      allowsRetries: false
+    ) { account in
       Label(
         title: {
           VStack(alignment: .leading) {

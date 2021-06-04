@@ -42,6 +42,9 @@ struct AccountListView: View {
           .buttonStyle(PlainButtonStyle())
       }
     }
+    .toolbar {
+      EditButton()
+    }
     .navigationTitle("Zeitgeist")
     .onOpenURL(perform: { url in
       switch url.detailPage {
