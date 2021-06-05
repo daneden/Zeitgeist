@@ -11,6 +11,7 @@ import SwiftUI
 
 class DeploymentsViewModel: LoadableObject {
   @Published private(set) var state: LoadingState<[Deployment]> = .idle
+  @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   
   private var mostRecentDeployments: [Deployment] = []
   
@@ -25,7 +26,7 @@ class DeploymentsViewModel: LoadableObject {
     self.accountId = accountId
     self.loader = loader
     
-    self.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+    self.timer = Timer.scheduledTimer(withTimeInterval: refreshFrequency, repeats: true) { [weak self] _ in
       self?.load()
     }
   }

@@ -79,6 +79,10 @@ struct DeploymentListView: View {
             : "line.horizontal.3.decrease.circle.fill"
         )
       }
+      
+      Button(action: { deploymentsSource.load() }) {
+        Label("Reload", systemImage: "arrow.clockwise")
+      }
     }
     .navigationTitle("Deployments")
     .onOpenURL(perform: { url in
