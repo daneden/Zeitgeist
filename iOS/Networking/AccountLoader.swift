@@ -87,6 +87,7 @@ class AccountLoader {
          response.statusCode == 403 {
         completion(.failure(LoaderError.unauthorized))
         URLCache.shared.removeAllCachedResponses()
+        Session.shared.revalidate()
         return
       }
       

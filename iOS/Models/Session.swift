@@ -45,25 +45,13 @@ extension SessionError: CustomStringConvertible {
 }
 
 class Session: ObservableObject {
-  var uuid = UUID()
+  private(set) var uuid = UUID()
   static let shared = Session()
 
-  @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = [] {
-    didSet { uuid = UUID() }
-  }
+  @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = []
   
   var accountId: String? {
     authenticatedAccountIds.first
-  }
-
-  init() {
-    if let currentAccountId = Preferences.store.string(forKey: "currentAccountId") {
-      do {
-        try self.setCurrentAccount(id: currentAccountId)
-      } catch {
-        print(error.localizedDescription)
-      }
-    }
   }
 
   func addAccount(id: String, token: String) {
@@ -73,12 +61,6 @@ class Session: ObservableObject {
     authenticatedAccountIds = authenticatedAccountIds.removingDuplicates()
   }
 
-  func setCurrentAccount(id: String) throws {
-    guard let _ = KeychainItem(account: id).wrappedValue else {
-      throw SessionError.notAuthenticated
-    }
-  }
-
   func deleteAccount(id: String) {
     let keychain = KeychainItem(account: id)
     keychain.wrappedValue = nil
@@ -86,5 +68,9 @@ class Session: ObservableObject {
     authenticatedAccountIds.removeAll { candidate in
       id == candidate
     }
+  }
+  
+  func revalidate() {
+    withAnimation { uuid = UUID() }
   }
 }

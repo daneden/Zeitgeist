@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ErrorView: View {
   @ScaledMetric var spacing: CGFloat = 8
@@ -26,6 +27,8 @@ struct ErrorView: View {
 }
 
 struct AsyncContentView<Source: LoadableObject, Content: View>: View {
+  @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
+  @Environment(\.scenePhase) var scenePhase
   @ObservedObject var source: Source
   var placeholderData: Source.Output?
   var content: (Source.Output) -> Content
@@ -44,23 +47,25 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
   }
   
   var body: some View {
-    switch source.state {
-    case .idle:
-      Color.clear.onAppear(perform: source.load)
-    case .loading:
-      if let placeholderData = placeholderData {
-        content(placeholderData)
-          .redacted(reason: .placeholder)
-          .opacity(isAnimating ? 0.5 : 1)
-          .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true))
-          .onAppear { self.isAnimating = true }
-      } else {
-        ProgressView()
+    Group {
+      switch source.state {
+      case .idle:
+        Color.clear.onAppear(perform: source.load)
+      case .loading:
+        if let placeholderData = placeholderData {
+          content(placeholderData)
+            .redacted(reason: .placeholder)
+            .opacity(isAnimating ? 0.5 : 1)
+            .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true))
+            .onAppear { self.isAnimating = true }
+        } else {
+          ProgressView()
+        }
+      case .failed(let error):
+        ErrorView(error: error, retryHandler: allowsRetries ? source.load : nil)
+      case .loaded(let output):
+        content(output)
       }
-    case .failed(let error):
-      ErrorView(error: error, retryHandler: allowsRetries ? source.load : nil)
-    case .loaded(let output):
-      content(output)
     }
   }
 }
