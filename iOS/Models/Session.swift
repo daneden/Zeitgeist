@@ -60,11 +60,6 @@ class Session: ObservableObject {
 
     authenticatedAccountIds.append(id)
     authenticatedAccountIds = authenticatedAccountIds.removingDuplicates()
-    
-    // Ensure new accounts are set up with notifications
-    if notificationsEnabled {
-      NotificationManager.shared.toggleNotifications(on: true)
-    }
   }
 
   func deleteAccount(id: String) {

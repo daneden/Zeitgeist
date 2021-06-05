@@ -18,6 +18,11 @@ struct SettingsView: View {
         NavigationLink(destination: NotificationsView()) {
           Label("Notifications", systemImage: "app.badge")
         }
+        
+        NavigationLink(destination: SubscriptionView()) {
+          Label("Supporter Subscription", systemImage: "heart.fill")
+            .accentColor(.systemPink)
+        }
       }
       
       Group {
@@ -29,7 +34,11 @@ struct SettingsView: View {
           Label("Review on App Store", systemImage: "app.gift")
         }
       }
-    }.navigationTitle("Settings")
+    }
+    .onAppear {
+      IAPHelper.shared.refresh()
+    }
+    .navigationTitle("Settings")
   }
 }
 

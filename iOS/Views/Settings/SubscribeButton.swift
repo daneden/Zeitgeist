@@ -36,8 +36,6 @@ struct SubscribeButton: View {
               if case .purchasing(let value) = purchaseState,
                  value == productType {
                 ProgressView()
-              } else if productType == .annual {
-                SavingsBadge()
               }
             }
           })
