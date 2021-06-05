@@ -16,7 +16,7 @@ struct DeploymentDetailView: View {
     Form {
       Overview(deployment: deployment)
       URLDetails(copied: $copiedURL, accountId: accountId, deployment: deployment)
-      DeploymentDetails(deployment: deployment)
+      DeploymentDetails(accountId: accountId, deployment: deployment)
     }
     .navigationTitle("Deployment Details")
     .onChange(of: self.copiedURL) { _ in
@@ -151,7 +151,16 @@ struct DeploymentDetailView: View {
   }
   
   struct DeploymentDetails: View {
+    @Environment(\.presentationMode) var presentationMode
+    var accountId: Account.ID
     var deployment: Deployment
+    
+    @State var cancelConfirmation = false
+    @State var deleteConfirmation = false
+    
+    @State var mutating = false
+    @State var recentlyCancelled = false
+    
     var body: some View {
       Section(header: Text("Details")) {
         if let svnInfo = deployment.commit,
@@ -165,6 +174,101 @@ struct DeploymentDetailView: View {
         Link(destination: URL(string: "\(deployment.url.absoluteString)/_logs")!) {
           Text("View Logs")
         }
+        
+        if (deployment.state != .queued && deployment.state != .building)
+            || deployment.state == .cancelled
+            || recentlyCancelled {
+          Button(action: { deleteConfirmation = true }) {
+            HStack {
+              Label("Delete Deployment", systemImage: "trash")
+                .foregroundColor(mutating ? .secondary : .systemRed)
+              
+              if mutating {
+                Spacer()
+                ProgressView()
+              }
+            }
+          }.alert(isPresented: $deleteConfirmation) {
+            Alert(
+              title: Text("Are you sure you want to delete this deployment?"),
+              message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
+              primaryButton: .destructive(Text("Delete"), action: deleteDeployment),
+              secondaryButton: .cancel()
+            )
+          }
+        } else {
+          Button(action: { cancelConfirmation = true }) {
+            HStack {
+              Label("Cancel Deployment", systemImage: "xmark")
+                .foregroundColor(mutating ? .secondary : .systemRed)
+              
+              if mutating {
+                Spacer()
+                ProgressView()
+              }
+            }
+          }
+          .disabled(mutating)
+          .alert(isPresented: $cancelConfirmation) {
+            Alert(
+              title: Text("Are you sure you want to cancel this deployment?"),
+              message: Text("This will immediately stop the build, with no option to resume."),
+              primaryButton: .destructive(Text("Cancel Deployment"), action: cancelDeployment),
+              secondaryButton: .cancel(Text("Close"))
+            )
+          }
+        }
+      }
+    }
+    
+    func deleteDeployment() {
+      do {
+        self.mutating = true
+        let request = try VercelAPI.request(
+          for: .deploymentsV11,
+          with: accountId,
+          appending: "\(deployment.id)",
+          method: .DELETE
+        )
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+          DispatchQueue.main.async {
+            self.mutating = false
+            self.presentationMode.wrappedValue.dismiss()
+          }
+        }.resume()
+      } catch {
+        print(error.localizedDescription)
+        self.mutating = false
+      }
+    }
+    
+    func cancelDeployment() {
+      do {
+        self.mutating = true
+        let request = try VercelAPI.request(
+          for: .deploymentsV12,
+          with: accountId,
+          appending: "\(deployment.id)/cancel",
+          method: .PATCH
+        )
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+          if let response = response as? HTTPURLResponse,
+             response.statusCode == 200 {
+            DispatchQueue.main.async {
+              self.mutating = false
+              self.recentlyCancelled = true
+            }
+          }
+          
+          DispatchQueue.main.async {
+            self.mutating = false
+          }
+        }.resume()
+      } catch {
+        print(error.localizedDescription)
+        self.mutating = false
       }
     }
   }

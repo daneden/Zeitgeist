@@ -97,6 +97,11 @@
 		711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
 		711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
 		711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
+		711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
+		711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
+		711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
+		711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
+		711A4A41266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -201,6 +206,7 @@
 		71155406266562C100A73CD6 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidget.swift; sourceTree = "<group>"; };
 		711A4A35266976CA00DA9EE3 /* URL.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.extension.swift; sourceTree = "<group>"; };
+		711A4A3D266B672300DA9EE3 /* VercelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAPI.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -347,6 +353,7 @@
 				7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */,
 				7115536E2662948100A73CD6 /* LoadableObject.swift */,
 				71155372266299BD00A73CD6 /* PublishedObject.swift */,
+				711A4A3D266B672300DA9EE3 /* VercelAPI.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -629,6 +636,7 @@
 				71155347266279CF00A73CD6 /* VerdantApp.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
+				711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,6 +652,7 @@
 				711553B2266548E400A73CD6 /* VerdantApp.swift in Sources */,
 				711553C02665490800A73CD6 /* AddAccountButton.swift in Sources */,
 				711553C22665490800A73CD6 /* RemoteImage.swift in Sources */,
+				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553CF2665491700A73CD6 /* AliasesLoader.swift in Sources */,
 				711553B5266548E400A73CD6 /* ContentView.swift in Sources */,
 				711553C32665490800A73CD6 /* GitProviderImage.swift in Sources */,
@@ -694,6 +703,8 @@
 				711553F02665542200A73CD6 /* AccountLoader.swift in Sources */,
 				711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
+				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
+				711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -705,6 +716,7 @@
 				71F9020626656834000A8873 /* Session.swift in Sources */,
 				71611C032665667100119324 /* IntentHandler.swift in Sources */,
 				71F902072665683B000A8873 /* Array.extension.swift in Sources */,
+				711A4A41266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				71F9020226656813000A8873 /* AccountLoader.swift in Sources */,
 				71F902052665682C000A8873 /* KeychainItem.swift in Sources */,
 				71F902032665681E000A8873 /* AccountViewModel.swift in Sources */,
