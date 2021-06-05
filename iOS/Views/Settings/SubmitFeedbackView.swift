@@ -71,10 +71,13 @@ struct SubmitFeedbackView: View {
     
     request.httpMethod = "POST"
     
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    
     let json: [String: Any] = [
       "name": name,
       "email": email.lowercased(),
-      "feedback": message
+      "feedback": message,
+      "appVersion": appVersion ?? "Unknown"
     ]
     
     let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)

@@ -19,9 +19,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   @AppStorage("activeSupporterSubscription") var activeSubscription = false
   
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+  ) -> Bool {
     if notificationsEnabled {
-      UIApplication.shared.registerForRemoteNotifications()
+      DispatchQueue.main.async {
+        UIApplication.shared.registerForRemoteNotifications()
+      }
     }
     
     UNUserNotificationCenter.current().delegate = self
@@ -41,7 +46,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   }
   
   // MARK: Notifications
-  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+  ) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
     
     _ = Session.shared.authenticatedAccountIds.map { id in
@@ -64,15 +72,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
   }
   
-  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+  func application(
+    _ application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: Error
+  ) {
     print(error.localizedDescription)
   }
   
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+  func application(
+    _ application: UIApplication,
+    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
     print("Received remote notification")
     
     if !activeSubscription {
-      print("User is not know to be an active subscriber; supressing notification")
+      print("User is not known to be an active subscriber; supressing notification")
       completionHandler(.noData)
       return
     }
@@ -110,9 +125,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
         
         let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
+        print("Pushing notification with ID \(notificationID)")
         UNUserNotificationCenter.current().add(request)
         completionHandler(.newData)
       } else {
+        print("Notification suppressed due to user preferences")
         completionHandler(.noData)
       }
     } catch {

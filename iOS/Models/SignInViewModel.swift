@@ -92,7 +92,10 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
       let userId = queryItems.filter({ $0.name == "userId" }).first?.value ?? nil
       
       Session.shared.addAccount(id: teamId ?? userId ?? "-1", token: token)
-      UIApplication.shared.registerForRemoteNotifications()
+      
+      DispatchQueue.main.async {
+        UIApplication.shared.registerForRemoteNotifications()
+      }
     } else {
       print("Something went wrong!")
     }

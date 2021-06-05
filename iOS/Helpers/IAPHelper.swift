@@ -74,6 +74,7 @@ class PurchaseService {
         
         Purchases.shared.purchaseProduct(skProduct!) { (transaction, purchaseInfo, error, userCancelled) in
           if let error = error {
+            print(error)
             print(error.localizedDescription)
             completion(false)
             return
