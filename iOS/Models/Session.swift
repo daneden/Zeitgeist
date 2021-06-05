@@ -45,9 +45,12 @@ extension SessionError: CustomStringConvertible {
 }
 
 class Session: ObservableObject {
+  var uuid = UUID()
   static let shared = Session()
 
-  @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = []
+  @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = [] {
+    didSet { uuid = UUID() }
+  }
   
   var accountId: String? {
     authenticatedAccountIds.first

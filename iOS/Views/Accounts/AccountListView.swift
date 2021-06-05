@@ -48,7 +48,7 @@ struct AccountListView: View {
         }
       }
     }
-    .id(UUID())
+    .id(session.uuid)
     .toolbar {
       EditButton()
     }
