@@ -15,7 +15,7 @@ let imageMap: [GitSVNProvider: String] = [
 ]
 
 struct GitProviderImage: View {
-  @ScaledMetric var size: CGFloat = 20
+  @ScaledMetric var size: CGFloat = 18
   var provider: GitSVNProvider
   var body: some View {
     Image(imageMap[provider]!)

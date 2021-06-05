@@ -21,12 +21,13 @@ struct DeploymentListRowView: View {
             if deployment.target == .production {
               Label("Production Deployment", systemImage: "bolt.fill")
                 .labelStyle(IconOnlyLabelStyle())
+                .foregroundColor(.systemOrange)
+                .imageScale(.small)
             }
             
             Text(deployment.project)
           }
-          .foregroundColor(.secondary)
-          .font(.footnote)
+          .font(.footnote.bold())
           
           Text(deployment.deploymentCause)
             .lineLimit(2)

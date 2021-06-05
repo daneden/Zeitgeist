@@ -66,19 +66,12 @@ struct DeploymentDetailView: View {
         }
         
         DeploymentDetailLabel("Status") {
-          HStack {
-            DeploymentStateIndicator(state: deployment.state)
-            
-            if deployment.target == .production {
-              Spacer()
-              
-              HStack(spacing: 2) {
-                Image(systemName: "bolt.fill")
-                Text("Production")
-              }
-              .foregroundColor(.secondary)
-            }
-          }
+          DeploymentStateIndicator(state: deployment.state)
+        }
+        
+        if deployment.target == .production {
+          Label("Production Build", systemImage: "bolt.fill")
+            .foregroundColor(.systemOrange)
         }
       }
     }
@@ -94,18 +87,14 @@ struct DeploymentDetailView: View {
     var body: some View {
       Section(header: Text("Deployment URL")) {
         Link(destination: deployment.url) {
-          Text(deployment.url.absoluteString).lineLimit(1)
+          Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
         }
         
         Button(action: self.copyUrl) {
-          HStack {
-            Text(copied ? "Copied" : "Copy URL")
-            Spacer()
-            Image(systemName: "doc.on.doc")
-          }
+          Label(copied ? "Copied" : "Copy URL", systemImage: "doc.on.doc")
         }
         
-        AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id)) { aliases in
+        AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
           DisclosureGroup(isExpanded: $aliasesVisible, content: {
             if aliases.isEmpty {
               Text("No aliases assigned to deployment")
@@ -122,7 +111,7 @@ struct DeploymentDetailView: View {
             }
           }, label: {
             HStack {
-              Text("Deployment Aliases")
+              Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
               Spacer()
               Text("\(aliases.count)").foregroundColor(.secondary)
             }
@@ -167,12 +156,15 @@ struct DeploymentDetailView: View {
            let commitUrl: URL = svnInfo.commitURL,
            let shortSha: String = svnInfo.shortSha {
           Link(destination: commitUrl) {
-            Text("View Commit (\(shortSha))")
+            Label(
+              title: { Text("View Commit (\(shortSha))") },
+              icon: { GitProviderImage(provider: svnInfo.provider) }
+            )
           }
         }
         
         Link(destination: URL(string: "\(deployment.url.absoluteString)/_logs")!) {
-          Text("View Logs")
+          Label("View Logs", systemImage: "terminal")
         }
         
         if (deployment.state != .queued && deployment.state != .building)
