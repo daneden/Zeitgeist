@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
   @EnvironmentObject var session: Session
   @State var initialAccountID: String?
+  @State var onboardingViewVisible = false
   
   var body: some View {
     NavigationView {
@@ -17,6 +18,7 @@ struct ContentView: View {
       if session.authenticatedAccountIds.isEmpty {
         VStack {
           PlaceholderView(forRole: .NoAccounts)
+            .padding(.bottom)
           AddAccountButton(label: "Add a Vercel Account")
         }
       } else if let accountID = initialAccountID {
@@ -27,11 +29,16 @@ struct ContentView: View {
       PlaceholderView(forRole: .DeploymentDetail)
     }.onAppear {
       setInitialAccountView()
+    }.onChange(of: session.authenticatedAccountIds) { _ in
+      setInitialAccountView()
+    }.sheet(isPresented: $onboardingViewVisible) {
+      OnboardingView().allowAutoDismiss(false)
     }
   }
   
   func setInitialAccountView() {
     initialAccountID = session.accountId
+    onboardingViewVisible = session.accountId == nil
   }
 }
 

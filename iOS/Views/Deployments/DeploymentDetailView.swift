@@ -53,7 +53,7 @@ struct DeploymentDetailView: View {
                     .font(Font.footnote)
                 }
               },
-              icon: { GitProviderImage(provider: commit.provider) }
+              icon: { GitProviderImage(provider: commit.provider).accentColor(.primary) }
             )
           } else {
             VStack(alignment: .leading) {
