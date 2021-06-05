@@ -9,10 +9,12 @@ import SwiftUI
 
 @main
 struct VerdantApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-              .environmentObject(Session.shared)
-        }
-    }
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  
+  var body: some Scene {
+      WindowGroup {
+          ContentView()
+            .environmentObject(Session.shared)
+      }
+  }
 }

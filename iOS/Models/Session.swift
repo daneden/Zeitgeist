@@ -49,6 +49,7 @@ class Session: ObservableObject {
   static let shared = Session()
 
   @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = []
+  @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
   var accountId: String? {
     authenticatedAccountIds.first
@@ -59,6 +60,11 @@ class Session: ObservableObject {
 
     authenticatedAccountIds.append(id)
     authenticatedAccountIds = authenticatedAccountIds.removingDuplicates()
+    
+    // Ensure new accounts are set up with notifications
+    if notificationsEnabled {
+      NotificationManager.shared.toggleNotifications(on: true)
+    }
   }
 
   func deleteAccount(id: String) {

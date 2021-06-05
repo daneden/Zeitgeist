@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -110,6 +110,27 @@
 		711A4A4B266B8AAC00DA9EE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
 		711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
 		711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
+		711A4A51266BDE2C00DA9EE3 /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 711A4A50266BDE2C00DA9EE3 /* Purchases */; };
+		711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */; };
+		711A4A54266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */; };
+		711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
+		711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
+		711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
+		711A4A5A266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
+		711A4A5C266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */; };
+		711A4A5D266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */; };
+		711A4A5F266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */; };
+		711A4A60266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */; };
+		711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */; };
+		711A4A63266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */; };
+		711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */; };
+		711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */; };
+		711A4A68266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */; };
+		711A4A69266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */; };
+		711A4A6B266BE04D00DA9EE3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */; };
+		711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */; };
+		711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6D266BE08700DA9EE3 /* SKProduct.swift */; };
+		711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6D266BE08700DA9EE3 /* SKProduct.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -219,6 +240,16 @@
 		711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentModal.swift; sourceTree = "<group>"; };
 		711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		711A4A4C266B943800DA9EE3 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		711A4A55266BDF0900DA9EE3 /* PostalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalService.swift; sourceTree = "<group>"; };
+		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitFeedbackView.swift; sourceTree = "<group>"; };
+		711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFrequencyView.swift; sourceTree = "<group>"; };
+		711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterPromoView.swift; sourceTree = "<group>"; };
+		711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButton.swift; sourceTree = "<group>"; };
+		711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		711A4A6D266BE08700DA9EE3 /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -231,6 +262,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711A4A51266BDE2C00DA9EE3 /* Purchases in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +331,7 @@
 				7115535526627ACD00A73CD6 /* Models */,
 				7115536726628B7400A73CD6 /* Networking */,
 				7115534C266279D000A73CD6 /* Preview Content */,
+				711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -344,6 +377,9 @@
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
 				71F9020826656A21000A8873 /* Preferences.swift */,
 				711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */,
+				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
+				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
+				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -355,6 +391,7 @@
 				7115537E2663AD9B00A73CD6 /* Color.extension.swift */,
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				711A4A4C266B943800DA9EE3 /* Dictionary.swift */,
+				711A4A6D266BE08700DA9EE3 /* SKProduct.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -452,7 +489,12 @@
 		711A4A48266B8A9B00DA9EE3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */,
 				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
+				711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */,
+				711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */,
+				711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */,
+				711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -486,6 +528,9 @@
 				71611C062665667100119324 /* PBXTargetDependency */,
 			);
 			name = Zeitgeist;
+			packageProductDependencies = (
+				711A4A50266BDE2C00DA9EE3 /* Purchases */,
+			);
 			productName = Verdant;
 			productReference = 71155343266279CF00A73CD6 /* Zeitgeist.app */;
 			productType = "com.apple.product-type.application";
@@ -573,6 +618,9 @@
 				Base,
 			);
 			mainGroup = 7115533A266279CF00A73CD6;
+			packageReferences = (
+				711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -631,25 +679,33 @@
 				7115538F2664E1B400A73CD6 /* GitProviderImage.swift in Sources */,
 				711553832663AE5F00A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */,
+				711A4A6B266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				7115536F2662948100A73CD6 /* LoadableObject.swift in Sources */,
 				7115535926627B2900A73CD6 /* Session.swift in Sources */,
 				71155364266282C900A73CD6 /* Array.extension.swift in Sources */,
 				7115538D2664E00A00A73CD6 /* DeploymentDetailLabel.swift in Sources */,
+				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
 				711553912664E37F00A73CD6 /* AliasesLoader.swift in Sources */,
+				711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				7115536926628B8100A73CD6 /* AccountLoader.swift in Sources */,
 				71155373266299BD00A73CD6 /* PublishedObject.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
 				71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */,
+				711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
+				711A4A5C266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */,
+				711A4A68266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
 				711553852663B00B00A73CD6 /* AccountListView.swift in Sources */,
+				711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
 				711553812663AE0900A73CD6 /* DeploymentListView.swift in Sources */,
 				71155349266279CF00A73CD6 /* ContentView.swift in Sources */,
 				7115537926629BB900A73CD6 /* Deployment.swift in Sources */,
 				7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				711553E4266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
+				711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */,
 				7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */,
 				711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */,
 				71155371266294BB00A73CD6 /* AsyncContentView.swift in Sources */,
@@ -658,8 +714,10 @@
 				7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */,
 				7115537526629B0C00A73CD6 /* DeploymentsLoader.swift in Sources */,
+				711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */,
 				71F9020926656A21000A8873 /* Preferences.swift in Sources */,
 				71155347266279CF00A73CD6 /* VerdantApp.swift in Sources */,
+				711A4A5F266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
 				711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */,
@@ -675,6 +733,7 @@
 			files = (
 				711553BC266548F400A73CD6 /* Color.extension.swift in Sources */,
 				711553B9266548E400A73CD6 /* DeploymentListView.swift in Sources */,
+				711A4A54266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				711553B4266548E400A73CD6 /* AccountListView.swift in Sources */,
 				711553CD2665491700A73CD6 /* DeploymentsLoader.swift in Sources */,
 				711553B2266548E400A73CD6 /* VerdantApp.swift in Sources */,
@@ -691,12 +750,18 @@
 				711553B6266548E400A73CD6 /* DeploymentListRowView.swift in Sources */,
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				711553CE2665491700A73CD6 /* AccountLoader.swift in Sources */,
+				711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
+				711A4A60266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
+				711A4A5A266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
 				711553CA2665491300A73CD6 /* Session.swift in Sources */,
+				711A4A5D266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */,
 				711A4A4B266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
+				711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */,
 				711553BB266548E400A73CD6 /* DeploymentDetailLabel.swift in Sources */,
+				711A4A63266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */,
 				711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
 				711553D12665491700A73CD6 /* PublishedObject.swift in Sources */,
@@ -704,10 +769,13 @@
 				711A4A47266B81DB00DA9EE3 /* PersistentModal.swift in Sources */,
 				711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
+				711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				711553C82665491300A73CD6 /* Deployment.swift in Sources */,
 				711553C92665491300A73CD6 /* AccountViewModel.swift in Sources */,
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
 				711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */,
+				711A4A69266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
+				711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				71F9020A26656A21000A8873 /* Preferences.swift in Sources */,
 				711553D02665491700A73CD6 /* LoadableObject.swift in Sources */,
 			);
@@ -898,7 +966,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -925,7 +993,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -1003,7 +1071,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -1028,7 +1096,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -1051,7 +1119,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1073,7 +1141,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1139,6 +1207,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.11.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		711A4A50266BDE2C00DA9EE3 /* Purchases */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = Purchases;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7115533B266279CF00A73CD6 /* Project object */;
 }
