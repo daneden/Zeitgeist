@@ -8,13 +8,13 @@
 import Intents
 
 class IntentHandler: INExtension, SelectAccountIntentHandling {
-  private var storedAccounts = [WidgetAccount]()
-  
   func provideAccountOptionsCollection(for intent: SelectAccountIntent, with completion: @escaping (INObjectCollection<WidgetAccount>?, Error?) -> Void) {
     let dispatchGroup = DispatchGroup()
     var accounts = [WidgetAccount]()
     
     let loader = AccountLoader()
+    loader.useURLCache = false
+    
     let accountIds = Session.shared.authenticatedAccountIds
     _ = accountIds.map { accountId in
       dispatchGroup.enter()
@@ -28,24 +28,15 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
         
         dispatchGroup.leave()
       }
-      
-      dispatchGroup.notify(queue: .main) {
-        let collection = INObjectCollection(items: accounts)
-        completion(collection, nil)
-      }
-      
-      storedAccounts = accounts
+    }
+    
+    dispatchGroup.notify(queue: .main) {
+      let collection = INObjectCollection(items: accounts)
+      completion(collection, nil)
     }
   }
   
   override func handler(for intent: INIntent) -> Any {
-    // This is the default implementation.  If you want different objects to handle different intents,
-    // you can override this and return the handler you want for that particular intent.
-    
     return self
-  }
-  
-  func defaultAccount(for intent: SelectAccountIntent) -> WidgetAccount? {
-    return storedAccounts.first
   }
 }

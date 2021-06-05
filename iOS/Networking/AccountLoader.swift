@@ -52,6 +52,7 @@ extension LoaderError: LocalizedError {
 
 class AccountLoader {
   private let decoder = JSONDecoder()
+  var useURLCache = true
   
   func loadAccount(withID id: Account.ID, completion: @escaping (Result<Account>) -> Void) {
     let isTeam = id.starts(with: "team_")
@@ -68,15 +69,17 @@ class AccountLoader {
     var request = URLRequest(url: url)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
-    let cache = URLCache.shared
-    if let cachedResponse = cache.cachedResponse(for: request) {
-      let data = cachedResponse.data
-      guard let account = handleResponseData(data: data, isTeam: isTeam) else {
-        completion(.failure(LoaderError.decodingError))
-        return
+    if useURLCache {
+      let cache = URLCache.shared
+      if let cachedResponse = cache.cachedResponse(for: request) {
+        let data = cachedResponse.data
+        guard let account = handleResponseData(data: data, isTeam: isTeam) else {
+          completion(.failure(LoaderError.decodingError))
+          return
+        }
+        
+        completion(.success(account))
       }
-      
-      completion(.success(account))
     }
     
     URLSession.shared.dataTask(with: request) { data, response, error in
