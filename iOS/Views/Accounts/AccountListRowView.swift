@@ -34,7 +34,7 @@ struct AccountListRowView: View {
           }
         },
         icon: {
-          VercelUserAvatarView(avatarID: account.avatar, size: avatarSize)
+          VercelUserAvatarView(avatarID: account.avatar, teamID: account.isTeam ? account.id : nil, size: avatarSize)
         }
       )
     }

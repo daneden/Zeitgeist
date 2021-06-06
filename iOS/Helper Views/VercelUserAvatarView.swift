@@ -9,12 +9,21 @@
 import SwiftUI
 
 struct VercelUserAvatarView: View {
-  var avatarID: String
+  var avatarID: String?
+  var teamID: String?
   @State var size: CGFloat = 32
+  
+  private var url: String {
+    if let teamID = teamID {
+      return "https://vercel.com/api/www/avatar/?teamId=\(teamID)&s=\(size * 2)"
+    } else {
+      return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size * 2)"
+    }
+  }
   
   var body: some View {
     
-    RemoteImage(url: "https://vercel.com/api/www/avatar/\(avatarID)?s=\(size * 2)")
+    RemoteImage(url: url)
       .frame(width: size, height: size)
       .cornerRadius(size)
       .overlay(

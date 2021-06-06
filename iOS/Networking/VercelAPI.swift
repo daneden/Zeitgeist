@@ -29,6 +29,8 @@ struct VercelAPI {
     var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.rawValue)\(appending ?? "")")!
     var completeQuery = queryItems
     
+    completeQuery.append(URLQueryItem(name: "userId", value: accountId))
+    
     if isTeam {
       completeQuery.append(URLQueryItem(name: "teamId", value: accountId))
     }
@@ -38,6 +40,7 @@ struct VercelAPI {
     guard let token = KeychainItem(account: accountId).wrappedValue else {
       throw LoaderError.unauthorized
     }
+    
     var request = URLRequest(url: urlComponents.url!)
     request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.httpMethod = method.rawValue

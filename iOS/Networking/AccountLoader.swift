@@ -30,7 +30,7 @@ struct UserResponse: Codable {
 struct Team: Codable {
   var id: String
   var name: String
-  var avatar: String
+  var avatar: String?
 }
 
 enum LoaderError: Error {
@@ -57,7 +57,7 @@ class AccountLoader {
   func loadAccount(withID id: Account.ID, completion: @escaping (Result<Account>) -> Void) {
     let isTeam = id.starts(with: "team_")
     let urlPath = isTeam ? "v1/teams/\(id)" : "www/user"
-    guard let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? id : "")") else {
+    guard let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? id : "")&userId=\(id)") else {
       return
     }
     

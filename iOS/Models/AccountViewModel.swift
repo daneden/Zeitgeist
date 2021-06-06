@@ -13,7 +13,7 @@ struct Account: Codable {
   var isTeam: Bool {
     id.starts(with: "team_")
   }
-  var avatar: String
+  var avatar: String?
   var name: String
 }
 
