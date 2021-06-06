@@ -23,6 +23,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
+      switch settings.authorizationStatus {
+      case .denied, .notDetermined:
+        self.notificationsEnabled = false
+        return
+      default:
+        return
+      }
+    }
+    
     if notificationsEnabled {
       DispatchQueue.main.async {
         UIApplication.shared.registerForRemoteNotifications()
@@ -65,7 +75,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         if data != nil {
           print("Successfully registered device ID to ZPS")
-          self.notificationsEnabled = true
+          DispatchQueue.main.async {
+            self.notificationsEnabled = true
+          }
         }
       }.resume()
     }
@@ -104,7 +116,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
       
-      if NotificationManager.notificationsAllowedForEventType(eventType) {
+      if NotificationManager.userAllowedNotifications(for: eventType) {
         let content = UNMutableNotificationContent()
         
         if let title = title {
@@ -132,6 +144,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("Notification suppressed due to user preferences")
         completionHandler(.noData)
       }
+      
+      return
     } catch {
       switch error {
       case ZPSError.FieldCastingError(let field):
@@ -139,11 +153,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       case ZPSError.EventTypeCastingError(let eventType):
         print(eventType.debugDescription)
       default:
-        print("")
+        print("Unknown error occured when handling background notification")
       }
       
       print(error.localizedDescription)
       completionHandler(.failed)
+      
+      return
     }
   }
 }

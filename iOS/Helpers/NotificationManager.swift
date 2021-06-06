@@ -53,7 +53,7 @@ class NotificationManager {
   @AppStorage("allowDeploymentErrorNotifications") static var allowDeploymentErrorNotifications = true
   @AppStorage("allowDeploymentReadyNotifications") static var allowDeploymentReadyNotifications = true
   
-  static func notificationsAllowedForEventType(_ eventType: ZPSEventType) -> Bool {
+  static func userAllowedNotifications(for eventType: ZPSEventType) -> Bool {
     switch eventType {
     case .Deployment:
       return allowDeploymentNotifications
