@@ -46,6 +46,14 @@ struct SubscribeButton: View {
       Button(action: { SKPaymentQueue.default().presentCodeRedemptionSheet() }, label: {
         Label("Redeem Offer Code", systemImage: "tag")
       })
+      
+      Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+        Text("Privacy Policy")
+      }
+      
+      Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+        Text("Terms of Use")
+      }
     }
   }
 }

@@ -5,7 +5,9 @@
 //  Created by Daniel Eden on 05/06/2021.
 //
 
+#if !os(macOS)
 import UIKit
+#endif
 import SwiftUI
 import Purchases
 

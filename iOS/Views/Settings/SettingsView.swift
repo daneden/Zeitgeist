@@ -34,6 +34,16 @@ struct SettingsView: View {
           Label("Review on App Store", systemImage: "app.gift")
         }
       }
+      
+      Group {
+        Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+          Text("Privacy Policy")
+        }
+        
+        Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+          Text("Terms of Use")
+        }
+      }
     }
     .onAppear {
       IAPHelper.shared.refresh()

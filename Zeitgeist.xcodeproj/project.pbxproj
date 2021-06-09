@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7110B2142670F5EC00ADF96F /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 7110B2132670F5EC00ADF96F /* Purchases */; };
 		71155347266279CF00A73CD6 /* VerdantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* VerdantApp.swift */; };
 		71155349266279CF00A73CD6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155348266279CF00A73CD6 /* ContentView.swift */; };
 		7115534B266279D000A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
@@ -134,7 +135,6 @@
 		711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
 		711A4A72266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
 		711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */; };
-		711A4A75266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -276,6 +276,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7110B2142670F5EC00ADF96F /* Purchases in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +557,9 @@
 			dependencies = (
 			);
 			name = "Zeitgeist (macOS)";
+			packageProductDependencies = (
+				7110B2132670F5EC00ADF96F /* Purchases */,
+			);
 			productName = Zeitgeist;
 			productReference = 711553A1266548BD00A73CD6 /* Zeitgeist (macOS).app */;
 			productType = "com.apple.product-type.application";
@@ -764,7 +768,6 @@
 				711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
-				711A4A75266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */,
 				711A4A60266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
 				711A4A5A266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
@@ -978,7 +981,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -1005,7 +1008,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
@@ -1083,7 +1086,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -1108,7 +1111,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -1131,7 +1134,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1153,7 +1156,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1232,6 +1235,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7110B2132670F5EC00ADF96F /* Purchases */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = Purchases;
+		};
 		711A4A50266BDE2C00DA9EE3 /* Purchases */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */;

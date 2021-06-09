@@ -16,11 +16,11 @@ struct NotificationsView: View {
   
   var body: some View {
     Form {
+      if !activeSubscription {
+        SupporterPromoView()
+      }
+      
       Section {
-        if !activeSubscription {
-          SupporterPromoView()
-        }
-        
         Group {
           Toggle("Enable Notifications", isOn: $notificationsEnabled)
             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
