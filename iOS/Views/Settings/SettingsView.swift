@@ -25,23 +25,23 @@ struct SettingsView: View {
         }
       }
       
-      Group {
+      Section {
         NavigationLink(destination: SubmitFeedbackView()) {
           Label("Submit Feedback", systemImage: "ladybug")
         }
         
         Link(destination: .ReviewURL) {
-          Label("Review on App Store", systemImage: "app.gift")
+          Label("Review on App Store", systemImage: "star")
         }
       }
       
-      Group {
+      Section {
         Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-          Text("Privacy Policy")
+          Label("Privacy Policy", systemImage: "lock")
         }
         
         Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-          Text("Terms of Use")
+          Label("Terms of Use", systemImage: "book.closed")
         }
       }
     }

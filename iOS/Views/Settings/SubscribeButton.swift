@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import Purchases
 
 enum PurchaseState: Equatable {
   case idle
@@ -17,44 +18,78 @@ struct SubscribeButton: View {
   @ObservedObject var iapHelper = IAPHelper.shared
   @State var purchaseState: PurchaseState = .idle
   
+  private var monthlySub: Purchases.Package? {
+    IAPHelper.shared.monthlySubscription
+  }
+  
+  private var yearlySub: Purchases.Package? {
+    IAPHelper.shared.yearlySubscription
+  }
+  
   var body: some View {
     Group {
-      ForEach(iapHelper.subscriptionProducts, id: \.productIdentifier) { product in
-        if let productType = IAPSubscriptionType(rawValue: product.productIdentifier) {
+      if monthlySub == nil && yearlySub == nil {
+        ProgressView("Loading subscriptions...")
+      } else {
+        monthlySub.map { sub in
           Button(action: {
-            self.purchaseState = .purchasing(product: productType)
-            
-            iapHelper.makeSubscriptionPurchase(type: productType) { _ in
+            self.purchaseState = .purchasing(product: .monthly)
+            iapHelper.makeSubscriptionPurchase(package: sub) { _ in
               self.purchaseState = .idle
             }
-          }, label: {
+          }) {
+            Label("\(sub.localizedPriceString) Monthly", systemImage: "plus.app")
+          }
+          .opacity(self.purchaseState == .purchasing(product: .monthly) ? 0.5 : 1)
+          .disabled(self.purchaseState != .idle)
+        }
+        
+        yearlySub.map { sub in
+          Button(action: {
+            self.purchaseState = .purchasing(product: .annual)
+            iapHelper.makeSubscriptionPurchase(package: sub) { _ in
+              self.purchaseState = .idle
+            }
+          }) {
             HStack {
-              Text("\(product.localizedTitle) (\(product.localizedPrice))")
+              Label("\(sub.localizedPriceString) Yearly", systemImage: "plus.square.on.square")
               
-              Spacer()
-              
-              if case .purchasing(let value) = purchaseState,
-                 value == productType {
-                ProgressView()
+              if let priceSaving = priceSaving {
+                Spacer()
+                Text(priceSaving)
+                  .padding(4)
+                  .padding(.horizontal, 4)
+                  .background(Color.systemPink)
+                  .cornerRadius(4)
+                  .font(.footnote.bold())
+                  .foregroundColor(.white)
               }
             }
-          })
-          .disabled(purchaseState != .idle)
+          }
+          .opacity(self.purchaseState == .purchasing(product: .annual) ? 0.5 : 1)
+          .disabled(self.purchaseState != .idle)
         }
+        
       }
       
       Button(action: { SKPaymentQueue.default().presentCodeRedemptionSheet() }, label: {
         Label("Redeem Offer Code", systemImage: "tag")
       })
-      
-      Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-        Text("Privacy Policy")
-      }
-      
-      Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-        Text("Terms of Use")
-      }
     }
+  }
+  
+  private var priceSaving: LocalizedStringKey? {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    
+    guard let monthlySub = monthlySub,
+          let yearlySub = yearlySub else {
+      return nil
+    }
+    
+    let savings = (monthlySub.product.price.doubleValue * 12) - yearlySub.product.price.doubleValue
+    
+    return "\(formatter.string(from: NSNumber(value: savings))!) off"
   }
 }
 

@@ -15,10 +15,12 @@ enum IAPSubscriptionType: String, CaseIterable {
 }
 
 class IAPHelper: ObservableObject {
-  @AppStorage("activeSupporterSubscription") private var activeSubscriber = false
+  @AppStorage("activeSupporterSubscription") private(set) var activeSubscriber = false
   
   @Published var activeSubscriptions = [SKProduct]()
-  @Published var subscriptionProducts = [SKProduct]()
+  
+  @Published var monthlySubscription: Purchases.Package?
+  @Published var yearlySubscription: Purchases.Package?
   
   static var shared = IAPHelper()
   
@@ -26,17 +28,17 @@ class IAPHelper: ObservableObject {
     self.refresh()
   }
   
-  func makeSubscriptionPurchase(type: IAPSubscriptionType, completion: @escaping (_ wasSuccessful: Bool) -> Void) {
-    PurchaseService.purchase(productID: type.rawValue) { wasSuccessful in
+  func makeSubscriptionPurchase(package: Purchases.Package, completion: @escaping (_ wasSucessful: Bool) -> Void) {
+    PurchaseService.purchase(package: package) { wasSuccessful in
       self.activeSubscriber = wasSuccessful
       completion(wasSuccessful)
     }
   }
   
   func refresh() {
-    // Check if the user has an active subscription
-    Purchases.shared.products(IAPSubscriptionType.allCases.map { $0.rawValue }) { (products) in
-      self.subscriptionProducts = products
+    Purchases.shared.offerings { (offerings, error) in
+      self.monthlySubscription = offerings?.current?.monthly
+      self.yearlySubscription = offerings?.current?.annual
     }
     
     Purchases.shared.purchaserInfo { (info, error) in
@@ -46,49 +48,24 @@ class IAPHelper: ObservableObject {
       }
       
       self.activeSubscriber = info?.entitlements["supporter"]?.isActive == true
-      
-      guard let activeSubscriptions = info?.activeSubscriptions.map { id in
-        self.subscriptionProducts.first { $0.productIdentifier == id }
-      }.filter({ product in
-        product != nil
-      }) as? [SKProduct] else {
-        return
-      }
-      
-      self.activeSubscriptions = activeSubscriptions
     }
   }
 }
 
 class PurchaseService {
-  static func purchase(productID: String?, completion: @escaping (_ successful: Bool) -> Void) {
-    guard productID != nil else {
-      return
-    }
-    
-    var skProduct: SKProduct?
-    
-    Purchases.shared.products([productID!]) { products in
-      if !products.isEmpty {
-        skProduct = products.first
-        
-        Purchases.shared.purchaseProduct(skProduct!) { (transaction, purchaseInfo, error, userCancelled) in
-          if let error = error {
-            print(error)
-            print(error.localizedDescription)
-            completion(false)
-            return
-          }
-          
-          if error == nil && !userCancelled {
-            completion(true)
-          } else if userCancelled {
-            completion(false)
-          }
-          
-          print(purchaseInfo as Any)
-          print(transaction as Any)
-        }
+  static func purchase(package: Purchases.Package, completion: @escaping (_ successful: Bool) -> Void) {
+    Purchases.shared.purchasePackage(package) { (transation, purchaseInfo, error, userCancelled) in
+      if let error = error {
+        print(error)
+        print(error.localizedDescription)
+        completion(false)
+        return
+      }
+      
+      if error == nil && !userCancelled {
+        completion(true)
+      } else if userCancelled {
+        completion(false)
       }
     }
   }

@@ -11,7 +11,7 @@ struct SupporterPromoView: View {
   @State var purchased = false
   
   var body: some View {
-    Group {
+    Section(header: Text("Become a Supporter"), footer: TermsAndPrivacyView()) {
       Label(
         title: {
           HStack {
