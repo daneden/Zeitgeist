@@ -1,12 +1,13 @@
 //
 //  AppDelegate.swift
-//  iOS
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 16/03/2021.
-//  Copyright © 2021 Daniel Eden. All rights reserved.
+//  Created by Daniel Eden on 05/06/2021.
 //
 
+#if !os(macOS)
 import UIKit
+#endif
 import SwiftUI
 import Purchases
 
@@ -18,11 +19,26 @@ let platform = "ios"
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
-  @AppStorage(UDValues.activeSupporterSubscription) var activeSubscription
+  @AppStorage("activeSupporterSubscription") var activeSubscription = false
   
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+  ) -> Bool {
+    UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
+      switch settings.authorizationStatus {
+      case .denied, .notDetermined:
+        self.notificationsEnabled = false
+        return
+      default:
+        return
+      }
+    }
+    
     if notificationsEnabled {
-      UIApplication.shared.registerForRemoteNotifications()
+      DispatchQueue.main.async {
+        UIApplication.shared.registerForRemoteNotifications()
+      }
     }
     
     UNUserNotificationCenter.current().delegate = self
@@ -42,10 +58,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   }
   
   // MARK: Notifications
-  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+  ) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
     
-    _ = Session.shared.accounts.map { (id, _) in
+    _ = Session.shared.authenticatedAccountIds.map { id in
       let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
       let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(id)&device_id=\(token)&platform=\(platform)")!
       let request = URLRequest(url: url)
@@ -58,22 +77,31 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         if data != nil {
           print("Successfully registered device ID to ZPS")
-          self.notificationsEnabled = true
+          DispatchQueue.main.async {
+            self.notificationsEnabled = true
+          }
         }
       }.resume()
     }
     
   }
   
-  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+  func application(
+    _ application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: Error
+  ) {
     print(error.localizedDescription)
   }
   
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+  func application(
+    _ application: UIApplication,
+    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
     print("Received remote notification")
     
     if !activeSubscription {
-      print("User is not know to be an active subscriber; supressing notification")
+      print("User is not known to be an active subscriber; supressing notification")
       completionHandler(.noData)
       return
     }
@@ -89,8 +117,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       guard let eventType: ZPSEventType = ZPSEventType(rawValue: userInfo["eventType"] as? String ?? "") else {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
-        
-      if NotificationManager.notificationsAllowedForEventType(eventType) {
+      
+      if NotificationManager.userAllowedNotifications(for: eventType) {
         let content = UNMutableNotificationContent()
         
         if let title = title {
@@ -111,11 +139,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
         
         let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
+        print("Pushing notification with ID \(notificationID)")
         UNUserNotificationCenter.current().add(request)
         completionHandler(.newData)
       } else {
+        print("Notification suppressed due to user preferences")
         completionHandler(.noData)
       }
+      
+      return
     } catch {
       switch error {
       case ZPSError.FieldCastingError(let field):
@@ -123,11 +155,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       case ZPSError.EventTypeCastingError(let eventType):
         print(eventType.debugDescription)
       default:
-        print("")
+        print("Unknown error occured when handling background notification")
       }
       
       print(error.localizedDescription)
       completionHandler(.failed)
+      
+      return
     }
   }
 }
@@ -144,7 +178,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       completionHandler()
       return
     }
-
+    
     guard let teamID = userInfo["TEAM_ID"] as? String else {
       completionHandler()
       return
@@ -156,7 +190,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     default:
       print("Uncaught notification category identifies")
     }
-
+    
     completionHandler()
   }
 }
