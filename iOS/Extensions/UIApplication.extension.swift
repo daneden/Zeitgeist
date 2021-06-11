@@ -1,9 +1,8 @@
 //
 //  UIApplication.extension.swift
-//  iOS
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 21/03/2021.
-//  Copyright © 2021 Daniel Eden. All rights reserved.
+//  Created by Daniel Eden on 05/06/2021.
 //
 
 import UIKit

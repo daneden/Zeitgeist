@@ -1,29 +1,39 @@
 //
 //  SupporterPromoView.swift
-//  iOS
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 19/03/2021.
-//  Copyright © 2021 Daniel Eden. All rights reserved.
+//  Created by Daniel Eden on 05/06/2021.
 //
 
 import SwiftUI
-import StoreKit
 
 struct SupporterPromoView: View {
   @State var purchased = false
   
   var body: some View {
-    Group {
-      VStack(alignment: .leading, spacing: 4) {
-        Image(systemName: "lock.fill")
-          .foregroundColor(.systemYellow)
-          .font(.title)
-        Text("Subscribe to unlock notifications").lineLimit(4)
-          .font(Font.headline.bold())
-          .padding(.bottom, 4)
-        
-        Text("Support the development of Zeitgeist with a subscription to enable push notifications for new and failed builds.")
-      }.padding(.vertical, 8)
+    Section(header: Text("Become a Supporter"), footer: TermsAndPrivacyView()) {
+      Label(
+        title: {
+          HStack {
+            VStack(alignment: .leading, spacing: 4) {
+              Text("Subscribe to unlock notifications")
+                .fontWeight(.bold)
+              
+              Text("Support the development of Zeitgeist with a subscription to enable push notifications for new and failed builds.")
+            }
+            Spacer()
+          }
+        },
+        icon: {
+          Image(systemName: "heart.fill")
+            .foregroundColor(.systemPink)
+        }
+      )
+      .font(.footnote)
+      .padding(8)
+      .background(Color.systemPink.opacity(0.05))
+      .cornerRadius(12)
+      .padding(.leading, -8)
       
       SubscribeButton()
     }
