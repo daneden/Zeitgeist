@@ -15,7 +15,7 @@ struct VercelAPI {
   }
   
   enum RequestMethod: String, RawRepresentable {
-    case GET, PUT, PATCH, DELETE
+    case GET, PUT, PATCH, DELETE, POST
   }
   
   static func request(

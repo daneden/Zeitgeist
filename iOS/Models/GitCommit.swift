@@ -30,6 +30,30 @@ protocol Commit {
 struct AnyCommit: Commit, Decodable {
   private var wrapped: Commit
   
+  static func encodeToDictionary(from commit: AnyCommit) -> [String: String] {
+    func makeKey(_ key: String) -> String {
+      return "\(commit.provider.rawValue)\(key)"
+    }
+    
+    var dict = [
+      makeKey("CommitMessage"): commit.commitMessage,
+      makeKey("CommitAuthorName"): commit.commitAuthorName,
+      makeKey("CommitSha"): commit.commitSha
+    ]
+    
+    switch commit.provider {
+    case .bitbucket:
+      dict[makeKey("RepoSlug")] = commit.repo
+      dict[makeKey("RepoOwner")] = commit.org
+    case .gitlab:
+      dict[makeKey("ProjectPath")] = "\(commit.org)/\(commit.repo)"
+    case .github:
+      break
+    }
+    
+    return dict
+  }
+  
   init(from decoder: Decoder) throws {
     if let commit = try? BitBucketCommit(from: decoder) {
       wrapped = commit

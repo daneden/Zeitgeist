@@ -146,6 +146,7 @@ struct DeploymentDetailView: View {
     
     @State var cancelConfirmation = false
     @State var deleteConfirmation = false
+    @State var redeployConfirmation = false
     
     @State var mutating = false
     @State var recentlyCancelled = false
@@ -170,17 +171,27 @@ struct DeploymentDetailView: View {
         if (deployment.state != .queued && deployment.state != .building)
             || deployment.state == .cancelled
             || recentlyCancelled {
+          // MARK: Stub code for redeployments
+//          Button(action: { redeployConfirmation = true }) {
+//            Label("Redeploy", systemImage: "arrow.clockwise")
+//          }
+//          .alert(isPresented: $redeployConfirmation) {
+//            Alert(
+//              title: Text("Confirm Redeployment"),
+//              message: Text("This will create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings."),
+//              primaryButton: .default(Text("Redeploy"), action: redeploy),
+//              secondaryButton: .cancel()
+//            )
+//          }
+//          .disabled(mutating)
+          
           Button(action: { deleteConfirmation = true }) {
             HStack {
               Label("Delete Deployment", systemImage: "trash")
                 .foregroundColor(mutating ? .secondary : .systemRed)
-              
-              if mutating {
-                Spacer()
-                ProgressView()
-              }
             }
-          }.alert(isPresented: $deleteConfirmation) {
+          }
+          .alert(isPresented: $deleteConfirmation) {
             Alert(
               title: Text("Are you sure you want to delete this deployment?"),
               message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
@@ -188,6 +199,7 @@ struct DeploymentDetailView: View {
               secondaryButton: .cancel()
             )
           }
+          .disabled(mutating)
         } else {
           Button(action: { cancelConfirmation = true }) {
             HStack {
@@ -210,6 +222,39 @@ struct DeploymentDetailView: View {
             )
           }
         }
+      }
+    }
+    
+    // Stub code for redeployments
+    func redeploy() {
+      do {
+        self.mutating = true
+        var request = try VercelAPI.request(
+          for: .deploymentsV12,
+          with: accountId,
+          method: .POST
+        )
+        
+        if let commit = deployment.commit {
+          let data: [String: Any] = [
+            "meta": AnyCommit.encodeToDictionary(from: commit),
+            "files": [],
+            "name": deployment.project
+          ]
+          
+          request.httpBody = try JSONSerialization.data(withJSONObject: data)
+          print(String(decoding: request.httpBody!, as: UTF8.self))
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+          DispatchQueue.main.async {
+            self.mutating = false
+            self.presentationMode.wrappedValue.dismiss()
+          }
+        }.resume()
+      } catch {
+        print(error.localizedDescription)
+        self.mutating = false
       }
     }
     
