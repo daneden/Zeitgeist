@@ -25,7 +25,7 @@ struct AccountListView: View {
           }
           .contextMenu {
             Button(action: { session.deleteAccount(id: accountId)}) {
-              Label("Delete Account", systemImage: "trash")
+              Label("Remove Account", systemImage: "person.badge.minus")
             }.foregroundColor(.systemRed)
           }
         }
