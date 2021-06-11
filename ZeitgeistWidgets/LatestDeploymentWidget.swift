@@ -67,6 +67,8 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
               policy: .atEnd
             )
           )
+        } else {
+          completion(Timeline(entries: [], policy: .atEnd))
         }
       case .failure(let error):
         print(error)

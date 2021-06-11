@@ -8,6 +8,8 @@
 import Intents
 
 class IntentHandler: INExtension, SelectAccountIntentHandling {
+  static let defaultAccountDisplayString = "Default Account"
+  
   func provideAccountOptionsCollection(for intent: SelectAccountIntent, with completion: @escaping (INObjectCollection<WidgetAccount>?, Error?) -> Void) {
     let dispatchGroup = DispatchGroup()
     var accounts = [WidgetAccount]()
@@ -38,5 +40,16 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   
   override func handler(for intent: INIntent) -> Any {
     return self
+  }
+  
+  func defaultAccount(for intent: SelectAccountIntent) -> WidgetAccount? {
+    guard let firstAccountId = Session.shared.authenticatedAccountIds.first else {
+      return nil
+    }
+    
+    return WidgetAccount(
+      identifier: firstAccountId,
+      display: IntentHandler.defaultAccountDisplayString
+    )
   }
 }
