@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Account: Codable {
+struct Account: Codable, Identifiable {
   typealias ID = String
   var id: ID
   var isTeam: Bool {

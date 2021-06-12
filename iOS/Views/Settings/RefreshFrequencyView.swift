@@ -13,25 +13,21 @@ struct RefreshFrequencyView: View {
   var body: some View {
     Form {
       Section(footer: Text("Lower values may negatively impact app performance")) {
-        DeploymentDetailLabel("Refresh deployments every:") {
-          Text("\(Int(refreshFrequency)) seconds").font(.body.bold())
-        }
-        
-        Slider(
+        Stepper(
           value: $refreshFrequency,
           in: 2...30,
-          step: 1,
-          minimumValueLabel: Text("2"),
-          maximumValueLabel: Text("30")
+          step: 1
         ) {
-          Text("Refresh Frequency")
+          DeploymentDetailLabel("Refresh deployments every:") {
+            Text("\(Int(refreshFrequency)) seconds")
+          }
         }
         
         Button(action: { refreshFrequency = 5.0 }) {
           Text("Reset To Default")
         }.disabled(refreshFrequency == 5.0)
       }
-    }
+    }.navigationTitle("Refresh Frequency")
   }
 }
 
