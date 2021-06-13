@@ -76,9 +76,11 @@ struct SubscribeButton: View {
         
       }
       
+      #if !os(macOS)
       Button(action: { SKPaymentQueue.default().presentCodeRedemptionSheet() }, label: {
         Label("Redeem Offer Code", systemImage: "tag")
       })
+      #endif
     }
   }
   

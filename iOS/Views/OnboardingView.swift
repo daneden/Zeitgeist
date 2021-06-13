@@ -36,7 +36,7 @@ struct OnboardingView: View {
             .background(Color.accentColor)
             .foregroundColor(.white)
             .cornerRadius(8)
-          }.hoverEffect(.lift)
+          }
           
           Text("To get started, sign in with your Vercel account.")
             .font(.caption)

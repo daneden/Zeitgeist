@@ -28,9 +28,11 @@ struct SubscriptionView: View {
           Text("Thank you for being a supporter of Zeitgeist. You can manage your subscription in the App Store.")
             .font(.footnote)
           
+          #if !os(macOS)
           Button(action: { UIApplication.openSubscriptionManagement() }, label: {
             Text("Manage in App Store")
           })
+          #endif
         }
       } else {
         SupporterPromoView()

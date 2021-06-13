@@ -15,6 +15,7 @@ struct SettingsView: View {
           Label("Refresh Frequency", systemImage: "clock.arrow.2.circlepath")
         }
         
+        #if !os(macOS)
         NavigationLink(destination: NotificationsView()) {
           Label("Notifications", systemImage: "app.badge")
         }
@@ -23,12 +24,15 @@ struct SettingsView: View {
           Label("Supporter Subscription", systemImage: "heart.fill")
             .accentColor(.systemPink)
         }
+        #endif
       }
       
       Section {
+        #if !os(macOS)
         NavigationLink(destination: SubmitFeedbackView()) {
           Label("Submit Feedback", systemImage: "ladybug")
         }
+        #endif
         
         Link(destination: .ReviewURL) {
           Label("Review on App Store", systemImage: "star")

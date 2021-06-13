@@ -32,7 +32,11 @@ struct ContentView: View {
     }.onChange(of: session.authenticatedAccountIds) { _ in
       setInitialAccountView()
     }.sheet(isPresented: $onboardingViewVisible) {
+      #if !os(macOS)
       OnboardingView().allowAutoDismiss(false)
+      #else
+      OnboardingView()
+      #endif
     }
   }
   

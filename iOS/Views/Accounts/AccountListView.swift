@@ -50,7 +50,9 @@ struct AccountListView: View {
     }
     .id(session.uuid)
     .toolbar {
+      #if !os(macOS)
       EditButton()
+      #endif
     }
     .navigationTitle("Zeitgeist")
     .onOpenURL(perform: { url in

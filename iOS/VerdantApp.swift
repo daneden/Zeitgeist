@@ -9,7 +9,9 @@ import SwiftUI
 
 @main
 struct VerdantApp: App {
+  #if !os(macOS)
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  #endif
   
   var body: some Scene {
       WindowGroup {

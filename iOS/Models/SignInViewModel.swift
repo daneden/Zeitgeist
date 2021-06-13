@@ -93,9 +93,11 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
       
       Session.shared.addAccount(id: teamId ?? userId ?? "-1", token: token)
       
+      #if !os(macOS)
       DispatchQueue.main.async {
         UIApplication.shared.registerForRemoteNotifications()
       }
+      #endif
     } else {
       print("Something went wrong!")
     }

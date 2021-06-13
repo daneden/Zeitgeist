@@ -58,8 +58,10 @@ class Session: ObservableObject {
   func addAccount(id: String, token: String) {
     KeychainItem(account: id).wrappedValue = token
 
-    authenticatedAccountIds.append(id)
-    authenticatedAccountIds = authenticatedAccountIds.removingDuplicates()
+    DispatchQueue.main.async {
+      self.authenticatedAccountIds.append(id)
+      self.authenticatedAccountIds = self.authenticatedAccountIds.removingDuplicates()
+    }
   }
 
   func deleteAccount(id: String) {
