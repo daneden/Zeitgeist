@@ -135,6 +135,10 @@
 		711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
 		711A4A72266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
 		711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */; };
+		711AB5E9267618D9004D0768 /* URLSession.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711AB5E8267618D9004D0768 /* URLSession.extension.swift */; };
+		711AB5EA267618D9004D0768 /* URLSession.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711AB5E8267618D9004D0768 /* URLSession.extension.swift */; };
+		711AB5EB267618D9004D0768 /* URLSession.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711AB5E8267618D9004D0768 /* URLSession.extension.swift */; };
+		711AB5EC267618D9004D0768 /* URLSession.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711AB5E8267618D9004D0768 /* URLSession.extension.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -258,6 +262,7 @@
 		711A4A6D266BE08700DA9EE3 /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
 		711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.extension.swift; sourceTree = "<group>"; };
+		711AB5E8267618D9004D0768 /* URLSession.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.extension.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -403,6 +408,7 @@
 				711A4A4C266B943800DA9EE3 /* Dictionary.swift */,
 				711A4A6D266BE08700DA9EE3 /* SKProduct.swift */,
 				711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */,
+				711AB5E8267618D9004D0768 /* URLSession.extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -728,6 +734,7 @@
 				7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */,
 				711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */,
 				71155371266294BB00A73CD6 /* AsyncContentView.swift in Sources */,
+				711AB5E9267618D9004D0768 /* URLSession.extension.swift in Sources */,
 				7115535E26627EFE00A73CD6 /* RemoteImage.swift in Sources */,
 				7115536B266291BC00A73CD6 /* AccountListRowView.swift in Sources */,
 				7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */,
@@ -791,6 +798,7 @@
 				711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
 				711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
+				711AB5EA267618D9004D0768 /* URLSession.extension.swift in Sources */,
 				711553C82665491300A73CD6 /* Deployment.swift in Sources */,
 				711553C92665491300A73CD6 /* AccountViewModel.swift in Sources */,
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
@@ -817,6 +825,7 @@
 				711553F22665549E00A73CD6 /* LoadableObject.swift in Sources */,
 				711553FD26655E1B00A73CD6 /* Color.extension.swift in Sources */,
 				711553FB26655DB000A73CD6 /* LatestDeploymentWidget.swift in Sources */,
+				711AB5EB267618D9004D0768 /* URLSession.extension.swift in Sources */,
 				711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */,
 				711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
 				711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */,
@@ -834,6 +843,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711AB5EC267618D9004D0768 /* URLSession.extension.swift in Sources */,
 				71F9020626656834000A8873 /* Session.swift in Sources */,
 				71611C032665667100119324 /* IntentHandler.swift in Sources */,
 				71F902072665683B000A8873 /* Array.extension.swift in Sources */,

@@ -102,3 +102,9 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
     case MockDeploymentInitError
   }
 }
+
+extension Deployment {
+  struct NetworkResponse: Decodable {
+    var deployments: [Deployment]
+  }
+}

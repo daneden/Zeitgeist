@@ -37,7 +37,9 @@ class DeploymentsViewModel: LoadableObject {
   }
   
   func load() {
-    state = .loading
+    if mostRecentDeployments.isEmpty {
+      state = .loading
+    }
     
     loader.loadDeployments(withID: accountId) { [weak self] result in
       switch result {
