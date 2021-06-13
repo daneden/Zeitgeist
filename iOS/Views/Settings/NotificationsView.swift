@@ -23,27 +23,23 @@ struct NotificationsView: View {
       Section {
         Group {
           Toggle("Enable Notifications", isOn: $notificationsEnabled)
-            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
               NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
             })
           
-          Toggle(isOn: $allowDeploymentNotifications) {
-            Label("New Builds", systemImage: "timer")
+          Group {
+            Toggle(isOn: $allowDeploymentNotifications) {
+              Label("New Builds", systemImage: "timer")
+            }
+            
+            Toggle(isOn: $allowDeploymentErrorNotifications) {
+              Label("Build Errors", systemImage: "exclamationmark.triangle")
+            }
+            
+            Toggle(isOn: $allowDeploymentReadyNotifications) {
+              Label("Deployment Ready", systemImage: "checkmark.circle")
+            }
           }
-          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-          .disabled(!notificationsEnabled)
-          
-          Toggle(isOn: $allowDeploymentErrorNotifications) {
-            Label("Build Errors", systemImage: "exclamationmark.triangle")
-          }
-          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-          .disabled(!notificationsEnabled)
-          
-          Toggle(isOn: $allowDeploymentReadyNotifications) {
-            Label("Deployment Ready", systemImage: "checkmark.circle")
-          }
-          .toggleStyle(SwitchToggleStyle(tint: .accentColor))
           .disabled(!notificationsEnabled)
         }
         .disabled(!activeSubscription)

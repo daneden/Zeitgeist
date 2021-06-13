@@ -29,7 +29,11 @@ struct SubscribeButton: View {
   var body: some View {
     Group {
       if monthlySub == nil && yearlySub == nil {
-        ProgressView("Loading subscriptions...")
+        HStack {
+          Spacer()
+          ProgressView("Loading subscriptions...")
+          Spacer()
+        }.padding(.vertical)
       } else {
         monthlySub.map { sub in
           Button(action: {
