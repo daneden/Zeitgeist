@@ -35,13 +35,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       }
     }
     
-    if notificationsEnabled {
-      DispatchQueue.main.async {
-        UIApplication.shared.registerForRemoteNotifications()
-      }
-    }
-    
     UNUserNotificationCenter.current().delegate = self
+    
+    NotificationManager.shared.toggleNotifications(on: notificationsEnabled && activeSubscription)
     
     setupRevenueCat()
     

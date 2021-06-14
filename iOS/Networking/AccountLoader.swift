@@ -15,7 +15,7 @@ enum Result<T> {
 struct User: Codable {
   var id: String
   var name: String
-  var avatar: String
+  var avatar: String?
   
   enum CodingKeys: String, CodingKey {
     case id = "uid"

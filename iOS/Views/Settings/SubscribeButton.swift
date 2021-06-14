@@ -80,6 +80,15 @@ struct SubscribeButton: View {
       Button(action: { SKPaymentQueue.default().presentCodeRedemptionSheet() }, label: {
         Label("Redeem Offer Code", systemImage: "tag")
       })
+      
+      Button(action: {
+        self.purchaseState = .purchasing(product: .other)
+        iapHelper.restorePurchases { _ in
+          self.purchaseState = .idle
+        }
+      }, label: {
+        Label("Restore Purchases", systemImage: "arrow.down.heart")
+      })
       #endif
     }
   }

@@ -12,6 +12,7 @@ import SwiftUI
 enum IAPSubscriptionType: String, CaseIterable {
   case monthly = "me.daneden.Zeitgeist.IAPSupporter"
   case annual = "me.daneden.Zeitgeist.IAPSupporter.annual"
+  case other
 }
 
 class IAPHelper: ObservableObject {
@@ -48,6 +49,18 @@ class IAPHelper: ObservableObject {
       }
       
       self.activeSubscriber = info?.entitlements["supporter"]?.isActive == true
+    }
+  }
+  
+  func restorePurchases(completion: @escaping (_ wasSuccessful: Bool) -> Void) {
+    Purchases.shared.restoreTransactions { (purchaserInfo, error) in
+      guard error == nil else {
+        print(error!.localizedDescription)
+        return completion(false)
+      }
+      
+      self.activeSubscriber = purchaserInfo?.entitlements["supporter"]?.isActive == true
+      return completion(true)
     }
   }
 }
