@@ -69,7 +69,8 @@ struct DeploymentStateIndicator: View {
           .labelStyle(IconOnlyLabelStyle())
       }
     }
-    .foregroundColor(color)
+    .foregroundStyle(color)
+    .symbolRenderingMode(.hierarchical)
   }
 }
 

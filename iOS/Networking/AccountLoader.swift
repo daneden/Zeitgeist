@@ -100,6 +100,50 @@ class AccountLoader {
     }.resume()
   }
   
+  func loadAccount(withID id: Account.ID) async -> Result<Account> {
+    let isTeam = id.starts(with: "team_")
+    let urlPath = isTeam ? "v1/teams/\(id)" : "www/user"
+    guard let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? id : "")&userId=\(id)") else {
+      return .failure(LoaderError.unknown)
+    }
+    
+    guard let token = KeychainItem(account: id).wrappedValue else {
+      return .failure(SessionError.notAuthenticated)
+    }
+    
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    if useURLCache {
+      let cache = URLCache.shared
+      if let cachedResponse = cache.cachedResponse(for: request) {
+        let data = cachedResponse.data
+        guard let account = handleResponseData(data: data, isTeam: isTeam) else {
+          return .failure(LoaderError.decodingError)
+        }
+        
+        return .success(account)
+      }
+    }
+    
+    guard let (data, response) = try? await URLSession.shared.data(for: request) else {
+      return .failure(LoaderError.unknown)
+    }
+    
+    if let response = response as? HTTPURLResponse,
+       response.statusCode == 403 {
+      URLCache.shared.removeAllCachedResponses()
+      Session.shared.revalidate()
+      return .failure(LoaderError.unauthorized)
+    }
+    
+    guard let account = self.handleResponseData(data: data, isTeam: isTeam) else {
+      return .failure(LoaderError.decodingError)
+    }
+    
+    return .success(account)
+  }
+  
   func handleResponseData(data: Data, isTeam: Bool) -> Account? {
     var account: Account
     

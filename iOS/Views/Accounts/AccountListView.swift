@@ -24,9 +24,9 @@ struct AccountListView: View {
             AccountListRowView(accountId: accountId)
           }
           .contextMenu {
-            Button(action: { session.deleteAccount(id: accountId)}) {
+            Button(role: .destructive, action: { session.deleteAccount(id: accountId)}) {
               Label("Remove Account", systemImage: "person.badge.minus")
-            }.foregroundColor(.systemRed)
+            }
           }
         }
         .onDelete(perform: deleteAccount)

@@ -9,15 +9,7 @@ import SwiftUI
 
 struct TermsAndPrivacyView: View {
   var body: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-        Text("Privacy Policy")
-      }
-      
-      Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-        Text("Terms of Use")
-      }
-    }
+    Text("By subscribing you agree to Zeitgeist’s [Privacy Policy](https://zeitgeist.daneden.me/privacy) and [Terms of Use](https://zeitgeist.daneden.me/terms)")
   }
 }
 

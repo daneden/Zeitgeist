@@ -50,13 +50,17 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
     Group {
       switch source.state {
       case .idle:
-        Color.clear.onAppear(perform: source.load)
+        Color.clear.onAppear {
+          async {
+            await source.loadAsync()
+          }
+        }
       case .loading:
         if let placeholderData = placeholderData {
           content(placeholderData)
             .redacted(reason: .placeholder)
             .opacity(isAnimating ? 0.5 : 1)
-            .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true))
+            .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true), value: isAnimating)
             .onAppear { self.isAnimating = true }
         } else {
           ProgressView()

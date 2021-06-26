@@ -18,9 +18,16 @@ struct Account: Codable, Identifiable {
 }
 
 class AccountViewModel: LoadableObject {
-  @Published private(set) var state: LoadingState<Account> = .idle
-  
   typealias Output = Account
+  
+  @Published private(set) var state: LoadingState<Output> = .idle {
+    didSet {
+      if case .loaded(let account) = state {
+        value = account
+      }
+    }
+  }
+  @Published private(set) var value: Output?
   
   private let accountId: Account.ID
   private let loader: AccountLoader
@@ -43,6 +50,23 @@ class AccountViewModel: LoadableObject {
         DispatchQueue.main.async {
           self?.state = .failed(error)
         }
+      }
+    }
+  }
+  
+  func loadAsync() async {
+    DispatchQueue.main.async {
+      self.state = .loading
+    }
+    
+    let result = await loader.loadAccount(withID: accountId)
+    
+    DispatchQueue.main.async {
+      switch result {
+      case .success(let account):
+        self.state = .loaded(account)
+      case .failure(let error):
+        self.state = .failed(error)
       }
     }
   }

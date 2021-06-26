@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct DeploymentListView: View {
   @EnvironmentObject var session: Session
+  @AppStorage("refreshFrequency") var refreshFrequency: TimeInterval = 5.0
   
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
@@ -24,9 +26,13 @@ struct DeploymentListView: View {
   var accountId: String
   var deploymentsSource: DeploymentsViewModel
   
+  private var timer: Publishers.Autoconnect<Timer.TimerPublisher> = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+  
   init(accountId: String) {
     self.accountId = accountId
     self.deploymentsSource = DeploymentsViewModel(accountId: accountId)
+    
+    self.timer = Timer.publish(every: refreshFrequency, on: .main, in: .common).autoconnect()
   }
   
   var body: some View {
@@ -49,24 +55,30 @@ struct DeploymentListView: View {
           }
         }
         
-        List {
-          ForEach(filteredDeployments, id: \.id) { deployment in
-            NavigationLink(
-              destination: DeploymentDetailView(accountId: accountId, deployment: deployment),
-              tag: deployment.id,
-              selection: $activeDeploymentID
-            ) {
-              DeploymentListRowView(deployment: deployment)
+        TimelineView(PeriodicTimelineSchedule(from: .now, by: refreshFrequency)) { context in
+          List {
+            ForEach(filteredDeployments, id: \.id) { deployment in
+              NavigationLink(
+                destination: DeploymentDetailView(accountId: accountId, deployment: deployment),
+                tag: deployment.id,
+                selection: $activeDeploymentID
+              ) {
+                DeploymentListRowView(deployment: deployment)
+              }
             }
           }
-        }
-        .sheet(isPresented: self.$filterVisible) {
-          DeploymentFilterView(
-            deployments: deployments,
-            projectFilter: self.$projectFilter,
-            stateFilter: self.$stateFilter,
-            productionFilter: self.$productionFilter
-          )
+          .onReceive(timer) { _ in
+            async { await deploymentsSource.loadAsync() }
+          }
+          .refreshable { await deploymentsSource.loadAsync() }
+          .sheet(isPresented: self.$filterVisible) {
+            DeploymentFilterView(
+              deployments: deployments,
+              projectFilter: self.$projectFilter,
+              stateFilter: self.$stateFilter,
+              productionFilter: self.$productionFilter
+            )
+          }
         }
       }
     }

@@ -17,7 +17,9 @@ struct DeploymentDetailView: View {
       Overview(deployment: deployment)
       URLDetails(copied: $copiedURL, accountId: accountId, deployment: deployment)
       DeploymentDetails(accountId: accountId, deployment: deployment)
+        .symbolRenderingMode(.multicolor)
     }
+    .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
     .onChange(of: self.copiedURL) { _ in
       if copiedURL == true {
@@ -87,7 +89,8 @@ struct DeploymentDetailView: View {
     var body: some View {
       Section(header: Text("Deployment URL")) {
         Link(destination: deployment.url) {
-          Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
+          Label(deployment.url.absoluteString, systemImage: "link")
+            .lineLimit(1)
         }
         
         Button(action: self.copyUrl) {
@@ -185,10 +188,9 @@ struct DeploymentDetailView: View {
 //          }
 //          .disabled(mutating)
           
-          Button(action: { deleteConfirmation = true }) {
+          Button(role: .destructive, action: { deleteConfirmation = true }) {
             HStack {
               Label("Delete Deployment", systemImage: "trash")
-                .foregroundColor(mutating ? .secondary : .systemRed)
             }
           }
           .alert(isPresented: $deleteConfirmation) {
@@ -201,10 +203,9 @@ struct DeploymentDetailView: View {
           }
           .disabled(mutating)
         } else {
-          Button(action: { cancelConfirmation = true }) {
+          Button(role: .destructive, action: { cancelConfirmation = true }) {
             HStack {
               Label("Cancel Deployment", systemImage: "xmark")
-                .foregroundColor(mutating ? .secondary : .systemRed)
               
               if mutating {
                 Spacer()

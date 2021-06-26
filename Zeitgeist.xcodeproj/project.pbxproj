@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7110B2142670F5EC00ADF96F /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 7110B2132670F5EC00ADF96F /* Purchases */; };
-		71155347266279CF00A73CD6 /* VerdantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* VerdantApp.swift */; };
+		71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
 		71155349266279CF00A73CD6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155348266279CF00A73CD6 /* ContentView.swift */; };
 		7115534B266279D000A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
 		7115534E266279D000A73CD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534D266279D000A73CD6 /* Preview Assets.xcassets */; };
@@ -24,7 +24,6 @@
 		7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */; };
 		7115536F2662948100A73CD6 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536E2662948100A73CD6 /* LoadableObject.swift */; };
 		71155371266294BB00A73CD6 /* AsyncContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155370266294BB00A73CD6 /* AsyncContentView.swift */; };
-		71155373266299BD00A73CD6 /* PublishedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155372266299BD00A73CD6 /* PublishedObject.swift */; };
 		7115537526629B0C00A73CD6 /* DeploymentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */; };
 		7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
 		7115537926629BB900A73CD6 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* Deployment.swift */; };
@@ -44,7 +43,7 @@
 		711553A8266548BD00A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711553A7266548BD00A73CD6 /* Assets.xcassets */; };
 		711553AB266548BD00A73CD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711553AA266548BD00A73CD6 /* Preview Assets.xcassets */; };
 		711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
-		711553B2266548E400A73CD6 /* VerdantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* VerdantApp.swift */; };
+		711553B2266548E400A73CD6 /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
 		711553B3266548E400A73CD6 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536A266291BC00A73CD6 /* AccountListRowView.swift */; };
 		711553B4266548E400A73CD6 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553842663B00B00A73CD6 /* AccountListView.swift */; };
 		711553B5266548E400A73CD6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155348266279CF00A73CD6 /* ContentView.swift */; };
@@ -74,7 +73,6 @@
 		711553CE2665491700A73CD6 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
 		711553CF2665491700A73CD6 /* AliasesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553902664E37F00A73CD6 /* AliasesLoader.swift */; };
 		711553D02665491700A73CD6 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536E2662948100A73CD6 /* LoadableObject.swift */; };
-		711553D12665491700A73CD6 /* PublishedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155372266299BD00A73CD6 /* PublishedObject.swift */; };
 		711553D9266552AD00A73CD6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711553D8266552AD00A73CD6 /* WidgetKit.framework */; };
 		711553DB266552AE00A73CD6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711553DA266552AD00A73CD6 /* SwiftUI.framework */; };
 		711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */; };
@@ -184,7 +182,7 @@
 
 /* Begin PBXFileReference section */
 		71155343266279CF00A73CD6 /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		71155346266279CF00A73CD6 /* VerdantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerdantApp.swift; sourceTree = "<group>"; };
+		71155346266279CF00A73CD6 /* ZeitgeistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistApp.swift; sourceTree = "<group>"; };
 		71155348266279CF00A73CD6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7115534A266279D000A73CD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7115534D266279D000A73CD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -201,7 +199,6 @@
 		7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelUserAvatarView.swift; sourceTree = "<group>"; };
 		7115536E2662948100A73CD6 /* LoadableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableObject.swift; sourceTree = "<group>"; };
 		71155370266294BB00A73CD6 /* AsyncContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncContentView.swift; sourceTree = "<group>"; };
-		71155372266299BD00A73CD6 /* PublishedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedObject.swift; sourceTree = "<group>"; };
 		7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsLoader.swift; sourceTree = "<group>"; };
 		7115537626629BAA00A73CD6 /* GitCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCommit.swift; sourceTree = "<group>"; };
 		7115537826629BB900A73CD6 /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
@@ -329,7 +326,7 @@
 				711553982665197100A73CD6 /* Zeitgeist.entitlements */,
 				7115534F266279D000A73CD6 /* Info.plist */,
 				71155348266279CF00A73CD6 /* ContentView.swift */,
-				71155346266279CF00A73CD6 /* VerdantApp.swift */,
+				71155346266279CF00A73CD6 /* ZeitgeistApp.swift */,
 				7115534A266279D000A73CD6 /* Assets.xcassets */,
 				71155362266282BE00A73CD6 /* Extensions */,
 				7115535A26627BA800A73CD6 /* Helper Views */,
@@ -410,7 +407,6 @@
 				711553902664E37F00A73CD6 /* AliasesLoader.swift */,
 				7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */,
 				7115536E2662948100A73CD6 /* LoadableObject.swift */,
-				71155372266299BD00A73CD6 /* PublishedObject.swift */,
 				711A4A3D266B672300DA9EE3 /* VercelAPI.swift */,
 			);
 			path = Networking;
@@ -605,7 +601,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					71155342266279CF00A73CD6 = {
 						CreatedOnToolsVersion = 12.5;
@@ -702,7 +698,6 @@
 				711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */,
 				7115536926628B8100A73CD6 /* AccountLoader.swift in Sources */,
-				71155373266299BD00A73CD6 /* PublishedObject.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
 				71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */,
 				711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
@@ -731,7 +726,7 @@
 				7115537526629B0C00A73CD6 /* DeploymentsLoader.swift in Sources */,
 				711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */,
 				71F9020926656A21000A8873 /* Preferences.swift in Sources */,
-				71155347266279CF00A73CD6 /* VerdantApp.swift in Sources */,
+				71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */,
 				711A4A5F266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
@@ -750,7 +745,7 @@
 				711553B9266548E400A73CD6 /* DeploymentListView.swift in Sources */,
 				711553B4266548E400A73CD6 /* AccountListView.swift in Sources */,
 				711553CD2665491700A73CD6 /* DeploymentsLoader.swift in Sources */,
-				711553B2266548E400A73CD6 /* VerdantApp.swift in Sources */,
+				711553B2266548E400A73CD6 /* ZeitgeistApp.swift in Sources */,
 				711553C02665490800A73CD6 /* AddAccountButton.swift in Sources */,
 				711553C22665490800A73CD6 /* RemoteImage.swift in Sources */,
 				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
@@ -777,7 +772,6 @@
 				711553BB266548E400A73CD6 /* DeploymentDetailLabel.swift in Sources */,
 				711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
-				711553D12665491700A73CD6 /* PublishedObject.swift in Sources */,
 				711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */,
 				711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
@@ -906,7 +900,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -961,7 +955,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -979,17 +973,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1006,17 +1000,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1031,6 +1025,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Zeitgeist/Preview Content\"";
@@ -1057,6 +1052,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Zeitgeist/Preview Content\"";
@@ -1084,16 +1080,16 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1109,16 +1105,16 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1132,7 +1128,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1140,7 +1136,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1154,7 +1150,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YC249PY26F;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1162,7 +1158,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

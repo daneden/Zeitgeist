@@ -10,7 +10,14 @@ import Combine
 
 class AliasesViewModel: LoadableObject {
   typealias Output = [Alias]
-  @Published private(set) var state: LoadingState<Output> = .idle
+  @Published private(set) var state: LoadingState<Output> = .idle {
+    didSet {
+      if case .loaded(let aliases) = state {
+        value = aliases
+      }
+    }
+  }
+  @Published private(set) var value: Output?
   
   private let accountId: Account.ID
   private let deploymentId: Deployment.ID
@@ -35,6 +42,23 @@ class AliasesViewModel: LoadableObject {
         DispatchQueue.main.async {
           self?.state = .failed(error)
         }
+      }
+    }
+  }
+  
+  func loadAsync() async {
+    DispatchQueue.main.async {
+      self.state = .loading
+    }
+    
+    let result = await loader.loadAliases(withAccountID: accountId, forDeploymentID: deploymentId)
+    
+    DispatchQueue.main.async {
+      switch result {
+      case .success(let aliases):
+        self.state = .loaded(aliases)
+      case .failure(let error):
+        self.state = .failed(error)
       }
     }
   }

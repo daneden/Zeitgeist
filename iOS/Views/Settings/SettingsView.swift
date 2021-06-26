@@ -35,17 +35,17 @@ struct SettingsView: View {
         #endif
         
         Link(destination: .ReviewURL) {
-          Label("Review on App Store", systemImage: "star")
+          Label("Review on App Store", systemImage: "star.fill")
         }
       }
       
       Section {
         Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-          Label("Privacy Policy", systemImage: "lock")
+          Text("Privacy Policy")
         }
         
         Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-          Label("Terms of Use", systemImage: "book.closed")
+          Text("Terms of Use")
         }
       }
     }

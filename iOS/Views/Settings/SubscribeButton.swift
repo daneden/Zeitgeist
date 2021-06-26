@@ -35,19 +35,6 @@ struct SubscribeButton: View {
           Spacer()
         }.padding(.vertical)
       } else {
-        monthlySub.map { sub in
-          Button(action: {
-            self.purchaseState = .purchasing(product: .monthly)
-            iapHelper.makeSubscriptionPurchase(package: sub) { _ in
-              self.purchaseState = .idle
-            }
-          }) {
-            Label("\(sub.localizedPriceString) Monthly", systemImage: "plus.app")
-          }
-          .opacity(self.purchaseState == .purchasing(product: .monthly) ? 0.5 : 1)
-          .disabled(self.purchaseState != .idle)
-        }
-        
         yearlySub.map { sub in
           Button(action: {
             self.purchaseState = .purchasing(product: .annual)
@@ -74,6 +61,19 @@ struct SubscribeButton: View {
           .disabled(self.purchaseState != .idle)
         }
         
+        monthlySub.map { sub in
+          Button(action: {
+            self.purchaseState = .purchasing(product: .monthly)
+            iapHelper.makeSubscriptionPurchase(package: sub) { _ in
+              self.purchaseState = .idle
+            }
+          }) {
+            Label("\(sub.localizedPriceString) Monthly", systemImage: "plus.app")
+          }
+          .opacity(self.purchaseState == .purchasing(product: .monthly) ? 0.5 : 1)
+          .disabled(self.purchaseState != .idle)
+        }
+        
       }
       
       #if !os(macOS)
@@ -87,10 +87,10 @@ struct SubscribeButton: View {
           self.purchaseState = .idle
         }
       }, label: {
-        Label("Restore Purchases", systemImage: "arrow.down.heart")
+        Label("Restore Purchases", systemImage: "purchased")
       })
       #endif
-    }
+    }.symbolRenderingMode(.hierarchical)
   }
   
   private var priceSaving: LocalizedStringKey? {

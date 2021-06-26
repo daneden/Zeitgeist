@@ -53,4 +53,28 @@ class DeploymentsLoader {
       completion(.failure(error))
     }
   }
+  
+  func loadDeployments(withID id: Account.ID) async throws -> Result<[Deployment]> {
+    do {
+      let request = try VercelAPI.request(for: .deployments, with: id, queryItems: [URLQueryItem(name: "limit", value: "100")])
+      
+      // Asynchronously fetch data from origin, updating the cache automatically,
+      // and invoke the completion callback again once received
+      let (data, response) = try await URLSession.shared.data(for: request)
+      
+      if let response = response as? HTTPURLResponse,
+         response.statusCode == 403 {
+        URLCache.shared.removeAllCachedResponses()
+        return .failure(LoaderError.unauthorized)
+      }
+        
+      guard let decoded = try? self.decoder.decode(DeploymentsResponse.self, from: data) else {
+        return .failure(LoaderError.decodingError)
+      }
+        
+      return .success(decoded.deployments)
+    } catch {
+      return .failure(error)
+    }
+  }
 }
