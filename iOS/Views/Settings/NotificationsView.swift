@@ -24,26 +24,26 @@ struct NotificationsView: View {
         Group {
           Toggle("Enable Notifications", isOn: $notificationsEnabled)
             .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
-              NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
+              withAnimation {
+                NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
+              }
             })
           
-          Group {
+          if notificationsEnabled {
             Toggle(isOn: $allowDeploymentNotifications) {
-              Label("New Builds", systemImage: "timer")
+              DeploymentStateIndicator(state: .building)
             }
             
             Toggle(isOn: $allowDeploymentErrorNotifications) {
-              Label("Build Errors", systemImage: "exclamationmark.triangle")
+              DeploymentStateIndicator(state: .error)
             }
             
             Toggle(isOn: $allowDeploymentReadyNotifications) {
-              Label("Deployment Ready", systemImage: "checkmark.circle")
+              DeploymentStateIndicator(state: .ready)
             }
           }
-          .disabled(!notificationsEnabled)
         }
         .disabled(!activeSubscription)
-        .opacity(activeSubscription ? 1.0 : 0.35)
       }
     }.navigationTitle("Notifications")
   }
