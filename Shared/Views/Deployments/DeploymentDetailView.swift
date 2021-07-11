@@ -26,6 +26,7 @@ struct DeploymentDetailView: View {
         }
       }
     }
+    .makeContainer()
   }
   
   struct Overview: View {
@@ -88,11 +89,11 @@ struct DeploymentDetailView: View {
       Section(header: Text("Deployment URL")) {
         Link(destination: deployment.url) {
           Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
-        }
+        }.keyboardShortcut("o", modifiers: [.command])
         
         Button(action: self.copyUrl) {
           Label(copied ? "Copied" : "Copy URL", systemImage: "doc.on.doc")
-        }
+        }.keyboardShortcut("c", modifiers: [.command])
         
         AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
           DisclosureGroup(isExpanded: $aliasesVisible, content: {
@@ -166,7 +167,7 @@ struct DeploymentDetailView: View {
         
         Link(destination: URL(string: "\(deployment.url.absoluteString)/_logs")!) {
           Label("View Logs", systemImage: "terminal")
-        }
+        }.keyboardShortcut("o", modifiers: [.command, .shift])
         
         if (deployment.state != .queued && deployment.state != .building)
             || deployment.state == .cancelled
