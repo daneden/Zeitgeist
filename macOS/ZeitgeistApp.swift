@@ -12,6 +12,7 @@ struct ZeitgeistApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+              .environmentObject(Session.shared)
         }
     }
 }

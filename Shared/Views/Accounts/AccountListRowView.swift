@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct AccountListRowView: View {
+  #if os(macOS)
+  @ScaledMetric var avatarSize: CGFloat = 16
+  #else
   @ScaledMetric var avatarSize: CGFloat = 24
+  #endif
   var accountId: String
   
   var placeholderAccount: Account {
@@ -34,7 +38,10 @@ struct AccountListRowView: View {
           }
         },
         icon: {
-          VercelUserAvatarView(avatarID: account.avatar, teamID: account.isTeam ? account.id : nil, size: avatarSize)
+          VercelUserAvatarView(
+            avatarID: account.avatar,
+            teamID: account.isTeam ? account.id : nil,
+            size: avatarSize)
         }
       )
     }
