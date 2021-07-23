@@ -10,22 +10,14 @@ import SwiftUI
 struct DeploymentDetailView: View {
   var accountId: Account.ID
   var deployment: Deployment
-  @State var copiedURL = false
   
   var body: some View {
     Form {
       Overview(deployment: deployment)
-      URLDetails(copied: $copiedURL, accountId: accountId, deployment: deployment)
+      URLDetails(accountId: accountId, deployment: deployment)
       DeploymentDetails(accountId: accountId, deployment: deployment)
     }
     .navigationTitle("Deployment Details")
-    .onChange(of: self.copiedURL) { _ in
-      if copiedURL == true {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-          self.copiedURL = false
-        }
-      }
-    }
     .makeContainer()
   }
   
@@ -79,7 +71,6 @@ struct DeploymentDetailView: View {
   }
   
   struct URLDetails: View {
-    @Binding var copied: Bool
     @State var aliasesVisible = false
     
     var accountId: Account.ID
@@ -92,7 +83,7 @@ struct DeploymentDetailView: View {
         }.keyboardShortcut("o", modifiers: [.command])
         
         Button(action: self.copyUrl) {
-          Label(copied ? "Copied" : "Copy URL", systemImage: "doc.on.doc")
+          Label("Copy URL", systemImage: "doc.on.doc")
         }.keyboardShortcut("c", modifiers: [.command])
         
         AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
@@ -135,8 +126,6 @@ struct DeploymentDetailView: View {
       pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
       pasteboard.setString(deployment.url.absoluteString, forType: NSPasteboard.PasteboardType.string)
       #endif
-      
-      copied = true
     }
   }
   
