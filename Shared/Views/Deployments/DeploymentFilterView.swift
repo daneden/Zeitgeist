@@ -94,6 +94,5 @@ struct DeploymentFilterView: View {
     }
     .navigationTitle("Filter Deployments")
     .makeContainer()
-    
   }
 }

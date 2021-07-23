@@ -65,6 +65,8 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
         ErrorView(error: error, retryHandler: allowsRetries ? source.load : nil)
       case .loaded(let output):
         content(output)
+      case .refreshing(let output):
+        content(output)
       }
     }
   }

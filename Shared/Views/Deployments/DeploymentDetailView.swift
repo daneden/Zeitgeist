@@ -33,7 +33,7 @@ struct DeploymentDetailView: View {
     var deployment: Deployment
     
     var body: some View {
-      Section(header: Text("Overview")) {
+      DetailSection(header: Text("Overview")) {
         DeploymentDetailLabel("Project") {
           Text(deployment.project)
         }
@@ -86,7 +86,7 @@ struct DeploymentDetailView: View {
     var deployment: Deployment
     
     var body: some View {
-      Section(header: Text("Deployment URL")) {
+      DetailSection(header: Text("Deployment URL")) {
         Link(destination: deployment.url) {
           Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
         }.keyboardShortcut("o", modifiers: [.command])
@@ -153,7 +153,7 @@ struct DeploymentDetailView: View {
     @State var recentlyCancelled = false
     
     var body: some View {
-      Section(header: Text("Details")) {
+      DetailSection(header: Text("Details")) {
         if let svnInfo = deployment.commit,
            let commitUrl: URL = svnInfo.commitURL,
            let shortSha: String = svnInfo.shortSha {
@@ -311,3 +311,32 @@ struct DeploymentDetailView: View {
     }
   }
 }
+
+struct DetailSection<Content: View>: View {
+  var header: Text
+  var content: Content
+  
+  init(header: Text, @ViewBuilder content: @escaping () -> Content) {
+    self.content = content()
+    self.header = header
+  }
+  
+  var body: some View {
+    #if os(macOS)
+    GroupBox(label: header) {
+      HStack {
+        VStack(alignment: .leading) {
+          content
+        }
+        Spacer(minLength: 0)
+      }
+      .padding()
+    }
+    #else
+    Section(header: header) {
+      content
+    }
+    #endif
+  }
+}
+

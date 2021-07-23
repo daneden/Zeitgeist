@@ -26,6 +26,7 @@ struct ContentView: View {
       } else {
         PlaceholderView(forRole: .DeploymentList)
       }
+      
       PlaceholderView(forRole: .DeploymentDetail)
     }.onAppear {
       setInitialAccountView()

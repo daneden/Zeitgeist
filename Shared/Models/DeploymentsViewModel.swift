@@ -10,14 +10,14 @@ import Combine
 import SwiftUI
 
 class DeploymentsViewModel: LoadableObject {
-  @Published private(set) var state: LoadingState<[Deployment]> = .idle
+  typealias Output = [Deployment]
+  
+  @Published private(set) var state: LoadingState<Output> = .idle
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   
   private var mostRecentDeployments: [Deployment] = []
   
   private var timer: Timer?
-  
-  typealias Output = [Deployment]
   
   private let accountId: Account.ID
   private let loader: DeploymentsLoader
@@ -37,7 +37,11 @@ class DeploymentsViewModel: LoadableObject {
   }
   
   func load() {
-    state = .loading
+    if mostRecentDeployments.isEmpty {
+      state = .loading
+    } else {
+      state = .refreshing(mostRecentDeployments)
+    }
     
     loader.loadDeployments(withID: accountId) { [weak self] result in
       switch result {
@@ -45,11 +49,8 @@ class DeploymentsViewModel: LoadableObject {
         DispatchQueue.main.async {
           if self?.mostRecentDeployments.elementsEqual(deployments) == false {
             withAnimation { self?.state = .loaded(deployments) }
-          } else {
-            self?.state = .loaded(deployments)
+            self?.mostRecentDeployments = deployments
           }
-          
-          self?.mostRecentDeployments = deployments
         }
       case .failure(let error):
         DispatchQueue.main.async {

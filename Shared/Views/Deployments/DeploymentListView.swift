@@ -15,7 +15,7 @@ struct DeploymentListView: View {
   @State var productionFilter = false
   @State var filterVisible = false
   
-  @State var activeDeploymentID: String?
+  @SceneStorage("activeDeploymentID") var activeDeploymentID: Deployment.ID?
   
   var filtersApplied: Bool {
     projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
@@ -49,7 +49,7 @@ struct DeploymentListView: View {
           }
         }
         
-        List {
+        List(selection: $activeDeploymentID) {
           ForEach(filteredDeployments, id: \.id) { deployment in
             NavigationLink(
               destination: DeploymentDetailView(accountId: accountId, deployment: deployment),
@@ -57,16 +57,27 @@ struct DeploymentListView: View {
               selection: $activeDeploymentID
             ) {
               DeploymentListRowView(deployment: deployment)
-            }
+            }.tag(deployment.id)
           }
         }
         .sheet(isPresented: self.$filterVisible) {
+          #if os(macOS)
           DeploymentFilterView(
             deployments: deployments,
             projectFilter: self.$projectFilter,
             stateFilter: self.$stateFilter,
             productionFilter: self.$productionFilter
           )
+          #else
+          NavigationView {
+            DeploymentFilterView(
+              deployments: deployments,
+              projectFilter: self.$projectFilter,
+              stateFilter: self.$stateFilter,
+              productionFilter: self.$productionFilter
+            )
+          }
+          #endif
         }
       }
     }
