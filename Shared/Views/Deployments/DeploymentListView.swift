@@ -89,11 +89,11 @@ struct DeploymentListView: View {
             ? "line.horizontal.3.decrease.circle"
             : "line.horizontal.3.decrease.circle.fill"
         )
-      }
+      }.keyboardShortcut("l", modifiers: .command)
       
       Button(action: { deploymentsSource.load() }) {
         Label("Reload", systemImage: "arrow.clockwise")
-      }
+      }.keyboardShortcut("r", modifiers: .command)
     }
     .navigationTitle("Deployments")
     .onOpenURL(perform: { url in
