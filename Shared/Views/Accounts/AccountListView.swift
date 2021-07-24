@@ -16,19 +16,13 @@ struct AccountListView: View {
     List(selection: $activeAccountID) {
       Section(header: Text("Accounts")) {
         ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
-          NavigationLink(
-            destination: DeploymentListView(accountId: accountId),
-            tag: accountId,
-            selection: $activeAccountID
-          ) {
-            AccountListRowView(accountId: accountId)
-          }
-          .contextMenu {
-            Button(action: { session.deleteAccount(id: accountId)}) {
-              Label("Remove Account", systemImage: "person.badge.minus")
-            }.foregroundColor(.systemRed)
-          }
-          .tag(accountId)
+          AccountListRowView(accountId: accountId, selection: $activeAccountID)
+            .contextMenu {
+              Button(action: { session.deleteAccount(id: accountId)}) {
+                Label("Remove Account", systemImage: "person.badge.minus")
+              }.foregroundColor(.systemRed)
+            }
+            .tag(accountId)
         }
         .onDelete(perform: deleteAccount)
         .onMove(perform: move)

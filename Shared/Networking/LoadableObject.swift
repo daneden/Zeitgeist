@@ -8,14 +8,6 @@
 import Foundation
 import Combine
 
-enum LoadingState<Value> {
-  case idle
-  case loading
-  case failed(Error)
-  case loaded(Value)
-  case refreshing(Value)
-}
-
 extension LoadingState: Equatable where Value: Equatable {
   static func == (lhs: LoadingState<Value>, rhs: LoadingState<Value>) -> Bool {
     switch lhs {

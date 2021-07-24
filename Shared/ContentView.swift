@@ -23,6 +23,7 @@ struct ContentView: View {
         }
       } else if let accountID = initialAccountID {
         DeploymentListView(accountId: accountID)
+          .environmentObject(VercelAPI(accountId: accountID))
       } else {
         PlaceholderView(forRole: .DeploymentList)
       }

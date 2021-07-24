@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct DeploymentDetailView: View {
+  @EnvironmentObject var api: VercelAPI
   var accountId: Account.ID
   var deployment: Deployment
   
   var body: some View {
     Form {
+      switch api.account {
+      case .loaded(let account):
+        Text(account.name)
+      default:
+        Color.red
+      }
+      
       Overview(deployment: deployment)
       URLDetails(accountId: accountId, deployment: deployment)
+        
       DeploymentDetails(accountId: accountId, deployment: deployment)
     }
     .navigationTitle("Deployment Details")
@@ -71,6 +80,7 @@ struct DeploymentDetailView: View {
   }
   
   struct URLDetails: View {
+    @EnvironmentObject var api: VercelAPI
     @State var aliasesVisible = false
     
     var accountId: Account.ID
@@ -86,7 +96,7 @@ struct DeploymentDetailView: View {
           Label("Copy URL", systemImage: "doc.on.doc")
         }.keyboardShortcut("c", modifiers: [.command])
         
-        AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
+        if let aliases = api.aliases[deployment.id] {
           DisclosureGroup(isExpanded: $aliasesVisible, content: {
             if aliases.isEmpty {
               Text("No aliases assigned to deployment")
@@ -112,8 +122,9 @@ struct DeploymentDetailView: View {
               withAnimation { self.aliasesVisible.toggle() }
             }
           })
-          
         }
+      }.onAppear {
+        api.loadAliases(for: deployment.id)
       }
     }
     
@@ -161,20 +172,6 @@ struct DeploymentDetailView: View {
         if (deployment.state != .queued && deployment.state != .building)
             || deployment.state == .cancelled
             || recentlyCancelled {
-          // MARK: Stub code for redeployments
-//          Button(action: { redeployConfirmation = true }) {
-//            Label("Redeploy", systemImage: "arrow.clockwise")
-//          }
-//          .alert(isPresented: $redeployConfirmation) {
-//            Alert(
-//              title: Text("Confirm Redeployment"),
-//              message: Text("This will create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings."),
-//              primaryButton: .default(Text("Redeploy"), action: redeploy),
-//              secondaryButton: .cancel()
-//            )
-//          }
-//          .disabled(mutating)
-          
           Button(action: { deleteConfirmation = true }) {
             HStack {
               Label("Delete Deployment", systemImage: "trash")
@@ -215,88 +212,43 @@ struct DeploymentDetailView: View {
       }
     }
     
-    // Stub code for redeployments
-    func redeploy() {
-      do {
-        self.mutating = true
-        var request = try VercelAPI.request(
-          for: .deploymentsV12,
-          with: accountId,
-          method: .POST
-        )
-        
-        if let commit = deployment.commit {
-          let data: [String: Any] = [
-            "meta": AnyCommit.encodeToDictionary(from: commit),
-            "files": [],
-            "name": deployment.project
-          ]
-          
-          request.httpBody = try JSONSerialization.data(withJSONObject: data)
-          print(String(decoding: request.httpBody!, as: UTF8.self))
-        }
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-          DispatchQueue.main.async {
-            self.mutating = false
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }.resume()
-      } catch {
-        print(error.localizedDescription)
-        self.mutating = false
-      }
-    }
-    
     func deleteDeployment() {
-      do {
-        self.mutating = true
-        let request = try VercelAPI.request(
-          for: .deploymentsV11,
-          with: accountId,
-          appending: "\(deployment.id)",
-          method: .DELETE
-        )
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-          DispatchQueue.main.async {
-            self.mutating = false
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }.resume()
-      } catch {
-        print(error.localizedDescription)
-        self.mutating = false
-      }
+      self.mutating = true
+      let request = VercelAPI.makeRequest(
+        for: .deployment(id: deployment.id, version: .v11),
+        with: accountId,
+        method: .DELETE
+      )
+      
+      URLSession.shared.dataTask(with: request) { data, response, error in
+        DispatchQueue.main.async {
+          self.mutating = false
+          self.presentationMode.wrappedValue.dismiss()
+        }
+      }.resume()
     }
     
     func cancelDeployment() {
-      do {
-        self.mutating = true
-        let request = try VercelAPI.request(
-          for: .deploymentsV12,
-          with: accountId,
-          appending: "\(deployment.id)/cancel",
-          method: .PATCH
-        )
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-          if let response = response as? HTTPURLResponse,
-             response.statusCode == 200 {
-            DispatchQueue.main.async {
-              self.mutating = false
-              self.recentlyCancelled = true
-            }
-          }
-          
+      self.mutating = true
+      let request = VercelAPI.makeRequest(
+        for: .deployments(version: .v12),
+        with: accountId,
+        method: .PATCH
+      )
+      
+      URLSession.shared.dataTask(with: request) { data, response, error in
+        if let response = response as? HTTPURLResponse,
+           response.statusCode == 200 {
           DispatchQueue.main.async {
             self.mutating = false
+            self.recentlyCancelled = true
           }
-        }.resume()
-      } catch {
-        print(error.localizedDescription)
-        self.mutating = false
-      }
+        }
+        
+        DispatchQueue.main.async {
+          self.mutating = false
+        }
+      }.resume()
     }
   }
 }

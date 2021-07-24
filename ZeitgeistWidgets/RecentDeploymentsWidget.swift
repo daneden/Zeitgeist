@@ -24,7 +24,6 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
   
   func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Entry) -> ()) {
     let loader = DeploymentsLoader()
-    loader.useURLCache = false
     
     guard let account = configuration.account,
           let accountId = account.identifier else {
@@ -45,8 +44,6 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
   
   func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
     let loader = DeploymentsLoader()
-    loader.useURLCache = false
-    print(context.isPreview)
     
     guard let account = configuration.account,
           let accountId = account.identifier else {

@@ -18,13 +18,10 @@
 		7115535E26627EFE00A73CD6 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535D26627EFE00A73CD6 /* RemoteImage.swift */; };
 		7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
 		71155364266282C900A73CD6 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
-		71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* AccountViewModel.swift */; };
 		7115536926628B8100A73CD6 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
 		7115536B266291BC00A73CD6 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536A266291BC00A73CD6 /* AccountListRowView.swift */; };
 		7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */; };
 		7115536F2662948100A73CD6 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536E2662948100A73CD6 /* LoadableObject.swift */; };
-		71155371266294BB00A73CD6 /* AsyncContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155370266294BB00A73CD6 /* AsyncContentView.swift */; };
-		71155373266299BD00A73CD6 /* PublishedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155372266299BD00A73CD6 /* PublishedObject.swift */; };
 		7115537526629B0C00A73CD6 /* DeploymentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */; };
 		7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
 		7115537926629BB900A73CD6 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* Deployment.swift */; };
@@ -32,14 +29,11 @@
 		7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */; };
 		7115537F2663AD9B00A73CD6 /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537E2663AD9B00A73CD6 /* Color.extension.swift */; };
 		711553812663AE0900A73CD6 /* DeploymentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553802663AE0900A73CD6 /* DeploymentListView.swift */; };
-		711553832663AE5F00A73CD6 /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553822663AE5F00A73CD6 /* DeploymentsViewModel.swift */; };
 		711553852663B00B00A73CD6 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553842663B00B00A73CD6 /* AccountListView.swift */; };
 		711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
 		7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538826642A5100A73CD6 /* DeploymentDetailView.swift */; };
 		7115538D2664E00A00A73CD6 /* DeploymentDetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */; };
 		7115538F2664E1B400A73CD6 /* GitProviderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538E2664E1B400A73CD6 /* GitProviderImage.swift */; };
-		711553912664E37F00A73CD6 /* AliasesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553902664E37F00A73CD6 /* AliasesLoader.swift */; };
-		711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553922664E46400A73CD6 /* AliasesViewModel.swift */; };
 		7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */; };
 		711553AB266548BD00A73CD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711553AA266548BD00A73CD6 /* Preview Assets.xcassets */; };
 		711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
@@ -57,22 +51,16 @@
 		711553BE2665490100A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
 		711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */; };
 		711553C02665490800A73CD6 /* AddAccountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535B26627BB900A73CD6 /* AddAccountButton.swift */; };
-		711553C12665490800A73CD6 /* AsyncContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155370266294BB00A73CD6 /* AsyncContentView.swift */; };
 		711553C22665490800A73CD6 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535D26627EFE00A73CD6 /* RemoteImage.swift */; };
 		711553C32665490800A73CD6 /* GitProviderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538E2664E1B400A73CD6 /* GitProviderImage.swift */; };
 		711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
-		711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553822663AE5F00A73CD6 /* DeploymentsViewModel.swift */; };
 		711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535626627AD800A73CD6 /* SignInViewModel.swift */; };
 		711553C82665491300A73CD6 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* Deployment.swift */; };
-		711553C92665491300A73CD6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* AccountViewModel.swift */; };
 		711553CA2665491300A73CD6 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* Session.swift */; };
-		711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553922664E46400A73CD6 /* AliasesViewModel.swift */; };
 		711553CC2665491300A73CD6 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
 		711553CD2665491700A73CD6 /* DeploymentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */; };
 		711553CE2665491700A73CD6 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
-		711553CF2665491700A73CD6 /* AliasesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553902664E37F00A73CD6 /* AliasesLoader.swift */; };
 		711553D02665491700A73CD6 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536E2662948100A73CD6 /* LoadableObject.swift */; };
-		711553D12665491700A73CD6 /* PublishedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155372266299BD00A73CD6 /* PublishedObject.swift */; };
 		711553D9266552AD00A73CD6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711553D8266552AD00A73CD6 /* WidgetKit.framework */; };
 		711553DB266552AE00A73CD6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711553DA266552AD00A73CD6 /* SwiftUI.framework */; };
 		711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */; };
@@ -82,7 +70,6 @@
 		711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		711553EF266553F400A73CD6 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* Session.swift */; };
 		711553F02665542200A73CD6 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
-		711553F12665548D00A73CD6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* AccountViewModel.swift */; };
 		711553F22665549E00A73CD6 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536E2662948100A73CD6 /* LoadableObject.swift */; };
 		711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
 		711553F4266554F300A73CD6 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
@@ -100,7 +87,6 @@
 		711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
-		711A4A41266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
 		711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
 		711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */; };
@@ -137,10 +123,40 @@
 		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71E9466C26AB5FCE00D09BFE /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
+		71E9467026AC580900D09BFE /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9466F26AC580900D09BFE /* NetworkResponse.swift */; };
+		71E9467126AC6F9200D09BFE /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
+		71E9467226AC6F9500D09BFE /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
+		71E9467326AC6F9B00D09BFE /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* Deployment.swift */; };
+		71E9467426AC6FA300D09BFE /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
+		71E9467526AC7D5400D09BFE /* DeploymentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */; };
+		71E9467726AC896200D09BFE /* LoadableObjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467626AC896200D09BFE /* LoadableObjectView.swift */; };
+		71E9467826AC896200D09BFE /* LoadableObjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467626AC896200D09BFE /* LoadableObjectView.swift */; };
+		71E9467A26ACB6C500D09BFE /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467926ACB6C500D09BFE /* AccountViewModel.swift */; };
+		71E9467B26ACB6C500D09BFE /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467926ACB6C500D09BFE /* AccountViewModel.swift */; };
+		71E9467C26ACB6D500D09BFE /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467926ACB6C500D09BFE /* AccountViewModel.swift */; };
+		71E9467D26ACB6D600D09BFE /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467926ACB6C500D09BFE /* AccountViewModel.swift */; };
+		71E9467F26ACB6E200D09BFE /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467E26ACB6E200D09BFE /* DeploymentsViewModel.swift */; };
+		71E9468026ACB6E200D09BFE /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467E26ACB6E200D09BFE /* DeploymentsViewModel.swift */; };
+		71E9468126ACB6E600D09BFE /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467E26ACB6E200D09BFE /* DeploymentsViewModel.swift */; };
+		71E9468226ACB6E700D09BFE /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9467E26ACB6E200D09BFE /* DeploymentsViewModel.swift */; };
+		71E9468426ACB71100D09BFE /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468326ACB71100D09BFE /* Account.swift */; };
+		71E9468526ACB71100D09BFE /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468326ACB71100D09BFE /* Account.swift */; };
+		71E9468626ACB71100D09BFE /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468326ACB71100D09BFE /* Account.swift */; };
+		71E9468726ACB71100D09BFE /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468326ACB71100D09BFE /* Account.swift */; };
+		71E9468926ACB77300D09BFE /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468826ACB77300D09BFE /* Alias.swift */; };
+		71E9468A26ACB77300D09BFE /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468826ACB77300D09BFE /* Alias.swift */; };
+		71E9468B26ACB77300D09BFE /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468826ACB77300D09BFE /* Alias.swift */; };
+		71E9468C26ACB77300D09BFE /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468826ACB77300D09BFE /* Alias.swift */; };
+		71E9468E26ACBFBB00D09BFE /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468D26ACBFBB00D09BFE /* StateManager.swift */; };
+		71E9468F26ACBFBB00D09BFE /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468D26ACBFBB00D09BFE /* StateManager.swift */; };
+		71E9469026ACBFBB00D09BFE /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468D26ACBFBB00D09BFE /* StateManager.swift */; };
+		71E9469126ACBFBB00D09BFE /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9468D26ACBFBB00D09BFE /* StateManager.swift */; };
+		71E9469826ACC19300D09BFE /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9469726ACC19300D09BFE /* ErrorView.swift */; };
+		71E9469926ACC19300D09BFE /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9469726ACC19300D09BFE /* ErrorView.swift */; };
+		71E9469A26ACC19300D09BFE /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9469726ACC19300D09BFE /* ErrorView.swift */; };
+		71E9469B26ACC19300D09BFE /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9469726ACC19300D09BFE /* ErrorView.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
-		71F9020226656813000A8873 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
-		71F902032665681E000A8873 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* AccountViewModel.swift */; };
 		71F9020426656826000A8873 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536E2662948100A73CD6 /* LoadableObject.swift */; };
 		71F902052665682C000A8873 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
 		71F9020626656834000A8873 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* Session.swift */; };
@@ -196,13 +212,10 @@
 		7115535D26627EFE00A73CD6 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		7115536026627F3E00A73CD6 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		71155363266282C900A73CD6 /* Array.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.extension.swift; sourceTree = "<group>"; };
-		71155365266289F500A73CD6 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		7115536826628B8100A73CD6 /* AccountLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLoader.swift; sourceTree = "<group>"; };
 		7115536A266291BC00A73CD6 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelUserAvatarView.swift; sourceTree = "<group>"; };
 		7115536E2662948100A73CD6 /* LoadableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableObject.swift; sourceTree = "<group>"; };
-		71155370266294BB00A73CD6 /* AsyncContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncContentView.swift; sourceTree = "<group>"; };
-		71155372266299BD00A73CD6 /* PublishedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedObject.swift; sourceTree = "<group>"; };
 		7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsLoader.swift; sourceTree = "<group>"; };
 		7115537626629BAA00A73CD6 /* GitCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCommit.swift; sourceTree = "<group>"; };
 		7115537826629BB900A73CD6 /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
@@ -210,14 +223,11 @@
 		7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentStateIndicator.swift; sourceTree = "<group>"; };
 		7115537E2663AD9B00A73CD6 /* Color.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.extension.swift; sourceTree = "<group>"; };
 		711553802663AE0900A73CD6 /* DeploymentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentListView.swift; sourceTree = "<group>"; };
-		711553822663AE5F00A73CD6 /* DeploymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsViewModel.swift; sourceTree = "<group>"; };
 		711553842663B00B00A73CD6 /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
 		711553862663B03C00A73CD6 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		7115538826642A5100A73CD6 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
 		7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailLabel.swift; sourceTree = "<group>"; };
 		7115538E2664E1B400A73CD6 /* GitProviderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitProviderImage.swift; sourceTree = "<group>"; };
-		711553902664E37F00A73CD6 /* AliasesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasesLoader.swift; sourceTree = "<group>"; };
-		711553922664E46400A73CD6 /* AliasesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasesViewModel.swift; sourceTree = "<group>"; };
 		7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentFilterView.swift; sourceTree = "<group>"; };
 		711553A1266548BD00A73CD6 /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		711553AA266548BD00A73CD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -258,6 +268,14 @@
 		7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyView.swift; sourceTree = "<group>"; };
 		71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
+		71E9466F26AC580900D09BFE /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
+		71E9467626AC896200D09BFE /* LoadableObjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableObjectView.swift; sourceTree = "<group>"; };
+		71E9467926ACB6C500D09BFE /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		71E9467E26ACB6E200D09BFE /* DeploymentsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeploymentsViewModel.swift; sourceTree = "<group>"; };
+		71E9468326ACB71100D09BFE /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		71E9468826ACB77300D09BFE /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
+		71E9468D26ACBFBB00D09BFE /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
+		71E9469726ACC19300D09BFE /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -350,10 +368,11 @@
 		7115535526627ACD00A73CD6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				71155365266289F500A73CD6 /* AccountViewModel.swift */,
-				711553922664E46400A73CD6 /* AliasesViewModel.swift */,
+				71E9468326ACB71100D09BFE /* Account.swift */,
+				71E9467926ACB6C500D09BFE /* AccountViewModel.swift */,
+				71E9468826ACB77300D09BFE /* Alias.swift */,
 				7115537826629BB900A73CD6 /* Deployment.swift */,
-				711553822663AE5F00A73CD6 /* DeploymentsViewModel.swift */,
+				71E9467E26ACB6E200D09BFE /* DeploymentsViewModel.swift */,
 				7115537626629BAA00A73CD6 /* GitCommit.swift */,
 				7115535826627B2900A73CD6 /* Session.swift */,
 				7115535626627AD800A73CD6 /* SignInViewModel.swift */,
@@ -365,11 +384,12 @@
 			isa = PBXGroup;
 			children = (
 				7115535B26627BB900A73CD6 /* AddAccountButton.swift */,
-				71155370266294BB00A73CD6 /* AsyncContentView.swift */,
 				7115538E2664E1B400A73CD6 /* GitProviderImage.swift */,
 				711553862663B03C00A73CD6 /* PlaceholderView.swift */,
 				7115535D26627EFE00A73CD6 /* RemoteImage.swift */,
 				7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */,
+				71E9467626AC896200D09BFE /* LoadableObjectView.swift */,
+				71E9469726ACC19300D09BFE /* ErrorView.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -384,6 +404,7 @@
 				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
 				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
 				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
+				71E9468D26ACBFBB00D09BFE /* StateManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -405,11 +426,10 @@
 			isa = PBXGroup;
 			children = (
 				7115536826628B8100A73CD6 /* AccountLoader.swift */,
-				711553902664E37F00A73CD6 /* AliasesLoader.swift */,
 				7115537426629B0C00A73CD6 /* DeploymentsLoader.swift */,
 				7115536E2662948100A73CD6 /* LoadableObject.swift */,
-				71155372266299BD00A73CD6 /* PublishedObject.swift */,
 				711A4A3D266B672300DA9EE3 /* VercelAPI.swift */,
+				71E9466F26AC580900D09BFE /* NetworkResponse.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -695,7 +715,6 @@
 			files = (
 				7115537F2663AD9B00A73CD6 /* Color.extension.swift in Sources */,
 				7115538F2664E1B400A73CD6 /* GitProviderImage.swift in Sources */,
-				711553832663AE5F00A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */,
 				711A4A6B266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				7115536F2662948100A73CD6 /* LoadableObject.swift in Sources */,
@@ -704,20 +723,24 @@
 				7115538D2664E00A00A73CD6 /* DeploymentDetailLabel.swift in Sources */,
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
-				711553912664E37F00A73CD6 /* AliasesLoader.swift in Sources */,
 				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */,
+				71E9468426ACB71100D09BFE /* Account.swift in Sources */,
 				711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */,
 				7115536926628B8100A73CD6 /* AccountLoader.swift in Sources */,
-				71155373266299BD00A73CD6 /* PublishedObject.swift in Sources */,
+				71E9467726AC896200D09BFE /* LoadableObjectView.swift in Sources */,
+				71E9468E26ACBFBB00D09BFE /* StateManager.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
-				71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */,
 				711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
 				711A4A5C266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */,
 				711A4A68266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
+				71E9467A26ACB6C500D09BFE /* AccountViewModel.swift in Sources */,
+				71E9467026AC580900D09BFE /* NetworkResponse.swift in Sources */,
+				71E9467F26ACB6E200D09BFE /* DeploymentsViewModel.swift in Sources */,
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
 				7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
+				71E9468926ACB77300D09BFE /* Alias.swift in Sources */,
 				711553852663B00B00A73CD6 /* AccountListView.swift in Sources */,
 				711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
 				711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */,
@@ -728,9 +751,9 @@
 				711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				711553E4266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
 				711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */,
+				71E9469826ACC19300D09BFE /* ErrorView.swift in Sources */,
 				7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */,
 				711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */,
-				71155371266294BB00A73CD6 /* AsyncContentView.swift in Sources */,
 				7115535E26627EFE00A73CD6 /* RemoteImage.swift in Sources */,
 				7115536B266291BC00A73CD6 /* AccountListRowView.swift in Sources */,
 				7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */,
@@ -744,7 +767,6 @@
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
 				711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */,
 				711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */,
-				711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */,
 				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,14 +780,15 @@
 				711553B4266548E400A73CD6 /* AccountListView.swift in Sources */,
 				711553CD2665491700A73CD6 /* DeploymentsLoader.swift in Sources */,
 				711553C02665490800A73CD6 /* AddAccountButton.swift in Sources */,
+				71E9468526ACB71100D09BFE /* Account.swift in Sources */,
 				711553C22665490800A73CD6 /* RemoteImage.swift in Sources */,
 				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
-				711553CF2665491700A73CD6 /* AliasesLoader.swift in Sources */,
 				71E9466C26AB5FCE00D09BFE /* ZeitgeistApp.swift in Sources */,
+				71E9468F26ACBFBB00D09BFE /* StateManager.swift in Sources */,
+				71E9468026ACB6E200D09BFE /* DeploymentsViewModel.swift in Sources */,
 				711553B5266548E400A73CD6 /* ContentView.swift in Sources */,
 				711553C32665490800A73CD6 /* GitProviderImage.swift in Sources */,
 				711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */,
-				711553C12665490800A73CD6 /* AsyncContentView.swift in Sources */,
 				711553B3266548E400A73CD6 /* AccountListRowView.swift in Sources */,
 				711553BD266548F400A73CD6 /* Array.extension.swift in Sources */,
 				711553B6266548E400A73CD6 /* DeploymentListRowView.swift in Sources */,
@@ -773,32 +796,32 @@
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				711553CE2665491700A73CD6 /* AccountLoader.swift in Sources */,
 				711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
-				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				711A4A60266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
 				711553CA2665491300A73CD6 /* Session.swift in Sources */,
+				71E9467826AC896200D09BFE /* LoadableObjectView.swift in Sources */,
 				711A4A4B266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
 				711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */,
 				711553BB266548E400A73CD6 /* DeploymentDetailLabel.swift in Sources */,
 				711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
-				711553D12665491700A73CD6 /* PublishedObject.swift in Sources */,
+				71E9469926ACC19300D09BFE /* ErrorView.swift in Sources */,
 				71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
+				71E9467B26ACB6C500D09BFE /* AccountViewModel.swift in Sources */,
 				711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */,
-				711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
 				711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				711553C82665491300A73CD6 /* Deployment.swift in Sources */,
 				711AB5F22676829F004D0768 /* URL.extension.swift in Sources */,
-				711553C92665491300A73CD6 /* AccountViewModel.swift in Sources */,
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
 				711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */,
 				711A4A69266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
 				711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				71F9020A26656A21000A8873 /* Preferences.swift in Sources */,
 				711553D02665491700A73CD6 /* LoadableObject.swift in Sources */,
+				71E9468A26ACB77300D09BFE /* Alias.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,25 +830,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */,
+				71E9467C26ACB6D500D09BFE /* AccountViewModel.swift in Sources */,
 				711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */,
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
 				711553EF266553F400A73CD6 /* Session.swift in Sources */,
 				711553FC26655E0C00A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				7115540026655F3B00A73CD6 /* DeploymentsLoader.swift in Sources */,
+				71E9469A26ACC19300D09BFE /* ErrorView.swift in Sources */,
 				711553F4266554F300A73CD6 /* Array.extension.swift in Sources */,
-				711553F12665548D00A73CD6 /* AccountViewModel.swift in Sources */,
+				71E9468626ACB71100D09BFE /* Account.swift in Sources */,
 				711553F22665549E00A73CD6 /* LoadableObject.swift in Sources */,
 				711553FD26655E1B00A73CD6 /* Color.extension.swift in Sources */,
 				711553FB26655DB000A73CD6 /* LatestDeploymentWidget.swift in Sources */,
 				711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */,
 				711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
+				71E9468126ACB6E600D09BFE /* DeploymentsViewModel.swift in Sources */,
 				711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */,
+				71E9468B26ACB77300D09BFE /* Alias.swift in Sources */,
 				711553FE26655E5000A73CD6 /* Deployment.swift in Sources */,
 				711553F02665542200A73CD6 /* AccountLoader.swift in Sources */,
 				711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
 				711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */,
+				71E9469026ACBFBB00D09BFE /* StateManager.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -834,15 +862,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71E9468C26ACB77300D09BFE /* Alias.swift in Sources */,
 				71F9020626656834000A8873 /* Session.swift in Sources */,
+				71E9469B26ACC19300D09BFE /* ErrorView.swift in Sources */,
 				71611C032665667100119324 /* IntentHandler.swift in Sources */,
+				71E9467326AC6F9B00D09BFE /* Deployment.swift in Sources */,
 				71F902072665683B000A8873 /* Array.extension.swift in Sources */,
-				711A4A41266B672300DA9EE3 /* VercelAPI.swift in Sources */,
-				71F9020226656813000A8873 /* AccountLoader.swift in Sources */,
+				71E9469126ACBFBB00D09BFE /* StateManager.swift in Sources */,
+				71E9467226AC6F9500D09BFE /* VercelAPI.swift in Sources */,
+				71E9468726ACB71100D09BFE /* Account.swift in Sources */,
 				71F902052665682C000A8873 /* KeychainItem.swift in Sources */,
-				71F902032665681E000A8873 /* AccountViewModel.swift in Sources */,
+				71E9467126AC6F9200D09BFE /* AccountLoader.swift in Sources */,
+				71E9467526AC7D5400D09BFE /* DeploymentsLoader.swift in Sources */,
+				71E9467426AC6FA300D09BFE /* GitCommit.swift in Sources */,
+				71E9468226ACB6E700D09BFE /* DeploymentsViewModel.swift in Sources */,
 				71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */,
 				71F9020426656826000A8873 /* LoadableObject.swift in Sources */,
+				71E9467D26ACB6D600D09BFE /* AccountViewModel.swift in Sources */,
 				71F9020C26656A21000A8873 /* Preferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

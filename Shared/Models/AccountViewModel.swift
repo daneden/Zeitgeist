@@ -7,16 +7,6 @@
 
 import Foundation
 
-struct Account: Codable, Identifiable {
-  typealias ID = String
-  var id: ID
-  var isTeam: Bool {
-    id.starts(with: "team_")
-  }
-  var avatar: String?
-  var name: String
-}
-
 class AccountViewModel: LoadableObject {
   @Published private(set) var state: LoadingState<Account> = .idle
   

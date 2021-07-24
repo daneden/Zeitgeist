@@ -15,7 +15,6 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
     var accounts = [WidgetAccount]()
     
     let loader = AccountLoader()
-    loader.useURLCache = false
     
     let accountIds = Session.shared.authenticatedAccountIds
     _ = accountIds.map { accountId in

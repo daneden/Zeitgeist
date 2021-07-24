@@ -52,6 +52,8 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
     commit?.commitMessageSummary ?? "Manual Deployment"
   }
   
+  var aliases: [Alias]?
+  
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
     hasher.combine(state)
@@ -100,5 +102,16 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   
   enum DeploymentError: Error {
     case MockDeploymentInitError
+  }
+  
+  static var mockDeployments: [Deployment] {
+    var result: [Deployment] = []
+    
+    for _ in 0..<10 {
+      let deployment = try! Deployment(asMockDeployment: true)
+      result.append(deployment)
+    }
+    
+    return result
   }
 }

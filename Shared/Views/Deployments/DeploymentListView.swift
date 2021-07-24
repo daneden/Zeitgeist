@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DeploymentListView: View {
   @EnvironmentObject var session: Session
+  @EnvironmentObject var api: VercelAPI
   
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
@@ -30,7 +31,10 @@ struct DeploymentListView: View {
   }
   
   var body: some View {
-    AsyncContentView(source: deploymentsSource) { deployments in
+    LoadableObjectView(
+      value: api.deployments,
+      placeholderData: Deployment.mockDeployments
+    ) { deployments in
       if let filteredDeployments = filterDeployments(deployments) {
         
         if filteredDeployments.isEmpty {
@@ -80,6 +84,9 @@ struct DeploymentListView: View {
           #endif
         }
       }
+    }
+    .onAppear {
+      api.loadDeployments()
     }
     .toolbar {
       Button(action: { self.filterVisible.toggle() }) {
