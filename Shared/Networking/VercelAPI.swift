@@ -51,7 +51,8 @@ class VercelAPI: ObservableObject {
   
   private let decoder: JSONDecoder
   
-  init(accountId: Account.ID) {
+  init(accountId: Account.ID = "") {
+    print("------ INITIALISING \(accountId) -----")
     let config = URLSessionConfiguration.default
     
     if let token = KeychainItem(account: accountId).wrappedValue {
@@ -73,8 +74,19 @@ class VercelAPI: ObservableObject {
     self.decoder = decoder
   }
   
-  private let accountId: Account.ID
-  let session: URLSession
+  func updateAccountId(newValue accountId: Account.ID) {
+    print("****** UPDATING \(accountId) ******")
+    self.accountId = accountId
+    
+    if let token = KeychainItem(account: accountId).wrappedValue {
+      session.configuration.httpAdditionalHeaders = [
+        "Authorization": "Bearer \(token)"
+      ]
+    }
+  }
+  
+  private(set) var accountId: Account.ID
+  private(set) var session: URLSession
   
   enum DeploymentsEndpointVersion: String {
     case v5, v11, v12
@@ -125,9 +137,7 @@ extension VercelAPI {
   func loadAccount() {
     let cancellable = self.request(endpoint: .viewer(viewerId: accountId), resourceType: Account.self)
       .receive(on: DispatchQueue.main)
-      .sink { completion in
-        print(completion)
-      } receiveValue: { account in
+      .sink { _ in } receiveValue: { account in
         self.account = .loaded(account)
       }
     
@@ -137,9 +147,7 @@ extension VercelAPI {
   func loadDeployments() {
     let cancellable = self.request(endpoint: .deployments(), resourceType: DeploymentsResponse.self)
       .receive(on: DispatchQueue.main)
-      .sink { completion in
-        print(completion)
-      } receiveValue: { deploymentsResponse in
+      .sink { _ in } receiveValue: { deploymentsResponse in
         self.deployments = .loaded(deploymentsResponse.deployments)
       }
     
@@ -149,9 +157,7 @@ extension VercelAPI {
   func loadAliases(for deploymentId: Deployment.ID) {
     let cancellable = self.request(endpoint: .aliases(deploymentId: deploymentId), resourceType: Alias.NetworkResponse.self)
       .receive(on: DispatchQueue.main)
-      .sink { completion in
-        print(completion)
-      } receiveValue: { response in
+      .sink { _ in } receiveValue: { response in
         self.aliases[deploymentId] = response.result
       }
     
@@ -160,9 +166,6 @@ extension VercelAPI {
 }
 
 extension VercelAPI {
-  static private let URL_PREFIX = "https://"
-  static private let HOST = "api.vercel.com"
-  
   enum Endpoint {
     case deployment(id: Deployment.ID, version: DeploymentsEndpointVersion = .v5)
     case cancelDeployment(id: Deployment.ID)

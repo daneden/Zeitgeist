@@ -19,7 +19,6 @@ struct ZeitgeistApp: App {
       WindowGroup {
           ContentView()
             .environmentObject(stateManager)
-            .environmentObject(VercelAPI(accountId: stateManager.accountId ?? ""))
             .environmentObject(Session.shared)
       }.commands {
         // TODO: Leverage @FocusedBinding and .focusSceneValue in the new SwiftUI APIs

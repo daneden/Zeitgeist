@@ -14,7 +14,7 @@ struct AccountListRowView: View {
   @ScaledMetric var avatarSize: CGFloat = 24
   #endif
   var accountId: Account.ID
-  @EnvironmentObject var api: VercelAPI
+  @ObservedObject var api: VercelAPI
   @Binding var selection: String?
   
   var placeholderAccount: Account {
@@ -24,11 +24,12 @@ struct AccountListRowView: View {
   init(accountId: Account.ID, selection: Binding<String?>) {
     self.accountId = accountId
     self._selection = selection
+    self.api = VercelAPI(accountId: accountId)
   }
   
   var body: some View {
     NavigationLink(
-      destination: DeploymentListView(accountId: accountId),
+      destination: DeploymentListView(accountId: accountId).environmentObject(api),
       tag: accountId,
       selection: $selection
     ) {
@@ -56,6 +57,7 @@ struct AccountListRowView: View {
         })
       }
     }.onAppear {
+      api.updateAccountId(newValue: accountId)
       api.loadAccount()
     }
 //    AsyncContentView(
