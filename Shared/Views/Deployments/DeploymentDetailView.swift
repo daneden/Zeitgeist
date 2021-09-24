@@ -10,40 +10,33 @@ import SwiftUI
 struct DeploymentDetailView: View {
   var accountId: Account.ID
   var deployment: Deployment
-  @State var copiedURL = false
-  
+
   var body: some View {
     Form {
       Overview(deployment: deployment)
-      URLDetails(copied: $copiedURL, accountId: accountId, deployment: deployment)
+      URLDetails(accountId: accountId, deployment: deployment)
       DeploymentDetails(accountId: accountId, deployment: deployment)
         .symbolRenderingMode(.multicolor)
     }
     .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
-    .onChange(of: self.copiedURL) { _ in
-      if copiedURL == true {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-          self.copiedURL = false
-        }
-      }
-    }
+    .makeContainer()
   }
-  
+
   struct Overview: View {
     var deployment: Deployment
-    
+
     var body: some View {
-      Section(header: Text("Overview")) {
+      DetailSection(header: Text("Overview")) {
         DeploymentDetailLabel("Project") {
           Text(deployment.project)
         }
-        
+
         DeploymentDetailLabel("Commit Message") {
           Text(deployment.deploymentCause)
             .font(.headline)
         }
-        
+
         DeploymentDetailLabel("Author") {
           if let commit = deployment.commit {
             Label(
@@ -66,11 +59,11 @@ struct DeploymentDetailView: View {
             }
           }
         }
-        
+
         DeploymentDetailLabel("Status") {
           DeploymentStateIndicator(state: deployment.state)
         }
-        
+
         if deployment.target == .production {
           Label("Production Build", systemImage: "bolt.fill")
             .foregroundColor(.systemOrange)
@@ -78,25 +71,23 @@ struct DeploymentDetailView: View {
       }
     }
   }
-  
+
   struct URLDetails: View {
-    @Binding var copied: Bool
     @State var aliasesVisible = false
-    
+
     var accountId: Account.ID
     var deployment: Deployment
-    
+
     var body: some View {
-      Section(header: Text("Deployment URL")) {
+      DetailSection(header: Text("Deployment URL")) {
         Link(destination: deployment.url) {
-          Label(deployment.url.absoluteString, systemImage: "link")
-            .lineLimit(1)
-        }
-        
+          Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
+        }.keyboardShortcut("o", modifiers: [.command])
+
         Button(action: self.copyUrl) {
-          Label(copied ? "Copied" : "Copy URL", systemImage: "doc.on.doc")
-        }
-        
+          Label("Copy URL", systemImage: "doc.on.doc")
+        }.keyboardShortcut("c", modifiers: [.command])
+
         AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
           DisclosureGroup(isExpanded: $aliasesVisible, content: {
             if aliases.isEmpty {
@@ -123,11 +114,11 @@ struct DeploymentDetailView: View {
               withAnimation { self.aliasesVisible.toggle() }
             }
           })
-          
+
         }
       }
     }
-    
+
     func copyUrl() {
       #if os(iOS)
       let pasteboard = UIPasteboard.general
@@ -137,25 +128,23 @@ struct DeploymentDetailView: View {
       pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
       pasteboard.setString(deployment.url.absoluteString, forType: NSPasteboard.PasteboardType.string)
       #endif
-      
-      copied = true
     }
   }
-  
+
   struct DeploymentDetails: View {
     @Environment(\.presentationMode) var presentationMode
     var accountId: Account.ID
     var deployment: Deployment
-    
+
     @State var cancelConfirmation = false
     @State var deleteConfirmation = false
     @State var redeployConfirmation = false
-    
+
     @State var mutating = false
     @State var recentlyCancelled = false
-    
+
     var body: some View {
-      Section(header: Text("Details")) {
+      DetailSection(header: Text("Details")) {
         if let svnInfo = deployment.commit,
            let commitUrl: URL = svnInfo.commitURL,
            let shortSha: String = svnInfo.shortSha {
@@ -166,11 +155,11 @@ struct DeploymentDetailView: View {
             )
           }
         }
-        
+
         Link(destination: URL(string: "\(deployment.url.absoluteString)/_logs")!) {
           Label("View Logs", systemImage: "terminal")
-        }
-        
+        }.keyboardShortcut("o", modifiers: [.command, .shift])
+
         if (deployment.state != .queued && deployment.state != .building)
             || deployment.state == .cancelled
             || recentlyCancelled {
@@ -187,7 +176,7 @@ struct DeploymentDetailView: View {
 //            )
 //          }
 //          .disabled(mutating)
-          
+
           Button(role: .destructive, action: { deleteConfirmation = true }) {
             HStack {
               Label("Delete Deployment", systemImage: "trash")
@@ -206,7 +195,7 @@ struct DeploymentDetailView: View {
           Button(role: .destructive, action: { cancelConfirmation = true }) {
             HStack {
               Label("Cancel Deployment", systemImage: "xmark")
-              
+
               if mutating {
                 Spacer()
                 ProgressView()
@@ -225,7 +214,7 @@ struct DeploymentDetailView: View {
         }
       }
     }
-    
+
     // Stub code for redeployments
     func redeploy() {
       do {
@@ -235,18 +224,18 @@ struct DeploymentDetailView: View {
           with: accountId,
           method: .POST
         )
-        
+
         if let commit = deployment.commit {
           let data: [String: Any] = [
             "meta": AnyCommit.encodeToDictionary(from: commit),
             "files": [],
             "name": deployment.project
           ]
-          
+
           request.httpBody = try JSONSerialization.data(withJSONObject: data)
           print(String(decoding: request.httpBody!, as: UTF8.self))
         }
-        
+
         URLSession.shared.dataTask(with: request) { data, response, error in
           DispatchQueue.main.async {
             self.mutating = false
@@ -258,7 +247,7 @@ struct DeploymentDetailView: View {
         self.mutating = false
       }
     }
-    
+
     func deleteDeployment() {
       do {
         self.mutating = true
@@ -268,7 +257,7 @@ struct DeploymentDetailView: View {
           appending: "\(deployment.id)",
           method: .DELETE
         )
-        
+
         URLSession.shared.dataTask(with: request) { data, response, error in
           DispatchQueue.main.async {
             self.mutating = false
@@ -280,7 +269,7 @@ struct DeploymentDetailView: View {
         self.mutating = false
       }
     }
-    
+
     func cancelDeployment() {
       do {
         self.mutating = true
@@ -290,7 +279,7 @@ struct DeploymentDetailView: View {
           appending: "\(deployment.id)/cancel",
           method: .PATCH
         )
-        
+
         URLSession.shared.dataTask(with: request) { data, response, error in
           if let response = response as? HTTPURLResponse,
              response.statusCode == 200 {
@@ -299,7 +288,7 @@ struct DeploymentDetailView: View {
               self.recentlyCancelled = true
             }
           }
-          
+
           DispatchQueue.main.async {
             self.mutating = false
           }
@@ -311,3 +300,32 @@ struct DeploymentDetailView: View {
     }
   }
 }
+
+struct DetailSection<Content: View>: View {
+  var header: Text
+  var content: Content
+
+  init(header: Text, @ViewBuilder content: @escaping () -> Content) {
+    self.content = content()
+    self.header = header
+  }
+
+  var body: some View {
+    #if os(macOS)
+    GroupBox(label: header) {
+      HStack {
+        VStack(alignment: .leading) {
+          content
+        }
+        Spacer(minLength: 0)
+      }
+      .padding()
+    }
+    #else
+    Section(header: header) {
+      content
+    }
+    #endif
+  }
+}
+

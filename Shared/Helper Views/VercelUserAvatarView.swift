@@ -22,8 +22,8 @@ struct VercelUserAvatarView: View {
   }
   
   var body: some View {
-    
     RemoteImage(url: url)
+      .blendMode(.normal)
       .frame(width: size, height: size)
       .cornerRadius(size)
       .overlay(

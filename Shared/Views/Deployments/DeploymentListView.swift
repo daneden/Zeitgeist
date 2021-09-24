@@ -11,50 +11,50 @@ import Combine
 struct DeploymentListView: View {
   @EnvironmentObject var session: Session
   @AppStorage("refreshFrequency") var refreshFrequency: TimeInterval = 5.0
-  
+
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
   @State var productionFilter = false
   @State var filterVisible = false
-  
-  @State var activeDeploymentID: String?
-  
+
+  @SceneStorage("activeDeploymentID") var activeDeploymentID: Deployment.ID?
+
   var filtersApplied: Bool {
     projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
   }
-  
+
   var accountId: String
   var deploymentsSource: DeploymentsViewModel
-  
+
   private var timer: Publishers.Autoconnect<Timer.TimerPublisher> = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-  
+
   init(accountId: String) {
     self.accountId = accountId
     self.deploymentsSource = DeploymentsViewModel(accountId: accountId)
-    
+
     self.timer = Timer.publish(every: refreshFrequency, on: .main, in: .common).autoconnect()
   }
-  
+
   var body: some View {
     AsyncContentView(source: deploymentsSource) { deployments in
       if let filteredDeployments = filterDeployments(deployments) {
-        
+
         if filteredDeployments.isEmpty {
           VStack(spacing: 8) {
             Spacer()
-            
+
             PlaceholderView(forRole: .NoDeployments)
-            
+
             if filtersApplied {
               Button(action: clearFilters) {
                 Label("Clear Filters", systemImage: "xmark.circle")
               }
             }
-            
+
             Spacer()
           }
         }
-        
+
         TimelineView(PeriodicTimelineSchedule(from: .now, by: refreshFrequency)) { context in
           List {
             ForEach(filteredDeployments, id: \.id) { deployment in
@@ -72,12 +72,23 @@ struct DeploymentListView: View {
           }
           .refreshable { await deploymentsSource.loadAsync() }
           .sheet(isPresented: self.$filterVisible) {
+            #if os(macOS)
+          DeploymentFilterView(
+            deployments: deployments,
+            projectFilter: self.$projectFilter,
+            stateFilter: self.$stateFilter,
+            productionFilter: self.$productionFilter
+          )
+          #else
+          NavigationView {
             DeploymentFilterView(
               deployments: deployments,
               projectFilter: self.$projectFilter,
               stateFilter: self.$stateFilter,
               productionFilter: self.$productionFilter
             )
+          }
+          #endif
           }
         }
       }
@@ -90,11 +101,11 @@ struct DeploymentListView: View {
             ? "line.horizontal.3.decrease.circle"
             : "line.horizontal.3.decrease.circle.fill"
         )
-      }
-      
+      }.keyboardShortcut("l", modifiers: .command)
+
       Button(action: { deploymentsSource.load() }) {
         Label("Reload", systemImage: "arrow.clockwise")
-      }
+      }.keyboardShortcut("r", modifiers: .command)
     }
     .navigationTitle("Deployments")
     .onOpenURL(perform: { url in
@@ -107,13 +118,13 @@ struct DeploymentListView: View {
       }
     })
   }
-  
+
   func clearFilters() {
     projectFilter = .allProjects
     stateFilter = .allStates
     productionFilter = false
   }
-  
+
   func filterDeployments(_ deployments: [Deployment]) -> [Deployment] {
     return deployments.filter { deployment -> Bool in
       switch self.projectFilter {

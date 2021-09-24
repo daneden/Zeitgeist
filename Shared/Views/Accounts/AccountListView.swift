@@ -10,10 +10,10 @@ import SwiftUI
 struct AccountListView: View {
   @EnvironmentObject var session: Session
   @State var signInModel = SignInViewModel()
-  @State var activeAccountID: String?
+  @SceneStorage("activeAccountID") var activeAccountID: Account.ID?
   
   var body: some View {
-    List {
+    List(selection: $activeAccountID) {
       Section(header: Text("Accounts")) {
         ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
           NavigationLink(
@@ -28,6 +28,7 @@ struct AccountListView: View {
               Label("Remove Account", systemImage: "person.badge.minus")
             }
           }
+          .tag(accountId)
         }
         .onDelete(perform: deleteAccount)
         .onMove(perform: move)

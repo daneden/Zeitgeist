@@ -40,7 +40,6 @@
 		711553912664E37F00A73CD6 /* AliasesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553902664E37F00A73CD6 /* AliasesLoader.swift */; };
 		711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553922664E46400A73CD6 /* AliasesViewModel.swift */; };
 		7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */; };
-		711553A8266548BD00A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711553A7266548BD00A73CD6 /* Assets.xcassets */; };
 		711553AB266548BD00A73CD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711553AA266548BD00A73CD6 /* Preview Assets.xcassets */; };
 		711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
 		711553B2266548E400A73CD6 /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
@@ -134,6 +133,9 @@
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */; };
 		7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */; };
+		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
+		71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
+		71E9466C26AB5FCE00D09BFE /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		71F9020226656813000A8873 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
@@ -214,11 +216,8 @@
 		7115538E2664E1B400A73CD6 /* GitProviderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitProviderImage.swift; sourceTree = "<group>"; };
 		711553902664E37F00A73CD6 /* AliasesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasesLoader.swift; sourceTree = "<group>"; };
 		711553922664E46400A73CD6 /* AliasesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasesViewModel.swift; sourceTree = "<group>"; };
-		711553982665197100A73CD6 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentFilterView.swift; sourceTree = "<group>"; };
 		711553A1266548BD00A73CD6 /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		711553A3266548BD00A73CD6 /* ZeitgeistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistApp.swift; sourceTree = "<group>"; };
-		711553A7266548BD00A73CD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		711553AA266548BD00A73CD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		711553AC266548BD00A73CD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
@@ -255,6 +254,8 @@
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyView.swift; sourceTree = "<group>"; };
+		71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
+		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -299,8 +300,9 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
-				71155345266279CF00A73CD6 /* iOS */,
-				711553A2266548BD00A73CD6 /* Zeitgeist */,
+				71A33E57269B627F00DC34FC /* iOS */,
+				71155345266279CF00A73CD6 /* Shared */,
+				711553A2266548BD00A73CD6 /* macOS */,
 				711553DC266552AE00A73CD6 /* ZeitgeistWidgets */,
 				71611C012665667100119324 /* SelectWidgetAccountIntent */,
 				711553D7266552AD00A73CD6 /* Frameworks */,
@@ -319,12 +321,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		71155345266279CF00A73CD6 /* iOS */ = {
+		71155345266279CF00A73CD6 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				71155346266279CF00A73CD6 /* ZeitgeistApp.swift */,
 				711A4A39266A368500DA9EE3 /* Views */,
-				711553982665197100A73CD6 /* Zeitgeist.entitlements */,
-				7115534F266279D000A73CD6 /* Info.plist */,
 				71155348266279CF00A73CD6 /* ContentView.swift */,
 				71155346266279CF00A73CD6 /* ZeitgeistApp.swift */,
 				7115534A266279D000A73CD6 /* Assets.xcassets */,
@@ -333,10 +334,8 @@
 				7115535F26627F3400A73CD6 /* Helpers */,
 				7115535526627ACD00A73CD6 /* Models */,
 				7115536726628B7400A73CD6 /* Networking */,
-				7115534C266279D000A73CD6 /* Preview Content */,
-				711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */,
 			);
-			path = iOS;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		7115534C266279D000A73CD6 /* Preview Content */ = {
@@ -383,6 +382,7 @@
 				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
 				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
 				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
+				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -412,16 +412,14 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		711553A2266548BD00A73CD6 /* Zeitgeist */ = {
+		711553A2266548BD00A73CD6 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				711553A3266548BD00A73CD6 /* ZeitgeistApp.swift */,
-				711553A7266548BD00A73CD6 /* Assets.xcassets */,
+				71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */,
 				711553AC266548BD00A73CD6 /* Info.plist */,
-				711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */,
 				711553A9266548BD00A73CD6 /* Preview Content */,
 			);
-			path = Zeitgeist;
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		711553A9266548BD00A73CD6 /* Preview Content */ = {
@@ -512,6 +510,17 @@
 				71611C042665667100119324 /* Info.plist */,
 			);
 			path = SelectWidgetAccountIntent;
+			sourceTree = "<group>";
+		};
+		71A33E57269B627F00DC34FC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */,
+				7115534F266279D000A73CD6 /* Info.plist */,
+				711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */,
+				7115534C266279D000A73CD6 /* Preview Content */,
+			);
+			path = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -657,7 +666,6 @@
 			files = (
 				711553AB266548BD00A73CD6 /* Preview Assets.xcassets in Resources */,
 				711553BE2665490100A73CD6 /* Assets.xcassets in Resources */,
-				711553A8266548BD00A73CD6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,6 +703,7 @@
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
 				711553912664E37F00A73CD6 /* AliasesLoader.swift in Sources */,
+				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */,
 				7115536926628B8100A73CD6 /* AccountLoader.swift in Sources */,
@@ -750,6 +759,7 @@
 				711553C22665490800A73CD6 /* RemoteImage.swift in Sources */,
 				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553CF2665491700A73CD6 /* AliasesLoader.swift in Sources */,
+				71E9466C26AB5FCE00D09BFE /* ZeitgeistApp.swift in Sources */,
 				711553B5266548E400A73CD6 /* ContentView.swift in Sources */,
 				711553C32665490800A73CD6 /* GitProviderImage.swift in Sources */,
 				711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */,
@@ -772,6 +782,8 @@
 				711553BB266548E400A73CD6 /* DeploymentDetailLabel.swift in Sources */,
 				711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
+				711553D12665491700A73CD6 /* PublishedObject.swift in Sources */,
+				71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */,
 				711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
@@ -1026,13 +1038,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = macOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Zeitgeist/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Zeitgeist/Info.plist;
+				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1053,13 +1066,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = macOS/Zeitgeist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Zeitgeist/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
 				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Zeitgeist/Info.plist;
+				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
