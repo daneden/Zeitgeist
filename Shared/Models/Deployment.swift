@@ -14,6 +14,12 @@ enum DeploymentState: String, Codable, CaseIterable {
   case normal = "NORMAL"
   case offline = "OFFLINE"
   case cancelled = "CANCELED"
+  
+  static var typicalCases: [DeploymentState] {
+    return Self.allCases.filter { state in
+      state != .normal && state != .offline
+    }
+  }
 }
 
 struct DeploymentCreator: Codable, Identifiable {

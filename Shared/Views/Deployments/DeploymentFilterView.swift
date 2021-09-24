@@ -55,17 +55,10 @@ struct DeploymentFilterView: View {
         Picker("Status", selection: $stateFilter) {
           Text("All statuses").tag(StateFilter.allStates)
           
-          Label("Deployed", systemImage: "checkmark.circle.fill")
-            .tag(StateFilter.filteredByState(state: .ready))
-          
-          Label("Building", systemImage: "timer")
-            .tag(StateFilter.filteredByState(state: .building))
-          Label("Build error", systemImage: "exclamationmark.circle.fill")
-            .tag(StateFilter.filteredByState(state: .error))
-          Label("Cancelled", systemImage: "x.circle.fill")
-            .tag(StateFilter.filteredByState(state: .cancelled))
-          Label("Queued", systemImage: "hourglass")
-            .tag(StateFilter.filteredByState(state: .queued))
+          ForEach(DeploymentState.typicalCases, id: \.self) { state in
+            DeploymentStateIndicator(state: state)
+              .tag(StateFilter.filteredByState(state: state))
+          }
         }.accentColor(.secondary)
         
         Toggle(isOn: self.$productionFilter) {

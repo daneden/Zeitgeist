@@ -27,6 +27,8 @@ struct DeploymentStateIndicator: View {
       return "Queued"
     case .cancelled:
       return "Cancelled"
+    case .offline:
+      return "Offline"
     default:
       return "Ready" 
     }
@@ -40,6 +42,8 @@ struct DeploymentStateIndicator: View {
       return .systemPurple
     case .ready:
       return .systemGreen
+    case .cancelled:
+      return .primary
     default:
       return .systemGray
     }
@@ -55,6 +59,8 @@ struct DeploymentStateIndicator: View {
       return style == .normal ? "checkmark.circle.fill" : "checkmark.circle"
     case .cancelled:
       return "nosign"
+    case .offline:
+      return "wifi.slash"
     default:
       return "arrowtriangle.up.circle.fill"
     }
