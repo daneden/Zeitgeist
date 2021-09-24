@@ -68,7 +68,7 @@ struct DeploymentListView: View {
             }
           }
           .onReceive(timer) { _ in
-            async { await deploymentsSource.loadAsync() }
+            Task.init { await deploymentsSource.loadAsync() }
           }
           .refreshable { await deploymentsSource.loadAsync() }
           .sheet(isPresented: self.$filterVisible) {

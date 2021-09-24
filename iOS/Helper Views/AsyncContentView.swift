@@ -51,7 +51,7 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
       switch source.state {
       case .idle:
         Color.clear.onAppear {
-          async {
+          Task.init {
             await source.loadAsync()
           }
         }
