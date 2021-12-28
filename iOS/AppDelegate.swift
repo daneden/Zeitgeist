@@ -69,8 +69,36 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func applicationWillEnterForeground(_ application: UIApplication) {
     UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              didReceive response: UNNotificationResponse,
+                              withCompletionHandler completionHandler:
+                                @escaping () -> Void) {
+    
+    let userInfo = response.notification.request.content.userInfo
+    
+    guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String else {
+      completionHandler()
+      return
+    }
+    
+    guard let teamID = userInfo["TEAM_ID"] as? String else {
+      completionHandler()
+      return
+    }
+    
+    switch response.notification.request.content.categoryIdentifier {
+    case ZPSNotificationCategory.Deployment.rawValue:
+      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
+    default:
+      print("Uncaught notification category identifier")
+    }
+    
+    completionHandler()
+  }
   
-  // MARK: Notifications
   func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
@@ -176,34 +204,5 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       
       return
     }
-  }
-}
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler:
-                                @escaping () -> Void) {
-    
-    let userInfo = response.notification.request.content.userInfo
-    
-    guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String else {
-      completionHandler()
-      return
-    }
-    
-    guard let teamID = userInfo["TEAM_ID"] as? String else {
-      completionHandler()
-      return
-    }
-    
-    switch response.notification.request.content.categoryIdentifier {
-    case ZPSNotificationCategory.Deployment.rawValue:
-      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
-    default:
-      print("Uncaught notification category identifies")
-    }
-    
-    completionHandler()
   }
 }
