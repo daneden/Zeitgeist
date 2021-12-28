@@ -207,8 +207,3 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     completionHandler()
   }
 }
-
-let supporterProductIds: Set<String> = [
-  "me.daneden.Zeitgeist.IAPSupporter.annual",
-  "me.daneden.Zeitgeist.IAPSupporter"
-]

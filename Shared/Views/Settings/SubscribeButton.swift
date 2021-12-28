@@ -75,7 +75,7 @@ struct SubscribeButton: View {
   
   func fetchProducts() async {
     do {
-      self.products = try await Product.products(for: supporterProductIds)
+      self.products = try await Product.products(for: IAPHelper.supporterProductIds)
     } catch {
       print("Unable to fetch products")
     }

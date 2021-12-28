@@ -10,6 +10,11 @@ import StoreKit
 import SwiftUI
 
 class IAPHelper: ObservableObject {
+  static let supporterProductIds: Set<String> = [
+    "me.daneden.Zeitgeist.IAPSupporter.annual",
+    "me.daneden.Zeitgeist.IAPSupporter"
+  ]
+
   @AppStorage("activeSupporterSubscription") private(set) var activeSubscriber = false
   
   static var shared = IAPHelper()
@@ -23,7 +28,7 @@ class IAPHelper: ObservableObject {
   func restorePurchases() async {
     for await verificationResult in Transaction.currentEntitlements {
       if case .verified(let transaction) = verificationResult {
-        activeSubscriber = (supporterProductIds.contains(transaction.productID))
+        activeSubscriber = (IAPHelper.supporterProductIds.contains(transaction.productID))
       }
     }
   }
