@@ -49,9 +49,6 @@ struct SettingsView: View {
         }
       }
     }
-    .onAppear {
-      IAPHelper.shared.refresh()
-    }
     .navigationTitle("Settings")
   }
 }

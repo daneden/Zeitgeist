@@ -7,73 +7,47 @@
 
 import SwiftUI
 import StoreKit
-import Purchases
+import StoreKit
 
 enum PurchaseState: Equatable {
   case idle
-  case purchasing(product: IAPSubscriptionType)
+  case purchasing(productID: String? = nil)
 }
 
 struct SubscribeButton: View {
   @ObservedObject var iapHelper = IAPHelper.shared
-  @State var purchaseState: PurchaseState = .idle
   
-  private var monthlySub: Purchases.Package? {
-    IAPHelper.shared.monthlySubscription
-  }
-  
-  private var yearlySub: Purchases.Package? {
-    IAPHelper.shared.yearlySubscription
-  }
+  @State var products: [Product] = []
+  @State var latestTransaction: StoreKit.Transaction?
+  @State var purchaseState = PurchaseState.idle
   
   var body: some View {
     Group {
-      if monthlySub == nil && yearlySub == nil {
+      if products.isEmpty {
         HStack {
           Spacer()
           ProgressView("Loading subscriptions...")
           Spacer()
         }.padding(.vertical)
       } else {
-        yearlySub.map { sub in
+        ForEach(products) { product in
           Button(action: {
-            self.purchaseState = .purchasing(product: .annual)
-            iapHelper.makeSubscriptionPurchase(package: sub) { _ in
-              self.purchaseState = .idle
+            Task {
+              self.latestTransaction = try await self.purchaseProduct(product)
             }
           }) {
             HStack {
-              Label("\(sub.localizedPriceString) Yearly", systemImage: "plus.square.on.square")
-              
-              if let priceSaving = priceSaving {
-                Spacer()
-                Text(priceSaving)
-                  .padding(4)
-                  .padding(.horizontal, 4)
-                  .background(Color.systemPink)
-                  .cornerRadius(4)
-                  .font(.footnote.bold())
-                  .foregroundColor(.white)
+              Text(product.displayName)
+              Spacer()
+              if self.purchaseState == .purchasing(productID: product.id) {
+                ProgressView()
+              } else {
+                Text(product.displayPrice).foregroundStyle(.secondary)
               }
             }
           }
-          .opacity(self.purchaseState == .purchasing(product: .annual) ? 0.5 : 1)
-          .disabled(self.purchaseState != .idle)
+          .opacity(self.purchaseState == .purchasing(productID: product.id) ? 0.5 : 1)
         }
-        
-        monthlySub.map { sub in
-          Button(action: {
-            self.purchaseState = .purchasing(product: .monthly)
-            iapHelper.makeSubscriptionPurchase(package: sub) { _ in
-              self.purchaseState = .idle
-            }
-          }) {
-            Label("\(sub.localizedPriceString) Monthly", systemImage: "plus.app")
-          }
-          .opacity(self.purchaseState == .purchasing(product: .monthly) ? 0.5 : 1)
-          .disabled(self.purchaseState != .idle)
-        }
-        
       }
       
       #if !os(macOS)
@@ -82,30 +56,61 @@ struct SubscribeButton: View {
       })
       
       Button(action: {
-        self.purchaseState = .purchasing(product: .other)
-        iapHelper.restorePurchases { _ in
+        self.purchaseState = .purchasing(productID: nil)
+        Task {
+          await iapHelper.restorePurchases()
           self.purchaseState = .idle
         }
       }, label: {
         Label("Restore Purchases", systemImage: "purchased")
       })
       #endif
-    }.symbolRenderingMode(.hierarchical)
+    }
+    .disabled(self.purchaseState != .idle)
+    .symbolRenderingMode(.hierarchical)
+    .task {
+      await fetchProducts()
+    }
   }
   
-  private var priceSaving: LocalizedStringKey? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    
-    guard let monthlySub = monthlySub,
-          let yearlySub = yearlySub else {
-      return nil
+  func fetchProducts() async {
+    do {
+      self.products = try await Product.products(for: supporterProductIds)
+    } catch {
+      print("Unable to fetch products")
     }
-    
-    let savings = (monthlySub.product.price.doubleValue * 12) - yearlySub.product.price.doubleValue
-    
-    return "\(formatter.string(from: NSNumber(value: savings))!) off"
   }
+  
+  func purchaseProduct(_ product: Product) async throws -> StoreKit.Transaction {
+    purchaseState = .purchasing(productID: product.id)
+    
+    let result = try await product.purchase()
+    
+    purchaseState = .idle
+    
+    switch result {
+    case .pending:
+      throw PurchaseError.pending
+    case .success(let verification):
+      switch verification {
+      case .verified(let transaction):
+        await transaction.finish()
+        
+        return transaction
+      case .unverified:
+        throw PurchaseError.failed
+      }
+    case .userCancelled:
+      throw PurchaseError.cancelled
+    @unknown default:
+      assertionFailure("Unexpected result")
+      throw PurchaseError.failed
+    }
+  }
+}
+
+enum PurchaseError: Error {
+  case pending, failed, cancelled
 }
 
 struct SubscribeButton_Previews: PreviewProvider {

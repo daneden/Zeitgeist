@@ -1,0 +1,71 @@
+{
+  "identifier" : "BE86960F",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "99BF580B",
+      "localizations" : [
+
+      ],
+      "name" : "Zeitgeist Supporter Subscriptions",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "8FE56BC8",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "Annual Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "me.daneden.Zeitgeist.IAPSupporter.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Zeitgeist Supporter (Yearly)",
+          "subscriptionGroupID" : "99BF580B",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "3F0AFF94",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "Monthly Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "me.daneden.Zeitgeist.IAPSupporter",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Zeitgeist Supporter (Monthly)",
+          "subscriptionGroupID" : "99BF580B",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 1
+  }
+}

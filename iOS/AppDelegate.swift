@@ -9,7 +9,7 @@
 import UIKit
 #endif
 import SwiftUI
-import Purchases
+import StoreKit
 
 #if DEBUG
 let platform = "ios_sandbox"
@@ -18,6 +18,8 @@ let platform = "ios"
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+  private var storeKitTaskHandle: Task<Void, Error>?
+  
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   @AppStorage("activeSupporterSubscription") var activeSubscription = false
   
@@ -25,6 +27,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    storeKitTaskHandle = listenForStoreKitUpdates()
+    
     UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
       switch settings.authorizationStatus {
       case .denied, .notDetermined:
@@ -37,20 +41,33 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     UNUserNotificationCenter.current().delegate = self
     
-    NotificationManager.shared.toggleNotifications(on: notificationsEnabled && activeSubscription)
-    
-    setupRevenueCat()
+    Task {
+      await IAPHelper.shared.restorePurchases()
+      NotificationManager.shared.toggleNotifications(on: notificationsEnabled && activeSubscription)
+    }
     
     return true
   }
   
-  func applicationWillEnterForeground(_ application: UIApplication) {
-    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+  func listenForStoreKitUpdates() -> Task<Void, Error> {
+    Task.detached {
+      for await result in Transaction.updates {
+        switch result {
+        case .verified(let transaction):
+          print("Transaction verified in listener")
+          
+          await transaction.finish()
+          await IAPHelper.shared.restorePurchases()
+          // Update the user's purchases...
+        case .unverified:
+          print("Transaction unverified")
+        }
+      }
+    }
   }
   
-  // MARK: In-App Purchase Setup
-  func setupRevenueCat() {
-    Purchases.configure(withAPIKey: "BtsJTlCfcJkRXMbWTTraNErvIsCcLkLb")
+  func applicationWillEnterForeground(_ application: UIApplication) {
+    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
   
   // MARK: Notifications
@@ -190,3 +207,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     completionHandler()
   }
 }
+
+let supporterProductIds: Set<String> = [
+  "me.daneden.Zeitgeist.IAPSupporter.annual",
+  "me.daneden.Zeitgeist.IAPSupporter"
+]

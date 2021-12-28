@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7110B2142670F5EC00ADF96F /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 7110B2132670F5EC00ADF96F /* Purchases */; };
 		71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
 		71155349266279CF00A73CD6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155348266279CF00A73CD6 /* ContentView.swift */; };
 		7115534B266279D000A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
@@ -107,7 +106,6 @@
 		711A4A4B266B8AAC00DA9EE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
 		711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
 		711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
-		711A4A51266BDE2C00DA9EE3 /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = 711A4A50266BDE2C00DA9EE3 /* Purchases */; };
 		711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */; };
 		711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
 		711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
@@ -131,11 +129,12 @@
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		71832D52277B875200CB2903 /* StoreKitConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */; };
+		71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71832D53277B94AA00CB2903 /* StoreKit.framework */; };
 		7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */; };
 		7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */; };
 		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
-		71E9466C26AB5FCE00D09BFE /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		71F9020226656813000A8873 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
@@ -253,6 +252,8 @@
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfiguration.storekit; sourceTree = "<group>"; };
+		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyView.swift; sourceTree = "<group>"; };
 		71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
@@ -265,7 +266,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				711A4A51266BDE2C00DA9EE3 /* Purchases in Frameworks */,
+				71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +274,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7110B2142670F5EC00ADF96F /* Purchases in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +432,7 @@
 		711553D7266552AD00A73CD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71832D53277B94AA00CB2903 /* StoreKit.framework */,
 				711553D8266552AD00A73CD6 /* WidgetKit.framework */,
 				711553DA266552AD00A73CD6 /* SwiftUI.framework */,
 				71155406266562C100A73CD6 /* Intents.framework */,
@@ -518,6 +519,7 @@
 				7115534F266279D000A73CD6 /* Info.plist */,
 				711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */,
 				7115534C266279D000A73CD6 /* Preview Content */,
+				71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -542,7 +544,6 @@
 			);
 			name = Zeitgeist;
 			packageProductDependencies = (
-				711A4A50266BDE2C00DA9EE3 /* Purchases */,
 			);
 			productName = Verdant;
 			productReference = 71155343266279CF00A73CD6 /* Zeitgeist.app */;
@@ -562,7 +563,6 @@
 			);
 			name = "Zeitgeist (macOS)";
 			packageProductDependencies = (
-				7110B2132670F5EC00ADF96F /* Purchases */,
 			);
 			productName = Zeitgeist;
 			productReference = 711553A1266548BD00A73CD6 /* Zeitgeist.app */;
@@ -609,7 +609,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					71155342266279CF00A73CD6 = {
 						CreatedOnToolsVersion = 12.5;
@@ -635,7 +635,6 @@
 			);
 			mainGroup = 7115533A266279CF00A73CD6;
 			packageReferences = (
-				711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
@@ -654,6 +653,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71832D52277B875200CB2903 /* StoreKitConfiguration.storekit in Resources */,
 				7115534E266279D000A73CD6 /* Preview Assets.xcassets in Resources */,
 				7115534B266279D000A73CD6 /* Assets.xcassets in Resources */,
 			);
@@ -758,7 +758,6 @@
 				711553C22665490800A73CD6 /* RemoteImage.swift in Sources */,
 				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553CF2665491700A73CD6 /* AliasesLoader.swift in Sources */,
-				71E9466C26AB5FCE00D09BFE /* ZeitgeistApp.swift in Sources */,
 				711553B5266548E400A73CD6 /* ContentView.swift in Sources */,
 				711553C32665490800A73CD6 /* GitProviderImage.swift in Sources */,
 				711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */,
@@ -1226,30 +1225,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.11.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		7110B2132670F5EC00ADF96F /* Purchases */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = Purchases;
-		};
-		711A4A50266BDE2C00DA9EE3 /* Purchases */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 711A4A4F266BDE2C00DA9EE3 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = Purchases;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7115533B266279CF00A73CD6 /* Project object */;
 }
