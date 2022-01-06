@@ -10,72 +10,71 @@ import Combine
 import SwiftUI
 
 class DeploymentsViewModel: LoadableObject {
+  @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   @Published private(set) var state: LoadingState<[Deployment]> = .idle
 
-  private var mostRecentDeployments: [Deployment] = []
+  private var mostRecentDeployments: [Deployment] {
+    if case .loaded(let deployments) = state {
+      return deployments
+    } else {
+      return []
+    }
+  }
 
   typealias Output = [Deployment]
 
   private let accountId: Account.ID
-  private let loader: DeploymentsLoader
-
-  init(accountId: Account.ID, loader: DeploymentsLoader = DeploymentsLoader()) {
-    self.accountId = accountId
-    self.loader = loader
+  
+  private var cacheKey: String {
+    "__cache__deployments-\(accountId)"
   }
 
-  func load() {
-    if mostRecentDeployments.isEmpty {
-      state = .loading
-    } else {
-      state = .refreshing(mostRecentDeployments)
+  init(accountId: Account.ID) {
+    self.accountId = accountId
+    
+    if let cachedData = loadCachedData(key: cacheKey) {
+      self.state = .loaded(cachedData)
     }
+  }
 
-    loader.loadDeployments(withID: accountId) { [weak self] result in
-      switch result {
-      case .success(let deployments):
+  func loadCachedData(key: String) -> [Deployment]? {
+    if let cachedResults = UserDefaults.standard.data(forKey: key),
+       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults).deployments {
+      return decodedResults
+    }
+    
+    return nil
+  }
+  
+  func saveCachedData(data: Data, key: String) {
+    UserDefaults.standard.set(data, forKey: key)
+  }
+
+  func load() async {
+    switch self.state {
+    case .loaded(_):
+      break
+    default:
+      self.state = .loading
+    }
+    
+    do {
+      let request = try VercelAPI.request(for: .deployments, with: accountId, queryItems: [URLQueryItem(name: "limit", value: "100")])
+      let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
+      
+      for try await data in watcher {
+        let newData = try JSONDecoder().decode(DeploymentsResponse.self, from: data).deployments
+        
         DispatchQueue.main.async {
-          if self?.mostRecentDeployments.elementsEqual(deployments) == false {
-            withAnimation { self?.state = .loaded(deployments) }
-            self?.mostRecentDeployments = deployments
+          withAnimation {
+            self.state = .loaded(newData)
           }
         }
-      case .failure(let error):
-        DispatchQueue.main.async {
-          self?.state = .failed(error)
-        }
+        
+        saveCachedData(data: data, key: cacheKey)
       }
-    }
-  }
-
-  func loadAsync() async {
-    DispatchQueue.main.async {
-      switch self.state {
-      case .loaded(_):
-        break
-      default:
-        self.state = .loading
-      }
-    }
-
-    guard let result = try? await loader.loadDeployments(withID: accountId) else {
-      state = .failed(LoaderError.unknown)
-      return
-    }
-
-    DispatchQueue.main.async {
-      switch result {
-      case .success(let deployments):
-        if self.mostRecentDeployments.elementsEqual(deployments) == false {
-          withAnimation { self.state = .loaded(deployments) }
-        } else {
-          self.state = .loaded(deployments)
-        }
-
-        self.mostRecentDeployments = deployments
-      case .failure(let error):
-        self.state = .failed(error)
-      }
+    } catch {
+      print(error.localizedDescription)
     }
   }
 }

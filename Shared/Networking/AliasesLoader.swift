@@ -7,22 +7,6 @@
 
 import Foundation
 
-struct Alias: Codable, Hashable {
-  var uid: String
-  var alias: String
-  var url: URL {
-    URL(string: "https://\(alias)")!
-  }
-  
-  enum CodingKeys: String, CodingKey {
-    case uid, alias
-  }
-}
-
-struct AliasesResponse: Codable {
-  var aliases: [Alias]
-}
-
 
 class AliasesLoader {
   private let decoder = JSONDecoder()

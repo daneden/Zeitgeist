@@ -11,14 +11,14 @@ import Combine
 struct ErrorView: View {
   @ScaledMetric var spacing: CGFloat = 8
   var error: Error
-  var retryHandler: (() -> Void)?
+  var retryHandler: (() async -> Void)?
   
   var body: some View {
     VStack(alignment: .leading, spacing: spacing) {
       Label(error.localizedDescription, systemImage: "exclamationmark.triangle.fill")
         .foregroundColor(.secondary)
       if let retryHandler = retryHandler {
-        Button(action: retryHandler) {
+        Button(action: { Task { await retryHandler() } }) {
           Label("Try Again", systemImage: "arrow.counterclockwise")
         }
       }
@@ -52,7 +52,7 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
       case .idle:
         Color.clear.onAppear {
           Task.init {
-            await source.loadAsync()
+            await source.load()
           }
         }
       case .loading:
@@ -72,6 +72,9 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
       case .refreshing(let output):
         content(output)
       }
+    }
+    .task {
+      await source.load()
     }
   }
 }

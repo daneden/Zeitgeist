@@ -7,9 +7,28 @@
 
 import Foundation
 import Combine
+import SwiftUI
+
+struct Alias: Codable, Hashable {
+  var uid: String
+  var alias: String
+  var url: URL {
+    URL(string: "https://\(alias)")!
+  }
+  
+  enum CodingKeys: String, CodingKey {
+    case uid, alias
+  }
+}
+
+struct AliasesResponse: Codable {
+  var aliases: [Alias]
+}
 
 class AliasesViewModel: LoadableObject {
+  @AppStorage("refreshFrequency") private var refreshFrequency: Double = 5.0
   typealias Output = [Alias]
+  
   @Published private(set) var state: LoadingState<Output> = .idle {
     didSet {
       if case .loaded(let aliases) = state {
@@ -21,45 +40,54 @@ class AliasesViewModel: LoadableObject {
   
   private let accountId: Account.ID
   private let deploymentId: Deployment.ID
-  private let loader: AliasesLoader
   
-  init(accountId: Account.ID, deploymentId: Deployment.ID, loader: AliasesLoader = AliasesLoader()) {
+  init(accountId: Account.ID, deploymentId: Deployment.ID) {
     self.accountId = accountId
     self.deploymentId = deploymentId
-    self.loader = loader
   }
   
-  func load() {
-    state = .loading
+  func load() async {
+    switch state {
+    case .loaded(_):
+      break
+    default:
+      state = .loading
+    }
     
-    loader.loadAliases(withAccountID: accountId, forDeploymentID: deploymentId) { [weak self] result in
-      switch result {
-      case .success(let aliases):
+    do {
+      let request = try VercelAPI.request(for: .deployments, with: accountId, appending: "\(deploymentId)/aliases")
+      let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
+      
+      for try await data in watcher {
+        let newData = try JSONDecoder().decode(AliasesResponse.self, from: data).aliases
+        
         DispatchQueue.main.async {
-          self?.state = .loaded(aliases)
+          self.state = .loaded(newData)
         }
-      case .failure(let error):
-        DispatchQueue.main.async {
-          self?.state = .failed(error)
-        }
+        
+        saveCachedData(data: data, key: cacheKey)
       }
+    } catch {
+      print(error.localizedDescription)
     }
   }
+}
+
+extension AliasesViewModel {
+  private var cacheKey: String {
+    "__cache__aliases-\(deploymentId)"
+  }
   
-  func loadAsync() async {
-    DispatchQueue.main.async {
-      self.state = .loading
+  func saveCachedData(data: Data, key: String) {
+    UserDefaults.standard.set(data, forKey: key)
+  }
+  
+  func loadCachedData(key: String) -> Output? {
+    if let data = UserDefaults.standard.data(forKey: key),
+       let decodedData = try? JSONDecoder().decode(AliasesResponse.self, from: data).aliases {
+      return decodedData
     }
     
-    let result = await loader.loadAliases(withAccountID: accountId, forDeploymentID: deploymentId)
-    
-    DispatchQueue.main.async {
-      switch result {
-      case .success(let aliases):
-        self.state = .loaded(aliases)
-      case .failure(let error):
-        self.state = .failed(error)
-      }
-    }
+    return nil
   }
 }

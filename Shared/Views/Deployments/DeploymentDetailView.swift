@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DeploymentDetailView: View {
   var accountId: Account.ID
-  var deployment: Deployment
+  @State var deployment: Deployment
 
   var body: some View {
     Form {

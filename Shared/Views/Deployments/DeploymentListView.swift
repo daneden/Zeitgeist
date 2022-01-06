@@ -26,19 +26,14 @@ struct DeploymentListView: View {
   var accountId: String
   var deploymentsSource: DeploymentsViewModel
   
-  private var timer: Publishers.Autoconnect<Timer.TimerPublisher> = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-  
   init(accountId: String) {
     self.accountId = accountId
     self.deploymentsSource = DeploymentsViewModel(accountId: accountId)
-    
-    self.timer = Timer.publish(every: refreshFrequency, on: .main, in: .common).autoconnect()
   }
   
   var body: some View {
     AsyncContentView(source: deploymentsSource) { deployments in
       if let filteredDeployments = filterDeployments(deployments) {
-        
         if filteredDeployments.isEmpty {
           VStack(spacing: 8) {
             Spacer()
@@ -55,42 +50,23 @@ struct DeploymentListView: View {
           }
         }
         
-        TimelineView(PeriodicTimelineSchedule(from: .now, by: refreshFrequency)) { context in
-          List {
-            ForEach(filteredDeployments, id: \.id) { deployment in
-              NavigationLink(
-                destination: DeploymentDetailView(accountId: accountId, deployment: deployment),
-                tag: deployment.id,
-                selection: $activeDeploymentID
-              ) {
-                DeploymentListRowView(deployment: deployment)
-              }
+        List {
+          ForEach(filteredDeployments, id: \.id) { deployment in
+            NavigationLink(
+              destination: DeploymentDetailView(accountId: accountId, deployment: deployment)
+            ) {
+              DeploymentListRowView(deployment: deployment)
             }
           }
-          .onReceive(timer) { _ in
-            Task.init { await deploymentsSource.loadAsync() }
-          }
-          .refreshable { await deploymentsSource.loadAsync() }
+        }
           .sheet(isPresented: self.$filterVisible) {
-            #if os(macOS)
             DeploymentFilterView(
               deployments: deployments,
               projectFilter: self.$projectFilter,
               stateFilter: self.$stateFilter,
               productionFilter: self.$productionFilter
             )
-            #else
-            NavigationView {
-              DeploymentFilterView(
-                deployments: deployments,
-                projectFilter: self.$projectFilter,
-                stateFilter: self.$stateFilter,
-                productionFilter: self.$productionFilter
-              )
-            }
-            #endif
           }
-        }
       }
     }
     .toolbar {
@@ -103,7 +79,7 @@ struct DeploymentListView: View {
         )
       }.keyboardShortcut("l", modifiers: .command)
       
-      Button(action: { deploymentsSource.load() }) {
+      Button(action: { Task { await deploymentsSource.load() } }) {
         Label("Reload", systemImage: "arrow.clockwise")
       }.keyboardShortcut("r", modifiers: .command)
     }
