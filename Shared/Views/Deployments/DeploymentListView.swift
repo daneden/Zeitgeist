@@ -54,7 +54,6 @@ struct DeploymentListView: View {
           ForEach(filteredDeployments, id: \.id) { deployment in
             NavigationLink(
               destination: DeploymentDetailView(accountId: accountId, deployment: deployment)
-                .environmentObject(deploymentsSource)
             ) {
               DeploymentListRowView(deployment: deployment)
             }

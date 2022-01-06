@@ -13,9 +13,7 @@ class DeploymentsViewModel: LoadableObject {
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   @Published private(set) var state: LoadingState<[Deployment]> = .idle
 
-  internal let cache: Cache
-  
-  var mostRecentDeployments: [Deployment] {
+  private var mostRecentDeployments: [Deployment] {
     if case .loaded(let deployments) = state {
       return deployments
     } else {
@@ -33,12 +31,23 @@ class DeploymentsViewModel: LoadableObject {
 
   init(accountId: Account.ID) {
     self.accountId = accountId
-    self.cache = Cache()
     
-    if let cachedData = cache[cacheKey],
-       let decoded = try? JSONDecoder().decode(Output.self, from: cachedData) {
-      self.state = .loaded(decoded)
+    if let cachedData = loadCachedData(key: cacheKey) {
+      self.state = .loaded(cachedData)
     }
+  }
+
+  func loadCachedData(key: String) -> [Deployment]? {
+    if let cachedResults = UserDefaults.standard.data(forKey: key),
+       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults).deployments {
+      return decodedResults
+    }
+    
+    return nil
+  }
+  
+  func saveCachedData(data: Data, key: String) {
+    UserDefaults.standard.set(data, forKey: key)
   }
 
   func load() async {
@@ -62,7 +71,7 @@ class DeploymentsViewModel: LoadableObject {
           }
         }
         
-        cache[cacheKey] = data
+        saveCachedData(data: data, key: cacheKey)
       }
     } catch {
       print(error.localizedDescription)

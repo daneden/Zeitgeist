@@ -28,7 +28,6 @@ struct AliasesResponse: Codable {
 class AliasesViewModel: LoadableObject {
   @AppStorage("refreshFrequency") private var refreshFrequency: Double = 5.0
   typealias Output = [Alias]
-  internal let cache: Cache
   
   @Published private(set) var state: LoadingState<Output> = .idle {
     didSet {
@@ -45,13 +44,6 @@ class AliasesViewModel: LoadableObject {
   init(accountId: Account.ID, deploymentId: Deployment.ID) {
     self.accountId = accountId
     self.deploymentId = deploymentId
-    
-    self.cache = Cache()
-    
-    if let cachedData = cache[cacheKey],
-       let decoded = try? JSONDecoder().decode(Output.self, from: cachedData){
-      state = .loaded(decoded)
-    }
   }
   
   func load() async {
@@ -73,7 +65,7 @@ class AliasesViewModel: LoadableObject {
           self.state = .loaded(newData)
         }
         
-        cache[cacheKey] = data
+        saveCachedData(data: data, key: cacheKey)
       }
     } catch {
       print(error.localizedDescription)
@@ -84,5 +76,18 @@ class AliasesViewModel: LoadableObject {
 extension AliasesViewModel {
   private var cacheKey: String {
     "__cache__aliases-\(deploymentId)"
+  }
+  
+  func saveCachedData(data: Data, key: String) {
+    UserDefaults.standard.set(data, forKey: key)
+  }
+  
+  func loadCachedData(key: String) -> Output? {
+    if let data = UserDefaults.standard.data(forKey: key),
+       let decodedData = try? JSONDecoder().decode(AliasesResponse.self, from: data).aliases {
+      return decodedData
+    }
+    
+    return nil
   }
 }

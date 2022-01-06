@@ -24,8 +24,6 @@ extension Account.ID {
 
 class AccountViewModel: LoadableObject {
   private var decoder = JSONDecoder()
-  var cache: Cache
-  
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   typealias Output = Account
   
@@ -42,11 +40,9 @@ class AccountViewModel: LoadableObject {
   
   init(accountId: Account.ID) {
     self.accountId = accountId
-    self.cache = Cache()
     
-    if let cachedData = cache[cacheKey],
-       let decoded = try? JSONDecoder().decode(Output.self, from: cachedData) {
-      state = .loaded(decoded)
+    if let cachedData = loadCachedData(key: cacheKey) {
+      state = .loaded(cachedData)
     }
   }
   
@@ -80,7 +76,7 @@ class AccountViewModel: LoadableObject {
             self.state = .loaded(newData)
           }
           
-          cache[cacheKey] = data
+          saveCachedData(data: data, key: cacheKey)
         }
       }
     } catch {
@@ -115,5 +111,18 @@ extension AccountViewModel {
 extension AccountViewModel {
   private var cacheKey: String {
     "__cache__account-\(accountId)"
+  }
+  
+  func saveCachedData(data: Data, key: String) {
+    UserDefaults.standard.set(data, forKey: key)
+  }
+  
+  func loadCachedData(key: String) -> Account? {
+    if let data = UserDefaults.standard.data(forKey: key),
+       let decodedData = handleResponseData(data: data, isTeam: accountId.starts(with: "team_")) {
+      return decodedData
+    }
+    
+    return nil
   }
 }

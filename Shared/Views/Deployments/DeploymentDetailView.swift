@@ -6,16 +6,10 @@
 //
 
 import SwiftUI
-import Combine
 
 struct DeploymentDetailView: View {
   var accountId: Account.ID
   @State var deployment: Deployment
-  @EnvironmentObject private var deploymentsLoader: DeploymentsViewModel
-  
-  var deploymentID: Deployment.ID {
-    deployment.id
-  }
 
   var body: some View {
     Form {
@@ -27,14 +21,6 @@ struct DeploymentDetailView: View {
     .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
     .makeContainer()
-    .onChange(of: deploymentsLoader.mostRecentDeployments) { newValue in
-      if let deployment = newValue.first(where: { $0.id == self.deploymentID }) {
-        self.deployment = deployment
-      }
-    }
-    .task {
-      await deploymentsLoader.load()
-    }
   }
 
   struct Overview: View {
