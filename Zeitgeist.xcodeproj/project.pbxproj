@@ -139,6 +139,10 @@
 		71DBFE9B278769D600B0D983 /* URLWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFE99278769D600B0D983 /* URLWatcher.swift */; };
 		71DBFE9C278769D600B0D983 /* URLWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFE99278769D600B0D983 /* URLWatcher.swift */; };
 		71DBFE9D278769D600B0D983 /* URLWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFE99278769D600B0D983 /* URLWatcher.swift */; };
+		71DBFEA22787846E00B0D983 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFEA12787846E00B0D983 /* Cache.swift */; };
+		71DBFEA32787846E00B0D983 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFEA12787846E00B0D983 /* Cache.swift */; };
+		71DBFEA42787846E00B0D983 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFEA12787846E00B0D983 /* Cache.swift */; };
+		71DBFEA52787865A00B0D983 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFEA12787846E00B0D983 /* Cache.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		71F9020226656813000A8873 /* AccountLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536826628B8100A73CD6 /* AccountLoader.swift */; };
@@ -262,6 +266,7 @@
 		71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
 		71DBFE99278769D600B0D983 /* URLWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLWatcher.swift; sourceTree = "<group>"; };
+		71DBFEA12787846E00B0D983 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -388,6 +393,7 @@
 				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
 				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
 				71DBFE99278769D600B0D983 /* URLWatcher.swift */,
+				71DBFEA12787846E00B0D983 /* Cache.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -706,6 +712,7 @@
 				7115535926627B2900A73CD6 /* Session.swift in Sources */,
 				71155364266282C900A73CD6 /* Array.extension.swift in Sources */,
 				7115538D2664E00A00A73CD6 /* DeploymentDetailLabel.swift in Sources */,
+				71DBFEA22787846E00B0D983 /* Cache.swift in Sources */,
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
 				711553912664E37F00A73CD6 /* AliasesLoader.swift in Sources */,
@@ -776,6 +783,7 @@
 				711A4A72266BE69900DA9EE3 /* SubscriptionView.swift in Sources */,
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				711553CE2665491700A73CD6 /* AccountLoader.swift in Sources */,
+				71DBFEA32787846E00B0D983 /* Cache.swift in Sources */,
 				711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
@@ -809,6 +817,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71DBFEA42787846E00B0D983 /* Cache.swift in Sources */,
 				711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */,
 				711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */,
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
@@ -848,6 +857,7 @@
 				71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */,
 				71DBFE9D278769D600B0D983 /* URLWatcher.swift in Sources */,
 				71F9020426656826000A8873 /* LoadableObject.swift in Sources */,
+				71DBFEA52787865A00B0D983 /* Cache.swift in Sources */,
 				71F9020C26656A21000A8873 /* Preferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
