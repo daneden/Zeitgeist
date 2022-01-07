@@ -36,7 +36,7 @@ struct ContentView: View {
       #if !os(macOS)
       OnboardingView().allowAutoDismiss(false)
       #else
-      OnboardingView()
+      OnboardingView().frame(width: 400, height: 400)
       #endif
     }
     .symbolRenderingMode(.multicolor)

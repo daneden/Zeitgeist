@@ -64,13 +64,13 @@ final public class KeychainItem {
     }
     set {
       if let v = newValue {
-        if try! read() == nil {
-          try! add(v)
-        } else {
+        if let _ = try? read() {
           try! update(v)
+        } else {
+          try! add(v)
         }
       } else {
-        try! delete()
+        try? delete()
       }
     }
   }

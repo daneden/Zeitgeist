@@ -10,6 +10,7 @@ import SwiftUI
 struct DeploymentDetailView: View {
   var accountId: Account.ID
   @State var deployment: Deployment
+  @EnvironmentObject var deploymentLoader: DeploymentsViewModel
 
   var body: some View {
     Form {
@@ -21,6 +22,14 @@ struct DeploymentDetailView: View {
     .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
     .makeContainer()
+    .task {
+      await deploymentLoader.load()
+    }
+    .onChange(of: deploymentLoader.mostRecentDeployments) { newValue in
+      if let updatedDeployment = newValue.first(where: { $0.id == deployment.id }) {
+        deployment = updatedDeployment
+      }
+    }
   }
 
   struct Overview: View {
@@ -163,20 +172,6 @@ struct DeploymentDetailView: View {
         if (deployment.state != .queued && deployment.state != .building)
             || deployment.state == .cancelled
             || recentlyCancelled {
-          // MARK: Stub code for redeployments
-//          Button(action: { redeployConfirmation = true }) {
-//            Label("Redeploy", systemImage: "arrow.clockwise")
-//          }
-//          .alert(isPresented: $redeployConfirmation) {
-//            Alert(
-//              title: Text("Confirm Redeployment"),
-//              message: Text("This will create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings."),
-//              primaryButton: .default(Text("Redeploy"), action: redeploy),
-//              secondaryButton: .cancel()
-//            )
-//          }
-//          .disabled(mutating)
-
           Button(role: .destructive, action: { deleteConfirmation = true }) {
             HStack {
               Label("Delete Deployment", systemImage: "trash")
@@ -212,39 +207,6 @@ struct DeploymentDetailView: View {
             )
           }
         }
-      }
-    }
-
-    // Stub code for redeployments
-    func redeploy() {
-      do {
-        self.mutating = true
-        var request = try VercelAPI.request(
-          for: .deploymentsV12,
-          with: accountId,
-          method: .POST
-        )
-
-        if let commit = deployment.commit {
-          let data: [String: Any] = [
-            "meta": AnyCommit.encodeToDictionary(from: commit),
-            "files": [],
-            "name": deployment.project
-          ]
-
-          request.httpBody = try JSONSerialization.data(withJSONObject: data)
-          print(String(decoding: request.httpBody!, as: UTF8.self))
-        }
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-          DispatchQueue.main.async {
-            self.mutating = false
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }.resume()
-      } catch {
-        print(error.localizedDescription)
-        self.mutating = false
       }
     }
 

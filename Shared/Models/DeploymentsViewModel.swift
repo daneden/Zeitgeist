@@ -14,15 +14,15 @@ class DeploymentsViewModel: LoadableObject {
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   @Published var state: LoadingState<[Deployment]> = .idle
   
-  private var request: URLRequest {
-    try! VercelAPI.request(
+  private var request: URLRequest? {
+    try? VercelAPI.request(
       for: .deployments,
       with: accountId,
       queryItems: [URLQueryItem(name: "limit", value: "100")]
     )
   }
 
-  private var mostRecentDeployments: [Deployment] {
+  var mostRecentDeployments: [Deployment] {
     if case .loaded(let deployments) = state {
       return deployments
     } else {
@@ -48,6 +48,10 @@ class DeploymentsViewModel: LoadableObject {
       self.state = .loading
     }
     
+    guard let request = request else {
+      return
+    }
+    
     do {
       let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
       
@@ -66,6 +70,10 @@ class DeploymentsViewModel: LoadableObject {
   }
   
   func loadOnce() async -> [Deployment]? {
+    guard let request = request else {
+      return nil
+    }
+
     do {
       let (data, _) = try await URLSession.shared.data(for: request)
       
@@ -78,7 +86,8 @@ class DeploymentsViewModel: LoadableObject {
 
 extension DeploymentsViewModel {
   func loadCachedData() -> [Deployment]? {
-    if let cachedResults = URLCache.shared.cachedResponse(for: request),
+    if let request = request,
+       let cachedResults = URLCache.shared.cachedResponse(for: request),
        let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults.data).deployments {
       return decodedResults
     }

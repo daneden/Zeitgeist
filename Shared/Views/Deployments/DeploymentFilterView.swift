@@ -44,7 +44,7 @@ struct DeploymentFilterView: View {
   var body: some View {
     Form {
       Section(header: Text("Filter deployments by:")) {
-        Picker("Project", selection: $projectFilter) {
+        Picker("Project", selection: $projectFilter.animation()) {
           Text("All projects").tag(ProjectNameFilter.allProjects)
           
           ForEach(projects, id: \.self) { project in
@@ -52,7 +52,7 @@ struct DeploymentFilterView: View {
           }
         }
         
-        Picker("Status", selection: $stateFilter) {
+        Picker("Status", selection: $stateFilter.animation()) {
           Text("All statuses").tag(StateFilter.allStates)
           
           ForEach(DeploymentState.typicalCases, id: \.self) { state in
@@ -61,7 +61,7 @@ struct DeploymentFilterView: View {
           }
         }.accentColor(.secondary)
         
-        Toggle(isOn: self.$productionFilter) {
+        Toggle(isOn: self.$productionFilter.animation()) {
           Label("Production Deployments Only", systemImage: "bolt.fill")
             .accentColor(.orange)
         }.toggleStyle(SwitchToggleStyle(tint: .accentColor))
