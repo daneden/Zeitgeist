@@ -24,6 +24,25 @@ enum DeploymentState: String, Codable, CaseIterable {
       state != .normal && state != .offline
     }
   }
+  
+  var description: String {
+    switch self {
+    case .error:
+      return "Error building"
+    case .building:
+      return "Building"
+    case .ready:
+      return "Deployed"
+    case .queued:
+      return "Queued"
+    case .cancelled:
+      return "Cancelled"
+    case .offline:
+      return "Offline"
+    default:
+      return "Ready"
+    }
+  }
 }
 
 struct DeploymentCreator: Codable, Identifiable {

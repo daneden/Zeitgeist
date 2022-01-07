@@ -24,12 +24,12 @@ struct SupporterPromoView: View {
         },
         icon: {
           Image(systemName: "heart.fill")
-            .foregroundColor(.systemPink)
+            .foregroundColor(.pink)
         }
       )
       .font(.footnote)
       .padding(8)
-      .background(Color.systemPink.opacity(0.05))
+      .background(Color.pink.opacity(0.05))
       .cornerRadius(12)
       .padding(.leading, -8)
       

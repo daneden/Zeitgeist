@@ -124,7 +124,7 @@ struct SavingsBadge: View {
     Text("2 Months Free")
       .padding(4)
       .padding(.horizontal, 2)
-      .background(Color.systemPink)
+      .background(Color.pink)
       .font(Font.caption.weight(.bold))
       .foregroundColor(.white)
       .cornerRadius(8, antialiased: true)

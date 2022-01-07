@@ -16,53 +16,38 @@ struct DeploymentStateIndicator: View {
   var style: StateIndicatorStyle = .normal
   
   var label: String {
-    switch state {
-    case .error:
-      return "Error building"
-    case .building:
-      return "Building"
-    case .ready:
-      return "Deployed"
-    case .queued:
-      return "Queued"
-    case .cancelled:
-      return "Cancelled"
-    case .offline:
-      return "Offline"
-    default:
-      return "Ready" 
-    }
+    state.description
   }
   
   var color: Color {
     switch state {
     case .error:
-      return .systemRed
+      return .red
     case .building:
-      return .systemPurple
+      return .purple
     case .ready:
-      return .systemGreen
+      return .green
     case .cancelled:
       return .primary
     default:
-      return .systemGray
+      return .gray
     }
   }
   
   var iconName: String {
     switch state {
     case .error:
-      return style == .normal ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
+      return "exclamationmark.triangle"
     case .queued, .building:
       return "timer"
     case .ready:
-      return style == .normal ? "checkmark.circle.fill" : "checkmark.circle"
+      return "checkmark.circle"
     case .cancelled:
       return "nosign"
     case .offline:
       return "wifi.slash"
     default:
-      return "arrowtriangle.up.circle.fill"
+      return "arrowtriangle.up.circle"
     }
   }
   
@@ -77,18 +62,20 @@ struct DeploymentStateIndicator: View {
     }
     .foregroundStyle(color)
     .symbolRenderingMode(.hierarchical)
+    .symbolVariant(style == .compact ? .fill : .none)
   }
 }
 
 struct DeploymentStateIndicator_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      DeploymentStateIndicator(state: .building)
-      DeploymentStateIndicator(state: .error)
-      DeploymentStateIndicator(state: .normal)
-      DeploymentStateIndicator(state: .queued)
-      DeploymentStateIndicator(state: .offline)
-      DeploymentStateIndicator(state: .ready)
-    }
+      ForEach(DeploymentState.allCases, id: \.self) { state in
+        DeploymentStateIndicator(state: state)
+      }
+      
+      ForEach(DeploymentState.allCases, id: \.self) { state in
+        DeploymentStateIndicator(state: state, style: .compact)
+      }
+    }.previewLayout(.sizeThatFits)
   }
 }

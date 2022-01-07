@@ -22,7 +22,7 @@ struct SettingsView: View {
         
         NavigationLink(destination: SubscriptionView()) {
           Label("Supporter Subscription", systemImage: "heart.fill")
-            .accentColor(.systemPink)
+            .accentColor(.pink)
         }
         #endif
       }

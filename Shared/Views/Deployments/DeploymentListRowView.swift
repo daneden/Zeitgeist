@@ -21,7 +21,7 @@ struct DeploymentListRowView: View {
             if deployment.target == .production {
               Label("Production Deployment", systemImage: "bolt.fill")
                 .labelStyle(IconOnlyLabelStyle())
-                .foregroundColor(.systemOrange)
+                .foregroundColor(.orange)
                 .imageScale(.small)
             }
             

@@ -47,12 +47,12 @@ struct SubmitFeedbackView: View {
         Group {
           if message.isEmpty && currentState == .completed {
             Label("Feedback submitted. Thank you for helping to make Zeitgeist better!", systemImage: "heart.fill")
-              .accentColor(.systemPink)
+              .accentColor(.pink)
           }
           
           if currentState == .error {
             Label("There was a problem submitting feedback. Please try again later or leave your feedback in a review on the App Store.", systemImage: "exclamationmark.triangle.fill")
-              .accentColor(.systemRed)
+              .accentColor(.red)
           }
         }
         .padding(.vertical, 4)

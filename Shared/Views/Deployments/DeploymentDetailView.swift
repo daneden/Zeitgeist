@@ -66,7 +66,7 @@ struct DeploymentDetailView: View {
 
         if deployment.target == .production {
           Label("Production Build", systemImage: "bolt.fill")
-            .foregroundColor(.systemOrange)
+            .foregroundColor(.orange)
         }
       }
     }
