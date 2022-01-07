@@ -2,6 +2,10 @@ import Foundation
 import WidgetKit
 import SwiftUI
 
+struct DeploymentsResponse: Decodable {
+  var deployments: [Deployment]
+}
+
 enum DeploymentTarget: String, Codable, CaseIterable {
   case production, staging
 }

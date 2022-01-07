@@ -22,6 +22,27 @@ extension Account.ID {
   }
 }
 
+struct User: Codable {
+  var id: String
+  var name: String
+  var avatar: String?
+  
+  enum CodingKeys: String, CodingKey {
+    case id = "uid"
+    case name, avatar
+  }
+}
+
+struct UserResponse: Codable {
+  var user: User
+}
+
+struct Team: Codable {
+  var id: String
+  var name: String
+  var avatar: String?
+}
+
 class AccountViewModel: LoadableObject {
   private var decoder = JSONDecoder()
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0

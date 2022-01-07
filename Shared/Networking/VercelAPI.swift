@@ -7,6 +7,23 @@
 
 import Foundation
 
+enum LoaderError: Error {
+  case unknown
+  case decodingError
+  case unauthorized
+}
+
+extension LoaderError: LocalizedError {
+  var errorDescription: String? {
+    switch self {
+    case .unauthorized:
+      return "The request couldn’t be authorized. Try deleting and re-authenticating your account."
+    default:
+      return "An unknown error occured: \(self)"
+    }
+  }
+}
+
 struct VercelAPI {
   enum Path: String {
     case deployments = "v5/now/deployments/"
