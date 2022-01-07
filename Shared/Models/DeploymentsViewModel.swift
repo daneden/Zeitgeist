@@ -10,8 +10,17 @@ import Combine
 import SwiftUI
 
 class DeploymentsViewModel: LoadableObject {
+  typealias Output = [Deployment]
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   @Published private(set) var state: LoadingState<[Deployment]> = .idle
+  
+  private var request: URLRequest {
+    try! VercelAPI.request(
+      for: .deployments,
+      with: accountId,
+      queryItems: [URLQueryItem(name: "limit", value: "100")]
+    )
+  }
 
   private var mostRecentDeployments: [Deployment] {
     if case .loaded(let deployments) = state {
@@ -21,25 +30,19 @@ class DeploymentsViewModel: LoadableObject {
     }
   }
 
-  typealias Output = [Deployment]
-
   private let accountId: Account.ID
-  
-  private var cacheKey: String {
-    "__cache__deployments-\(accountId)"
-  }
 
   init(accountId: Account.ID) {
     self.accountId = accountId
     
-    if let cachedData = loadCachedData(key: cacheKey) {
+    if let cachedData = loadCachedData() {
       self.state = .loaded(cachedData)
     }
   }
 
-  func loadCachedData(key: String) -> [Deployment]? {
-    if let cachedResults = UserDefaults.standard.data(forKey: key),
-       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults).deployments {
+  func loadCachedData() -> [Deployment]? {
+    if let cachedResults = URLCache.shared.cachedResponse(for: request),
+       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults.data).deployments {
       return decodedResults
     }
     
@@ -59,7 +62,6 @@ class DeploymentsViewModel: LoadableObject {
     }
     
     do {
-      let request = try VercelAPI.request(for: .deployments, with: accountId, queryItems: [URLQueryItem(name: "limit", value: "100")])
       let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
       
       for try await data in watcher {
@@ -70,8 +72,6 @@ class DeploymentsViewModel: LoadableObject {
             self.state = .loaded(newData)
           }
         }
-        
-        saveCachedData(data: data, key: cacheKey)
       }
     } catch {
       print(error.localizedDescription)

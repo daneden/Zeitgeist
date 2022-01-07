@@ -38,12 +38,20 @@ class AliasesViewModel: LoadableObject {
   }
   @Published private(set) var value: Output?
   
+  private var request: URLRequest {
+    try! VercelAPI.request(for: .deployments, with: accountId, appending: "\(deploymentId)/aliases")
+  }
+  
   private let accountId: Account.ID
   private let deploymentId: Deployment.ID
   
   init(accountId: Account.ID, deploymentId: Deployment.ID) {
     self.accountId = accountId
     self.deploymentId = deploymentId
+    
+    if let cachedData = loadCachedData() {
+      state = .loaded(cachedData)
+    }
   }
   
   func load() async {
@@ -55,7 +63,6 @@ class AliasesViewModel: LoadableObject {
     }
     
     do {
-      let request = try VercelAPI.request(for: .deployments, with: accountId, appending: "\(deploymentId)/aliases")
       let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
       
       for try await data in watcher {
@@ -64,8 +71,6 @@ class AliasesViewModel: LoadableObject {
         DispatchQueue.main.async {
           self.state = .loaded(newData)
         }
-        
-        saveCachedData(data: data, key: cacheKey)
       }
     } catch {
       print(error.localizedDescription)
@@ -74,16 +79,8 @@ class AliasesViewModel: LoadableObject {
 }
 
 extension AliasesViewModel {
-  private var cacheKey: String {
-    "__cache__aliases-\(deploymentId)"
-  }
-  
-  func saveCachedData(data: Data, key: String) {
-    UserDefaults.standard.set(data, forKey: key)
-  }
-  
-  func loadCachedData(key: String) -> Output? {
-    if let data = UserDefaults.standard.data(forKey: key),
+  func loadCachedData() -> Output? {
+    if let data = URLCache.shared.cachedResponse(for: request)?.data,
        let decodedData = try? JSONDecoder().decode(AliasesResponse.self, from: data).aliases {
       return decodedData
     }

@@ -36,12 +36,24 @@ class AccountViewModel: LoadableObject {
   }
   @Published private(set) var value: Output?
   
+  private var request: URLRequest {
+    let isTeam = accountId.starts(with: "team_")
+    let urlPath = isTeam ? "v1/teams/\(accountId)" : "www/user"
+    let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? accountId : "")&userId=\(accountId)")!
+    let token = KeychainItem(account: accountId).wrappedValue ?? ""
+    
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    return request
+  }
+  
   private let accountId: Account.ID
   
   init(accountId: Account.ID) {
     self.accountId = accountId
     
-    if let cachedData = loadCachedData(key: cacheKey) {
+    if let cachedData = loadCachedData() {
       state = .loaded(cachedData)
     }
   }
@@ -54,19 +66,6 @@ class AccountViewModel: LoadableObject {
       state = .loading
     }
     
-    let isTeam = accountId.starts(with: "team_")
-    let urlPath = isTeam ? "v1/teams/\(accountId)" : "www/user"
-    guard let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? accountId : "")&userId=\(accountId)") else {
-      return
-    }
-    
-    guard let token = KeychainItem(account: accountId).wrappedValue else {
-      return
-    }
-    
-    var request = URLRequest(url: url)
-    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-    
     let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
     
     do {
@@ -75,8 +74,6 @@ class AccountViewModel: LoadableObject {
           DispatchQueue.main.async {
             self.state = .loaded(newData)
           }
-          
-          saveCachedData(data: data, key: cacheKey)
         }
       }
     } catch {
@@ -109,18 +106,10 @@ extension AccountViewModel {
 
 
 extension AccountViewModel {
-  private var cacheKey: String {
-    "__cache__account-\(accountId)"
-  }
-  
-  func saveCachedData(data: Data, key: String) {
-    UserDefaults.standard.set(data, forKey: key)
-  }
-  
-  func loadCachedData(key: String) -> Account? {
-    if let data = UserDefaults.standard.data(forKey: key),
-       let decodedData = handleResponseData(data: data, isTeam: accountId.starts(with: "team_")) {
-      return decodedData
+  func loadCachedData() -> Account? {
+    if let cachedResults = URLCache.shared.cachedResponse(for: request),
+       let decodedResults = handleResponseData(data: cachedResults.data, isTeam: accountId.starts(with: "team_")) {
+      return decodedResults
     }
     
     return nil

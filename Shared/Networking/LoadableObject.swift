@@ -47,6 +47,4 @@ protocol LoadableObject: ObservableObject {
   associatedtype Output
   var state: LoadingState<Output> { get }
   func load() async
-  func loadCachedData(key: String) -> Output?
-  func saveCachedData(data: Data, key: String)
 }

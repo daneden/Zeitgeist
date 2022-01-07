@@ -76,5 +76,14 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
     .task {
       await source.load()
     }
+    .onChange(of: scenePhase) { newValue in
+      switch newValue {
+      case .active:
+        Task { await source.load() }
+        return
+      default:
+        return
+      }
+    }
   }
 }
