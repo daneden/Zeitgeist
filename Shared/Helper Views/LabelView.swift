@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DeploymentDetailLabel<Content: View>: View {
+struct LabelView<Content: View>: View {
   var label: String
   var content: Content
   
@@ -29,7 +29,7 @@ struct DeploymentDetailLabel<Content: View>: View {
 
 struct DeploymentDetailLabel_Previews: PreviewProvider {
   static var previews: some View {
-    DeploymentDetailLabel("Label") {
+    LabelView("Label") {
       Text("Value")
     }
   }

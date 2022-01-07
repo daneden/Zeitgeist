@@ -11,11 +11,6 @@ struct SettingsView: View {
   var body: some View {
     Form {
       Section(header: Text("Settings")) {
-        NavigationLink(destination: RefreshFrequencyView()) {
-          Label("Refresh Frequency", systemImage: "clock.arrow.2.circlepath")
-        }
-        
-        #if !os(macOS)
         NavigationLink(destination: NotificationsView()) {
           Label("Notifications", systemImage: "app.badge")
         }
@@ -24,15 +19,12 @@ struct SettingsView: View {
           Label("Supporter Subscription", systemImage: "heart.fill")
             .accentColor(.pink)
         }
-        #endif
       }
       
       Section {
-        #if !os(macOS)
-        NavigationLink(destination: SubmitFeedbackView()) {
+        Link(destination: URL(string: "https://github.com/daneden/zeitgeist/issues")!) {
           Label("Submit Feedback", systemImage: "ladybug")
         }
-        #endif
         
         Link(destination: .ReviewURL) {
           Label("Review on App Store", systemImage: "star.fill")

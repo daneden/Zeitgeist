@@ -37,16 +37,16 @@ struct DeploymentDetailView: View {
 
     var body: some View {
       DetailSection(header: Text("Overview")) {
-        DeploymentDetailLabel("Project") {
+        LabelView("Project") {
           Text(deployment.project)
         }
 
-        DeploymentDetailLabel("Commit Message") {
+        LabelView("Commit Message") {
           Text(deployment.deploymentCause)
             .font(.headline)
         }
 
-        DeploymentDetailLabel("Author") {
+        LabelView("Author") {
           if let commit = deployment.commit {
             Label(
               title: {
@@ -69,7 +69,7 @@ struct DeploymentDetailView: View {
           }
         }
 
-        DeploymentDetailLabel("Status") {
+        LabelView("Status") {
           DeploymentStateIndicator(state: deployment.state)
         }
 

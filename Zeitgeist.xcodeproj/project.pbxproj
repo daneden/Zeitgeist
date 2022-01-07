@@ -32,7 +32,7 @@
 		711553852663B00B00A73CD6 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553842663B00B00A73CD6 /* AccountListView.swift */; };
 		711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
 		7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538826642A5100A73CD6 /* DeploymentDetailView.swift */; };
-		7115538D2664E00A00A73CD6 /* DeploymentDetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */; };
+		7115538D2664E00A00A73CD6 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* LabelView.swift */; };
 		7115538F2664E1B400A73CD6 /* GitProviderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538E2664E1B400A73CD6 /* GitProviderImage.swift */; };
 		711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553922664E46400A73CD6 /* AliasesViewModel.swift */; };
 		7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */; };
@@ -47,7 +47,7 @@
 		711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538826642A5100A73CD6 /* DeploymentDetailView.swift */; };
 		711553B9266548E400A73CD6 /* DeploymentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553802663AE0900A73CD6 /* DeploymentListView.swift */; };
 		711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */; };
-		711553BB266548E400A73CD6 /* DeploymentDetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */; };
+		711553BB266548E400A73CD6 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* LabelView.swift */; };
 		711553BC266548F400A73CD6 /* Color.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537E2663AD9B00A73CD6 /* Color.extension.swift */; };
 		711553BD266548F400A73CD6 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
 		711553BE2665490100A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
@@ -95,16 +95,12 @@
 		711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
 		711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */; };
 		711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
-		711A4A4B266B8AAC00DA9EE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
 		711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
 		711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
 		711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */; };
 		711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
 		711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
 		711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
-		711A4A5C266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */; };
-		711A4A5F266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */; };
-		711A4A60266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */; };
 		711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */; };
 		711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */; };
 		711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */; };
@@ -209,7 +205,7 @@
 		711553842663B00B00A73CD6 /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
 		711553862663B03C00A73CD6 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		7115538826642A5100A73CD6 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
-		7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailLabel.swift; sourceTree = "<group>"; };
+		7115538C2664E00A00A73CD6 /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
 		7115538E2664E1B400A73CD6 /* GitProviderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitProviderImage.swift; sourceTree = "<group>"; };
 		711553922664E46400A73CD6 /* AliasesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasesViewModel.swift; sourceTree = "<group>"; };
 		7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentFilterView.swift; sourceTree = "<group>"; };
@@ -237,8 +233,6 @@
 		711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		711A4A55266BDF0900DA9EE3 /* PostalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalService.swift; sourceTree = "<group>"; };
 		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitFeedbackView.swift; sourceTree = "<group>"; };
-		711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFrequencyView.swift; sourceTree = "<group>"; };
 		711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterPromoView.swift; sourceTree = "<group>"; };
 		711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButton.swift; sourceTree = "<group>"; };
@@ -364,6 +358,7 @@
 				7115535B26627BB900A73CD6 /* AddAccountButton.swift */,
 				71155370266294BB00A73CD6 /* AsyncContentView.swift */,
 				7115538E2664E1B400A73CD6 /* GitProviderImage.swift */,
+				7115538C2664E00A00A73CD6 /* LabelView.swift */,
 				711553862663B03C00A73CD6 /* PlaceholderView.swift */,
 				7115535D26627EFE00A73CD6 /* RemoteImage.swift */,
 				7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */,
@@ -466,12 +461,11 @@
 		711A4A3A266A368D00DA9EE3 /* Deployments */ = {
 			isa = PBXGroup;
 			children = (
-				7115538C2664E00A00A73CD6 /* DeploymentDetailLabel.swift */,
 				7115538826642A5100A73CD6 /* DeploymentDetailView.swift */,
+				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
 				7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */,
 				711553802663AE0900A73CD6 /* DeploymentListView.swift */,
 				7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */,
-				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
 			);
 			path = Deployments;
 			sourceTree = "<group>";
@@ -488,13 +482,11 @@
 		711A4A48266B8A9B00DA9EE3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				711A4A5E266BDF9700DA9EE3 /* RefreshFrequencyView.swift */,
-				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
-				711A4A5B266BDF7B00DA9EE3 /* SubmitFeedbackView.swift */,
 				711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */,
-				711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */,
+				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
 				711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */,
 				711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */,
+				711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */,
 				7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */,
 			);
 			path = Settings;
@@ -698,7 +690,7 @@
 				7115536F2662948100A73CD6 /* LoadableObject.swift in Sources */,
 				7115535926627B2900A73CD6 /* Session.swift in Sources */,
 				71155364266282C900A73CD6 /* Array.extension.swift in Sources */,
-				7115538D2664E00A00A73CD6 /* DeploymentDetailLabel.swift in Sources */,
+				7115538D2664E00A00A73CD6 /* LabelView.swift in Sources */,
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
 				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
@@ -708,7 +700,6 @@
 				71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */,
 				711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
-				711A4A5C266BDF7B00DA9EE3 /* SubmitFeedbackView.swift in Sources */,
 				711A4A68266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
 				7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
@@ -732,7 +723,6 @@
 				711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */,
 				71F9020926656A21000A8873 /* Preferences.swift in Sources */,
 				71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */,
-				711A4A5F266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
 				711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */,
@@ -766,13 +756,11 @@
 				711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
-				711A4A60266BDF9700DA9EE3 /* RefreshFrequencyView.swift in Sources */,
 				7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
 				711553CA2665491300A73CD6 /* Session.swift in Sources */,
-				711A4A4B266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
 				711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */,
-				711553BB266548E400A73CD6 /* DeploymentDetailLabel.swift in Sources */,
+				711553BB266548E400A73CD6 /* LabelView.swift in Sources */,
 				711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
 				71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,

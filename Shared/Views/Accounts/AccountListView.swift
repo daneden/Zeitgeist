@@ -42,12 +42,6 @@ struct AccountListView: View {
         }
           .buttonStyle(PlainButtonStyle())
       }
-      
-      Group {
-        NavigationLink(destination: SettingsView()) {
-          Label("Settings", systemImage: "gearshape")
-        }
-      }
     }
     .id(session.uuid)
     .toolbar {
