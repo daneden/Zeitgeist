@@ -10,6 +10,7 @@ import UIKit
 #endif
 import SwiftUI
 import StoreKit
+import WidgetKit
 
 #if DEBUG
 let platform = "ios_sandbox"
@@ -95,6 +96,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     default:
       print("Uncaught notification category identifier")
     }
+    
+    WidgetCenter.shared.reloadAllTimelines()
     
     completionHandler()
   }
