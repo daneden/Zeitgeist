@@ -40,19 +40,6 @@ class DeploymentsViewModel: LoadableObject {
     }
   }
 
-  func loadCachedData() -> [Deployment]? {
-    if let cachedResults = URLCache.shared.cachedResponse(for: request),
-       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults.data).deployments {
-      return decodedResults
-    }
-    
-    return nil
-  }
-  
-  func saveCachedData(data: Data, key: String) {
-    UserDefaults.standard.set(data, forKey: key)
-  }
-
   func load() async {
     switch self.state {
     case .loaded(_):
@@ -86,5 +73,16 @@ class DeploymentsViewModel: LoadableObject {
     } catch {
       return nil
     }
+  }
+}
+
+extension DeploymentsViewModel {
+  func loadCachedData() -> [Deployment]? {
+    if let cachedResults = URLCache.shared.cachedResponse(for: request),
+       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults.data).deployments {
+      return decodedResults
+    }
+    
+    return nil
   }
 }
