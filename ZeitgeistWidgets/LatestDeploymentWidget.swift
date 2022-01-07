@@ -12,6 +12,7 @@ struct LatestDeploymentEntry: TimelineEntry {
   var date = Date()
   var deployment: Deployment?
   var account: WidgetAccount
+  var relevance: TimelineEntryRelevance?
 }
 
 struct LatestDeploymentProvider: IntentTimelineProvider {
@@ -32,9 +33,15 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
       
       async let deployments = loader.loadOnce()
       
+      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+      
       if let deployment = await deployments?.first {
         completion(
-          LatestDeploymentEntry(date: deployment.date, deployment: deployment, account: account)
+          LatestDeploymentEntry(
+            deployment: deployment,
+            account: account,
+            relevance: relevance
+          )
         )
       }
     }
@@ -54,10 +61,12 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
       
       async let deployments = loader.loadOnce()
       
+      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+      
       if let deployment = await deployments?.first {
         completion(
           Timeline (
-            entries: [LatestDeploymentEntry(date: deployment.date, deployment: deployment, account: account)],
+            entries: [LatestDeploymentEntry(deployment: deployment, account: account, relevance: relevance)],
             policy: .atEnd
           )
         )
