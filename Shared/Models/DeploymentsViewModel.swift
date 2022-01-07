@@ -12,7 +12,7 @@ import SwiftUI
 class DeploymentsViewModel: LoadableObject {
   typealias Output = [Deployment]
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
-  @Published private(set) var state: LoadingState<[Deployment]> = .idle
+  @Published var state: LoadingState<[Deployment]> = .idle
   
   private var request: URLRequest {
     try! VercelAPI.request(
@@ -75,6 +75,16 @@ class DeploymentsViewModel: LoadableObject {
       }
     } catch {
       print(error.localizedDescription)
+    }
+  }
+  
+  func loadOnce() async -> [Deployment]? {
+    do {
+      let (data, _) = try await URLSession.shared.data(for: request)
+      
+      return try? JSONDecoder().decode(DeploymentsResponse.self, from: data).deployments
+    } catch {
+      return nil
     }
   }
 }

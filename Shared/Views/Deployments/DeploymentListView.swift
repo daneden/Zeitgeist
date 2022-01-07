@@ -59,6 +59,11 @@ struct DeploymentListView: View {
             }
           }
         }
+        .refreshable {
+          if let deployments = await deploymentsSource.loadOnce() {
+            deploymentsSource.state = .loaded(deployments)
+          }
+        }
           .sheet(isPresented: self.$filterVisible) {
             DeploymentFilterView(
               deployments: deployments,

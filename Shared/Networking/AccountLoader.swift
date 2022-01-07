@@ -55,7 +55,7 @@ class AccountLoader {
   var useURLCache = true
   
   func loadAccount(withID id: Account.ID, completion: @escaping (Result<Account>) -> Void) {
-    let isTeam = id.starts(with: "team_")
+    let isTeam = id.isTeam
     let urlPath = isTeam ? "v1/teams/\(id)" : "www/user"
     guard let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? id : "")&userId=\(id)") else {
       return
@@ -101,7 +101,7 @@ class AccountLoader {
   }
   
   func loadAccount(withID id: Account.ID) async -> Result<Account> {
-    let isTeam = id.starts(with: "team_")
+    let isTeam = id.isTeam
     let urlPath = isTeam ? "v1/teams/\(id)" : "www/user"
     guard let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? id : "")&userId=\(id)") else {
       return .failure(LoaderError.unknown)

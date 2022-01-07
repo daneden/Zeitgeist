@@ -37,7 +37,7 @@ class AccountViewModel: LoadableObject {
   @Published private(set) var value: Output?
   
   private var request: URLRequest {
-    let isTeam = accountId.starts(with: "team_")
+    let isTeam = accountId.isTeam
     let urlPath = isTeam ? "v1/teams/\(accountId)" : "www/user"
     let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? accountId : "")&userId=\(accountId)")!
     let token = KeychainItem(account: accountId).wrappedValue ?? ""
@@ -70,7 +70,7 @@ class AccountViewModel: LoadableObject {
     
     do {
       for try await data in watcher {
-        if let newData = handleResponseData(data: data, isTeam: accountId.starts(with: "team_")) {
+        if let newData = handleResponseData(data: data, isTeam: accountId.isTeam) {
           DispatchQueue.main.async {
             self.state = .loaded(newData)
           }
@@ -78,6 +78,16 @@ class AccountViewModel: LoadableObject {
       }
     } catch {
       print(error.localizedDescription)
+    }
+  }
+  
+  func loadOnce() async -> Account? {
+    do {
+      let (data, _) = try await URLSession.shared.data(for: request)
+      
+      return handleResponseData(data: data, isTeam: accountId.isTeam)
+    } catch {
+      return nil
     }
   }
 }
@@ -108,7 +118,7 @@ extension AccountViewModel {
 extension AccountViewModel {
   func loadCachedData() -> Account? {
     if let cachedResults = URLCache.shared.cachedResponse(for: request),
-       let decodedResults = handleResponseData(data: cachedResults.data, isTeam: accountId.starts(with: "team_")) {
+       let decodedResults = handleResponseData(data: cachedResults.data, isTeam: accountId.isTeam) {
       return decodedResults
     }
     

@@ -76,6 +76,16 @@ class AliasesViewModel: LoadableObject {
       print(error.localizedDescription)
     }
   }
+  
+  func loadOnce() async -> [Alias]? {
+    do {
+      let (data, _) = try await URLSession.shared.data(for: request)
+      
+      return try? JSONDecoder().decode(AliasesResponse.self, from: data).aliases
+    } catch {
+      return nil
+    }
+  }
 }
 
 extension AliasesViewModel {

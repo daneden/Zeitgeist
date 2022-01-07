@@ -25,7 +25,7 @@ struct VercelAPI {
     appending: String? = nil,
     method: RequestMethod = .GET
   ) throws -> URLRequest {
-    let isTeam = accountId.starts(with: "team_")
+    let isTeam = accountId.isTeam
     var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.rawValue)\(appending ?? "")")!
     var completeQuery = queryItems
     
