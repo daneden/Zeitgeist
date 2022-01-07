@@ -323,7 +323,6 @@
 		71155345266279CF00A73CD6 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				711A4A39266A368500DA9EE3 /* Views */,
 				71155348266279CF00A73CD6 /* ContentView.swift */,
 				71155346266279CF00A73CD6 /* ZeitgeistApp.swift */,
 				7115534A266279D000A73CD6 /* Assets.xcassets */,
@@ -332,6 +331,7 @@
 				7115535F26627F3400A73CD6 /* Helpers */,
 				7115535526627ACD00A73CD6 /* Models */,
 				7115536726628B7400A73CD6 /* Networking */,
+				711A4A39266A368500DA9EE3 /* Views */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -374,13 +374,13 @@
 		7115535F26627F3400A73CD6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
+				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
-				71F9020826656A21000A8873 /* Preferences.swift */,
+				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
 				711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */,
 				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
-				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
-				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
-				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
+				71F9020826656A21000A8873 /* Preferences.swift */,
 				71DBFE99278769D600B0D983 /* URLWatcher.swift */,
 			);
 			path = Helpers;
@@ -391,11 +391,11 @@
 			children = (
 				71155363266282C900A73CD6 /* Array.extension.swift */,
 				7115537E2663AD9B00A73CD6 /* Color.extension.swift */,
-				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				711A4A4C266B943800DA9EE3 /* Dictionary.swift */,
+				7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */,
 				711A4A6D266BE08700DA9EE3 /* SKProduct.swift */,
 				711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */,
-				7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */,
+				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
