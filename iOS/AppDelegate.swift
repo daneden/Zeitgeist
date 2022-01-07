@@ -97,8 +97,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       print("Uncaught notification category identifier")
     }
     
-    WidgetCenter.shared.reloadAllTimelines()
-    
     completionHandler()
   }
   
@@ -143,6 +141,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
   ) {
     print("Received remote notification")
+    WidgetCenter.shared.reloadAllTimelines()
     
     if !activeSubscription {
       print("User is not known to be an active subscriber; supressing notification")
