@@ -15,6 +15,7 @@ struct ZeitgeistApp: App {
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   #endif
   
+  @State private var confirmingDelete = false
   @StateObject var focusManager = FocusManager()
   
   static var appVersion: String {
@@ -26,29 +27,34 @@ struct ZeitgeistApp: App {
           ContentView()
             .environmentObject(Session.shared)
             .environmentObject(focusManager)
+            .alert(isPresented: $confirmingDelete) {
+              Alert(
+                title: Text("Confirm Deletion"),
+                message: Text("Are you sure you want to delete this deployment?"),
+                primaryButton: .destructive(Text("Delete Deployment"), action: {
+                  if let deployment = selectedDeployment {
+                    focusManager.action = .delete(deployment)
+                  }
+                }),
+                secondaryButton: .cancel())
+            }
       }
       .handlesExternalEvents(matching: ["main"])
       .commands {
-        // TODO: Leverage @FocusedBinding and .focusSceneValue in the new SwiftUI APIs
         CommandMenu("Deployment") {
           Group {
             Button("Open Deployment") {
-              if let url = selectedDeployment?.url {
-                EnvironmentValues().openURL(url)
-              }
+              selectedDeployment?.openDeploymentURL()
             }
             .keyboardShortcut("o", modifiers: [.command])
 
             Button("Open Logs") {
-              if let url = selectedDeployment?.url,
-                 let logsUrl = URL(string: "\(url.absoluteString)/_logs"){
-                EnvironmentValues().openURL(logsUrl)
-              }
+              selectedDeployment?.openLogsURL()
             }
             .keyboardShortcut("o", modifiers: [.command, .shift])
 
             Button("Copy URL") {
-              print("copy url submitted")
+              selectedDeployment?.copyUrl()
             }
             .keyboardShortcut("c", modifiers: .command)
 
@@ -57,7 +63,7 @@ struct ZeitgeistApp: App {
             if let deployment = selectedDeployment {
               if (deployment.state != .building && deployment.state != .queued) {
                 Button("Delete Deployment") {
-                  print("delete deployment submitted")
+                  confirmingDelete = true
                 }
                 .keyboardShortcut(.delete, modifiers: .command)
               } else if (deployment.state == .building) {

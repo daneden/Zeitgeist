@@ -95,7 +95,7 @@ struct DeploymentDetailView: View {
           Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
         }.keyboardShortcut("o", modifiers: [.command])
 
-        Button(action: self.copyUrl) {
+        Button(action: deployment.copyUrl) {
           Label("Copy URL", systemImage: "doc.on.doc")
         }.keyboardShortcut("c", modifiers: [.command])
 
@@ -125,21 +125,11 @@ struct DeploymentDetailView: View {
         }
       }
     }
-
-    func copyUrl() {
-      #if os(iOS)
-      let pasteboard = UIPasteboard.general
-      pasteboard.string = deployment.url.absoluteString
-      #else
-      let pasteboard = NSPasteboard.general
-      pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-      pasteboard.setString(deployment.url.absoluteString, forType: NSPasteboard.PasteboardType.string)
-      #endif
-    }
   }
 
   struct DeploymentDetails: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var focusManager: FocusManager
     var accountId: Account.ID
     var deployment: Deployment
 
@@ -163,7 +153,7 @@ struct DeploymentDetailView: View {
           }
         }
 
-        Link(destination: URL(string: "\(deployment.url.absoluteString)/_logs")!) {
+        Link(destination: deployment.logsURL) {
           Label("View Logs", systemImage: "terminal")
         }.keyboardShortcut("o", modifiers: [.command, .shift])
 
@@ -184,6 +174,12 @@ struct DeploymentDetailView: View {
             )
           }
           .disabled(mutating)
+          .onChange(of: focusManager.action) { action in
+            if case .delete(let deletedDeployment) = action,
+               deletedDeployment.id == deployment.id {
+              deleteDeployment()
+            }
+          }
         } else {
           Button(role: .destructive, action: { cancelConfirmation = true }) {
             HStack {
@@ -221,7 +217,9 @@ struct DeploymentDetailView: View {
         URLSession.shared.dataTask(with: request) { data, response, error in
           DispatchQueue.main.async {
             self.mutating = false
+            #if !os(macOS)
             self.presentationMode.wrappedValue.dismiss()
+            #endif
           }
         }.resume()
       } catch {

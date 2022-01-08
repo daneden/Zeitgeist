@@ -1,6 +1,11 @@
 import Foundation
 import WidgetKit
 import SwiftUI
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
 
 struct DeploymentsResponse: Decodable {
   var deployments: [Deployment]
@@ -74,6 +79,10 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
     URL(string: "https://\(urlString)")!
   }
   
+  var logsURL: URL {
+    URL(string: "\(url.absoluteString)/_logs")!
+  }
+  
   var creator: DeploymentCreator
   var commit: AnyCommit?
   
@@ -129,5 +138,26 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   
   enum DeploymentError: Error {
     case MockDeploymentInitError
+  }
+}
+
+extension Deployment {
+  func openDeploymentURL() {
+    EnvironmentValues().openURL(url)
+  }
+  
+  func openLogsURL() {
+    EnvironmentValues().openURL(logsURL)
+  }
+  
+  func copyUrl() {
+#if os(iOS)
+    let pasteboard = UIPasteboard.general
+    pasteboard.string = url.absoluteString
+#else
+    let pasteboard = NSPasteboard.general
+    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+    pasteboard.setString(url.absoluteString, forType: NSPasteboard.PasteboardType.string)
+#endif
   }
 }

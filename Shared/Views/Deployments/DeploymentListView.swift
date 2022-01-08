@@ -10,7 +10,6 @@ import Combine
 
 struct DeploymentListView: View {
   @EnvironmentObject var session: Session
-  @AppStorage("refreshFrequency") var refreshFrequency: TimeInterval = 5.0
   
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates

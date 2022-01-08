@@ -13,6 +13,12 @@ enum FocusSubject {
   case account(id: Account.ID)
 }
 
+enum FocusSubjectAction: Equatable {
+  case delete(_ deployment: Deployment)
+  case cancel(_ deployment: Deployment)
+}
+
 class FocusManager: ObservableObject {
   @Published var focusedElement: FocusSubject?
+  @Published var action: FocusSubjectAction?
 }
