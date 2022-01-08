@@ -25,6 +25,7 @@ struct AccountListView: View {
             }
           }
           .tag(accountId)
+          .keyboardShortcut(KeyEquivalent(Character("\((session.authenticatedAccountIds.firstIndex(of: accountId) ?? 0) + 1)")), modifiers: .command)
         }
         .onDelete(perform: deleteAccount)
         .onMove(perform: move)

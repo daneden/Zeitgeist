@@ -41,6 +41,9 @@ struct ZeitgeistApp: App {
       }
       .handlesExternalEvents(matching: ["main"])
       .commands {
+        CommandGroup(replacing: CommandGroupPlacement.newItem) {}
+        CommandGroup(replacing: CommandGroupPlacement.appVisibility) {}
+        
         CommandMenu("Deployment") {
           Group {
             Button("Open Deployment") {
