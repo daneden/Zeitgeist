@@ -114,6 +114,10 @@
 		711A4A72266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
 		711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */; };
 		711AB5F22676829F004D0768 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
+		71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */; };
+		71335A582789BC1300FC2099 /* FocusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A572789BC1300FC2099 /* FocusManager.swift */; };
+		71335A592789BC1300FC2099 /* FocusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A572789BC1300FC2099 /* FocusManager.swift */; };
+		71335A5B2789C12600FC2099 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A5A2789C12600FC2099 /* AppDelegate.swift */; };
 		7135EA0D27885B0000C94E86 /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553822663AE5F00A73CD6 /* DeploymentsViewModel.swift */; };
 		7135EA102788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
@@ -240,6 +244,9 @@
 		711A4A6D266BE08700DA9EE3 /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
 		711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.extension.swift; sourceTree = "<group>"; };
+		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
+		71335A572789BC1300FC2099 /* FocusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusManager.swift; sourceTree = "<group>"; };
+		71335A5A2789C12600FC2099 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -377,6 +384,7 @@
 				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
 				71F9020826656A21000A8873 /* Preferences.swift */,
 				71DBFE99278769D600B0D983 /* URLWatcher.swift */,
+				71335A572789BC1300FC2099 /* FocusManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -391,6 +399,7 @@
 				711A4A6D266BE08700DA9EE3 /* SKProduct.swift */,
 				711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */,
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
+				71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -410,6 +419,7 @@
 				71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */,
 				711553AC266548BD00A73CD6 /* Info.plist */,
 				711553A9266548BD00A73CD6 /* Preview Content */,
+				71335A5A2789C12600FC2099 /* AppDelegate.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -717,6 +727,7 @@
 				711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */,
 				71155371266294BB00A73CD6 /* AsyncContentView.swift in Sources */,
 				7115535E26627EFE00A73CD6 /* RemoteImage.swift in Sources */,
+				71335A582789BC1300FC2099 /* FocusManager.swift in Sources */,
 				7115536B266291BC00A73CD6 /* AccountListRowView.swift in Sources */,
 				7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */,
 				711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */,
@@ -729,6 +740,7 @@
 				711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553932664E46400A73CD6 /* AliasesViewModel.swift in Sources */,
 				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
+				71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,6 +748,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71335A5B2789C12600FC2099 /* AppDelegate.swift in Sources */,
 				711553BC266548F400A73CD6 /* Color.extension.swift in Sources */,
 				711553B9266548E400A73CD6 /* DeploymentListView.swift in Sources */,
 				711553B4266548E400A73CD6 /* AccountListView.swift in Sources */,
@@ -769,6 +782,7 @@
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
 				711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				711553C82665491300A73CD6 /* Deployment.swift in Sources */,
+				71335A592789BC1300FC2099 /* FocusManager.swift in Sources */,
 				711AB5F22676829F004D0768 /* URL.extension.swift in Sources */,
 				711553C92665491300A73CD6 /* AccountViewModel.swift in Sources */,
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,

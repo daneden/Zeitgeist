@@ -11,6 +11,7 @@ struct DeploymentDetailView: View {
   var accountId: Account.ID
   @State var deployment: Deployment
   @EnvironmentObject var deploymentLoader: DeploymentsViewModel
+  @EnvironmentObject var focusManager: FocusManager
 
   var body: some View {
     Form {
@@ -29,6 +30,9 @@ struct DeploymentDetailView: View {
       if let updatedDeployment = newValue.first(where: { $0.id == deployment.id }) {
         deployment = updatedDeployment
       }
+    }
+    .onAppear {
+      focusManager.focusedElement = .deployment(deployment, account: accountId)
     }
   }
 
@@ -82,8 +86,6 @@ struct DeploymentDetailView: View {
   }
 
   struct URLDetails: View {
-    @State var aliasesVisible = false
-
     var accountId: Account.ID
     var deployment: Deployment
 
@@ -98,7 +100,7 @@ struct DeploymentDetailView: View {
         }.keyboardShortcut("c", modifiers: [.command])
 
         AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
-          DisclosureGroup(isExpanded: $aliasesVisible, content: {
+          DisclosureGroup(content: {
             if aliases.isEmpty {
               Text("No aliases assigned to deployment")
                 .foregroundColor(.secondary)
@@ -117,10 +119,6 @@ struct DeploymentDetailView: View {
               Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
               Spacer()
               Text("\(aliases.count)").foregroundColor(.secondary)
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-              withAnimation { self.aliasesVisible.toggle() }
             }
           })
 

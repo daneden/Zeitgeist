@@ -8,6 +8,21 @@
 import SwiftUI
 
 struct SettingsView: View {
+  var githubIssuesURL: URL {
+    let appVersion: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    let body = """
+> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
+> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
+
+App Version: \(appVersion ?? "Unknown")
+Device: \(UIDevice.modelName)
+OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
+"""
+    let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+    
+    return URL(string: "https://github.com/daneden/zeitgeist/issues/new?body=\(encodedBody)")!
+  }
+  
   var body: some View {
     Form {
       Section(header: Text("Settings")) {
@@ -22,7 +37,7 @@ struct SettingsView: View {
       }
       
       Section {
-        Link(destination: URL(string: "https://github.com/daneden/zeitgeist/issues")!) {
+        Link(destination: githubIssuesURL) {
           Label("Submit Feedback", systemImage: "ladybug")
         }
         

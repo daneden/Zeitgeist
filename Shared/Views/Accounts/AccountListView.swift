@@ -16,11 +16,7 @@ struct AccountListView: View {
     List(selection: $activeAccountID) {
       Section(header: Text("Accounts")) {
         ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
-          NavigationLink(
-            destination: DeploymentListView(accountId: accountId),
-            tag: accountId,
-            selection: $activeAccountID
-          ) {
+          NavigationLink(destination: DeploymentListView(accountId: accountId)) {
             AccountListRowView(accountId: accountId)
           }
           .contextMenu {
@@ -42,6 +38,14 @@ struct AccountListView: View {
         }
           .buttonStyle(PlainButtonStyle())
       }
+      
+      #if os(iOS)
+      Section {
+        NavigationLink(destination: SettingsView()) {
+          Label("Settings", systemImage: "gearshape")
+        }
+      }
+      #endif
     }
     .id(session.uuid)
     .toolbar {
