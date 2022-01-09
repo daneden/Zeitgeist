@@ -9,12 +9,18 @@ import SwiftUI
 
 struct LogEvent: Codable, Identifiable {
   enum EventType: String, Codable {
-    case command, stderr, stdout, deploymentState, delimiter, exit
+    case command, stderr, stdout, delimiter, exit
+    //    case deploymentState = "deployment-state"
+  }
+  
+  struct DeploymentStateInfo: Codable {
+    var name: String
+    var readyState: DeploymentState
   }
   
   struct Payload: Codable {
     var id: String
-    var text: String?
+    var text: String
     var date: TimeInterval
     var statusCode: Int?
   }
@@ -24,7 +30,7 @@ struct LogEvent: Codable, Identifiable {
   
   var id: String { payload.id }
   var date: Date { Date(timeIntervalSince1970: payload.date / 1000) }
-  var text: String { payload.text ?? type.rawValue }
+  var text: String { payload.text }
   
   var outputColor: Color {
     switch type {
@@ -54,9 +60,11 @@ struct LogEventView: View {
         Text(event.date, style: .time)
           .foregroundStyle(.secondary)
         
-        Text(event.text)
-          .fixedSize(horizontal: false, vertical: true)
-          .foregroundStyle(.primary)
+        if let text = event.text {
+          Text(text)
+            .fixedSize(horizontal: false, vertical: true)
+            .foregroundStyle(.primary)
+        }
         
         Spacer(minLength: 0)
       }
@@ -73,23 +81,43 @@ struct DeploymentLogView: View {
   var deployment: Deployment
   var accountID: Account.ID
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView([.vertical, .horizontal]) {
-        LazyVStack(alignment: .leading, spacing: 0) {
-          ForEach(logEvents) { event in
-            LogEventView(event: event)
+    ScrollViewReader { proxy in
+      VStack(alignment: .leading, spacing: 0) {
+        GeometryReader { geometry in
+          ScrollView([.vertical, .horizontal]) {
+            VStack(alignment: .leading, spacing: 0) {
+              ForEach(logEvents) { event in
+                LogEventView(event: event)
+                  .id(event.id)
+              }
+            }
+            .frame(minHeight: geometry.size.height, alignment: .topLeading)
+            .font(.footnote.monospaced())
+            .toolbar {
+              ToolbarItem(placement: .navigationBarTrailing) {
+                Link(destination: deployment.logsURL) {
+                  Label("Open in Safari", systemImage: "safari")
+                }
+              }
+              
+              
+              ToolbarItem(placement: .bottomBar) {
+                if let latestEvent = logEvents.last {
+                  Button(action: {
+                    withAnimation {
+                      proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
+                    }
+                  }) {
+                    Label("Scroll to bottom", systemImage: "chevron.down.square")
+                      .labelStyle(.titleAndIcon)
+                      .font(.footnote)
+                  }
+                }
+              }
+            }
           }
+          
         }
-        .frame(minHeight: geometry.size.height)
-        .font(.footnote.monospaced())
-      }
-    }
-    .toolbar {
-      ToolbarItem(placement: .bottomBar) {
-        Link(destination: deployment.logsURL) {
-          Label("View logs on vercel.com", systemImage: "arrow.up.right.square")
-            .labelStyle(.titleAndIcon)
-        }.font(.footnote)
       }
     }
     .navigationTitle("Build Logs")
@@ -101,8 +129,8 @@ struct DeploymentLogView: View {
       
       guard let request = try? VercelAPI.request(
         for: .deployments(version: 2, deploymentID: deployment.id, path: "events"),
-        with: accountID,
-        queryItems: queryItems
+           with: accountID,
+           queryItems: queryItems
       ) else {
         return
       }
@@ -114,6 +142,8 @@ struct DeploymentLogView: View {
           if let lineAsData = line.data(using: .utf8),
              let event = try? JSONDecoder().decode(LogEvent.self, from: lineAsData) {
             logEvents.append(event)
+          } else {
+            print(line)
           }
         }
       } catch {
