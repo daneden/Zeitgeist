@@ -14,12 +14,6 @@ class DeploymentsViewModel: LoadableObject {
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   @Published var state: LoadingState<[Deployment]> = .idle
   
-  private var urlWatcher: URLRequestWatcher? {
-    guard let request = request else { return nil }
-
-    return URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
-  }
-  
   private var request: URLRequest? {
     try? VercelAPI.request(
       for: .deployments(version: 5),
