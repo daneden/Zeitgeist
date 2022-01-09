@@ -9,8 +9,7 @@ import SwiftUI
 
 struct DeploymentDetailView: View {
   var accountId: Account.ID
-  @State var deployment: Deployment
-  @EnvironmentObject var deploymentLoader: DeploymentsViewModel
+  var deployment: Deployment
   @EnvironmentObject var focusManager: FocusManager
 
   var body: some View {
@@ -23,14 +22,6 @@ struct DeploymentDetailView: View {
     .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
     .makeContainer()
-    .task {
-      await deploymentLoader.load()
-    }
-    .onChange(of: deploymentLoader.mostRecentDeployments) { newValue in
-      if let updatedDeployment = newValue.first(where: { $0.id == deployment.id }) {
-        deployment = updatedDeployment
-      }
-    }
     .onAppear {
       focusManager.focusedElement = .deployment(deployment, account: accountId)
     }

@@ -14,6 +14,12 @@ class DeploymentsViewModel: LoadableObject {
   @AppStorage("refreshFrequency") var refreshFrequency: Double = 5.0
   @Published var state: LoadingState<[Deployment]> = .idle
   
+  private var urlWatcher: URLRequestWatcher? {
+    guard let request = request else { return nil }
+
+    return URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
+  }
+  
   private var request: URLRequest? {
     try? VercelAPI.request(
       for: .deployments(version: 5),
@@ -32,11 +38,17 @@ class DeploymentsViewModel: LoadableObject {
 
   private let accountId: Account.ID
 
-  init(accountId: Account.ID) {
+  init(accountId: Account.ID, autoload: Bool = false) {
     self.accountId = accountId
     
     if let cachedData = loadCachedData() {
       self.state = .loaded(cachedData)
+    }
+    
+    if autoload == true {
+      Task {
+        await load()
+      }
     }
   }
 

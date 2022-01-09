@@ -22,7 +22,10 @@ struct ContentView: View {
           AddAccountButton(label: "Add a Vercel Account")
         }
       } else if let accountID = initialAccountID {
-        DeploymentListView(accountId: accountID)
+        DeploymentListView(
+          accountId: accountID,
+          deploymentsSource: DeploymentsViewModel(accountId: accountID, autoload: true)
+        )
       } else {
         PlaceholderView(forRole: .DeploymentList)
       }

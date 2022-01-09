@@ -33,14 +33,17 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
   var placeholderData: Source.Output?
   var content: (Source.Output) -> Content
   var allowsRetries: Bool
+  var autoLoad = true
   
   @State var isAnimating = false
   
   init(source: Source,
+       autoLoad: Bool = true,
        placeholderData: Source.Output? = nil,
        allowsRetries: Bool = true,
        @ViewBuilder content: @escaping (Source.Output) -> Content) {
     self.source = source
+    self.autoLoad = autoLoad
     self.placeholderData = placeholderData
     self.content = content
     self.allowsRetries = allowsRetries
@@ -52,7 +55,9 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
       case .idle:
         Color.clear.onAppear {
           Task.init {
-            await source.load()
+            if autoLoad {
+              await source.load()
+            }
           }
         }
       case .loading:
@@ -74,12 +79,14 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
       }
     }
     .task {
-      await source.load()
+      if autoLoad {
+        await source.load()
+      }
     }
     .onChange(of: scenePhase) { newValue in
       switch newValue {
       case .active:
-        Task { await source.load() }
+        Task { if autoLoad { await source.load() } }
         return
       default:
         return

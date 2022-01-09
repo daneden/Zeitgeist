@@ -23,15 +23,10 @@ struct DeploymentListView: View {
   }
   
   var accountId: String
-  var deploymentsSource: DeploymentsViewModel
-  
-  init(accountId: String) {
-    self.accountId = accountId
-    self.deploymentsSource = DeploymentsViewModel(accountId: accountId)
-  }
+  @StateObject var deploymentsSource: DeploymentsViewModel
   
   var body: some View {
-    AsyncContentView(source: deploymentsSource) { deployments in
+    AsyncContentView(source: deploymentsSource, autoLoad: false) { deployments in
       if let filteredDeployments = filterDeployments(deployments) {
         if filteredDeployments.isEmpty {
           VStack(spacing: 8) {
