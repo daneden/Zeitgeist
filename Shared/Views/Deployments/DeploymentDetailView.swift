@@ -79,7 +79,7 @@ struct DeploymentDetailView: View {
 
         if deployment.target == .production {
           Label("Production Deployment", systemImage: "theatermasks")
-            .foregroundColor(.orange)
+            .foregroundStyle(.orange)
             .symbolVariant(.fill)
         }
       }

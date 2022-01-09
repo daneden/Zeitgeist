@@ -81,7 +81,14 @@ struct DeploymentLogView: View {
       }
       .font(.footnote.monospaced())
     }
-    .padding(.bottom)
+    .toolbar {
+      ToolbarItem(placement: .bottomBar) {
+        Link(destination: deployment.logsURL) {
+          Label("View logs on vercel.com", systemImage: "arrow.up.right.square")
+            .labelStyle(.titleAndIcon)
+        }.font(.footnote)
+      }
+    }
     .navigationTitle("Build Logs")
     .task {
       let queryItems: [URLQueryItem] = [
