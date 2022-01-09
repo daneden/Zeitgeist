@@ -25,10 +25,26 @@ extension LoaderError: LocalizedError {
 }
 
 struct VercelAPI {
-  enum Path: String {
-    case deployments = "v5/now/deployments/"
-    case deploymentsV11 = "v11/now/deployments/"
-    case deploymentsV12 = "v12/now/deployments/"
+  enum Path {
+    case deployments(
+      version: Int = 5,
+      deploymentID: Deployment.ID? = nil,
+      path: String? = nil
+    )
+    
+    var subPaths: [String] {
+      switch self {
+      case .deployments(_, let deploymentID, let path):
+        return [deploymentID, path].compactMap({ $0 })
+      }
+    }
+    
+    var resolvedPath: String {
+      switch self {
+      case .deployments(let version, _, _):
+        return "v\(version)/now/deployments/\(subPaths.joined(separator: "/"))"
+      }
+    }
   }
   
   enum RequestMethod: String, RawRepresentable {
@@ -37,24 +53,23 @@ struct VercelAPI {
   
   static func request(
     for path: Path,
-    with accountId: Account.ID,
+    with accountID: Account.ID,
     queryItems: [URLQueryItem] = [],
-    appending: String? = nil,
     method: RequestMethod = .GET
   ) throws -> URLRequest {
-    let isTeam = accountId.isTeam
-    var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.rawValue)\(appending ?? "")")!
+    let isTeam = accountID.isTeam
+    var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.resolvedPath)")!
     var completeQuery = queryItems
     
-    completeQuery.append(URLQueryItem(name: "userId", value: accountId))
+    completeQuery.append(URLQueryItem(name: "userId", value: accountID))
     
     if isTeam {
-      completeQuery.append(URLQueryItem(name: "teamId", value: accountId))
+      completeQuery.append(URLQueryItem(name: "teamId", value: accountID))
     }
     
     urlComponents.queryItems = completeQuery
     
-    guard let token = KeychainItem(account: accountId).wrappedValue else {
+    guard let token = KeychainItem(account: accountID).wrappedValue else {
       throw LoaderError.unauthorized
     }
     

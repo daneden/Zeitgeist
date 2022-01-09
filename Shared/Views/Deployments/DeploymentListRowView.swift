@@ -19,7 +19,7 @@ struct DeploymentListRowView: View {
         VStack(alignment: .leading) {
           HStack(spacing: 4) {
             if deployment.target == .production {
-              Label("Production Deployment", systemImage: "bolt.fill")
+              Label("Production Deployment", systemImage: "theatermasks")
                 .labelStyle(IconOnlyLabelStyle())
                 .foregroundColor(.orange)
                 .imageScale(.small)

@@ -62,7 +62,7 @@ struct DeploymentFilterView: View {
         }.accentColor(.secondary)
         
         Toggle(isOn: self.$productionFilter.animation()) {
-          Label("Production Deployments Only", systemImage: "bolt.fill")
+          Label("Production Deployments Only", systemImage: "theatermasks")
             .accentColor(.orange)
         }.toggleStyle(SwitchToggleStyle(tint: .accentColor))
       }

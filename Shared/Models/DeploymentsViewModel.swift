@@ -16,7 +16,7 @@ class DeploymentsViewModel: LoadableObject {
   
   private var request: URLRequest? {
     try? VercelAPI.request(
-      for: .deployments,
+      for: .deployments(version: 5),
       with: accountId,
       queryItems: [URLQueryItem(name: "limit", value: "100")]
     )

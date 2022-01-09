@@ -65,12 +65,23 @@ struct DeploymentListView: View {
           }
         }
           .sheet(isPresented: self.$filterVisible) {
+            #if os(iOS)
+            NavigationView {
+              DeploymentFilterView(
+                deployments: deployments,
+                projectFilter: self.$projectFilter,
+                stateFilter: self.$stateFilter,
+                productionFilter: self.$productionFilter
+              )
+            }
+            #else
             DeploymentFilterView(
               deployments: deployments,
               projectFilter: self.$projectFilter,
               stateFilter: self.$stateFilter,
               productionFilter: self.$productionFilter
             )
+            #endif
           }
       }
     }

@@ -78,7 +78,7 @@ struct DeploymentDetailView: View {
         }
 
         if deployment.target == .production {
-          Label("Production Build", systemImage: "bolt.fill")
+          Label("Production Build", systemImage: "theatermasks")
             .foregroundColor(.orange)
         }
       }
@@ -153,9 +153,13 @@ struct DeploymentDetailView: View {
           }
         }
 
-        Link(destination: deployment.logsURL) {
+//        Link(destination: deployment.logsURL) {
+//          Label("View Logs", systemImage: "terminal")
+//        }.keyboardShortcut("o", modifiers: [.command, .shift])
+        
+        NavigationLink(destination: DeploymentLogView(deployment: deployment, accountID: accountId)) {
           Label("View Logs", systemImage: "terminal")
-        }.keyboardShortcut("o", modifiers: [.command, .shift])
+        }
 
         if (deployment.state != .queued && deployment.state != .building)
             || deployment.state == .cancelled
@@ -208,9 +212,8 @@ struct DeploymentDetailView: View {
       do {
         self.mutating = true
         let request = try VercelAPI.request(
-          for: .deploymentsV11,
+          for: .deployments(version: 11, deploymentID: deployment.id),
           with: accountId,
-          appending: "\(deployment.id)",
           method: .DELETE
         )
 
@@ -232,9 +235,8 @@ struct DeploymentDetailView: View {
       do {
         self.mutating = true
         let request = try VercelAPI.request(
-          for: .deploymentsV12,
+          for: .deployments(version: 12, deploymentID: deployment.id, path: "cancel"),
           with: accountId,
-          appending: "\(deployment.id)/cancel",
           method: .PATCH
         )
 

@@ -36,10 +36,18 @@ class AliasesViewModel: LoadableObject {
       }
     }
   }
+  
   @Published private(set) var value: Output?
   
   private var request: URLRequest {
-    try! VercelAPI.request(for: .deployments, with: accountId, appending: "\(deploymentId)/aliases")
+    try! VercelAPI.request(
+      for: .deployments(
+        version: 5,
+        deploymentID: deploymentId,
+        path: "aliases"
+      ),
+      with: accountId
+    )
   }
   
   private let accountId: Account.ID
