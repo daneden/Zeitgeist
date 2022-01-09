@@ -73,13 +73,16 @@ struct DeploymentLogView: View {
   var deployment: Deployment
   var accountID: Account.ID
   var body: some View {
-    ScrollView([.vertical, .horizontal]) {
-      LazyVStack(alignment: .leading, spacing: 0) {
-        ForEach(logEvents) { event in
-          LogEventView(event: event)
+    GeometryReader { geometry in
+      ScrollView([.vertical, .horizontal]) {
+        LazyVStack(alignment: .leading, spacing: 0) {
+          ForEach(logEvents) { event in
+            LogEventView(event: event)
+          }
         }
+        .frame(minHeight: geometry.size.height)
+        .font(.footnote.monospaced())
       }
-      .font(.footnote.monospaced())
     }
     .toolbar {
       ToolbarItem(placement: .bottomBar) {
