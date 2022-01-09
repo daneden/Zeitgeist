@@ -78,8 +78,9 @@ struct DeploymentDetailView: View {
         }
 
         if deployment.target == .production {
-          Label("Production Build", systemImage: "theatermasks")
+          Label("Production Deployment", systemImage: "theatermasks")
             .foregroundColor(.orange)
+            .symbolVariant(.fill)
         }
       }
     }

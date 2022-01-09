@@ -40,6 +40,33 @@ struct LogEvent: Codable, Identifiable {
   }
 }
 
+struct LogEventView: View {
+  var event: LogEvent
+  
+  var body: some View {
+    ZStack {
+      if event.type == .stderr {
+        Color.clear
+          .background(.quaternary)
+      }
+      
+      HStack(alignment: .firstTextBaseline) {
+        Text(event.date, style: .time)
+          .foregroundStyle(.secondary)
+        
+        Text(event.text)
+          .fixedSize(horizontal: false, vertical: true)
+          .foregroundStyle(.primary)
+        
+        Spacer(minLength: 0)
+      }
+      .padding(.horizontal)
+      .padding(.vertical, 2)
+    }
+    .foregroundStyle(event.outputColor)
+  }
+}
+
 struct DeploymentLogView: View {
   @State private var logEvents: [LogEvent] = []
   
@@ -49,26 +76,7 @@ struct DeploymentLogView: View {
     ScrollView([.vertical, .horizontal]) {
       LazyVStack(alignment: .leading, spacing: 0) {
         ForEach(logEvents) { event in
-          ZStack {
-            if event.type == .stderr {
-              Color.clear
-                .background(.quaternary)
-            }
-            
-            HStack(alignment: .firstTextBaseline) {
-              Text(event.date, style: .time)
-                .foregroundStyle(.secondary)
-              
-              Text(event.text)
-                .fixedSize(horizontal: false, vertical: true)
-                .foregroundStyle(.primary)
-              
-              Spacer(minLength: 0)
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 2)
-          }
-          .foregroundStyle(event.outputColor)
+          LogEventView(event: event)
         }
       }
       .font(.footnote.monospaced())

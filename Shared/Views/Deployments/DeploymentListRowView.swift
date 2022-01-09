@@ -20,8 +20,9 @@ struct DeploymentListRowView: View {
           HStack(spacing: 4) {
             if deployment.target == .production {
               Label("Production Deployment", systemImage: "theatermasks")
-                .labelStyle(IconOnlyLabelStyle())
+                .labelStyle(.iconOnly)
                 .foregroundColor(.orange)
+                .symbolVariant(.fill)
                 .imageScale(.small)
             }
             
