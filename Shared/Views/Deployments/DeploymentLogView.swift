@@ -62,7 +62,7 @@ struct LogEventView: View {
         
         if let text = event.text {
           Text(text)
-            .fixedSize(horizontal: false, vertical: true)
+            .fixedSize()
             .foregroundStyle(.primary)
         }
         
@@ -102,22 +102,28 @@ struct DeploymentLogView: View {
               
               
               ToolbarItem(placement: .bottomBar) {
-                if let latestEvent = logEvents.last {
-                  Button(action: {
-                    withAnimation {
-                      proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
-                    }
-                  }) {
-                    Label("Scroll to bottom", systemImage: "chevron.down.square")
-                      .labelStyle(.titleAndIcon)
-                      .font(.footnote)
+                Button(action: {
+                  if let latestEvent = logEvents.last {
+                  withAnimation {
+                    proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
                   }
+                  }
+                }) {
+                  Label("Scroll to bottom", systemImage: "chevron.down.square")
+                    .labelStyle(.titleAndIcon)
+                    .font(.footnote)
                 }
+                .disabled(logEvents.isEmpty)
               }
             }
           }
           
         }
+      }
+    }
+    .overlay {
+      if logEvents.isEmpty {
+        ProgressView()
       }
     }
     .navigationTitle("Build Logs")

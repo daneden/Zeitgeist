@@ -481,8 +481,8 @@
 				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
 				7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */,
 				711553802663AE0900A73CD6 /* DeploymentListView.swift */,
-				7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */,
 				71493651278AEBA2001CB921 /* DeploymentLogView.swift */,
+				7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */,
 			);
 			path = Deployments;
 			sourceTree = "<group>";
