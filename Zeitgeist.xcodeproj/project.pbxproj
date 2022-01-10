@@ -305,6 +305,7 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
+				71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */,
 				71A33E57269B627F00DC34FC /* iOS */,
 				71155345266279CF00A73CD6 /* Shared */,
 				711553A2266548BD00A73CD6 /* macOS */,
@@ -525,7 +526,6 @@
 				7115534F266279D000A73CD6 /* Info.plist */,
 				711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */,
 				7115534C266279D000A73CD6 /* Preview Content */,
-				71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
