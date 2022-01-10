@@ -28,6 +28,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    UIApplication.shared.registerForRemoteNotifications()
+    
     storeKitTaskHandle = listenForStoreKitUpdates()
     
     UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
@@ -119,9 +121,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         if data != nil {
           print("Successfully registered device ID to ZPS")
-          DispatchQueue.main.async {
-            self.notificationsEnabled = true
-          }
         }
       }.resume()
     }

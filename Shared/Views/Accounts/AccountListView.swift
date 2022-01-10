@@ -41,10 +41,8 @@ struct AccountListView: View {
       }
       
       #if os(iOS)
-      Section {
-        NavigationLink(destination: SettingsView()) {
-          Label("Settings", systemImage: "gearshape")
-        }
+      NavigationLink(destination: SettingsView()) {
+        Label("Settings", systemImage: "gearshape")
       }
       #endif
     }
