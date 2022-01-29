@@ -116,7 +116,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       URLSession.shared.dataTask(with: request) { (data, _, error) in
         if let error = error {
           print(error)
-          self.notificationsEnabled = false
         }
         
         if data != nil {

@@ -29,6 +29,9 @@ class IAPHelper: ObservableObject {
     for await verificationResult in Transaction.currentEntitlements {
       if case .verified(let transaction) = verificationResult {
         activeSubscriber = (IAPHelper.supporterProductIds.contains(transaction.productID))
+        if !activeSubscriber {
+          NotificationManager.shared.toggleNotifications(on: false)
+        }
       }
     }
   }
