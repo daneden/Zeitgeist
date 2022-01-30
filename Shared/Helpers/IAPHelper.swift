@@ -25,14 +25,20 @@ class IAPHelper: ObservableObject {
     }
   }
   
-  func restorePurchases() async {
+  @MainActor
+  @discardableResult
+  func restorePurchases() async -> Int {
+    var verifiedPurchases = 0
     for await verificationResult in Transaction.currentEntitlements {
       if case .verified(let transaction) = verificationResult {
+        verifiedPurchases += 1
         activeSubscriber = (IAPHelper.supporterProductIds.contains(transaction.productID))
         if !activeSubscriber {
           NotificationManager.shared.toggleNotifications(on: false)
         }
       }
     }
+    
+    return verifiedPurchases
   }
 }

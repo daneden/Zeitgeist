@@ -20,6 +20,7 @@ struct SubscribeButton: View {
   @State var products: [Product] = []
   @State var latestTransaction: StoreKit.Transaction?
   @State var purchaseState = PurchaseState.idle
+  @State private var noPurchasesRestored = false
   
   var body: some View {
     Group {
@@ -58,12 +59,23 @@ struct SubscribeButton: View {
       Button(action: {
         self.purchaseState = .purchasing(productID: nil)
         Task {
-          await iapHelper.restorePurchases()
+          let restoredPurchaseCount = await iapHelper.restorePurchases()
+          
+          if restoredPurchaseCount == 0 {
+            noPurchasesRestored = true
+          }
           self.purchaseState = .idle
         }
       }, label: {
         Label("Restore Purchases", systemImage: "purchased")
       })
+        .alert("No Purchases To Restore", isPresented: $noPurchasesRestored) {
+          Button(role: .cancel, action: { noPurchasesRestored = false }) {
+            Text("Close")
+          }
+        } message: {
+          Text("No previous purchases were found for this Apple ID")
+        }
       #endif
     }
     .disabled(self.purchaseState != .idle)
