@@ -33,9 +33,11 @@ class IAPHelper: ObservableObject {
       if case .verified(let transaction) = verificationResult {
         verifiedPurchases += 1
         activeSubscriber = (IAPHelper.supporterProductIds.contains(transaction.productID))
+        #if os(iOS)
         if !activeSubscriber {
           NotificationManager.shared.toggleNotifications(on: false)
         }
+        #endif
       }
     }
     

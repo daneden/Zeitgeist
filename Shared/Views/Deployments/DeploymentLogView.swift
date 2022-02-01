@@ -93,6 +93,7 @@ struct DeploymentLogView: View {
             }
             .frame(minHeight: geometry.size.height, alignment: .topLeading)
             .font(.footnote.monospaced())
+            #if os(iOS)
             .toolbar {
               ToolbarItem(placement: .navigationBarTrailing) {
                 Link(destination: deployment.logsURL) {
@@ -116,6 +117,7 @@ struct DeploymentLogView: View {
                 .disabled(logEvents.isEmpty)
               }
             }
+            #endif
           }
           
         }
