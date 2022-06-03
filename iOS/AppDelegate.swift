@@ -22,7 +22,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   private var storeKitTaskHandle: Task<Void, Error>?
   
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
-  @AppStorage("activeSupporterSubscription") var activeSubscription = false
   
   func application(
     _ application: UIApplication,
@@ -46,7 +45,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     Task {
       await IAPHelper.shared.restorePurchases()
-      NotificationManager.shared.toggleNotifications(on: notificationsEnabled && activeSubscription)
+      NotificationManager.shared.toggleNotifications(on: notificationsEnabled)
     }
     
     return true
@@ -140,12 +139,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   ) {
     print("Received remote notification")
     WidgetCenter.shared.reloadAllTimelines()
-    
-    if !activeSubscription {
-      print("User is not known to be an active subscriber; supressing notification")
-      completionHandler(.noData)
-      return
-    }
     
     do {
       let title: String? = userInfo["title"] as? String

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NotificationsView: View {
-  @AppStorage("activeSupporterSubscription") var activeSubscription = false
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   @AppStorage("allowDeploymentNotifications") var allowDeploymentNotifications = true
   @AppStorage("allowDeploymentErrorNotifications") var allowDeploymentErrorNotifications = true
@@ -16,10 +15,6 @@ struct NotificationsView: View {
   
   var body: some View {
     Form {
-      if !activeSubscription {
-        SupporterPromoView()
-      }
-      
       Section {
         Group {
           Toggle("Enable Notifications", isOn: $notificationsEnabled)
@@ -43,7 +38,6 @@ struct NotificationsView: View {
             }
           }
         }
-        .disabled(!activeSubscription)
       }
     }.navigationTitle("Notifications")
   }
