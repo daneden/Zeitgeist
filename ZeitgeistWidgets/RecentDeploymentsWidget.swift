@@ -133,9 +133,6 @@ struct RecentDeploymentsWidgetView: View {
     }
     .padding()
     .background(Color.systemBackground)
-    .onAppear {
-      print(config)
-    }
   }
 }
 

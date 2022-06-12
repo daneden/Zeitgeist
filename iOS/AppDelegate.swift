@@ -9,7 +9,6 @@
 import UIKit
 #endif
 import SwiftUI
-import StoreKit
 import WidgetKit
 
 #if DEBUG
@@ -19,8 +18,6 @@ let platform = "ios"
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  private var storeKitTaskHandle: Task<Void, Error>?
-  
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
   func application(
@@ -28,8 +25,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     UIApplication.shared.registerForRemoteNotifications()
-    
-    storeKitTaskHandle = listenForStoreKitUpdates()
     
     UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
       switch settings.authorizationStatus {
@@ -42,30 +37,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     UNUserNotificationCenter.current().delegate = self
-    
-    Task {
-      await IAPHelper.shared.restorePurchases()
-      NotificationManager.shared.toggleNotifications(on: notificationsEnabled)
-    }
+
+    NotificationManager.shared.toggleNotifications(on: notificationsEnabled)
     
     return true
-  }
-  
-  func listenForStoreKitUpdates() -> Task<Void, Error> {
-    Task.detached {
-      for await result in Transaction.updates {
-        switch result {
-        case .verified(let transaction):
-          print("Transaction verified in listener")
-          
-          await transaction.finish()
-          await IAPHelper.shared.restorePurchases()
-          // Update the user's purchases...
-        case .unverified:
-          print("Transaction unverified")
-        }
-      }
-    }
   }
   
   func applicationWillEnterForeground(_ application: UIApplication) {

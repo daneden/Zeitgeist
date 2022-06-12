@@ -98,7 +98,11 @@ class AccountViewModel: LoadableObject {
         }
       }
     } catch {
-      print(error.localizedDescription)
+      if error is CancellationError {
+        print("Account view destroyed; cancelling networking tasks")
+      } else {
+        print(error.localizedDescription)
+      }
     }
   }
   

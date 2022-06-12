@@ -71,7 +71,11 @@ class DeploymentsViewModel: LoadableObject {
         }
       }
     } catch {
-      print(error.localizedDescription)
+      if error is CancellationError {
+        print("Deployments view destroyed; cancelling networking tasks")
+      } else {
+        print(error.localizedDescription)
+      }
     }
   }
   

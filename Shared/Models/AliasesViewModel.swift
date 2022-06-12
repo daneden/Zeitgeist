@@ -81,7 +81,11 @@ class AliasesViewModel: LoadableObject {
         }
       }
     } catch {
-      print(error.localizedDescription)
+      if error is CancellationError {
+        print("Aliases view destroyed; cancelling networking tasks")
+      } else {
+        print(error.localizedDescription)
+      }
     }
   }
   

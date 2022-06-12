@@ -218,7 +218,7 @@ struct DeploymentDetailView: View {
           }
         }.resume()
       } catch {
-        print(error.localizedDescription)
+        print("Error deleting deployment: \(error.localizedDescription)")
         self.mutating = false
       }
     }
@@ -246,7 +246,7 @@ struct DeploymentDetailView: View {
           }
         }.resume()
       } catch {
-        print(error.localizedDescription)
+        print("Error cancelling deployment: \(error.localizedDescription)")
         self.mutating = false
       }
     }

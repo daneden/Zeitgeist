@@ -102,10 +102,6 @@
 		711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
 		711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
 		711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */; };
-		711A4A6B266BE04D00DA9EE3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */; };
-		711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */; };
-		711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6D266BE08700DA9EE3 /* SKProduct.swift */; };
-		711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6D266BE08700DA9EE3 /* SKProduct.swift */; };
 		711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */; };
 		711AB5F22676829F004D0768 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
 		71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */; };
@@ -124,10 +120,7 @@
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		71832D52277B875200CB2903 /* StoreKitConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */; };
 		71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71832D53277B94AA00CB2903 /* StoreKit.framework */; };
-		7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */; };
-		7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */; };
 		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71DBFE9A278769D600B0D983 /* URLWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBFE99278769D600B0D983 /* URLWatcher.swift */; };
@@ -236,8 +229,6 @@
 		711A4A55266BDF0900DA9EE3 /* PostalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalService.swift; sourceTree = "<group>"; };
 		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
-		711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
-		711A4A6D266BE08700DA9EE3 /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
 		711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.extension.swift; sourceTree = "<group>"; };
 		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
 		71335A572789BC1300FC2099 /* FocusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusManager.swift; sourceTree = "<group>"; };
@@ -247,9 +238,7 @@
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfiguration.storekit; sourceTree = "<group>"; };
 		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyView.swift; sourceTree = "<group>"; };
 		71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
 		71DBFE99278769D600B0D983 /* URLWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLWatcher.swift; sourceTree = "<group>"; };
@@ -296,7 +285,6 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
-				71832D51277B875200CB2903 /* StoreKitConfiguration.storekit */,
 				71A33E57269B627F00DC34FC /* iOS */,
 				71155345266279CF00A73CD6 /* Shared */,
 				711553A2266548BD00A73CD6 /* macOS */,
@@ -374,7 +362,6 @@
 			isa = PBXGroup;
 			children = (
 				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
-				711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */,
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
 				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
 				711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */,
@@ -393,7 +380,6 @@
 				7115537E2663AD9B00A73CD6 /* Color.extension.swift */,
 				711A4A4C266B943800DA9EE3 /* Dictionary.swift */,
 				7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */,
-				711A4A6D266BE08700DA9EE3 /* SKProduct.swift */,
 				711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */,
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */,
@@ -492,7 +478,6 @@
 			children = (
 				711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */,
 				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
-				7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -647,7 +632,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71832D52277B875200CB2903 /* StoreKitConfiguration.storekit in Resources */,
 				7115534E266279D000A73CD6 /* Preview Assets.xcassets in Resources */,
 				7115534B266279D000A73CD6 /* Assets.xcassets in Resources */,
 			);
@@ -690,7 +674,6 @@
 				7115538F2664E1B400A73CD6 /* GitProviderImage.swift in Sources */,
 				711553832663AE5F00A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */,
-				711A4A6B266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				7115536F2662948100A73CD6 /* LoadableObject.swift in Sources */,
 				7115535926627B2900A73CD6 /* Session.swift in Sources */,
 				71155364266282C900A73CD6 /* Array.extension.swift in Sources */,
@@ -698,12 +681,10 @@
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
 				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
-				711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
 				71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */,
 				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
-				7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
 				711553852663B00B00A73CD6 /* AccountListView.swift in Sources */,
 				711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
 				711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */,
@@ -759,7 +740,6 @@
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
-				7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
 				71493653278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
 				711553CA2665491300A73CD6 /* Session.swift in Sources */,
@@ -771,7 +751,6 @@
 				711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */,
 				711553C62665491300A73CD6 /* DeploymentsViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
-				711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */,
 				711553C82665491300A73CD6 /* Deployment.swift in Sources */,
 				71335A592789BC1300FC2099 /* FocusManager.swift in Sources */,
 				711AB5F22676829F004D0768 /* URL.extension.swift in Sources */,
@@ -779,7 +758,6 @@
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
 				711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */,
 				7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
-				711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				71F9020A26656A21000A8873 /* Preferences.swift in Sources */,
 				711553D02665491700A73CD6 /* LoadableObject.swift in Sources */,
 			);
