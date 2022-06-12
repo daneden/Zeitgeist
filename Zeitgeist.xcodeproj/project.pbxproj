@@ -102,16 +102,10 @@
 		711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
 		711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
 		711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */; };
-		711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */; };
-		711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */; };
-		711A4A68266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */; };
-		711A4A69266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */; };
 		711A4A6B266BE04D00DA9EE3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */; };
 		711A4A6C266BE04D00DA9EE3 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */; };
 		711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6D266BE08700DA9EE3 /* SKProduct.swift */; };
 		711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A6D266BE08700DA9EE3 /* SKProduct.swift */; };
-		711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
-		711A4A72266BE69900DA9EE3 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */; };
 		711A4A74266BE6E900DA9EE3 /* UIApplication.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */; };
 		711AB5F22676829F004D0768 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
 		71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */; };
@@ -242,11 +236,8 @@
 		711A4A55266BDF0900DA9EE3 /* PostalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalService.swift; sourceTree = "<group>"; };
 		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
-		711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterPromoView.swift; sourceTree = "<group>"; };
-		711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButton.swift; sourceTree = "<group>"; };
 		711A4A6A266BE04D00DA9EE3 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		711A4A6D266BE08700DA9EE3 /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
-		711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		711A4A73266BE6E900DA9EE3 /* UIApplication.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.extension.swift; sourceTree = "<group>"; };
 		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
 		71335A572789BC1300FC2099 /* FocusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusManager.swift; sourceTree = "<group>"; };
@@ -501,9 +492,6 @@
 			children = (
 				711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */,
 				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
-				711A4A67266BE01F00DA9EE3 /* SubscribeButton.swift */,
-				711A4A70266BE69900DA9EE3 /* SubscriptionView.swift */,
-				711A4A64266BE00300DA9EE3 /* SupporterPromoView.swift */,
 				7195CD6E267216B100733CD6 /* TermsAndPrivacyView.swift */,
 			);
 			path = Settings;
@@ -711,12 +699,9 @@
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
 				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				711A4A6E266BE08700DA9EE3 /* SKProduct.swift in Sources */,
-				711A4A71266BE69900DA9EE3 /* SubscriptionView.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
 				71155366266289F500A73CD6 /* AccountViewModel.swift in Sources */,
-				711A4A65266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
-				711A4A68266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
 				7195CD6F267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
 				711553852663B00B00A73CD6 /* AccountListView.swift in Sources */,
@@ -771,9 +756,7 @@
 				711553B3266548E400A73CD6 /* AccountListRowView.swift in Sources */,
 				711553BD266548F400A73CD6 /* Array.extension.swift in Sources */,
 				711553B6266548E400A73CD6 /* DeploymentListRowView.swift in Sources */,
-				711A4A72266BE69900DA9EE3 /* SubscriptionView.swift in Sources */,
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
-				711A4A66266BE00300DA9EE3 /* SupporterPromoView.swift in Sources */,
 				711553CB2665491300A73CD6 /* AliasesViewModel.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				7195CD70267216B100733CD6 /* TermsAndPrivacyView.swift in Sources */,
@@ -795,7 +778,6 @@
 				711553C92665491300A73CD6 /* AccountViewModel.swift in Sources */,
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
 				711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */,
-				711A4A69266BE01F00DA9EE3 /* SubscribeButton.swift in Sources */,
 				7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
 				711A4A6F266BE08700DA9EE3 /* SKProduct.swift in Sources */,
 				71F9020A26656A21000A8873 /* Preferences.swift in Sources */,

@@ -29,11 +29,6 @@ OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
         NavigationLink(destination: NotificationsView()) {
           Label("Notifications", systemImage: "app.badge")
         }
-        
-        NavigationLink(destination: SubscriptionView()) {
-          Label("Supporter Subscription", systemImage: "heart.fill")
-            .accentColor(.pink)
-        }
       }
       
       Section {
