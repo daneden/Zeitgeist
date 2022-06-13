@@ -10,7 +10,6 @@ import SwiftUI
 struct LogEvent: Codable, Identifiable {
   enum EventType: String, Codable {
     case command, stderr, stdout, delimiter, exit
-    //    case deploymentState = "deployment-state"
   }
   
   struct DeploymentStateInfo: Codable {
@@ -50,26 +49,25 @@ struct LogEventView: View {
   var event: LogEvent
   
   var body: some View {
-    ZStack {
+    HStack(alignment: .firstTextBaseline) {
+      Text(event.date, style: .time)
+        .foregroundStyle(.secondary)
+      
+      if let text = event.text {
+        Text(text)
+          .fixedSize()
+          .foregroundStyle(.primary)
+      }
+      
+      Spacer(minLength: 0)
+    }
+    .padding(.horizontal)
+    .padding(.vertical, 2)
+    .background {
       if event.type == .stderr {
         Color.clear
           .background(.quaternary)
       }
-      
-      HStack(alignment: .firstTextBaseline) {
-        Text(event.date, style: .time)
-          .foregroundStyle(.secondary)
-        
-        if let text = event.text {
-          Text(text)
-            .fixedSize()
-            .foregroundStyle(.primary)
-        }
-        
-        Spacer(minLength: 0)
-      }
-      .padding(.horizontal)
-      .padding(.vertical, 2)
     }
     .foregroundStyle(event.outputColor)
   }
@@ -150,8 +148,6 @@ struct DeploymentLogView: View {
           if let lineAsData = line.data(using: .utf8),
              let event = try? JSONDecoder().decode(LogEvent.self, from: lineAsData) {
             logEvents.append(event)
-          } else {
-            print(line)
           }
         }
       } catch {
@@ -160,9 +156,3 @@ struct DeploymentLogView: View {
     }
   }
 }
-
-//struct DeploymentLogView_Previews: PreviewProvider {
-//    static var previews: some View {
-//      DeploymentLogView(deployment: )
-//    }
-//}
