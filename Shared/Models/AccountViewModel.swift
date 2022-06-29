@@ -26,11 +26,6 @@ struct User: Codable {
   var id: String
   var name: String
   var avatar: String?
-  
-  enum CodingKeys: String, CodingKey {
-    case id = "uid"
-    case name, avatar
-  }
 }
 
 struct UserResponse: Codable {
@@ -59,7 +54,7 @@ class AccountViewModel: LoadableObject {
   
   private var request: URLRequest {
     let isTeam = accountId.isTeam
-    let urlPath = isTeam ? "v1/teams/\(accountId)" : "www/user"
+    let urlPath = isTeam ? "v2/teams/\(accountId)" : "v2/user"
     let url = URL(string: "https://api.vercel.com/\(urlPath)?teamId=\(isTeam ? accountId : "")&userId=\(accountId)")!
     let token = KeychainItem(account: accountId).wrappedValue ?? ""
     
@@ -121,21 +116,22 @@ extension AccountViewModel {
   func handleResponseData(data: Data, isTeam: Bool) -> Account? {
     var account: Account
     
-    if isTeam {
-      guard let decoded = try? self.decoder.decode(Team.self, from: data) else {
-        return nil
+    do {
+      if isTeam {
+        let decoded = try self.decoder.decode(Team.self, from: data)
+        
+        account = Account(id: decoded.id, avatar: decoded.avatar, name: decoded.name)
+      } else {
+        let decoded = try self.decoder.decode(UserResponse.self, from: data)
+        
+        account = Account(id: decoded.user.id, avatar: decoded.user.avatar, name: decoded.user.name)
       }
       
-      account = Account(id: decoded.id, avatar: decoded.avatar, name: decoded.name)
-    } else {
-      guard let decoded = try? self.decoder.decode(UserResponse.self, from: data) else {
-        return nil
-      }
-      
-      account = Account(id: decoded.user.id, avatar: decoded.user.avatar, name: decoded.user.name)
+      return account
+    } catch {
+      print(error)
+      return nil
     }
-    
-    return account
   }
 }
 

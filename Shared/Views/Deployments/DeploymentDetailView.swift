@@ -204,7 +204,7 @@ struct DeploymentDetailView: View {
       do {
         self.mutating = true
         let request = try VercelAPI.request(
-          for: .deployments(version: 11, deploymentID: deployment.id),
+          for: .deployments(version: 13, deploymentID: deployment.id),
           with: accountId,
           method: .DELETE
         )

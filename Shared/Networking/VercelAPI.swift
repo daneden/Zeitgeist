@@ -27,7 +27,7 @@ extension LoaderError: LocalizedError {
 struct VercelAPI {
   enum Path {
     case deployments(
-      version: Int = 5,
+      version: Int = 6,
       deploymentID: Deployment.ID? = nil,
       path: String? = nil
     )
@@ -42,7 +42,7 @@ struct VercelAPI {
     var resolvedPath: String {
       switch self {
       case .deployments(let version, _, _):
-        return "v\(version)/now/deployments/\(subPaths.joined(separator: "/"))"
+        return "v\(version)/deployments/\(subPaths.joined(separator: "/"))"
       }
     }
   }
