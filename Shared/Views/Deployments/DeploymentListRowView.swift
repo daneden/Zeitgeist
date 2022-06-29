@@ -37,7 +37,7 @@ struct DeploymentListRowView: View {
           VStack(alignment: .leading, spacing: 2) {
             Text("\(deployment.date, style: .relative) ago")
               .fixedSize()
-              .foregroundColor(.secondary)
+              .foregroundStyle(.secondary)
               .font(.caption)
           }
         }
