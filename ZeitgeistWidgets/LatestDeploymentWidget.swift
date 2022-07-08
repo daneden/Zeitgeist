@@ -12,6 +12,7 @@ struct LatestDeploymentEntry: TimelineEntry {
   var date = Date()
   var deployment: Deployment?
   var account: WidgetAccount
+  var relevance: TimelineEntryRelevance?
 }
 
 struct LatestDeploymentProvider: IntentTimelineProvider {
@@ -21,58 +22,56 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (LatestDeploymentEntry) -> ()) {
-    let loader = DeploymentsLoader()
-    loader.useURLCache = false
-    
-    guard let account = configuration.account,
-          let accountId = account.identifier else {
-      completion(placeholder(in: context))
-      return
-    }
-    
-    loader.loadDeployments(withID: accountId) { result in
-      switch result {
-      case .success(let deployments):
-        if let deployment = deployments.first {
-          completion(
-            LatestDeploymentEntry(date: deployment.date, deployment: deployment, account: account)
+    Task {
+      guard let account = configuration.account,
+            let accountId = account.identifier else {
+              completion(placeholder(in: context))
+              return
+            }
+      
+      let loader = DeploymentsViewModel(accountId: accountId)
+      
+      async let deployments = loader.loadOnce()
+      
+      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+      
+      if let deployment = await deployments?.first {
+        completion(
+          LatestDeploymentEntry(
+            deployment: deployment,
+            account: account,
+            relevance: relevance
           )
-        }
-      case .failure(let error):
-        print(error)
-        return
+        )
       }
     }
   }
   
   func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<LatestDeploymentEntry>) -> ()) {
-    let loader = DeploymentsLoader()
-    loader.useURLCache = false
-    
-    guard let account = configuration.account,
-          let accountId = account.identifier else {
-      completion(
-        Timeline(entries: [placeholder(in: context)], policy: .atEnd)
-      )
-      return
-    }
-    
-    loader.loadDeployments(withID: accountId) { result in
-      switch result {
-      case .success(let deployments):
-        if let deployment = deployments.first {
-          completion(
-            Timeline(
-              entries: [LatestDeploymentEntry(date: deployment.date, deployment: deployment, account: account)],
-              policy: .atEnd
-            )
+    Task {
+      guard let account = configuration.account,
+            let accountId = account.identifier else {
+              completion(
+                Timeline(entries: [placeholder(in: context)], policy: .atEnd)
+              )
+              return
+            }
+      
+      let loader = DeploymentsViewModel(accountId: accountId)
+      
+      async let deployments = loader.loadOnce()
+      
+      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+      
+      if let deployment = await deployments?.first {
+        completion(
+          Timeline (
+            entries: [LatestDeploymentEntry(deployment: deployment, account: account, relevance: relevance)],
+            policy: .atEnd
           )
-        } else {
-          completion(Timeline(entries: [], policy: .atEnd))
-        }
-      case .failure(let error):
-        print(error)
-        return
+        )
+      } else {
+        completion(Timeline(entries: [], policy: .atEnd))
       }
     }
   }

@@ -16,19 +16,16 @@ struct AccountListView: View {
     List(selection: $activeAccountID) {
       Section(header: Text("Accounts")) {
         ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
-          NavigationLink(
-            destination: DeploymentListView(accountId: accountId),
-            tag: accountId,
-            selection: $activeAccountID
-          ) {
+          NavigationLink(destination: DeploymentListView(accountId: accountId, deploymentsSource: DeploymentsViewModel(accountId: accountId, autoload: true))) {
             AccountListRowView(accountId: accountId)
           }
           .contextMenu {
-            Button(action: { session.deleteAccount(id: accountId)}) {
+            Button(role: .destructive, action: { session.deleteAccount(id: accountId)}) {
               Label("Remove Account", systemImage: "person.badge.minus")
-            }.foregroundColor(.systemRed)
+            }
           }
           .tag(accountId)
+          .keyboardShortcut(KeyEquivalent(Character("\((session.authenticatedAccountIds.firstIndex(of: accountId) ?? 0) + 1)")), modifiers: .command)
         }
         .onDelete(perform: deleteAccount)
         .onMove(perform: move)
@@ -43,11 +40,11 @@ struct AccountListView: View {
           .buttonStyle(PlainButtonStyle())
       }
       
-      Group {
-        NavigationLink(destination: SettingsView()) {
-          Label("Settings", systemImage: "gearshape")
-        }
+      #if os(iOS)
+      NavigationLink(destination: SettingsView()) {
+        Label("Settings", systemImage: "gearshape")
       }
+      #endif
     }
     .id(session.uuid)
     .toolbar {

@@ -24,9 +24,7 @@ class NotificationManager {
         if success {
           print("Enabled notifications")
           
-          DispatchQueue.main.async {
-            UIApplication.shared.registerForRemoteNotifications()
-            
+          DispatchQueue.main.async {            
             if let binding = bindingTo {
               binding.wrappedValue = true
             }
@@ -44,7 +42,6 @@ class NotificationManager {
     } else {
       DispatchQueue.main.async {
         self.notificationCenter.removeAllPendingNotificationRequests()
-        UIApplication.shared.unregisterForRemoteNotifications()
       }
     }
   }

@@ -8,49 +8,48 @@
 import SwiftUI
 
 struct SettingsView: View {
+  var githubIssuesURL: URL {
+    let appVersion: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    let body = """
+> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
+> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
+
+App Version: \(appVersion ?? "Unknown")
+Device: \(UIDevice.modelName)
+OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
+"""
+    let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+    
+    return URL(string: "https://github.com/daneden/zeitgeist/issues/new?body=\(encodedBody)")!
+  }
+  
   var body: some View {
     Form {
       Section(header: Text("Settings")) {
-        NavigationLink(destination: RefreshFrequencyView()) {
-          Label("Refresh Frequency", systemImage: "clock.arrow.2.circlepath")
-        }
-        
-        #if !os(macOS)
         NavigationLink(destination: NotificationsView()) {
           Label("Notifications", systemImage: "app.badge")
         }
-        
-        NavigationLink(destination: SubscriptionView()) {
-          Label("Supporter Subscription", systemImage: "heart.fill")
-            .accentColor(.systemPink)
-        }
-        #endif
       }
       
       Section {
-        #if !os(macOS)
-        NavigationLink(destination: SubmitFeedbackView()) {
+        Link(destination: githubIssuesURL) {
           Label("Submit Feedback", systemImage: "ladybug")
         }
-        #endif
         
         Link(destination: .ReviewURL) {
-          Label("Review on App Store", systemImage: "star")
+          Label("Review on App Store", systemImage: "star.fill")
         }
       }
       
       Section {
         Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-          Label("Privacy Policy", systemImage: "lock")
+          Text("Privacy Policy")
         }
         
         Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-          Label("Terms of Use", systemImage: "book.closed")
+          Text("Terms of Use")
         }
       }
-    }
-    .onAppear {
-      IAPHelper.shared.refresh()
     }
     .navigationTitle("Settings")
   }

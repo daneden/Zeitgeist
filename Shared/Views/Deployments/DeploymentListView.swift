@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct DeploymentListView: View {
   @EnvironmentObject var session: Session
@@ -22,17 +23,11 @@ struct DeploymentListView: View {
   }
   
   var accountId: String
-  var deploymentsSource: DeploymentsViewModel
-  
-  init(accountId: String) {
-    self.accountId = accountId
-    self.deploymentsSource = DeploymentsViewModel(accountId: accountId)
-  }
+  @StateObject var deploymentsSource: DeploymentsViewModel
   
   var body: some View {
-    AsyncContentView(source: deploymentsSource) { deployments in
+    AsyncContentView(source: deploymentsSource, autoLoad: false) { deployments in
       if let filteredDeployments = filterDeployments(deployments) {
-        
         if filteredDeployments.isEmpty {
           VStack(spacing: 8) {
             Spacer()
@@ -42,43 +37,47 @@ struct DeploymentListView: View {
             if filtersApplied {
               Button(action: clearFilters) {
                 Label("Clear Filters", systemImage: "xmark.circle")
-              }
+              }.symbolRenderingMode(.monochrome)
             }
             
             Spacer()
           }
         }
         
-        List(selection: $activeDeploymentID) {
+        List {
           ForEach(filteredDeployments, id: \.id) { deployment in
             NavigationLink(
-              destination: DeploymentDetailView(accountId: accountId, deployment: deployment),
-              tag: deployment.id,
-              selection: $activeDeploymentID
+              destination: DeploymentDetailView(accountId: accountId, deployment: deployment)
+                .environmentObject(deploymentsSource)
             ) {
               DeploymentListRowView(deployment: deployment)
-            }.tag(deployment.id)
+            }
           }
         }
-        .sheet(isPresented: self.$filterVisible) {
-          #if os(macOS)
-          DeploymentFilterView(
-            deployments: deployments,
-            projectFilter: self.$projectFilter,
-            stateFilter: self.$stateFilter,
-            productionFilter: self.$productionFilter
-          )
-          #else
-          NavigationView {
+        .refreshable {
+          if let deployments = await deploymentsSource.loadOnce() {
+            deploymentsSource.state = .loaded(deployments)
+          }
+        }
+          .sheet(isPresented: self.$filterVisible) {
+            #if os(iOS)
+            NavigationView {
+              DeploymentFilterView(
+                deployments: deployments,
+                projectFilter: self.$projectFilter,
+                stateFilter: self.$stateFilter,
+                productionFilter: self.$productionFilter
+              )
+            }
+            #else
             DeploymentFilterView(
               deployments: deployments,
               projectFilter: self.$projectFilter,
               stateFilter: self.$stateFilter,
               productionFilter: self.$productionFilter
             )
+            #endif
           }
-          #endif
-        }
       }
     }
     .toolbar {
@@ -86,12 +85,12 @@ struct DeploymentListView: View {
         Label(
           "Filter Deployments",
           systemImage: !filtersApplied
-            ? "line.horizontal.3.decrease.circle"
-            : "line.horizontal.3.decrease.circle.fill"
+          ? "line.horizontal.3.decrease.circle"
+          : "line.horizontal.3.decrease.circle.fill"
         )
       }.keyboardShortcut("l", modifiers: .command)
       
-      Button(action: { deploymentsSource.load() }) {
+      Button(action: { Task { await deploymentsSource.load() } }) {
         Label("Reload", systemImage: "arrow.clockwise")
       }.keyboardShortcut("r", modifiers: .command)
     }

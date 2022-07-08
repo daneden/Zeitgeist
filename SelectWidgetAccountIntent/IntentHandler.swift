@@ -10,32 +10,18 @@ import Intents
 class IntentHandler: INExtension, SelectAccountIntentHandling {
   static let defaultAccountDisplayString = "Default Account"
   
-  func provideAccountOptionsCollection(for intent: SelectAccountIntent, with completion: @escaping (INObjectCollection<WidgetAccount>?, Error?) -> Void) {
-    let dispatchGroup = DispatchGroup()
-    var accounts = [WidgetAccount]()
-    
-    let loader = AccountLoader()
-    loader.useURLCache = false
-    
+  func provideAccountOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetAccount> {
     let accountIds = Session.shared.authenticatedAccountIds
-    _ = accountIds.map { accountId in
-      dispatchGroup.enter()
-      loader.loadAccount(withID: accountId) { result in
-        switch result {
-        case .success(let account):
-          accounts.append(WidgetAccount(identifier: account.id, display: account.name))
-        case .failure(let error):
-          print(error.localizedDescription)
-        }
-        
-        dispatchGroup.leave()
+    async let accounts = accountIds.asyncMap { id -> Account? in
+      let accountLoader = AccountViewModel(accountId: id)
+      
+      return await accountLoader.loadOnce()
+    }.compactMap({ $0 })
+      .map { account in
+        WidgetAccount(identifier: account.id, display: account.name)
       }
-    }
     
-    dispatchGroup.notify(queue: .main) {
-      let collection = INObjectCollection(items: accounts)
-      completion(collection, nil)
-    }
+    return await INObjectCollection(items: accounts)
   }
   
   override func handler(for intent: INIntent) -> Any {

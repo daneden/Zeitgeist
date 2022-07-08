@@ -9,7 +9,7 @@
 import UIKit
 #endif
 import SwiftUI
-import Purchases
+import WidgetKit
 
 #if DEBUG
 let platform = "ios_sandbox"
@@ -19,12 +19,13 @@ let platform = "ios"
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
-  @AppStorage("activeSupporterSubscription") var activeSubscription = false
   
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    UIApplication.shared.registerForRemoteNotifications()
+    
     UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
       switch settings.authorizationStatus {
       case .denied, .notDetermined:
@@ -36,10 +37,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     UNUserNotificationCenter.current().delegate = self
-    
-    NotificationManager.shared.toggleNotifications(on: notificationsEnabled && activeSubscription)
-    
-    setupRevenueCat()
+
+    NotificationManager.shared.toggleNotifications(on: notificationsEnabled)
     
     return true
   }
@@ -47,13 +46,36 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func applicationWillEnterForeground(_ application: UIApplication) {
     UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
-  
-  // MARK: In-App Purchase Setup
-  func setupRevenueCat() {
-    Purchases.configure(withAPIKey: "BtsJTlCfcJkRXMbWTTraNErvIsCcLkLb")
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              didReceive response: UNNotificationResponse,
+                              withCompletionHandler completionHandler:
+                                @escaping () -> Void) {
+    
+    let userInfo = response.notification.request.content.userInfo
+    
+    guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String else {
+      completionHandler()
+      return
+    }
+    
+    guard let teamID = userInfo["TEAM_ID"] as? String else {
+      completionHandler()
+      return
+    }
+    
+    switch response.notification.request.content.categoryIdentifier {
+    case ZPSNotificationCategory.Deployment.rawValue:
+      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
+    default:
+      print("Uncaught notification category identifier")
+    }
+    
+    completionHandler()
   }
   
-  // MARK: Notifications
   func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
@@ -68,14 +90,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       URLSession.shared.dataTask(with: request) { (data, _, error) in
         if let error = error {
           print(error)
-          self.notificationsEnabled = false
         }
         
         if data != nil {
           print("Successfully registered device ID to ZPS")
-          DispatchQueue.main.async {
-            self.notificationsEnabled = true
-          }
         }
       }.resume()
     }
@@ -95,12 +113,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
   ) {
     print("Received remote notification")
-    
-    if !activeSubscription {
-      print("User is not known to be an active subscriber; supressing notification")
-      completionHandler(.noData)
-      return
-    }
+    WidgetCenter.shared.reloadAllTimelines()
     
     do {
       let title: String? = userInfo["title"] as? String
@@ -159,34 +172,5 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       
       return
     }
-  }
-}
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler:
-                                @escaping () -> Void) {
-    
-    let userInfo = response.notification.request.content.userInfo
-    
-    guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String else {
-      completionHandler()
-      return
-    }
-    
-    guard let teamID = userInfo["TEAM_ID"] as? String else {
-      completionHandler()
-      return
-    }
-    
-    switch response.notification.request.content.categoryIdentifier {
-    case ZPSNotificationCategory.Deployment.rawValue:
-      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
-    default:
-      print("Uncaught notification category identifies")
-    }
-    
-    completionHandler()
   }
 }

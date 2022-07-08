@@ -33,10 +33,7 @@ struct OnboardingView: View {
             .font(.body.bold())
             .padding()
             .padding(.horizontal)
-            .background(Color.accentColor)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-          }
+          }.buttonStyle(.borderedProminent)
           
           Text("To get started, sign in with your Vercel account.")
             .font(.caption)

@@ -19,9 +19,11 @@ struct DeploymentListRowView: View {
         VStack(alignment: .leading) {
           HStack(spacing: 4) {
             if deployment.target == .production {
-              Label("Production Deployment", systemImage: "bolt.fill")
-                .labelStyle(IconOnlyLabelStyle())
-                .foregroundColor(.systemOrange)
+              Label("Production Deployment", systemImage: "theatermasks")
+                .labelStyle(.iconOnly)
+                .foregroundStyle(.orange)
+                .symbolVariant(.fill)
+                .symbolRenderingMode(.hierarchical)
                 .imageScale(.small)
             }
             
@@ -35,7 +37,7 @@ struct DeploymentListRowView: View {
           VStack(alignment: .leading, spacing: 2) {
             Text("\(deployment.date, style: .relative) ago")
               .fixedSize()
-              .foregroundColor(.secondary)
+              .foregroundStyle(.secondary)
               .font(.caption)
           }
         }

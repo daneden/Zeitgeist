@@ -1,6 +1,15 @@
 import Foundation
 import WidgetKit
 import SwiftUI
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
+
+struct DeploymentsResponse: Decodable {
+  var deployments: [Deployment]
+}
 
 enum DeploymentTarget: String, Codable, CaseIterable {
   case production, staging
@@ -14,6 +23,31 @@ enum DeploymentState: String, Codable, CaseIterable {
   case normal = "NORMAL"
   case offline = "OFFLINE"
   case cancelled = "CANCELED"
+  
+  static var typicalCases: [DeploymentState] {
+    return Self.allCases.filter { state in
+      state != .normal && state != .offline
+    }
+  }
+  
+  var description: String {
+    switch self {
+    case .error:
+      return "Error building"
+    case .building:
+      return "Building"
+    case .ready:
+      return "Deployed"
+    case .queued:
+      return "Queued"
+    case .cancelled:
+      return "Cancelled"
+    case .offline:
+      return "Offline"
+    default:
+      return "Ready"
+    }
+  }
 }
 
 struct DeploymentCreator: Codable, Identifiable {
@@ -43,6 +77,10 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   
   var url: URL {
     URL(string: "https://\(urlString)")!
+  }
+  
+  var logsURL: URL {
+    URL(string: "\(url.absoluteString)/_logs")!
   }
   
   var creator: DeploymentCreator
@@ -100,5 +138,26 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   
   enum DeploymentError: Error {
     case MockDeploymentInitError
+  }
+}
+
+extension Deployment {
+  func openDeploymentURL() {
+    EnvironmentValues().openURL(url)
+  }
+  
+  func openLogsURL() {
+    EnvironmentValues().openURL(logsURL)
+  }
+  
+  func copyUrl() {
+#if os(iOS)
+    let pasteboard = UIPasteboard.general
+    pasteboard.string = url.absoluteString
+#else
+    let pasteboard = NSPasteboard.general
+    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+    pasteboard.setString(url.absoluteString, forType: NSPasteboard.PasteboardType.string)
+#endif
   }
 }
