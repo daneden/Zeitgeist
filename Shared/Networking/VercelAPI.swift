@@ -32,10 +32,13 @@ struct VercelAPI {
       path: String? = nil
     )
     
+    case projects
+    
     var subPaths: [String] {
       switch self {
       case .deployments(_, let deploymentID, let path):
         return [deploymentID, path].compactMap({ $0 })
+      case .projects: return []
       }
     }
     
@@ -43,6 +46,8 @@ struct VercelAPI {
       switch self {
       case .deployments(let version, _, _):
         return "v\(version)/deployments/\(subPaths.joined(separator: "/"))"
+      case .projects:
+        return "v9/projects"
       }
     }
   }

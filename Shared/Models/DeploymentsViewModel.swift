@@ -62,7 +62,7 @@ class DeploymentsViewModel: LoadableObject {
       let watcher = URLRequestWatcher(urlRequest: request, delay: Int(refreshFrequency))
       
       for try await data in watcher {
-        let newData = try JSONDecoder().decode(DeploymentsResponse.self, from: data).deployments
+        let newData = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
         
         DispatchQueue.main.async {
           withAnimation {
@@ -87,7 +87,7 @@ class DeploymentsViewModel: LoadableObject {
     do {
       let (data, _) = try await URLSession.shared.data(for: request)
       
-      return try? JSONDecoder().decode(DeploymentsResponse.self, from: data).deployments
+      return try? JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
     } catch {
       return nil
     }
@@ -98,7 +98,7 @@ extension DeploymentsViewModel {
   func loadCachedData() -> [Deployment]? {
     if let request = request,
        let cachedResults = URLCache.shared.cachedResponse(for: request),
-       let decodedResults = try? JSONDecoder().decode(DeploymentsResponse.self, from: cachedResults.data).deployments {
+       let decodedResults = try? JSONDecoder().decode(Deployment.APIResponse.self, from: cachedResults.data).deployments {
       return decodedResults
     }
     

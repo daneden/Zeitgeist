@@ -16,103 +16,9 @@ struct DeploymentListView: View {
   @State var productionFilter = false
   @State var filterVisible = false
   
-  @SceneStorage("activeDeploymentID") var activeDeploymentID: Deployment.ID?
+  @State private var deployments: [Deployment] = []
   
-  var filtersApplied: Bool {
-    projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
-  }
-  
-  var accountId: String
-  @StateObject var deploymentsSource: DeploymentsViewModel
-  
-  var body: some View {
-    AsyncContentView(source: deploymentsSource, autoLoad: false) { deployments in
-      if let filteredDeployments = filterDeployments(deployments) {
-        if filteredDeployments.isEmpty {
-          VStack(spacing: 8) {
-            Spacer()
-            
-            PlaceholderView(forRole: .NoDeployments)
-            
-            if filtersApplied {
-              Button(action: clearFilters) {
-                Label("Clear Filters", systemImage: "xmark.circle")
-              }.symbolRenderingMode(.monochrome)
-            }
-            
-            Spacer()
-          }
-        }
-        
-        List {
-          ForEach(filteredDeployments, id: \.id) { deployment in
-            NavigationLink(
-              destination: DeploymentDetailView(accountId: accountId, deployment: deployment)
-                .environmentObject(deploymentsSource)
-            ) {
-              DeploymentListRowView(deployment: deployment)
-            }
-          }
-        }
-        .refreshable {
-          if let deployments = await deploymentsSource.loadOnce() {
-            deploymentsSource.state = .loaded(deployments)
-          }
-        }
-          .sheet(isPresented: self.$filterVisible) {
-            #if os(iOS)
-            NavigationView {
-              DeploymentFilterView(
-                deployments: deployments,
-                projectFilter: self.$projectFilter,
-                stateFilter: self.$stateFilter,
-                productionFilter: self.$productionFilter
-              )
-            }
-            #else
-            DeploymentFilterView(
-              deployments: deployments,
-              projectFilter: self.$projectFilter,
-              stateFilter: self.$stateFilter,
-              productionFilter: self.$productionFilter
-            )
-            #endif
-          }
-      }
-    }
-    .toolbar {
-      Button(action: { self.filterVisible.toggle() }) {
-        Label(
-          "Filter Deployments",
-          systemImage: !filtersApplied
-          ? "line.horizontal.3.decrease.circle"
-          : "line.horizontal.3.decrease.circle.fill"
-        )
-      }.keyboardShortcut("l", modifiers: .command)
-      
-      Button(action: { Task { await deploymentsSource.load() } }) {
-        Label("Reload", systemImage: "arrow.clockwise")
-      }.keyboardShortcut("r", modifiers: .command)
-    }
-    .navigationTitle("Deployments")
-    .onOpenURL(perform: { url in
-      switch url.detailPage {
-      case .deployment(_, let deploymentId):
-        self.activeDeploymentID = deploymentId
-        return
-      default:
-        return
-      }
-    })
-  }
-  
-  func clearFilters() {
-    projectFilter = .allProjects
-    stateFilter = .allStates
-    productionFilter = false
-  }
-  
-  func filterDeployments(_ deployments: [Deployment]) -> [Deployment] {
+  private var filteredDeployments: [Deployment] {
     return deployments.filter { deployment -> Bool in
       switch self.projectFilter {
       case .allProjects:
@@ -132,5 +38,90 @@ struct DeploymentListView: View {
     .filter { deployment -> Bool in
       return productionFilter ? deployment.target == .production : true
     }
+  }
+  
+  @SceneStorage("activeDeploymentID") var activeDeploymentID: Deployment.ID?
+  
+  var filtersApplied: Bool {
+    projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
+  }
+  
+  var accountId: String
+  @StateObject var deploymentsSource: DeploymentsViewModel
+  
+  var body: some View {
+    Group {
+      if filteredDeployments.isEmpty {
+        VStack(spacing: 8) {
+          Spacer()
+
+          PlaceholderView(forRole: .NoDeployments)
+
+          if filtersApplied {
+            Button(action: clearFilters) {
+              Label("Clear Filters", systemImage: "xmark.circle")
+            }.symbolRenderingMode(.monochrome)
+          }
+
+          Spacer()
+        }
+      } else {
+        List(filteredDeployments) { deployment in
+          NavigationLink(
+            destination: DeploymentDetailView(accountId: accountId, deployment: deployment)
+              .environmentObject(deploymentsSource)
+          ) {
+            DeploymentListRowView(deployment: deployment)
+          }
+        }
+      }
+    }
+    .toolbar {
+      Button(action: { self.filterVisible.toggle() }) {
+        Label("Filter Deployments", systemImage: "line.horizontal.3.decrease.circle")
+      }
+      .keyboardShortcut("l", modifiers: .command)
+      .symbolVariant(filtersApplied ? .fill : .none)
+    }
+    .sheet(isPresented: self.$filterVisible) {
+      #if os(iOS)
+      NavigationView {
+        DeploymentFilterView(
+          deployments: deployments,
+          projectFilter: self.$projectFilter,
+          stateFilter: self.$stateFilter,
+          productionFilter: self.$productionFilter
+        )
+      }
+      #else
+      DeploymentFilterView(
+        deployments: deployments,
+        projectFilter: self.$projectFilter,
+        stateFilter: self.$stateFilter,
+        productionFilter: self.$productionFilter
+      )
+      #endif
+    }
+    .task {
+      try? await loadDeployments()
+    }
+    .refreshable {
+      try? await loadDeployments()
+    }
+  }
+  
+  func loadDeployments() async throws {
+    let request = try VercelAPI.request(for: .deployments(), with: Session.shared.accountId!)
+    let (data, _) = try await URLSession.shared.data(for: request)
+    let decoded = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
+    withAnimation {
+      self.deployments = decoded.deployments
+    }
+  }
+  
+  func clearFilters() {
+    projectFilter = .allProjects
+    stateFilter = .allStates
+    productionFilter = false
   }
 }

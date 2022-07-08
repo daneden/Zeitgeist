@@ -7,9 +7,7 @@ import UIKit
 import AppKit
 #endif
 
-struct DeploymentsResponse: Decodable {
-  var deployments: [Deployment]
-}
+import SwiftUI
 
 enum DeploymentTarget: String, Codable, CaseIterable {
   case production, staging
@@ -60,7 +58,7 @@ struct DeploymentCreator: Codable, Identifiable {
   }
 }
 
-struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
+struct Deployment: Identifiable, Hashable, Decodable {
   var isMockDeployment: Bool?
   var project: String
   var id: String
@@ -138,6 +136,13 @@ struct Deployment: Identifiable, Hashable, TimelineEntry, Decodable {
   
   enum DeploymentError: Error {
     case MockDeploymentInitError
+  }
+}
+
+extension Deployment {
+  struct APIResponse: Decodable {
+    let deployments: [Deployment]
+    let pagination: Pagination?
   }
 }
 

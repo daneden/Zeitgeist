@@ -10,8 +10,7 @@ import SwiftUI
 struct DeploymentDetailView: View {
   var accountId: Account.ID
   var deployment: Deployment
-  @EnvironmentObject var focusManager: FocusManager
-
+  
   var body: some View {
     Form {
       Overview(deployment: deployment)
@@ -22,9 +21,6 @@ struct DeploymentDetailView: View {
     .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
     .makeContainer()
-    .onAppear {
-      focusManager.focusedElement = .deployment(deployment, account: accountId)
-    }
   }
 
   struct Overview: View {
@@ -121,7 +117,6 @@ struct DeploymentDetailView: View {
 
   struct DeploymentDetails: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var focusManager: FocusManager
     var accountId: Account.ID
     var deployment: Deployment
 
@@ -135,7 +130,7 @@ struct DeploymentDetailView: View {
     var body: some View {
       DetailSection(header: Text("Details")) {
         if let svnInfo = deployment.commit,
-           let commitUrl: URL = svnInfo.commitURL,
+           let commitUrl: URL = svnInfo.commitUrl,
            let shortSha: String = svnInfo.shortSha {
           Link(destination: commitUrl) {
             Label(
@@ -144,10 +139,6 @@ struct DeploymentDetailView: View {
             )
           }
         }
-
-//        Link(destination: deployment.logsURL) {
-//          Label("View Logs", systemImage: "terminal")
-//        }.keyboardShortcut("o", modifiers: [.command, .shift])
         
         NavigationLink(destination: DeploymentLogView(deployment: deployment, accountID: accountId)) {
           Label("View Logs", systemImage: "terminal")
@@ -170,12 +161,6 @@ struct DeploymentDetailView: View {
             )
           }
           .disabled(mutating)
-          .onChange(of: focusManager.action) { action in
-            if case .delete(let deletedDeployment) = action,
-               deletedDeployment.id == deployment.id {
-              deleteDeployment()
-            }
-          }
         } else {
           Button(role: .destructive, action: { cancelConfirmation = true }) {
             HStack {

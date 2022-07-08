@@ -8,128 +8,107 @@
 
 import Foundation
 
-enum GitSVNProvider: String, Codable {
-  case bitbucket, github, gitlab
-}
-
-let commitURLPattern: [GitSVNProvider: String] = [
-  .bitbucket: "https://bitbucket.com/%@/%@/commits/%@",
-  .github: "https://github.com/%@/%@/commit/%@",
-  .gitlab: "https://gitlab.com/%@/%@/-/commit/%@"
-]
-
-protocol Commit {
+protocol GitCommit: Decodable {
   var provider: GitSVNProvider { get }
   var commitSha: String { get }
   var commitMessage: String { get }
   var commitAuthorName: String { get }
-  var repo: String { get }
+  var commitUrl: URL { get }
   var org: String { get }
+  var repo: String { get }
 }
 
-struct AnyCommit: Commit, Decodable {
-  private var wrapped: Commit
-  
-  static func encodeToDictionary(from commit: AnyCommit) -> [String: String] {
-    func makeKey(_ key: String) -> String {
-      return "\(commit.provider.rawValue)\(key)"
-    }
-    
-    var dict = [
-      makeKey("CommitMessage"): commit.commitMessage,
-      makeKey("CommitAuthorName"): commit.commitAuthorName,
-      makeKey("CommitSha"): commit.commitSha
-    ]
-    
-    switch commit.provider {
-    case .bitbucket:
-      dict[makeKey("RepoSlug")] = commit.repo
-      dict[makeKey("RepoOwner")] = commit.org
-    case .gitlab:
-      dict[makeKey("ProjectPath")] = "\(commit.org)/\(commit.repo)"
+extension GitCommit {
+  var commitUrl: URL {
+    switch provider {
     case .github:
-      break
-    }
-    
-    return dict
-  }
-  
-  init(from decoder: Decoder) throws {
-    if let commit = try? BitBucketCommit(from: decoder) {
-      wrapped = commit
-    } else if let commit = try? GithubCommit(from: decoder) {
-      wrapped = commit
-    } else if let commit = try? GitlabCommit(from: decoder) {
-      wrapped = commit
-    } else {
-      throw DecodingError.dataCorrupted(
-        DecodingError.Context(codingPath: decoder.codingPath, debugDescription: ""))
+      return URL(string: "https://github.com/\(org)/\(repo)/commit/\(commitSha)")!
+    case .gitlab:
+      return URL(string: "https://gitlab.com/\(org)/\(repo)/-/commit/\(commitSha)")!
+    case .bitbucket:
+      return URL(string: "https://bitbucket.com/\(org)/\(repo)/commits/\(commitSha)")!
     }
   }
   
-  var provider: GitSVNProvider { wrapped.provider }
-  var commitMessage: String { wrapped.commitMessage }
-  var commitAuthorName: String { wrapped.commitAuthorName }
-  var commitSha: String { wrapped.commitSha }
-  var repo: String { wrapped.repo }
-  var org: String { wrapped.org }
+  var shortSha: String { String(commitSha.prefix(8)) }
   
   var commitMessageSummary: String {
-    return commitMessage.components(separatedBy: "\n").first ?? "(Empty Commit Message)"
-  }
-  
-  var commitURL: URL? {
-    let pattern = commitURLPattern[provider]!
-    let string = String(format: pattern, org, repo, commitSha)
-    return URL(string: string)
-  }
-  
-  var shortSha: String {
-    let index = commitSha.index(commitSha.startIndex, offsetBy: 7)
-    return String(commitSha.prefix(upTo: index))
+    commitMessage.components(separatedBy: "\n").first ?? "(Empty Commit Message)"
   }
 }
 
-struct BitBucketCommit: Decodable, Commit {
-  var provider: GitSVNProvider { .bitbucket }
-  var commitSha: String { bitbucketCommitSha }
-  var repo: String { bitbucketRepoSlug }
-  var org: String { bitbucketRepoOwner }
-  var commitMessage: String { bitbucketCommitMessage }
-  var commitAuthorName: String { bitbucketCommitAuthorName }
+struct GitHubCommit: Codable, GitCommit {
+  let commitSha: String
+  let commitMessage: String
+  let commitAuthorName: String
+  let org: String
+  let repo: String
   
-  var bitbucketCommitAuthorName: String
-  var bitbucketCommitSha: String
-  var bitbucketCommitMessage: String
-  var bitbucketRepoSlug: String
-  var bitbucketRepoOwner: String
-}
-
-struct GithubCommit: Decodable, Commit {
   var provider: GitSVNProvider { .github }
-  var commitSha: String { githubCommitSha }
-  var commitMessage: String { githubCommitMessage }
-  var repo: String { githubCommitRepo }
-  var org: String { githubCommitOrg }
-  var commitAuthorName: String { githubCommitAuthorName }
   
-  var githubCommitAuthorName: String
-  var githubCommitSha: String
-  var githubCommitMessage: String
-  var githubCommitRepo: String
-  var githubCommitOrg: String
+  enum CodingKeys: String, CodingKey {
+    case commitSha = "githubCommitSha"
+    case commitMessage = "githubCommitMessage"
+    case commitAuthorName = "githubCommitAuthorName"
+    case org = "githubCommitOrg"
+    case repo = "githubCommitRepo"
+  }
 }
 
-struct GitlabCommit: Decodable, Commit {
+struct GitLabCommit: Codable, GitCommit {
   var provider: GitSVNProvider { .gitlab }
-  var commitSha: String { gitlabCommitSha }
-  var commitMessage: String { gitlabCommitMessage }
-  var repo: String { gitlabProjectPath.components(separatedBy: "/")[1] }
-  var org: String { gitlabProjectPath.components(separatedBy: "/")[0] }
-  var commitAuthorName: String { gitlabCommitAuthorName }
+  let commitSha: String
+  let commitMessage: String
+  let commitAuthorName: String
+  var org: String { projectPath.components(separatedBy: "/")[0] }
+  var repo: String { projectPath.components(separatedBy: "/")[1] }
   
-  var gitlabCommitAuthorName: String
-  var gitlabCommitSha: String
-  var gitlabCommitMessage: String
-  var gitlabProjectPath: String
+  private let projectPath: String
+  
+  enum CodingKeys: String, CodingKey {
+    case commitSha = "gitlabCommitSha"
+    case commitMessage = "gitlabCommitMessage"
+    case commitAuthorName = "gitlabCommitAuthorName"
+    case projectPath = "gitlabProjectPath"
+  }
+}
+
+struct BitBucketCommit: Codable, GitCommit {
+  var provider: GitSVNProvider { .bitbucket }
+  let commitSha: String
+  let commitMessage: String
+  let commitAuthorName: String
+  let org: String
+  let repo: String
+  
+  enum CodingKeys: String, CodingKey {
+    case commitSha = "bitbucketCommitSha"
+    case commitMessage = "bitbucketCommitMessage"
+    case commitAuthorName = "bitbucketCommitAuthorName"
+    case org = "bitbucketRepoOwner"
+    case repo = "bitbucketRepoSlug"
+  }
+}
+
+struct AnyCommit: Decodable, GitCommit {
+  var wrapped: GitCommit
+  
+  var provider: GitSVNProvider { wrapped.provider }
+  var commitSha: String { wrapped.commitSha }
+  var commitMessage: String { wrapped.commitMessage }
+  var commitAuthorName: String { wrapped.commitAuthorName }
+  var org: String { wrapped.org }
+  var repo: String { wrapped.repo }
+  
+  init(from decoder: Decoder) throws {
+    if let githubCommit = try? GitHubCommit(from: decoder) {
+      wrapped = githubCommit
+    } else if let gitlabCommit = try? GitLabCommit(from: decoder) {
+      wrapped = gitlabCommit
+    } else if let bitbucketCommit = try? BitBucketCommit(from: decoder) {
+      wrapped = bitbucketCommit
+    } else {
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unable to decode commit"))
+    }
+  }
 }
