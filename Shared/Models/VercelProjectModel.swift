@@ -37,6 +37,17 @@ struct VercelProject: Decodable, Identifiable {
 }
 
 extension VercelProject {
+  var created: Date {
+    Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
+  }
+  
+  var updated: Date? {
+    guard let updatedAt = updatedAt else { return nil }
+    return Date(timeIntervalSince1970: TimeInterval(updatedAt / 1000))
+  }
+}
+
+extension VercelProject {
   struct APIResponse: Decodable {
     let projects: [VercelProject]
     let pagination: Pagination
