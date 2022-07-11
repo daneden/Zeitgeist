@@ -20,6 +20,8 @@ extension Account.ID {
   var isTeam: Bool {
     self.starts(with: "team_")
   }
+  
+  static var NullValue = "NULL"
 }
 
 struct User: Codable {

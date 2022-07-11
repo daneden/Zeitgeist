@@ -33,19 +33,23 @@ struct AuthenticatedContentView: View {
 }
 
 extension AuthenticatedContentView {
-  var accountId: String { session.accountId ?? "" }
+  var accountId: String { session.accountId }
   var avatarId: String { session.account?.avatar ?? "" }
   var accountName: String { session.account?.name ?? "" }
   
   var toolbarItem: some ToolbarContent {
     ToolbarItem(placement: .navigation) {
       Menu {
-        Text("Switch Accounts")
+        Button {
+          print("Tapped")
+        } label: {
+          Label("Switch Account", systemImage: "arrow.left.arrow.right")
+        }
       } label: {
         Label {
           Text(accountName)
         } icon: {
-          VercelUserAvatarView(avatarID: avatarId, size: 32)
+          VercelUserAvatarView(avatarID: avatarId, size: 28)
         }
       }
       .id("accountSwitcher")

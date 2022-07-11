@@ -80,14 +80,14 @@ class Session: ObservableObject {
 
 @MainActor
 class VercelSession: ObservableObject {
-  @Published var accountId: Account.ID? {
+  @Published var accountId: Account.ID = .NullValue {
     didSet { Task { await loadAccount() } }
   }
   
   @Published var account: Account?
   
   var authenticationToken: String? {
-    guard let accountId = accountId else {
+    guard accountId != .NullValue else {
       return nil
     }
 
@@ -95,12 +95,12 @@ class VercelSession: ObservableObject {
   }
   
   var isAuthenticated: Bool {
-    accountId != nil && authenticationToken != nil
+    accountId != .NullValue && authenticationToken != nil
   }
   
   private func loadAccount() async {
     do {
-      guard let accountId = accountId else {
+      guard accountId != .NullValue else {
         return
       }
 

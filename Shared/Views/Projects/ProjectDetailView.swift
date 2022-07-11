@@ -59,7 +59,7 @@ struct ProjectDetailView: View {
   }
   
   func loadProductionDeployment() async throws {
-    guard let productionDeploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId!, queryItems: [
+    guard let productionDeploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
       URLQueryItem(name: "projectId", value: project.id),
       URLQueryItem(name: "target", value: DeploymentTarget.production.rawValue)
     ]) else { return }
@@ -81,7 +81,7 @@ struct ProjectDetailView: View {
       queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    guard let deploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId!, queryItems: queryItems) else {
+    guard let deploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems) else {
       return
     }
     
