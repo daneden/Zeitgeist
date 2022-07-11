@@ -20,19 +20,28 @@ struct ZeitgeistApp: App {
   }
   
   @StateObject var session = VercelSession()
+  @State private var initialising = true
   
   var body: some Scene {
     WindowGroup {
       Group {
-        if session.isAuthenticated {
-          AuthenticatedContentView()
+        if initialising {
+          ProgressView()
         } else {
-          OnboardingView()
+          if session.isAuthenticated {
+            AuthenticatedContentView()
+          } else {
+            OnboardingView()
+          }
         }
       }
       .onAppear {
-        if let accountId = Preferences.authenticatedAccountIds.first {
-          session.accountId = accountId
+        withAnimation {
+          if let accountId = Preferences.authenticatedAccountIds.first {
+            session.accountId = accountId
+          }
+          
+          initialising = false
         }
       }
       .environmentObject(session)
