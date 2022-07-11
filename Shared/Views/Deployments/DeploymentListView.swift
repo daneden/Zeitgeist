@@ -47,7 +47,6 @@ struct DeploymentListView: View {
   }
   
   var accountId: String
-  @StateObject var deploymentsSource: DeploymentsViewModel
   
   var body: some View {
     Group {
@@ -67,10 +66,7 @@ struct DeploymentListView: View {
         }
       } else {
         List(filteredDeployments) { deployment in
-          NavigationLink(
-            destination: DeploymentDetailView(accountId: accountId, deployment: deployment)
-              .environmentObject(deploymentsSource)
-          ) {
+          NavigationLink(destination: DeploymentDetailView(accountId: accountId, deployment: deployment)) {
             DeploymentListRowView(deployment: deployment)
           }
         }

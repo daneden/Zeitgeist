@@ -16,7 +16,7 @@ struct AccountListView: View {
     List(selection: $activeAccountID) {
       Section(header: Text("Accounts")) {
         ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
-          NavigationLink(destination: DeploymentListView(accountId: accountId, deploymentsSource: DeploymentsViewModel(accountId: accountId, autoload: true))) {
+          NavigationLink(destination: DeploymentListView(accountId: accountId)) {
             AccountListRowView(accountId: accountId)
           }
           .contextMenu {

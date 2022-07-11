@@ -7,21 +7,6 @@
 
 import SwiftUI
 
-struct DeploymentRow: View {
-  var deployment: Deployment
-  
-  var body: some View {
-    Link(destination: deployment.url) {
-      HStack {
-        Text(deployment.commit?.commitMessageSummary ?? "Manual Deployment")
-        Spacer()
-        Text(deployment.date, style: .relative)
-          .foregroundStyle(.secondary)
-      }
-    }
-  }
-}
-
 struct ProjectDetailView: View {
   var project: VercelProject
   @State private var productionDeployment: Deployment?
@@ -29,14 +14,14 @@ struct ProjectDetailView: View {
   var body: some View {
     Form {
       if let productionDeployment = productionDeployment {
-        Section("Production Deployment") {
-          DeploymentRow(deployment: productionDeployment)
+        Section("Current Production Deployment") {
+          DeploymentListRowView(deployment: productionDeployment)
         }
       }
       
-      Section("Preview Deployments") {
+      Section("Recent Deployments") {
         ForEach(previewDeployments) { deployment in
-          DeploymentRow(deployment: deployment)
+          DeploymentListRowView(deployment: deployment)
         }
       }
     }
@@ -70,9 +55,7 @@ struct ProjectDetailView: View {
     let previewDeploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: previewData)
     
     withAnimation {
-      previewDeployments = previewDeploymentsResponse.deployments.filter {
-        $0.target != .production
-      }
+      previewDeployments = previewDeploymentsResponse.deployments
     }
   }
 }

@@ -19,40 +19,23 @@ struct ZeitgeistApp: App {
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
   }
   
+  @StateObject var session = VercelSession()
+  
   var body: some Scene {
     WindowGroup {
-      
-        TabView {
-          NavigationView {
-            Group {
-              if Session.shared.accountId != nil {
-                ProjectsListView()
-              } else {
-                PlaceholderView(forRole: .NoDeployments)
-              }
-            }
-            .navigationTitle("Projects")
-          }.tabItem {
-            Label("Projects", systemImage: "folder")
-          }
-          
-          NavigationView {
-            Group {
-              if let accountId = Session.shared.accountId {
-                DeploymentListView(
-                  accountId: accountId,
-                  deploymentsSource: DeploymentsViewModel(accountId: accountId, autoload: true)
-                )
-              } else {
-                PlaceholderView(forRole: .DeploymentList)
-              }
-            }.navigationTitle("Deployments")
-          }
-          .tabItem {
-            Label("Deployments", systemImage: "list.bullet")
-          }
+      Group {
+        if session.isAuthenticated {
+          AuthenticatedContentView()
+        } else {
+          // Non-authenticated view
         }
-        .environmentObject(Session.shared)
+      }
+      .onAppear {
+        if let accountId = Preferences.authenticatedAccountIds.first {
+          session.accountId = accountId
+        }
+      }
+      .environmentObject(session)
     }
   }
 }

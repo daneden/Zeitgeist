@@ -22,7 +22,16 @@ struct VercelUserAvatarView: View {
   }
   
   var body: some View {
-    RemoteImage(url: url)
+    AsyncImage(url: URL(string: url)) { image in
+      image
+        .resizable()
+        .scaledToFit()
+    } placeholder: {
+      Image(systemName: "person.crop.circle.fill")
+        .resizable()
+        .scaledToFit()
+        .foregroundColor(.accentColor)
+    }
       .blendMode(.normal)
       .frame(width: size, height: size)
       .cornerRadius(size)

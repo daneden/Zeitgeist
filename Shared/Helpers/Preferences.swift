@@ -6,7 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Preferences {
   static let store = UserDefaults(suiteName: "group.me.daneden.Zeitgeist")!
+  
+  @AppStorage("authenticatedAccountIds", store: Preferences.store)
+  static var authenticatedAccountIds: AccountIDs = []
 }

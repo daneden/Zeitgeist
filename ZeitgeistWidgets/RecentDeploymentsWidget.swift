@@ -31,14 +31,15 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
               return
             }
       
-      let loader = DeploymentsViewModel(accountId: accountId)
-      
-      async let deployments = loader.loadOnce()
-      
-      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-      
-      if let deployments = await deployments {
+      do {
+        let request = try VercelAPI.request(for: .deployments(), with: accountId)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let deployments = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
+        
+        let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
         completion(Entry(deployments: deployments, account: account, relevance: relevance))
+      } catch {
+        print(error)
       }
     }
   }
@@ -53,20 +54,20 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
               return
             }
       
-      let loader = DeploymentsViewModel(accountId: accountId)
-      
-      async let deployments = loader.loadOnce()
-      
-      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-      
-      if let deployments = await deployments {
+      do {
+        let request = try VercelAPI.request(for: .deployments(), with: accountId)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let deployments = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
+        
+        let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
         completion(
           Timeline (
             entries: [Entry(deployments: deployments, account: account, relevance: relevance)],
             policy: .atEnd
           )
         )
-      } else {
+      } catch {
+        print(error)
         completion(Timeline(entries: [], policy: .atEnd))
       }
     }

@@ -13,7 +13,7 @@ enum SessionError: Error {
   case notAuthenticated
 }
 
-typealias AccountIDs = [String]
+typealias AccountIDs = [Account.ID]
 
 extension AccountIDs: RawRepresentable {
   public init?(rawValue: String) {
@@ -75,5 +75,65 @@ class Session: ObservableObject {
   
   func revalidate() {
     withAnimation { uuid = UUID() }
+  }
+}
+
+@MainActor
+class VercelSession: ObservableObject {
+  @Published var accountId: Account.ID? {
+    didSet { Task { await loadAccount() } }
+  }
+  
+  @Published var account: Account?
+  
+  var authenticationToken: String? {
+    guard let accountId = accountId else {
+      return nil
+    }
+
+    return KeychainItem(account: accountId).wrappedValue
+  }
+  
+  var isAuthenticated: Bool {
+    accountId != nil && authenticationToken != nil
+  }
+  
+  private func loadAccount() async {
+    do {
+      guard let accountId = accountId else {
+        return
+      }
+
+      let request = try VercelAPI.request(for: .account(id: accountId), with: accountId)
+      let (data, _) = try await URLSession.shared.data(for: request)
+      
+      if accountId.isTeam {
+        let decoded = try JSONDecoder().decode(Team.self, from: data)
+        
+        account = Account(id: decoded.id, avatar: decoded.avatar, name: decoded.name)
+      } else {
+        let decoded = try JSONDecoder().decode(UserResponse.self, from: data)
+        
+        account = Account(id: decoded.user.id, avatar: decoded.user.avatar, name: decoded.user.name)
+      }
+    } catch {
+      print(error)
+    }
+  }
+  
+  func addAccount(id: String, token: String) {
+    KeychainItem(account: id).wrappedValue = token
+    
+    DispatchQueue.main.async {
+      Preferences.authenticatedAccountIds.append(id)
+      Preferences.authenticatedAccountIds = Preferences.authenticatedAccountIds.removingDuplicates()
+    }
+  }
+  
+  func deleteAccount(id: String) {
+    let keychain = KeychainItem(account: id)
+    keychain.wrappedValue = nil
+    
+    Preferences.authenticatedAccountIds.removeAll { id == $0 }
   }
 }

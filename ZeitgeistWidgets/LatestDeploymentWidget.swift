@@ -29,20 +29,23 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
               return
             }
       
-      let loader = DeploymentsViewModel(accountId: accountId)
-      
-      async let deployments = loader.loadOnce()
-      
-      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-      
-      if let deployment = await deployments?.first {
-        completion(
-          LatestDeploymentEntry(
-            deployment: deployment,
-            account: account,
-            relevance: relevance
+      do {
+        let request = try VercelAPI.request(for: .deployments(), with: accountId)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let deployments = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
+        
+        let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+        if let deployment = deployments.first {
+          completion(
+            LatestDeploymentEntry(
+              deployment: deployment,
+              account: account,
+              relevance: relevance
+            )
           )
-        )
+        }
+      } catch {
+        print(error)
       }
     }
   }
@@ -57,21 +60,27 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
               return
             }
       
-      let loader = DeploymentsViewModel(accountId: accountId)
-      
-      async let deployments = loader.loadOnce()
-      
-      let relevance: TimelineEntryRelevance? = await deployments?.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-      
-      if let deployment = await deployments?.first {
-        completion(
-          Timeline (
-            entries: [LatestDeploymentEntry(deployment: deployment, account: account, relevance: relevance)],
-            policy: .atEnd
+      do {
+        let request = try VercelAPI.request(for: .deployments(), with: accountId)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let deployments = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
+        
+        let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+        if let deployment = deployments.first {
+          completion(
+            Timeline(entries: [
+              LatestDeploymentEntry(
+                deployment: deployment,
+                account: account,
+                relevance: relevance
+              )
+            ], policy: .atEnd)
           )
-        )
-      } else {
-        completion(Timeline(entries: [], policy: .atEnd))
+        } else {
+          completion(Timeline(entries: [], policy: .atEnd))
+        }
+      } catch {
+        print(error)
       }
     }
   }

@@ -27,6 +27,7 @@ struct VercelProject: Decodable, Identifiable {
   let serverlessFunctionRegion: String?
   let sourceFilesOutsideRootDirectory: Bool?
   let ssoProtection: ProtectionSettings?
+  let targets: Targets?
   let transferCompletedAt: Int?
   let transferStartedAt: Int?
   let transferToAccountId: String?
@@ -51,6 +52,10 @@ extension VercelProject {
   struct APIResponse: Decodable {
     let projects: [VercelProject]
     let pagination: Pagination
+  }
+  
+  struct Targets: Decodable {
+    let production: Deployment?
   }
 }
 

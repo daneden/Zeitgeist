@@ -98,19 +98,18 @@ struct Deployment: Identifiable, Hashable, Decodable {
     case urlString = "url"
     case createdAt = "created"
     case createdAtFallback = "createdAt"
-    case id = "uid"
     case commit = "meta"
     
-    case state, creator, target
+    case state, creator, target, readyState, uid, id
   }
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     project = try container.decode(String.self, forKey: .project)
-    state = try container.decode(DeploymentState.self, forKey: .state)
+    state = try container.decodeIfPresent(DeploymentState.self, forKey: .readyState) ?? container.decode(DeploymentState.self, forKey: .state)
     urlString = try container.decode(String.self, forKey: .urlString)
-    createdAt = try container.decode(Int.self, forKey: .createdAt)
-    id = try container.decode(String.self, forKey: .id)
+    createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
+    id = try container.decodeIfPresent(String.self, forKey: .uid) ?? container.decode(String.self, forKey: .id)
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
     creator = try container.decode(DeploymentCreator.self, forKey: .creator)
     target = try? container.decode(DeploymentTarget.self, forKey: .target)
