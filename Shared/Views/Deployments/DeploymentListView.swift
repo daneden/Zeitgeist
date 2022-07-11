@@ -9,12 +9,13 @@ import SwiftUI
 import Combine
 
 struct DeploymentListView: View {
-  @EnvironmentObject var session: Session
+  @EnvironmentObject var session: VercelSession
   
   @State var projectFilter: ProjectNameFilter = .allProjects
   @State var stateFilter: StateFilter = .allStates
   @State var productionFilter = false
   @State var filterVisible = false
+  @State var pagination: Pagination?
   
   @State private var deployments: [Deployment] = []
   
@@ -40,8 +41,6 @@ struct DeploymentListView: View {
     }
   }
   
-  @SceneStorage("activeDeploymentID") var activeDeploymentID: Deployment.ID?
-  
   var filtersApplied: Bool {
     projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
   }
@@ -50,24 +49,39 @@ struct DeploymentListView: View {
   
   var body: some View {
     Group {
-      if filteredDeployments.isEmpty {
+      if filteredDeployments.isEmpty && !deployments.isEmpty {
         VStack(spacing: 8) {
           Spacer()
 
           PlaceholderView(forRole: .NoDeployments)
 
-          if filtersApplied {
-            Button(action: clearFilters) {
-              Label("Clear Filters", systemImage: "xmark.circle")
-            }.symbolRenderingMode(.monochrome)
-          }
+          Button(action: clearFilters) {
+            Label("Clear Filters", systemImage: "xmark.circle")
+          }.symbolRenderingMode(.monochrome)
 
           Spacer()
         }
       } else {
-        List(filteredDeployments) { deployment in
-          NavigationLink(destination: DeploymentDetailView(accountId: accountId, deployment: deployment)) {
-            DeploymentListRowView(deployment: deployment)
+        List {
+          ForEach(filteredDeployments) { deployment in
+            NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
+              DeploymentListRowView(deployment: deployment)
+            }
+          }
+          
+          if deployments.isEmpty {
+            LoadingListCell(title: "Loading Deployments")
+          }
+          
+          if let pageId = pagination?.next {
+            LoadingListCell(title: "Loading Deployments")
+              .task {
+                do {
+                  try await loadDeployments(pageId: pageId)
+                } catch {
+                  print(error)
+                }
+              }
           }
         }
       }
@@ -106,12 +120,25 @@ struct DeploymentListView: View {
     }
   }
   
-  func loadDeployments() async throws {
-    let request = try VercelAPI.request(for: .deployments(), with: Session.shared.accountId!)
+  func loadDeployments(pageId: Int? = nil) async throws {
+    var params: [URLQueryItem] = []
+    
+    if let pageId = pageId {
+      params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
+    }
+    
+    let request = try VercelAPI.request(for: .deployments(), with: session.accountId!, queryItems: params)
+    
     let (data, _) = try await URLSession.shared.data(for: request)
     let decoded = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
     withAnimation {
-      self.deployments = decoded.deployments
+      if pageId != nil {
+        self.deployments.append(contentsOf: decoded.deployments)
+      } else {
+        self.deployments = decoded.deployments
+      }
+      
+      self.pagination = decoded.pagination
     }
   }
   

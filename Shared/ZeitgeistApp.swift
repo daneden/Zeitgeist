@@ -27,7 +27,7 @@ struct ZeitgeistApp: App {
         if session.isAuthenticated {
           AuthenticatedContentView()
         } else {
-          // Non-authenticated view
+          OnboardingView()
         }
       }
       .onAppear {

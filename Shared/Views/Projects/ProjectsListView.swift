@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-fileprivate struct LoadingListCell: View {
+struct LoadingListCell: View {
   var title: LocalizedStringKey = "Loading"
   var body: some View {
     HStack(spacing: 8) {
@@ -69,16 +69,8 @@ struct ProjectsListView: View {
           }
       }
     }
-    .task {
-      do {
-      try await loadProjects()
-      } catch {
-        print(error)
-      }
-    }
-    .refreshable {
-      try? await loadProjects()
-    }
+    .task { try? await loadProjects() }
+    .refreshable { try? await loadProjects() }
   }
   
   func loadProjects(pageId: Int? = nil) async throws {

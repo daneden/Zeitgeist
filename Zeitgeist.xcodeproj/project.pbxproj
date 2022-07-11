@@ -18,7 +18,6 @@
 		71059A88287872B600BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
 		71059A8A2878737900BF8B2E /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A892878737900BF8B2E /* ProjectDetailView.swift */; };
 		71059A8B2878737900BF8B2E /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A892878737900BF8B2E /* ProjectDetailView.swift */; };
-		71059A8C2878737900BF8B2E /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A892878737900BF8B2E /* ProjectDetailView.swift */; };
 		71059A8D2878756B00BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
 		71059A8F287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */; };
 		71059A90287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */; };
@@ -793,7 +792,6 @@
 			files = (
 				711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */,
 				711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */,
-				71059A8C2878737900BF8B2E /* ProjectDetailView.swift in Sources */,
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
 				711553EF266553F400A73CD6 /* Session.swift in Sources */,
 				711553FC26655E0C00A73CD6 /* DeploymentStateIndicator.swift in Sources */,

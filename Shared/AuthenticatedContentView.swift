@@ -10,25 +10,6 @@ import SwiftUI
 struct AuthenticatedContentView: View {
   @EnvironmentObject var session: VercelSession
   
-  var accountId: String { session.accountId ?? "" }
-  var avatarId: String { session.account?.avatar ?? "" }
-  var accountName: String { session.account?.name ?? "" }
-  
-  var toolbarItem: some ToolbarContent {
-    ToolbarItem(placement: .navigationBarLeading) {
-      Menu {
-        Text("Switch Accounts")
-      } label: {
-        Label {
-          Text(accountName)
-        } icon: {
-          VercelUserAvatarView(avatarID: avatarId, size: 32)
-        }
-      }
-      .id("accountSwitcher")
-    }
-  }
-  
   var body: some View {
     TabView {
       NavigationView {
@@ -47,6 +28,27 @@ struct AuthenticatedContentView: View {
       .tabItem {
         Label("Deployments", systemImage: "list.bullet")
       }
+    }
+  }
+}
+
+extension AuthenticatedContentView {
+  var accountId: String { session.accountId ?? "" }
+  var avatarId: String { session.account?.avatar ?? "" }
+  var accountName: String { session.account?.name ?? "" }
+  
+  var toolbarItem: some ToolbarContent {
+    ToolbarItem(placement: .navigation) {
+      Menu {
+        Text("Switch Accounts")
+      } label: {
+        Label {
+          Text(accountName)
+        } icon: {
+          VercelUserAvatarView(avatarID: avatarId, size: 32)
+        }
+      }
+      .id("accountSwitcher")
     }
   }
 }

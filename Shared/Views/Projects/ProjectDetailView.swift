@@ -8,34 +8,58 @@
 import SwiftUI
 
 struct ProjectDetailView: View {
+  @EnvironmentObject var session: VercelSession
   var project: VercelProject
+  
   @State private var productionDeployment: Deployment?
-  @State private var previewDeployments: [Deployment] = []
+  @State private var deployments: [Deployment] = []
+  @State private var pagination: Pagination?
+  
   var body: some View {
     Form {
       if let productionDeployment = productionDeployment {
         Section("Current Production Deployment") {
-          DeploymentListRowView(deployment: productionDeployment)
+          NavigationLink(destination: DeploymentDetailView(deployment: productionDeployment)) {
+            DeploymentListRowView(deployment: productionDeployment)
+          }
         }
       }
       
       Section("Recent Deployments") {
-        ForEach(previewDeployments) { deployment in
-          DeploymentListRowView(deployment: deployment)
+        ForEach(deployments) { deployment in
+          NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
+            DeploymentListRowView(deployment: deployment)
+          }
+        }
+        
+        if deployments.isEmpty {
+          LoadingListCell(title: "Loading Deployments")
+        }
+        
+        if let pageId = pagination?.next {
+          LoadingListCell(title: "Loading Deployments")
+            .task {
+              do {
+                try await loadDeployments(pageId: pageId)
+              } catch {
+                print(error)
+              }
+            }
         }
       }
     }
     .navigationTitle(project.name)
-    .task {
-      try? await loadDeployments()
-    }
-    .refreshable {
-      try? await loadDeployments()
-    }
+    .task { try? await initialLoad() }
+    .refreshable { try? await initialLoad() }
   }
   
-  func loadDeployments() async throws {
-    guard let productionDeploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: Session.shared.accountId!, queryItems: [
+  func initialLoad() async throws {
+    try await loadProductionDeployment()
+    try await loadDeployments()
+  }
+  
+  func loadProductionDeployment() async throws {
+    guard let productionDeploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId!, queryItems: [
       URLQueryItem(name: "projectId", value: project.id),
       URLQueryItem(name: "target", value: DeploymentTarget.production.rawValue)
     ]) else { return }
@@ -46,16 +70,33 @@ struct ProjectDetailView: View {
     withAnimation {
       productionDeployment = productionDeploymentsResponse.deployments.first
     }
-    
-    guard let stagingDeploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: Session.shared.accountId!, queryItems: [
+  }
+  
+  func loadDeployments(pageId: Int? = nil) async throws {
+    var queryItems: [URLQueryItem] = [
       URLQueryItem(name: "projectId", value: project.id),
-    ]) else { return }
+    ]
     
-    let (previewData, _) = try await URLSession.shared.data(for: stagingDeploymentsRequest)
-    let previewDeploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: previewData)
+    if let pageId = pageId {
+      queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))
+    }
+    
+    guard let deploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId!, queryItems: queryItems) else {
+      return
+    }
+    
+    let (data, _) = try await URLSession.shared.data(for: deploymentsRequest)
+    let deploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
     
     withAnimation {
-      previewDeployments = previewDeploymentsResponse.deployments
+      if deployments.isEmpty {
+        deployments = deploymentsResponse.deployments
+      } else {
+        deployments += deploymentsResponse.deployments
+        deployments.removeDuplicates()
+      }
+      
+      pagination = deploymentsResponse.pagination
     }
   }
 }
