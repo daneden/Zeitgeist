@@ -74,6 +74,7 @@ struct LogEventView: View {
 }
 
 struct DeploymentLogView: View {
+  @EnvironmentObject private var session: VercelSession
   @State private var logEvents: [LogEvent] = []
   
   var deployment: Deployment
@@ -83,7 +84,7 @@ struct DeploymentLogView: View {
       VStack(alignment: .leading, spacing: 0) {
         GeometryReader { geometry in
           ScrollView([.vertical, .horizontal]) {
-            VStack(alignment: .leading, spacing: 0) {
+            LazyVStack(alignment: .leading, spacing: 0) {
               ForEach(logEvents) { event in
                 LogEventView(event: event)
                   .id(event.id)
@@ -128,20 +129,19 @@ struct DeploymentLogView: View {
     }
     .navigationTitle("Build Logs")
     .task {
-      let queryItems: [URLQueryItem] = [
-        URLQueryItem(name: "follow", value: "1"),
-        URLQueryItem(name: "limit", value: "-1"),
-      ]
-      
-      guard let request = try? VercelAPI.request(
-        for: .deployments(version: 2, deploymentID: deployment.id, path: "events"),
-           with: accountID,
-           queryItems: queryItems
-      ) else {
-        return
-      }
-      
       do {
+        let queryItems: [URLQueryItem] = [
+          URLQueryItem(name: "follow", value: "1"),
+          URLQueryItem(name: "limit", value: "-1"),
+        ]
+        
+        var request = try VercelAPI.request(
+          for: .deployments(version: 2, deploymentID: deployment.id, path: "events"),
+             with: accountID,
+             queryItems: queryItems
+        )
+        try session.signRequest(&request)
+      
         let (data, _) = try await URLSession.shared.bytes(for: request)
         
         for try await line in data.lines {
