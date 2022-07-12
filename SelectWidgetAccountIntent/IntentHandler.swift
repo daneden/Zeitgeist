@@ -11,7 +11,7 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   static let defaultAccountDisplayString = "Default Account"
   
   func provideAccountOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetAccount> {
-    let accountIds = Session.shared.authenticatedAccountIds
+    let accountIds = Preferences.authenticatedAccountIds
     async let accounts = accountIds.asyncMap { id -> Account? in
       let accountLoader = AccountViewModel(accountId: id)
       
@@ -29,7 +29,7 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   }
   
   func defaultAccount(for intent: SelectAccountIntent) -> WidgetAccount? {
-    guard let firstAccountId = Session.shared.authenticatedAccountIds.first else {
+    guard let firstAccountId = Preferences.authenticatedAccountIds.first else {
       return nil
     }
     

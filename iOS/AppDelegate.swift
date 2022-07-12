@@ -82,7 +82,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   ) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
     
-    _ = Session.shared.authenticatedAccountIds.map { id in
+    _ = Preferences.authenticatedAccountIds.map { id in
       let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
       let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(id)&device_id=\(token)&platform=\(platform)")!
       let request = URLRequest(url: url)

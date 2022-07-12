@@ -44,40 +44,6 @@ extension SessionError: CustomStringConvertible {
   }
 }
 
-class Session: ObservableObject {
-  private(set) var uuid = UUID()
-  static let shared = Session()
-
-  @AppStorage("authenticatedAccountIds", store: Preferences.store) var authenticatedAccountIds: AccountIDs = []
-  @AppStorage("notificationsEnabled") var notificationsEnabled = false
-  
-  var accountId: String? {
-    authenticatedAccountIds.first
-  }
-
-  func addAccount(id: String, token: String) {
-    KeychainItem(account: id).wrappedValue = token
-
-    DispatchQueue.main.async {
-      self.authenticatedAccountIds.append(id)
-      self.authenticatedAccountIds = self.authenticatedAccountIds.removingDuplicates()
-    }
-  }
-
-  func deleteAccount(id: String) {
-    let keychain = KeychainItem(account: id)
-    keychain.wrappedValue = nil
-
-    authenticatedAccountIds.removeAll { candidate in
-      id == candidate
-    }
-  }
-  
-  func revalidate() {
-    withAnimation { uuid = UUID() }
-  }
-}
-
 @MainActor
 class VercelSession: ObservableObject {
   @Published var accountId: Account.ID = .NullValue {
@@ -100,11 +66,13 @@ class VercelSession: ObservableObject {
   
   private func loadAccount() async {
     do {
-      guard accountId != .NullValue else {
+      guard accountId != .NullValue, authenticationToken != nil else {
         return
       }
 
-      let request = try VercelAPI.request(for: .account(id: accountId), with: accountId)
+      var request = try VercelAPI.request(for: .account(id: accountId), with: accountId)
+      try! signRequest(&request)
+      
       let (data, _) = try await URLSession.shared.data(for: request)
       
       if accountId.isTeam {
@@ -121,7 +89,7 @@ class VercelSession: ObservableObject {
     }
   }
   
-  func addAccount(id: String, token: String) {
+  static func addAccount(id: String, token: String) {
     KeychainItem(account: id).wrappedValue = token
     
     DispatchQueue.main.async {
@@ -130,10 +98,18 @@ class VercelSession: ObservableObject {
     }
   }
   
-  func deleteAccount(id: String) {
+  static func deleteAccount(id: String) {
     let keychain = KeychainItem(account: id)
     keychain.wrappedValue = nil
     
     Preferences.authenticatedAccountIds.removeAll { id == $0 }
+  }
+  
+  func signRequest(_ request: inout URLRequest) throws {
+    guard let authenticationToken = authenticationToken else {
+      throw SessionError.notAuthenticated
+    }
+
+    request.addValue("Bearer \(authenticationToken)", forHTTPHeaderField: "Authorization")
   }
 }

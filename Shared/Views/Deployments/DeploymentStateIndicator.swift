@@ -12,7 +12,7 @@ enum StateIndicatorStyle {
 }
 
 struct DeploymentStateIndicator: View {
-  var state: DeploymentState
+  var state: Deployment.State
   var style: StateIndicatorStyle = .normal
   
   var label: String {
@@ -69,11 +69,11 @@ struct DeploymentStateIndicator: View {
 struct DeploymentStateIndicator_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      ForEach(DeploymentState.allCases, id: \.self) { state in
+      ForEach(Deployment.State.allCases, id: \.self) { state in
         DeploymentStateIndicator(state: state)
       }
       
-      ForEach(DeploymentState.allCases, id: \.self) { state in
+      ForEach(Deployment.State.allCases, id: \.self) { state in
         DeploymentStateIndicator(state: state, style: .compact)
       }
     }.previewLayout(.sizeThatFits)

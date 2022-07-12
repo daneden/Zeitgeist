@@ -127,7 +127,8 @@ struct DeploymentListView: View {
       params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    let request = try VercelAPI.request(for: .deployments(), with: session.accountId, queryItems: params)
+    var request = try VercelAPI.request(for: .deployments(), with: session.accountId, queryItems: params)
+    try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)
     let decoded = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)

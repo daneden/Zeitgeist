@@ -1,76 +1,19 @@
 import Foundation
-import WidgetKit
-import SwiftUI
-#if os(iOS)
-import UIKit
-#else
-import AppKit
-#endif
-
 import SwiftUI
 
-enum DeploymentTarget: String, Codable, CaseIterable {
-  case production, staging
-}
-
-enum DeploymentState: String, Codable, CaseIterable {
-  case ready = "READY"
-  case queued = "QUEUED"
-  case error = "ERROR"
-  case building = "BUILDING"
-  case normal = "NORMAL"
-  case offline = "OFFLINE"
-  case cancelled = "CANCELED"
-  
-  static var typicalCases: [DeploymentState] {
-    return Self.allCases.filter { state in
-      state != .normal && state != .offline
-    }
-  }
-  
-  var description: String {
-    switch self {
-    case .error:
-      return "Error building"
-    case .building:
-      return "Building"
-    case .ready:
-      return "Deployed"
-    case .queued:
-      return "Queued"
-    case .cancelled:
-      return "Cancelled"
-    case .offline:
-      return "Offline"
-    default:
-      return "Ready"
-    }
-  }
-}
-
-struct DeploymentCreator: Codable, Identifiable {
-  var uid: String
-  var username: String
-  var email: String
-  
-  var id: String {
-    return uid
-  }
-}
 
 struct Deployment: Identifiable, Hashable, Decodable {
   var isMockDeployment: Bool?
   var project: String
   var id: String
-  var target: DeploymentTarget?
+  var target: Target?
   private var createdAt: Int = Int(Date().timeIntervalSince1970) / 1000
   
-  // `date` is required to conform to `TimelineEntry`
-  var date: Date {
+  var created: Date {
     return Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
   }
   
-  var state: DeploymentState
+  var state: State
   private var urlString: String = "vercel.com"
   
   var url: URL {
@@ -81,7 +24,7 @@ struct Deployment: Identifiable, Hashable, Decodable {
     URL(string: "\(url.absoluteString)/_logs")!
   }
   
-  var creator: DeploymentCreator
+  var creator: Creator
   var commit: AnyCommit?
   
   var deploymentCause: String {
@@ -106,13 +49,13 @@ struct Deployment: Identifiable, Hashable, Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     project = try container.decode(String.self, forKey: .project)
-    state = try container.decodeIfPresent(DeploymentState.self, forKey: .readyState) ?? container.decode(DeploymentState.self, forKey: .state)
+    state = try container.decodeIfPresent(Deployment.State.self, forKey: .readyState) ?? container.decode(Deployment.State.self, forKey: .state)
     urlString = try container.decode(String.self, forKey: .urlString)
     createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
     id = try container.decodeIfPresent(String.self, forKey: .uid) ?? container.decode(String.self, forKey: .id)
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
-    creator = try container.decode(DeploymentCreator.self, forKey: .creator)
-    target = try? container.decode(DeploymentTarget.self, forKey: .target)
+    creator = try container.decode(Deployment.Creator.self, forKey: .creator)
+    target = try? container.decode(Deployment.Target.self, forKey: .target)
   }
   
   static func == (lhs: Deployment, rhs: Deployment) -> Bool {
@@ -129,12 +72,63 @@ struct Deployment: Identifiable, Hashable, Decodable {
     urlString = "zeitgeist.daneden.me"
     createdAt = Int(Date().timeIntervalSince1970 * 1000)
     id = "0000"
-    creator = DeploymentCreator(uid: "0000", username: "zeitgeist", email: "dan.eden@me.com")
-    target = DeploymentTarget.staging
+    creator = Deployment.Creator(uid: "0000", username: "zeitgeist", email: "dan.eden@me.com")
+    target = Deployment.Target.staging
   }
   
   enum DeploymentError: Error {
     case MockDeploymentInitError
+  }
+}
+
+extension Deployment {
+  struct Creator: Codable, Identifiable {
+    var uid: String
+    var username: String
+    var email: String
+    
+    var id: String {
+      return uid
+    }
+  }
+  
+  enum State: String, Codable, CaseIterable {
+    case ready = "READY"
+    case queued = "QUEUED"
+    case error = "ERROR"
+    case building = "BUILDING"
+    case normal = "NORMAL"
+    case offline = "OFFLINE"
+    case cancelled = "CANCELED"
+    
+    static var typicalCases: [Deployment.State] {
+      return Self.allCases.filter { state in
+        state != .normal && state != .offline
+      }
+    }
+    
+    var description: String {
+      switch self {
+      case .error:
+        return "Error building"
+      case .building:
+        return "Building"
+      case .ready:
+        return "Deployed"
+      case .queued:
+        return "Queued"
+      case .cancelled:
+        return "Cancelled"
+      case .offline:
+        return "Offline"
+      default:
+        return "Ready"
+      }
+    }
+  }
+  
+  enum Target: String, Codable, CaseIterable {
+    case production, staging
   }
 }
 

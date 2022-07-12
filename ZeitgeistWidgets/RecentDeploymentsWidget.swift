@@ -148,7 +148,7 @@ struct RecentDeploymentsListRowView: View {
           VStack(alignment: .leading) {
             Text(deployment.deploymentCause)
               .lineLimit(1)
-            Text("\(deployment.project) • \(deployment.date, style: .relative)")
+            Text("\(deployment.project) • \(deployment.created, style: .relative)")
               .font(.caption)
               .foregroundColor(.secondary)
           }.frame(maxWidth: .infinity)

@@ -59,10 +59,11 @@ struct ProjectDetailView: View {
   }
   
   func loadProductionDeployment() async throws {
-    guard let productionDeploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
+    var productionDeploymentsRequest = try VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
       URLQueryItem(name: "projectId", value: project.id),
-      URLQueryItem(name: "target", value: DeploymentTarget.production.rawValue)
-    ]) else { return }
+      URLQueryItem(name: "target", value: Deployment.Target.production.rawValue)
+    ])
+    try session.signRequest(&productionDeploymentsRequest)
     
     let (data, _) = try await URLSession.shared.data(for: productionDeploymentsRequest)
     let productionDeploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
@@ -81,11 +82,10 @@ struct ProjectDetailView: View {
       queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    guard let deploymentsRequest = try? VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems) else {
-      return
-    }
+    var request = try VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems)
+    try session.signRequest(&request)
     
-    let (data, _) = try await URLSession.shared.data(for: deploymentsRequest)
+    let (data, _) = try await URLSession.shared.data(for: request)
     let deploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
     
     withAnimation {

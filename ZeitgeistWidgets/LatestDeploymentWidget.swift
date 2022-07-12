@@ -120,7 +120,7 @@ struct LatestDeploymentWidgetView: View {
             .lineLimit(3)
             .foregroundColor(.primary)
           
-          Text(deployment.date, style: .relative)
+          Text(deployment.created, style: .relative)
             .font(.caption)
           Text(deployment.project)
             .lineLimit(1)

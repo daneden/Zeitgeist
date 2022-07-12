@@ -19,6 +19,8 @@ struct LoadingListCell: View {
 }
 
 struct ProjectsListView: View {
+  @EnvironmentObject var session: VercelSession
+  
   @State private var projects: [VercelProject] = []
   @State private var pagination: Pagination?
   
@@ -80,7 +82,8 @@ struct ProjectsListView: View {
       params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    let request = try VercelAPI.request(for: .projects, with: Session.shared.accountId!, queryItems: params)
+    var request = try VercelAPI.request(for: .projects, with: session.accountId, queryItems: params)
+    try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)
     let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)

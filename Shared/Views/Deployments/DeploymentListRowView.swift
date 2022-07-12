@@ -35,7 +35,7 @@ struct DeploymentListRowView: View {
             .lineLimit(2)
           
           VStack(alignment: .leading, spacing: 2) {
-            Text("\(deployment.date, style: .relative) ago")
+            Text("\(deployment.created, style: .relative) ago")
               .fixedSize()
               .foregroundStyle(.secondary)
               .font(.caption)

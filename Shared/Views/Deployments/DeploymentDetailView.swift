@@ -45,7 +45,7 @@ struct DeploymentDetailView: View {
               title: {
                 VStack(alignment: .leading) {
                   Text("\(commit.commitAuthorName)").lineLimit(1)
-                  Text("\(deployment.date, style: .relative) ago")
+                  Text("\(deployment.created, style: .relative) ago")
                     .foregroundColor(.secondary)
                     .font(Font.footnote)
                 }
@@ -55,7 +55,7 @@ struct DeploymentDetailView: View {
           } else {
             VStack(alignment: .leading) {
               Text("Deployed by \(deployment.creator.username)")
-              Text("\(deployment.date, style: .relative) ago")
+              Text("\(deployment.created, style: .relative) ago")
                 .foregroundColor(.secondary)
                 .font(.footnote)
             }
@@ -76,8 +76,12 @@ struct DeploymentDetailView: View {
   }
 
   struct URLDetails: View {
+    @EnvironmentObject var session: VercelSession
+    
     var accountId: Account.ID
     var deployment: Deployment
+    
+    @State private var aliases: [VercelAlias] = []
 
     var body: some View {
       DetailSection(header: Text("Deployment URL")) {
@@ -89,29 +93,46 @@ struct DeploymentDetailView: View {
           Label("Copy URL", systemImage: "doc.on.doc")
         }.keyboardShortcut("c", modifiers: [.command])
 
-        AsyncContentView(source: AliasesViewModel(accountId: accountId, deploymentId: deployment.id), placeholderData: []) { aliases in
-          DisclosureGroup(content: {
-            if aliases.isEmpty {
-              Text("No aliases assigned to deployment")
-                .foregroundColor(.secondary)
-            } else {
-              ForEach(aliases, id: \.self) { alias in
-                HStack {
-                  Link(destination: alias.url) {
-                    Text(alias.url.absoluteString).lineLimit(1)
-                  }
-                  Spacer()
+        
+        DisclosureGroup {
+          if aliases.isEmpty {
+            Text("No aliases assigned to deployment")
+              .foregroundColor(.secondary)
+          } else {
+            ForEach(aliases, id: \.self) { alias in
+              HStack {
+                Link(destination: alias.url) {
+                  Text(alias.url.absoluteString).lineLimit(1)
                 }
+                Spacer()
               }
             }
-          }, label: {
-            HStack {
-              Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
-              Spacer()
-              Text("\(aliases.count)").foregroundColor(.secondary)
+          }
+        } label: {
+          HStack {
+            Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
+            Spacer()
+            Text("\(aliases.count)").foregroundColor(.secondary)
+          }
+        }
+        .task {
+          do {
+            var request = try VercelAPI.request(
+              for: .deployments(
+                version: 5,
+                deploymentID: deployment.id,
+                path: "aliases"
+              ),
+              with: accountId
+            )
+            try session.signRequest(&request)
+            let (data, _) = try await URLSession.shared.data(for: request)
+            try withAnimation {
+              aliases = try JSONDecoder().decode(VercelAlias.APIResponse.self, from: data).aliases
             }
-          })
-
+          } catch {
+            print(error)
+          }
         }
       }
     }

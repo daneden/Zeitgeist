@@ -14,7 +14,7 @@ struct LogEvent: Codable, Identifiable {
   
   struct DeploymentStateInfo: Codable {
     var name: String
-    var readyState: DeploymentState
+    var readyState: Deployment.State
   }
   
   struct Payload: Codable {

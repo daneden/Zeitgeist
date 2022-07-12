@@ -9,12 +9,12 @@ import SwiftUI
 
 enum StateFilter: Hashable {
   case allStates
-  case filteredByState(state: DeploymentState)
+  case filteredByState(state: Deployment.State)
 }
 
 enum TargetFilter: Hashable {
   case allTargets
-  case filteredByTarget(target: DeploymentTarget)
+  case filteredByTarget(target: Deployment.Target)
 }
 
 enum ProjectNameFilter: Hashable {
@@ -55,7 +55,7 @@ struct DeploymentFilterView: View {
         Picker("Status", selection: $stateFilter.animation()) {
           Text("All statuses").tag(StateFilter.allStates)
           
-          ForEach(DeploymentState.typicalCases, id: \.self) { state in
+          ForEach(Deployment.State.typicalCases, id: \.self) { state in
             DeploymentStateIndicator(state: state)
               .tag(StateFilter.filteredByState(state: state))
           }

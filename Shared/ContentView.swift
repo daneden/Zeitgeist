@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-  @EnvironmentObject var session: Session
+  @EnvironmentObject var session: VercelSession
   @State var initialAccountID: String?
   @State var onboardingViewVisible = false
   
   var body: some View {
     NavigationView {
       AccountListView()
-      if session.authenticatedAccountIds.isEmpty {
+      if Preferences.authenticatedAccountIds.isEmpty {
         VStack {
           PlaceholderView(forRole: .NoAccounts)
             .padding(.bottom)
@@ -30,7 +30,7 @@ struct ContentView: View {
       PlaceholderView(forRole: .DeploymentDetail)
     }.onAppear {
       setInitialAccountView()
-    }.onChange(of: session.authenticatedAccountIds) { _ in
+    }.onChange(of: Preferences.authenticatedAccountIds) { _ in
       setInitialAccountView()
     }.sheet(isPresented: $onboardingViewVisible) {
       #if !os(macOS)
@@ -44,7 +44,7 @@ struct ContentView: View {
   
   func setInitialAccountView() {
     initialAccountID = session.accountId
-    onboardingViewVisible = session.accountId == nil
+    onboardingViewVisible = session.accountId == .NullValue
   }
 }
 

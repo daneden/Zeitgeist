@@ -54,6 +54,7 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
     return ASPresentationAnchor()
   }
   
+  @MainActor
   func signIn() {
     let signInPromise = Future<URL, Error> { completion in
       let apiData = VercelAPIConfiguration()
@@ -83,6 +84,7 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
     .store(in: &subscriptions)
   }
   
+  @MainActor
   func processResponseURL(url: URL) {
     let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
     
@@ -91,7 +93,7 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
       let teamId = queryItems.filter({ $0.name == "teamId" }).first?.value ?? nil
       let userId = queryItems.filter({ $0.name == "userId" }).first?.value ?? nil
       
-      Session.shared.addAccount(id: teamId ?? userId ?? "-1", token: token)
+      VercelSession.addAccount(id: teamId ?? userId ?? "-1", token: token)
       
       #if !os(macOS)
       DispatchQueue.main.async {

@@ -80,12 +80,7 @@ struct VercelAPI {
     
     urlComponents.queryItems = completeQuery
     
-    guard let token = KeychainItem(account: accountID).wrappedValue else {
-      throw LoaderError.unauthorized
-    }
-    
     var request = URLRequest(url: urlComponents.url!)
-    request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.httpMethod = method.rawValue
     
     return request

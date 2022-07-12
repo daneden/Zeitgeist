@@ -8,24 +8,24 @@
 import SwiftUI
 
 struct AccountListView: View {
-  @EnvironmentObject var session: Session
+  @EnvironmentObject var session: VercelSession
   @State var signInModel = SignInViewModel()
   @SceneStorage("activeAccountID") var activeAccountID: Account.ID?
   
   var body: some View {
     List(selection: $activeAccountID) {
       Section(header: Text("Accounts")) {
-        ForEach(session.authenticatedAccountIds, id: \.self) { accountId in
+        ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
           NavigationLink(destination: DeploymentListView(accountId: accountId)) {
             AccountListRowView(accountId: accountId)
           }
           .contextMenu {
-            Button(role: .destructive, action: { session.deleteAccount(id: accountId)}) {
+            Button(role: .destructive, action: { VercelSession.deleteAccount(id: accountId)}) {
               Label("Remove Account", systemImage: "person.badge.minus")
             }
           }
           .tag(accountId)
-          .keyboardShortcut(KeyEquivalent(Character("\((session.authenticatedAccountIds.firstIndex(of: accountId) ?? 0) + 1)")), modifiers: .command)
+          .keyboardShortcut(KeyEquivalent(Character("\((Preferences.authenticatedAccountIds.firstIndex(of: accountId) ?? 0) + 1)")), modifiers: .command)
         }
         .onDelete(perform: deleteAccount)
         .onMove(perform: move)
@@ -46,7 +46,6 @@ struct AccountListView: View {
       }
       #endif
     }
-    .id(session.uuid)
     .toolbar {
       #if !os(macOS)
       EditButton()
@@ -67,16 +66,16 @@ struct AccountListView: View {
   
   func deleteAccount(at offsets: IndexSet) {
     let ids = offsets.map { offset in
-      session.authenticatedAccountIds[offset]
+      Preferences.authenticatedAccountIds[offset]
     }
     
     for id in ids {
-      session.deleteAccount(id: id)
+      VercelSession.deleteAccount(id: id)
     }
   }
   
   func move(from source: IndexSet, to destination: Int) {
-    session.authenticatedAccountIds.move(fromOffsets: source, toOffset: destination)
+    Preferences.authenticatedAccountIds.move(fromOffsets: source, toOffset: destination)
   }
 }
 
