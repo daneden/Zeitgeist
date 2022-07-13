@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DeploymentListRowView: View {
-  var deployment: Deployment
+  var deployment: VercelDeployment
   var projectName: String?
   
   var body: some View {

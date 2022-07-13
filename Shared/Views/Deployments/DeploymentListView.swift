@@ -17,9 +17,9 @@ struct DeploymentListView: View {
   @State var filterVisible = false
   @State var pagination: Pagination?
   
-  @State private var deployments: [Deployment] = []
+  @State private var deployments: [VercelDeployment] = []
   
-  private var filteredDeployments: [Deployment] {
+  private var filteredDeployments: [VercelDeployment] {
     return deployments.filter { deployment -> Bool in
       switch self.projectFilter {
       case .allProjects:
@@ -131,7 +131,7 @@ struct DeploymentListView: View {
     try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)
-    let decoded = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
+    let decoded = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
     withAnimation {
       if pageId != nil {
         self.deployments.append(contentsOf: decoded.deployments)

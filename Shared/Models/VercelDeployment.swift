@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 
-struct Deployment: Identifiable, Hashable, Decodable {
+struct VercelDeployment: Identifiable, Hashable, Decodable {
   var isMockDeployment: Bool?
   var project: String
   var id: String
@@ -15,13 +15,14 @@ struct Deployment: Identifiable, Hashable, Decodable {
   
   var state: State
   private var urlString: String = "vercel.com"
+  private var inspectorUrlString: String = "vercel.com"
   
   var url: URL {
     URL(string: "https://\(urlString)")!
   }
   
-  var logsURL: URL {
-    URL(string: "\(url.absoluteString)/_logs")!
+  var inspectorUrl: URL {
+    URL(string: "https://\(inspectorUrlString)")!
   }
   
   var creator: Creator
@@ -42,6 +43,7 @@ struct Deployment: Identifiable, Hashable, Decodable {
     case createdAt = "created"
     case createdAtFallback = "createdAt"
     case commit = "meta"
+    case inspectorUrlString = "inspectorUrl"
     
     case state, creator, target, readyState, uid, id
   }
@@ -49,16 +51,17 @@ struct Deployment: Identifiable, Hashable, Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     project = try container.decode(String.self, forKey: .project)
-    state = try container.decodeIfPresent(Deployment.State.self, forKey: .readyState) ?? container.decode(Deployment.State.self, forKey: .state)
+    state = try container.decodeIfPresent(VercelDeployment.State.self, forKey: .readyState) ?? container.decode(VercelDeployment.State.self, forKey: .state)
     urlString = try container.decode(String.self, forKey: .urlString)
     createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
     id = try container.decodeIfPresent(String.self, forKey: .uid) ?? container.decode(String.self, forKey: .id)
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
-    creator = try container.decode(Deployment.Creator.self, forKey: .creator)
-    target = try? container.decode(Deployment.Target.self, forKey: .target)
+    creator = try container.decode(VercelDeployment.Creator.self, forKey: .creator)
+    target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
+    inspectorUrlString = try container.decode(String.self, forKey: .inspectorUrlString)
   }
   
-  static func == (lhs: Deployment, rhs: Deployment) -> Bool {
+  static func == (lhs: VercelDeployment, rhs: VercelDeployment) -> Bool {
     return lhs.id == rhs.id && lhs.state == rhs.state
   }
   
@@ -72,8 +75,8 @@ struct Deployment: Identifiable, Hashable, Decodable {
     urlString = "zeitgeist.daneden.me"
     createdAt = Int(Date().timeIntervalSince1970 * 1000)
     id = "0000"
-    creator = Deployment.Creator(uid: "0000", username: "zeitgeist", email: "dan.eden@me.com")
-    target = Deployment.Target.staging
+    creator = VercelDeployment.Creator(uid: "0000", username: "zeitgeist", email: "dan.eden@me.com")
+    target = VercelDeployment.Target.staging
   }
   
   enum DeploymentError: Error {
@@ -81,7 +84,7 @@ struct Deployment: Identifiable, Hashable, Decodable {
   }
 }
 
-extension Deployment {
+extension VercelDeployment {
   struct Creator: Codable, Identifiable {
     var uid: String
     var username: String
@@ -101,7 +104,7 @@ extension Deployment {
     case offline = "OFFLINE"
     case cancelled = "CANCELED"
     
-    static var typicalCases: [Deployment.State] {
+    static var typicalCases: [VercelDeployment.State] {
       return Self.allCases.filter { state in
         state != .normal && state != .offline
       }
@@ -132,20 +135,20 @@ extension Deployment {
   }
 }
 
-extension Deployment {
+extension VercelDeployment {
   struct APIResponse: Decodable {
-    let deployments: [Deployment]
+    let deployments: [VercelDeployment]
     let pagination: Pagination?
   }
 }
 
-extension Deployment {
+extension VercelDeployment {
   func openDeploymentURL() {
     EnvironmentValues().openURL(url)
   }
   
   func openLogsURL() {
-    EnvironmentValues().openURL(logsURL)
+    EnvironmentValues().openURL(inspectorUrl)
   }
   
   func copyUrl() {

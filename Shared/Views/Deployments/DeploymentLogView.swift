@@ -14,7 +14,7 @@ struct LogEvent: Codable, Identifiable {
   
   struct DeploymentStateInfo: Codable {
     var name: String
-    var readyState: Deployment.State
+    var readyState: VercelDeployment.State
   }
   
   struct Payload: Codable {
@@ -77,7 +77,7 @@ struct DeploymentLogView: View {
   @EnvironmentObject private var session: VercelSession
   @State private var logEvents: [LogEvent] = []
   
-  var deployment: Deployment
+  var deployment: VercelDeployment
   var accountID: Account.ID
   var body: some View {
     ScrollViewReader { proxy in
@@ -95,7 +95,7 @@ struct DeploymentLogView: View {
             #if os(iOS)
             .toolbar {
               ToolbarItem(placement: .navigationBarTrailing) {
-                Link(destination: deployment.logsURL) {
+                Link(destination: deployment.inspectorUrl) {
                   Label("Open in Safari", systemImage: "safari")
                 }
               }

@@ -11,7 +11,7 @@ struct DeploymentDetailView: View {
   @EnvironmentObject var session: VercelSession
   
   var accountId: Account.ID { session.accountId }
-  var deployment: Deployment
+  var deployment: VercelDeployment
   
   var body: some View {
     Form {
@@ -26,7 +26,7 @@ struct DeploymentDetailView: View {
   }
 
   struct Overview: View {
-    var deployment: Deployment
+    var deployment: VercelDeployment
 
     var body: some View {
       DetailSection(header: Text("Overview")) {
@@ -79,7 +79,7 @@ struct DeploymentDetailView: View {
     @EnvironmentObject var session: VercelSession
     
     var accountId: Account.ID
-    var deployment: Deployment
+    var deployment: VercelDeployment
     
     @State private var aliases: [VercelAlias] = []
 
@@ -141,7 +141,7 @@ struct DeploymentDetailView: View {
   struct DeploymentDetails: View {
     @Environment(\.presentationMode) var presentationMode
     var accountId: Account.ID
-    var deployment: Deployment
+    var deployment: VercelDeployment
 
     @State var cancelConfirmation = false
     @State var deleteConfirmation = false

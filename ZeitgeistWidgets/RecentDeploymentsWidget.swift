@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RecentDeploymentsEntry: TimelineEntry {
   var date = Date()
-  var deployments: [Deployment]?
+  var deployments: [VercelDeployment]?
   var account: WidgetAccount
   var relevance: TimelineEntryRelevance?
 }
@@ -34,7 +34,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
       do {
         let request = try VercelAPI.request(for: .deployments(), with: accountId)
         let (data, _) = try await URLSession.shared.data(for: request)
-        let deployments = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
+        let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
         
         let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
         completion(Entry(deployments: deployments, account: account, relevance: relevance))
@@ -57,7 +57,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
       do {
         let request = try VercelAPI.request(for: .deployments(), with: accountId)
         let (data, _) = try await URLSession.shared.data(for: request)
-        let deployments = try JSONDecoder().decode(Deployment.APIResponse.self, from: data).deployments
+        let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
         
         let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
         completion(
@@ -139,7 +139,7 @@ struct RecentDeploymentsWidgetView: View {
 
 struct RecentDeploymentsListRowView: View {
   var accountId: String
-  var deployment: Deployment
+  var deployment: VercelDeployment
   
   var body: some View {
     Label(

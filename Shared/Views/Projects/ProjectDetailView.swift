@@ -11,8 +11,8 @@ struct ProjectDetailView: View {
   @EnvironmentObject var session: VercelSession
   var project: VercelProject
   
-  @State private var productionDeployment: Deployment?
-  @State private var deployments: [Deployment] = []
+  @State private var productionDeployment: VercelDeployment?
+  @State private var deployments: [VercelDeployment] = []
   @State private var pagination: Pagination?
   
   var body: some View {
@@ -61,12 +61,12 @@ struct ProjectDetailView: View {
   func loadProductionDeployment() async throws {
     var productionDeploymentsRequest = try VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
       URLQueryItem(name: "projectId", value: project.id),
-      URLQueryItem(name: "target", value: Deployment.Target.production.rawValue)
+      URLQueryItem(name: "target", value: VercelDeployment.Target.production.rawValue)
     ])
     try session.signRequest(&productionDeploymentsRequest)
     
     let (data, _) = try await URLSession.shared.data(for: productionDeploymentsRequest)
-    let productionDeploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
+    let productionDeploymentsResponse = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
     
     withAnimation {
       productionDeployment = productionDeploymentsResponse.deployments.first
@@ -86,7 +86,7 @@ struct ProjectDetailView: View {
     try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)
-    let deploymentsResponse = try JSONDecoder().decode(Deployment.APIResponse.self, from: data)
+    let deploymentsResponse = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
     
     withAnimation {
       if deployments.isEmpty {

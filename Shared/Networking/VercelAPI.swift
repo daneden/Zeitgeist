@@ -28,7 +28,7 @@ struct VercelAPI {
   enum Path {
     case deployments(
       version: Int = 6,
-      deploymentID: Deployment.ID? = nil,
+      deploymentID: VercelDeployment.ID? = nil,
       path: String? = nil
     )
     

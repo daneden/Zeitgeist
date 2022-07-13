@@ -9,12 +9,12 @@ import SwiftUI
 
 enum StateFilter: Hashable {
   case allStates
-  case filteredByState(state: Deployment.State)
+  case filteredByState(state: VercelDeployment.State)
 }
 
 enum TargetFilter: Hashable {
   case allTargets
-  case filteredByTarget(target: Deployment.Target)
+  case filteredByTarget(target: VercelDeployment.Target)
 }
 
 enum ProjectNameFilter: Hashable {
@@ -24,7 +24,7 @@ enum ProjectNameFilter: Hashable {
 
 struct DeploymentFilterView: View {
   @Environment(\.presentationMode) var presentationMode
-  var deployments: [Deployment]
+  var deployments: [VercelDeployment]
   
   var projects: [String] {
     Array(Set(deployments.map { $0.project })).sorted()
@@ -55,7 +55,7 @@ struct DeploymentFilterView: View {
         Picker("Status", selection: $stateFilter.animation()) {
           Text("All statuses").tag(StateFilter.allStates)
           
-          ForEach(Deployment.State.typicalCases, id: \.self) { state in
+          ForEach(VercelDeployment.State.typicalCases, id: \.self) { state in
             DeploymentStateIndicator(state: state)
               .tag(StateFilter.filteredByState(state: state))
           }

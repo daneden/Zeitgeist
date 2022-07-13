@@ -55,7 +55,7 @@ extension VercelProject {
   }
   
   struct Targets: Decodable {
-    let production: Deployment?
+    let production: VercelDeployment?
   }
 }
 
