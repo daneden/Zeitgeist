@@ -9,50 +9,32 @@ import SwiftUI
 
 struct AuthenticatedContentView: View {
   @EnvironmentObject var session: VercelSession
+  @State private var accountPickerVisible = false
   
   var body: some View {
     TabView {
       NavigationView {
         ProjectsListView()
           .navigationTitle("Projects")
-          .toolbar { toolbarItem }
       }.tabItem {
         Label("Projects", systemImage: "folder")
       }
       
       NavigationView {
-        DeploymentListView(accountId: accountId)
+        DeploymentListView(accountId: session.accountId)
           .navigationTitle("Deployments")
-          .toolbar { toolbarItem }
       }
       .tabItem {
         Label("Deployments", systemImage: "list.bullet")
       }
-    }
-  }
-}
-
-extension AuthenticatedContentView {
-  var accountId: String { session.accountId }
-  var avatarId: String { session.account?.avatar ?? "" }
-  var accountName: String { session.account?.name ?? "" }
-  
-  var toolbarItem: some ToolbarContent {
-    ToolbarItem(placement: .navigation) {
-      Menu {
-        Button {
-          print("Tapped")
-        } label: {
-          Label("Switch Account", systemImage: "arrow.left.arrow.right")
-        }
-      } label: {
-        Label {
-          Text(accountName)
-        } icon: {
-          VercelUserAvatarView(avatarID: avatarId, size: 28)
-        }
+      
+      NavigationView {
+        AccountListView()
+          .navigationTitle("Account")
       }
-      .id("accountSwitcher")
+      .tabItem {
+        Label("Account", systemImage: "person.crop.circle")
+      }
     }
   }
 }

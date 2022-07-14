@@ -58,7 +58,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
     creator = try container.decode(VercelDeployment.Creator.self, forKey: .creator)
     target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
-    inspectorUrlString = try container.decode(String.self, forKey: .inspectorUrlString)
+    inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrlString) ?? "\(urlString)/_logs"
   }
   
   static func == (lhs: VercelDeployment, rhs: VercelDeployment) -> Bool {

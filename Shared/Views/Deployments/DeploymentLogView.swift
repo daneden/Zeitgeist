@@ -78,7 +78,7 @@ struct DeploymentLogView: View {
   @State private var logEvents: [LogEvent] = []
   
   var deployment: VercelDeployment
-  var accountID: Account.ID
+  var accountID: VercelAccount.ID
   var body: some View {
     ScrollViewReader { proxy in
       VStack(alignment: .leading, spacing: 0) {

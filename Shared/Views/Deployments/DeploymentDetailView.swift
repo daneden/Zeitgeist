@@ -10,7 +10,7 @@ import SwiftUI
 struct DeploymentDetailView: View {
   @EnvironmentObject var session: VercelSession
   
-  var accountId: Account.ID { session.accountId }
+  var accountId: VercelAccount.ID { session.accountId }
   var deployment: VercelDeployment
   
   var body: some View {
@@ -78,7 +78,7 @@ struct DeploymentDetailView: View {
   struct URLDetails: View {
     @EnvironmentObject var session: VercelSession
     
-    var accountId: Account.ID
+    var accountId: VercelAccount.ID
     var deployment: VercelDeployment
     
     @State private var aliases: [VercelAlias] = []
@@ -140,7 +140,7 @@ struct DeploymentDetailView: View {
 
   struct DeploymentDetails: View {
     @Environment(\.presentationMode) var presentationMode
-    var accountId: Account.ID
+    var accountId: VercelAccount.ID
     var deployment: VercelDeployment
 
     @State var cancelConfirmation = false

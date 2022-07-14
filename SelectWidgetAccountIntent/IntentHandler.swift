@@ -12,10 +12,11 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   
   func provideAccountOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetAccount> {
     let accountIds = Preferences.authenticatedAccountIds
-    async let accounts = accountIds.asyncMap { id -> Account? in
-      let accountLoader = AccountViewModel(accountId: id)
+    async let accounts = accountIds.asyncMap { id -> VercelAccount? in
+      let accountLoader = VercelSession()
+      accountLoader.accountId = id
       
-      return await accountLoader.loadOnce()
+      return await accountLoader.loadAccount()
     }.compactMap({ $0 })
       .map { account in
         WidgetAccount(identifier: account.id, display: account.name)

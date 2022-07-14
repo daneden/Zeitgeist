@@ -34,7 +34,7 @@ struct VercelAPI {
     
     case projects
     
-    case account(id: Account.ID)
+    case account(id: VercelAccount.ID)
     
     var subPaths: [String] {
       switch self {
@@ -64,7 +64,7 @@ struct VercelAPI {
   
   static func request(
     for path: Path,
-    with accountID: Account.ID,
+    with accountID: VercelAccount.ID,
     queryItems: [URLQueryItem] = [],
     method: RequestMethod = .GET
   ) throws -> URLRequest {

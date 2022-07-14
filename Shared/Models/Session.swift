@@ -13,7 +13,7 @@ enum SessionError: Error {
   case notAuthenticated
 }
 
-typealias AccountIDs = [Account.ID]
+typealias AccountIDs = [VercelAccount.ID]
 
 extension AccountIDs: RawRepresentable {
   public init?(rawValue: String) {
@@ -44,13 +44,12 @@ extension SessionError: CustomStringConvertible {
   }
 }
 
-@MainActor
 class VercelSession: ObservableObject {
-  @Published var accountId: Account.ID = .NullValue {
-    didSet { Task { await loadAccount() } }
+  @Published var accountId: VercelAccount.ID = .NullValue {
+    didSet { Task { account = await loadAccount() } }
   }
   
-  @Published var account: Account?
+  @Published var account: VercelAccount?
   
   var authenticationToken: String? {
     guard accountId != .NullValue else {
@@ -64,28 +63,22 @@ class VercelSession: ObservableObject {
     accountId != .NullValue && authenticationToken != nil
   }
   
-  private func loadAccount() async {
+  @MainActor
+  func loadAccount() async -> VercelAccount? {
     do {
       guard accountId != .NullValue, authenticationToken != nil else {
-        return
+        return nil
       }
 
       var request = try VercelAPI.request(for: .account(id: accountId), with: accountId)
       try! signRequest(&request)
       
       let (data, _) = try await URLSession.shared.data(for: request)
-      
-      if accountId.isTeam {
-        let decoded = try JSONDecoder().decode(Team.self, from: data)
-        
-        account = Account(id: decoded.id, avatar: decoded.avatar, name: decoded.name)
-      } else {
-        let decoded = try JSONDecoder().decode(UserResponse.self, from: data)
-        
-        account = Account(id: decoded.user.id, avatar: decoded.user.avatar, name: decoded.user.name)
-      }
+
+      return try JSONDecoder().decode(VercelAccount.self, from: data)
     } catch {
       print(error)
+      return nil
     }
   }
   

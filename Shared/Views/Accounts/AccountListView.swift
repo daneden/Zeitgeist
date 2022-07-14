@@ -10,58 +10,34 @@ import SwiftUI
 struct AccountListView: View {
   @EnvironmentObject var session: VercelSession
   @State var signInModel = SignInViewModel()
-  @SceneStorage("activeAccountID") var activeAccountID: Account.ID?
   
   var body: some View {
-    List(selection: $activeAccountID) {
-      Section(header: Text("Accounts")) {
-        ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
-          NavigationLink(destination: DeploymentListView(accountId: accountId)) {
+    List {
+      
+      Section {
+        Picker(selection: $session.accountId) {
+          ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
             AccountListRowView(accountId: accountId)
+              .tag(accountId)
           }
-          .contextMenu {
-            Button(role: .destructive, action: { VercelSession.deleteAccount(id: accountId)}) {
-              Label("Remove Account", systemImage: "person.badge.minus")
-            }
-          }
-          .tag(accountId)
-          .keyboardShortcut(KeyEquivalent(Character("\((Preferences.authenticatedAccountIds.firstIndex(of: accountId) ?? 0) + 1)")), modifiers: .command)
+          .onDelete(perform: deleteAccount)
+          .onMove(perform: move)
+        } label: {
+          Text("Selected Account")
         }
-        .onDelete(perform: deleteAccount)
-        .onMove(perform: move)
-        
-        Button(action: { signInModel.signIn() }) {
-          HStack {
-            Label("Add Account", systemImage: "person.badge.plus")
-            Spacer()
-          }
-          .contentShape(Rectangle())
-        }
-          .buttonStyle(PlainButtonStyle())
       }
       
-      #if os(iOS)
-      NavigationLink(destination: SettingsView()) {
-        Label("Settings", systemImage: "gearshape")
+      Section {
+        Button(action: { signInModel.signIn() }) {
+          Label("Add Account", systemImage: "person.badge.plus")
+        }
+        
+        Button(role: .destructive, action: { VercelSession.deleteAccount(id: session.accountId)}) {
+          Label("Remove Account", systemImage: "person.badge.minus")
+        }
       }
-      #endif
+      
     }
-    .toolbar {
-      #if !os(macOS)
-      EditButton()
-      #endif
-    }
-    .navigationTitle("Zeitgeist")
-    .onOpenURL(perform: { url in
-      switch url.detailPage {
-      case .account(let id):
-        self.activeAccountID = id
-      case .deployment(let id, _):
-        self.activeAccountID = id
-      default:
-        return
-      }
-    })
   }
   
   func deleteAccount(at offsets: IndexSet) {

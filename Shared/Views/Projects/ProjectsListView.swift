@@ -71,7 +71,13 @@ struct ProjectsListView: View {
           }
       }
     }
-    .task { try? await loadProjects() }
+    .task {
+      do {
+        try await loadProjects()
+      } catch {
+        print(error)
+      }
+    }
     .refreshable { try? await loadProjects() }
   }
   

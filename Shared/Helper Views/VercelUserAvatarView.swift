@@ -9,41 +9,43 @@
 import SwiftUI
 
 struct VercelUserAvatarView: View {
-  var avatarID: String?
-  var teamID: String?
+  var account: VercelAccount?
+  
+  var avatarID: String? { account?.avatar }
+  var teamID: String? { account?.id.isTeam == true ? account?.id : nil }
+  
   @State var size: CGFloat = 32
   
   private var url: String {
     if let teamID = teamID {
-      return "https://vercel.com/api/www/avatar/?teamId=\(teamID)&s=\(size * 2)"
+      return "https://vercel.com/api/www/avatar/?teamId=\(teamID)&s=\(size)"
     } else {
-      return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size * 2)"
+      return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size)"
     }
   }
   
   var body: some View {
-    AsyncImage(url: URL(string: url)) { image in
+    AsyncImage(url: URL(string: url), scale: 2) { image in
       image
         .resizable()
         .scaledToFit()
+        .clipShape(Circle())
+        .overlay(
+          Circle()
+            .stroke(Color.primary.opacity(0.1), lineWidth: 1)
+        )
     } placeholder: {
       Image(systemName: "person.crop.circle.fill")
         .resizable()
         .scaledToFit()
         .foregroundColor(.accentColor)
     }
-      .blendMode(.normal)
-      .frame(width: size, height: size)
-      .cornerRadius(size)
-      .overlay(
-        RoundedRectangle(cornerRadius: size)
-          .stroke(Color.primary.opacity(0.1), lineWidth: 1)
-      )
+    .frame(width: size, height: size)
   }
 }
 
 struct UserAvatar_Previews: PreviewProvider {
   static var previews: some View {
-    VercelUserAvatarView(avatarID: "75cce4b03baffd47382c0ca4364f451a87090684")
+    VercelUserAvatarView(account: nil)
   }
 }
