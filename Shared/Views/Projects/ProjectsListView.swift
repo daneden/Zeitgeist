@@ -71,14 +71,11 @@ struct ProjectsListView: View {
           }
       }
     }
-    .task {
-      do {
-        try await loadProjects()
-      } catch {
-        print(error)
-      }
-    }
+    .task { try? await loadProjects() }
     .refreshable { try? await loadProjects() }
+    .onReceive(NotificationCenter.Publisher(center: .default, name: .vercelAPIUpdate)) { value in
+      Task { try? await loadProjects()  }
+    }
   }
   
   func loadProjects(pageId: Int? = nil) async throws {

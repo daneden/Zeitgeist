@@ -17,6 +17,10 @@ let platform = "ios_sandbox"
 let platform = "ios"
 #endif
 
+extension NSNotification.Name {
+  static var vercelAPIUpdate = Notification.Name("vercelAPIUpdate")
+}
+
 class AppDelegate: NSObject, UIApplicationDelegate {
   @AppStorage("notificationsEnabled") var notificationsEnabled = false
   
@@ -114,6 +118,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   ) {
     print("Received remote notification")
     WidgetCenter.shared.reloadAllTimelines()
+    
+    NotificationCenter.default.post(name: .vercelAPIUpdate, object: nil)
     
     do {
       let title: String? = userInfo["title"] as? String
