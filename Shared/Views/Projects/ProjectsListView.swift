@@ -73,7 +73,7 @@ struct ProjectsListView: View {
     }
     .task { try? await loadProjects() }
     .refreshable { try? await loadProjects() }
-    .onReceive(NotificationCenter.Publisher(center: .default, name: .vercelAPIUpdate)) { value in
+    .onReceive(NotificationCenter.Publisher(center: .default, name: .ZPSNotification)) { value in
       Task { try? await loadProjects()  }
     }
   }
