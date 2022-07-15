@@ -13,7 +13,6 @@ struct AccountListView: View {
   
   var body: some View {
     List {
-      
       Section {
         Picker(selection: $session.accountId) {
           ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in

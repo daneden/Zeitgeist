@@ -45,11 +45,31 @@ extension SessionError: CustomStringConvertible {
 }
 
 class VercelSession: ObservableObject {
-  @Published var accountId: VercelAccount.ID = .NullValue {
-    didSet { Task { account = await loadAccount() } }
+  @AppStorage("authenticatedAccountIds", store: Preferences.store)
+  private var authenticatedAccountIds: AccountIDs = [] {
+    didSet {
+      if authenticatedAccountIds.count == 1,
+         let firstAccount = authenticatedAccountIds.first {
+        withAnimation { accountId = firstAccount }
+      } else if !authenticatedAccountIds.contains(where: { $0 == accountId }) {
+        withAnimation { accountId = authenticatedAccountIds.first ?? .NullValue }
+      }
+    }
   }
   
-  @Published var account: VercelAccount?
+  @Published var accountId: VercelAccount.ID = .NullValue {
+    didSet {
+      Task {
+        if accountId == .NullValue {
+          account = nil
+        } else {
+          account = await loadAccount()
+        }
+      }
+    }
+  }
+  
+  @Published private(set) var account: VercelAccount?
   
   var authenticationToken: String? {
     guard accountId != .NullValue else {
@@ -95,7 +115,7 @@ class VercelSession: ObservableObject {
     let keychain = KeychainItem(account: id)
     keychain.wrappedValue = nil
     
-    Preferences.authenticatedAccountIds.removeAll { id == $0 }
+    withAnimation { Preferences.authenticatedAccountIds.removeAll { id == $0 } }
   }
   
   func signRequest(_ request: inout URLRequest) throws {
