@@ -62,12 +62,11 @@ struct VercelAPI {
     case GET, PUT, PATCH, DELETE, POST
   }
   
-  static func request(
-    for path: Path,
-    with accountID: VercelAccount.ID,
-    queryItems: [URLQueryItem] = [],
-    method: RequestMethod = .GET
-  ) throws -> URLRequest {
+  static func request(for path: Path,
+                      with accountID: VercelAccount.ID,
+                      queryItems: [URLQueryItem] = [],
+                      method: RequestMethod = .GET
+  ) -> URLRequest {
     let isTeam = accountID.isTeam
     var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.resolvedPath)")!
     var completeQuery = queryItems

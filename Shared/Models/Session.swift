@@ -90,8 +90,8 @@ class VercelSession: ObservableObject {
         return nil
       }
 
-      var request = try VercelAPI.request(for: .account(id: accountId), with: accountId)
-      try! signRequest(&request)
+      var request = VercelAPI.request(for: .account(id: accountId), with: accountId)
+      try signRequest(&request)
       
       let (data, _) = try await URLSession.shared.data(for: request)
 

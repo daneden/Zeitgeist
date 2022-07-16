@@ -71,11 +71,7 @@ struct ProjectsListView: View {
           }
       }
     }
-    .task { try? await loadProjects() }
-    .refreshable { try? await loadProjects() }
-    .onReceive(NotificationCenter.Publisher(center: .default, name: .ZPSNotification)) { value in
-      Task { try? await loadProjects()  }
-    }
+    .dataTask { try? await loadProjects() }
   }
   
   func loadProjects(pageId: Int? = nil) async throws {
@@ -85,7 +81,7 @@ struct ProjectsListView: View {
       params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    var request = try VercelAPI.request(for: .projects, with: session.accountId, queryItems: params)
+    var request = VercelAPI.request(for: .projects, with: session.accountId, queryItems: params)
     try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)

@@ -49,8 +49,9 @@ struct ProjectDetailView: View {
       }
     }
     .navigationTitle(project.name)
-    .task { try? await initialLoad() }
-    .refreshable { try? await initialLoad() }
+    .dataTask {
+      try? await initialLoad()
+    }
   }
   
   func initialLoad() async throws {
@@ -59,7 +60,7 @@ struct ProjectDetailView: View {
   }
   
   func loadProductionDeployment() async throws {
-    var productionDeploymentsRequest = try VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
+    var productionDeploymentsRequest = VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
       URLQueryItem(name: "projectId", value: project.id),
       URLQueryItem(name: "target", value: VercelDeployment.Target.production.rawValue)
     ])
@@ -82,7 +83,7 @@ struct ProjectDetailView: View {
       queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    var request = try VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems)
+    var request = VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems)
     try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)

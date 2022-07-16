@@ -135,7 +135,7 @@ struct DeploymentLogView: View {
           URLQueryItem(name: "limit", value: "-1"),
         ]
         
-        var request = try VercelAPI.request(
+        var request = VercelAPI.request(
           for: .deployments(version: 2, deploymentID: deployment.id, path: "events"),
              with: accountID,
              queryItems: queryItems

@@ -112,10 +112,7 @@ struct DeploymentListView: View {
       )
       #endif
     }
-    .task {
-      try? await loadDeployments()
-    }
-    .refreshable {
+    .dataTask {
       try? await loadDeployments()
     }
   }
@@ -127,7 +124,7 @@ struct DeploymentListView: View {
       params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    var request = try VercelAPI.request(for: .deployments(), with: session.accountId, queryItems: params)
+    var request = VercelAPI.request(for: .deployments(), with: session.accountId, queryItems: params)
     try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)
