@@ -30,7 +30,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
             }
       
       do {
-        let request = try VercelAPI.request(for: .deployments(), with: accountId)
+        let request = VercelAPI.request(for: .deployments(), with: accountId)
         let (data, _) = try await URLSession.shared.data(for: request)
         let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
         
@@ -61,7 +61,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
             }
       
       do {
-        let request = try VercelAPI.request(for: .deployments(), with: accountId)
+        let request = VercelAPI.request(for: .deployments(), with: accountId)
         let (data, _) = try await URLSession.shared.data(for: request)
         let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
         
