@@ -75,7 +75,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     switch response.notification.request.content.categoryIdentifier {
-    case ZPSNotificationCategory.Deployment.rawValue:
+    case ZPSNotificationCategory.deployment.rawValue:
       UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
     default:
       print("Uncaught notification category identifier")
@@ -132,7 +132,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       }
       
       let deploymentId: String? = userInfo["deploymentId"] as? String
+      let projectId: String? = userInfo["projectId"] as? String
       let teamId: String? = userInfo["teamId"] as? String
+      
       guard let eventType: ZPSEventType = ZPSEventType(rawValue: userInfo["eventType"] as? String ?? "") else {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
@@ -148,11 +150,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         
         content.sound = .default
-        content.threadIdentifier = deploymentId ?? UUID().uuidString
-        content.categoryIdentifier = ZPSNotificationCategory.Deployment.rawValue
+        content.threadIdentifier = projectId ?? deploymentId ?? UUID().uuidString
+        content.categoryIdentifier = ZPSNotificationCategory.deployment.rawValue
         content.userInfo = [
           "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
-          "TEAM_ID": "\(teamId ?? "-1")"
+          "TEAM_ID": "\(teamId ?? "-1")",
+          "PROJECT_ID": "\(projectId ?? "nil")"
         ]
         
         let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"

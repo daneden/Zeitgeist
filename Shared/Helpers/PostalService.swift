@@ -12,10 +12,12 @@ enum ZPSError: Error {
   case EventTypeCastingError(eventType: Any?)
 }
 
-enum ZPSEventType: String, RawRepresentable {
-  case Deployment = "deployment"
-  case DeploymentReady = "deployment-ready"
-  case DeploymentError = "deployment-error"
+enum ZPSEventType: String {
+  case deployment
+  case deploymentReady = "deployment-ready"
+  case deploymentError = "deployment-error"
+  case projectCreated = "project-created"
+  case projectRemoved = "project-removed"
 }
 
 struct ZPSNotificationPayload: Hashable {
@@ -26,6 +28,6 @@ struct ZPSNotificationPayload: Hashable {
   let category: ZPSEventType
 }
 
-enum ZPSNotificationCategory: String, RawRepresentable {
-  case Deployment
+enum ZPSNotificationCategory: String {
+  case deployment, project
 }

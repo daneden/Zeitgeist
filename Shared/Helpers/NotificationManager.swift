@@ -52,12 +52,15 @@ class NotificationManager {
   
   static func userAllowedNotifications(for eventType: ZPSEventType) -> Bool {
     switch eventType {
-    case .Deployment:
-      return allowDeploymentNotifications
-    case .DeploymentError:
-      return allowDeploymentErrorNotifications
-    case .DeploymentReady:
-      return allowDeploymentReadyNotifications
+//    case .deployment:
+//      return allowDeploymentNotifications
+//    case .deploymentError:
+//      return allowDeploymentErrorNotifications
+//    case .deploymentReady:
+//      return allowDeploymentReadyNotifications
+    default:
+      // TODO: Add proper handling for event notifications and migrate to notifications based on project subscriptions
+      return true
     }
     
   }
