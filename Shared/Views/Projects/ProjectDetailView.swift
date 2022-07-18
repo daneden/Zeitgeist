@@ -15,9 +15,11 @@ struct ProjectDetailView: View {
   @State private var deployments: [VercelDeployment] = []
   @State private var pagination: Pagination?
   
+  #if os(iOS)
   var notificationsEnabled: Bool {
     NotificationManager.deploymentNotificationIds.contains { $0 == project.id }
   }
+  #endif
   
   var body: some View {
     Form {
