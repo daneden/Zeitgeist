@@ -133,7 +133,7 @@ struct RecentDeploymentsWidgetView: View {
       Spacer()
     }
     .padding()
-    .background(Color.systemBackground)
+    .background(.background)
   }
 }
 

@@ -8,9 +8,16 @@
 import Foundation
 import SwiftUI
 
-class Preferences {
+struct Preferences {
+  enum Keys: String, RawRepresentable {
+    case authenticatedAccountIds, notificationsEnabled
+  }
+  
+  static let kAuthenticatedAccountIds = "authenticatedAccountIds"
   static let store = UserDefaults(suiteName: "group.me.daneden.Zeitgeist")!
   
-  @AppStorage("authenticatedAccountIds", store: Preferences.store)
+  @AppStorage(Keys.authenticatedAccountIds.rawValue, store: Preferences.store)
   static var authenticatedAccountIds: AccountIDs = []
+  
+  @AppStorage(Keys.notificationsEnabled.rawValue) static var notificationsEnabled = false
 }

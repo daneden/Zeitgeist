@@ -144,13 +144,6 @@ struct LatestDeploymentWidgetView: View {
       }
     }
     .padding()
-    .background(Color.systemBackground)
-    .background(LinearGradient(
-      gradient: Gradient(
-        colors: [.systemBackground, .secondarySystemBackground]
-      ),
-      startPoint: .top,
-      endPoint: .bottom
-    ))
+    .background(.background)
   }
 }

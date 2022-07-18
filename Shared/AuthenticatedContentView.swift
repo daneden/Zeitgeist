@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AuthenticatedContentView: View {
   @EnvironmentObject var session: VercelSession
-  @State private var accountPickerVisible = false
   
   var body: some View {
     TabView {

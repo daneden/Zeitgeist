@@ -18,7 +18,15 @@ let platform = "ios"
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  @AppStorage("notificationsEnabled") var notificationsEnabled = false
+  @AppStorage(Preferences.Keys.notificationsEnabled.rawValue)
+  private var notificationsEnabled = false
+  
+  @AppStorage(Preferences.Keys.authenticatedAccountIds.rawValue)
+  private var authenticatedAccountIds: AccountIDs = [] {
+    didSet {
+      UIApplication.shared.registerForRemoteNotifications()
+    }
+  }
   
   func application(
     _ application: UIApplication,
