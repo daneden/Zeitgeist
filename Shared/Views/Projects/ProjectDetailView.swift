@@ -52,6 +52,7 @@ struct ProjectDetailView: View {
         }
       }
     }
+    #if os(iOS)
     .toolbar {
       ToolbarItem {
         Button {
@@ -61,6 +62,7 @@ struct ProjectDetailView: View {
         }
       }
     }
+    #endif
     .navigationTitle(project.name)
     .dataTask {
       try? await initialLoad()
