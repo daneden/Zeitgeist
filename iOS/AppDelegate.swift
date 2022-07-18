@@ -46,7 +46,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     UNUserNotificationCenter.current().delegate = self
 
-    NotificationManager.shared.toggleNotifications(on: notificationsEnabled)
+    Task {
+      await NotificationManager.shared.toggleNotifications(notificationsEnabled)
+    }
     
     return true
   }
@@ -126,20 +128,23 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     NotificationCenter.default.post(name: .ZPSNotification, object: nil)
     
     do {
-      let title: String? = userInfo["title"] as? String
-      guard let body: String = userInfo["body"] as? String else {
+      let title = userInfo["title"] as? String
+      guard let body = userInfo["body"] as? String else {
         throw ZPSError.FieldCastingError(field: userInfo["body"])
       }
       
+      guard let projectId = userInfo["projectId"] as? String else {
+        throw ZPSError.FieldCastingError(field: userInfo["projectId"])
+      }
+      
       let deploymentId: String? = userInfo["deploymentId"] as? String
-      let projectId: String? = userInfo["projectId"] as? String
       let teamId: String? = userInfo["teamId"] as? String
       
       guard let eventType: ZPSEventType = ZPSEventType(rawValue: userInfo["eventType"] as? String ?? "") else {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
       
-      if NotificationManager.userAllowedNotifications(for: eventType) {
+      if NotificationManager.userAllowedNotifications(for: eventType, with: projectId) {
         let content = UNMutableNotificationContent()
         
         if let title = title {
@@ -150,12 +155,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         
         content.sound = .default
-        content.threadIdentifier = projectId ?? deploymentId ?? UUID().uuidString
+        content.threadIdentifier = projectId
         content.categoryIdentifier = ZPSNotificationCategory.deployment.rawValue
         content.userInfo = [
           "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
           "TEAM_ID": "\(teamId ?? "-1")",
-          "PROJECT_ID": "\(projectId ?? "nil")"
+          "PROJECT_ID": "\(projectId)"
         ]
         
         let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"

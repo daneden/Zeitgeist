@@ -15,6 +15,10 @@ struct ProjectDetailView: View {
   @State private var deployments: [VercelDeployment] = []
   @State private var pagination: Pagination?
   
+  var notificationsEnabled: Bool {
+    NotificationManager.deploymentNotificationIds.contains { $0 == project.id }
+  }
+  
   var body: some View {
     Form {
       if let productionDeployment = productionDeployment {
@@ -45,6 +49,15 @@ struct ProjectDetailView: View {
                 print(error)
               }
             }
+        }
+      }
+    }
+    .toolbar {
+      ToolbarItem {
+        Button {
+          NotificationManager.shared.toggleNotifications(!notificationsEnabled, for: project.id)
+        } label: {
+          Label("Toggle notifications \(notificationsEnabled ? "off" : "on")", systemImage: notificationsEnabled ? "bell" : "bell.slash")
         }
       }
     }

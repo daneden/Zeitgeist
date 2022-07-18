@@ -18,11 +18,6 @@ struct NotificationsView: View {
       Section {
         Group {
           Toggle("Enable Notifications", isOn: $notificationsEnabled)
-            .onChange(of: notificationsEnabled, perform: { notificationsEnabled in
-              withAnimation {
-                NotificationManager.shared.toggleNotifications(on: notificationsEnabled, bindingTo: $notificationsEnabled)
-              }
-            })
           
           if notificationsEnabled {
             Toggle(isOn: $allowDeploymentNotifications) {
