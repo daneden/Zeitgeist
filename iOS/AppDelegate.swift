@@ -59,7 +59,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              didReceive response: UNNotificationResponse) async {
     let userInfo = response.notification.request.content.userInfo
     
     guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
@@ -73,10 +74,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
   }
   
-  func application(
-    _ application: UIApplication,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-  ) {
+  func application(_ application: UIApplication,
+                   didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
     
     _ = Preferences.authenticatedAccountIds.map { id in
@@ -97,14 +96,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
   }
   
-  func application(
-    _ application: UIApplication,
-    didFailToRegisterForRemoteNotificationsWithError error: Error
-  ) {
+  func application(_ application: UIApplication,
+                   didFailToRegisterForRemoteNotificationsWithError error: Error) {
     print(error.localizedDescription)
   }
   
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
+  func application(_ application: UIApplication,
+                   didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
     print("Received remote notification")
     WidgetCenter.shared.reloadAllTimelines()
     
