@@ -68,7 +68,7 @@ struct ProjectDetailView: View {
         Button {
           projectNotificationsVisible = true
         } label: {
-          Label("Notification settings)", systemImage: notificationsEnabled ? "bell" : "bell.badge")
+          Label("Notification settings)", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
         }
         .symbolRenderingMode(.hierarchical)
       }
