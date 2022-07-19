@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import UserNotifications
 
 class NotificationManager {
   static let shared = NotificationManager()
