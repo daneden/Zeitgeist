@@ -14,12 +14,21 @@ struct ProjectDetailView: View {
   @State private var productionDeployment: VercelDeployment?
   @State private var deployments: [VercelDeployment] = []
   @State private var pagination: Pagination?
+  @State private var projectNotificationsVisible = false
   
-  #if os(iOS)
+  @AppStorage("deploymentNotificationIds")
+  private var deploymentNotificationIds: [VercelProject.ID] = []
+  
+  @AppStorage("deploymentErrorNotificationIds")
+  private var deploymentErrorNotificationIds: [VercelProject.ID] = []
+  
+  @AppStorage("deploymentReadyNotificationIds")
+  private var deploymentReadyNotificationIds: [VercelProject.ID] = []
+  
   var notificationsEnabled: Bool {
-    NotificationManager.deploymentNotificationIds.contains { $0 == project.id }
+    (deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds)
+      .contains { $0 == project.id }
   }
-  #endif
   
   var body: some View {
     Form {
@@ -54,20 +63,22 @@ struct ProjectDetailView: View {
         }
       }
     }
-    #if os(iOS)
     .toolbar {
       ToolbarItem {
         Button {
-          NotificationManager.shared.toggleNotifications(!notificationsEnabled, for: project.id)
+          projectNotificationsVisible = true
         } label: {
-          Label("Toggle notifications \(notificationsEnabled ? "off" : "on")", systemImage: notificationsEnabled ? "bell" : "bell.slash")
+          Label("Notification settings)", systemImage: notificationsEnabled ? "bell" : "bell.badge")
         }
+        .symbolRenderingMode(.hierarchical)
       }
     }
-    #endif
     .navigationTitle(project.name)
     .dataTask {
       try? await initialLoad()
+    }
+    .popover(isPresented: $projectNotificationsVisible) {
+      ProjectNotificationsView(project: project)
     }
   }
   

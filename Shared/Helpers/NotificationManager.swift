@@ -36,41 +36,37 @@ class NotificationManager {
     }
   }
   
-  @AppStorage("deploymentNotificationIds") static var deploymentNotificationIds: [VercelProject.ID] = []
-  @AppStorage("deploymentErrorNotificationIds") static var deploymentErrorNotificationIds: [VercelProject.ID] = []
-  @AppStorage("deploymentReadyNotificationIds") static var deploymentReadyNotificationIds: [VercelProject.ID] = []
+  private static func requestAuthorization() {
+    if !(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds).isEmpty {
+      Task {
+        try? await UNUserNotificationCenter.current().requestAuthorization()
+      }
+    }
+  }
   
-  @AppStorage("allowDeploymentNotifications") static var allowDeploymentNotifications = true
-  @AppStorage("allowDeploymentErrorNotifications") static var allowDeploymentErrorNotifications = true
-  @AppStorage("allowDeploymentReadyNotifications") static var allowDeploymentReadyNotifications = true
+  @AppStorage("deploymentNotificationIds") static var deploymentNotificationIds: [VercelProject.ID] = [] {
+    didSet { requestAuthorization() }
+  }
+  
+  @AppStorage("deploymentErrorNotificationIds") static var deploymentErrorNotificationIds: [VercelProject.ID] = [] {
+    didSet { requestAuthorization() }
+  }
+  
+  @AppStorage("deploymentReadyNotificationIds") static var deploymentReadyNotificationIds: [VercelProject.ID] = [] {
+    didSet { requestAuthorization() }
+  }
   
   static func userAllowedNotifications(for eventType: ZPSEventType, with projectId: VercelProject.ID) -> Bool {
     switch eventType {
     case .deployment:
-      return deploymentNotificationIds.contains { $0 == projectId }
+      return deploymentNotificationIds.contains(projectId)
     case .deploymentError:
-      return deploymentErrorNotificationIds.contains { $0 == projectId }
+      return deploymentErrorNotificationIds.contains(projectId)
     case .deploymentReady:
-      return deploymentReadyNotificationIds.contains { $0 == projectId }
+      return deploymentReadyNotificationIds.contains(projectId)
     default:
       // TODO: Add proper handling for event notifications and migrate to notifications based on project subscriptions
       return true
     }
-  }
-  
-  func toggleNotifications(_ on: Bool, for projectId: VercelProject.ID) {
-    if on {
-      Self.deploymentNotificationIds.append(projectId)
-      Self.deploymentErrorNotificationIds.append(projectId)
-      Self.deploymentReadyNotificationIds.append(projectId)
-    } else {
-      Self.deploymentNotificationIds.removeAll { $0 == projectId }
-      Self.deploymentErrorNotificationIds.removeAll { $0 == projectId }
-      Self.deploymentReadyNotificationIds.removeAll { $0 == projectId }
-    }
-    
-    Self.deploymentErrorNotificationIds.removeDuplicates()
-    Self.deploymentReadyNotificationIds.removeDuplicates()
-    Self.deploymentNotificationIds.removeDuplicates()
   }
 }

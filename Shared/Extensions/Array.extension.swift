@@ -19,4 +19,17 @@ extension Array where Element: Hashable {
   mutating func removeDuplicates() {
     self = self.removingDuplicates()
   }
+  
+  mutating func toggleElement(_ element: Element, inArray: Bool) {
+    if inArray {
+      self.append(element)
+      self.removeDuplicates()
+    } else {
+      self.removeAll { $0 == element }
+    }
+  }
+  
+  func contains(_ element: Element) -> Bool {
+    self.contains { $0 == element }
+  }
 }
