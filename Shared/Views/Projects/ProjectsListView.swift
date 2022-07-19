@@ -39,7 +39,7 @@ struct ProjectsListView: View {
             }
             
             if let productionDeploymentCause = project.targets?.production?.deploymentCause {
-              Text(productionDeploymentCause)
+              Text(productionDeploymentCause).lineLimit(2)
             }
             
             if let repoSlug = project.link?.repoSlug,
@@ -83,6 +83,12 @@ struct ProjectsListView: View {
     
     var request = VercelAPI.request(for: .projects, with: session.accountId, queryItems: params)
     try session.signRequest(&request)
+    
+    if pageId == nil,
+       let cachedResponse = URLCache.shared.cachedResponse(for: request),
+       let decodedFromCache = try? JSONDecoder().decode(VercelProject.APIResponse.self, from: cachedResponse.data) {
+      self.projects = decodedFromCache.projects
+    }
     
     let (data, _) = try await URLSession.shared.data(for: request)
     let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)

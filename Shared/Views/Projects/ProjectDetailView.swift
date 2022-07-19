@@ -114,6 +114,12 @@ struct ProjectDetailView: View {
     var request = VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems)
     try session.signRequest(&request)
     
+    if pageId == nil,
+       let cachedResponse = URLCache.shared.cachedResponse(for: request),
+       let decodedFromCache = try? JSONDecoder().decode(VercelDeployment.APIResponse.self, from: cachedResponse.data) {
+      self.deployments = decodedFromCache.deployments
+    }
+    
     let (data, _) = try await URLSession.shared.data(for: request)
     let deploymentsResponse = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
     

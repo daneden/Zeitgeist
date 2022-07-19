@@ -63,6 +63,7 @@ class VercelSession: ObservableObject {
         if accountId == .NullValue {
           account = nil
         } else {
+          account = await loadAccount(fromCache: true)
           account = await loadAccount()
         }
       }
@@ -84,7 +85,7 @@ class VercelSession: ObservableObject {
   }
   
   @MainActor
-  func loadAccount() async -> VercelAccount? {
+  func loadAccount(fromCache: Bool = false) async -> VercelAccount? {
     do {
       guard accountId != .NullValue, authenticationToken != nil else {
         return nil
@@ -92,6 +93,12 @@ class VercelSession: ObservableObject {
 
       var request = VercelAPI.request(for: .account(id: accountId), with: accountId)
       try signRequest(&request)
+      
+      if fromCache,
+         let cachedResponse = URLCache.shared.cachedResponse(for: request),
+         let decodedFromCache = try? JSONDecoder().decode(VercelAccount.self, from: cachedResponse.data) {
+        return decodedFromCache
+      }
       
       let (data, _) = try await URLSession.shared.data(for: request)
 
