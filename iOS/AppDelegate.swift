@@ -59,31 +59,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler:
-                                @escaping () -> Void) {
-    
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
     let userInfo = response.notification.request.content.userInfo
     
-    guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String else {
-      completionHandler()
-      return
-    }
-    
-    guard let teamID = userInfo["TEAM_ID"] as? String else {
-      completionHandler()
-      return
-    }
+    guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
+          let teamID = userInfo["TEAM_ID"] as? String else { return }
     
     switch response.notification.request.content.categoryIdentifier {
     case ZPSNotificationCategory.deployment.rawValue:
-      UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
+      await UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
     default:
       print("Uncaught notification category identifier")
     }
-    
-    completionHandler()
   }
   
   func application(
@@ -117,11 +104,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     print(error.localizedDescription)
   }
   
-  func application(
-    _ application: UIApplication,
-    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-  ) {
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
     print("Received remote notification")
     WidgetCenter.shared.reloadAllTimelines()
     
@@ -167,14 +150,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
         print("Pushing notification with ID \(notificationID)")
-        UNUserNotificationCenter.current().add(request)
-        completionHandler(.newData)
+        try await UNUserNotificationCenter.current().add(request)
+        return .newData
       } else {
         print("Notification suppressed due to user preferences")
-        completionHandler(.noData)
+        return .noData
       }
-      
-      return
     } catch {
       switch error {
       case ZPSError.FieldCastingError(let field):
@@ -186,9 +167,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       }
       
       print(error.localizedDescription)
-      completionHandler(.failed)
       
-      return
+      return .failed
     }
   }
 }
