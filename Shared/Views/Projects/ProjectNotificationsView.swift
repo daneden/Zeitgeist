@@ -74,7 +74,9 @@ struct ProjectNotificationsView: View {
       }
     }
     .navigationTitle("Notifications for \(project.name)")
+    #if os(iOS)
     .navigationBarTitleDisplayMode(.inline)
+    #endif
   }
 }
 
