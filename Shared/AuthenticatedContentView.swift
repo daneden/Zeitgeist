@@ -40,20 +40,32 @@ struct AuthenticatedContentView: View {
   var largeScreenContent: some View {
     NavigationView {
       List {
+        Menu {
+          Picker(selection: $session.accountId, label: Text("Selected Account")) {
+            ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
+              AccountListRowView(accountId: accountId)
+                .tag(accountId)
+            }
+          }
+        } label: {
+          AccountListRowView(accountId: session.accountId)
+            .id(session.accountId)
+        }
+        
         NavigationLink(destination: ProjectsListView().navigationTitle("Projects")) {
           Label("Projects", systemImage: "folder")
         }
+        
         NavigationLink(destination: DeploymentListView().navigationTitle("Deployments")) {
           Label("Deployments", systemImage: "list.bullet")
-        }
-        NavigationLink(destination: AccountView().navigationTitle("Account")) {
-          Label("Account", systemImage: "person.crop.circle")
         }
       }
       .navigationTitle("Zeitgeist")
       
       ProjectsListView()
+        .navigationTitle("Projects")
       PlaceholderView(forRole: .ProjectDetail)
+        .navigationTitle("Project Details")
     }
   }
   

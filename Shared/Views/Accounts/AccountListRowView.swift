@@ -10,7 +10,11 @@ import SwiftUI
 struct AccountListRowView: View {
   var accountId: VercelAccount.ID
   
-  @State private var account: VercelAccount?
+  var account: VercelAccount? {
+    tempSession.account
+  }
+  
+  @StateObject private var tempSession = VercelSession()
   
   var body: some View {
     HStack {
@@ -29,11 +33,10 @@ struct AccountListRowView: View {
         Text("Loading")
       }
     }
-    .task {
-      let session = VercelSession()
-      session.accountId = accountId
-      account = await session.loadAccount()
+    .onAppear {
+      tempSession.accountId = accountId
     }
+    .id(account?.id)
   }
 }
 

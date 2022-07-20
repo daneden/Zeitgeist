@@ -30,7 +30,7 @@ struct VercelAccount: Account, Decodable, Identifiable {
       wrapped = team
     } else {
       throw DecodingError.dataCorrupted(
-        DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unable to decode Vercel account")
+        DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unable to decode Vercel account.")
       )
     }
   }

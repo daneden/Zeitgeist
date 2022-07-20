@@ -50,9 +50,9 @@ class VercelSession: ObservableObject {
     didSet {
       if authenticatedAccountIds.count == 1,
          let firstAccount = authenticatedAccountIds.first {
-        withAnimation { accountId = firstAccount }
+        accountId = firstAccount
       } else if !authenticatedAccountIds.contains(where: { $0 == accountId }) {
-        withAnimation { accountId = authenticatedAccountIds.first ?? .NullValue }
+        accountId = authenticatedAccountIds.first ?? .NullValue
       }
     }
   }
