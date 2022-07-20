@@ -17,14 +17,14 @@ struct ProjectDetailView: View {
   @State private var projectNotificationsVisible = false
   @State private var domain: VercelDomain?
   
-  @AppStorage("deploymentNotificationIds")
-  private var deploymentNotificationIds: [VercelProject.ID] = []
+  @AppStorage(Preferences.deploymentNotificationIds)
+  private var deploymentNotificationIds
   
-  @AppStorage("deploymentErrorNotificationIds")
-  private var deploymentErrorNotificationIds: [VercelProject.ID] = []
+  @AppStorage(Preferences.deploymentErrorNotificationIds)
+  private var deploymentErrorNotificationIds
   
-  @AppStorage("deploymentReadyNotificationIds")
-  private var deploymentReadyNotificationIds: [VercelProject.ID] = []
+  @AppStorage(Preferences.deploymentReadyNotificationIds)
+  private var deploymentReadyNotificationIds
   
   var notificationsEnabled: Bool {
     (deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds)
