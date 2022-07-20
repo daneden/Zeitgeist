@@ -39,8 +39,6 @@ struct AccountListView: View {
           Label("Add New Account", systemImage: "person.badge.plus")
         }
       }
-    }.toolbar {
-      EditButton()
     }
   }
   
