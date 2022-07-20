@@ -45,23 +45,23 @@ class NotificationManager {
     }
   }
   
-  @AppStorage("deploymentNotificationIds")
-  static var deploymentNotificationIds: [VercelProject.ID] = [] {
+  @AppStorage(Preferences.deploymentNotificationIds)
+  static var deploymentNotificationIds {
     didSet { requestAuthorization() }
   }
   
-  @AppStorage("deploymentErrorNotificationIds")
-  static var deploymentErrorNotificationIds: [VercelProject.ID] = [] {
+  @AppStorage(Preferences.deploymentErrorNotificationIds)
+  static var deploymentErrorNotificationIds {
     didSet { requestAuthorization() }
   }
   
-  @AppStorage("deploymentReadyNotificationIds")
-  static var deploymentReadyNotificationIds: [VercelProject.ID] = [] {
+  @AppStorage(Preferences.deploymentReadyNotificationIds)
+  static var deploymentReadyNotificationIds {
     didSet { requestAuthorization() }
   }
   
-  @AppStorage("deploymentNotificationsProductionOnly")
-  static var deploymentNotificationsProductionOnly: [VercelProject.ID] = [] {
+  @AppStorage(Preferences.deploymentNotificationsProductionOnly)
+  static var deploymentNotificationsProductionOnly {
     didSet { requestAuthorization() }
   }
   
