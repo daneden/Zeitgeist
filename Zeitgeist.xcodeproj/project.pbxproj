@@ -93,7 +93,6 @@
 		711A4A41266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
 		711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
-		711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */; };
 		711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
 		711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
 		711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
@@ -223,7 +222,6 @@
 		711A4A35266976CA00DA9EE3 /* URL.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.extension.swift; sourceTree = "<group>"; };
 		711A4A3D266B672300DA9EE3 /* VercelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAPI.swift; sourceTree = "<group>"; };
 		711A4A42266B803300DA9EE3 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentModal.swift; sourceTree = "<group>"; };
 		711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		711A4A4C266B943800DA9EE3 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -376,7 +374,6 @@
 				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
 				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
-				711A4A45266B81DB00DA9EE3 /* PersistentModal.swift */,
 				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
 				71F9020826656A21000A8873 /* Preferences.swift */,
 			);
@@ -719,7 +716,6 @@
 				71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
-				711A4A46266B81DB00DA9EE3 /* PersistentModal.swift in Sources */,
 				711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				71493652278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
