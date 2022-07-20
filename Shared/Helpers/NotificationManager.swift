@@ -45,19 +45,33 @@ class NotificationManager {
     }
   }
   
-  @AppStorage("deploymentNotificationIds") static var deploymentNotificationIds: [VercelProject.ID] = [] {
+  @AppStorage("deploymentNotificationIds")
+  static var deploymentNotificationIds: [VercelProject.ID] = [] {
     didSet { requestAuthorization() }
   }
   
-  @AppStorage("deploymentErrorNotificationIds") static var deploymentErrorNotificationIds: [VercelProject.ID] = [] {
+  @AppStorage("deploymentErrorNotificationIds")
+  static var deploymentErrorNotificationIds: [VercelProject.ID] = [] {
     didSet { requestAuthorization() }
   }
   
-  @AppStorage("deploymentReadyNotificationIds") static var deploymentReadyNotificationIds: [VercelProject.ID] = [] {
+  @AppStorage("deploymentReadyNotificationIds")
+  static var deploymentReadyNotificationIds: [VercelProject.ID] = [] {
     didSet { requestAuthorization() }
   }
   
-  static func userAllowedNotifications(for eventType: ZPSEventType, with projectId: VercelProject.ID) -> Bool {
+  @AppStorage("deploymentNotificationsProductionOnly")
+  static var deploymentNotificationsProductionOnly: [VercelProject.ID] = [] {
+    didSet { requestAuthorization() }
+  }
+  
+  static func userAllowedNotifications(for eventType: ZPSEventType,
+                                       with projectId: VercelProject.ID,
+                                       target: VercelDeployment.Target? = nil) -> Bool {
+    if deploymentNotificationsProductionOnly.contains(projectId) && target != .production {
+      return false
+    }
+    
     switch eventType {
     case .deployment:
       return deploymentNotificationIds.contains(projectId)

@@ -78,7 +78,13 @@ struct ProjectDetailView: View {
       try? await initialLoad()
     }
     .popover(isPresented: $projectNotificationsVisible) {
+      #if os(iOS)
+      NavigationView {
+        ProjectNotificationsView(project: project)
+      }
+      #else
       ProjectNotificationsView(project: project)
+      #endif
     }
   }
   

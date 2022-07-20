@@ -121,39 +121,45 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       let deploymentId: String? = userInfo["deploymentId"] as? String
       let teamId: String? = userInfo["teamId"] as? String
       
+      let target: String? = userInfo["target"] as? String
+      
       guard let eventType: ZPSEventType = ZPSEventType(rawValue: userInfo["eventType"] as? String ?? "") else {
         throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
       }
       
-      if NotificationManager.userAllowedNotifications(for: eventType, with: projectId) {
-        let content = UNMutableNotificationContent()
-        
-        if let title = title {
-          content.title = title
-          content.body = body
-        } else {
-          content.title = body
-        }
-        
-        content.sound = .default
-        content.threadIdentifier = projectId
-        content.categoryIdentifier = ZPSNotificationCategory.deployment.rawValue
-        content.userInfo = [
-          "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
-          "TEAM_ID": "\(teamId ?? "-1")",
-          "PROJECT_ID": "\(projectId)"
-        ]
-        
-        let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
-        
-        let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
-        print("Pushing notification with ID \(notificationID)")
-        try await UNUserNotificationCenter.current().add(request)
-        return .newData
-      } else {
+      guard NotificationManager.userAllowedNotifications(
+        for: eventType,
+        with: projectId,
+        target: VercelDeployment.Target(rawValue: target ?? "")
+      ) else {
         print("Notification suppressed due to user preferences")
-        return .noData
+        return .newData
       }
+      
+      let content = UNMutableNotificationContent()
+      
+      if let title = title {
+        content.title = title
+        content.body = body
+      } else {
+        content.title = body
+      }
+      
+      content.sound = .default
+      content.threadIdentifier = projectId
+      content.categoryIdentifier = ZPSNotificationCategory.deployment.rawValue
+      content.userInfo = [
+        "DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
+        "TEAM_ID": "\(teamId ?? "-1")",
+        "PROJECT_ID": "\(projectId)"
+      ]
+      
+      let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
+      
+      let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
+      print("Pushing notification with ID \(notificationID)")
+      try await UNUserNotificationCenter.current().add(request)
+      return .newData
     } catch {
       switch error {
       case ZPSError.FieldCastingError(let field):

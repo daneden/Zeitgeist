@@ -81,7 +81,6 @@ fileprivate struct Overview: View {
       
       if deployment.target == .production {
         Label("Production Deployment", systemImage: "theatermasks")
-          .foregroundStyle(.orange)
           .symbolVariant(.fill)
       }
     }
