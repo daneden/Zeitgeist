@@ -111,7 +111,7 @@ struct ProjectDetailView: View {
         print(error)
       }
     }
-    .popover(isPresented: $projectNotificationsVisible) {
+    .sheet(isPresented: $projectNotificationsVisible) {
       #if os(iOS)
       NavigationView {
         ProjectNotificationsView(project: project)

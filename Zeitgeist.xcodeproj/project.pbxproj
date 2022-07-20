@@ -102,6 +102,8 @@
 		711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
 		711A4A62266BDFCA00DA9EE3 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */; };
 		711AB5F22676829F004D0768 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
+		712FA1EF2888324F00594C16 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712FA1EE2888324F00594C16 /* AccountView.swift */; };
+		712FA1F02888324F00594C16 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712FA1EE2888324F00594C16 /* AccountView.swift */; };
 		71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */; };
 		71335A5B2789C12600FC2099 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A5A2789C12600FC2099 /* AppDelegate.swift */; };
 		7135EA102788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
@@ -232,6 +234,7 @@
 		711A4A55266BDF0900DA9EE3 /* PostalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalService.swift; sourceTree = "<group>"; };
 		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		711A4A61266BDFCA00DA9EE3 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		712FA1EE2888324F00594C16 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
 		71335A5A2789C12600FC2099 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
@@ -483,6 +486,7 @@
 			children = (
 				711553842663B00B00A73CD6 /* AccountListView.swift */,
 				7162FD7F2880103400D20E62 /* AccountListRowView.swift */,
+				712FA1EE2888324F00594C16 /* AccountView.swift */,
 			);
 			path = Accounts;
 			sourceTree = "<group>";
@@ -703,6 +707,7 @@
 				71D0BC332882A26300A22693 /* UIDevice+onShake.swift in Sources */,
 				711553812663AE0900A73CD6 /* DeploymentListView.swift in Sources */,
 				7115537926629BB900A73CD6 /* VercelDeployment.swift in Sources */,
+				712FA1EF2888324F00594C16 /* AccountView.swift in Sources */,
 				7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				71059A8528786FEA00BF8B2E /* GitRepoModel.swift in Sources */,
@@ -753,6 +758,7 @@
 				711553B6266548E400A73CD6 /* DeploymentListRowView.swift in Sources */,
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
 				71059A8B2878737900BF8B2E /* ProjectDetailView.swift in Sources */,
+				712FA1F02888324F00594C16 /* AccountView.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				71493653278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,

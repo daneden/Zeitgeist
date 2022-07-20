@@ -11,28 +11,48 @@ struct AuthenticatedContentView: View {
   @EnvironmentObject var session: VercelSession
   
   var body: some View {
-    TabView {
+    if UIDevice.current.userInterfaceIdiom == .phone {
+      TabView {
+        NavigationView {
+          ProjectsListView()
+            .navigationTitle("Projects")
+        }.tabItem {
+          Label("Projects", systemImage: "folder")
+        }
+        
+        NavigationView {
+          DeploymentListView()
+            .navigationTitle("Deployments")
+        }
+        .tabItem {
+          Label("Deployments", systemImage: "list.bullet")
+        }
+        
+        NavigationView {
+          AccountView()
+            .navigationTitle("Account")
+        }
+        .tabItem {
+          Label("Account", systemImage: "person.crop.circle")
+        }
+      }
+    } else {
       NavigationView {
+        List {
+          NavigationLink(destination: ProjectsListView().navigationTitle("Projects")) {
+            Label("Projects", systemImage: "folder")
+          }
+          NavigationLink(destination: DeploymentListView().navigationTitle("Deployments")) {
+            Label("Deployments", systemImage: "list.bullet")
+          }
+          NavigationLink(destination: AccountView().navigationTitle("Account")) {
+            Label("Account", systemImage: "person.crop.circle")
+          }
+        }
+        .navigationTitle("Zeitgeist")
+        
         ProjectsListView()
-          .navigationTitle("Projects")
-      }.tabItem {
-        Label("Projects", systemImage: "folder")
-      }
-      
-      NavigationView {
-        DeploymentListView(accountId: session.accountId)
-          .navigationTitle("Deployments")
-      }
-      .tabItem {
-        Label("Deployments", systemImage: "list.bullet")
-      }
-      
-      NavigationView {
-        AccountListView()
-          .navigationTitle("Account")
-      }
-      .tabItem {
-        Label("Account", systemImage: "person.crop.circle")
+        PlaceholderView(forRole: .ProjectDetail)
       }
     }
   }

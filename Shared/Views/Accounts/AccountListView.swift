@@ -18,24 +18,29 @@ struct AccountListView: View {
           ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
             AccountListRowView(accountId: accountId)
               .tag(accountId)
+              .contextMenu {
+                Button(role: .destructive) {
+                  VercelSession.deleteAccount(id: accountId)
+                } label: {
+                  Label("Delete Account", systemImage: "person.badge.minus")
+                }
+              }
           }
           .onDelete(perform: deleteAccount)
           .onMove(perform: move)
         } label: {
           Text("Selected Account")
         }
+        .pickerStyle(.inline)
       }
       
       Section {
         Button(action: { signInModel.signIn() }) {
-          Label("Add Account", systemImage: "person.badge.plus")
-        }
-        
-        Button(role: .destructive, action: { VercelSession.deleteAccount(id: session.accountId)}) {
-          Label("Remove Account", systemImage: "person.badge.minus")
+          Label("Add New Account", systemImage: "person.badge.plus")
         }
       }
-      
+    }.toolbar {
+      EditButton()
     }
   }
   

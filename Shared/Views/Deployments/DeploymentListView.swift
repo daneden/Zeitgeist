@@ -45,7 +45,9 @@ struct DeploymentListView: View {
     projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
   }
   
-  var accountId: String
+  var accountId: String {
+    session.accountId
+  }
   
   var body: some View {
     Group {
