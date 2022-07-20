@@ -32,7 +32,7 @@ struct VercelAPI {
       path: String? = nil
     )
     
-    case projects
+    case projects(_ projectId: VercelProject.ID? = nil, path: String? = nil)
     
     case account(id: VercelAccount.ID)
     
@@ -40,7 +40,8 @@ struct VercelAPI {
       switch self {
       case .deployments(_, let deploymentID, let path):
         return [deploymentID, path].compactMap({ $0 })
-      case .projects: return []
+      case .projects(let projectId, let path):
+        return [projectId, path].compactMap({ $0 })
       case .account(_): return []
       }
     }
@@ -50,7 +51,7 @@ struct VercelAPI {
       case .deployments(let version, _, _):
         return "v\(version)/deployments/\(subPaths.joined(separator: "/"))"
       case .projects:
-        return "v9/projects"
+        return "v9/projects/\(subPaths.joined(separator: "/"))"
       case .account(let id):
         let isTeam = id.isTeam
         return isTeam ? "v2/teams/\(id)" : "v2/user"

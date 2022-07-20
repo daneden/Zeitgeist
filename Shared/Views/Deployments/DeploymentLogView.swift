@@ -75,6 +75,8 @@ struct LogEventView: View {
 
 struct DeploymentLogView: View {
   @EnvironmentObject private var session: VercelSession
+  
+  @State private var followLogs = false
   @State private var logEvents: [LogEvent] = []
   
   var deployment: VercelDeployment
@@ -90,6 +92,11 @@ struct DeploymentLogView: View {
                   .id(event.id)
               }
             }
+            .onReceive(logEvents.publisher) { _ in
+              if followLogs, let latestEvent = logEvents.last {
+                proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
+              }
+            }
             .frame(minHeight: geometry.size.height, alignment: .topLeading)
             .font(.footnote.monospaced())
             #if os(iOS)
@@ -101,18 +108,11 @@ struct DeploymentLogView: View {
               }
               
               
-              ToolbarItem(placement: .bottomBar) {
-                Button(action: {
-                  if let latestEvent = logEvents.last {
-                  withAnimation {
-                    proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
-                  }
-                  }
-                }) {
-                  Label("Scroll to bottom", systemImage: "chevron.down.square")
-                    .labelStyle(.titleAndIcon)
-                    .font(.footnote)
+              ToolbarItem(placement: .automatic) {
+                Toggle(isOn: $followLogs) {
+                  Label("Scroll to bottom", systemImage: "arrow.down.to.line.compact")
                 }
+                .toggleStyle(.button)
                 .disabled(logEvents.isEmpty)
               }
             }

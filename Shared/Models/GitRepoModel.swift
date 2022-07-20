@@ -31,6 +31,24 @@ extension GitRepo {
       return nil
     }
   }
+  
+  var repoUrl: URL? {
+    guard let name = name,
+          let org = org,
+          let type = type else {
+      return nil
+    }
+
+    switch type {
+    case .github:
+      return URL(string: "https://github.com/\(org)/\(name)/")
+    case .gitlab:
+      return URL(string: "https://gitlab.com/\(org)/\(name)/")
+    case .bitbucket:
+      return URL(string: "https://bitbucket.com/\(org)/\(name)/")
+    }
+    
+  }
 }
 
 struct GitDeployHook: Identifiable, Codable {

@@ -81,7 +81,7 @@ struct ProjectsListView: View {
       params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    var request = VercelAPI.request(for: .projects, with: session.accountId, queryItems: params)
+    var request = VercelAPI.request(for: .projects(), with: session.accountId, queryItems: params)
     try session.signRequest(&request)
     
     if pageId == nil,
