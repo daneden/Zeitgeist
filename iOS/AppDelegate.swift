@@ -18,11 +18,8 @@ let platform = "ios"
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  @AppStorage(Preferences.Keys.notificationsEnabled.rawValue)
-  private var notificationsEnabled = false
-  
-  @AppStorage(Preferences.Keys.authenticatedAccountIds.rawValue)
-  private var authenticatedAccountIds: AccountIDs = [] {
+  @AppStorage(Preferences.authenticatedAccountIds)
+  private var authenticatedAccountIds {
     didSet {
       UIApplication.shared.registerForRemoteNotifications()
     }
@@ -33,22 +30,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     UIApplication.shared.registerForRemoteNotifications()
-    
-    UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
-      switch settings.authorizationStatus {
-      case .denied, .notDetermined:
-        self.notificationsEnabled = false
-        return
-      default:
-        return
-      }
-    }
-    
     UNUserNotificationCenter.current().delegate = self
-
-    Task {
-      await NotificationManager.shared.toggleNotifications(notificationsEnabled)
-    }
     
     return true
   }
@@ -78,7 +60,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
     
-    _ = Preferences.authenticatedAccountIds.map { id in
+    Preferences.accountIds.forEach { id in
       let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
       let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(id)&device_id=\(token)&platform=\(platform)")!
       let request = URLRequest(url: url)

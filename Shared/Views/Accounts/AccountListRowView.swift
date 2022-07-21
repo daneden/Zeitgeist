@@ -17,26 +17,27 @@ struct AccountListRowView: View {
   @StateObject private var tempSession = VercelSession()
   
   var body: some View {
-    HStack {
+    Group {
       if let account = account {
-        VercelUserAvatarView(account: account)
-        
-        VStack(alignment: .leading) {
-          Text(account.name)
-          
-          if account.isTeam {
-            Text("Team Account").foregroundStyle(.secondary)
+        Label {
+          VStack(alignment: .leading) {
+            Text(account.name)
+            
+            if account.isTeam {
+              Text("Team Account").foregroundStyle(.secondary)
+            }
           }
+        } icon: {
+          VercelUserAvatarView(account: account)
         }
       } else {
-        ProgressView()
-        Text("Loading")
+        ProgressView("Loading")
       }
     }
     .onAppear {
       tempSession.accountId = accountId
     }
-    .id(account?.id)
+    .id(account?.name ?? accountId)
   }
 }
 

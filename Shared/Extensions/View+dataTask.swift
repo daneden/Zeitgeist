@@ -14,15 +14,24 @@ struct DataTaskModifier: ViewModifier {
   
   func body(content: Content) -> some View {
     content
-      .task { await action() }
-      .refreshable { await action() }
+      .task {
+        print("Updating from .task modifier")
+        await action()
+      }
+      .refreshable {
+        print("Updating due to refresh")
+        await action()
+      }
       .onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { output in
+        print("Updating based background notification")
         Task { await action() }
       }
-      .onReceive(session.accountId.publisher) { _ in
+      .onReceive(session.objectWillChange) { _ in
+        print("Updating based on change in session")
         Task { await action() }
       }
       .onChange(of: scenePhase) { _ in
+        print("Updating based on scene phase")
         Task { await action() }
       }
   }

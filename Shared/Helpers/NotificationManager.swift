@@ -13,7 +13,7 @@ class NotificationManager {
   static let shared = NotificationManager()
   private let notificationCenter = UNUserNotificationCenter.current()
   
-  @AppStorage(Preferences.Keys.notificationsEnabled.rawValue) var notificationsEnabled = false {
+  @AppStorage(Preferences.notificationsEnabled) var notificationsEnabled {
     didSet {
       Task {
         await self.toggleNotifications(notificationsEnabled)

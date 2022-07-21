@@ -93,13 +93,7 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
       let teamId = queryItems.filter({ $0.name == "teamId" }).first?.value ?? nil
       let userId = queryItems.filter({ $0.name == "userId" }).first?.value ?? nil
       
-      VercelSession.addAccount(id: teamId ?? userId ?? "-1", token: token)
-      
-      #if !os(macOS)
-      DispatchQueue.main.async {
-        UIApplication.shared.registerForRemoteNotifications()
-      }
-      #endif
+      VercelSession.addAccount(id: teamId ?? userId ?? VercelAccount.ID.NullValue, token: token)
     } else {
       print("Something went wrong!")
     }

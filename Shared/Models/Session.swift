@@ -45,8 +45,8 @@ extension SessionError: CustomStringConvertible {
 }
 
 class VercelSession: ObservableObject {
-  @AppStorage("authenticatedAccountIds", store: Preferences.store)
-  private var authenticatedAccountIds: AccountIDs = [] {
+  @AppStorage(Preferences.authenticatedAccountIds)
+  private var authenticatedAccountIds {
     didSet {
       if authenticatedAccountIds.count == 1,
          let firstAccount = authenticatedAccountIds.first {
@@ -110,11 +110,13 @@ class VercelSession: ObservableObject {
   }
   
   static func addAccount(id: String, token: String) {
+    guard id != .NullValue else { return }
+    
     KeychainItem(account: id).wrappedValue = token
     
     DispatchQueue.main.async {
-      Preferences.authenticatedAccountIds.append(id)
-      Preferences.authenticatedAccountIds = Preferences.authenticatedAccountIds.removingDuplicates()
+      Preferences.accountIds.append(id)
+      Preferences.accountIds = Preferences.accountIds.removingDuplicates()
     }
   }
   
@@ -122,7 +124,7 @@ class VercelSession: ObservableObject {
     let keychain = KeychainItem(account: id)
     keychain.wrappedValue = nil
     
-    withAnimation { Preferences.authenticatedAccountIds.removeAll { id == $0 } }
+    withAnimation { Preferences.accountIds.removeAll { id == $0 } }
   }
   
   func signRequest(_ request: inout URLRequest) throws {

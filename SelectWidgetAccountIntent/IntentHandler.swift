@@ -11,7 +11,7 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   static let defaultAccountDisplayString = "Default Account"
   
   func provideAccountOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetAccount> {
-    let accountIds = Preferences.authenticatedAccountIds
+    let accountIds = Preferences.accountIds
     async let accounts = accountIds.asyncMap { id -> VercelAccount? in
       let accountLoader = VercelSession()
       accountLoader.accountId = id
@@ -30,7 +30,7 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   }
   
   func defaultAccount(for intent: SelectAccountIntent) -> WidgetAccount? {
-    guard let firstAccountId = Preferences.authenticatedAccountIds.first else {
+    guard let firstAccountId = Preferences.accountIds.first else {
       return nil
     }
     

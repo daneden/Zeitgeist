@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AuthenticatedContentView: View {
   @EnvironmentObject var session: VercelSession
+  @State var signInModel = SignInViewModel()
   
   var iOSContent: some View {
     TabView {
@@ -42,10 +43,16 @@ struct AuthenticatedContentView: View {
       List {
         Menu {
           Picker(selection: $session.accountId, label: Text("Selected Account")) {
-            ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
+            ForEach(Preferences.accountIds, id: \.self) { accountId in
               AccountListRowView(accountId: accountId)
                 .tag(accountId)
             }
+          }
+          
+          Button {
+            signInModel.signIn()
+          } label: {
+            Label("Add Account", systemImage: "person.badge.plus")
           }
         } label: {
           AccountListRowView(accountId: session.accountId)

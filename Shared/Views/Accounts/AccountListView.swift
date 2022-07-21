@@ -15,7 +15,7 @@ struct AccountListView: View {
     List {
       Section {
         Picker(selection: $session.accountId) {
-          ForEach(Preferences.authenticatedAccountIds, id: \.self) { accountId in
+          ForEach(Preferences.accountIds, id: \.self) { accountId in
             AccountListRowView(accountId: accountId)
               .tag(accountId)
               .contextMenu {
@@ -44,7 +44,7 @@ struct AccountListView: View {
   
   func deleteAccount(at offsets: IndexSet) {
     let ids = offsets.map { offset in
-      Preferences.authenticatedAccountIds[offset]
+      Preferences.accountIds[offset]
     }
     
     for id in ids {
@@ -53,7 +53,7 @@ struct AccountListView: View {
   }
   
   func move(from source: IndexSet, to destination: Int) {
-    Preferences.authenticatedAccountIds.move(fromOffsets: source, toOffset: destination)
+    Preferences.accountIds.move(fromOffsets: source, toOffset: destination)
   }
 }
 
