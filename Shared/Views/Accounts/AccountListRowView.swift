@@ -40,7 +40,6 @@ struct AccountListRowView: View {
         icon: {
           VercelUserAvatarView(
             avatarID: account.avatar,
-            teamID: account.isTeam ? account.id : nil,
             size: avatarSize)
         }
       )

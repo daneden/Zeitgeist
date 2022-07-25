@@ -10,15 +10,10 @@ import SwiftUI
 
 struct VercelUserAvatarView: View {
   var avatarID: String?
-  var teamID: String?
   @State var size: CGFloat = 32
   
   private var url: String {
-    if let teamID = teamID {
-      return "https://vercel.com/api/www/avatar/?teamId=\(teamID)&s=\(size * 2)"
-    } else {
-      return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size * 2)"
-    }
+    return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size * 2)"
   }
   
   var body: some View {
