@@ -12,16 +12,11 @@ struct VercelUserAvatarView: View {
   var account: VercelAccount?
   
   var avatarID: String? { account?.avatar }
-  var teamID: String? { account?.id.isTeam == true ? account?.id : nil }
   
   @State var size: CGFloat = 32
   
   private var url: String {
-    if let teamID = teamID {
-      return "https://vercel.com/api/www/avatar/?teamId=\(teamID)&s=\(size)"
-    } else {
-      return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size)"
-    }
+    return "https://vercel.com/api/www/avatar/\(avatarID ?? "")?s=\(size)"
   }
   
   var body: some View {

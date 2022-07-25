@@ -24,7 +24,9 @@ struct AccountListRowView: View {
             Text(account.name)
             
             if account.isTeam {
-              Text("Team Account").foregroundStyle(.secondary)
+              Text("Team Account")
+                .foregroundStyle(.secondary)
+                .font(.caption)
             }
           }
         } icon: {
