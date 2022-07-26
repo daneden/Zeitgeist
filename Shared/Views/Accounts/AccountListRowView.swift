@@ -45,6 +45,6 @@ struct AccountListRowView: View {
 
 struct AccountListRowView_Previews: PreviewProvider {
     static var previews: some View {
-      AccountListRowView(accountId: "12345")
+      AccountListRowView(accountId: "v9dklkDUzwdLE3GZaVteSbJq")
     }
 }
