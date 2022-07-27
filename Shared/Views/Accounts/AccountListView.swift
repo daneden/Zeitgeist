@@ -17,23 +17,31 @@ struct AccountListView: View {
   var body: some View {
     List {
       Section {
-        Picker(selection: $session.account) {
-          ForEach(authenticatedAccounts, id: \.self) { account in
-            AccountListRowView(account: account)
-              .tag(Optional(account))
-              .contextMenu {
-                Button(role: .destructive) {
-                  VercelSession.deleteAccount(id: account.id)
-                } label: {
-                  Label("Delete Account", systemImage: "person.badge.minus")
-                }
+        ForEach(authenticatedAccounts, id: \.self) { account in
+          Button {
+            withAnimation(.interactiveSpring()) { session.account = account }
+          } label: {
+            HStack {
+              AccountListRowView(account: account)
+              
+              if account == session.account {
+                Spacer()
+                Image(systemName: "checkmark")
+                  .foregroundStyle(.primary)
               }
+            }
           }
-          .onDelete(perform: deleteAccount)
-          .onMove(perform: move)
-        } label: {
-          Text("Selected Account")
+          .foregroundStyle(.primary)
+          .contextMenu {
+            Button(role: .destructive) {
+              VercelSession.deleteAccount(id: account.id)
+            } label: {
+              Label("Delete Account", systemImage: "person.badge.minus")
+            }
+          }
         }
+        .onDelete(perform: deleteAccount)
+        .onMove(perform: move)
       }
       
       Section {
