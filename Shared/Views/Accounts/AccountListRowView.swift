@@ -8,20 +8,14 @@
 import SwiftUI
 
 struct AccountListRowView: View {
-  var accountId: VercelAccount.ID
-  
-  var account: VercelAccount? {
-    tempSession.account
-  }
-  
-  @StateObject private var tempSession = VercelSession()
+  var account: VercelAccount?
   
   var body: some View {
     Group {
       if let account = account {
         Label {
           VStack(alignment: .leading) {
-            Text(account.name)
+            Text(account.name ?? account.username)
             
             if account.isTeam {
               Text("Team Account")
@@ -36,15 +30,12 @@ struct AccountListRowView: View {
         ProgressView("Loading")
       }
     }
-    .onAppear {
-      tempSession.accountId = accountId
-    }
-    .id(account?.name ?? accountId)
+    .id(account?.id)
   }
 }
 
 struct AccountListRowView_Previews: PreviewProvider {
     static var previews: some View {
-      AccountListRowView(accountId: "v9dklkDUzwdLE3GZaVteSbJq")
+      AccountListRowView()
     }
 }

@@ -129,7 +129,8 @@ struct ProjectDetailView: View {
   }
   
   func loadProductionDeployment() async throws {
-    var productionDeploymentsRequest = VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: [
+    guard let accountId = session.account?.id else { return }
+    var productionDeploymentsRequest = VercelAPI.request(for: .deployments(version: 6), with: accountId, queryItems: [
       URLQueryItem(name: "projectId", value: project.id),
       URLQueryItem(name: "target", value: VercelDeployment.Target.production.rawValue)
     ])
@@ -152,7 +153,7 @@ struct ProjectDetailView: View {
       queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    var request = VercelAPI.request(for: .deployments(version: 6), with: session.accountId, queryItems: queryItems)
+    var request = VercelAPI.request(for: .deployments(version: 6), with: session.account?.id ?? .NullValue, queryItems: queryItems)
     try session.signRequest(&request)
     
     if pageId == nil,
@@ -177,7 +178,7 @@ struct ProjectDetailView: View {
   }
   
   func loadDomain() async throws {
-    var projectDomainsRequest = VercelAPI.request(for: .projects(project.id, path: "domains"), with: session.accountId)
+    var projectDomainsRequest = VercelAPI.request(for: .projects(project.id, path: "domains"), with: session.account?.id ?? .NullValue)
     try session.signRequest(&projectDomainsRequest)
     
     if let cachedResponse = URLCache.shared.cachedResponse(for: projectDomainsRequest),

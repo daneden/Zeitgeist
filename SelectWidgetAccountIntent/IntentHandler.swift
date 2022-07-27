@@ -11,18 +11,12 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   static let defaultAccountDisplayString = "Default Account"
   
   func provideAccountOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetAccount> {
-    let accountIds = Preferences.accountIds
-    async let accounts = accountIds.asyncMap { id -> VercelAccount? in
-      let accountLoader = VercelSession()
-      accountLoader.accountId = id
-      
-      return await accountLoader.loadAccount()
-    }.compactMap({ $0 })
+    let accounts = Preferences.accounts
       .map { account in
-        WidgetAccount(identifier: account.id, display: account.name)
+        WidgetAccount(identifier: account.id, display: account.name ?? account.username)
       }
     
-    return await INObjectCollection(items: accounts)
+    return INObjectCollection(items: accounts)
   }
   
   override func handler(for intent: INIntent) -> Any {
@@ -30,12 +24,12 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
   }
   
   func defaultAccount(for intent: SelectAccountIntent) -> WidgetAccount? {
-    guard let firstAccountId = Preferences.accountIds.first else {
+    guard let firstAccount = Preferences.accounts.first else {
       return nil
     }
     
     return WidgetAccount(
-      identifier: firstAccountId,
+      identifier: firstAccount.id,
       display: IntentHandler.defaultAccountDisplayString
     )
   }

@@ -10,7 +10,7 @@ import SwiftUI
 struct DeploymentDetailView: View {
   @EnvironmentObject var session: VercelSession
   
-  var accountId: VercelAccount.ID { session.accountId }
+  var accountId: VercelAccount.ID { session.account?.id ?? .NullValue }
   @State var deployment: VercelDeployment
   
   var body: some View {
@@ -29,7 +29,7 @@ struct DeploymentDetailView: View {
   }
   
   private func loadDeploymentDetails() async throws {
-    var request = VercelAPI.request(for: .deployments(deploymentID: deployment.id), with: session.accountId)
+    var request = VercelAPI.request(for: .deployments(deploymentID: deployment.id), with: accountId)
     try session.signRequest(&request)
     
     let (data, _) = try await URLSession.shared.data(for: request)

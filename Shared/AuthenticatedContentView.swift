@@ -29,7 +29,7 @@ struct AuthenticatedContentView: View {
       }
       
       NavigationView {
-        AccountView()
+        AccountListView()
           .navigationTitle("Account")
       }
       .tabItem {
@@ -42,10 +42,10 @@ struct AuthenticatedContentView: View {
     NavigationView {
       List {
         Menu {
-          Picker(selection: $session.accountId, label: Text("Selected Account")) {
-            ForEach(Preferences.accountIds, id: \.self) { accountId in
-              AccountListRowView(accountId: accountId)
-                .tag(accountId)
+          Picker(selection: $session.account, label: Text("Selected Account")) {
+            ForEach(Preferences.accounts, id: \.self) { account in
+              AccountListRowView(account: account)
+                .tag(account)
             }
           }
           
@@ -55,8 +55,8 @@ struct AuthenticatedContentView: View {
             Label("Add Account", systemImage: "person.badge.plus")
           }
         } label: {
-          AccountListRowView(accountId: session.accountId)
-            .id(session.accountId)
+          AccountListRowView(account: session.account)
+            .id(session.account)
         }
         
         NavigationLink(destination: ProjectsListView().navigationTitle("Projects")) {

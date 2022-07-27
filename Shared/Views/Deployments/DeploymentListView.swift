@@ -46,7 +46,7 @@ struct DeploymentListView: View {
   }
   
   var accountId: String {
-    session.accountId
+    session.account?.id ?? .NullValue
   }
   
   var body: some View {
@@ -126,7 +126,7 @@ struct DeploymentListView: View {
       params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
     }
     
-    var request = VercelAPI.request(for: .deployments(), with: session.accountId, queryItems: params)
+    var request = VercelAPI.request(for: .deployments(), with: session.account?.id ?? .NullValue, queryItems: params)
     try session.signRequest(&request)
     
     if pageId == nil,

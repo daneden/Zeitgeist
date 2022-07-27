@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Preferences {
   enum Keys: String {
-    case authenticatedAccountIds,
+    case authenticatedAccounts,
          notificationsEnabled,
          deploymentNotificationsProductionOnly,
          deploymentReadyNotificationIds,
@@ -25,10 +25,10 @@ struct Preferences {
   static let deploymentReadyNotificationIds: AppStorageKVPair<[VercelProject.ID]> = (.deploymentReadyNotificationIds, [])
   static let deploymentErrorNotificationIds: AppStorageKVPair<[VercelProject.ID]> = (.deploymentErrorNotificationIds, [])
   static let deploymentNotificationIds: AppStorageKVPair<[VercelProject.ID]> = (.deploymentNotificationIds, [])
-  static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
+  static let authenticatedAccounts: AppStorageKVPair<[VercelAccount]> = (.authenticatedAccounts, [])
   
-  @AppStorage(Preferences.authenticatedAccountIds)
-  static var accountIds
+  @AppStorage(Preferences.authenticatedAccounts)
+  static var accounts
 
   static let store = UserDefaults(suiteName: "group.me.daneden.Zeitgeist")!
 }
