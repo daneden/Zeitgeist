@@ -44,11 +44,7 @@ struct ProjectDetailView: View {
            let url = gitLink.repoUrl {
           LabelView("Git Repository") {
             Link(destination: url) {
-              Label {
-                Text(slug)
-              } icon: {
-                GitProviderImage(provider: provider)
-              }
+              Label(slug, image: provider.rawValue)
             }
           }
         }

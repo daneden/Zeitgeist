@@ -48,12 +48,9 @@ struct ProjectsListView: View {
             
             if let repoSlug = project.link?.repoSlug,
                let provider = project.link?.type {
-              HStack {
-                GitProviderImage(provider: provider)
-                Text(repoSlug)
-              }
-              .font(.footnote)
-              .foregroundStyle(.secondary)
+              Text("\(Image(provider.rawValue)) \(repoSlug)")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
             }
           }
           .padding(.vertical, 4)

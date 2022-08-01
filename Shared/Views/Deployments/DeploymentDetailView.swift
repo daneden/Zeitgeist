@@ -63,7 +63,7 @@ fileprivate struct Overview: View {
                   .font(Font.footnote)
               }
             },
-            icon: { GitProviderImage(provider: commit.provider).accentColor(.primary) }
+            icon: { Image(commit.provider.rawValue).accentColor(.primary) }
           )
         } else {
           VStack(alignment: .leading) {
@@ -170,10 +170,7 @@ fileprivate struct DeploymentDetails: View {
          let commitUrl: URL = svnInfo.commitUrl,
          let shortSha: String = svnInfo.shortSha {
         Link(destination: commitUrl) {
-          Label(
-            title: { Text("View Commit (\(shortSha))") },
-            icon: { GitProviderImage(provider: svnInfo.provider) }
-          )
+          Label("View Commit (\(Text(shortSha).font(.system(.body, design: .monospaced))))", image: svnInfo.provider.rawValue)
         }
       }
       
