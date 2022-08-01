@@ -96,7 +96,6 @@ struct ProjectDetailView: View {
         } label: {
           Label("Notification settings)", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
         }
-        .symbolRenderingMode(.hierarchical)
       }
     }
     .navigationTitle(project.name)

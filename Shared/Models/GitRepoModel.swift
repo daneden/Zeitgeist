@@ -12,33 +12,23 @@ enum GitSVNProvider: String, Codable {
 }
 
 protocol GitRepo: Decodable {
-  var type: GitSVNProvider? { get }
-  var org: String? { get }
-  var name: String? { get }
+  var type: GitSVNProvider { get }
+  var org: String { get }
+  var name: String { get }
   var deployHooks: [GitDeployHook] { get }
-  var updatedAt: Int? { get }
-  var createdAt: Int? { get }
+  var updatedAt: Int { get }
+  var createdAt: Int { get }
   var sourceless: Bool? { get }
-  var productionBranch: String? { get }
-  var gitCredentialId: String? { get }
+  var productionBranch: String { get }
+  var gitCredentialId: String { get }
 }
 
 extension GitRepo {
-  var repoSlug: String? {
-    if let org = org, let name = name {
-      return "\(org)/\(name)"
-    } else {
-      return nil
-    }
+  var repoSlug: String {
+    return "\(org)/\(name)"
   }
   
   var repoUrl: URL? {
-    guard let name = name,
-          let org = org,
-          let type = type else {
-      return nil
-    }
-
     switch type {
     case .github:
       return URL(string: "https://github.com/\(org)/\(name)/")
@@ -60,15 +50,15 @@ struct GitDeployHook: Identifiable, Codable {
 }
 
 struct GitHubRepo: GitRepo, Codable {
-  let org: String?
-  let name: String?
-  let type: GitSVNProvider?
+  let org: String
+  let name: String
+  let type: GitSVNProvider
   let deployHooks: [GitDeployHook]
-  let createdAt: Int?
-  let gitCredentialId: String?
+  let createdAt: Int
+  let gitCredentialId: String
   let sourceless: Bool?
-  let updatedAt: Int?
-  let productionBranch: String?
+  let updatedAt: Int
+  let productionBranch: String
   
   enum CodingKeys: String, CodingKey {
     case org, type, deployHooks, gitCredentialId, updatedAt, createdAt, sourceless, productionBranch
@@ -78,15 +68,15 @@ struct GitHubRepo: GitRepo, Codable {
 }
 
 struct GitLabRepo: GitRepo, Codable {
-  let org: String?
-  let name: String?
-  let type: GitSVNProvider?
+  let org: String
+  let name: String
+  let type: GitSVNProvider
   let deployHooks: [GitDeployHook]
-  let createdAt: Int?
-  let gitCredentialId: String?
+  let createdAt: Int
+  let gitCredentialId: String
   let sourceless: Bool?
-  let updatedAt: Int?
-  let productionBranch: String?
+  let updatedAt: Int
+  let productionBranch: String
   
   enum CodingKeys: String, CodingKey {
     case type, deployHooks, gitCredentialId, updatedAt, createdAt, sourceless, productionBranch
@@ -97,15 +87,15 @@ struct GitLabRepo: GitRepo, Codable {
 }
 
 struct BitBucketRepo: GitRepo, Codable {
-  let org: String?
-  let name: String?
-  let type: GitSVNProvider?
+  let org: String
+  let name: String
+  let type: GitSVNProvider
   let deployHooks: [GitDeployHook]
-  let createdAt: Int?
-  let gitCredentialId: String?
+  let createdAt: Int
+  let gitCredentialId: String
   let sourceless: Bool?
-  let updatedAt: Int?
-  let productionBranch: String?
+  let updatedAt: Int
+  let productionBranch: String
   
   enum CodingKeys: String, CodingKey {
     case type, deployHooks, gitCredentialId, updatedAt, createdAt, sourceless, productionBranch
@@ -117,15 +107,15 @@ struct BitBucketRepo: GitRepo, Codable {
 struct VercelRepositoryLink: Decodable, GitRepo {
   private var wrapped: GitRepo
   
-  var name: String? { wrapped.name }
-  var type: GitSVNProvider? { wrapped.type }
+  var name: String { wrapped.name }
+  var type: GitSVNProvider { wrapped.type }
   var sourceless: Bool? { wrapped.sourceless }
-  var updatedAt: Int? { wrapped.updatedAt }
-  var createdAt: Int? { wrapped.createdAt }
-  var productionBranch: String? { wrapped.productionBranch }
-  var gitCredentialId: String? { wrapped.gitCredentialId }
+  var updatedAt: Int { wrapped.updatedAt }
+  var createdAt: Int { wrapped.createdAt }
+  var productionBranch: String { wrapped.productionBranch }
+  var gitCredentialId: String { wrapped.gitCredentialId }
   var deployHooks: [GitDeployHook] { wrapped.deployHooks }
-  var org: String? { wrapped.org }
+  var org: String { wrapped.org }
   
   init(from decoder: Decoder) throws {
     if let githubDecoded = try? GitHubRepo(from: decoder) {

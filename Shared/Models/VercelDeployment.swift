@@ -143,9 +143,9 @@ extension VercelDeployment {
     var description: String {
       switch self {
       case .gitCommit(let commit):
-        return "\(commit.commitMessageSummary)"
+        return commit.commitMessageSummary
       case .deployHook(let name):
-        return "Ė \(name)"
+        return name
       case .manual:
         return "Manual deployment"
       }

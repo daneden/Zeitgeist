@@ -45,7 +45,6 @@ struct ProjectNotificationsView: View {
       Section {
         Toggle(isOn: productionNotificationsOnly) {
           Label("Production only", systemImage: "theatermasks.fill")
-            .symbolRenderingMode(.hierarchical)
         }
       } footer: {
         Text("When enabled, Zeitgeist will only send the notification types selected below for deployments targeting a production environment.")
@@ -70,7 +69,6 @@ struct ProjectNotificationsView: View {
         presentationMode.wrappedValue.dismiss()
       } label: {
         Label("Dismiss", systemImage: "xmark")
-          .symbolRenderingMode(.monochrome)
       }
     }
     .navigationTitle("Notifications for \(project.name)")

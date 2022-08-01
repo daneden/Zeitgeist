@@ -23,7 +23,6 @@ struct DeploymentListRowView: View {
                 .labelStyle(.iconOnly)
                 .foregroundStyle(.tint)
                 .symbolVariant(.fill)
-                .symbolRenderingMode(.hierarchical)
                 .imageScale(.small)
             }
             

@@ -18,9 +18,7 @@ struct DeploymentDetailView: View {
       Overview(deployment: deployment)
       URLDetails(accountId: accountId, deployment: deployment)
       DeploymentDetails(accountId: accountId, deployment: deployment)
-        .symbolRenderingMode(.multicolor)
     }
-    .symbolRenderingMode(.hierarchical)
     .navigationTitle("Deployment Details")
     .makeContainer()
     .dataTask {
@@ -197,6 +195,7 @@ fileprivate struct DeploymentDetails: View {
           )
         }
         .disabled(mutating)
+        .symbolRenderingMode(.multicolor)
       } else {
         Button(role: .destructive, action: { cancelConfirmation = true }) {
           HStack {
@@ -219,6 +218,7 @@ fileprivate struct DeploymentDetails: View {
             secondaryButton: .cancel(Text("Close"))
           )
         }
+        .symbolRenderingMode(.multicolor)
       }
     }
   }

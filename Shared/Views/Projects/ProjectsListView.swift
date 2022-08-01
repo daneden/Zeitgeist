@@ -72,7 +72,7 @@ struct ProjectsListView: View {
           }
       }
     }
-    .dataTask { try? await loadProjects() }
+    .dataTask { do { try await loadProjects() } catch { print(error) } }
   }
   
   func loadProjects(pageId: Int? = nil) async throws {

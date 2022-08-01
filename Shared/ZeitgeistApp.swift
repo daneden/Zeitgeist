@@ -35,7 +35,7 @@ struct ZeitgeistApp: App {
           }
         }
       }
-      .symbolRenderingMode(.multicolor)
+      .symbolRenderingMode(.hierarchical)
       .onAppear {
         withAnimation {
           if let account = Preferences.accounts.first {

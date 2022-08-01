@@ -59,7 +59,7 @@ struct DeploymentListView: View {
 
           Button(action: clearFilters) {
             Label("Clear Filters", systemImage: "xmark.circle")
-          }.symbolRenderingMode(.monochrome)
+          }
 
           Spacer()
         }
