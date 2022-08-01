@@ -24,6 +24,12 @@ struct ProjectsListView: View {
   @State private var projects: [VercelProject] = []
   @State private var pagination: Pagination?
   
+  var interpolatedStringView: some View {
+    Text("\(Image(systemName: "person")) Example String")
+  }
+  
+  @State private var showExample = false
+  
   var body: some View {
     List {
       ForEach(projects) { project in
@@ -73,6 +79,38 @@ struct ProjectsListView: View {
       }
     }
     .dataTask { do { try await loadProjects() } catch { print(error) } }
+    .toolbar {
+      Button {
+        showExample.toggle()
+      } label: {
+        Label("Show Example", systemImage: "person")
+      }
+      .sheet(isPresented: $showExample) {
+        Form {
+          LabelView("Default Behaviour") {
+            interpolatedStringView
+          }
+          
+          LabelView("Filled Variant") {
+            interpolatedStringView
+              .symbolVariant(.fill)
+          }
+          
+          LabelView("Slashed, Hierarchical Variant") {
+            interpolatedStringView
+              .symbolVariant(.slash)
+              .symbolRenderingMode(.hierarchical)
+          }
+          
+          LabelView("Slashed, Filled, Hierarchical Variant") {
+            interpolatedStringView
+              .symbolVariant(.slash)
+              .symbolVariant(.fill)
+              .symbolRenderingMode(.hierarchical)
+          }
+        }
+      }
+    }
   }
   
   func loadProjects(pageId: Int? = nil) async throws {
