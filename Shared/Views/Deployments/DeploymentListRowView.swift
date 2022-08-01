@@ -30,8 +30,15 @@ struct DeploymentListRowView: View {
           }
           .font(.footnote.bold())
           
-          Text(deployment.deploymentCause.description)
-            .lineLimit(2)
+          switch deployment.deploymentCause {
+          case .deployHook(let name):
+            Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+              .lineLimit(2)
+              .imageScale(.small)
+          default:
+            Text(deployment.deploymentCause.description)
+              .lineLimit(2)
+          }
           
           VStack(alignment: .leading, spacing: 2) {
             Text("\(deployment.created, style: .relative) ago")
