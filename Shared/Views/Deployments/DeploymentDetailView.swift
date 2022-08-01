@@ -48,7 +48,7 @@ fileprivate struct Overview: View {
       }
       
       LabelView("Commit Message") {
-        Text(deployment.deploymentCause)
+        Text(deployment.deploymentCause.description)
           .font(.headline)
       }
       

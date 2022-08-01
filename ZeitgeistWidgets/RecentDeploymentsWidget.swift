@@ -146,7 +146,7 @@ struct RecentDeploymentsListRowView: View {
       title: {
         Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
           VStack(alignment: .leading) {
-            Text(deployment.deploymentCause)
+            Text(deployment.deploymentCause.description)
               .lineLimit(1)
             Text("\(deployment.project) • \(deployment.created, style: .relative)")
               .font(.caption)

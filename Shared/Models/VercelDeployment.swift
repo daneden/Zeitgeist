@@ -1,7 +1,6 @@
 import Foundation
 import SwiftUI
 
-
 struct VercelDeployment: Identifiable, Hashable, Decodable {
   var isMockDeployment: Bool?
   var project: String
@@ -28,8 +27,14 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
   var creator: Creator
   var commit: AnyCommit?
   
-  var deploymentCause: String {
-    commit?.commitMessageSummary ?? "Manual Deployment"
+  var deploymentCause: DeploymentCause {
+    guard let commit = commit else { return .manual }
+
+    if let deploymentHookName = commit.deployHookName {
+      return .deployHook(name: deploymentHookName)
+    } else {
+      return .gitCommit(commit: commit)
+    }
   }
   
   func hash(into hasher: inout Hasher) {
@@ -126,6 +131,34 @@ extension VercelDeployment {
         return "Offline"
       default:
         return "Ready"
+      }
+    }
+  }
+  
+  enum DeploymentCause {
+    case deployHook(name: String)
+    case gitCommit(commit: AnyCommit)
+    case manual
+    
+    var description: String {
+      switch self {
+      case .gitCommit(let commit):
+        return "\(commit.commitMessageSummary)"
+      case .deployHook(let name):
+        return "\(name)"
+      case .manual:
+        return "Manual deployment"
+      }
+    }
+    
+    var icon: String? {
+      switch self {
+      case .gitCommit(let commit):
+        return commit.provider.rawValue
+      case .deployHook(_):
+        return "hook"
+      case .manual:
+        return nil
       }
     }
   }

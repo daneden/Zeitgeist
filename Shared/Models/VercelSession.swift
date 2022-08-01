@@ -51,6 +51,9 @@ class VercelSession: ObservableObject {
     account != nil && authenticationToken != nil
   }
   
+  // Assume accounts are authorized unless proven otherwise
+  @Published private(set) var isAuthorized = true
+  
   @MainActor
   func loadAccount(fromCache: Bool = false) async -> VercelAccount? {
     do {
@@ -67,7 +70,18 @@ class VercelSession: ObservableObject {
         return decodedFromCache
       }
       
-      let (data, _) = try await URLSession.shared.data(for: request)
+      let (data, response) = try await URLSession.shared.data(for: request)
+      
+      switch (response as! HTTPURLResponse).statusCode {
+      case 200..<300:
+        isAuthorized = true
+        break
+      case 401...403, 409, 410, 428:
+        isAuthorized = false
+        return nil
+      default:
+        return nil
+      }
 
       return try JSONDecoder().decode(VercelAccount.self, from: data)
     } catch {

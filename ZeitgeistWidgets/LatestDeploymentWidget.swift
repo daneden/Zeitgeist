@@ -114,7 +114,7 @@ struct LatestDeploymentWidgetView: View {
             .font(Font.caption.bold())
             .padding(.bottom, 2)
           
-          Text(deployment.deploymentCause)
+          Text(deployment.deploymentCause.description)
             .font(.subheadline)
             .fontWeight(.bold)
             .lineLimit(3)

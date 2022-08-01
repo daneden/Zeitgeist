@@ -16,6 +16,9 @@ protocol GitCommit: Decodable {
   var commitUrl: URL { get }
   var org: String { get }
   var repo: String { get }
+  var deployHookId: String? { get }
+  var deployHookName: String? { get }
+  var deployHookRef: String? { get }
 }
 
 extension GitCommit {
@@ -43,6 +46,9 @@ struct GitHubCommit: Codable, GitCommit {
   let commitAuthorName: String
   let org: String
   let repo: String
+  let deployHookId: String?
+  let deployHookName: String?
+  let deployHookRef: String?
   
   var provider: GitSVNProvider { .github }
   
@@ -52,6 +58,7 @@ struct GitHubCommit: Codable, GitCommit {
     case commitAuthorName = "githubCommitAuthorName"
     case org = "githubCommitOrg"
     case repo = "githubCommitRepo"
+    case deployHookName, deployHookRef, deployHookId
   }
 }
 
@@ -62,6 +69,9 @@ struct GitLabCommit: Codable, GitCommit {
   let commitAuthorName: String
   var org: String { projectPath.components(separatedBy: "/")[0] }
   var repo: String { projectPath.components(separatedBy: "/")[1] }
+  let deployHookId: String?
+  let deployHookName: String?
+  let deployHookRef: String?
   
   private let projectPath: String
   
@@ -70,6 +80,7 @@ struct GitLabCommit: Codable, GitCommit {
     case commitMessage = "gitlabCommitMessage"
     case commitAuthorName = "gitlabCommitAuthorName"
     case projectPath = "gitlabProjectPath"
+    case deployHookName, deployHookRef, deployHookId
   }
 }
 
@@ -80,6 +91,9 @@ struct BitBucketCommit: Codable, GitCommit {
   let commitAuthorName: String
   let org: String
   let repo: String
+  let deployHookId: String?
+  let deployHookName: String?
+  let deployHookRef: String?
   
   enum CodingKeys: String, CodingKey {
     case commitSha = "bitbucketCommitSha"
@@ -87,6 +101,7 @@ struct BitBucketCommit: Codable, GitCommit {
     case commitAuthorName = "bitbucketCommitAuthorName"
     case org = "bitbucketRepoOwner"
     case repo = "bitbucketRepoSlug"
+    case deployHookName, deployHookRef, deployHookId
   }
 }
 
@@ -99,6 +114,9 @@ struct AnyCommit: Decodable, GitCommit {
   var commitAuthorName: String { wrapped.commitAuthorName }
   var org: String { wrapped.org }
   var repo: String { wrapped.repo }
+  var deployHookId: String? { wrapped.deployHookId }
+  var deployHookName: String? { wrapped.deployHookName }
+  var deployHookRef: String? { wrapped.deployHookRef }
   
   init(from decoder: Decoder) throws {
     if let githubCommit = try? GitHubCommit(from: decoder) {

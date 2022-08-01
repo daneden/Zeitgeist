@@ -8,20 +8,11 @@
 
 import SwiftUI
 
-let imageMap: [GitSVNProvider: String] = [
-  .bitbucket: "BitBucket",
-  .github: "GitHub",
-  .gitlab: "GitLab"
-]
-
 struct GitProviderImage: View {
   @ScaledMetric var size: CGFloat = 18
   var provider: GitSVNProvider
   var body: some View {
-    Image(imageMap[provider]!)
-      .resizable()
-      .aspectRatio(contentMode: .fit)
-      .frame(width: size, height: size)
+    Image(provider.rawValue)
   }
 }
 

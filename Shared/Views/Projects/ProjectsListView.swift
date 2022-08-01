@@ -39,7 +39,11 @@ struct ProjectsListView: View {
             }
             
             if let productionDeploymentCause = project.targets?.production?.deploymentCause {
-              Text(productionDeploymentCause).lineLimit(2)
+              if let icon = productionDeploymentCause.icon {
+                Text("\(Image(icon)) \(productionDeploymentCause.description)").lineLimit(2)
+              } else {
+                Text(productionDeploymentCause.description).lineLimit(2)
+              }
             }
             
             if let repoSlug = project.link?.repoSlug,

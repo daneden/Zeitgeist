@@ -31,7 +31,7 @@ struct DeploymentListRowView: View {
           }
           .font(.footnote.bold())
           
-          Text(deployment.deploymentCause)
+          Text(deployment.deploymentCause.description)
             .lineLimit(2)
           
           VStack(alignment: .leading, spacing: 2) {
