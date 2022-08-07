@@ -167,13 +167,13 @@ fileprivate struct DeploymentDetails: View {
         .contextMenu {
           Section {
             Button {
-              UIPasteboard.general.string = deployment.commit?.commitSha
+              Pasteboard.setString(deployment.commit?.commitSha)
             } label: {
               "Copy Commit Sha"
             }
             
             Button {
-              UIPasteboard.general.string = commitUrl.absoluteString
+              Pasteboard.setString(commitUrl.absoluteString)
             } label: {
               "Copy Commit URL"
             }
