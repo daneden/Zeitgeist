@@ -22,7 +22,11 @@ struct DeploymentDetailView: View {
     .navigationTitle("Deployment Details")
     .makeContainer()
     .dataTask {
-      try? await loadDeploymentDetails()
+      do {
+        try await loadDeploymentDetails()
+      } catch {
+        print(error)
+      }
     }
   }
   
@@ -45,32 +49,22 @@ fileprivate struct Overview: View {
         Text(deployment.project)
       }
       
-      LabelView("Commit Message") {
-        Text(deployment.deploymentCause.description)
-          .font(.headline)
-      }
-      
-      LabelView("Author") {
-        if let commit = deployment.commit {
-          Label(
-            title: {
-              VStack(alignment: .leading) {
-                Text("\(commit.commitAuthorName)").lineLimit(1)
-                Text("\(deployment.created, style: .relative) ago")
-                  .foregroundColor(.secondary)
-                  .font(Font.footnote)
-              }
-            },
-            icon: { Image(commit.provider.rawValue).accentColor(.primary) }
-          )
-        } else {
-          VStack(alignment: .leading) {
-            Text("Deployed by \(deployment.creator.username)")
-            Text("\(deployment.created, style: .relative) ago")
-              .foregroundColor(.secondary)
-              .font(.footnote)
+      LabelView {
+        "Deployment Cause"
+      } content: {
+        Group {
+          switch deployment.deploymentCause {
+          case .deployHook(let name):
+            Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+          case .manual:
+            "Manual Deployment"
+          case .gitCommit(let commit):
+            commit.commitMessageSummary
+            Text("\(Image(deployment.deploymentCause.icon!)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
+              .foregroundStyle(.secondary)
+              .font(.footnote.weight(.regular))
           }
-        }
+        }.font(.headline)
       }
       
       LabelView("Status") {
@@ -169,6 +163,23 @@ fileprivate struct DeploymentDetails: View {
          let shortSha: String = svnInfo.shortSha {
         Link(destination: commitUrl) {
           Label("View Commit (\(Text(shortSha).font(.system(.body, design: .monospaced))))", image: svnInfo.provider.rawValue)
+        }
+        .contextMenu {
+          Section {
+            Button {
+              UIPasteboard.general.string = deployment.commit?.commitSha
+            } label: {
+              "Copy Commit Sha"
+            }
+            
+            Button {
+              UIPasteboard.general.string = commitUrl.absoluteString
+            } label: {
+              "Copy Commit URL"
+            }
+          } header: {
+            Label("Copy", systemImage: "doc.on.doc")
+          }
         }
       }
       

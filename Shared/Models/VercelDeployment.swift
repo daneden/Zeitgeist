@@ -24,7 +24,6 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
     URL(string: "https://\(inspectorUrlString)")!
   }
   
-  var creator: Creator
   var commit: AnyCommit?
   
   var deploymentCause: DeploymentCause {
@@ -61,7 +60,6 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
     createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
     id = try container.decodeIfPresent(String.self, forKey: .uid) ?? container.decode(String.self, forKey: .id)
     commit = try? container.decode(AnyCommit.self, forKey: .commit)
-    creator = try container.decode(VercelDeployment.Creator.self, forKey: .creator)
     target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
     inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrlString) ?? "\(urlString)/_logs"
   }
@@ -80,7 +78,6 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
     urlString = "zeitgeist.daneden.me"
     createdAt = Int(Date().timeIntervalSince1970 * 1000)
     id = "0000"
-    creator = VercelDeployment.Creator(uid: "0000", username: "zeitgeist", email: "dan.eden@me.com")
     target = VercelDeployment.Target.staging
   }
   
@@ -90,16 +87,6 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 }
 
 extension VercelDeployment {
-  struct Creator: Codable, Identifiable {
-    var uid: String
-    var username: String
-    var email: String
-    
-    var id: String {
-      return uid
-    }
-  }
-  
   enum State: String, Codable, CaseIterable {
     case ready = "READY"
     case queued = "QUEUED"

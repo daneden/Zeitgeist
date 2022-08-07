@@ -7,23 +7,36 @@
 
 import SwiftUI
 
-struct LabelView<Content: View>: View {
-  var label: String
+struct LabelView<S: View, Content: View>: View {
+  var label: () -> S
   var content: Content
   
-  init(_ label: String, @ViewBuilder content: () -> Content) {
+  init(_ label: @escaping () -> S, @ViewBuilder content: () -> Content) {
     self.label = label
     self.content = content()
   }
   
   var body: some View {
     VStack(alignment: .leading, spacing: 2) {
-      Text(label)
+      label()
         .font(.footnote)
         .foregroundColor(.secondary)
       
       content
     }.padding(.vertical, 4)
+  }
+}
+
+extension LabelView where S == Text {
+  init(_ label: String, @ViewBuilder content: () -> Content) {
+    self.label = { Text(label) }
+    self.content = content()
+  }
+}
+
+extension String: View {
+  public var body: some View {
+    Text(self)
   }
 }
 
