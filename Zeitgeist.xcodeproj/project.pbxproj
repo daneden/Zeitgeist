@@ -116,6 +116,11 @@
 		71493655278AEF1A001CB921 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
 		714D4499289FD979005105B7 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		714D449A289FD979005105B7 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		714D449C289FEEA2005105B7 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
+		714D449D289FEEA2005105B7 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
+		714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
+		714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
+		714D44A1289FF550005105B7 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -237,6 +242,8 @@
 		7144D0492887F9C900F0AE1E /* VercelDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDomain.swift; sourceTree = "<group>"; };
 		71493651278AEBA2001CB921 /* DeploymentLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentLogView.swift; sourceTree = "<group>"; };
 		714D4498289FD979005105B7 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
+		714D449B289FEEA2005105B7 /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
+		714D449F289FF550005105B7 /* ProjectsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListRowView.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -294,6 +301,7 @@
 				71059A7D28786F4100BF8B2E /* ProjectsListView.swift */,
 				71059A892878737900BF8B2E /* ProjectDetailView.swift */,
 				71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */,
+				714D449F289FF550005105B7 /* ProjectsListRowView.swift */,
 			);
 			path = Projects;
 			sourceTree = "<group>";
@@ -382,6 +390,7 @@
 				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
 				71F9020826656A21000A8873 /* Preferences.swift */,
 				714D4498289FD979005105B7 /* Pasteboard.swift */,
+				714D449B289FEEA2005105B7 /* PlaceholderData.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -691,6 +700,7 @@
 				71D0BC2F2881F2C200A22693 /* Notification+ZPS.swift in Sources */,
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				7115535C26627BB900A73CD6 /* AddAccountButton.swift in Sources */,
+				714D449C289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				714D4499289FD979005105B7 /* Pasteboard.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
@@ -726,6 +736,7 @@
 				71493652278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
 				71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */,
+				714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */,
 				7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
 				7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */,
 			);
@@ -751,6 +762,7 @@
 				711553BD266548F400A73CD6 /* Array.extension.swift in Sources */,
 				711553B6266548E400A73CD6 /* DeploymentListRowView.swift in Sources */,
 				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
+				714D44A1289FF550005105B7 /* ProjectsListRowView.swift in Sources */,
 				71059A8B2878737900BF8B2E /* ProjectDetailView.swift in Sources */,
 				714D449A289FD979005105B7 /* Pasteboard.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
@@ -774,6 +786,7 @@
 				71D0BC3C28868FF400A22693 /* ProjectNotificationsView.swift in Sources */,
 				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
 				711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */,
+				714D449D289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
 				71F9020A26656A21000A8873 /* Preferences.swift in Sources */,
 			);
@@ -805,6 +818,7 @@
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
 				7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
 				71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */,
+				714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);

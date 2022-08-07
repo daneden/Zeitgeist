@@ -50,16 +50,16 @@ fileprivate struct Overview: View {
       }
       
       LabelView {
-        "Deployment Cause"
+        Text("Deployment Cause")
       } content: {
         Group {
           switch deployment.deploymentCause {
           case .deployHook(let name):
             Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
           case .manual:
-            "Manual Deployment"
+            Text("Manual Deployment")
           case .gitCommit(let commit):
-            commit.commitMessageSummary
+            Text(commit.commitMessageSummary)
             Text("\(Image(deployment.deploymentCause.icon!)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
               .foregroundStyle(.secondary)
               .font(.footnote.weight(.regular))
@@ -169,13 +169,13 @@ fileprivate struct DeploymentDetails: View {
             Button {
               Pasteboard.setString(deployment.commit?.commitSha)
             } label: {
-              "Copy Commit Sha"
+              Text("Copy Commit Sha")
             }
             
             Button {
               Pasteboard.setString(commitUrl.absoluteString)
             } label: {
-              "Copy Commit URL"
+              Text("Copy Commit URL")
             }
           } header: {
             Label("Copy", systemImage: "doc.on.doc")

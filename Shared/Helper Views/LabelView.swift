@@ -34,12 +34,6 @@ extension LabelView where S == Text {
   }
 }
 
-extension String: View {
-  public var body: some View {
-    Text(self)
-  }
-}
-
 struct DeploymentDetailLabel_Previews: PreviewProvider {
   static var previews: some View {
     LabelView("Label") {
