@@ -124,6 +124,12 @@
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		71623BAA28A122F100551580 /* VercelRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71623BA928A122F100551580 /* VercelRecord.swift */; };
+		71623BAB28A122F100551580 /* VercelRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71623BA928A122F100551580 /* VercelRecord.swift */; };
+		71623BAC28A122F100551580 /* VercelRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71623BA928A122F100551580 /* VercelRecord.swift */; };
+		71623BAD28A122F100551580 /* VercelRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71623BA928A122F100551580 /* VercelRecord.swift */; };
+		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162FD7F2880103400D20E62 /* AccountListRowView.swift */; };
 		7162FD812880103400D20E62 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162FD7F2880103400D20E62 /* AccountListRowView.swift */; };
 		71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71832D53277B94AA00CB2903 /* StoreKit.framework */; };
@@ -247,6 +253,7 @@
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71623BA928A122F100551580 /* VercelRecord.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = VercelRecord.swift; sourceTree = "<group>"; tabWidth = 2; usesTabs = 1; };
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		71A33E59269B62FE00DC34FC /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
@@ -317,7 +324,10 @@
 				711553D7266552AD00A73CD6 /* Frameworks */,
 				71155344266279CF00A73CD6 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 1;
 		};
 		71155344266279CF00A73CD6 /* Products */ = {
 			isa = PBXGroup;
@@ -366,6 +376,7 @@
 				7144D0492887F9C900F0AE1E /* VercelDomain.swift */,
 				71059A8028786F6000BF8B2E /* VercelProjectModel.swift */,
 				7115535826627B2900A73CD6 /* VercelSession.swift */,
+				71623BA928A122F100551580 /* VercelRecord.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -737,6 +748,7 @@
 				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
 				71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */,
 				714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */,
+				71623BAA28A122F100551580 /* VercelRecord.swift in Sources */,
 				7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
 				7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */,
 			);
@@ -755,6 +767,7 @@
 				711553B2266548E400A73CD6 /* ZeitgeistApp.swift in Sources */,
 				711553C02665490800A73CD6 /* AddAccountButton.swift in Sources */,
 				71059A94287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
+				71623BAB28A122F100551580 /* VercelRecord.swift in Sources */,
 				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				71059A7F28786F4100BF8B2E /* ProjectsListView.swift in Sources */,
 				71059A8228786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
@@ -810,9 +823,11 @@
 				71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
 				711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
 				711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */,
+				71623BAE28A1257900551580 /* Pasteboard.swift in Sources */,
 				7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
 				711553FE26655E5000A73CD6 /* VercelDeployment.swift in Sources */,
 				711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */,
+				71623BAC28A122F100551580 /* VercelRecord.swift in Sources */,
 				71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
@@ -840,7 +855,9 @@
 				71F902052665682C000A8873 /* KeychainItem.swift in Sources */,
 				71F902032665681E000A8873 /* VercelAccountModel.swift in Sources */,
 				71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */,
+				71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */,
 				71059A96287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
+				71623BAD28A122F100551580 /* VercelRecord.swift in Sources */,
 				71059A88287872B600BF8B2E /* GitRepoModel.swift in Sources */,
 				71F9020C26656A21000A8873 /* Preferences.swift in Sources */,
 			);

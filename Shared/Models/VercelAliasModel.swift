@@ -8,19 +8,19 @@
 import Foundation
 
 struct VercelAlias: Codable, Hashable {
-  var uid: String
-  var alias: String
-  var url: URL {
-    URL(string: "https://\(alias)")!
-  }
-  
-  enum CodingKeys: String, CodingKey {
-    case uid, alias
-  }
+	var uid: String
+	var alias: String
+	var url: URL {
+		URL(string: "https://\(alias)")!
+	}
+
+	enum CodingKeys: String, CodingKey {
+		case uid, alias
+	}
 }
 
 extension VercelAlias {
-  struct APIResponse: Codable {
-    var aliases: [VercelAlias]
-  }
+	struct APIResponse: Codable {
+		var aliases: [VercelAlias]
+	}
 }

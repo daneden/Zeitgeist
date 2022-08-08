@@ -8,21 +8,21 @@
 import Foundation
 
 #if os(macOS)
-import AppKit
+	import AppKit
 #elseif os(iOS)
-import UIKit
+	import UIKit
 #endif
 
 struct Pasteboard {
-  static func setString(_ value: String?) {
-    #if os(macOS)
-    guard let value = value else {
-      return
-    }
+	static func setString(_ value: String?) {
+		#if os(macOS)
+			guard let value = value else {
+				return
+			}
 
-    NSPasteboard.general.setString(value, forType: .string)
-    #elseif os(iOS)
-    UIPasteboard.general.string = value
-    #endif
-  }
+			NSPasteboard.general.setString(value, forType: .string)
+		#elseif os(iOS)
+			UIPasteboard.general.string = value
+		#endif
+	}
 }

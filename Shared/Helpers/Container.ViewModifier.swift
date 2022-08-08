@@ -9,21 +9,21 @@ import Foundation
 import SwiftUI
 
 struct Container: ViewModifier {
-  @ScaledMetric var paddingAmount: CGFloat = 24
-  func body(content: Content) -> some View {
-    #if os(macOS)
-    ScrollView {
-      content
-        .padding(paddingAmount)
-    }
-    #else
-    content
-    #endif
-  }
+	@ScaledMetric var paddingAmount: CGFloat = 24
+	func body(content: Content) -> some View {
+		#if os(macOS)
+			ScrollView {
+				content
+					.padding(paddingAmount)
+			}
+		#else
+			content
+		#endif
+	}
 }
 
 extension View {
-  func makeContainer() -> some View {
-    self.modifier(Container())
-  }
+	func makeContainer() -> some View {
+		modifier(Container())
+	}
 }

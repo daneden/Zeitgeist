@@ -8,5 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-  static var ZPSNotification = Notification.Name("ZPSNotification")
+	static var ZPSNotification = Notification.Name("ZPSNotification")
 }

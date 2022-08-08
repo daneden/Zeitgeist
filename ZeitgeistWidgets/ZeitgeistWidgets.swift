@@ -5,14 +5,14 @@
 //  Created by Daniel Eden on 31/05/2021.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 @main
 struct ZeitgeistWidgets: WidgetBundle {
-  @WidgetBundleBuilder
-  var body: some Widget {
-    LatestDeploymentWidget()
-    RecentDeploymentsWidget()
-  }
+	@WidgetBundleBuilder
+	var body: some Widget {
+		LatestDeploymentWidget()
+		RecentDeploymentsWidget()
+	}
 }
