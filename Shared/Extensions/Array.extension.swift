@@ -11,9 +11,10 @@ extension Array where Element: Hashable {
 	func removingDuplicates() -> [Element] {
 		var addedDict = [Element: Bool]()
 
-		return filter {
+		// Assume that elements added later are more recent
+		return reversed().filter {
 			addedDict.updateValue(true, forKey: $0) == nil
-		}
+		}.reversed()
 	}
 
 	mutating func removeDuplicates() {

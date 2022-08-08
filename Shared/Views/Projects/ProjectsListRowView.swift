@@ -21,7 +21,8 @@ struct ProjectsListRowView: View {
 			}
 
 			if let productionDeploymentCause = project.targets?.production?.deploymentCause {
-				if let icon = productionDeploymentCause.icon {
+				if case .deployHook(_) = productionDeploymentCause,
+					 let icon = productionDeploymentCause.icon {
 					Text("\(Image(icon)) \(productionDeploymentCause.description)").lineLimit(2)
 				} else {
 					Text(productionDeploymentCause.description).lineLimit(2)

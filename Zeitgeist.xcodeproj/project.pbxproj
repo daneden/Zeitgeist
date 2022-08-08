@@ -375,8 +375,8 @@
 				7115537826629BB900A73CD6 /* VercelDeployment.swift */,
 				7144D0492887F9C900F0AE1E /* VercelDomain.swift */,
 				71059A8028786F6000BF8B2E /* VercelProjectModel.swift */,
-				7115535826627B2900A73CD6 /* VercelSession.swift */,
 				71623BA928A122F100551580 /* VercelRecord.swift */,
+				7115535826627B2900A73CD6 /* VercelSession.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

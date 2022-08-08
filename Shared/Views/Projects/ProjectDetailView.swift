@@ -9,13 +9,11 @@ import SwiftUI
 
 struct ProjectDetailView: View {
 	@EnvironmentObject var session: VercelSession
-	var project: VercelProject
+	@State var project: VercelProject
 
-	@State private var productionDeployment: VercelDeployment?
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
-	@State private var domain: VercelDomain?
 
 	@AppStorage(Preferences.deploymentNotificationIds)
 	private var deploymentNotificationIds
@@ -49,17 +47,9 @@ struct ProjectDetailView: View {
 						}
 					}
 				}
-
-				if let domain = domain {
-					LabelView("Domain") {
-						Link(destination: URL(string: "https://\(domain.name)")!) {
-							Text(domain.name)
-						}
-					}
-				}
 			}
 
-			if let productionDeployment = productionDeployment {
+			if let productionDeployment = project.targets?.production {
 				Section("Current Production Deployment") {
 					NavigationLink(destination: DeploymentDetailView(deployment: productionDeployment)) {
 						DeploymentListRowView(deployment: productionDeployment)
@@ -119,25 +109,7 @@ struct ProjectDetailView: View {
 	}
 
 	func initialLoad() async throws {
-		try await loadProductionDeployment()
 		try await loadDeployments()
-		try await loadDomain()
-	}
-
-	func loadProductionDeployment() async throws {
-		guard let accountId = session.account?.id else { return }
-		var productionDeploymentsRequest = VercelAPI.request(for: .deployments(version: 6), with: accountId, queryItems: [
-			URLQueryItem(name: "projectId", value: project.id),
-			URLQueryItem(name: "target", value: VercelDeployment.Target.production.rawValue),
-		])
-		try session.signRequest(&productionDeploymentsRequest)
-
-		let (data, _) = try await URLSession.shared.data(for: productionDeploymentsRequest)
-		let productionDeploymentsResponse = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
-
-		withAnimation {
-			productionDeployment = productionDeploymentsResponse.deployments.first
-		}
 	}
 
 	func loadDeployments(pageId: Int? = nil) async throws {
@@ -149,7 +121,9 @@ struct ProjectDetailView: View {
 			queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))
 		}
 
-		var request = VercelAPI.request(for: .deployments(version: 6), with: session.account?.id ?? .NullValue, queryItems: queryItems)
+		var request = VercelAPI.request(for: .deployments(),
+																		with: session.account?.id ?? .NullValue,
+																		queryItems: queryItems)
 		try session.signRequest(&request)
 
 		if pageId == nil,
@@ -163,34 +137,13 @@ struct ProjectDetailView: View {
 		let deploymentsResponse = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
 
 		withAnimation {
-			if deployments.isEmpty {
+			if deployments.isEmpty || pageId == nil {
 				deployments = deploymentsResponse.deployments
 			} else {
 				deployments += deploymentsResponse.deployments
-				deployments.removeDuplicates()
 			}
 
 			pagination = deploymentsResponse.pagination
-		}
-	}
-
-	func loadDomain() async throws {
-		var projectDomainsRequest = VercelAPI.request(for: .projects(project.id, path: "domains"), with: session.account?.id ?? .NullValue)
-		try session.signRequest(&projectDomainsRequest)
-
-		if let cachedResponse = URLCache.shared.cachedResponse(for: projectDomainsRequest),
-		   let decodedFromCache = try? JSONDecoder().decode(VercelDomain.APIResponse.self, from: cachedResponse.data)
-		{
-			withAnimation {
-				domain = decodedFromCache.domains.first
-			}
-		}
-
-		let (data, _) = try await URLSession.shared.data(for: projectDomainsRequest)
-		let projectDomainsResponse = try JSONDecoder().decode(VercelDomain.APIResponse.self, from: data)
-
-		withAnimation {
-			domain = projectDomainsResponse.domains.first
 		}
 	}
 }

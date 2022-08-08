@@ -6,10 +6,20 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 	var project: String
 	var id: String
 	var target: Target?
+	
 	private var createdAt: Int = .init(Date().timeIntervalSince1970) / 1000
+	private var ready: Int?
 
 	var created: Date {
 		return Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
+	}
+	
+	var updated: Date {
+		if let ready = ready {
+			return Date(timeIntervalSince1970: TimeInterval(ready / 1000))
+		} else {
+			return created
+		}
 	}
 
 	var state: State
@@ -49,7 +59,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		case commit = "meta"
 		case inspectorUrlString = "inspectorUrl"
 
-		case state, creator, target, readyState, uid, id
+		case state, creator, target, readyState, ready, uid, id
 	}
 
 	init(from decoder: Decoder) throws {
@@ -62,6 +72,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		commit = try? container.decode(AnyCommit.self, forKey: .commit)
 		target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
 		inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrlString) ?? "\(urlString)/_logs"
+		ready = try container.decodeIfPresent(Int.self, forKey: .ready)
 	}
 
 	static func == (lhs: VercelDeployment, rhs: VercelDeployment) -> Bool {
@@ -162,20 +173,6 @@ extension VercelDeployment {
 	}
 }
 
-extension VercelDeployment {
-	func openDeploymentURL() {
-		EnvironmentValues().openURL(url)
-	}
-
-	func openLogsURL() {
-		EnvironmentValues().openURL(inspectorUrl)
-	}
-
-	func copyUrl() {
-		Pasteboard.setString(url.absoluteString)
-	}
-}
-
 extension VercelDeployment: VercelRecord {
-	var timestamp: Date { created }
+	var timestamp: Date { updated }
 }

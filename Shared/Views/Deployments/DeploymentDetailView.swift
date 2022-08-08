@@ -93,7 +93,9 @@ private struct URLDetails: View {
 				Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
 
-			Button(action: deployment.copyUrl) {
+			Button {
+				Pasteboard.setString(deployment.url.absoluteString)
+			} label: {
 				Label("Copy URL", systemImage: "doc.on.doc")
 			}.keyboardShortcut("c", modifiers: [.command])
 
