@@ -110,6 +110,19 @@ struct ProjectDetailView: View {
 
 	func initialLoad() async throws {
 		try await loadDeployments()
+		try await loadProject()
+	}
+	
+	func loadProject() async throws {
+		var request = VercelAPI.request(for: .projects(project.id), with: session.account?.id ?? .NullValue)
+		try session.signRequest(&request)
+		
+		let (data, _) = try await URLSession.shared.data(for: request)
+		let projectResponse = try JSONDecoder().decode(VercelProject.self, from: data)
+		
+		withAnimation {
+			self.project = projectResponse
+		}
 	}
 
 	func loadDeployments(pageId: Int? = nil) async throws {
