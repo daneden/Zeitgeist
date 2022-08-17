@@ -19,45 +19,16 @@ struct ZeitgeistApp: App {
 		Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
 	}
 
-	@StateObject var session = VercelSession()
-	@State private var initialising = true
-
 	var body: some Scene {
 		WindowGroup {
-			Group {
-				if initialising {
-					TabView {
-						ForEach(0 ..< 3, id: \.self) { _ in
-							NavigationView {
-								List(0 ..< 20, id: \.self) { _ in
-									ProjectsListRowView(project: .exampleData)
-								}
-								.navigationTitle("Loading")
-							}
-							.tabItem {
-								Label("Loading", systemImage: "folder")
-							}
+			ContentView()
+				.onAppear {
+					if MigrationHelpers.V3.needsMigration {
+						Task {
+							await MigrationHelpers.V3.migrateAccountIdsToAccounts()
 						}
-					}.redacted(reason: .placeholder)
-				} else {
-					if session.isAuthenticated {
-						AuthenticatedContentView()
-					} else {
-						OnboardingView()
 					}
 				}
-			}
-			.symbolRenderingMode(.hierarchical)
-			.onAppear {
-				withAnimation {
-					if let account = Preferences.accounts.first {
-						session.account = account
-					}
-
-					initialising = false
-				}
-			}
-			.environmentObject(session)
 		}
 	}
 }

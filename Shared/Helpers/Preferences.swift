@@ -11,6 +11,8 @@ import SwiftUI
 struct Preferences {
 	enum Keys: String {
 		case authenticatedAccounts,
+				 authenticatedAccountIds,
+				 lastAppVersionOpened,
 		     notificationsEnabled,
 		     deploymentNotificationsProductionOnly,
 		     deploymentReadyNotificationIds,
@@ -26,6 +28,10 @@ struct Preferences {
 	static let deploymentErrorNotificationIds: AppStorageKVPair<[VercelProject.ID]> = (.deploymentErrorNotificationIds, [])
 	static let deploymentNotificationIds: AppStorageKVPair<[VercelProject.ID]> = (.deploymentNotificationIds, [])
 	static let authenticatedAccounts: AppStorageKVPair<[VercelAccount]> = (.authenticatedAccounts, [])
+	static let lastAppVersionOpened: AppStorageKVPair<String?> = (.lastAppVersionOpened, nil)
+	
+	@available(*, deprecated)
+	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
 
 	@AppStorage(Preferences.authenticatedAccounts)
 	static var accounts

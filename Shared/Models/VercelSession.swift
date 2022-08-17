@@ -39,6 +39,10 @@ class VercelSession: ObservableObject {
 	}
 
 	@Published var account: VercelAccount?
+	
+	init(account: VercelAccount? = nil) {
+		self.account = account
+	}
 
 	var authenticationToken: String? {
 		guard let account = account else {

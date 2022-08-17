@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AuthenticatedContentView: View {
-	@EnvironmentObject var session: VercelSession
+	@AppStorage(Preferences.authenticatedAccounts) var accounts
 	@State var signInModel = SignInViewModel()
 
 	var iOSContent: some View {
@@ -41,30 +41,24 @@ struct AuthenticatedContentView: View {
 	var largeScreenContent: some View {
 		NavigationView {
 			List {
-				Menu {
-					Picker(selection: $session.account, label: Text("Selected Account")) {
-						ForEach(Preferences.accounts, id: \.self) { account in
-							AccountListRowView(account: account)
-								.tag(account)
+				ForEach(accounts) { account in
+					let session = VercelSession(account: account)
+					
+					Section {
+						NavigationLink(destination: ProjectsListView().navigationTitle("Projects").environmentObject(session)) {
+							Label("Projects", systemImage: "folder")
+						}
+
+						NavigationLink(destination: DeploymentListView().navigationTitle("Deployments").environmentObject(session)) {
+							Label("Deployments", systemImage: "list.bullet")
+						}
+					} header: {
+						Label {
+							Text(account.name ?? account.username)
+						} icon: {
+							VercelUserAvatarView(account: account, size: 24)
 						}
 					}
-
-					Button {
-						signInModel.signIn()
-					} label: {
-						Label("Add Account", systemImage: "person.badge.plus")
-					}
-				} label: {
-					AccountListRowView(account: session.account)
-						.id(session.account)
-				}
-
-				NavigationLink(destination: ProjectsListView().navigationTitle("Projects")) {
-					Label("Projects", systemImage: "folder")
-				}
-
-				NavigationLink(destination: DeploymentListView().navigationTitle("Deployments")) {
-					Label("Deployments", systemImage: "list.bullet")
 				}
 			}
 			.navigationTitle("Zeitgeist")
