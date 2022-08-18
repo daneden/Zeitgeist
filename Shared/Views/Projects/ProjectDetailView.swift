@@ -58,6 +58,17 @@ struct ProjectDetailView: View {
 			}
 
 			Section("Recent Deployments") {
+				#if os(macOS)
+				Table(deployments) {
+					TableColumn("Status") { deployment in
+						DeploymentStateIndicator(state: deployment.state, style: .compact)
+					}.width(16)
+					TableColumn("Cause", value: \.deploymentCause.description)
+					TableColumn("Date") { deployment in
+						Text(deployment.created, style: .relative)
+					}
+				}
+				#else
 				ForEach(deployments) { deployment in
 					NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
 						DeploymentListRowView(deployment: deployment)
@@ -78,6 +89,7 @@ struct ProjectDetailView: View {
 							}
 						}
 				}
+				#endif
 			}
 		}
 		.toolbar {

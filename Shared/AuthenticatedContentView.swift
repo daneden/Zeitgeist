@@ -58,6 +58,12 @@ struct AuthenticatedContentView: View {
 						} icon: {
 							VercelUserAvatarView(account: account, size: 24)
 						}
+					}.contextMenu {
+						Button(role: .destructive) {
+							VercelSession.deleteAccount(id: account.id)
+						} label: {
+							Label("Delete Account", systemImage: "trash")
+						}
 					}
 				}
 			}
