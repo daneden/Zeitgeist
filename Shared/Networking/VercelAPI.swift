@@ -13,6 +13,13 @@ enum LoaderError: Error {
 	case unauthorized
 }
 
+enum LoadingStatus<Resource: Decodable> {
+	case loading
+	case empty
+	case loaded(_ data: Resource)
+	case error
+}
+
 extension LoaderError: LocalizedError {
 	var errorDescription: String? {
 		switch self {
