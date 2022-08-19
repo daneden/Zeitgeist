@@ -50,7 +50,7 @@ class VercelSession: ObservableObject {
 			 !account.deepEqual(to: moreRecentAccount) {
 			self.account?.updateAccount(to: moreRecentAccount)
 			if let index = authenticatedAccounts.firstIndex(of: account) {
-				authenticatedAccounts[index].updateAccount(to: moreRecentAccount)
+				authenticatedAccounts[index] = moreRecentAccount
 			}
 		}
 		
