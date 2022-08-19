@@ -35,9 +35,6 @@ struct AccountListView: View {
 					Text("Selected Account")
 				}
 				.pickerStyle(.inline)
-				.toolbar {
-					EditButton()
-				}
 			}
 
 			Section {
