@@ -22,33 +22,43 @@ extension SessionError: CustomStringConvertible {
 	}
 }
 
+extension VercelAccount {
+	func deepEqual(to comparison: VercelAccount) -> Bool {
+		self.id == comparison.id &&
+		self.name == comparison.name &&
+		self.username == comparison.name &&
+		self.avatar == comparison.avatar
+	}
+}
+
 class VercelSession: ObservableObject {
 	@AppStorage(Preferences.authenticatedAccounts)
-	private var authenticatedAccounts {
-		didSet {
-			if authenticatedAccounts.count == 1,
-			   let firstAccount = authenticatedAccounts.first
-			{
-				account = firstAccount
-			} else if !authenticatedAccounts.contains(where: { $0 == account }) {
-				account = authenticatedAccounts.first
-			}
-
-			Task { account = await loadAccount() }
-		}
-	}
+	private var authenticatedAccounts
 
 	@Published var account: VercelAccount?
+	private var accountLastUpdated: Date? = nil
 	
 	init(account: VercelAccount? = nil) {
 		self.account = account
 	}
+	
+	func refreshAccount() async {
+		let moreRecentAccount = await loadAccount()
+		
+		if let moreRecentAccount = moreRecentAccount,
+			 let account = account,
+			 !account.deepEqual(to: moreRecentAccount) {
+			self.account?.updateAccount(to: moreRecentAccount)
+			if let index = authenticatedAccounts.firstIndex(of: account) {
+				authenticatedAccounts[index].updateAccount(to: moreRecentAccount)
+			}
+		}
+		
+		accountLastUpdated = .now
+	}
 
 	var authenticationToken: String? {
-		guard let account = account else {
-			return nil
-		}
-
+		guard let account = account else { return nil }
 		return KeychainItem(account: account.id).wrappedValue
 	}
 
@@ -56,11 +66,8 @@ class VercelSession: ObservableObject {
 		account != nil && authenticationToken != nil
 	}
 
-	// Assume accounts are authorized unless proven otherwise
-	@Published private(set) var isAuthorized = true
-
 	@MainActor
-	func loadAccount(fromCache: Bool = false) async -> VercelAccount? {
+	func loadAccount() async -> VercelAccount? {
 		do {
 			guard let account = account, authenticationToken != nil else {
 				return nil
@@ -69,24 +76,7 @@ class VercelSession: ObservableObject {
 			var request = VercelAPI.request(for: .account(id: account.id), with: account.id)
 			try signRequest(&request)
 
-			if fromCache,
-			   let cachedResponse = URLCache.shared.cachedResponse(for: request),
-			   let decodedFromCache = try? JSONDecoder().decode(VercelAccount.self, from: cachedResponse.data)
-			{
-				return decodedFromCache
-			}
-
-			let (data, response) = try await URLSession.shared.data(for: request)
-
-			switch (response as! HTTPURLResponse).statusCode {
-			case 200 ..< 300:
-				isAuthorized = true
-			case 401 ... 403, 409, 410, 428:
-				isAuthorized = false
-				return nil
-			default:
-				return nil
-			}
+			let (data, _) = try await URLSession.shared.data(for: request)
 
 			return try JSONDecoder().decode(VercelAccount.self, from: data)
 		} catch {
@@ -97,7 +87,15 @@ class VercelSession: ObservableObject {
 
 	func signRequest(_ request: inout URLRequest) throws {
 		guard let authenticationToken = authenticationToken else {
+			self.account = nil
 			throw SessionError.notAuthenticated
+		}
+		
+		if accountLastUpdated == nil {
+			Task { await refreshAccount() }
+		} else if let accountLastUpdated = accountLastUpdated,
+							accountLastUpdated.distance(to: .now) > 60 * 60 {
+			Task { await refreshAccount() }
 		}
 
 		request.addValue("Bearer \(authenticationToken)", forHTTPHeaderField: "Authorization")

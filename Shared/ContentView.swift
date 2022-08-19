@@ -8,41 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+	@AppStorage(Preferences.authenticatedAccounts) var accounts
 	@StateObject var session = VercelSession()
-	@State private var initialising = true
 	
 	var body: some View {
 		Group {
-			if initialising {
-				TabView {
-					ForEach(0 ..< 3, id: \.self) { _ in
-						NavigationView {
-							List(0 ..< 20, id: \.self) { _ in
-								ProjectsListRowView(project: .exampleData)
-							}
-							.navigationTitle("Loading")
-						}
-						.tabItem {
-							Label("Loading", systemImage: "folder")
-						}
-					}
-				}.redacted(reason: .placeholder)
+			if !session.isAuthenticated || session.account == nil {
+				OnboardingView()
 			} else {
-				if session.isAuthenticated {
-					AuthenticatedContentView()
-				} else {
-					OnboardingView()
-				}
+				AuthenticatedContentView()
 			}
 		}
 		.symbolRenderingMode(.hierarchical)
-		.onAppear {
-			withAnimation {
-				if let account = Preferences.accounts.first {
-					session.account = account
+		.onChange(of: accounts) { accounts in
+			if !accounts.contains(where: { $0.id  == session.account?.id}) {
+				withAnimation {
+					session.account = accounts.first
 				}
-				
-				initialising = false
+			}
+		}
+		.onAppear {
+			print("ContentView first appeared")
+			
+			withAnimation {
+				session.account = accounts.first
 			}
 		}
 		.environmentObject(session)

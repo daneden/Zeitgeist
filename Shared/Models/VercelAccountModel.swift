@@ -18,6 +18,10 @@ struct VercelAccount: Account, Codable, Identifiable {
 	typealias ID = String
 
 	private var wrapped: Account
+	
+	mutating func updateAccount(to newAccount: VercelAccount) {
+		self.wrapped = newAccount.wrapped
+	}
 
 	var id: ID { wrapped.id }
 	var isTeam: Bool { id.isTeam }

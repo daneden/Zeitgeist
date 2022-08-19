@@ -17,31 +17,27 @@ struct AccountListView: View {
 	var body: some View {
 		List {
 			Section {
-				ForEach(authenticatedAccounts, id: \.self) { account in
-					Button {
-						withAnimation(.interactiveSpring()) { session.account = account }
-					} label: {
-						HStack {
-							AccountListRowView(account: account)
-
-							if account == session.account {
-								Spacer()
-								Image(systemName: "checkmark")
-									.foregroundStyle(.primary)
+				Picker(selection: $session.account) {
+					ForEach(authenticatedAccounts) { account in
+						AccountListRowView(account: account)
+							.tag(Optional(account))
+							.contextMenu {
+								Button(role: .destructive) {
+									VercelSession.deleteAccount(id: account.id)
+								} label: {
+									Label("Delete Account", systemImage: "trash")
+								}
 							}
-						}
 					}
-					.foregroundStyle(.primary)
-					.contextMenu {
-						Button(role: .destructive) {
-							VercelSession.deleteAccount(id: account.id)
-						} label: {
-							Label("Delete Account", systemImage: "person.badge.minus")
-						}
-					}
+					.onDelete(perform: deleteAccount)
+					.onMove(perform: move)
+				} label: {
+					Text("Selected Account")
 				}
-				.onDelete(perform: deleteAccount)
-				.onMove(perform: move)
+				.pickerStyle(.inline)
+				.toolbar {
+					EditButton()
+				}
 			}
 
 			Section {
@@ -54,7 +50,7 @@ struct AccountListView: View {
 
 	func deleteAccount(at offsets: IndexSet) {
 		let accounts = offsets.map { offset in
-			Preferences.accounts[offset]
+			authenticatedAccounts[offset]
 		}
 
 		for account in accounts {

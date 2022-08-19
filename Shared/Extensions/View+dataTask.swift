@@ -28,7 +28,11 @@ struct DataTaskModifier: ViewModifier {
 			}
 			.onReceive(session.objectWillChange) { _ in
 				print("Updating based on change in session")
-				Task { await action() }
+				if session.isAuthenticated {
+					Task { await action() }
+				} else {
+					print("Skipping dataTask since the session is no longer authenticated")
+				}
 			}
 			.onChange(of: scenePhase) { _ in
 				print("Updating based on scene phase")
