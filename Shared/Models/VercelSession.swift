@@ -26,7 +26,7 @@ extension VercelAccount {
 	func deepEqual(to comparison: VercelAccount) -> Bool {
 		self.id == comparison.id &&
 		self.name == comparison.name &&
-		self.username == comparison.name &&
+		self.username == comparison.username &&
 		self.avatar == comparison.avatar
 	}
 }
@@ -35,7 +35,14 @@ class VercelSession: ObservableObject {
 	@AppStorage(Preferences.authenticatedAccounts)
 	private var authenticatedAccounts
 
-	@Published var account: VercelAccount?
+	@Published var account: VercelAccount? {
+		willSet {
+			if account != nil {
+				accountLastUpdated = nil
+			}
+		}
+	}
+	
 	private var accountLastUpdated: Date? = nil
 	
 	init(account: VercelAccount? = nil) {
@@ -43,18 +50,17 @@ class VercelSession: ObservableObject {
 	}
 	
 	func refreshAccount() async {
+		accountLastUpdated = .now
 		let moreRecentAccount = await loadAccount()
 		
 		if let moreRecentAccount = moreRecentAccount,
 			 let account = account,
-			 !account.deepEqual(to: moreRecentAccount) {
+			 account != moreRecentAccount {
 			self.account?.updateAccount(to: moreRecentAccount)
 			if let index = authenticatedAccounts.firstIndex(of: account) {
 				authenticatedAccounts[index] = moreRecentAccount
 			}
 		}
-		
-		accountLastUpdated = .now
 	}
 
 	var authenticationToken: String? {

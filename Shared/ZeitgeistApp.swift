@@ -29,6 +29,6 @@ struct ZeitgeistApp: App {
 						}
 					}
 				}
-		}
+    }
 	}
 }
