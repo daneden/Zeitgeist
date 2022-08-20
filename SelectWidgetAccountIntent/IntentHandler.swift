@@ -8,7 +8,20 @@
 import Intents
 
 class IntentHandler: INExtension, SelectAccountIntentHandling {
-	static let defaultAccountDisplayString = "Default Account"
+	func provideProjectOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetProject> {
+		guard let account = intent.account,
+					let account = Preferences.accounts.first(where: { $0.id == account.identifier }) else {
+			return .init(items: [])
+		}
+
+		let session = VercelSession(account: account)
+		var request = VercelAPI.request(for: .projects(), with: account.id, queryItems: [URLQueryItem(name: "limit", value: "100")])
+		try session.signRequest(&request)
+		
+		let (data, _) = try await URLSession.shared.data(for: request)
+		let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)
+		return .init(items: [WidgetProject(identifier: nil, display: "All Projects")] + decoded.projects.map { WidgetProject(identifier: $0.id, display: $0.name) })
+	}
 
 	func provideAccountOptionsCollection(for _: SelectAccountIntent) async throws -> INObjectCollection<WidgetAccount> {
 		let accounts = Preferences.accounts
@@ -30,7 +43,11 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
 
 		return WidgetAccount(
 			identifier: firstAccount.id,
-			display: IntentHandler.defaultAccountDisplayString
+			display: firstAccount.name ?? firstAccount.username
 		)
+	}
+	
+	func defaultProject(for intent: SelectAccountIntent) -> WidgetProject? {
+		return WidgetProject(identifier: nil, display: "All Projects")
 	}
 }

@@ -12,6 +12,7 @@ struct RecentDeploymentsEntry: TimelineEntry {
 	var date = Date()
 	var deployments: [VercelDeployment]?
 	var account: WidgetAccount
+	var project: WidgetProject?
 	var relevance: TimelineEntryRelevance?
 }
 
@@ -25,20 +26,28 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 
 	func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Entry) -> Void) {
 		Task {
-			guard let account = configuration.account,
-			      let accountId = account.identifier
+			guard let intentAccount = configuration.account,
+						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
 			else {
 				completion(placeholder(in: context))
 				return
 			}
 
 			do {
-				let request = VercelAPI.request(for: .deployments(), with: accountId)
+				let session = VercelSession(account: account)
+				var queryItems: [URLQueryItem] = []
+				
+				if let projectId = configuration.project?.identifier {
+					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
+				}
+				
+				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
+				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
 				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
 
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-				completion(Entry(deployments: deployments, account: account, relevance: relevance))
+				completion(Entry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance))
 			} catch {
 				print(error)
 			}
@@ -47,24 +56,32 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 
 	func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
 		Task {
-			guard let account = configuration.account,
-			      let accountId = account.identifier
+			guard let intentAccount = configuration.account,
+						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
 			else {
 				completion(
 					Timeline(entries: [placeholder(in: context)], policy: .atEnd)
 				)
 				return
 			}
-
+			
 			do {
-				let request = VercelAPI.request(for: .deployments(), with: accountId)
+				let session = VercelSession(account: account)
+				var queryItems: [URLQueryItem] = []
+				
+				if let projectId = configuration.project?.identifier {
+					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
+				}
+				
+				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
+				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
 				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
 
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
 				completion(
 					Timeline(
-						entries: [Entry(deployments: deployments, account: account, relevance: relevance)],
+						entries: [Entry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance)],
 						policy: .atEnd
 					)
 				)

@@ -12,6 +12,7 @@ struct LatestDeploymentEntry: TimelineEntry {
 	var date = Date()
 	var deployment: VercelDeployment?
 	var account: WidgetAccount
+	var project: WidgetProject?
 	var relevance: TimelineEntryRelevance?
 }
 
@@ -23,15 +24,23 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 
 	func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (LatestDeploymentEntry) -> Void) {
 		Task {
-			guard let account = configuration.account,
-			      let accountId = account.identifier
+			guard let intentAccount = configuration.account,
+						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
 			else {
 				completion(placeholder(in: context))
 				return
 			}
-
+			
 			do {
-				let request = VercelAPI.request(for: .deployments(), with: accountId)
+				let session = VercelSession(account: account)
+				var queryItems: [URLQueryItem] = []
+				
+				if let projectId = configuration.project?.identifier {
+					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
+				}
+				
+				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
+				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
 				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
 
@@ -40,7 +49,8 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 					completion(
 						LatestDeploymentEntry(
 							deployment: deployment,
-							account: account,
+							account: intentAccount,
+							project: configuration.project,
 							relevance: relevance
 						)
 					)
@@ -53,17 +63,25 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 
 	func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void) {
 		Task {
-			guard let account = configuration.account,
-			      let accountId = account.identifier
+			guard let intentAccount = configuration.account,
+						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
 			else {
 				completion(
 					Timeline(entries: [placeholder(in: context)], policy: .atEnd)
 				)
 				return
 			}
-
+			
 			do {
-				let request = VercelAPI.request(for: .deployments(), with: accountId)
+				let session = VercelSession(account: account)
+				var queryItems: [URLQueryItem] = []
+				
+				if let projectId = configuration.project?.identifier {
+					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
+				}
+				
+				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
+				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
 				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
 
@@ -73,7 +91,8 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 						Timeline(entries: [
 							LatestDeploymentEntry(
 								deployment: deployment,
-								account: account,
+								account: intentAccount,
+								project: configuration.project,
 								relevance: relevance
 							),
 						], policy: .atEnd)
