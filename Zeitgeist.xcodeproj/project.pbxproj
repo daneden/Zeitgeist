@@ -119,6 +119,7 @@
 		714D44A1289FF550005105B7 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
 		714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
 		714D44A928B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
+		714D44AA28B24722005105B7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -770,6 +771,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71D0BC302881F2C200A22693 /* Notification+ZPS.swift in Sources */,
+				714D44AA28B24722005105B7 /* SettingsView.swift in Sources */,
 				71059A90287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */,
 				711553B9266548E400A73CD6 /* DeploymentListView.swift in Sources */,
 				71D0BC382882A2D600A22693 /* View+dataTask.swift in Sources */,

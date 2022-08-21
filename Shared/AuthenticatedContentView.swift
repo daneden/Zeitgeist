@@ -11,6 +11,7 @@ struct AuthenticatedContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
 	@State private var signInModel = SignInViewModel()
 	@EnvironmentObject private var session: VercelSession
+	@State private var presentSettingsView = false
 
 	var body: some View {
 		NavigationView {
@@ -48,10 +49,23 @@ struct AuthenticatedContentView: View {
 			}
 			.navigationTitle("Zeitgeist")
 			.toolbar {
-				Button {
-					signInModel.signIn()
-				} label: {
-					Label("Add Account", systemImage: "plus.circle")
+				ToolbarItem {
+					Button {
+						signInModel.signIn()
+					} label: {
+						Label("Add Account", systemImage: "plus.circle")
+					}
+				}
+					
+				ToolbarItem(placement: .navigation) {
+					Button {
+						presentSettingsView = true
+					} label: {
+						Label("More", systemImage: "ellipsis.circle")
+					}
+					.sheet(isPresented: $presentSettingsView) {
+						SettingsView()
+					}
 				}
 			}
 
