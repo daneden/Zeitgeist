@@ -18,7 +18,7 @@ struct MigrationHelpers {
 		}
 		
 		static func migrateAccountIdsToAccounts() async {
-			let accounts: [VercelAccount] = await authenticatedAccountIds.asyncMap { id in
+			let accounts: [VercelAccount] = await Array(Set(authenticatedAccountIds)).asyncMap { id in
 				guard let token = KeychainItem(account: id).wrappedValue else {
 					return nil
 				}
@@ -38,7 +38,6 @@ struct MigrationHelpers {
 			}.compactMap { $0 }
 			
 			authenticatedAccounts += accounts
-			authenticatedAccounts.removeDuplicates()
 			authenticatedAccountIds = []
 		}
 	}

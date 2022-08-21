@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SettingsView: View {
 	var githubIssuesURL: URL {
-		let appVersion: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+		
 		let body = """
 		> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
 		> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
 
-		App Version: \(appVersion ?? "Unknown")
+		App Version: \(ZeitgeistApp.appVersion)
 		Device: \(UIDevice.modelName)
 		OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
 		"""
@@ -25,12 +25,6 @@ struct SettingsView: View {
 
 	var body: some View {
 		Form {
-			Section(header: Text("Settings")) {
-				NavigationLink(destination: NotificationsView()) {
-					Label("Notifications", systemImage: "app.badge")
-				}
-			}
-
 			Section {
 				Link(destination: githubIssuesURL) {
 					Label("Submit Feedback", systemImage: "ladybug")

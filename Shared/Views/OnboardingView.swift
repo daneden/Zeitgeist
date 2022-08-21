@@ -40,6 +40,25 @@ struct OnboardingView: View {
 						.foregroundColor(.secondary)
 
 					Spacer()
+					
+					HStack {
+						Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+							HStack {
+								Spacer()
+								Text("Privacy Policy")
+								Spacer()
+							}
+						}
+						
+						Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+							HStack {
+								Spacer()
+								Text("Terms of Use")
+								Spacer()
+							}
+						}
+					}
+					.buttonStyle(.bordered)
 				}
 				.padding()
 				.frame(minHeight: geometry.size.height)

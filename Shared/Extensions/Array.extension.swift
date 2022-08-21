@@ -8,23 +8,9 @@
 import Foundation
 
 extension Array where Element: Hashable {
-	func removingDuplicates() -> [Element] {
-		var addedDict = [Element: Bool]()
-
-		// Assume that elements added later are more recent
-		return reversed().filter {
-			addedDict.updateValue(true, forKey: $0) == nil
-		}.reversed()
-	}
-
-	mutating func removeDuplicates() {
-		self = removingDuplicates()
-	}
-
 	mutating func toggleElement(_ element: Element, inArray: Bool) {
 		if inArray {
 			append(element)
-			removeDuplicates()
 		} else {
 			removeAll { $0 == element }
 		}

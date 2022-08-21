@@ -8,37 +8,11 @@
 import SwiftUI
 
 struct AuthenticatedContentView: View {
-	@AppStorage(Preferences.authenticatedAccounts) var accounts
-	@State var signInModel = SignInViewModel()
+	@AppStorage(Preferences.authenticatedAccounts) private var accounts
+	@State private var signInModel = SignInViewModel()
+	@EnvironmentObject private var session: VercelSession
 
-	var iOSContent: some View {
-		TabView {
-			NavigationView {
-				ProjectsListView()
-					.navigationTitle("Projects")
-			}.tabItem {
-				Label("Projects", systemImage: "folder")
-			}
-
-			NavigationView {
-				DeploymentListView()
-					.navigationTitle("Deployments")
-			}
-			.tabItem {
-				Label("Deployments", systemImage: "list.bullet")
-			}
-
-			NavigationView {
-				AccountListView()
-					.navigationTitle("Account")
-			}
-			.tabItem {
-				Label("Account", systemImage: "person.crop.circle")
-			}
-		}
-	}
-
-	var largeScreenContent: some View {
+	var body: some View {
 		NavigationView {
 			List {
 				ForEach(accounts) { account in
@@ -48,44 +22,44 @@ struct AuthenticatedContentView: View {
 						NavigationLink(destination: ProjectsListView().navigationTitle("Projects").environmentObject(session)) {
 							Label("Projects", systemImage: "folder")
 						}
-
+						
 						NavigationLink(destination: DeploymentListView().navigationTitle("Deployments").environmentObject(session)) {
 							Label("Deployments", systemImage: "list.bullet")
 						}
 					} header: {
-						Label {
-							Text(account.name ?? account.username)
-						} icon: {
-							VercelUserAvatarView(account: account, size: 24)
-						}
-					}.contextMenu {
-						Button(role: .destructive) {
-							VercelSession.deleteAccount(id: account.id)
-						} label: {
-							Label("Delete Account", systemImage: "trash")
+						HStack {
+							Label {
+								Text(account.name ?? account.username)
+							} icon: {
+								VercelUserAvatarView(account: account, size: 24)
+							}
+							
+							Spacer()
+							
+							Button {
+								VercelSession.deleteAccount(id: account.id)
+							} label: {
+								Label("Delete Account", systemImage: "minus.circle")
+									.labelStyle(.iconOnly)
+							}
 						}
 					}
 				}
 			}
 			.navigationTitle("Zeitgeist")
+			.toolbar {
+				Button {
+					signInModel.signIn()
+				} label: {
+					Label("Add Account", systemImage: "plus.circle")
+				}
+			}
 
 			ProjectsListView()
 				.navigationTitle("Projects")
 			PlaceholderView(forRole: .ProjectDetail)
 				.navigationTitle("Project Details")
 		}
-	}
-
-	var body: some View {
-		#if os(iOS)
-			if UIDevice.current.userInterfaceIdiom == .phone {
-				iOSContent
-			} else {
-				largeScreenContent
-			}
-		#else
-			largeScreenContent
-		#endif
 	}
 }
 

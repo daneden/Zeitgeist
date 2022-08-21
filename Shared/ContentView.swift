@@ -11,28 +11,39 @@ struct ContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) var accounts
 	@StateObject var session = VercelSession()
 	
+	@State var initialising = false
+
 	var body: some View {
 		Group {
 			if !session.isAuthenticated || session.account == nil {
-				OnboardingView()
+				ProjectListPlaceholderView()
+					.sheet(isPresented: $initialising) {
+						OnboardingView()
+							.interactiveDismissDisabled()
+					}
 			} else {
-				AuthenticatedContentView()
+				AuthenticatedContentView()					
 			}
 		}
 		.symbolRenderingMode(.hierarchical)
 		.onChange(of: accounts) { accounts in
 			if !accounts.contains(where: { $0.id  == session.account?.id}) {
-				withAnimation {
+				withAnimation(.interactiveSpring()) {
 					session.account = accounts.first
 				}
 			}
+			
+			initialising = accounts.isEmpty
+		}
+		.onReceive(session.objectWillChange) { _ in
+			initialising = !session.isAuthenticated
 		}
 		.onAppear {
-			print("ContentView first appeared")
-			
 			withAnimation {
 				session.account = accounts.first
 			}
+			
+			initialising = !session.isAuthenticated
 		}
 		.environmentObject(session)
 	}
