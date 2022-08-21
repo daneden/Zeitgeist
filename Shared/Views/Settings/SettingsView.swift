@@ -84,7 +84,7 @@ extension SettingsView {
 	}
 	
 	var notificationsResettable: Bool {
-		!(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
+		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
 	}
 }
 
