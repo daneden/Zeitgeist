@@ -44,6 +44,16 @@ struct SettingsView: View {
 					Text("Terms of Use")
 				}
 			}
+			
+			Section("Danger Zone") {
+				Button(role: .destructive) {
+					Preferences.accounts.forEach { account in
+						VercelSession.deleteAccount(id: account.id)
+					}
+				} label: {
+					Label("Delete All Accounts", systemImage: "trash")
+				}
+			}
 		}
 		.navigationTitle("Settings")
 	}

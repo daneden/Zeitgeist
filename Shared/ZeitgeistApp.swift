@@ -18,6 +18,10 @@ struct ZeitgeistApp: App {
 	static var appVersion: String {
 		Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
 	}
+	
+	static var majorAppVersion: String {
+		String(appVersion.first ?? "0")
+	}
 
 	var body: some Scene {
 		WindowGroup {

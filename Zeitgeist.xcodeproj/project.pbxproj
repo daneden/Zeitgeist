@@ -118,6 +118,8 @@
 		714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
 		714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
 		714D44A1289FF550005105B7 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
+		714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
+		714D44A928B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -249,6 +251,7 @@
 		714D4498289FD979005105B7 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
 		714D449B289FEEA2005105B7 /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
 		714D449F289FF550005105B7 /* ProjectsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListRowView.swift; sourceTree = "<group>"; };
+		714D44A728B239A4005105B7 /* NewFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeaturesView.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -345,8 +348,8 @@
 			isa = PBXGroup;
 			children = (
 				71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */,
-				71155346266279CF00A73CD6 /* ZeitgeistApp.swift */,
 				71CAE84028AD24260063F338 /* ContentView.swift */,
+				71155346266279CF00A73CD6 /* ZeitgeistApp.swift */,
 				7115534A266279D000A73CD6 /* Assets.xcassets */,
 				71155362266282BE00A73CD6 /* Extensions */,
 				7115535A26627BA800A73CD6 /* Helper Views */,
@@ -479,11 +482,11 @@
 		711A4A39266A368500DA9EE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				714D44A628B2398D005105B7 /* Onboarding */,
 				71059A7C28786F2D00BF8B2E /* Projects */,
 				711A4A48266B8A9B00DA9EE3 /* Settings */,
 				711A4A3B266A369600DA9EE3 /* Accounts */,
 				711A4A3A266A368D00DA9EE3 /* Deployments */,
-				711A4A42266B803300DA9EE3 /* OnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -515,6 +518,15 @@
 				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		714D44A628B2398D005105B7 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				711A4A42266B803300DA9EE3 /* OnboardingView.swift */,
+				714D44A728B239A4005105B7 /* NewFeaturesView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		71611C012665667100119324 /* SelectWidgetAccountIntent */ = {
@@ -741,6 +753,7 @@
 				71F9020926656A21000A8873 /* Preferences.swift in Sources */,
 				71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */,
 				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
+				714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */,
 				71CAE83E28AD20B90063F338 /* MigrationHelpers.swift in Sources */,
 				71CAE84128AD24260063F338 /* ContentView.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
@@ -791,6 +804,7 @@
 				7162FD812880103400D20E62 /* AccountListRowView.swift in Sources */,
 				7144D04B2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
 				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
+				714D44A928B239A4005105B7 /* NewFeaturesView.swift in Sources */,
 				71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */,
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,

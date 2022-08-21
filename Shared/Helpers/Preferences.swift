@@ -47,4 +47,8 @@ extension AppStorage {
 	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == Bool {
 		self.init(wrappedValue: kv.value, kv.key.rawValue, store: Preferences.store)
 	}
+	
+	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == String? {
+		self.init(kv.key.rawValue, store: Preferences.store)
+	}
 }

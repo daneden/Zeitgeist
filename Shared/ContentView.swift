@@ -10,14 +10,16 @@ import SwiftUI
 struct ContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) var accounts
 	@StateObject var session = VercelSession()
+	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
 	
-	@State var initialising = false
+	@State private var presentSignInView = false
+	@State private var presentNewFeaturesScreen = false
 
 	var body: some View {
 		Group {
 			if !session.isAuthenticated || session.account == nil {
 				ProjectListPlaceholderView()
-					.sheet(isPresented: $initialising) {
+					.sheet(isPresented: $presentSignInView) {
 						OnboardingView()
 							.interactiveDismissDisabled()
 					}
@@ -33,17 +35,26 @@ struct ContentView: View {
 				}
 			}
 			
-			initialising = accounts.isEmpty
+			presentSignInView = accounts.isEmpty
 		}
 		.onReceive(session.objectWillChange) { _ in
-			initialising = !session.isAuthenticated
+			presentSignInView = !session.isAuthenticated
 		}
 		.onAppear {
 			withAnimation {
 				session.account = accounts.first
 			}
 			
-			initialising = !session.isAuthenticated
+			presentSignInView = !session.isAuthenticated
+			
+			if let lastAppVersionOpened = lastAppVersionOpened,
+				 lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3" {
+				presentNewFeaturesScreen = true
+				self.lastAppVersionOpened = ZeitgeistApp.majorAppVersion
+			}
+		}
+		.sheet(isPresented: $presentNewFeaturesScreen) {
+			NewFeaturesView()
 		}
 		.environmentObject(session)
 	}

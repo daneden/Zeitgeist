@@ -12,12 +12,17 @@ struct MigrationHelpers {
 	struct V3 {
 		@AppStorage(Preferences.authenticatedAccountIds) static var authenticatedAccountIds
 		@AppStorage(Preferences.authenticatedAccounts) static var authenticatedAccounts
+		@AppStorage(Preferences.lastAppVersionOpened) static private var lastAppVersionOpened
 		
 		static var needsMigration: Bool {
 			!authenticatedAccountIds.isEmpty
 		}
 		
 		static func migrateAccountIdsToAccounts() async {
+			if needsMigration {
+				lastAppVersionOpened = "2"
+			}
+			
 			let accounts: [VercelAccount] = await Array(Set(authenticatedAccountIds)).asyncMap { id in
 				guard let token = KeychainItem(account: id).wrappedValue else {
 					return nil
