@@ -110,7 +110,3 @@ extension VercelEnv {
 		case system, secret, encrypted, plain
 	}
 }
-
-extension VercelProject: VercelRecord {
-	var timestamp: Date { updated ?? created }
-}

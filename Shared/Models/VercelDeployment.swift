@@ -172,7 +172,3 @@ extension VercelDeployment {
 		let pagination: Pagination?
 	}
 }
-
-extension VercelDeployment: VercelRecord {
-	var timestamp: Date { updated }
-}
