@@ -37,33 +37,21 @@ class NotificationManager {
 		}
 	}
 
-	private static func requestAuthorization() {
-		if !(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds).isEmpty {
-			Task {
-				try? await UNUserNotificationCenter.current().requestAuthorization()
-			}
-		}
+	static func requestAuthorization() async throws -> Bool {
+		return try await UNUserNotificationCenter.current().requestAuthorization()
 	}
 
 	@AppStorage(Preferences.deploymentNotificationIds)
-	static var deploymentNotificationIds {
-		didSet { requestAuthorization() }
-	}
-
+	static var deploymentNotificationIds
+	
 	@AppStorage(Preferences.deploymentErrorNotificationIds)
-	static var deploymentErrorNotificationIds {
-		didSet { requestAuthorization() }
-	}
+	static var deploymentErrorNotificationIds
 
 	@AppStorage(Preferences.deploymentReadyNotificationIds)
-	static var deploymentReadyNotificationIds {
-		didSet { requestAuthorization() }
-	}
+	static var deploymentReadyNotificationIds
 
 	@AppStorage(Preferences.deploymentNotificationsProductionOnly)
-	static var deploymentNotificationsProductionOnly {
-		didSet { requestAuthorization() }
-	}
+	static var deploymentNotificationsProductionOnly
 
 	static func userAllowedNotifications(for eventType: ZPSEventType,
 	                                     with projectId: VercelProject.ID,
