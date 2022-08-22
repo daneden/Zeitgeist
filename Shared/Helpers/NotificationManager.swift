@@ -38,7 +38,7 @@ class NotificationManager {
 	}
 
 	static func requestAuthorization() async throws -> Bool {
-		return try await UNUserNotificationCenter.current().requestAuthorization()
+		return try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
 	}
 
 	@AppStorage(Preferences.deploymentNotificationIds)
