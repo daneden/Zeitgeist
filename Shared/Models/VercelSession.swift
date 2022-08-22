@@ -26,7 +26,7 @@ extension VercelAccount {
 	func deepEqual(to comparison: VercelAccount) -> Bool {
 		self.id == comparison.id &&
 		self.name == comparison.name &&
-		self.username == comparison.name &&
+		self.username == comparison.username &&
 		self.avatar == comparison.avatar
 	}
 }
@@ -35,7 +35,14 @@ class VercelSession: ObservableObject {
 	@AppStorage(Preferences.authenticatedAccounts)
 	private var authenticatedAccounts
 
-	@Published var account: VercelAccount?
+	@Published var account: VercelAccount? {
+		willSet {
+			if account != nil {
+				accountLastUpdated = nil
+			}
+		}
+	}
+	
 	private var accountLastUpdated: Date? = nil
 	
 	init(account: VercelAccount? = nil) {
@@ -43,18 +50,17 @@ class VercelSession: ObservableObject {
 	}
 	
 	func refreshAccount() async {
+		accountLastUpdated = .now
 		let moreRecentAccount = await loadAccount()
 		
 		if let moreRecentAccount = moreRecentAccount,
 			 let account = account,
-			 !account.deepEqual(to: moreRecentAccount) {
+			 account != moreRecentAccount {
 			self.account?.updateAccount(to: moreRecentAccount)
 			if let index = authenticatedAccounts.firstIndex(of: account) {
-				authenticatedAccounts[index].updateAccount(to: moreRecentAccount)
+				authenticatedAccounts[index] = moreRecentAccount
 			}
 		}
-		
-		accountLastUpdated = .now
 	}
 
 	var authenticationToken: String? {
@@ -122,8 +128,13 @@ extension VercelSession {
 			let decoded = try JSONDecoder().decode(VercelAccount.self, from: data)
 
 			DispatchQueue.main.async {
-				Preferences.accounts.append(decoded)
-				Preferences.accounts = Preferences.accounts.removingDuplicates()
+				withAnimation {
+					if let index = Preferences.accounts.firstIndex(where: { $0.id == decoded.id }) {
+						Preferences.accounts[index] = decoded
+					} else {
+						Preferences.accounts.append(decoded)
+					}
+				}
 			}
 		} catch {
 			print("Encountered an error when adding account with ID \(id)")
@@ -133,8 +144,10 @@ extension VercelSession {
 
 	static func deleteAccount(id: String) {
 		let keychain = KeychainItem(account: id)
-		keychain.wrappedValue = nil
 
-		withAnimation { Preferences.accounts.removeAll { id == $0.id } }
+		withAnimation {
+			Preferences.accounts.removeAll { id == $0.id }
+			keychain.wrappedValue = nil
+		}
 	}
 }

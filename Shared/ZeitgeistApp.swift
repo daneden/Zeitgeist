@@ -11,13 +11,7 @@ import SwiftUI
 struct ZeitgeistApp: App {
 	#if !os(macOS)
 		@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-	#else
-		@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
-
-	static var appVersion: String {
-		Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
-	}
 
 	var body: some Scene {
 		WindowGroup {
@@ -29,6 +23,16 @@ struct ZeitgeistApp: App {
 						}
 					}
 				}
-		}
+    }
+	}
+}
+
+extension ZeitgeistApp {
+	static var appVersion: String {
+		Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+	}
+	
+	static var majorAppVersion: String {
+		String(appVersion.first ?? "0")
 	}
 }

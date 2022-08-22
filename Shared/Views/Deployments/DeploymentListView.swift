@@ -63,16 +63,14 @@ struct DeploymentListView: View {
 
 					Spacer()
 				}
+			} else if deployments.isEmpty {
+				PlaceholderView(forRole: .NoDeployments)
 			} else {
 				List {
 					ForEach(filteredDeployments) { deployment in
 						NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
 							DeploymentListRowView(deployment: deployment)
 						}
-					}
-
-					if deployments.isEmpty {
-						LoadingListCell(title: "Loading Deployments")
 					}
 
 					if let pageId = pagination?.next {

@@ -52,6 +52,7 @@ struct LogEventView: View {
 		HStack(alignment: .firstTextBaseline) {
 			Text(event.date, style: .time)
 				.foregroundStyle(.secondary)
+				.fixedSize()
 
 			if let text = event.text {
 				Text(text)
@@ -59,7 +60,7 @@ struct LogEventView: View {
 					.foregroundStyle(.primary)
 			}
 
-			Spacer(minLength: 0)
+			Spacer()
 		}
 		.padding(.horizontal)
 		.padding(.vertical, 2)
@@ -83,40 +84,43 @@ struct DeploymentLogView: View {
 	var accountID: VercelAccount.ID
 	var body: some View {
 		ScrollViewReader { proxy in
-			VStack(alignment: .leading, spacing: 0) {
-				GeometryReader { geometry in
-					ScrollView([.vertical, .horizontal]) {
-						LazyVStack(alignment: .leading, spacing: 0) {
-							ForEach(logEvents) { event in
-								LogEventView(event: event)
-									.id(event.id)
-							}
+			GeometryReader { geometry in
+				ScrollView([.vertical, .horizontal]) {
+					LazyVStack(alignment: .leading, spacing: 0) {
+						ForEach(logEvents) { event in
+							LogEventView(event: event)
+								.id(event.id)
 						}
-						.onReceive(logEvents.publisher) { _ in
-							if followLogs, let latestEvent = logEvents.last {
-								proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
-							}
-						}
-						.frame(minHeight: geometry.size.height, alignment: .topLeading)
-						.font(.footnote.monospaced())
-						#if os(iOS)
-							.toolbar {
-								ToolbarItem(placement: .navigationBarTrailing) {
-									Link(destination: deployment.inspectorUrl) {
-										Label("Open in Safari", systemImage: "safari")
-									}
-								}
-
-								ToolbarItem(placement: .automatic) {
-									Toggle(isOn: $followLogs) {
-										Label("Scroll to bottom", systemImage: "arrow.down.to.line.compact")
-									}
-									.toggleStyle(.button)
-									.disabled(logEvents.isEmpty)
-								}
-							}
-						#endif
 					}
+					.onReceive(logEvents.publisher) { _ in
+						if followLogs, let latestEvent = logEvents.last {
+							proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
+						}
+					}
+					.frame(minHeight: geometry.size.height, alignment: .topLeading)
+					.font(.footnote.monospaced())
+					#if os(iOS)
+						.toolbar {
+							ToolbarItem(placement: .navigationBarTrailing) {
+								Link(destination: deployment.inspectorUrl) {
+									Label("Open in Safari", systemImage: "safari")
+								}
+							}
+
+							ToolbarItem(placement: .automatic) {
+								Toggle(isOn: $followLogs) {
+									Label("Scroll to bottom", systemImage: "arrow.down.to.line.compact")
+								}
+								.toggleStyle(.button)
+								.disabled(logEvents.isEmpty)
+								.onChange(of: followLogs) { _ in
+									if followLogs {
+										proxy.scrollTo(logEvents.last?.id, anchor: .bottomLeading)
+									}
+								}
+							}
+						}
+					#endif
 				}
 			}
 		}

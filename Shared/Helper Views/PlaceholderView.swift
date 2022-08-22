@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum PlaceholderRole {
-	case DeploymentList, DeploymentDetail, NoDeployments, NoAccounts, ProjectDetail
+	case DeploymentList, DeploymentDetail, NoDeployments, NoAccounts, ProjectDetail, NoProjects
 }
 
 struct PlaceholderView: View {
@@ -22,7 +22,7 @@ struct PlaceholderView: View {
 			return "doc.text.magnifyingglass"
 		case .DeploymentList:
 			return "person.2.fill"
-		case .NoDeployments:
+		case .NoDeployments, .NoProjects:
 			return "text.magnifyingglass"
 		case .NoAccounts:
 			return "person.3.fill"
@@ -41,6 +41,8 @@ struct PlaceholderView: View {
 			return "No Deployments To Show"
 		case .NoAccounts:
 			return "No Accounts Found"
+		case .NoProjects:
+			return "No Projects To Show"
 		}
 	}
 

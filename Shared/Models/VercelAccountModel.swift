@@ -76,6 +76,9 @@ extension VercelAccount: Hashable {
 
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(id)
+		hasher.combine(avatar)
+		hasher.combine(name)
+		hasher.combine(username)
 	}
 }
 
