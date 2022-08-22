@@ -57,7 +57,8 @@ struct OnboardingView: View {
 				VStack(spacing: 12) {
 					Spacer()
 
-					.padding(.vertical)
+					ZeitgeistLogo()
+						.padding(.vertical)
 					
 					Text("Welcome to Zeitgeist")
 						.font(.largeTitle.bold())
