@@ -31,6 +31,10 @@ struct ZeitgeistLogo: View {
 			.scaleEffect(2)
 			.blur(radius: size * 0.1)
 			.clipShape(RoundedRectangle(cornerRadius: size * 0.25, style: .continuous))
+			.overlay {
+				RoundedRectangle(cornerRadius: size * 0.25, style: .continuous)
+					.strokeBorder(Color.primary.opacity(0.1), style: .init())
+			}
 			.animation(.linear(duration: 30).repeatForever(autoreverses: false), value: appear)
 			.onAppear {
 				appear = true
