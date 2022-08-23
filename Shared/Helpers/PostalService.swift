@@ -18,6 +18,21 @@ enum ZPSEventType: String {
 	case deploymentError = "deployment-error"
 	case projectCreated = "project-created"
 	case projectRemoved = "project-removed"
+	
+	var emojiPrefix: String {
+		switch self {
+		case .deployment:
+			return "⏱ "
+		case .deploymentReady:
+			return "✅ "
+		case .deploymentError:
+			return "🛑 "
+		case .projectCreated:
+			return "📂 "
+		case .projectRemoved:
+			return "🗑 "
+		}
+	}
 }
 
 struct ZPSNotificationPayload: Hashable {

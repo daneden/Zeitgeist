@@ -37,62 +37,64 @@ struct SettingsView: View {
 	}
 
 	var body: some View {
-		Form {
-			Section {
-				Link(destination: githubIssuesURL) {
-					Label("Submit Feedback", systemImage: "ladybug")
+		NavigationView {
+			Form {
+				Section {
+					Link(destination: githubIssuesURL) {
+						Label("Submit Feedback", systemImage: "ladybug")
+					}
+
+					Link(destination: .ReviewURL) {
+						Label("Review on App Store", systemImage: "star.fill")
+					}
 				}
 
-				Link(destination: .ReviewURL) {
-					Label("Review on App Store", systemImage: "star.fill")
-				}
-			}
+				Section {
+					Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+						Text("Privacy Policy")
+					}
 
-			Section {
-				Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-					Text("Privacy Policy")
-				}
-
-				Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-					Text("Terms of Use")
-				}
-			}
-			
-			Section("Notifications") {
-				Toggle(isOn: $notificationEmoji) {
-					Text("Show Emoji in notification titles")
+					Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+						Text("Terms of Use")
+					}
 				}
 				
-				Picker(selection: $notificationGrouping) {
-					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
-						Text(grouping.description)
+				Section("Notifications") {
+					Toggle(isOn: $notificationEmoji) {
+						Text("Show Emoji in notification titles")
 					}
-				} label: {
-					Text("Group notifications by")
-				}
+					
+					Picker(selection: $notificationGrouping) {
+						ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
+							Text(grouping.description)
+						}
+					} label: {
+						Text("Group notifications by")
+					}
 
-				LabelView("Preview") {
-					NotificationPreviews(showsEmoji: notificationEmoji)
-				}
-			}
-			
-			Section("Danger Zone") {
-				Button {
-					resetNotifications()
-				} label: {
-					Label("Reset Notification Settings", systemImage: "bell.slash")
-				}.disabled(notificationsResettable)
-				
-				Button(role: .destructive) {
-					Preferences.accounts.forEach { account in
-						VercelSession.deleteAccount(id: account.id)
+					LabelView("Preview") {
+						NotificationPreviews(showsEmoji: notificationEmoji)
 					}
-				} label: {
-					Label("Delete All Accounts", systemImage: "trash")
 				}
-			}.symbolRenderingMode(.multicolor)
+				
+				Section("Danger Zone") {
+					Button {
+						resetNotifications()
+					} label: {
+						Label("Reset Notification Settings", systemImage: "bell.slash")
+					}.disabled(notificationsResettable)
+					
+					Button(role: .destructive) {
+						Preferences.accounts.forEach { account in
+							VercelSession.deleteAccount(id: account.id)
+						}
+					} label: {
+						Label("Delete All Accounts", systemImage: "trash")
+					}
+				}.symbolRenderingMode(.multicolor)
+			}
+			.navigationTitle("Settings")
 		}
-		.navigationTitle("Settings")
 	}
 }
 

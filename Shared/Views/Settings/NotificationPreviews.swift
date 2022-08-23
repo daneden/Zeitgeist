@@ -31,18 +31,7 @@ struct NotificationPreviews: View {
 	private var emoji: String {
 		guard showsEmoji else { return "" }
 		
-		switch eventType {
-		case .deployment:
-			return "⏱ "
-		case .deploymentReady:
-			return "✅ "
-		case .deploymentError:
-			return "🛑 "
-		case .projectCreated:
-			return "📂 "
-		case .projectRemoved:
-			return "🗑 "
-		}
+		return eventType.emojiPrefix
 	}
 	
     var body: some View {

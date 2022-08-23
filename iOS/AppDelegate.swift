@@ -27,6 +27,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			UIApplication.shared.registerForRemoteNotifications()
 		}
 	}
+	
+	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
+	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
 
 	func application(
 		_: UIApplication,
@@ -153,10 +156,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			} else {
 				content.title = body
 			}
+			
+			if notificationEmoji {
+				content.title = "\(eventType.emojiPrefix)\(content.title)"
+			}
 
 			content.sound = .default
-			content.threadIdentifier = projectId
-			content.categoryIdentifier = ZPSNotificationCategory.deployment.rawValue
+			
+			switch notificationGrouping {
+			case .project:
+				content.threadIdentifier = projectId
+			case .deployment:
+				content.threadIdentifier = deploymentId ?? projectId
+			}
+			
+			content.categoryIdentifier = eventType.rawValue
 			content.userInfo = [
 				"DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
 				"TEAM_ID": "\(teamId ?? "-1")",
