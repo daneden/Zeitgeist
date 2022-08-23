@@ -118,6 +118,8 @@
 		714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
 		714D44A928B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
 		714D44AA28B24722005105B7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
+		714D44AC28B52359005105B7 /* NotificationPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44AB28B52359005105B7 /* NotificationPreviews.swift */; };
+		714D44AD28B52359005105B7 /* NotificationPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44AB28B52359005105B7 /* NotificationPreviews.swift */; };
 		71609DE428B3AB9100323156 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */; };
 		71609DE528B3AB9100323156 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
@@ -247,6 +249,7 @@
 		714D449B289FEEA2005105B7 /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
 		714D449F289FF550005105B7 /* ProjectsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListRowView.swift; sourceTree = "<group>"; };
 		714D44A728B239A4005105B7 /* NewFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeaturesView.swift; sourceTree = "<group>"; };
+		714D44AB28B52359005105B7 /* NotificationPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreviews.swift; sourceTree = "<group>"; };
 		71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistLogo.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -509,6 +512,7 @@
 			isa = PBXGroup;
 			children = (
 				711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */,
+				714D44AB28B52359005105B7 /* NotificationPreviews.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -719,6 +723,7 @@
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				714D449C289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
+				714D44AC28B52359005105B7 /* NotificationPreviews.swift in Sources */,
 				714D4499289FD979005105B7 /* Pasteboard.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
 				71155366266289F500A73CD6 /* VercelAccountModel.swift in Sources */,
@@ -802,6 +807,7 @@
 				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
 				711553C82665491300A73CD6 /* VercelDeployment.swift in Sources */,
 				711AB5F22676829F004D0768 /* URL.extension.swift in Sources */,
+				714D44AD28B52359005105B7 /* NotificationPreviews.swift in Sources */,
 				711553C92665491300A73CD6 /* VercelAccountModel.swift in Sources */,
 				71D0BC3C28868FF400A22693 /* ProjectNotificationsView.swift in Sources */,
 				71CAE84228AD24260063F338 /* ContentView.swift in Sources */,

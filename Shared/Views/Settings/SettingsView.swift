@@ -13,6 +13,9 @@ struct SettingsView: View {
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
 	@AppStorage(Preferences.deploymentNotificationsProductionOnly) private var deploymentProductionNotificationIds
 	
+	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
+	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
+	
 	var githubIssuesURL: URL {
 		
 		var body = """
@@ -52,6 +55,24 @@ struct SettingsView: View {
 
 				Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
 					Text("Terms of Use")
+				}
+			}
+			
+			Section("Notifications") {
+				Toggle(isOn: $notificationEmoji) {
+					Text("Show Emoji in notification titles")
+				}
+				
+				Picker(selection: $notificationGrouping) {
+					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
+						Text(grouping.description)
+					}
+				} label: {
+					Text("Group notifications by")
+				}
+
+				LabelView("Preview") {
+					NotificationPreviews(showsEmoji: notificationEmoji)
 				}
 			}
 			

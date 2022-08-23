@@ -17,7 +17,9 @@ struct Preferences {
 		     deploymentNotificationsProductionOnly,
 		     deploymentReadyNotificationIds,
 		     deploymentErrorNotificationIds,
-		     deploymentNotificationIds
+		     deploymentNotificationIds,
+				 notificationGrouping,
+				 notificationEmoji
 	}
 
 	typealias AppStorageKVPair<T> = (key: Keys, value: T)
@@ -29,6 +31,8 @@ struct Preferences {
 	static let deploymentNotificationIds: AppStorageKVPair<[VercelProject.ID]> = (.deploymentNotificationIds, [])
 	static let authenticatedAccounts: AppStorageKVPair<[VercelAccount]> = (.authenticatedAccounts, [])
 	static let lastAppVersionOpened: AppStorageKVPair<String?> = (.lastAppVersionOpened, nil)
+	static let notificationEmoji: AppStorageKVPair<Bool> = (.notificationEmoji, false)
+	static let notificationGrouping: AppStorageKVPair<NotificationGrouping> = (.notificationGrouping, .project)
 	
 	@available(*, deprecated)
 	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
@@ -50,5 +54,19 @@ extension AppStorage {
 	
 	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == String? {
 		self.init(kv.key.rawValue, store: Preferences.store)
+	}
+}
+
+enum NotificationGrouping: String, Codable, RawRepresentable, CaseIterable {
+	case project
+	case deployment
+	
+	var description: String {
+		switch self {
+		case .project:
+			return "Project"
+		case .deployment:
+			return "Deployment"
+		}
 	}
 }
