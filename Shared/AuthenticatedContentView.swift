@@ -74,9 +74,12 @@ struct AuthenticatedContentView: View {
 				ProjectsListView()
 					.environmentObject(session)
 					.navigationTitle("Projects")
-				PlaceholderView(forRole: .ProjectDetail)
-					.navigationTitle("Project Details")
+			} else {
+				PlaceholderView(forRole: .NoProjects)
 			}
+			
+			PlaceholderView(forRole: .ProjectDetail)
+				.navigationTitle("Project Details")
 		}
 	}
 }
