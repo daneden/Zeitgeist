@@ -44,7 +44,7 @@ struct AuthenticatedContentView: View {
 									.labelStyle(.iconOnly)
 							}
 						}
-					}
+					}.environmentObject(session)
 				}
 			}
 			.navigationTitle("Zeitgeist")
