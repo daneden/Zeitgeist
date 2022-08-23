@@ -20,11 +20,17 @@ struct AuthenticatedContentView: View {
 					let session = VercelSession(account: account)
 					
 					Section {
-						NavigationLink(destination: ProjectsListView().navigationTitle("Projects").environmentObject(session)) {
+						NavigationLink {
+							ProjectsListView()
+								.environmentObject(session)
+						} label: {
 							Label("Projects", systemImage: "folder")
 						}
 						
-						NavigationLink(destination: DeploymentListView().navigationTitle("Deployments").environmentObject(session)) {
+						NavigationLink {
+							DeploymentListView()
+								.environmentObject(session)
+						} label: {
 							Label("Deployments", systemImage: "list.bullet")
 						}
 					} header: {
@@ -44,7 +50,7 @@ struct AuthenticatedContentView: View {
 									.labelStyle(.iconOnly)
 							}
 						}
-					}.environmentObject(session)
+					}
 				}
 			}
 			.navigationTitle("Zeitgeist")

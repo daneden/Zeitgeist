@@ -31,7 +31,10 @@ struct ProjectsListView: View {
 			} else {
 				List {
 					ForEach(projects) { project in
-						NavigationLink(destination: ProjectDetailView(project: project)) {
+						NavigationLink {
+							ProjectDetailView(project: project)
+								.environmentObject(session)
+						} label: {
 							ProjectsListRowView(project: project)
 						}
 					}
@@ -53,6 +56,7 @@ struct ProjectsListView: View {
 				}
 			}
 		}
+		.navigationTitle("Projects")
 		.dataTask { do { try await loadProjects() } catch { print(error) } }
 	}
 	

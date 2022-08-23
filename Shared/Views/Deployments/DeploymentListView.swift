@@ -68,7 +68,10 @@ struct DeploymentListView: View {
 			} else {
 				List {
 					ForEach(filteredDeployments) { deployment in
-						NavigationLink(destination: DeploymentDetailView(deployment: deployment)) {
+						NavigationLink {
+							DeploymentDetailView(deployment: deployment)
+								.environmentObject(session)
+						} label: {
 							DeploymentListRowView(deployment: deployment)
 						}
 					}
@@ -112,6 +115,7 @@ struct DeploymentListView: View {
 				)
 			#endif
 		}
+		.navigationTitle("Deployments")
 		.dataTask {
 			try? await loadDeployments()
 		}

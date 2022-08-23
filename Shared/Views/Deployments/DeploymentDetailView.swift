@@ -185,7 +185,10 @@ private struct DeploymentDetails: View {
 				}
 			}
 
-			NavigationLink(destination: DeploymentLogView(deployment: deployment, accountID: accountId)) {
+			NavigationLink {
+				DeploymentLogView(deployment: deployment, accountID: accountId)
+					.environmentObject(session)
+			} label: {
 				Label("View Logs", systemImage: "terminal")
 			}
 
