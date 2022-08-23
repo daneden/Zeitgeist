@@ -165,7 +165,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			
 			switch notificationGrouping {
 			case .account:
-				content.threadIdentifier = teamId ?? userId
+				content.threadIdentifier = teamId ?? userId ?? "accountForProject-\(projectId)"
 			case .project:
 				content.threadIdentifier = projectId
 			case .deployment:
