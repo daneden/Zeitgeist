@@ -58,8 +58,8 @@ extension AppStorage {
 }
 
 enum NotificationGrouping: String, Codable, RawRepresentable, CaseIterable {
-	case project
-	case deployment
+	case account, project, deployment
+
 	
 	var description: String {
 		switch self {
@@ -67,6 +67,9 @@ enum NotificationGrouping: String, Codable, RawRepresentable, CaseIterable {
 			return "Project"
 		case .deployment:
 			return "Deployment"
+		case .account:
+			return "Account"
+
 		}
 	}
 }

@@ -164,6 +164,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			content.sound = .default
 			
 			switch notificationGrouping {
+			case .account:
+				content.threadIdentifier = teamId ?? userId ?? "accountForProject-\(projectId)"
 			case .project:
 				content.threadIdentifier = projectId
 			case .deployment:
