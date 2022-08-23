@@ -315,13 +315,13 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
-				71A33E57269B627F00DC34FC /* iOS */,
-				71155345266279CF00A73CD6 /* Shared */,
-				711553A2266548BD00A73CD6 /* macOS */,
-				711553DC266552AE00A73CD6 /* ZeitgeistWidgets */,
-				71611C012665667100119324 /* SelectWidgetAccountIntent */,
 				711553D7266552AD00A73CD6 /* Frameworks */,
+				71A33E57269B627F00DC34FC /* iOS */,
+				711553A2266548BD00A73CD6 /* macOS */,
 				71155344266279CF00A73CD6 /* Products */,
+				71611C012665667100119324 /* SelectWidgetAccountIntent */,
+				71155345266279CF00A73CD6 /* Shared */,
+				711553DC266552AE00A73CD6 /* ZeitgeistWidgets */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AuthenticatedContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
+	
 	@State private var signInModel = SignInViewModel()
-	@EnvironmentObject private var session: VercelSession
 	@State private var presentSettingsView = false
 
 	var body: some View {
@@ -69,10 +69,14 @@ struct AuthenticatedContentView: View {
 				}
 			}
 
-			ProjectsListView()
-				.navigationTitle("Projects")
-			PlaceholderView(forRole: .ProjectDetail)
-				.navigationTitle("Project Details")
+			if let account = accounts.first,
+				 let session = VercelSession(account: account) {
+				ProjectsListView()
+					.environmentObject(session)
+					.navigationTitle("Projects")
+				PlaceholderView(forRole: .ProjectDetail)
+					.navigationTitle("Project Details")
+			}
 		}
 	}
 }
