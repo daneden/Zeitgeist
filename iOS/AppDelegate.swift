@@ -123,6 +123,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 			let deploymentId: String? = userInfo["deploymentId"] as? String
 			let teamId: String? = userInfo["teamId"] as? String
+			let userId: String? = userInfo["userId"] as? String
+			
+			guard let accountId = teamId ?? userId,
+						Preferences.accounts.contains(where: { $0.id == accountId }) else {
+				return .noData
+			}
 
 			let target: String? = userInfo["target"] as? String
 
