@@ -11,7 +11,6 @@ struct ContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) var accounts
 	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
 	
-	@State private var presentSignInView = false
 	@State private var presentNewFeaturesScreen = false
 
 	var body: some View {
@@ -28,9 +27,6 @@ struct ContentView: View {
 		}
 		.animation(.default, value: accounts.isEmpty)
 		.symbolRenderingMode(.hierarchical)
-		.onChange(of: accounts) { accounts in
-			presentSignInView = accounts.isEmpty
-		}
 		.onAppear {
 			if let lastAppVersionOpened = lastAppVersionOpened,
 				 lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3" {

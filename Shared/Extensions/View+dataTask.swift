@@ -34,9 +34,11 @@ struct DataTaskModifier: ViewModifier {
 					print("Skipping dataTask since the session is no longer authenticated")
 				}
 			}
-			.onChange(of: scenePhase) { _ in
-				print("Updating based on scene phase")
-				Task { await action() }
+			.onChange(of: scenePhase) { currentScenePhase in
+				if case .active = currentScenePhase {
+					print("Updating based on scenePhase")
+					Task { await action() }
+				}
 			}
 	}
 }

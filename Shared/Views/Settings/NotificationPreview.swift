@@ -39,7 +39,7 @@ struct NotificationPreview: View {
 				Image("StaticAppIcon")
 					.resizable()
 					.frame(width: 28, height: 28)
-					.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+					.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 					.padding(.trailing, 8)
 				
 				VStack(alignment: .leading) {

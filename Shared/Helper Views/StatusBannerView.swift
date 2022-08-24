@@ -33,6 +33,7 @@ struct StatusBannerView: View {
 		}
 		.opacity(0.5)
 		.rotationEffect(.degrees(-5))
+		.accessibilityHidden(true)
 	}
 }
 

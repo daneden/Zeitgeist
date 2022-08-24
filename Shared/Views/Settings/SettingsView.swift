@@ -39,26 +39,6 @@ struct SettingsView: View {
 	var body: some View {
 		NavigationView {
 			Form {
-				Section {
-					Link(destination: githubIssuesURL) {
-						Label("Submit Feedback", systemImage: "ladybug")
-					}
-
-					Link(destination: .ReviewURL) {
-						Label("Review on App Store", systemImage: "star.fill")
-					}
-				}
-
-				Section {
-					Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-						Text("Privacy Policy")
-					}
-
-					Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-						Text("Terms of Use")
-					}
-				}
-				
 				Section("Notifications") {
 					Toggle(isOn: $notificationEmoji) {
 						Text("Show Emoji in notification titles")
@@ -77,6 +57,26 @@ struct SettingsView: View {
 					}
 				}
 				
+				Section {
+					Link(destination: githubIssuesURL) {
+						Label("Submit Feedback", systemImage: "ladybug")
+					}
+					
+					Link(destination: .ReviewURL) {
+						Label("Review on App Store", systemImage: "star.fill")
+					}
+				}
+				
+				Section {
+					Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+						Text("Privacy Policy")
+					}
+					
+					Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+						Text("Terms of Use")
+					}
+				}
+				
 				Section("Danger Zone") {
 					Button {
 						resetNotifications()
@@ -89,7 +89,7 @@ struct SettingsView: View {
 							VercelSession.deleteAccount(id: account.id)
 						}
 					} label: {
-						Label("Delete All Accounts", systemImage: "trash")
+						Label("Sign Out All Accounts", systemImage: "person.badge.minus")
 					}
 				}.symbolRenderingMode(.multicolor)
 			}
