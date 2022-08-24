@@ -38,22 +38,22 @@ struct NotificationPreview: View {
 			HStack {
 				Image("StaticAppIcon")
 					.resizable()
-					.frame(width: 36, height: 36)
+					.frame(width: 28, height: 28)
 					.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 					.padding(.trailing, 8)
 				
 				VStack(alignment: .leading) {
 					Text(title)
-						.font(.footnote.bold())
+						.font(.subheadline.bold())
 					Text(description)
-						.font(.footnote)
+						.font(.subheadline)
 				}
 				
 				Spacer(minLength: 0)
 			}
 			.padding()
 			.background(.thinMaterial)
-			.clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+			.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
 

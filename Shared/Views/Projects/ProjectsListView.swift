@@ -26,10 +26,6 @@ struct ProjectsListView: View {
 	
 	var body: some View {
 		ZStack {
-			if projects.isEmpty {
-				PlaceholderView(forRole: .NoProjects)
-			}
-			
 			List {
 				ForEach(projects) { project in
 					NavigationLink {
@@ -38,10 +34,6 @@ struct ProjectsListView: View {
 					} label: {
 						ProjectsListRowView(project: project)
 					}
-				}
-				
-				if projects.isEmpty {
-					LoadingListCell(title: "Loading Projects")
 				}
 				
 				if let pageId = pagination?.next {
@@ -56,6 +48,10 @@ struct ProjectsListView: View {
 				}
 			}
 			.dataTask { do { try await loadProjects() } catch { print(error) } }
+			
+			if projects.isEmpty {
+				PlaceholderView(forRole: .NoProjects)
+			}
 		}
 		.navigationTitle("Projects")
 	}
