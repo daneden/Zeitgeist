@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NotificationPreviews: View {
+struct NotificationPreview: View {
 	var eventType: ZPSEventType = .deployment
 	var projectName = "my-project"
 	var description = "Caused by \(Preferences.accounts.first?.username ?? "daneden")’s commit \"Initial commit\""
@@ -38,14 +38,15 @@ struct NotificationPreviews: View {
 			HStack {
 				Image("StaticAppIcon")
 					.resizable()
-					.frame(width: 40, height: 40)
+					.frame(width: 36, height: 36)
 					.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 					.padding(.trailing, 8)
 				
 				VStack(alignment: .leading) {
 					Text(title)
-						.font(.headline)
+						.font(.footnote.bold())
 					Text(description)
+						.font(.footnote)
 				}
 				
 				Spacer(minLength: 0)
@@ -59,11 +60,11 @@ struct NotificationPreviews: View {
 struct NotificationPreviews_Previews: PreviewProvider {
     static var previews: some View {
 			Group {
-				NotificationPreviews()
-				NotificationPreviews(eventType: .deploymentError)
+				NotificationPreview()
+				NotificationPreview(eventType: .deploymentError)
 				
-				NotificationPreviews(showsEmoji: true)
-				NotificationPreviews(eventType: .deploymentError, showsEmoji: true)
+				NotificationPreview(showsEmoji: true)
+				NotificationPreview(eventType: .deploymentError, showsEmoji: true)
 			}
 			.padding()
 			.previewLayout(.sizeThatFits)

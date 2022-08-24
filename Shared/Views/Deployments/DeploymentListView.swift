@@ -50,7 +50,7 @@ struct DeploymentListView: View {
 	}
 
 	var body: some View {
-		Group {
+		ZStack {
 			if filteredDeployments.isEmpty && !deployments.isEmpty {
 				VStack(spacing: 8) {
 					Spacer()
@@ -65,39 +65,38 @@ struct DeploymentListView: View {
 				}
 			} else if deployments.isEmpty {
 				PlaceholderView(forRole: .NoDeployments)
-			} else {
-				List {
-					ForEach(filteredDeployments) { deployment in
-						NavigationLink {
-							DeploymentDetailView(deployment: deployment)
-								.environmentObject(session)
-						} label: {
-							DeploymentListRowView(deployment: deployment)
-						}
-					}
-
-					if let pageId = pagination?.next {
-						LoadingListCell(title: "Loading Deployments")
-							.task {
-								do {
-									try await loadDeployments(pageId: pageId)
-								} catch {
-									print(error)
-								}
-							}
+			}
+			
+			List {
+				ForEach(filteredDeployments) { deployment in
+					NavigationLink {
+						DeploymentDetailView(deployment: deployment)
+							.environmentObject(session)
+					} label: {
+						DeploymentListRowView(deployment: deployment)
 					}
 				}
+
+				if let pageId = pagination?.next {
+					LoadingListCell(title: "Loading Deployments")
+						.task {
+							do {
+								try await loadDeployments(pageId: pageId)
+							} catch {
+								print(error)
+							}
+						}
+				}
 			}
-		}
-		.toolbar {
-			Button(action: { self.filterVisible.toggle() }) {
-				Label("Filter Deployments", systemImage: "line.horizontal.3.decrease.circle")
+			.toolbar {
+				Button(action: { self.filterVisible.toggle() }) {
+					Label("Filter Deployments", systemImage: "line.horizontal.3.decrease.circle")
+				}
+				.keyboardShortcut("l", modifiers: .command)
+				.symbolVariant(filtersApplied ? .fill : .none)
 			}
-			.keyboardShortcut("l", modifiers: .command)
-			.symbolVariant(filtersApplied ? .fill : .none)
-		}
-		.sheet(isPresented: self.$filterVisible) {
-			#if os(iOS)
+			.sheet(isPresented: self.$filterVisible) {
+#if os(iOS)
 				NavigationView {
 					DeploymentFilterView(
 						deployments: deployments,
@@ -106,19 +105,20 @@ struct DeploymentListView: View {
 						productionFilter: self.$productionFilter
 					)
 				}
-			#else
+#else
 				DeploymentFilterView(
 					deployments: deployments,
 					projectFilter: self.$projectFilter,
 					stateFilter: self.$stateFilter,
 					productionFilter: self.$productionFilter
 				)
-			#endif
+#endif
+			}
+			.dataTask {
+				try? await loadDeployments()
+			}
 		}
 		.navigationTitle("Deployments")
-		.dataTask {
-			try? await loadDeployments()
-		}
 	}
 
 	func loadDeployments(pageId: Int? = nil) async throws {

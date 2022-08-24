@@ -25,39 +25,39 @@ struct ProjectsListView: View {
 	@State private var pagination: Pagination?
 	
 	var body: some View {
-		Group {
+		ZStack {
 			if projects.isEmpty {
 				PlaceholderView(forRole: .NoProjects)
-			} else {
-				List {
-					ForEach(projects) { project in
-						NavigationLink {
-							ProjectDetailView(project: project)
-								.environmentObject(session)
-						} label: {
-							ProjectsListRowView(project: project)
-						}
-					}
-					
-					if projects.isEmpty {
-						LoadingListCell(title: "Loading Projects")
-					}
-					
-					if let pageId = pagination?.next {
-						LoadingListCell(title: "Loading Projects")
-							.task {
-								do {
-									try await loadProjects(pageId: pageId)
-								} catch {
-									print(error)
-								}
-							}
+			}
+			
+			List {
+				ForEach(projects) { project in
+					NavigationLink {
+						ProjectDetailView(project: project)
+							.environmentObject(session)
+					} label: {
+						ProjectsListRowView(project: project)
 					}
 				}
+				
+				if projects.isEmpty {
+					LoadingListCell(title: "Loading Projects")
+				}
+				
+				if let pageId = pagination?.next {
+					LoadingListCell(title: "Loading Projects")
+						.task {
+							do {
+								try await loadProjects(pageId: pageId)
+							} catch {
+								print(error)
+							}
+						}
+				}
 			}
+			.dataTask { do { try await loadProjects() } catch { print(error) } }
 		}
 		.navigationTitle("Projects")
-		.dataTask { do { try await loadProjects() } catch { print(error) } }
 	}
 	
 	func loadProjects(pageId: Int? = nil) async throws {

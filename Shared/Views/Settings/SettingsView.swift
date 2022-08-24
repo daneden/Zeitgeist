@@ -73,7 +73,7 @@ struct SettingsView: View {
 					}
 
 					LabelView("Preview") {
-						NotificationPreviews(showsEmoji: notificationEmoji)
+						NotificationPreview(showsEmoji: notificationEmoji)
 					}
 				}
 				
