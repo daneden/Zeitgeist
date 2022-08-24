@@ -35,9 +35,9 @@ class VercelSession: ObservableObject {
 	@AppStorage(Preferences.authenticatedAccounts)
 	private var authenticatedAccounts
 
-	@Published var account: VercelAccount? {
+	@Published var account: VercelAccount {
 		willSet {
-			if account != nil {
+			if newValue.id != account.id {
 				accountLastUpdated = nil
 			}
 		}
@@ -45,7 +45,7 @@ class VercelSession: ObservableObject {
 	
 	private var accountLastUpdated: Date? = nil
 	
-	init(account: VercelAccount? = nil) {
+	init(account: VercelAccount) {
 		self.account = account
 	}
 	
@@ -54,9 +54,8 @@ class VercelSession: ObservableObject {
 		let moreRecentAccount = await loadAccount()
 		
 		if let moreRecentAccount = moreRecentAccount,
-			 let account = account,
 			 account != moreRecentAccount {
-			self.account?.updateAccount(to: moreRecentAccount)
+			self.account.updateAccount(to: moreRecentAccount)
 			if let index = authenticatedAccounts.firstIndex(of: account) {
 				authenticatedAccounts[index] = moreRecentAccount
 			}
@@ -64,18 +63,17 @@ class VercelSession: ObservableObject {
 	}
 
 	var authenticationToken: String? {
-		guard let account = account else { return nil }
 		return KeychainItem(account: account.id).wrappedValue
 	}
 
 	var isAuthenticated: Bool {
-		account != nil && authenticationToken != nil
+		authenticationToken != nil
 	}
 
 	@MainActor
 	func loadAccount() async -> VercelAccount? {
 		do {
-			guard let account = account, authenticationToken != nil else {
+			guard authenticationToken != nil else {
 				return nil
 			}
 
@@ -93,7 +91,6 @@ class VercelSession: ObservableObject {
 
 	func signRequest(_ request: inout URLRequest) throws {
 		guard let authenticationToken = authenticationToken else {
-			self.account = nil
 			throw SessionError.notAuthenticated
 		}
 		

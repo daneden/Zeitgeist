@@ -10,7 +10,7 @@ import SwiftUI
 struct DeploymentDetailView: View {
 	@EnvironmentObject var session: VercelSession
 
-	var accountId: VercelAccount.ID { session.account?.id ?? .NullValue }
+	var accountId: VercelAccount.ID { session.account.id }
 	@State var deployment: VercelDeployment
 
 	var body: some View {

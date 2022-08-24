@@ -132,7 +132,7 @@ struct ProjectDetailView: View {
 	}
 	
 	func loadProject() async throws {
-		var request = VercelAPI.request(for: .projects(project.id), with: session.account?.id ?? .NullValue)
+		var request = VercelAPI.request(for: .projects(project.id), with: session.account.id)
 		try session.signRequest(&request)
 		
 		let (data, _) = try await URLSession.shared.data(for: request)
@@ -153,7 +153,7 @@ struct ProjectDetailView: View {
 		}
 
 		var request = VercelAPI.request(for: .deployments(),
-																		with: session.account?.id ?? .NullValue,
+																		with: session.account.id,
 																		queryItems: queryItems)
 		try session.signRequest(&request)
 
