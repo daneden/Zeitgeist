@@ -24,6 +24,8 @@ struct ProjectsListView: View {
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
 	
+	@State private var errorMessage: String?
+	
 	var body: some View {
 		ZStack {
 			List {
@@ -47,10 +49,21 @@ struct ProjectsListView: View {
 						}
 				}
 			}
-			.dataTask { do { try await loadProjects() } catch { print(error) } }
+			.dataTask { do { try await loadProjects() } catch {
+				print(error)
+				errorMessage = error.localizedDescription
+			} }
 			
 			if projects.isEmpty {
 				PlaceholderView(forRole: .NoProjects)
+				
+				VStack {
+					if session.account == nil { Text("Account is nil") }
+					if session.authenticationToken == nil { Text ("Token is nil") }
+					if let errorMessage = errorMessage {
+						Text(errorMessage)
+					}
+				}.font(.subheadline.monospaced())
 			}
 		}
 		.navigationTitle("Projects")
