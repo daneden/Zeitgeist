@@ -51,22 +51,6 @@ struct DeploymentListView: View {
 
 	var body: some View {
 		ZStack {
-			if filteredDeployments.isEmpty && !deployments.isEmpty {
-				VStack(spacing: 8) {
-					Spacer()
-
-					PlaceholderView(forRole: .NoDeployments)
-
-					Button(action: clearFilters) {
-						Label("Clear Filters", systemImage: "xmark.circle")
-					}
-
-					Spacer()
-				}
-			} else if deployments.isEmpty {
-				PlaceholderView(forRole: .NoDeployments)
-			}
-			
 			List {
 				ForEach(filteredDeployments) { deployment in
 					NavigationLink {
@@ -116,6 +100,22 @@ struct DeploymentListView: View {
 			}
 			.dataTask {
 				try? await loadDeployments()
+			}
+			
+			if filteredDeployments.isEmpty && !deployments.isEmpty {
+				VStack(spacing: 8) {
+					Spacer()
+					
+					PlaceholderView(forRole: .NoDeployments)
+					
+					Button(action: clearFilters) {
+						Label("Clear Filters", systemImage: "xmark.circle")
+					}
+					
+					Spacer()
+				}
+			} else if deployments.isEmpty {
+				PlaceholderView(forRole: .NoDeployments)
 			}
 		}
 		.navigationTitle("Deployments")
