@@ -100,6 +100,8 @@
 		7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
+		713CD9BE28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
+		713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
 		7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04B2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
@@ -243,6 +245,7 @@
 		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
+		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
 		7144D0492887F9C900F0AE1E /* VercelDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDomain.swift; sourceTree = "<group>"; };
 		71493651278AEBA2001CB921 /* DeploymentLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentLogView.swift; sourceTree = "<group>"; };
 		714D4498289FD979005105B7 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
@@ -420,6 +423,7 @@
 				71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */,
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				71D0BC362882A2D500A22693 /* View+dataTask.swift */,
+				713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -754,6 +758,7 @@
 				714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */,
 				71CAE83E28AD20B90063F338 /* MigrationHelpers.swift in Sources */,
 				71CAE84128AD24260063F338 /* ContentView.swift in Sources */,
+				713CD9BE28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */,
 				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
 				711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				71493652278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
@@ -790,6 +795,7 @@
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				71493653278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				71622AF428B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
+				713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
 				711553CA2665491300A73CD6 /* VercelSession.swift in Sources */,
 				71D0BC3D288694A500A22693 /* NotificationManager.swift in Sources */,

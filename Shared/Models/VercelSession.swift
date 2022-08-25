@@ -44,6 +44,7 @@ class VercelSession: ObservableObject {
 	}
 	
 	private var accountLastUpdated: Date? = nil
+	@Published private(set) var requestsDenied = false
 	
 	init(account: VercelAccount) {
 		self.account = account
@@ -80,12 +81,21 @@ class VercelSession: ObservableObject {
 			var request = VercelAPI.request(for: .account(id: account.id), with: account.id)
 			try signRequest(&request)
 
-			let (data, _) = try await URLSession.shared.data(for: request)
+			let (data, response) = try await URLSession.shared.data(for: request)
+			
+			validateResponse(response)
 
 			return try JSONDecoder().decode(VercelAccount.self, from: data)
 		} catch {
 			print(error)
 			return nil
+		}
+	}
+	
+	func validateResponse(_ response: URLResponse) {
+		if let response = response as? HTTPURLResponse,
+			 response.statusCode == 403 {
+			requestsDenied = true
 		}
 	}
 
@@ -111,13 +121,8 @@ extension VercelSession {
 
 		KeychainItem(account: id).wrappedValue = token
 
-		var request: URLRequest
-
-		if id.isTeam {
-			request = URLRequest(url: URL(string: "https://api.vercel.com/v2/teams/\(id)?teamId=\(id)")!)
-		} else {
-			request = URLRequest(url: URL(string: "https://api.vercel.com/v2/user")!)
-		}
+		let urlString = "https://api.vercel.com/v2/\(id.isTeam ? "teams/\(id)?teamId=\(id)" : "user")"
+		var request = URLRequest(url: URL(string: urlString)!)
 
 		do {
 			request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

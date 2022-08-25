@@ -12,6 +12,7 @@ struct AuthenticatedContentView: View {
 	
 	@State private var signInModel = SignInViewModel()
 	@State private var presentSettingsView = false
+	@State private var removeAccountDialogVisible = false
 
 	var body: some View {
 		NavigationView {

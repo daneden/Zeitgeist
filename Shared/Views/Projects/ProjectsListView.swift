@@ -54,9 +54,12 @@ struct ProjectsListView: View {
 			}
 		}
 		.navigationTitle("Projects")
+		.permissionRevocationDialog(session: session)
 	}
 	
 	func loadProjects(pageId: Int? = nil) async throws {
+		if session.requestsDenied == true { return }
+		
 		var params: [URLQueryItem] = []
 		
 		if let pageId = pageId {
@@ -73,7 +76,8 @@ struct ProjectsListView: View {
 			projects = decodedFromCache.projects
 		}
 		
-		let (data, _) = try await URLSession.shared.data(for: request)
+		let (data, response) = try await URLSession.shared.data(for: request)
+		session.validateResponse(response)
 		let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)
 		withAnimation {
 			if pageId != nil {

@@ -119,6 +119,7 @@ struct DeploymentListView: View {
 			}
 		}
 		.navigationTitle("Deployments")
+		.permissionRevocationDialog(session: session)
 	}
 
 	func loadDeployments(pageId: Int? = nil) async throws {
@@ -138,7 +139,8 @@ struct DeploymentListView: View {
 			deployments = decodedFromCache.deployments
 		}
 
-		let (data, _) = try await URLSession.shared.data(for: request)
+		let (data, response) = try await URLSession.shared.data(for: request)
+		session.validateResponse(response)
 		let decoded = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
 		withAnimation {
 			if pageId != nil {
