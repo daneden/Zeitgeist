@@ -72,6 +72,9 @@ struct DeploymentListView: View {
 						}
 				}
 			}
+			.dataTask {
+				try? await loadDeployments()
+			}
 			.toolbar {
 				Button(action: { self.filterVisible.toggle() }) {
 					Label("Filter Deployments", systemImage: "line.horizontal.3.decrease.circle")
@@ -97,9 +100,6 @@ struct DeploymentListView: View {
 					productionFilter: self.$productionFilter
 				)
 #endif
-			}
-			.dataTask {
-				try? await loadDeployments()
 			}
 			
 			if filteredDeployments.isEmpty && !deployments.isEmpty {
