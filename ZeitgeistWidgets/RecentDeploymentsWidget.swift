@@ -111,33 +111,66 @@ struct RecentDeploymentsWidget: Widget {
 }
 
 struct RecentDeploymentsWidgetView: View {
+	@Environment(\.sizeCategory) var sizeCategory
 	var config: RecentDeploymentsEntry
+	
+	var accountLabel: some View {
+			Group {
+			if config.account.identifier != nil {
+				Label(config.account.displayString, systemImage: "person")
+			} else {
+				Text("No Account Selected")
+			}
+		}
+		.foregroundStyle(.secondary)
+		.symbolVariant(.fill)
+	}
+	
+	var topLabel: some View {
+		Group {
+			if let projectName = config.project?.displayString,
+				 config.project?.identifier != nil {
+				VStack(alignment: .leading) {
+					widgetTitle
+					HStack {
+						accountLabel
+						Spacer()
+						Label(projectName, systemImage: "folder")
+							.foregroundStyle(.secondary)
+							.symbolVariant(.fill)
+					}
+				}
+			} else {
+				HStack(alignment: .firstTextBaseline) {
+					widgetTitle
+					Spacer()
+					accountLabel
+				}
+			}
+		}
+		.font(.footnote)
+	}
+	
+	var widgetTitle: some View {
+		Label("Recent Deployments", systemImage: "clock")
+			.font(.footnote.bold())
+	}
+	
+	var numberOfDeployments = 4
 
 	var body: some View {
 		VStack(alignment: .leading) {
-			HStack {
-				Text("Recent Deployments")
-					.font(.footnote.bold())
+			topLabel
 
-				Spacer()
-
-				HStack(alignment: .firstTextBaseline, spacing: 2) {
-					if config.account.identifier != nil {
-						Image(systemName: "person.fill")
-						Text(config.account.displayString)
-					} else {
-						Text("No Account Selected")
-					}
-				}.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
-			}
-
-			if let deployments = config.deployments?.prefix(5) {
+			if let deployments = config.deployments?.prefix(numberOfDeployments) {
 				ForEach(deployments) { deployment in
-					Spacer()
 					Divider()
-					Spacer()
-					RecentDeploymentsListRowView(accountId: config.account.identifier ?? "0", deployment: deployment)
-						.font(.caption)
+					RecentDeploymentsListRowView(
+						accountId: config.account.identifier ?? "0",
+						deployment: deployment,
+						project: config.project
+					)
+						.frame(maxHeight: .infinity)
 				}
 			} else {
 				VStack(alignment: .center) {
@@ -159,26 +192,36 @@ struct RecentDeploymentsWidgetView: View {
 struct RecentDeploymentsListRowView: View {
 	var accountId: String
 	var deployment: VercelDeployment
+	var project: WidgetProject?
 
 	var body: some View {
-		Label(
-			title: {
-				Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
-					VStack(alignment: .leading) {
-						Text(deployment.deploymentCause.description)
-							.lineLimit(1)
-						Text("\(deployment.project) • \(deployment.created, style: .relative)")
-							.font(.caption)
-							.foregroundColor(.secondary)
-					}.frame(maxWidth: .infinity)
+		Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
+			Label {
+				VStack(alignment: .leading) {
+					Text(deployment.deploymentCause.description)
+						.font(.subheadline.bold())
+					
+					Group {
+						if project?.identifier == nil {
+							Text("\(deployment.project) • \(deployment.created, style: .relative)")
+						} else {
+							Text("\(deployment.created, style: .relative)")
+						}
+					}
+					.font(.subheadline)
+					.foregroundStyle(.secondary)
+					
+					if let message = deployment.commit?.commitMessage.split(separator: "\n").dropFirst().joined(separator: "\n") {
+						Text(message)
+							.font(.subheadline)
+							.foregroundStyle(.secondary)
+					}
 				}
-			},
-			icon: {
+				.lineLimit(1)
+				.frame(maxWidth: .infinity)
+			} icon: {
 				DeploymentStateIndicator(state: deployment.state, style: .compact)
-					.fixedSize()
 			}
-		)
-		.font(.footnote)
-		.padding(.vertical, 2)
+		}
 	}
 }

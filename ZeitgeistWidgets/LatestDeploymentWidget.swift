@@ -118,7 +118,7 @@ struct LatestDeploymentWidget: Widget {
 		) { entry in
 			LatestDeploymentWidgetView(config: entry)
 		}
-		.supportedFamilies([.systemSmall])
+		.supportedFamilies([.systemSmall, .systemMedium])
 		.configurationDisplayName("Latest Deployment")
 		.description("View the most recent Vercel deployment")
 	}
@@ -142,14 +142,14 @@ struct LatestDeploymentWidgetView: View {
 						.foregroundColor(.primary)
 
 					Text(deployment.created, style: .relative)
-						.font(.caption)
+						.font(.footnote)
 					Text(deployment.project)
 						.lineLimit(1)
-						.font(.caption)
+						.font(.footnote)
 						.foregroundColor(.secondary)
 				} else {
 					PlaceholderView(forRole: .NoDeployments, alignment: .leading)
-						.font(.caption)
+						.font(.footnote)
 				}
 
 				Spacer()
@@ -161,7 +161,7 @@ struct LatestDeploymentWidgetView: View {
 					} else {
 						Text("No Account Selected")
 					}
-				}.font(.caption2).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
+				}.font(.footnote).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
 			}
 		}
 		.padding()

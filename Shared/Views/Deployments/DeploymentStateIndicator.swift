@@ -61,7 +61,8 @@ struct DeploymentStateIndicator: View {
 			}
 		}
 		.foregroundStyle(color)
-		.symbolVariant(style == .normal ? .fill : .none)
+		.symbolVariant(.fill)
+		.symbolRenderingMode(.hierarchical)
 	}
 }
 
