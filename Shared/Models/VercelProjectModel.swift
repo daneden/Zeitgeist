@@ -18,6 +18,7 @@ struct VercelProject: Decodable, Identifiable {
 	let framework: VercelFramework?
 	let gitForkProtection: Bool?
 	let id: ID
+	let latestDeployments: [VercelDeployment]?
 	let name: String
 	let nodeVersion: NodeVersion
 	let outputDirectory: String?

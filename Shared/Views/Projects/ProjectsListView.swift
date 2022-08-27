@@ -20,6 +20,7 @@ struct LoadingListCell: View {
 
 struct ProjectsListView: View {
 	@EnvironmentObject var session: VercelSession
+	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
 	
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
@@ -45,6 +46,20 @@ struct ProjectsListView: View {
 								print(error)
 							}
 						}
+				}
+			}
+			.toolbar {
+				Menu {
+					Picker(selection: $projectSummaryDisplayOption) {
+						ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
+							Text(option.description)
+								.tag(option)
+						}
+					} label: {
+						Label("Display deployment cause for...", systemImage: "info.circle")
+					}
+				} label: {
+					Label("View Options", systemImage: "eye.circle")
 				}
 			}
 			.dataTask { do { try await loadProjects() } catch { print(error) } }

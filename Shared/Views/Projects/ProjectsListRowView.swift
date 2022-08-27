@@ -8,7 +8,19 @@
 import SwiftUI
 
 struct ProjectsListRowView: View {
+	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
+	
 	var project: VercelProject
+	
+	var deploymentSummarySource: VercelDeployment? {
+		switch projectSummaryDisplayOption {
+		case .latestDeployment:
+			return project.latestDeployments?.first
+		case .productionDeployment:
+			return project.targets?.production
+		}
+	}
+	
 	var body: some View {
 		VStack(alignment: .leading, spacing: 4) {
 			HStack(alignment: .firstTextBaseline) {
@@ -20,7 +32,7 @@ struct ProjectsListRowView: View {
 					.font(.caption)
 			}
 
-			if let productionDeploymentCause = project.targets?.production?.deploymentCause {
+			if let productionDeploymentCause = deploymentSummarySource?.deploymentCause {
 				if case .deployHook(_) = productionDeploymentCause,
 					 let icon = productionDeploymentCause.icon {
 					Text("\(Image(icon)) \(productionDeploymentCause.description)").lineLimit(2)
