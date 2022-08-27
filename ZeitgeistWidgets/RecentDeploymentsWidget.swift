@@ -131,9 +131,14 @@ struct RecentDeploymentsWidgetView: View {
 	
 	var numberOfDeployments: Int {
 		switch sizeCategory {
-		case .extraSmall, .small, .medium, .large:
+		case .extraSmall,
+				.small,
+				.medium,
+				.large:
 			return 5
-		case .accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge:
+		case .accessibilityExtraLarge,
+				.accessibilityExtraExtraLarge,
+				.accessibilityExtraExtraExtraLarge:
 			return 3
 		default: return 4
 		}
