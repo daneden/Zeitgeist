@@ -56,7 +56,7 @@ struct ProjectsListView: View {
 								.tag(option)
 						}
 					} label: {
-						Label("Display deployment cause for...", systemImage: "info.circle")
+						Label("Show deployment cause for...", systemImage: "info.circle")
 					}
 				} label: {
 					Label("View Options", systemImage: "eye.circle")

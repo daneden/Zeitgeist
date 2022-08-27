@@ -135,9 +135,16 @@ struct LatestDeploymentWidgetView: View {
 		Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
 			VStack(alignment: .leading, spacing: 4) {
 				if let deployment = config.deployment {
-					DeploymentStateIndicator(state: deployment.state)
-						.font(Font.caption.bold())
-						.padding(.bottom, 2)
+					HStack {
+						DeploymentStateIndicator(state: deployment.state)
+						Spacer()
+						if deployment.target == .production {
+							Image(systemName: "theatermasks")
+								.foregroundStyle(.tint)
+						}
+					}
+					.font(Font.caption.bold())
+					.padding(.bottom, 2)
 
 					Text(deployment.deploymentCause.description)
 						.font(.subheadline)
