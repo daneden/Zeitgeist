@@ -20,7 +20,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 	typealias Entry = RecentDeploymentsEntry
 	func placeholder(in _: Context) -> Entry {
 		return Entry(
-			account: WidgetAccount(identifier: nil, display: "Placeholder Account")
+			account: WidgetAccount(identifier: nil, display: "No Account")
 		)
 	}
 

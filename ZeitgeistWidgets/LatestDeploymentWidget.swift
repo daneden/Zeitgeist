@@ -19,7 +19,7 @@ struct LatestDeploymentEntry: TimelineEntry {
 struct LatestDeploymentProvider: IntentTimelineProvider {
 	typealias Entry = LatestDeploymentEntry
 	func placeholder(in _: Context) -> LatestDeploymentEntry {
-		LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "Placeholder Account"))
+		LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
 	}
 
 	func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (LatestDeploymentEntry) -> Void) {
