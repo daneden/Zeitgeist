@@ -142,9 +142,10 @@ struct LatestDeploymentWidgetView: View {
 							Image(systemName: "theatermasks")
 								.foregroundStyle(.tint)
 								.symbolVariant(.fill)
+								.imageScale(.small)
 						}
 					}
-					.font(Font.caption.bold())
+					.font(.caption.bold())
 					.padding(.bottom, 2)
 
 					Text(deployment.deploymentCause.description)

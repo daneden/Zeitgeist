@@ -211,6 +211,7 @@ struct RecentDeploymentsListRowView: View {
 								.foregroundStyle(.tint)
 								.symbolRenderingMode(.hierarchical)
 								.symbolVariant(.fill)
+								.imageScale(.small)
 						}
 						
 						if project?.identifier == nil {
