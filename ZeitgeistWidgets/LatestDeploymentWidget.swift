@@ -120,7 +120,7 @@ struct LatestDeploymentWidget: Widget {
 		}
 		.supportedFamilies([.systemSmall, .systemMedium])
 		.configurationDisplayName("Latest Deployment")
-		.description("View the most recent Vercel deployment")
+		.description("View the most recent Vercel deployment for an account or project")
 	}
 }
 
@@ -141,6 +141,7 @@ struct LatestDeploymentWidgetView: View {
 						if deployment.target == .production {
 							Image(systemName: "theatermasks")
 								.foregroundStyle(.tint)
+								.symbolVariant(.fill)
 						}
 					}
 					.font(Font.caption.bold())
@@ -168,21 +169,12 @@ struct LatestDeploymentWidgetView: View {
 
 				
 				Group {
-					Label {
-						Text(config.account.displayString)
-					} icon: {
-						Image(systemName: config.account.identifier?.isTeam == true ? "person.2" : "person")
-							.symbolVariant(config.account.identifier == nil ? .none : .fill)
-					}
+					WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
+						.symbolVariant(config.account.identifier == nil ? .none : .fill)
 					
 					if let project = config.project,
 						 project.identifier != nil {
-						Text("\(Image(systemName: "folder")) \(project.displayString)")
-							.fontWeight(.medium)
-							.padding(2)
-							.padding(.horizontal, 2)
-							.background(.thickMaterial)
-							.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+						WidgetLabel(label: project.displayString, iconName: "folder")
 					}
 				}
 				.foregroundStyle(.secondary)
@@ -196,6 +188,8 @@ struct LatestDeploymentWidgetView: View {
 		.foregroundStyle(.primary)
 		.padding()
 		.background(.background)
+		.symbolRenderingMode(.hierarchical)
+		.tint(.indigo)
 	}
 }
 

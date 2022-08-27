@@ -106,7 +106,7 @@ struct RecentDeploymentsWidget: Widget {
 		}
 		.supportedFamilies([.systemLarge, .systemExtraLarge])
 		.configurationDisplayName("Recent Deployments")
-		.description("View the most recent Vercel deployments")
+		.description("View a list of the most recent Vercel deployments for an account or project")
 	}
 }
 
@@ -172,18 +172,14 @@ struct RecentDeploymentsWidgetView: View {
 			Spacer(minLength: 0)
 			
 			HStack {
-				accountLabel
+				WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
+					.symbolVariant(config.account.identifier == nil ? .none : .fill)
 				
 				Spacer()
 				
 				if let project = config.project,
 					 project.identifier != nil {
-					Text("\(Image(systemName: "folder")) \(project.displayString)")
-						.fontWeight(.medium)
-						.padding(2)
-						.padding(.horizontal, 2)
-						.background(.thickMaterial)
-						.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+					WidgetLabel(label: project.displayString, iconName: "folder")
 				}
 			}
 			.font(.caption)
@@ -196,6 +192,7 @@ struct RecentDeploymentsWidgetView: View {
 }
 
 struct RecentDeploymentsListRowView: View {
+	@Environment(\.dynamicTypeSize) var dynamicTypeSize
 	var accountId: String
 	var deployment: VercelDeployment
 	var project: WidgetProject?
@@ -205,23 +202,32 @@ struct RecentDeploymentsListRowView: View {
 			Label {
 				VStack(alignment: .leading) {
 					Text(deployment.deploymentCause.description)
-						.font(.subheadline.bold())
+						.fontWeight(.bold)
 						.foregroundStyle(.primary)
 					
-					Group {
+					HStack {
+						if deployment.target == .production {
+							Image(systemName: "theatermasks")
+								.foregroundStyle(.tint)
+								.symbolRenderingMode(.hierarchical)
+								.symbolVariant(.fill)
+						}
+						
 						if project?.identifier == nil {
 							Text("\(deployment.project) • \(deployment.created, style: .relative)")
 						} else {
 							Text("\(deployment.created, style: .relative)")
 						}
 					}
-					.font(.subheadline)
 				}
 				.foregroundStyle(.secondary)
 				.lineLimit(1)
+				.imageScale(dynamicTypeSize.isAccessibilitySize ? .small : .medium)
 			} icon: {
 				DeploymentStateIndicator(state: deployment.state, style: .compact)
 			}
+			.font(.subheadline)
+			.tint(.indigo)
 		}
 	}
 }

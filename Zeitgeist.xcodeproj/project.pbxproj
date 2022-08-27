@@ -149,6 +149,7 @@
 		71D0BC3B28868FF400A22693 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
 		71D0BC3C28868FF400A22693 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
 		71D0BC3D288694A500A22693 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
+		71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		71F902032665681E000A8873 /* VercelAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* VercelAccountModel.swift */; };
@@ -698,6 +699,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */,
 				711553E1266552AF00A73CD6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
