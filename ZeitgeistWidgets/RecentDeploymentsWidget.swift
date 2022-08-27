@@ -235,8 +235,6 @@ struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
 	static var previews: some View {
 		ForEach(DynamicTypeSize.allCases, id: \.self) { typeSize in
 			Group {
-				RecentDeploymentsWidgetView(config: RecentDeploymentsEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
-					.previewContext(WidgetPreviewContext(family: .systemLarge))
 				RecentDeploymentsWidgetView(config: exampleConfig)
 					.previewContext(WidgetPreviewContext(family: .systemLarge))
 			}.environment(\.dynamicTypeSize, typeSize)
