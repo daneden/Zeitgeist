@@ -104,7 +104,7 @@ struct RecentDeploymentsWidget: Widget {
 		) { entry in
 			RecentDeploymentsWidgetView(config: entry)
 		}
-		.supportedFamilies([.systemLarge])
+		.supportedFamilies([.systemLarge, .systemExtraLarge])
 		.configurationDisplayName("Recent Deployments")
 		.description("View the most recent Vercel deployments")
 	}
@@ -115,40 +115,13 @@ struct RecentDeploymentsWidgetView: View {
 	var config: RecentDeploymentsEntry
 	
 	var accountLabel: some View {
-			Group {
-			if config.account.identifier != nil {
-				Label(config.account.displayString, systemImage: "person")
-			} else {
-				Text("No Account Selected")
-			}
+		Label {
+			Text(config.account.displayString)
+		} icon: {
+			Image(systemName: "person")
+				.symbolVariant(config.account.identifier == nil ? .none : .fill)
 		}
 		.foregroundStyle(.secondary)
-		.symbolVariant(.fill)
-	}
-	
-	var topLabel: some View {
-		Group {
-			if let projectName = config.project?.displayString,
-				 config.project?.identifier != nil {
-				VStack(alignment: .leading) {
-					widgetTitle
-					HStack {
-						accountLabel
-						Spacer()
-						Label(projectName, systemImage: "folder")
-							.foregroundStyle(.secondary)
-							.symbolVariant(.fill)
-					}
-				}
-			} else {
-				HStack(alignment: .firstTextBaseline) {
-					widgetTitle
-					Spacer()
-					accountLabel
-				}
-			}
-		}
-		.font(.footnote)
 	}
 	
 	var widgetTitle: some View {
@@ -156,33 +129,61 @@ struct RecentDeploymentsWidgetView: View {
 			.font(.footnote.bold())
 	}
 	
-	var numberOfDeployments = 4
+	var numberOfDeployments: Int {
+		switch sizeCategory {
+		case .extraSmall, .small, .medium, .large:
+			return 5
+		case .accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge:
+			return 3
+		default: return 4
+		}
+	}
 
 	var body: some View {
 		VStack(alignment: .leading) {
-			topLabel
+			widgetTitle
 
 			if let deployments = config.deployments?.prefix(numberOfDeployments) {
 				ForEach(deployments) { deployment in
 					Divider()
+					Spacer(minLength: 0)
 					RecentDeploymentsListRowView(
 						accountId: config.account.identifier ?? "0",
 						deployment: deployment,
 						project: config.project
 					)
-						.frame(maxHeight: .infinity)
+					Spacer(minLength: 0)
 				}
 			} else {
 				VStack(alignment: .center) {
-					Spacer()
+					Spacer(minLength: 0)
 					PlaceholderView(forRole: .NoDeployments)
 						.frame(maxWidth: .infinity)
 						.font(.footnote)
-					Spacer()
+					Spacer(minLength: 0)
 				}
 			}
 
-			Spacer()
+			Spacer(minLength: 0)
+			
+			HStack {
+				accountLabel
+				
+				Spacer()
+				
+				if let project = config.project,
+					 project.identifier != nil {
+					Text("\(Image(systemName: "folder")) \(project.displayString)")
+						.fontWeight(.medium)
+						.padding(2)
+						.padding(.horizontal, 2)
+						.background(.thickMaterial)
+						.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+				}
+			}
+			.font(.caption)
+			.foregroundStyle(.secondary)
+			.lineLimit(1)
 		}
 		.padding()
 		.background(.background)
@@ -200,6 +201,7 @@ struct RecentDeploymentsListRowView: View {
 				VStack(alignment: .leading) {
 					Text(deployment.deploymentCause.description)
 						.font(.subheadline.bold())
+						.foregroundStyle(.primary)
 					
 					Group {
 						if project?.identifier == nil {
@@ -209,19 +211,30 @@ struct RecentDeploymentsListRowView: View {
 						}
 					}
 					.font(.subheadline)
-					.foregroundStyle(.secondary)
-					
-					if let message = deployment.commit?.commitMessage.split(separator: "\n").dropFirst().joined(separator: "\n") {
-						Text(message)
-							.font(.subheadline)
-							.foregroundStyle(.secondary)
-					}
 				}
+				.foregroundStyle(.secondary)
 				.lineLimit(1)
-				.frame(maxWidth: .infinity)
 			} icon: {
 				DeploymentStateIndicator(state: deployment.state, style: .compact)
 			}
+		}
+	}
+}
+
+struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
+	static var exampleConfig = RecentDeploymentsEntry(
+		deployments: Array(repeating: VercelProject.exampleData.targets!.production!, count: 12),
+		account: WidgetAccount(identifier: "1", display: "Test Account"),
+		project: WidgetProject(identifier: "1", display: "example-project")
+	)
+	static var previews: some View {
+		ForEach(DynamicTypeSize.allCases, id: \.self) { typeSize in
+			Group {
+				RecentDeploymentsWidgetView(config: RecentDeploymentsEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
+					.previewContext(WidgetPreviewContext(family: .systemLarge))
+				RecentDeploymentsWidgetView(config: exampleConfig)
+					.previewContext(WidgetPreviewContext(family: .systemLarge))
+			}.environment(\.dynamicTypeSize, typeSize)
 		}
 	}
 }

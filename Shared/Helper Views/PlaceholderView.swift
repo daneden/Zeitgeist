@@ -52,6 +52,7 @@ struct PlaceholderView: View {
 				.imageScale(.large)
 			Text(text)
 		}
+		.multilineTextAlignment(alignment == .leading ? .leading : .center)
 		.foregroundColor(.secondary)
 	}
 }

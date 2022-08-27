@@ -126,10 +126,14 @@ struct LatestDeploymentWidget: Widget {
 
 struct LatestDeploymentWidgetView: View {
 	var config: LatestDeploymentEntry
+	
+	var hasProject: Bool {
+		config.project?.identifier != nil
+	}
 
 	var body: some View {
 		Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
-			VStack(alignment: .leading) {
+			VStack(alignment: .leading, spacing: 4) {
 				if let deployment = config.deployment {
 					DeploymentStateIndicator(state: deployment.state)
 						.font(Font.caption.bold())
@@ -139,14 +143,15 @@ struct LatestDeploymentWidgetView: View {
 						.font(.subheadline)
 						.fontWeight(.bold)
 						.lineLimit(3)
-						.foregroundColor(.primary)
 
 					Text(deployment.created, style: .relative)
-						.font(.footnote)
-					Text(deployment.project)
-						.lineLimit(1)
-						.font(.footnote)
-						.foregroundColor(.secondary)
+						.foregroundStyle(.secondary)
+					
+					if !hasProject {
+						Text(deployment.project)
+							.lineLimit(1)
+							.foregroundStyle(.secondary)
+					}
 				} else {
 					PlaceholderView(forRole: .NoDeployments, alignment: .leading)
 						.font(.footnote)
@@ -154,17 +159,55 @@ struct LatestDeploymentWidgetView: View {
 
 				Spacer()
 
-				HStack(alignment: .firstTextBaseline, spacing: 2) {
-					if config.account.identifier != nil {
-						Image(systemName: "person.2.fill")
+				
+				Group {
+					Label {
 						Text(config.account.displayString)
-					} else {
-						Text("No Account Selected")
+					} icon: {
+						Image(systemName: config.account.identifier?.isTeam == true ? "person.2" : "person")
+							.symbolVariant(config.account.identifier == nil ? .none : .fill)
 					}
-				}.font(.footnote).foregroundColor(.secondary).imageScale(.small).lineLimit(1)
+					
+					if let project = config.project,
+						 project.identifier != nil {
+						Text("\(Image(systemName: "folder")) \(project.displayString)")
+							.fontWeight(.medium)
+							.padding(2)
+							.padding(.horizontal, 2)
+							.background(.thickMaterial)
+							.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+					}
+				}
+				.foregroundStyle(.secondary)
+				.imageScale(.small)
+				.lineLimit(1)
 			}
+			.multilineTextAlignment(.leading)
+			.frame(maxWidth: .infinity, alignment: .leading)
 		}
+		.font(.footnote)
+		.foregroundStyle(.primary)
 		.padding()
 		.background(.background)
+	}
+}
+
+struct LatestDeploymentWidgetView_Previews: PreviewProvider {
+	static var exampleConfig = LatestDeploymentEntry(
+		deployment: VercelProject.exampleData.targets!.production!,
+		account: WidgetAccount(identifier: "1", display: "Test Account"),
+		project: WidgetProject(identifier: "1", display: "example-project")
+	)
+	static var previews: some View {
+		ForEach(DynamicTypeSize.allCases, id: \.self) { typeSize in
+			Group {
+				LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
+					.previewContext(WidgetPreviewContext(family: .systemSmall))
+				LatestDeploymentWidgetView(config: exampleConfig)
+					.previewContext(WidgetPreviewContext(family: .systemSmall))
+				LatestDeploymentWidgetView(config: exampleConfig)
+					.previewContext(WidgetPreviewContext(family: .systemMedium))
+			}.environment(\.dynamicTypeSize, typeSize)
+		}
 	}
 }
