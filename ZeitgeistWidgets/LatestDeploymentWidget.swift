@@ -111,86 +111,134 @@ struct LatestDeploymentWidget: Widget {
 	private let kind: String = "LatestDeploymentWidget"
 
 	public var body: some WidgetConfiguration {
-		IntentConfiguration(
-			kind: kind,
-			intent: SelectAccountIntent.self,
-			provider: LatestDeploymentProvider()
-		) { entry in
-			LatestDeploymentWidgetView(config: entry)
+		if #available(iOSApplicationExtension 16.0, *) {
+			return IntentConfiguration(
+				kind: kind,
+				intent: SelectAccountIntent.self,
+				provider: LatestDeploymentProvider()
+			) { entry in
+				LatestDeploymentWidgetView(config: entry)
+			}
+			.supportedFamilies([.accessoryRectangular, .systemSmall, .systemMedium])
+			.configurationDisplayName("Latest Deployment")
+			.description("View the most recent Vercel deployment for an account or project")
+		} else {
+			return IntentConfiguration(
+				kind: kind,
+				intent: SelectAccountIntent.self,
+				provider: LatestDeploymentProvider()
+			) { entry in
+				LatestDeploymentWidgetView(config: entry)
+			}
+			.supportedFamilies([.systemSmall, .systemMedium])
+			.configurationDisplayName("Latest Deployment")
+			.description("View the most recent Vercel deployment for an account or project")
 		}
-		.supportedFamilies([.systemSmall, .systemMedium])
-		.configurationDisplayName("Latest Deployment")
-		.description("View the most recent Vercel deployment for an account or project")
 	}
 }
 
 struct LatestDeploymentWidgetView: View {
+	@Environment(\.widgetFamily) var widgetFamily
 	var config: LatestDeploymentEntry
 	
 	var hasProject: Bool {
 		config.project?.identifier != nil
 	}
+	
+	var isAccessoryView: Bool {
+		if #available(iOSApplicationExtension 16.0, *) {
+			return widgetFamily == .accessoryRectangular
+		} else {
+			return false
+		}
+	}
 
 	var body: some View {
-		Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
-			VStack(alignment: .leading, spacing: 4) {
+		if isAccessoryView {
+			VStack(alignment: .leading) {
 				if let deployment = config.deployment {
 					HStack {
-						DeploymentStateIndicator(state: deployment.state)
-						Spacer()
-						if deployment.target == .production {
-							Image(systemName: "theatermasks")
-								.foregroundStyle(.tint)
-								.symbolVariant(.fill)
-								.imageScale(.small)
+						DeploymentStateIndicator(state: deployment.state, style: .compact)
+						Text(deployment.project)
+					}
+					Text(deployment.deploymentCause.description)
+						.foregroundStyle(.secondary)
+					Text(deployment.created, style: .relative)
+						.foregroundStyle(.tertiary)
+				} else {
+					Group {
+						HStack {
+							DeploymentStateIndicator(state: .queued, style: .compact)
+							Text("Loading...")
+						}
+						Text("Waiting for data")
+							.foregroundStyle(.secondary)
+						Text(.now, style: .relative)
+							.foregroundStyle(.tertiary)
+					}.redacted(reason: .placeholder)
+				}
+			}
+		} else {
+			Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
+				VStack(alignment: .leading, spacing: 4) {
+					if let deployment = config.deployment {
+						HStack {
+							DeploymentStateIndicator(state: deployment.state)
+							Spacer()
+							if deployment.target == .production {
+								Image(systemName: "theatermasks")
+									.foregroundStyle(.tint)
+									.symbolVariant(.fill)
+									.imageScale(.small)
+							}
+						}
+						.font(.caption.bold())
+						.padding(.bottom, 2)
+						
+						Text(deployment.deploymentCause.description)
+							.font(.subheadline)
+							.fontWeight(.bold)
+							.lineLimit(3)
+						
+						Text(deployment.created, style: .relative)
+							.foregroundStyle(.secondary)
+						
+						if !hasProject {
+							Text(deployment.project)
+								.lineLimit(1)
+								.foregroundStyle(.secondary)
+						}
+					} else {
+						PlaceholderView(forRole: .NoDeployments, alignment: .leading)
+							.font(.footnote)
+					}
+					
+					Spacer()
+					
+					
+					Group {
+						WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
+							.symbolVariant(config.account.identifier == nil ? .none : .fill)
+						
+						if let project = config.project,
+							 project.identifier != nil {
+							WidgetLabel(label: project.displayString, iconName: "folder")
 						}
 					}
-					.font(.caption.bold())
-					.padding(.bottom, 2)
-
-					Text(deployment.deploymentCause.description)
-						.font(.subheadline)
-						.fontWeight(.bold)
-						.lineLimit(3)
-
-					Text(deployment.created, style: .relative)
-						.foregroundStyle(.secondary)
-					
-					if !hasProject {
-						Text(deployment.project)
-							.lineLimit(1)
-							.foregroundStyle(.secondary)
-					}
-				} else {
-					PlaceholderView(forRole: .NoDeployments, alignment: .leading)
-						.font(.footnote)
+					.foregroundStyle(.secondary)
+					.imageScale(.small)
+					.lineLimit(1)
 				}
-
-				Spacer()
-
-				
-				Group {
-					WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
-						.symbolVariant(config.account.identifier == nil ? .none : .fill)
-					
-					if let project = config.project,
-						 project.identifier != nil {
-						WidgetLabel(label: project.displayString, iconName: "folder")
-					}
-				}
-				.foregroundStyle(.secondary)
-				.imageScale(.small)
-				.lineLimit(1)
+				.multilineTextAlignment(.leading)
+				.frame(maxWidth: .infinity, alignment: .leading)
 			}
-			.multilineTextAlignment(.leading)
-			.frame(maxWidth: .infinity, alignment: .leading)
+			.font(.footnote)
+			.foregroundStyle(.primary)
+			.padding()
+			.background(.background)
+			.symbolRenderingMode(.hierarchical)
+			.tint(.indigo)
 		}
-		.font(.footnote)
-		.foregroundStyle(.primary)
-		.padding()
-		.background(.background)
-		.symbolRenderingMode(.hierarchical)
-		.tint(.indigo)
 	}
 }
 
