@@ -55,6 +55,7 @@ struct NewFeaturesView: View {
 				Spacer()
 				Text("What’s new in Zeitgeist")
 					.font(.largeTitle.bold())
+					.multilineTextAlignment(.center)
 				Spacer()
 				VStack(alignment: .leading, spacing: 24) {
 					ForEach(features) { feature in
