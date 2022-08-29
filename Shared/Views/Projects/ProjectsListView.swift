@@ -24,11 +24,22 @@ struct ProjectsListView: View {
 	
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
+	@State private var searchText = ""
+	
+	var filteredProjects: [VercelProject] {
+		if searchText.isEmpty {
+			return projects
+		} else {
+			return projects.filter { project in
+				project.name.localizedCaseInsensitiveContains(searchText) || project.link?.repoSlug.localizedCaseInsensitiveContains(searchText) == true
+			}
+		}
+	}
 	
 	var body: some View {
 		ZStack {
 			List {
-				ForEach(projects) { project in
+				ForEach(filteredProjects) { project in
 					NavigationLink {
 						ProjectDetailView(project: project)
 							.environmentObject(session)
@@ -48,6 +59,7 @@ struct ProjectsListView: View {
 						}
 				}
 			}
+			.searchable(text: $searchText)
 			.toolbar {
 				Menu {
 					Picker(selection: $projectSummaryDisplayOption) {
