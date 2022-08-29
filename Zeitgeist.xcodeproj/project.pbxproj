@@ -160,6 +160,7 @@
 		71F9020A26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		71F9020B26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		71F9020C26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
+		71FDE2F228BD23D0002DF4BA /* Font+extendedSFFamilies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FDE2F128BD23D0002DF4BA /* Font+extendedSFFamilies.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -270,6 +271,7 @@
 		71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNotificationsView.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		71FDE2F128BD23D0002DF4BA /* Font+extendedSFFamilies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+extendedSFFamilies.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,6 +427,7 @@
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				71D0BC362882A2D500A22693 /* View+dataTask.swift */,
 				713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */,
+				71FDE2F128BD23D0002DF4BA /* Font+extendedSFFamilies.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				714D44AC28B52359005105B7 /* NotificationPreview.swift in Sources */,
 				714D4499289FD979005105B7 /* Pasteboard.swift in Sources */,
 				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
+				71FDE2F228BD23D0002DF4BA /* Font+extendedSFFamilies.swift in Sources */,
 				71155366266289F500A73CD6 /* VercelAccountModel.swift in Sources */,
 				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
