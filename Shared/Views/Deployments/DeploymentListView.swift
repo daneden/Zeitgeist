@@ -11,7 +11,6 @@ import SwiftUI
 struct DeploymentListView: View {
 	@EnvironmentObject var session: VercelSession
 
-	@State var projectFilter: ProjectNameFilter = .allProjects
 	@State var stateFilter: StateFilter = .allStates
 	@State var productionFilter = false
 	@State var filterVisible = false
@@ -21,14 +20,6 @@ struct DeploymentListView: View {
 
 	private var filteredDeployments: [VercelDeployment] {
 		return deployments.filter { deployment -> Bool in
-			switch self.projectFilter {
-			case .allProjects:
-				return true
-			case let .filteredByProjectName(name):
-				return name == deployment.project
-			}
-		}
-		.filter { deployment -> Bool in
 			switch self.stateFilter {
 			case .allStates:
 				return true
@@ -42,7 +33,7 @@ struct DeploymentListView: View {
 	}
 
 	var filtersApplied: Bool {
-		projectFilter != .allProjects || stateFilter != .allStates || productionFilter == true
+		stateFilter != .allStates || productionFilter == true
 	}
 
 	var accountId: String {
@@ -86,16 +77,12 @@ struct DeploymentListView: View {
 #if os(iOS)
 				NavigationView {
 					DeploymentFilterView(
-						deployments: deployments,
-						projectFilter: self.$projectFilter,
 						stateFilter: self.$stateFilter,
 						productionFilter: self.$productionFilter
 					)
 				}
 #else
 				DeploymentFilterView(
-					deployments: deployments,
-					projectFilter: self.$projectFilter,
 					stateFilter: self.$stateFilter,
 					productionFilter: self.$productionFilter
 				)
@@ -154,7 +141,6 @@ struct DeploymentListView: View {
 	}
 
 	func clearFilters() {
-		projectFilter = .allProjects
 		stateFilter = .allStates
 		productionFilter = false
 	}

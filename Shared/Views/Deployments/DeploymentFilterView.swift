@@ -17,26 +17,14 @@ enum TargetFilter: Hashable {
 	case filteredByTarget(target: VercelDeployment.Target)
 }
 
-enum ProjectNameFilter: Hashable {
-	case allProjects
-	case filteredByProjectName(name: String)
-}
-
 struct DeploymentFilterView: View {
 	@Environment(\.presentationMode) var presentationMode
-	var deployments: [VercelDeployment]
 
-	var projects: [String] {
-		Array(Set(deployments.map { $0.project })).sorted()
-	}
-
-	@Binding var projectFilter: ProjectNameFilter
 	@Binding var stateFilter: StateFilter
 	@Binding var productionFilter: Bool
 
 	var filtersApplied: Bool {
 		return
-			projectFilter != .allProjects ||
 			productionFilter ||
 			stateFilter != .allStates
 	}
@@ -44,14 +32,6 @@ struct DeploymentFilterView: View {
 	var body: some View {
 		Form {
 			Section(header: Text("Filter deployments by:")) {
-				Picker("Project", selection: $projectFilter.animation()) {
-					Text("All projects").tag(ProjectNameFilter.allProjects)
-
-					ForEach(projects, id: \.self) { project in
-						Text(project).tag(ProjectNameFilter.filteredByProjectName(name: project))
-					}
-				}
-
 				Picker("Status", selection: $stateFilter.animation()) {
 					Text("All statuses").tag(StateFilter.allStates)
 
@@ -70,7 +50,6 @@ struct DeploymentFilterView: View {
 			Section {
 				Button(action: {
 					withAnimation {
-						self.projectFilter = .allProjects
 						self.productionFilter = false
 						self.stateFilter = .allStates
 					}
