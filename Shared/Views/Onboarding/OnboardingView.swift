@@ -20,7 +20,7 @@ struct OnboardingView: View {
 						.padding(.vertical)
 					
 					Text("Welcome to Zeitgeist")
-						.font(.expanded(.largeTitle)).fontWeight(.bold)
+						.font(.largeTitle.bold())
 					Text("Zeitgeist lets you see and manage your Vercel deployments.")
 					Text("Watch builds complete, cancel or delete them, and get quick access to their URLs, logs, and commits.")
 						.padding(.bottom)
