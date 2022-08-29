@@ -92,6 +92,7 @@ struct DeploymentLogView: View {
 								.id(event.id)
 						}
 					}
+					.textSelection(.enabled)
 					.onReceive(logEvents.publisher) { _ in
 						if followLogs, let latestEvent = logEvents.last {
 							proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
