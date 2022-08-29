@@ -30,7 +30,7 @@ struct NewFeaturesView: View {
 											 description: "Manage notifications on a per-project basis, and optionally only get notifications for production deployments.",
 											 iconName: "bell.badge"),
 		FeatureDescription(heading: "Deploy Hooks",
-											 description: "Added support for deploy hooks means additional clarity on the true cause of a deployment.",
+											 description: "Added support for deploy hooks with at-a-glance clarity on the cause of a deployment.",
 											 iconName: "hook",
 											 iconType: .custom)
 	]
