@@ -156,7 +156,9 @@ struct LatestDeploymentWidgetView: View {
 	var body: some View {
 		if isAccessoryView {
 			ZStack {
-				AccessoryWidgetBackground()
+				if #available(iOSApplicationExtension 16.0, *) {
+					AccessoryWidgetBackground()
+				}
 				VStack(alignment: .leading) {
 					switch widgetFamily {
 					case .accessoryCircular:
@@ -168,7 +170,7 @@ struct LatestDeploymentWidgetView: View {
 								DeploymentStateIndicator(state: deployment.state, style: .compact)
 								Text(deployment.project)
 							}
-							.font(.headlineA)
+							.font(.headline)
 							Text(deployment.deploymentCause.description)
 								.foregroundStyle(.secondary)
 							Text(deployment.created, style: .relative)
