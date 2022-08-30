@@ -20,35 +20,11 @@ struct DeploymentStateIndicator: View {
 	}
 
 	var color: Color {
-		switch state {
-		case .error:
-			return .red
-		case .building:
-			return .purple
-		case .ready:
-			return .green
-		case .cancelled:
-			return .primary
-		default:
-			return .gray
-		}
+		state.color
 	}
 
 	var iconName: String {
-		switch state {
-		case .error:
-			return "exclamationmark.triangle"
-		case .queued, .building:
-			return "timer"
-		case .ready:
-			return "checkmark.circle"
-		case .cancelled:
-			return "nosign"
-		case .offline:
-			return "wifi.slash"
-		default:
-			return "arrowtriangle.up.circle"
-		}
+		state.imageName
 	}
 
 	var body: some View {

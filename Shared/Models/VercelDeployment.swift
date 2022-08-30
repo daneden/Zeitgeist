@@ -172,3 +172,37 @@ extension VercelDeployment {
 		let pagination: Pagination?
 	}
 }
+
+extension VercelDeployment.State {
+	var imageName: String {
+		switch self {
+		case .error:
+			return "exclamationmark.triangle"
+		case .queued, .building:
+			return "timer"
+		case .ready:
+			return "checkmark.circle"
+		case .cancelled:
+			return "nosign"
+		case .offline:
+			return "wifi.slash"
+		default:
+			return "arrowtriangle.up.circle"
+		}
+	}
+	
+	var color: Color {
+		switch self {
+		case .error:
+			return .red
+		case .building:
+			return .purple
+		case .ready:
+			return .green
+		case .cancelled:
+			return .primary
+		default:
+			return .gray
+		}
+	}
+}

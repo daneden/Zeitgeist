@@ -119,7 +119,7 @@ struct LatestDeploymentWidget: Widget {
 			) { entry in
 				LatestDeploymentWidgetView(config: entry)
 			}
-			.supportedFamilies([.accessoryRectangular, .systemSmall, .systemMedium])
+			.supportedFamilies([.accessoryRectangular, .accessoryCircular, .systemSmall, .systemMedium])
 			.configurationDisplayName("Latest Deployment")
 			.description("View the most recent Vercel deployment for an account or project")
 		} else {
@@ -147,7 +147,7 @@ struct LatestDeploymentWidgetView: View {
 	
 	var isAccessoryView: Bool {
 		if #available(iOSApplicationExtension 16.0, *) {
-			return widgetFamily == .accessoryRectangular
+			return widgetFamily == .accessoryRectangular || widgetFamily == .accessoryCircular
 		} else {
 			return false
 		}
@@ -155,27 +155,36 @@ struct LatestDeploymentWidgetView: View {
 
 	var body: some View {
 		if isAccessoryView {
-			VStack(alignment: .leading) {
-				if let deployment = config.deployment {
-					HStack {
-						DeploymentStateIndicator(state: deployment.state, style: .compact)
-						Text(deployment.project)
-					}
-					Text(deployment.deploymentCause.description)
-						.foregroundStyle(.secondary)
-					Text(deployment.created, style: .relative)
-						.foregroundStyle(.tertiary)
-				} else {
-					Group {
-						HStack {
-							DeploymentStateIndicator(state: .queued, style: .compact)
-							Text("Loading...")
+			switch widgetFamily {
+			case .accessoryCircular:
+				Image(systemName: config.deployment?.state.imageName ?? "triangle.up.circle.fill")
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.scaledToFit()
+					.symbolVariant(.fill)
+			default:
+				VStack(alignment: .leading) {
+					if let deployment = config.deployment {
+						HStack(spacing: 2) {
+							DeploymentStateIndicator(state: deployment.state, style: .compact)
+							Text(deployment.project)
 						}
-						Text("Waiting for data")
+						Text(deployment.deploymentCause.description)
 							.foregroundStyle(.secondary)
-						Text(.now, style: .relative)
+						Text(deployment.created, style: .relative)
 							.foregroundStyle(.tertiary)
-					}.redacted(reason: .placeholder)
+					} else {
+						Group {
+							HStack {
+								DeploymentStateIndicator(state: .queued, style: .compact)
+								Text("Loading...")
+							}
+							Text("Waiting for data")
+								.foregroundStyle(.secondary)
+							Text(.now, style: .relative)
+								.foregroundStyle(.tertiary)
+						}.redacted(reason: .placeholder)
+					}
 				}
 			}
 		} else {
