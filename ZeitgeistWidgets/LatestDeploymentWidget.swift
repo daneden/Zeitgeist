@@ -192,8 +192,8 @@ struct LatestDeploymentWidgetView: View {
 						.redacted(reason: .placeholder)
 					}
 				}
-				.font(.footnote)
 				.allowsTightening(true)
+				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 			}
 		} else {
 			Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
