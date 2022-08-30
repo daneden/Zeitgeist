@@ -157,22 +157,24 @@ struct LatestDeploymentWidgetView: View {
 		if isAccessoryView {
 			switch widgetFamily {
 			case .accessoryCircular:
-				Image(systemName: config.deployment?.state.imageName ?? "triangle.up.circle.fill")
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.scaledToFit()
-					.symbolVariant(.fill)
+				ZStack {
+					Image(systemName: config.deployment?.state.imageName ?? "triangle.up.circle.fill")
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+						.scaledToFit()
+						.symbolVariant(.fill)
+				}.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
 			default:
 				VStack(alignment: .leading) {
 					if let deployment = config.deployment {
 						HStack(spacing: 2) {
 							DeploymentStateIndicator(state: deployment.state, style: .compact)
 							Text(deployment.project)
+								.fontWeight(.bold)
 						}
 						Text(deployment.deploymentCause.description)
-							.foregroundStyle(.secondary)
 						Text(deployment.created, style: .relative)
-							.foregroundStyle(.tertiary)
+							.foregroundStyle(.secondary)
 					} else {
 						Group {
 							HStack {
