@@ -175,6 +175,7 @@ struct LatestDeploymentWidgetView: View {
 								.symbolRenderingMode(.monochrome)
 						}
 						Text(deployment.deploymentCause.description)
+							.lineLimit(2)
 						Text(deployment.created, style: .relative)
 							.foregroundStyle(.secondary)
 					} else {
@@ -187,9 +188,12 @@ struct LatestDeploymentWidgetView: View {
 								.foregroundStyle(.secondary)
 							Text(.now, style: .relative)
 								.foregroundStyle(.tertiary)
-						}.redacted(reason: .placeholder)
+						}
+						.redacted(reason: .placeholder)
 					}
 				}
+				.font(.footnote)
+				.allowsTightening(true)
 			}
 		} else {
 			Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
