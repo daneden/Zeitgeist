@@ -167,10 +167,12 @@ struct LatestDeploymentWidgetView: View {
 			default:
 				VStack(alignment: .leading) {
 					if let deployment = config.deployment {
-						HStack(spacing: 2) {
-							DeploymentStateIndicator(state: deployment.state, style: .compact)
+						Label {
 							Text(deployment.project)
 								.fontWeight(.bold)
+						} icon: {
+							DeploymentStateIndicator(state: deployment.state, style: .compact)
+								.symbolRenderingMode(.monochrome)
 						}
 						Text(deployment.deploymentCause.description)
 						Text(deployment.created, style: .relative)
