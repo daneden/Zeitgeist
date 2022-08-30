@@ -158,7 +158,7 @@ struct LatestDeploymentWidgetView: View {
 			switch widgetFamily {
 			case .accessoryCircular:
 				ZStack {
-					Image(systemName: config.deployment?.state.imageName ?? "triangle.up.circle.fill")
+					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle.fill")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.scaledToFit()
