@@ -17,6 +17,7 @@ protocol GitCommit: Decodable {
 	var commitUrl: URL { get }
 	var org: String { get }
 	var repo: String { get }
+	var repoId: String { get }
 	var deployHookId: String? { get }
 	var deployHookName: String? { get }
 	var deployHookRef: String? { get }
@@ -48,6 +49,7 @@ struct GitHubCommit: Codable, GitCommit {
 	let commitRef: String
 	let org: String
 	let repo: String
+	let repoId: String
 	let deployHookId: String?
 	let deployHookName: String?
 	let deployHookRef: String?
@@ -61,6 +63,7 @@ struct GitHubCommit: Codable, GitCommit {
 		case commitRef = "githubCommitRef"
 		case org = "githubCommitOrg"
 		case repo = "githubCommitRepo"
+		case repoId = "githubCommitRepoId"
 		case deployHookName, deployHookRef, deployHookId
 	}
 }
@@ -73,6 +76,7 @@ struct GitLabCommit: Codable, GitCommit {
 	let commitRef: String
 	var org: String { projectPath.components(separatedBy: "/")[0] }
 	var repo: String { projectPath.components(separatedBy: "/")[1] }
+	let repoId: String
 	let deployHookId: String?
 	let deployHookName: String?
 	let deployHookRef: String?
@@ -85,6 +89,7 @@ struct GitLabCommit: Codable, GitCommit {
 		case commitAuthorName = "gitlabCommitAuthorName"
 		case commitRef = "gitlabCommitRef"
 		case projectPath = "gitlabProjectPath"
+		case repoId = "gitlabProjectId"
 		case deployHookName, deployHookRef, deployHookId
 	}
 }
@@ -95,6 +100,8 @@ struct BitBucketCommit: Codable, GitCommit {
 	let commitMessage: String
 	let commitAuthorName: String
 	let commitRef: String
+	let repoId: String
+	let workspaceId: String
 	let org: String
 	let repo: String
 	let deployHookId: String?
@@ -108,6 +115,8 @@ struct BitBucketCommit: Codable, GitCommit {
 		case commitRef = "bitbucketCommitRef"
 		case org = "bitbucketRepoOwner"
 		case repo = "bitbucketRepoSlug"
+		case repoId = "bitbucketRepoUuid"
+		case workspaceId = "bitbucketRepoWorkspaceUuid"
 		case deployHookName, deployHookRef, deployHookId
 	}
 }
@@ -122,6 +131,7 @@ struct AnyCommit: Decodable, GitCommit {
 	var commitRef: String { wrapped.commitRef }
 	var org: String { wrapped.org }
 	var repo: String { wrapped.repo }
+	var repoId: String { wrapped.repoId }
 	var deployHookId: String? { wrapped.deployHookId }
 	var deployHookName: String? { wrapped.deployHookName }
 	var deployHookRef: String? { wrapped.deployHookRef }

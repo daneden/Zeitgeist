@@ -89,6 +89,7 @@ enum VercelAPI {
 
 		var request = URLRequest(url: urlComponents.url!)
 		request.httpMethod = method.rawValue
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
 		return request
 	}

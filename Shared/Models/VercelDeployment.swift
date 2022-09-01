@@ -206,3 +206,42 @@ extension VercelDeployment.State {
 		}
 	}
 }
+
+extension VercelDeployment {
+	var redeployDataPayload: Data? {
+		guard let commit else {
+			return nil
+		}
+		
+		var gitSource: [String: String?] = [
+			"ref": commit.commitRef,
+			"sha": commit.commitSha,
+			"type": commit.provider.rawValue,
+		]
+		
+		var dataDict: [String: Any] = [
+			"name": project
+		]
+		
+		if target == .production {
+			dataDict["target"] = "production"
+		}
+		
+		switch commit.provider {
+		case .github:
+			gitSource["repoId"] = commit.repoId
+			gitSource["prId"] = nil
+		case .bitbucket:
+			gitSource["owner"] = commit.org
+			gitSource["slug"] = commit.repo
+			gitSource["workspaceUuid"] = (commit.wrapped as? BitBucketCommit)?.workspaceId
+			gitSource["repoUuid"] = commit.repoId
+		case .gitlab:
+			gitSource["projectId"] = commit.repoId
+		}
+		
+		dataDict["gitSource"] = gitSource
+		
+		return try? JSONSerialization.data(withJSONObject: dataDict)
+	}
+}

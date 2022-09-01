@@ -191,6 +191,37 @@ private struct DeploymentDetails: View {
 			} label: {
 				Label("View Logs", systemImage: "terminal")
 			}
+			
+			if let redeployPayload = deployment.redeployDataPayload {
+				Button {
+					redeployConfirmation = true
+				} label: {
+					Label("Redeploy", systemImage: "arrow.clockwise")
+				}
+				.disabled(mutating)
+				.confirmationDialog("Redeploy\(deployment.target == .production ? " to Production" : "")", isPresented: $redeployConfirmation) {
+					Button(role: .cancel) {
+						redeployConfirmation = false
+					} label: {
+						Text("Cancel")
+					}
+					
+					Button {
+						Task { await redeploy(data: redeployPayload) }
+					} label: {
+						Text("Redeploy")
+					}
+					
+					Button {
+						Task { await redeploy(withCache: true, data: redeployPayload) }
+					} label: {
+						Text("Redeploy with existing Build Cache")
+					}
+				} message: {
+					Text("You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings.")
+				}
+				
+			}
 
 			if (deployment.state != .queued && deployment.state != .building)
 				|| deployment.state == .cancelled
@@ -238,6 +269,32 @@ private struct DeploymentDetails: View {
 				.symbolRenderingMode(.multicolor)
 			}
 		}
+	}
+	
+	func redeploy(withCache: Bool = false, data: Data) async {
+		mutating = true
+		
+		do {
+			var queryItems = [URLQueryItem(name: "forceBuild", value: "1")]
+			
+			if withCache {
+				queryItems.append(URLQueryItem(name: "withCache", value: "1"))
+			}
+			
+			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, queryItems: queryItems, method: .POST)
+			request.httpBody = data
+			try session.signRequest(&request)
+			
+			print(String(data: data, encoding: .utf8))
+			
+			let (responseData, _) = try await URLSession.shared.data(for: request)
+			print(String(data: responseData, encoding: .utf8))
+			presentationMode.wrappedValue.dismiss()
+		} catch {
+			print(error)
+		}
+		
+		mutating = false
 	}
 
 	func deleteDeployment() async {
