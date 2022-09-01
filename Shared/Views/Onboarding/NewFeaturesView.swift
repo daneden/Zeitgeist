@@ -26,11 +26,14 @@ struct NewFeaturesView: View {
 		FeatureDescription(heading: "Projects View",
 											 description: "Browse by projects, and quickly see their Git connections and latest deployments.",
 											 iconName: "folder"),
+		FeatureDescription(heading: "Redeploy",
+											 description: "Redeploy instantly from a deployment's detail view, with or without the existing build cache.",
+											 iconName: "arrow.clockwise"),
 		FeatureDescription(heading: "Notification Improvements ",
 											 description: "Manage notifications on a per-project basis, and optionally only get notifications for production deployments.",
 											 iconName: "bell.badge"),
 		FeatureDescription(heading: "Deploy Hooks",
-											 description: "Added support for deploy hooks with at-a-glance clarity on the cause of a deployment.",
+											 description: "Added support for deploy hooks means at-a-glance clarity on the cause of a deployment.",
 											 iconName: "hook",
 											 iconType: .custom)
 	]
