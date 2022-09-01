@@ -11,30 +11,12 @@ import SwiftUI
 struct DeploymentListView: View {
 	@EnvironmentObject var session: VercelSession
 
-	@State var stateFilter: StateFilter = .allStates
+	@State var filter = DeploymentFilter()
 	@State var productionFilter = false
 	@State var filterVisible = false
 	@State var pagination: Pagination?
 
 	@State private var deployments: [VercelDeployment] = []
-
-	private var filteredDeployments: [VercelDeployment] {
-		return deployments.filter { deployment -> Bool in
-			switch self.stateFilter {
-			case .allStates:
-				return true
-			case let .filteredByState(state):
-				return state == deployment.state
-			}
-		}
-		.filter { deployment -> Bool in
-			productionFilter ? deployment.target == .production : true
-		}
-	}
-
-	var filtersApplied: Bool {
-		stateFilter != .allStates || productionFilter == true
-	}
 
 	var accountId: String {
 		session.account.id
@@ -43,7 +25,7 @@ struct DeploymentListView: View {
 	var body: some View {
 		ZStack {
 			List {
-				ForEach(filteredDeployments) { deployment in
+				ForEach(deployments) { deployment in
 					NavigationLink {
 						DeploymentDetailView(deployment: deployment)
 							.environmentObject(session)
@@ -63,6 +45,11 @@ struct DeploymentListView: View {
 						}
 				}
 			}
+			.onChange(of: filter) { _ in
+				Task {
+					try? await loadDeployments()
+				}
+			}
 			.dataTask {
 				try? await loadDeployments()
 			}
@@ -71,25 +58,22 @@ struct DeploymentListView: View {
 					Label("Filter Deployments", systemImage: "line.horizontal.3.decrease.circle")
 				}
 				.keyboardShortcut("l", modifiers: .command)
-				.symbolVariant(filtersApplied ? .fill : .none)
+				.symbolVariant(filter.filtersApplied ? .fill : .none)
 			}
 			.sheet(isPresented: self.$filterVisible) {
-#if os(iOS)
-				NavigationView {
-					DeploymentFilterView(
-						stateFilter: self.$stateFilter,
-						productionFilter: self.$productionFilter
-					)
+				#if os(iOS)
+				if #available(iOS 16.0, *) {
+					DeploymentFilterView(filter: $filter)
+						.presentationDetents([.medium])
+				} else {
+					DeploymentFilterView(filter: $filter)
 				}
-#else
-				DeploymentFilterView(
-					stateFilter: self.$stateFilter,
-					productionFilter: self.$productionFilter
-				)
-#endif
+				#else
+				DeploymentFilterView(filter: $filter)
+				#endif
 			}
 			
-			if filteredDeployments.isEmpty && !deployments.isEmpty {
+			if deployments.isEmpty && filter.filtersApplied {
 				VStack(spacing: 8) {
 					Spacer()
 					
@@ -110,7 +94,7 @@ struct DeploymentListView: View {
 	}
 
 	func loadDeployments(pageId: Int? = nil) async throws {
-		var params: [URLQueryItem] = []
+		var params: [URLQueryItem] = filter.urlQueryItems
 
 		if let pageId = pageId {
 			params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
@@ -141,7 +125,6 @@ struct DeploymentListView: View {
 	}
 
 	func clearFilters() {
-		stateFilter = .allStates
-		productionFilter = false
+		filter = .init()
 	}
 }

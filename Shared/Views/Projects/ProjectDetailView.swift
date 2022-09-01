@@ -11,6 +11,8 @@ struct ProjectDetailView: View {
 	@EnvironmentObject var session: VercelSession
 	@State var project: VercelProject
 
+	@State private var filter = DeploymentFilter()
+	@State private var filterSheetVisible = false
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
@@ -60,7 +62,7 @@ struct ProjectDetailView: View {
 				}
 			}
 
-			Section("Recent Deployments") {
+			Section {
 				#if os(macOS)
 				Table(deployments) {
 					TableColumn("Status") { deployment in
@@ -96,6 +98,18 @@ struct ProjectDetailView: View {
 						}
 				}
 				#endif
+			} header: {
+				HStack {
+					Text("Recent Deployments")
+					if filter.filtersApplied {
+						Spacer()
+						Button {
+							filter = .init()
+						} label: {
+							Text("Clear Filters")
+						}
+					}
+				}
 			}
 		}
 		.toolbar {
@@ -106,8 +120,22 @@ struct ProjectDetailView: View {
 					Label("Notification settings)", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
 				}
 			}
+			
+			ToolbarItem {
+				Button {
+					filterSheetVisible = true
+				} label: {
+					Label("Filter Deployments", systemImage: "line.3.horizontal.decrease.circle")
+						.symbolVariant(filter.filtersApplied ? .fill : .none)
+				}
+			}
 		}
 		.navigationTitle(project.name)
+		.onChange(of: filter) { _ in
+			Task {
+				try? await loadDeployments()
+			}
+		}
 		.dataTask {
 			do {
 				try await initialLoad()
@@ -123,6 +151,18 @@ struct ProjectDetailView: View {
 			#else
 				ProjectNotificationsView(project: project)
 			#endif
+		}
+		.sheet(isPresented: $filterSheetVisible) {
+#if os(iOS)
+			if #available(iOS 16.0, *) {
+				DeploymentFilterView(filter: $filter)
+					.presentationDetents([.medium])
+			} else {
+				DeploymentFilterView(filter: $filter)
+			}
+#else
+			DeploymentFilterView(filter: $filter)
+#endif
 		}
 	}
 
@@ -146,7 +186,7 @@ struct ProjectDetailView: View {
 	func loadDeployments(pageId: Int? = nil) async throws {
 		var queryItems: [URLQueryItem] = [
 			URLQueryItem(name: "projectId", value: project.id),
-		]
+		] + filter.urlQueryItems
 
 		if let pageId = pageId {
 			queryItems.append(URLQueryItem(name: "from", value: String(pageId - 1)))

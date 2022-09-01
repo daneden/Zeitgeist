@@ -7,56 +7,62 @@
 
 import SwiftUI
 
-enum StateFilter: Hashable {
-	case allStates
-	case filteredByState(state: VercelDeployment.State)
-}
-
-enum TargetFilter: Hashable {
-	case allTargets
-	case filteredByTarget(target: VercelDeployment.Target)
+struct DeploymentFilter: Codable, Hashable {
+	var state: VercelDeployment.State?
+	var target: VercelDeployment.Target?
+	
+	var filtersApplied: Bool {
+		state != nil || target != nil
+	}
+	
+	var urlQueryItems: [URLQueryItem] {
+		var queryItems: [URLQueryItem] = []
+		if let state = state {
+			queryItems.append(URLQueryItem(name: "state", value: state.rawValue))
+		}
+		
+		if let target = target {
+			queryItems.append(URLQueryItem(name: "target", value: target.rawValue))
+		}
+		
+		return queryItems
+	}
 }
 
 struct DeploymentFilterView: View {
 	@Environment(\.presentationMode) var presentationMode
-
-	@Binding var stateFilter: StateFilter
-	@Binding var productionFilter: Bool
-
-	var filtersApplied: Bool {
-		return
-			productionFilter ||
-			stateFilter != .allStates
-	}
+	@Binding var filter: DeploymentFilter
 
 	var body: some View {
 		Form {
 			Section(header: Text("Filter deployments by:")) {
-				Picker("Status", selection: $stateFilter.animation()) {
-					Text("All statuses").tag(StateFilter.allStates)
+				Picker("Status", selection: $filter.state.animation()) {
+					Text("All statuses").tag(Optional<VercelDeployment.State>(nil))
 
 					ForEach(VercelDeployment.State.typicalCases, id: \.self) { state in
 						DeploymentStateIndicator(state: state)
-							.tag(StateFilter.filteredByState(state: state))
+							.tag(Optional(state))
 					}
 				}.accentColor(.secondary)
-
-				Toggle(isOn: self.$productionFilter.animation()) {
-					Label("Production Deployments Only", systemImage: "theatermasks")
-						.symbolVariant(.fill)
-				}.toggleStyle(SwitchToggleStyle(tint: .accentColor))
+				
+				Picker("Target", selection: $filter.target.animation()) {
+					Text("All targets").tag(Optional<VercelDeployment.Target>(nil))
+					ForEach(VercelDeployment.Target.allCases, id: \.self) { target in
+						Text(target.rawValue)
+							.tag(Optional(target))
+					}
+				}
 			}
 
 			Section {
 				Button(action: {
 					withAnimation {
-						self.productionFilter = false
-						self.stateFilter = .allStates
+						self.filter = .init()
 					}
 				}, label: {
 					Text("Clear filters")
 				})
-				.disabled(!filtersApplied)
+				.disabled(!filter.filtersApplied)
 			}
 		}
 		.toolbar {

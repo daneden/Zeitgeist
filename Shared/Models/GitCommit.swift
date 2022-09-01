@@ -12,6 +12,7 @@ protocol GitCommit: Decodable {
 	var provider: GitSVNProvider { get }
 	var commitSha: String { get }
 	var commitMessage: String { get }
+	var commitRef: String { get }
 	var commitAuthorName: String { get }
 	var commitUrl: URL { get }
 	var org: String { get }
@@ -44,6 +45,7 @@ struct GitHubCommit: Codable, GitCommit {
 	let commitSha: String
 	let commitMessage: String
 	let commitAuthorName: String
+	let commitRef: String
 	let org: String
 	let repo: String
 	let deployHookId: String?
@@ -56,6 +58,7 @@ struct GitHubCommit: Codable, GitCommit {
 		case commitSha = "githubCommitSha"
 		case commitMessage = "githubCommitMessage"
 		case commitAuthorName = "githubCommitAuthorName"
+		case commitRef = "githubCommitRef"
 		case org = "githubCommitOrg"
 		case repo = "githubCommitRepo"
 		case deployHookName, deployHookRef, deployHookId
@@ -67,6 +70,7 @@ struct GitLabCommit: Codable, GitCommit {
 	let commitSha: String
 	let commitMessage: String
 	let commitAuthorName: String
+	let commitRef: String
 	var org: String { projectPath.components(separatedBy: "/")[0] }
 	var repo: String { projectPath.components(separatedBy: "/")[1] }
 	let deployHookId: String?
@@ -79,6 +83,7 @@ struct GitLabCommit: Codable, GitCommit {
 		case commitSha = "gitlabCommitSha"
 		case commitMessage = "gitlabCommitMessage"
 		case commitAuthorName = "gitlabCommitAuthorName"
+		case commitRef = "gitlabCommitRef"
 		case projectPath = "gitlabProjectPath"
 		case deployHookName, deployHookRef, deployHookId
 	}
@@ -89,6 +94,7 @@ struct BitBucketCommit: Codable, GitCommit {
 	let commitSha: String
 	let commitMessage: String
 	let commitAuthorName: String
+	let commitRef: String
 	let org: String
 	let repo: String
 	let deployHookId: String?
@@ -99,6 +105,7 @@ struct BitBucketCommit: Codable, GitCommit {
 		case commitSha = "bitbucketCommitSha"
 		case commitMessage = "bitbucketCommitMessage"
 		case commitAuthorName = "bitbucketCommitAuthorName"
+		case commitRef = "bitbucketCommitRef"
 		case org = "bitbucketRepoOwner"
 		case repo = "bitbucketRepoSlug"
 		case deployHookName, deployHookRef, deployHookId
@@ -112,6 +119,7 @@ struct AnyCommit: Decodable, GitCommit {
 	var commitSha: String { wrapped.commitSha }
 	var commitMessage: String { wrapped.commitMessage }
 	var commitAuthorName: String { wrapped.commitAuthorName }
+	var commitRef: String { wrapped.commitRef }
 	var org: String { wrapped.org }
 	var repo: String { wrapped.repo }
 	var deployHookId: String? { wrapped.deployHookId }
