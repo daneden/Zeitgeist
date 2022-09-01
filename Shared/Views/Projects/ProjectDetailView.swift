@@ -55,6 +55,7 @@ struct ProjectDetailView: View {
 				Section("Current Production Deployment") {
 					NavigationLink {
 						DeploymentDetailView(deployment: productionDeployment)
+							.id(productionDeployment.id)
 							.environmentObject(session)
 					} label: {
 						DeploymentListRowView(deployment: productionDeployment)
@@ -77,6 +78,7 @@ struct ProjectDetailView: View {
 				ForEach(deployments) { deployment in
 					NavigationLink {
 						DeploymentDetailView(deployment: deployment)
+							.id(deployment.id)
 							.environmentObject(session)
 					} label: {
 						DeploymentListRowView(deployment: deployment)
