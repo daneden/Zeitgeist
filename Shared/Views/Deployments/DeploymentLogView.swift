@@ -110,7 +110,9 @@ struct DeploymentLogView: View {
 
 							ToolbarItem(placement: .automatic) {
 								Toggle(isOn: $followLogs) {
-									Label("Scroll to bottom", systemImage: "arrow.down.to.line.compact")
+									Label("Follow logs", systemImage: "arrow.down.to.line.compact")
+										.padding(-4)
+										.padding(.horizontal, -4)
 								}
 								.toggleStyle(.button)
 								.disabled(logEvents.isEmpty)
