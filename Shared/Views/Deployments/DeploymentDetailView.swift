@@ -285,10 +285,7 @@ private struct DeploymentDetails: View {
 			request.httpBody = data
 			try session.signRequest(&request)
 			
-			print(String(data: data, encoding: .utf8))
-			
-			let (responseData, _) = try await URLSession.shared.data(for: request)
-			print(String(data: responseData, encoding: .utf8))
+			let _ = try await URLSession.shared.data(for: request)
 			presentationMode.wrappedValue.dismiss()
 		} catch {
 			print(error)
