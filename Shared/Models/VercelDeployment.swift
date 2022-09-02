@@ -35,6 +35,9 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 	}
 
 	var commit: AnyCommit?
+	var creator: CreatorOverview
+	var team: TeamOverview?
+	var teamId: String?
 
 	var deploymentCause: DeploymentCause {
 		guard let commit = commit else { return .manual }
@@ -59,7 +62,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		case commit = "meta"
 		case inspectorUrlString = "inspectorUrl"
 
-		case state, creator, target, readyState, ready, uid, id
+		case state, creator, target, readyState, ready, uid, id, teamId, team
 	}
 
 	init(from decoder: Decoder) throws {
@@ -72,6 +75,9 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		commit = try? container.decode(AnyCommit.self, forKey: .commit)
 		target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
 		inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrlString) ?? "\(urlString)/_logs"
+		team = try? container.decodeIfPresent(TeamOverview.self, forKey: .team)
+		teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
+		creator = try container.decode(CreatorOverview.self, forKey: .creator)
 		ready = try container.decodeIfPresent(Int.self, forKey: .ready)
 	}
 
@@ -90,6 +96,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		createdAt = Int(Date().timeIntervalSince1970 * 1000)
 		id = "0000"
 		target = VercelDeployment.Target.staging
+		creator = VercelDeployment.CreatorOverview(uid: UUID().uuidString, username: "Test Account", githubLogin: nil)
 	}
 
 	enum DeploymentError: Error {
@@ -163,6 +170,25 @@ extension VercelDeployment {
 
 	enum Target: String, Codable, CaseIterable {
 		case production, staging
+	}
+}
+
+extension VercelDeployment {
+	struct CreatorOverview: Codable, Identifiable {
+		var id: ID { uid }
+		let uid: String
+		let username: String
+		let githubLogin: String?
+	}
+	
+	struct TeamOverview: Codable, Identifiable {
+		let id: String
+		let name: String?
+		let slug: String
+	}
+	
+	var unwrappedTeamId: String? {
+		teamId ?? team?.id
 	}
 }
 
