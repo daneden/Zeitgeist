@@ -11,13 +11,18 @@ struct DeploymentDetailView: View {
 	@EnvironmentObject var session: VercelSession
 
 	var accountId: VercelAccount.ID { session.account.id }
-	@State var deployment: VercelDeployment
+	var deploymentId: VercelDeployment.ID
+	@State var deployment: VercelDeployment?
 
 	var body: some View {
 		Form {
-			Overview(deployment: deployment)
-			URLDetails(accountId: accountId, deployment: deployment)
-			DeploymentDetails(accountId: accountId, deployment: deployment)
+			if let deployment {
+				Overview(deployment: deployment)
+				URLDetails(accountId: accountId, deployment: deployment)
+				DeploymentDetails(accountId: accountId, deployment: deployment)
+			} else {
+				ProgressView()
+			}
 		}
 		.navigationTitle("Deployment Details")
 		.makeContainer()
@@ -31,7 +36,7 @@ struct DeploymentDetailView: View {
 	}
 
 	private func loadDeploymentDetails() async throws {
-		var request = VercelAPI.request(for: .deployments(deploymentID: deployment.id), with: accountId)
+		var request = VercelAPI.request(for: .deployments(deploymentID: deploymentId), with: accountId)
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)

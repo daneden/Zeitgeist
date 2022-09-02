@@ -41,11 +41,12 @@ struct ProjectsListView: View {
 			List {
 				ForEach(filteredProjects) { project in
 					NavigationLink {
-						ProjectDetailView(project: project)
+						ProjectDetailView(projectId: project.id, project: project)
 							.id(project.id)
 							.environmentObject(session)
 					} label: {
 						ProjectsListRowView(project: project)
+							.id(project.id)
 					}
 				}
 				

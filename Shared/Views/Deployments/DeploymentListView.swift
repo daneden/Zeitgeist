@@ -27,7 +27,7 @@ struct DeploymentListView: View {
 			List {
 				ForEach(deployments) { deployment in
 					NavigationLink {
-						DeploymentDetailView(deployment: deployment)
+						DeploymentDetailView(deploymentId: deployment.id, deployment: deployment)
 							.id(deployment.id)
 							.environmentObject(session)
 					} label: {

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ProjectDetailView: View {
 	@EnvironmentObject var session: VercelSession
-	@State var project: VercelProject
+	var projectId: VercelProject.ID
+	@State var project: VercelProject?
 
 	@State private var filter = DeploymentFilter()
 	@State private var filterSheetVisible = false
@@ -28,90 +29,96 @@ struct ProjectDetailView: View {
 
 	var notificationsEnabled: Bool {
 		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds)
-			.contains { $0 == project.id }
+			.contains { $0 == projectId }
 	}
 
 	var body: some View {
 		Form {
-			Section("Details") {
-				LabelView("Name") {
-					Text(project.name)
-				}
-
-				if let gitLink = project.link,
-				   let slug = gitLink.repoSlug,
-				   let provider = gitLink.type,
-				   let url = gitLink.repoUrl
-				{
-					LabelView("Git Repository") {
-						Link(destination: url) {
-							Label(slug, image: provider.rawValue)
-						}
+			if let project {
+				Section("Details") {
+					LabelView("Name") {
+						Text(project.name)
 					}
-				}
-			}
-
-			if let productionDeployment = project.targets?.production {
-				Section("Current Production Deployment") {
-					NavigationLink {
-						DeploymentDetailView(deployment: productionDeployment)
-							.id(productionDeployment.id)
-							.environmentObject(session)
-					} label: {
-						DeploymentListRowView(deployment: productionDeployment)
-					}
-				}
-			}
-
-			Section {
-				#if os(macOS)
-				Table(deployments) {
-					TableColumn("Status") { deployment in
-						DeploymentStateIndicator(state: deployment.state, style: .compact)
-					}.width(16)
-					TableColumn("Cause", value: \.deploymentCause.description)
-					TableColumn("Date") { deployment in
-						Text(deployment.created, style: .relative)
-					}
-				}
-				#else
-				ForEach(deployments) { deployment in
-					NavigationLink {
-						DeploymentDetailView(deployment: deployment)
-							.id(deployment.id)
-							.environmentObject(session)
-					} label: {
-						DeploymentListRowView(deployment: deployment)
-					}
-				}
-
-				if deployments.isEmpty {
-					LoadingListCell(title: "Loading Deployments")
-				}
-
-				if let pageId = pagination?.next {
-					LoadingListCell(title: "Loading Deployments")
-						.task {
-							do {
-								try await loadDeployments(pageId: pageId)
-							} catch {
-								print(error)
+					
+					if let gitLink = project.link,
+						 let slug = gitLink.repoSlug,
+						 let provider = gitLink.type,
+						 let url = gitLink.repoUrl
+					{
+						LabelView("Git Repository") {
+							Link(destination: url) {
+								Label(slug, image: provider.rawValue)
 							}
 						}
+					}
 				}
-				#endif
-			} header: {
-				HStack {
-					Text("Recent Deployments")
-					if filter.filtersApplied {
-						Spacer()
-						Button {
-							filter = .init()
+				
+				if let productionDeployment = project.targets?.production {
+					Section("Current Production Deployment") {
+						NavigationLink {
+							DeploymentDetailView(deploymentId: productionDeployment.id, deployment: productionDeployment)
+								.id(productionDeployment.id)
+								.environmentObject(session)
 						} label: {
-							Text("Clear Filters")
+							DeploymentListRowView(deployment: productionDeployment)
+								.id(productionDeployment.id)
 						}
 					}
 				}
+				
+				Section {
+#if os(macOS)
+					Table(deployments) {
+						TableColumn("Status") { deployment in
+							DeploymentStateIndicator(state: deployment.state, style: .compact)
+						}.width(16)
+						TableColumn("Cause", value: \.deploymentCause.description)
+						TableColumn("Date") { deployment in
+							Text(deployment.created, style: .relative)
+						}
+					}
+#else
+					ForEach(deployments) { deployment in
+						NavigationLink {
+							DeploymentDetailView(deploymentId: deployment.id, deployment: deployment)
+								.id(deployment.id)
+								.environmentObject(session)
+						} label: {
+							DeploymentListRowView(deployment: deployment)
+								.id(deployment.id)
+						}
+					}
+					
+					if deployments.isEmpty {
+						LoadingListCell(title: "Loading Deployments")
+					}
+					
+					if let pageId = pagination?.next {
+						LoadingListCell(title: "Loading Deployments")
+							.task {
+								do {
+									try await loadDeployments(pageId: pageId)
+								} catch {
+									print(error)
+								}
+							}
+					}
+#endif
+				} header: {
+					HStack {
+						Text("Recent Deployments")
+						if filter.filtersApplied {
+							Spacer()
+							Button {
+								filter = .init()
+							} label: {
+								Text("Clear Filters")
+							}
+						}
+					}
+				}
+			} else {
+				ProgressView()
 			}
 		}
 		.toolbar {
@@ -132,7 +139,7 @@ struct ProjectDetailView: View {
 				}
 			}
 		}
-		.navigationTitle(project.name)
+		.navigationTitle(project?.name ?? "Project Details")
 		.onChange(of: filter) { _ in
 			Task {
 				try? await loadDeployments()
@@ -146,13 +153,15 @@ struct ProjectDetailView: View {
 			}
 		}
 		.sheet(isPresented: $projectNotificationsVisible) {
-			#if os(iOS)
+			if let project {
+#if os(iOS)
 				NavigationView {
 					ProjectNotificationsView(project: project)
 				}
-			#else
+#else
 				ProjectNotificationsView(project: project)
-			#endif
+#endif
+			}
 		}
 		.sheet(isPresented: $filterSheetVisible) {
 #if os(iOS)
@@ -174,7 +183,7 @@ struct ProjectDetailView: View {
 	}
 	
 	func loadProject() async throws {
-		var request = VercelAPI.request(for: .projects(project.id), with: session.account.id)
+		var request = VercelAPI.request(for: .projects(projectId), with: session.account.id)
 		try session.signRequest(&request)
 		
 		let (data, _) = try await URLSession.shared.data(for: request)
@@ -187,7 +196,7 @@ struct ProjectDetailView: View {
 
 	func loadDeployments(pageId: Int? = nil) async throws {
 		var queryItems: [URLQueryItem] = [
-			URLQueryItem(name: "projectId", value: project.id),
+			URLQueryItem(name: "projectId", value: projectId),
 		] + filter.urlQueryItems
 
 		if let pageId = pageId {
