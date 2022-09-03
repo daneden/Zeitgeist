@@ -17,13 +17,21 @@ struct LabelView<S: View, Content: View>: View {
 	}
 
 	var body: some View {
-		VStack(alignment: .leading, spacing: 2) {
-			label()
-				.font(.footnote)
-				.foregroundColor(.secondary)
+		if #available(iOS 16.0, macOS 13.0, *) {
+			LabeledContent {
+				content
+			} label: {
+				label()
+			}
 
-			content
-		}.padding(.vertical, 4)
+		} else {
+			HStack {
+				label()
+				Spacer()
+				content
+					.foregroundStyle(.secondary)
+			}
+		}
 	}
 }
 

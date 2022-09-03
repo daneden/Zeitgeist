@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProjectNotificationsView: View {
-	@Environment(\.presentationMode) var presentationMode
+	@Environment(\.dismiss) var dismiss
 
 	var project: VercelProject
 	
@@ -83,7 +83,7 @@ struct ProjectNotificationsView: View {
 		}
 		.toolbar {
 			Button {
-				presentationMode.wrappedValue.dismiss()
+				dismiss()
 			} label: {
 				Label("Dismiss", systemImage: "xmark")
 			}

@@ -50,6 +50,10 @@ struct ProjectDetailView: View {
 								Label(slug, image: provider.rawValue)
 							}
 						}
+						
+						LabelView("Production Branch") {
+							Text(gitLink.productionBranch)
+						}
 					}
 				}
 				
@@ -78,6 +82,13 @@ struct ProjectDetailView: View {
 						}
 					}
 #else
+					if filter.filtersApplied {
+						Button {
+							filter = .init()
+						} label: {
+							Label("Clear Filters", systemImage: "xmark.circle")
+						}
+					}
 					ForEach(deployments) { deployment in
 						NavigationLink {
 							DeploymentDetailView(deploymentId: deployment.id, deployment: deployment)
@@ -105,17 +116,7 @@ struct ProjectDetailView: View {
 					}
 #endif
 				} header: {
-					HStack {
-						Text("Recent Deployments")
-						if filter.filtersApplied {
-							Spacer()
-							Button {
-								filter = .init()
-							} label: {
-								Text("Clear Filters")
-							}
-						}
-					}
+					Text("Recent Deployments")
 				}
 			} else {
 				ProgressView()
@@ -164,16 +165,20 @@ struct ProjectDetailView: View {
 			}
 		}
 		.sheet(isPresented: $filterSheetVisible) {
-#if os(iOS)
 			if #available(iOS 16.0, *) {
-				DeploymentFilterView(filter: $filter)
-					.presentationDetents([.medium])
+				NavigationStack {
+					DeploymentFilterView(filter: $filter)
+						.presentationDetents([.medium])
+						.navigationTitle("Filter Deployments")
+						.navigationBarTitleDisplayMode(.inline)
+				}
 			} else {
-				DeploymentFilterView(filter: $filter)
+				NavigationView {
+					DeploymentFilterView(filter: $filter)
+						.navigationTitle("Filter Deployments")
+						.navigationBarTitleDisplayMode(.inline)
+				}
 			}
-#else
-			DeploymentFilterView(filter: $filter)
-#endif
 		}
 	}
 

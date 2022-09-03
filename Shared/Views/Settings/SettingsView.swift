@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+	@Environment(\.dismiss) var dismiss
 	@AppStorage(Preferences.deploymentNotificationIds) private var deploymentNotificationIds
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
@@ -94,6 +95,11 @@ struct SettingsView: View {
 				}.symbolRenderingMode(.multicolor)
 			}
 			.navigationTitle("Settings")
+			.toolbar {
+				Button(action: { dismiss() }) {
+					Text("Done")
+				}.keyboardShortcut(.cancelAction)
+			}
 		}
 	}
 }

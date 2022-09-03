@@ -21,7 +21,7 @@ struct FeatureDescription: Hashable, Identifiable {
 
 struct NewFeaturesView: View {
 	@ScaledMetric var width: CGFloat = 50
-	@Environment(\.presentationMode) private var presentationMode
+	@Environment(\.dismiss) private var dismiss
 	let features: [FeatureDescription] = [
 		FeatureDescription(heading: "Projects View",
 											 description: "Browse by projects, and quickly see their Git connections and latest deployments.",
@@ -74,7 +74,7 @@ struct NewFeaturesView: View {
 					Spacer()
 					
 					Button {
-						presentationMode.wrappedValue.dismiss()
+						dismiss()
 					} label: {
 						HStack {
 							Spacer()

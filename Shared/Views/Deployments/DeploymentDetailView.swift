@@ -18,6 +18,37 @@ struct DeploymentDetailView: View {
 		Form {
 			if let deployment {
 				Overview(deployment: deployment)
+				Section("Deployment Cause") {
+					switch deployment.deploymentCause {
+					case let .deployHook(name):
+						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+					case .manual:
+						Text("Manual Deployment")
+					case let .gitCommit(commit):
+						Text(commit.commitMessageSummary)
+						Link(destination: commit.commitUrl) {
+							Text("\(Image(deployment.deploymentCause.icon!)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
+								.font(.footnote)
+						}
+						.contextMenu {
+							Section {
+								Button {
+									Pasteboard.setString(commit.commitSha)
+								} label: {
+									Text("Copy Commit Sha")
+								}
+								
+								Button {
+									Pasteboard.setString(commit.commitUrl.absoluteString)
+								} label: {
+									Text("Copy Commit URL")
+								}
+							} header: {
+								Label("Copy", systemImage: "doc.on.doc")
+							}
+						}
+					}
+				}
 				URLDetails(accountId: accountId, deployment: deployment)
 				DeploymentDetails(accountId: accountId, deployment: deployment)
 			} else {
@@ -54,31 +85,17 @@ private struct Overview: View {
 				Text(deployment.project)
 			}
 
-			LabelView {
-				Text("Deployment Cause")
-			} content: {
-				Group {
-					switch deployment.deploymentCause {
-					case let .deployHook(name):
-						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
-					case .manual:
-						Text("Manual Deployment")
-					case let .gitCommit(commit):
-						Text(commit.commitMessageSummary)
-						Text("\(Image(deployment.deploymentCause.icon!)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
-							.foregroundStyle(.secondary)
-							.font(.footnote.weight(.regular))
-					}
-				}.font(.headline)
-			}
-
 			LabelView("Status") {
 				DeploymentStateIndicator(state: deployment.state)
 			}
 
-			if deployment.target == .production {
-				Label("Production Deployment", systemImage: "theatermasks")
-					.symbolVariant(.fill)
+			LabelView("Target") {
+				if deployment.target == .production {
+					Label("Production", systemImage: "theatermasks")
+						.symbolVariant(.fill)
+				} else {
+					Text("Preview")
+				}
 			}
 		}
 	}
@@ -149,7 +166,7 @@ private struct URLDetails: View {
 }
 
 private struct DeploymentDetails: View {
-	@Environment(\.presentationMode) var presentationMode
+	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject var session: VercelSession
 
 	var accountId: VercelAccount.ID
@@ -164,32 +181,6 @@ private struct DeploymentDetails: View {
 
 	var body: some View {
 		DetailSection(header: Text("Details")) {
-			if let svnInfo = deployment.commit,
-			   let commitUrl: URL = svnInfo.commitUrl,
-			   let shortSha: String = svnInfo.shortSha
-			{
-				Link(destination: commitUrl) {
-					Label("View Commit (\(Text(shortSha).font(.system(.body, design: .monospaced))))", image: svnInfo.provider.rawValue)
-				}
-				.contextMenu {
-					Section {
-						Button {
-							Pasteboard.setString(deployment.commit?.commitSha)
-						} label: {
-							Text("Copy Commit Sha")
-						}
-
-						Button {
-							Pasteboard.setString(commitUrl.absoluteString)
-						} label: {
-							Text("Copy Commit URL")
-						}
-					} header: {
-						Label("Copy", systemImage: "doc.on.doc")
-					}
-				}
-			}
-
 			NavigationLink {
 				DeploymentLogView(deployment: deployment, accountID: accountId)
 					.environmentObject(session)
@@ -291,7 +282,7 @@ private struct DeploymentDetails: View {
 			try session.signRequest(&request)
 			
 			let _ = try await URLSession.shared.data(for: request)
-			presentationMode.wrappedValue.dismiss()
+			dismiss()
 		} catch {
 			print(error)
 		}
@@ -316,7 +307,7 @@ private struct DeploymentDetails: View {
 			   response.statusCode == 200
 			{
 				#if !os(macOS)
-					presentationMode.wrappedValue.dismiss()
+					dismiss()
 				#endif
 			}
 		} catch {

@@ -62,16 +62,20 @@ struct DeploymentListView: View {
 				.symbolVariant(filter.filtersApplied ? .fill : .none)
 			}
 			.sheet(isPresented: self.$filterVisible) {
-				#if os(iOS)
 				if #available(iOS 16.0, *) {
-					DeploymentFilterView(filter: $filter)
-						.presentationDetents([.medium])
+					NavigationStack {
+						DeploymentFilterView(filter: $filter)
+							.presentationDetents([.medium])
+							.navigationTitle("Filter Deployments")
+							.navigationBarTitleDisplayMode(.inline)
+					}
 				} else {
-					DeploymentFilterView(filter: $filter)
+					NavigationView {
+						DeploymentFilterView(filter: $filter)
+							.navigationTitle("Filter Deployments")
+							.navigationBarTitleDisplayMode(.inline)
+					}
 				}
-				#else
-				DeploymentFilterView(filter: $filter)
-				#endif
 			}
 			
 			if deployments.isEmpty && filter.filtersApplied {

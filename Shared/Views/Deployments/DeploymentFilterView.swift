@@ -9,10 +9,10 @@ import SwiftUI
 
 struct DeploymentFilter: Codable, Hashable {
 	var state: VercelDeployment.State?
-	var target: VercelDeployment.Target?
+	var productionOnly = false
 	
 	var filtersApplied: Bool {
-		state != nil || target != nil
+		state != nil || productionOnly
 	}
 	
 	var urlQueryItems: [URLQueryItem] {
@@ -21,8 +21,8 @@ struct DeploymentFilter: Codable, Hashable {
 			queryItems.append(URLQueryItem(name: "state", value: state.rawValue))
 		}
 		
-		if let target = target {
-			queryItems.append(URLQueryItem(name: "target", value: target.rawValue))
+		if productionOnly {
+			queryItems.append(URLQueryItem(name: "target", value: "production"))
 		}
 		
 		return queryItems
@@ -30,7 +30,7 @@ struct DeploymentFilter: Codable, Hashable {
 }
 
 struct DeploymentFilterView: View {
-	@Environment(\.presentationMode) var presentationMode
+	@Environment(\.dismiss) var dismiss
 	@Binding var filter: DeploymentFilter
 
 	var body: some View {
@@ -45,12 +45,8 @@ struct DeploymentFilterView: View {
 					}
 				}.accentColor(.secondary)
 				
-				Picker("Target", selection: $filter.target.animation()) {
-					Text("All targets").tag(Optional<VercelDeployment.Target>(nil))
-					ForEach(VercelDeployment.Target.allCases, id: \.self) { target in
-						Text(target.rawValue)
-							.tag(Optional(target))
-					}
+				Toggle(isOn: $filter.productionOnly.animation()) {
+					Label("Production deployments only", systemImage: "theatermasks")
 				}
 			}
 
@@ -66,8 +62,8 @@ struct DeploymentFilterView: View {
 			}
 		}
 		.toolbar {
-			Button(action: { presentationMode.wrappedValue.dismiss() }) {
-				Text("Close")
+			Button(action: { dismiss() }) {
+				Text("Done")
 			}.keyboardShortcut(.cancelAction)
 		}
 		.navigationTitle("Filter Deployments")
