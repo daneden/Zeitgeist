@@ -67,13 +67,17 @@ struct DeploymentListView: View {
 						DeploymentFilterView(filter: $filter)
 							.presentationDetents([.medium])
 							.navigationTitle("Filter Deployments")
+						#if os(iOS)
 							.navigationBarTitleDisplayMode(.inline)
+						#endif
 					}
 				} else {
 					NavigationView {
 						DeploymentFilterView(filter: $filter)
 							.navigationTitle("Filter Deployments")
+						#if os(iOS)
 							.navigationBarTitleDisplayMode(.inline)
+						#endif
 					}
 				}
 			}
