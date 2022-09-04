@@ -22,7 +22,7 @@ struct ContentView: View {
 							.interactiveDismissDisabled()
 					}
 			} else {
-				AuthenticatedContentView()					
+				AuthenticatedContentView()
 			}
 		}
 		.animation(.default, value: accounts.isEmpty)

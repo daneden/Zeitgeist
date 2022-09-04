@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum SidebarNavigationValue: Hashable {
-	case projects(account: VercelAccount)
-	case deployments(account: VercelAccount)
-}
-
 struct AuthenticatedContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
 	
@@ -75,7 +70,7 @@ struct AuthenticatedContentView: View {
 					toolbarContent
 				}
 				.navigationTitle("Zeitgeist")
-			} detail: {
+			} content: {
 				switch sidebarSelection {
 				case .none:
 					Text("Select an account")
@@ -91,8 +86,11 @@ struct AuthenticatedContentView: View {
 						}
 					}
 				}
+			} detail: {
+				NavigationStack {
+					PlaceholderView(forRole: .ProjectDetail)
+				}
 			}
-			.navigationSplitViewStyle(.balanced)
 			.onAppear {
 				if let account = accounts.first {
 					sidebarSelection = .projects(account: account)

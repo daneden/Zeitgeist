@@ -150,6 +150,9 @@
 		71D0BC3C28868FF400A22693 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
 		71D0BC3D288694A500A22693 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
 		71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
+		71F2608028C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
+		71F2608128C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
+		71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		71F902032665681E000A8873 /* VercelAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* VercelAccountModel.swift */; };
@@ -268,6 +271,7 @@
 		71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+ZPS.swift"; sourceTree = "<group>"; };
 		71D0BC362882A2D500A22693 /* View+dataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+dataTask.swift"; sourceTree = "<group>"; };
 		71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNotificationsView.swift; sourceTree = "<group>"; };
+		71F2607F28C48DE40089195B /* NavigationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelpers.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -410,6 +414,7 @@
 				714D4498289FD979005105B7 /* Pasteboard.swift */,
 				714D449B289FEEA2005105B7 /* PlaceholderData.swift */,
 				71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */,
+				71F2607F28C48DE40089195B /* NavigationHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -767,6 +772,7 @@
 				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
 				71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */,
 				714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */,
+				71F2608028C48DE40089195B /* NavigationHelpers.swift in Sources */,
 				7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
 				7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */,
 			);
@@ -798,6 +804,7 @@
 				71493653278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				71622AF428B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
 				713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */,
+				71F2608128C48DE40089195B /* NavigationHelpers.swift in Sources */,
 				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
 				711553CA2665491300A73CD6 /* VercelSession.swift in Sources */,
 				71D0BC3D288694A500A22693 /* NotificationManager.swift in Sources */,
@@ -843,6 +850,7 @@
 				711553FB26655DB000A73CD6 /* LatestDeploymentWidget.swift in Sources */,
 				711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */,
 				71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
+				71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */,
 				711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
 				711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */,
 				71623BAE28A1257900551580 /* Pasteboard.swift in Sources */,
