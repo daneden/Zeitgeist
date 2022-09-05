@@ -52,10 +52,10 @@ struct SettingsView: View {
 					} label: {
 						Text("Group notifications by")
 					}
-
-					LabelView("Preview") {
-						NotificationPreview(showsEmoji: notificationEmoji)
-					}
+				}
+				
+				Section("Notification Preview") {
+					NotificationPreview(showsEmoji: notificationEmoji)
 				}
 				
 				Section {
