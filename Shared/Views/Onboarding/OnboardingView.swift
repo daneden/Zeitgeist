@@ -18,6 +18,7 @@ struct OnboardingView: View {
 
 					ZeitgeistLogo()
 						.padding(.vertical)
+						.frame(maxWidth: .infinity)
 					
 					Text("Welcome to Zeitgeist")
 						.font(.largeTitle.bold())
@@ -35,7 +36,9 @@ struct OnboardingView: View {
 						.font(.body.bold())
 						.padding()
 						.padding(.horizontal)
-					}.buttonStyle(.borderedProminent)
+					}
+					.buttonStyle(.borderedProminent)
+					.frame(maxWidth: 500)
 					
 					Text("To get started, sign in with your Vercel account.")
 						.font(.caption)
@@ -61,6 +64,7 @@ struct OnboardingView: View {
 						}
 					}
 					.buttonStyle(.bordered)
+					.frame(maxWidth: 500)
 				}
 				.padding()
 				.frame(minHeight: geometry.size.height)
