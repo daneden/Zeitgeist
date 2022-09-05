@@ -8,55 +8,122 @@
 import SwiftUI
 
 struct SettingsView: View {
-  var githubIssuesURL: URL {
-    let appVersion: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-    let body = """
-> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
-> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
+	@Environment(\.dismiss) var dismiss
+	@AppStorage(Preferences.deploymentNotificationIds) private var deploymentNotificationIds
+	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
+	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
+	@AppStorage(Preferences.deploymentNotificationsProductionOnly) private var deploymentProductionNotificationIds
+	
+	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
+	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
+	
+	var githubIssuesURL: URL {
+		
+		var body = """
+		> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
+		> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
 
-App Version: \(appVersion ?? "Unknown")
-Device: \(UIDevice.modelName)
-OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
+		App Version: \(ZeitgeistApp.appVersion)
+		"""
+		
+		#if os(iOS)
+		body += """
+		Device: \(UIDevice.modelName)
+		OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
 """
-    let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-    
-    return URL(string: "https://github.com/daneden/zeitgeist/issues/new?body=\(encodedBody)")!
-  }
-  
-  var body: some View {
-    Form {
-      Section(header: Text("Settings")) {
-        NavigationLink(destination: NotificationsView()) {
-          Label("Notifications", systemImage: "app.badge")
-        }
-      }
-      
-      Section {
-        Link(destination: githubIssuesURL) {
-          Label("Submit Feedback", systemImage: "ladybug")
-        }
-        
-        Link(destination: .ReviewURL) {
-          Label("Review on App Store", systemImage: "star.fill")
-        }
-      }
-      
-      Section {
-        Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-          Text("Privacy Policy")
-        }
-        
-        Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-          Text("Terms of Use")
-        }
-      }
-    }
-    .navigationTitle("Settings")
-  }
+		#endif
+		let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+
+		return URL(string: "https://github.com/daneden/zeitgeist/issues/new?body=\(encodedBody)")!
+	}
+
+	var body: some View {
+		
+		Form {
+			Section {
+				Picker(selection: $notificationGrouping) {
+					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
+						Text(grouping.description)
+					}
+				} label: {
+					Text("Group notifications by")
+				}
+				
+				Toggle(isOn: $notificationEmoji) {
+					Text("Show Emoji in notification titles")
+				}
+			} header: {
+				Text("Notifications")
+			} footer: {
+				Text("Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed")
+			}
+			
+			Section {
+				Link(destination: githubIssuesURL) {
+					Label("Submit Feedback", systemImage: "ladybug")
+				}
+				
+				Link(destination: .ReviewURL) {
+					Label("Review on App Store", systemImage: "star.fill")
+				}
+			}
+			
+			Section {
+				Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+					Text("Privacy Policy")
+				}
+				
+				Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+					Text("Terms of Use")
+				}
+			}
+			
+			Section("Danger Zone") {
+				Button {
+					resetNotifications()
+				} label: {
+					Label("Reset Notification Settings", systemImage: "bell.slash")
+				}.disabled(notificationsResettable)
+				
+				Button(role: .destructive) {
+					Preferences.accounts.forEach { account in
+						VercelSession.deleteAccount(id: account.id)
+					}
+				} label: {
+					Label("Sign Out All Accounts", systemImage: "person.badge.minus")
+				}
+			}.symbolRenderingMode(.multicolor)
+		}
+		.navigationTitle("Settings")
+		#if os(iOS)
+		.toolbar {
+			Button(action: { dismiss() }) {
+				Text("Done")
+			}.keyboardShortcut(.cancelAction)
+		}
+		#endif
+		
+	}
+}
+
+extension SettingsView {
+	func resetNotifications() {
+		DispatchQueue.main.async {
+			notificationEmoji = false
+			deploymentNotificationIds.removeAll()
+			deploymentReadyNotificationIds.removeAll()
+			deploymentErrorNotificationIds.removeAll()
+			deploymentProductionNotificationIds.removeAll()
+		}
+	}
+	
+	var notificationsResettable: Bool {
+		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
+	}
 }
 
 struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
+	static var previews: some View {
+		SettingsView()
+	}
 }

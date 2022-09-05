@@ -8,75 +8,89 @@
 import Foundation
 
 enum LoaderError: Error {
-  case unknown
-  case decodingError
-  case unauthorized
+	case unknown
+	case decodingError
+	case unauthorized
+}
+
+enum LoadingStatus<Resource: Decodable> {
+	case loading
+	case empty
+	case loaded(_ data: Resource)
+	case error
 }
 
 extension LoaderError: LocalizedError {
-  var errorDescription: String? {
-    switch self {
-    case .unauthorized:
-      return "The request couldn’t be authorized. Try deleting and re-authenticating your account."
-    default:
-      return "An unknown error occured: \(self)"
-    }
-  }
+	var errorDescription: String? {
+		switch self {
+		case .unauthorized:
+			return "The request couldn’t be authorized. Try deleting and re-authenticating your account."
+		default:
+			return "An unknown error occured: \(self)"
+		}
+	}
 }
 
-struct VercelAPI {
-  enum Path {
-    case deployments(
-      version: Int = 6,
-      deploymentID: Deployment.ID? = nil,
-      path: String? = nil
-    )
-    
-    var subPaths: [String] {
-      switch self {
-      case .deployments(_, let deploymentID, let path):
-        return [deploymentID, path].compactMap({ $0 })
-      }
-    }
-    
-    var resolvedPath: String {
-      switch self {
-      case .deployments(let version, _, _):
-        return "v\(version)/deployments/\(subPaths.joined(separator: "/"))"
-      }
-    }
-  }
-  
-  enum RequestMethod: String, RawRepresentable {
-    case GET, PUT, PATCH, DELETE, POST
-  }
-  
-  static func request(
-    for path: Path,
-    with accountID: Account.ID,
-    queryItems: [URLQueryItem] = [],
-    method: RequestMethod = .GET
-  ) throws -> URLRequest {
-    let isTeam = accountID.isTeam
-    var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.resolvedPath)")!
-    var completeQuery = queryItems
-    
-    completeQuery.append(URLQueryItem(name: "userId", value: accountID))
-    
-    if isTeam {
-      completeQuery.append(URLQueryItem(name: "teamId", value: accountID))
-    }
-    
-    urlComponents.queryItems = completeQuery
-    
-    guard let token = KeychainItem(account: accountID).wrappedValue else {
-      throw LoaderError.unauthorized
-    }
-    
-    var request = URLRequest(url: urlComponents.url!)
-    request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-    request.httpMethod = method.rawValue
-    
-    return request
-  }
+enum VercelAPI {
+	enum Path {
+		case deployments(
+			version: Int = 6,
+			deploymentID: VercelDeployment.ID? = nil,
+			path: String? = nil
+		)
+
+		case projects(_ projectId: VercelProject.ID? = nil, path: String? = nil)
+
+		case account(id: VercelAccount.ID)
+
+		var subPaths: [String] {
+			switch self {
+			case let .deployments(_, deploymentID, path):
+				return [deploymentID, path].compactMap { $0 }
+			case let .projects(projectId, path):
+				return [projectId, path].compactMap { $0 }
+			case .account: return []
+			}
+		}
+
+		var resolvedPath: String {
+			switch self {
+			case let .deployments(version, _, _):
+				return "v\(version)/deployments/\(subPaths.joined(separator: "/"))"
+			case .projects:
+				return "v9/projects/\(subPaths.joined(separator: "/"))"
+			case let .account(id):
+				let isTeam = id.isTeam
+				return isTeam ? "v2/teams/\(id)" : "v2/user"
+			}
+		}
+	}
+
+	enum RequestMethod: String, RawRepresentable {
+		case GET, PUT, PATCH, DELETE, POST
+	}
+
+	static func request(for path: Path,
+	                    with accountID: VercelAccount.ID,
+	                    queryItems: [URLQueryItem] = [],
+	                    method: RequestMethod = .GET) -> URLRequest
+	{
+		let isTeam = accountID.isTeam
+		var urlComponents = URLComponents(string: "https://api.vercel.com/\(path.resolvedPath)")!
+		var completeQuery = queryItems
+
+		completeQuery.append(URLQueryItem(name: "userId", value: accountID))
+
+		if isTeam {
+			completeQuery.append(URLQueryItem(name: "teamId", value: accountID))
+		}
+
+		urlComponents.queryItems = completeQuery
+
+		var request = URLRequest(url: urlComponents.url!)
+		request.httpMethod = method.rawValue
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+		return request
+	}
 }

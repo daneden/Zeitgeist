@@ -1,54 +1,41 @@
 //
 //  AccountListRowView.swift
-//  Verdant
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 29/05/2021.
+//  Created by Daniel Eden on 14/07/2022.
 //
 
 import SwiftUI
 
 struct AccountListRowView: View {
-  #if os(macOS)
-  @ScaledMetric var avatarSize: CGFloat = 16
-  #else
-  @ScaledMetric var avatarSize: CGFloat = 24
-  #endif
-  var accountId: String
-  
-  var placeholderAccount: Account {
-    Account(id: accountId, avatar: accountId, name: accountId)
-  }
-  
-  var body: some View {
-    AsyncContentView(
-      source: AccountViewModel(accountId: accountId),
-      placeholderData: placeholderAccount,
-      allowsRetries: false
-    ) { account in
-      Label(
-        title: {
-          VStack(alignment: .leading) {
-            Text(account.name)
-            
-            if account.isTeam {
-              Text("Team Account")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            }
-          }
-        },
-        icon: {
-          VercelUserAvatarView(
-            avatarID: account.avatar,
-            size: avatarSize)
-        }
-      )
-    }
-  }
+	var account: VercelAccount?
+
+	var body: some View {
+		Group {
+			if let account = account {
+				Label {
+					VStack(alignment: .leading) {
+						Text(account.name ?? account.username)
+
+						if account.isTeam {
+							Text("Team Account")
+								.foregroundStyle(.secondary)
+								.font(.caption)
+						}
+					}
+				} icon: {
+					VercelUserAvatarView(account: account)
+				}
+			} else {
+				ProgressView("Loading")
+			}
+		}
+		.id(account?.id)
+	}
 }
 
 struct AccountListRowView_Previews: PreviewProvider {
-    static var previews: some View {
-      AccountListRowView(accountId: "v9dklkDUzwdLE3GZaVteSbJq")
-    }
+	static var previews: some View {
+		AccountListRowView()
+	}
 }

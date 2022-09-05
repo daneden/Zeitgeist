@@ -8,74 +8,50 @@
 import SwiftUI
 
 enum StateIndicatorStyle {
-  case normal, compact
+	case normal, compact
 }
 
 struct DeploymentStateIndicator: View {
-  var state: DeploymentState
-  var style: StateIndicatorStyle = .normal
-  
-  var label: String {
-    state.description
-  }
-  
-  var color: Color {
-    switch state {
-    case .error:
-      return .red
-    case .building:
-      return .purple
-    case .ready:
-      return .green
-    case .cancelled:
-      return .primary
-    default:
-      return .gray
-    }
-  }
-  
-  var iconName: String {
-    switch state {
-    case .error:
-      return "exclamationmark.triangle"
-    case .queued, .building:
-      return "timer"
-    case .ready:
-      return "checkmark.circle"
-    case .cancelled:
-      return "nosign"
-    case .offline:
-      return "wifi.slash"
-    default:
-      return "arrowtriangle.up.circle"
-    }
-  }
-  
-  var body: some View {
-    return Group {
-      if style == .normal {
-        Label(label, systemImage: iconName)
-      } else {
-        Label(label, systemImage: iconName)
-          .labelStyle(IconOnlyLabelStyle())
-      }
-    }
-    .foregroundStyle(color)
-    .symbolRenderingMode(.hierarchical)
-    .symbolVariant(style == .normal ? .fill : .none)
-  }
+	var state: VercelDeployment.State
+	var style: StateIndicatorStyle = .normal
+
+	var label: String {
+		state.description
+	}
+
+	var color: Color {
+		state.color
+	}
+
+	var iconName: String {
+		state.imageName
+	}
+
+	var body: some View {
+		return Group {
+			if style == .normal {
+				Label(label, systemImage: iconName)
+			} else {
+				Label(label, systemImage: iconName)
+					.labelStyle(IconOnlyLabelStyle())
+			}
+		}
+		.foregroundStyle(color)
+		.symbolVariant(.fill)
+		.symbolRenderingMode(.hierarchical)
+	}
 }
 
 struct DeploymentStateIndicator_Previews: PreviewProvider {
-  static var previews: some View {
-    Group {
-      ForEach(DeploymentState.allCases, id: \.self) { state in
-        DeploymentStateIndicator(state: state)
-      }
-      
-      ForEach(DeploymentState.allCases, id: \.self) { state in
-        DeploymentStateIndicator(state: state, style: .compact)
-      }
-    }.previewLayout(.sizeThatFits)
-  }
+	static var previews: some View {
+		Group {
+			ForEach(VercelDeployment.State.allCases, id: \.self) { state in
+				DeploymentStateIndicator(state: state)
+			}
+
+			ForEach(VercelDeployment.State.allCases, id: \.self) { state in
+				DeploymentStateIndicator(state: state, style: .compact)
+			}
+		}.previewLayout(.sizeThatFits)
+	}
 }

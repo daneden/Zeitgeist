@@ -1,58 +1,37 @@
 //
 //  ContentView.swift
-//  Verdant
+//  Zeitgeist
 //
-//  Created by Daniel Eden on 29/05/2021.
+//  Created by Daniel Eden on 17/08/2022.
 //
 
 import SwiftUI
 
 struct ContentView: View {
-  @EnvironmentObject var session: Session
-  @State var initialAccountID: String?
-  @State var onboardingViewVisible = false
-  
-  var body: some View {
-    NavigationView {
-      AccountListView()
-      if session.authenticatedAccountIds.isEmpty {
-        VStack {
-          PlaceholderView(forRole: .NoAccounts)
-            .padding(.bottom)
-          AddAccountButton(label: "Add a Vercel Account")
-        }
-      } else if let accountID = initialAccountID {
-        DeploymentListView(
-          accountId: accountID,
-          deploymentsSource: DeploymentsViewModel(accountId: accountID, autoload: true)
-        )
-      } else {
-        PlaceholderView(forRole: .DeploymentList)
-      }
-      
-      PlaceholderView(forRole: .DeploymentDetail)
-    }.onAppear {
-      setInitialAccountView()
-    }.onChange(of: session.authenticatedAccountIds) { _ in
-      setInitialAccountView()
-    }.sheet(isPresented: $onboardingViewVisible) {
-      #if !os(macOS)
-      OnboardingView().allowAutoDismiss(false)
-      #else
-      OnboardingView().frame(width: 400, height: 400)
-      #endif
-    }
-    .symbolRenderingMode(.multicolor)
-  }
-  
-  func setInitialAccountView() {
-    initialAccountID = session.accountId
-    onboardingViewVisible = session.accountId == nil
-  }
-}
+	@AppStorage(Preferences.authenticatedAccounts) var accounts
+	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
+	
+	@State private var presentNewFeaturesScreen = false
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+	var body: some View {
+		Group {
+			if accounts.isEmpty {
+				OnboardingView()
+			} else {
+				AuthenticatedContentView()
+			}
+		}
+		.animation(.default, value: accounts.isEmpty)
+		.symbolRenderingMode(.hierarchical)
+		.onAppear {
+			if let lastAppVersionOpened = lastAppVersionOpened,
+				 lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3" {
+				presentNewFeaturesScreen = true
+				self.lastAppVersionOpened = ZeitgeistApp.majorAppVersion
+			}
+		}
+		.sheet(isPresented: $presentNewFeaturesScreen) {
+			NewFeaturesView()
+		}
+	}
 }
