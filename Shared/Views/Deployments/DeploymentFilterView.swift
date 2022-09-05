@@ -34,39 +34,29 @@ struct DeploymentFilterView: View {
 	@Binding var filter: DeploymentFilter
 
 	var body: some View {
-		Form {
-			Section(header: Text("Filter deployments by:")) {
-				Picker("Status", selection: $filter.state.animation()) {
-					Text("All statuses").tag(Optional<VercelDeployment.State>(nil))
+		Section(header: Text("Filter deployments by:")) {
+			Picker("Status", selection: $filter.state.animation()) {
+				Text("All statuses").tag(Optional<VercelDeployment.State>(nil))
 
-					ForEach(VercelDeployment.State.typicalCases, id: \.self) { state in
-						DeploymentStateIndicator(state: state)
-							.tag(Optional(state))
-					}
-				}.accentColor(.secondary)
-				
-				Toggle(isOn: $filter.productionOnly.animation()) {
-					Label("Production deployments only", systemImage: "theatermasks")
+				ForEach(VercelDeployment.State.typicalCases, id: \.self) { state in
+					DeploymentStateIndicator(state: state)
+						.tag(Optional(state))
 				}
-			}
-
-			Section {
-				Button(action: {
-					withAnimation {
-						self.filter = .init()
-					}
-				}, label: {
-					Text("Clear filters")
-				})
-				.disabled(!filter.filtersApplied)
+			}.accentColor(.secondary)
+			
+			Toggle(isOn: $filter.productionOnly.animation()) {
+				Label("Production deployments only", systemImage: "theatermasks")
+					.symbolVariant(filter.productionOnly ? .fill : .none)
 			}
 		}
-		.toolbar {
-			Button(action: { dismiss() }) {
-				Text("Done")
-			}.keyboardShortcut(.cancelAction)
-		}
-		.navigationTitle("Filter Deployments")
-		.makeContainer()
+		
+		Button(action: {
+			withAnimation {
+				self.filter = .init()
+			}
+		}, label: {
+			Text("Clear filters")
+		})
+		.disabled(!filter.filtersApplied)
 	}
 }

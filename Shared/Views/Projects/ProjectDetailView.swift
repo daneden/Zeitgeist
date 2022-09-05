@@ -13,7 +13,6 @@ struct ProjectDetailView: View {
 	@State var project: VercelProject?
 
 	@State private var filter = DeploymentFilter()
-	@State private var filterSheetVisible = false
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
@@ -132,8 +131,8 @@ struct ProjectDetailView: View {
 			}
 			
 			ToolbarItem {
-				Button {
-					filterSheetVisible = true
+				Menu {
+					DeploymentFilterView(filter: $filter)
 				} label: {
 					Label("Filter Deployments", systemImage: "line.3.horizontal.decrease.circle")
 						.symbolVariant(filter.filtersApplied ? .fill : .none)
@@ -162,26 +161,6 @@ struct ProjectDetailView: View {
 #else
 				ProjectNotificationsView(project: project)
 #endif
-			}
-		}
-		.sheet(isPresented: $filterSheetVisible) {
-			if #available(iOS 16.0, *) {
-				NavigationStack {
-					DeploymentFilterView(filter: $filter)
-						.presentationDetents([.medium])
-						.navigationTitle("Filter Deployments")
-#if os(iOS)
-						.navigationBarTitleDisplayMode(.inline)
-#endif
-				}
-			} else {
-				NavigationView {
-					DeploymentFilterView(filter: $filter)
-						.navigationTitle("Filter Deployments")
-#if os(iOS)
-						.navigationBarTitleDisplayMode(.inline)
-#endif
-				}
 			}
 		}
 	}

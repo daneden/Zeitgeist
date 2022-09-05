@@ -204,7 +204,9 @@ extension VercelDeployment.State {
 		switch self {
 		case .error:
 			return "exclamationmark.triangle"
-		case .queued, .building:
+		case .queued:
+			return "square.stack.3d.up"
+		case .building:
 			return "timer"
 		case .ready:
 			return "checkmark.circle"

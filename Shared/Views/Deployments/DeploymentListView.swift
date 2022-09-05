@@ -13,7 +13,6 @@ struct DeploymentListView: View {
 
 	@State var filter = DeploymentFilter()
 	@State var productionFilter = false
-	@State var filterVisible = false
 	@State var pagination: Pagination?
 
 	@State private var deployments: [VercelDeployment] = []
@@ -55,30 +54,12 @@ struct DeploymentListView: View {
 				try? await loadDeployments()
 			}
 			.toolbar {
-				Button(action: { self.filterVisible.toggle() }) {
+				Menu {
+					DeploymentFilterView(filter: $filter)
+				} label: {
 					Label("Filter Deployments", systemImage: "line.horizontal.3.decrease.circle")
-				}
-				.keyboardShortcut("l", modifiers: .command)
-				.symbolVariant(filter.filtersApplied ? .fill : .none)
-			}
-			.sheet(isPresented: self.$filterVisible) {
-				if #available(iOS 16.0, *) {
-					NavigationStack {
-						DeploymentFilterView(filter: $filter)
-							.presentationDetents([.medium])
-							.navigationTitle("Filter Deployments")
-						#if os(iOS)
-							.navigationBarTitleDisplayMode(.inline)
-						#endif
-					}
-				} else {
-					NavigationView {
-						DeploymentFilterView(filter: $filter)
-							.navigationTitle("Filter Deployments")
-						#if os(iOS)
-							.navigationBarTitleDisplayMode(.inline)
-						#endif
-					}
+						.keyboardShortcut("l", modifiers: .command)
+						.symbolVariant(filter.filtersApplied ? .fill : .none)
 				}
 			}
 			
