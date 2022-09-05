@@ -30,7 +30,6 @@ struct DeploymentFilter: Codable, Hashable {
 }
 
 struct DeploymentFilterView: View {
-	@Environment(\.dismiss) var dismiss
 	@Binding var filter: DeploymentFilter
 
 	var body: some View {
