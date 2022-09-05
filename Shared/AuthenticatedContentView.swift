@@ -25,6 +25,7 @@ struct AuthenticatedContentView: View {
 			}
 		}
 		
+		#if os(iOS)
 		ToolbarItem(placement: .navigation) {
 			Button {
 				presentSettingsView = true
@@ -35,10 +36,11 @@ struct AuthenticatedContentView: View {
 				SettingsView()
 			}
 		}
+		#endif
 	}
 
 	var body: some View {
-		if #available(iOS 16.0, *) {
+		if #available(iOS 16.0, macOS 16.0, *) {
 			NavigationSplitView {
 				List(accounts, selection: $sidebarSelection) { account in
 					Section {
