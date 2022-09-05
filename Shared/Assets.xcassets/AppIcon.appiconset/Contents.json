@@ -31,37 +31,37 @@
       "size" : "32x32"
     },
     {
-      "filename" : "zeitgeist-128.png",
+      "filename" : "zeitgeist-macos-128w.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "zeitgeist-257.png",
+      "filename" : "zeitgeist-macos-256w 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "zeitgeist-256.png",
+      "filename" : "zeitgeist-macos-256w.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "zeitgeist-513.png",
+      "filename" : "zeitgeist-macos-512w 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "zeitgeist-512.png",
+      "filename" : "zeitgeist-macos-512w.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "zeitgeist-1024.png",
+      "filename" : "zeitgeist-macos-1024w.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
