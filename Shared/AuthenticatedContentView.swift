@@ -33,7 +33,10 @@ struct AuthenticatedContentView: View {
 				Label("More", systemImage: "ellipsis.circle")
 			}
 			.sheet(isPresented: $presentSettingsView) {
-				SettingsView()
+				NavigationView {
+					SettingsView()
+						.navigationBarTitleDisplayMode(.inline)
+				}
 			}
 		}
 		#endif

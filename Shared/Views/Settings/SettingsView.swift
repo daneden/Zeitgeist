@@ -38,69 +38,71 @@ struct SettingsView: View {
 	}
 
 	var body: some View {
-		NavigationView {
-			Form {
-				Section("Notifications") {
-					Toggle(isOn: $notificationEmoji) {
-						Text("Show Emoji in notification titles")
-					}
-					
-					Picker(selection: $notificationGrouping) {
-						ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
-							Text(grouping.description)
-						}
-					} label: {
-						Text("Group notifications by")
-					}
+		
+		Form {
+			Section("Notifications") {
+				Toggle(isOn: $notificationEmoji) {
+					Text("Show Emoji in notification titles")
 				}
 				
-				Section("Notification Preview") {
-					NotificationPreview(showsEmoji: notificationEmoji)
+				Picker(selection: $notificationGrouping) {
+					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
+						Text(grouping.description)
+					}
+				} label: {
+					Text("Group notifications by")
 				}
-				
-				Section {
-					Link(destination: githubIssuesURL) {
-						Label("Submit Feedback", systemImage: "ladybug")
-					}
-					
-					Link(destination: .ReviewURL) {
-						Label("Review on App Store", systemImage: "star.fill")
-					}
-				}
-				
-				Section {
-					Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
-						Text("Privacy Policy")
-					}
-					
-					Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
-						Text("Terms of Use")
-					}
-				}
-				
-				Section("Danger Zone") {
-					Button {
-						resetNotifications()
-					} label: {
-						Label("Reset Notification Settings", systemImage: "bell.slash")
-					}.disabled(notificationsResettable)
-					
-					Button(role: .destructive) {
-						Preferences.accounts.forEach { account in
-							VercelSession.deleteAccount(id: account.id)
-						}
-					} label: {
-						Label("Sign Out All Accounts", systemImage: "person.badge.minus")
-					}
-				}.symbolRenderingMode(.multicolor)
 			}
-			.navigationTitle("Settings")
-			.toolbar {
-				Button(action: { dismiss() }) {
-					Text("Done")
-				}.keyboardShortcut(.cancelAction)
+			
+			Section("Notification Preview") {
+				NotificationPreview(showsEmoji: notificationEmoji)
 			}
+			
+			Section {
+				Link(destination: githubIssuesURL) {
+					Label("Submit Feedback", systemImage: "ladybug")
+				}
+				
+				Link(destination: .ReviewURL) {
+					Label("Review on App Store", systemImage: "star.fill")
+				}
+			}
+			
+			Section {
+				Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
+					Text("Privacy Policy")
+				}
+				
+				Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
+					Text("Terms of Use")
+				}
+			}
+			
+			Section("Danger Zone") {
+				Button {
+					resetNotifications()
+				} label: {
+					Label("Reset Notification Settings", systemImage: "bell.slash")
+				}.disabled(notificationsResettable)
+				
+				Button(role: .destructive) {
+					Preferences.accounts.forEach { account in
+						VercelSession.deleteAccount(id: account.id)
+					}
+				} label: {
+					Label("Sign Out All Accounts", systemImage: "person.badge.minus")
+				}
+			}.symbolRenderingMode(.multicolor)
 		}
+		.navigationTitle("Settings")
+		#if os(iOS)
+		.toolbar {
+			Button(action: { dismiss() }) {
+				Text("Done")
+			}.keyboardShortcut(.cancelAction)
+		}
+		#endif
+		
 	}
 }
 
