@@ -40,11 +40,7 @@ struct SettingsView: View {
 	var body: some View {
 		
 		Form {
-			Section("Notifications") {
-				Toggle(isOn: $notificationEmoji) {
-					Text("Show Emoji in notification titles")
-				}
-				
+			Section {
 				Picker(selection: $notificationGrouping) {
 					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
 						Text(grouping.description)
@@ -52,10 +48,14 @@ struct SettingsView: View {
 				} label: {
 					Text("Group notifications by")
 				}
-			}
-			
-			Section("Notification Preview") {
-				NotificationPreview(showsEmoji: notificationEmoji)
+				
+				Toggle(isOn: $notificationEmoji) {
+					Text("Show Emoji in notification titles")
+				}
+			} header: {
+				Text("Notifications")
+			} footer: {
+				Text("Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed")
 			}
 			
 			Section {
@@ -108,10 +108,13 @@ struct SettingsView: View {
 
 extension SettingsView {
 	func resetNotifications() {
-		deploymentNotificationIds = []
-		deploymentReadyNotificationIds = []
-		deploymentErrorNotificationIds = []
-		deploymentProductionNotificationIds = []
+		DispatchQueue.main.async {
+			notificationEmoji = false
+			deploymentNotificationIds.removeAll()
+			deploymentReadyNotificationIds.removeAll()
+			deploymentErrorNotificationIds.removeAll()
+			deploymentProductionNotificationIds.removeAll()
+		}
 	}
 	
 	var notificationsResettable: Bool {

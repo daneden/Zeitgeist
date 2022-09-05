@@ -16,11 +16,7 @@ struct ContentView: View {
 	var body: some View {
 		Group {
 			if accounts.isEmpty {
-				ProjectListPlaceholderView()
-					.sheet(isPresented: .constant(accounts.isEmpty)) {
-						OnboardingView()
-							.interactiveDismissDisabled()
-					}
+				OnboardingView()
 			} else {
 				AuthenticatedContentView()
 			}
