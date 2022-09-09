@@ -48,6 +48,7 @@ fileprivate struct AccountSectionHeader: View {
 			} message: {
 				Text("Sign out of this account? The Zeitgeist integration will still be installed for your Vercel account, but its authentication token will be removed from this device.")
 			}
+			.textCase(.none)
 		}
 	}
 }
