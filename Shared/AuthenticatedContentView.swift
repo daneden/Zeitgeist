@@ -7,6 +7,51 @@
 
 import SwiftUI
 
+fileprivate enum DeleteAccountState: Hashable {
+	case inactive
+	case active(accountId: VercelAccount.ID)
+}
+
+fileprivate struct AccountSectionHeader: View {
+	var account: VercelAccount
+	@State private var confirmAccountDeletion = false
+	
+	var body: some View {
+		HStack {
+			Label {
+				Text(account.name ?? account.username)
+			} icon: {
+				VercelUserAvatarView(account: account, size: 24)
+			}
+			
+			Spacer()
+			
+			Button {
+				confirmAccountDeletion = true
+			} label: {
+				Label("Sign Out", systemImage: "minus.circle")
+					.labelStyle(.iconOnly)
+			}
+			.confirmationDialog("Remove Account", isPresented: $confirmAccountDeletion) {
+				Button(role: .cancel) {
+					confirmAccountDeletion = false
+				} label: {
+					Text("Cancel")
+				}
+				
+				Button(role: .destructive) {
+					VercelSession.deleteAccount(id: account.id)
+					confirmAccountDeletion = false
+				} label: {
+					Text("Sign Out")
+				}
+			} message: {
+				Text("Sign out of this account? The Zeitgeist integration will still be installed for your Vercel account, but its authentication token will be removed from this device.")
+			}
+		}
+	}
+}
+
 struct AuthenticatedContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
 	
@@ -14,6 +59,7 @@ struct AuthenticatedContentView: View {
 	@State private var presentSettingsView = false
 	@State private var removeAccountDialogVisible = false
 	@State private var sidebarSelection: SidebarNavigationValue?
+	@State private var confirmAccountDeletion = false
 	
 	@ToolbarContentBuilder
 	var toolbarContent: some ToolbarContent {
@@ -53,22 +99,7 @@ struct AuthenticatedContentView: View {
 						Label("Deployments", systemImage: "list.bullet")
 							.tag(SidebarNavigationValue.deployments(account: account))
 					} header: {
-						HStack {
-							Label {
-								Text(account.name ?? account.username)
-							} icon: {
-								VercelUserAvatarView(account: account, size: 24)
-							}
-							
-							Spacer()
-							
-							Button {
-								VercelSession.deleteAccount(id: account.id)
-							} label: {
-								Label("Delete Account", systemImage: "minus.circle")
-									.labelStyle(.iconOnly)
-							}
-						}
+						AccountSectionHeader(account: account)
 					}
 				}
 				.toolbar {
@@ -123,22 +154,7 @@ struct AuthenticatedContentView: View {
 								Label("Deployments", systemImage: "list.bullet")
 							}
 						} header: {
-							HStack {
-								Label {
-									Text(account.name ?? account.username)
-								} icon: {
-									VercelUserAvatarView(account: account, size: 24)
-								}
-								
-								Spacer()
-								
-								Button {
-									VercelSession.deleteAccount(id: account.id)
-								} label: {
-									Label("Delete Account", systemImage: "minus.circle")
-										.labelStyle(.iconOnly)
-								}
-							}
+							AccountSectionHeader(account: account)
 						}
 					}
 				}
