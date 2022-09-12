@@ -53,6 +53,10 @@ struct ProjectDetailView: View {
 						LabelView("Production Branch") {
 							Text(gitLink.productionBranch)
 						}
+						
+						NavigationLink(destination: ProjectEnvironmentVariablesView(projectId: project.id).environmentObject(session)) {
+							Text("Environment Variables")
+						}
 					}
 				}
 				

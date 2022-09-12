@@ -92,8 +92,8 @@ enum DeploymentTypeProtection: String, Codable {
 	case preview, all
 }
 
-struct VercelEnv: Codable {
-	let id: String?
+struct VercelEnv: Codable, Identifiable {
+	let id: String
 	let type: EnvType
 	let key: String
 	let value: String
@@ -104,10 +104,24 @@ struct VercelEnv: Codable {
 	let createdBy: String?
 	let updatedBy: String?
 	let decrypted: Bool?
+	let target: [String]
 }
 
 extension VercelEnv {
+	var created: Date {
+		Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
+	}
+	
+	var updated: Date {
+		Date(timeIntervalSince1970: TimeInterval(updatedAt / 1000))
+	}
+	
 	enum EnvType: String, Codable {
 		case system, secret, encrypted, plain
+	}
+	
+	struct APIResponse: Codable {
+		var envs: [VercelEnv]
+		var pagination: Pagination?
 	}
 }
