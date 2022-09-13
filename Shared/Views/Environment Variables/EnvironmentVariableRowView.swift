@@ -59,13 +59,15 @@ struct EnvironmentVariableRowView: View {
 				.textSelection(.disabled)
 		}
 		.sheet(isPresented: $editing) {
-			EnvironmentVariableEditView(projectId: projectId,
-																	id: envVar.id,
-																	key: envVar.key,
-																	value: envVar.value,
-																	targetProduction: envVar.targetsProduction,
-																	targetPreview: envVar.targetsPreview,
-																	targetDevelopment: envVar.targetsDevelopment)
+			NavigationView {
+				EnvironmentVariableEditView(projectId: projectId,
+																		id: envVar.id,
+																		key: envVar.key,
+																		value: envVar.value,
+																		targetProduction: envVar.targetsProduction,
+																		targetPreview: envVar.targetsPreview,
+																		targetDevelopment: envVar.targetsDevelopment)
+			}
 		}
 		.onTapGesture {
 			if needsDecrypting {
@@ -168,8 +170,7 @@ struct EnvironmentVariableRowView: View {
 			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id, method: .DELETE)
 			try session.signRequest(&request)
 			
-			let (data, _) = try await URLSession.shared.data(for: request)
-			print(String(data: data, encoding: .utf8))
+			_ = try await URLSession.shared.data(for: request)
 		} catch {
 			print(error)
 		}

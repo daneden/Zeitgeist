@@ -22,6 +22,7 @@ struct ProjectEnvironmentVariablesView: View {
 				if isAuthenticated {
 					ForEach(envVars) { envVar in
 						EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
+							.id(envVar.hashValue)
 					}
 				}
 			}

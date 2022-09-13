@@ -92,7 +92,7 @@ enum DeploymentTypeProtection: String, Codable {
 	case preview, all
 }
 
-struct VercelEnv: Codable, Identifiable {
+struct VercelEnv: Codable, Identifiable, Hashable {
 	let id: String
 	let type: EnvType
 	let key: String
