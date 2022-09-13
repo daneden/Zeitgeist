@@ -64,10 +64,7 @@ struct ProjectEnvironmentVariablesView: View {
 	
 	func loadEnvironmentVariables() async {
 		do {
-			let queryItems: [URLQueryItem] = [
-				URLQueryItem(name: "decrypted", value: "true")
-			]
-			var request = VercelAPI.request(for: .projects(projectId, path: "env"), with: session.account.id, queryItems: queryItems)
+			var request = VercelAPI.request(for: .projects(projectId, path: "env"), with: session.account.id)
 			try session.signRequest(&request)
 			
 			let (data, _) = try await URLSession.shared.data(for: request)
