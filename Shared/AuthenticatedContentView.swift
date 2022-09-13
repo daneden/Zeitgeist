@@ -90,7 +90,7 @@ struct AuthenticatedContentView: View {
 	}
 
 	var body: some View {
-		if #available(iOS 16.0, macOS 16.0, *) {
+		if #available(iOS 16.0, macOS 13.0, *) {
 			NavigationSplitView {
 				List(accounts, selection: $sidebarSelection) { account in
 					Section {
