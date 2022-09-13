@@ -1070,6 +1070,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1097,6 +1098,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1126,6 +1128,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = macosx;
@@ -1154,6 +1157,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = macosx;
@@ -1178,6 +1182,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1203,6 +1208,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1225,6 +1231,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1247,6 +1254,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
