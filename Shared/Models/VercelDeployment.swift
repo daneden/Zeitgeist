@@ -35,7 +35,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 	}
 
 	var commit: AnyCommit?
-	var creator: CreatorOverview
+	var creator: CreatorOverview?
 	var team: TeamOverview?
 	var teamId: String?
 
@@ -77,7 +77,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrlString) ?? "\(urlString)/_logs"
 		team = try? container.decodeIfPresent(TeamOverview.self, forKey: .team)
 		teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
-		creator = try container.decode(CreatorOverview.self, forKey: .creator)
+		creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
 		ready = try container.decodeIfPresent(Int.self, forKey: .ready)
 	}
 
