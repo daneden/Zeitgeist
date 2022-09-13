@@ -112,7 +112,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		print("Received remote notification")
 		WidgetCenter.shared.reloadAllTimelines()
 
-		NotificationCenter.default.post(name: .ZPSNotification, object: nil)
+		DataTaskModifier.postNotification()
 
 		do {
 			let title = userInfo["title"] as? String

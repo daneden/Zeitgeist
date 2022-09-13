@@ -8,55 +8,6 @@
 import SwiftUI
 import LocalAuthentication
 
-fileprivate struct EnvironmentVariableRowView: View {
-	@State private var isExpanded = false
-	var envVar: VercelEnv
-	
-	var body: some View {
-		VStack(alignment: .leading, spacing: 4) {
-			HStack {
-				Text(envVar.key)
-					.lineLimit(2)
-					.font(.footnote.monospaced())
-				
-				Spacer()
-				
-				Text(envVar.updated, style: .relative)
-					.font(.caption)
-					.foregroundStyle(.secondary)
-			}
-			
-			HStack {
-				if envVar.type == .secret {
-					Image(systemName: "lock")
-				}
-				
-				Text(envVar.value)
-					.privacySensitive(true)
-			}
-				.lineLimit(isExpanded ? nil : 2)
-				.font(.footnote.monospaced())
-				.foregroundStyle(.secondary)
-			
-			Text(envVar.target.joined(separator: ", ").capitalized)
-				.font(.caption)
-				.foregroundStyle(.tertiary)
-				.textSelection(.disabled)
-		}
-		.onTapGesture {
-			isExpanded.toggle()
-		}
-		.textSelection(.enabled)
-		.contextMenu {
-			Button {
-				Pasteboard.setString("\(envVar.key)=\(envVar.value)")
-			} label: {
-				Label("Copy", systemImage: "doc.on.doc")
-			}
-		}
-	}
-}
-
 struct ProjectEnvironmentVariablesView: View {
 	@EnvironmentObject var session: VercelSession
 	@State private var envVars: [VercelEnv] = []
@@ -70,7 +21,7 @@ struct ProjectEnvironmentVariablesView: View {
 			List {
 				if isAuthenticated {
 					ForEach(envVars) { envVar in
-						EnvironmentVariableRowView(envVar: envVar)
+						EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
 					}
 				}
 			}
@@ -91,7 +42,7 @@ struct ProjectEnvironmentVariablesView: View {
 			}
 			.sheet(isPresented: $editSheetPresented) {
 				NavigationView {
-					EnvironmentVariableEditView()
+					EnvironmentVariableEditView(projectId: projectId)
 				}
 			}
 			
@@ -107,19 +58,22 @@ struct ProjectEnvironmentVariablesView: View {
 			} else if envVars.isEmpty {
 				PlaceholderView(forRole: .NoEnvVars)
 			}
-		}.animation(.default, value: isAuthenticated)
+		}
+		.animation(.default, value: isAuthenticated)
 	}
 	
 	func loadEnvironmentVariables() async {
 		do {
-			var queryItems: [URLQueryItem] = [
-				URLQueryItem(name: "decrypt", value: "true")
+			let queryItems: [URLQueryItem] = [
+				URLQueryItem(name: "decrypted", value: "true")
 			]
 			var request = VercelAPI.request(for: .projects(projectId, path: "env"), with: session.account.id, queryItems: queryItems)
 			try session.signRequest(&request)
 			
 			let (data, _) = try await URLSession.shared.data(for: request)
-			envVars = try JSONDecoder().decode(VercelEnv.APIResponse.self, from: data).envs
+			try withAnimation {
+				envVars = try JSONDecoder().decode(VercelEnv.APIResponse.self, from: data).envs
+			}
 		} catch {
 			print(error)
 		}

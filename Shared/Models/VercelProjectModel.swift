@@ -124,4 +124,8 @@ extension VercelEnv {
 		var envs: [VercelEnv]
 		var pagination: Pagination?
 	}
+	
+	var targetsProduction: Bool { target.contains(where: { $0 == "production" }) }
+	var targetsPreview: Bool { target.contains(where: { $0 == "preview" }) }
+	var targetsDevelopment: Bool { target.contains(where: { $0 == "development" }) }
 }
