@@ -100,6 +100,8 @@
 		7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
+		7136901028DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */; };
+		7136901128DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */; };
 		713CD9BE28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
 		713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
 		7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
@@ -249,6 +251,7 @@
 		711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
+		7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VercelSession+accountCRUD.swift"; sourceTree = "<group>"; };
 		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
 		7144D0492887F9C900F0AE1E /* VercelDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDomain.swift; sourceTree = "<group>"; };
 		71493651278AEBA2001CB921 /* DeploymentLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentLogView.swift; sourceTree = "<group>"; };
@@ -387,6 +390,7 @@
 				7144D0492887F9C900F0AE1E /* VercelDomain.swift */,
 				71059A8028786F6000BF8B2E /* VercelProjectModel.swift */,
 				7115535826627B2900A73CD6 /* VercelSession.swift */,
+				7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -726,6 +730,7 @@
 				7135EA102788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
 				71059A7E28786F4100BF8B2E /* ProjectsListView.swift in Sources */,
 				71622AF328B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
+				7136901028DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */,
 				7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */,
 				7115535926627B2900A73CD6 /* VercelSession.swift in Sources */,
 				71155364266282C900A73CD6 /* Array.extension.swift in Sources */,
@@ -801,6 +806,7 @@
 				71059A8B2878737900BF8B2E /* ProjectDetailView.swift in Sources */,
 				714D449A289FD979005105B7 /* Pasteboard.swift in Sources */,
 				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
+				7136901128DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */,
 				71493653278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
 				71622AF428B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
 				713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */,
@@ -1043,7 +1049,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1070,7 +1076,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1099,7 +1105,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = macosx;
@@ -1127,7 +1133,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
 				SDKROOT = macosx;
@@ -1151,7 +1157,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1176,7 +1182,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1198,7 +1204,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1220,7 +1226,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
