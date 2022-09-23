@@ -70,17 +70,6 @@ struct ProjectDetailView: View {
 				}
 				
 				Section {
-#if os(macOS)
-					Table(deployments) {
-						TableColumn("Status") { deployment in
-							DeploymentStateIndicator(state: deployment.state, style: .compact)
-						}.width(16)
-						TableColumn("Cause", value: \.deploymentCause.description)
-						TableColumn("Date") { deployment in
-							Text(deployment.created, style: .relative)
-						}
-					}
-#else
 					if filter.filtersApplied {
 						Button {
 							filter = .init()
@@ -113,7 +102,6 @@ struct ProjectDetailView: View {
 								}
 							}
 					}
-#endif
 				} header: {
 					Text("Recent Deployments")
 				}
@@ -121,6 +109,7 @@ struct ProjectDetailView: View {
 				ProgressView()
 			}
 		}
+		.makeContainer()
 		.toolbar {
 			ToolbarItem {
 				Button {

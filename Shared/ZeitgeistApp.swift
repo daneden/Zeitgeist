@@ -14,6 +14,7 @@ struct ZeitgeistApp: App {
 	#endif
 
 	var body: some Scene {
+		
 		WindowGroup {
 			ContentView()
 				.onAppear {
@@ -24,8 +25,18 @@ struct ZeitgeistApp: App {
 					}
 				}
     }
-		
-		#if os(macOS)
+#if os(macOS)
+		MenuBarExtra("Zeitgeist") {
+			ContentView()
+				.onAppear {
+					if MigrationHelpers.V3.needsMigration {
+						Task {
+							await MigrationHelpers.V3.migrateAccountIdsToAccounts()
+						}
+					}
+				}
+		}
+		.menuBarExtraStyle(.window)
 		Settings {
 			SettingsView()
 		}

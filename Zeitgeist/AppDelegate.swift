@@ -5,9 +5,7 @@
 //  Created by Daniel Eden on 05/06/2021.
 //
 
-#if !os(macOS)
-	import UIKit
-#endif
+
 import SwiftUI
 import WidgetKit
 
@@ -17,6 +15,7 @@ import WidgetKit
 	let platform = "ios"
 #endif
 
+#if canImport(UIKit)
 class AppDelegate: NSObject, UIApplicationDelegate {
 	@AppStorage(Preferences.authenticatedAccounts)
 	private var authenticatedAccounts
@@ -180,3 +179,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		}
 	}
 }
+#endif
