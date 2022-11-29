@@ -20,7 +20,7 @@ struct VercelProject: Decodable, Identifiable {
 	let id: ID
 	let latestDeployments: [VercelDeployment]?
 	let name: String
-	let nodeVersion: NodeVersion
+	let nodeVersion: String
 	let outputDirectory: String?
 	let passwordProtection: ProtectionSettings?
 	let publicSource: Bool?
@@ -73,13 +73,6 @@ enum VercelFramework: String, Codable {
 	case ionicReact = "ionic-react"
 	case ionicAngular = "ionic-angular"
 	case docusaurus2 = "docusaurus-2"
-}
-
-enum NodeVersion: String, Codable {
-	case v16 = "16.x"
-	case v14 = "14.x"
-	case v12 = "12.x"
-	case v10 = "10.x"
 }
 
 extension VercelProject {
