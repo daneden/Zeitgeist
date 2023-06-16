@@ -40,10 +40,10 @@ struct ProjectDetailView: View {
 					}
 					
 					if let gitLink = project.link,
-						 let slug = gitLink.repoSlug,
-						 let provider = gitLink.type,
-						 let url = gitLink.repoUrl
-					{
+						 let url = gitLink.repoUrl {
+						let slug = gitLink.repoSlug
+						let provider = gitLink.type
+						
 						LabelView("Git Repository") {
 							Link(destination: url) {
 								Label(slug, image: provider.rawValue)

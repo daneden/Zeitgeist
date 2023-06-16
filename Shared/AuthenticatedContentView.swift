@@ -164,8 +164,9 @@ struct AuthenticatedContentView: View {
 					toolbarContent
 				}
 				
-				if let account = accounts.first,
-					 let session = VercelSession(account: account) {
+				if let account = accounts.first {
+					let session = VercelSession(account: account)
+					
 					ProjectsListView()
 						.environmentObject(session)
 						.navigationTitle("Projects")
