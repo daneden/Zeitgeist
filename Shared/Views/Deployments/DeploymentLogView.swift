@@ -54,11 +54,9 @@ struct LogEventView: View {
 				.foregroundStyle(.secondary)
 				.fixedSize()
 
-			if let text = event.text {
-				Text(text)
-					.fixedSize()
-					.foregroundStyle(.primary)
-			}
+			Text(event.text)
+				.fixedSize()
+				.foregroundStyle(.primary)
 
 			Spacer()
 		}

@@ -164,10 +164,9 @@ struct AuthenticatedContentView: View {
 					toolbarContent
 				}
 				
-				if let account = accounts.first,
-					 let session = VercelSession(account: account) {
+				if let account = accounts.first {
 					ProjectsListView()
-						.environmentObject(session)
+						.environmentObject(VercelSession(account: account))
 						.navigationTitle("Projects")
 				} else {
 					PlaceholderView(forRole: .NoProjects)
