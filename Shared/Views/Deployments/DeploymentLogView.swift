@@ -84,7 +84,7 @@ struct DeploymentLogView: View {
 		ScrollViewReader { proxy in
 			GeometryReader { geometry in
 				ScrollView([.vertical, .horizontal]) {
-					LazyVStack(alignment: .leading, spacing: 0) {
+					VStack(alignment: .leading, spacing: 0) {
 						ForEach(logEvents) { event in
 							LogEventView(event: event)
 								.id(event.id)
