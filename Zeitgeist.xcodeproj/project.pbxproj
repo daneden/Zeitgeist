@@ -44,6 +44,7 @@
 		711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		711553E4266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
 		711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		711553EF266553F400A73CD6 /* VercelSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* VercelSession.swift */; };
 		711553F12665548D00A73CD6 /* VercelAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* VercelAccountModel.swift */; };
 		711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
@@ -88,6 +89,7 @@
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		71622AF328B3B54C00DB34C5 /* StatusBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
@@ -133,16 +135,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		711553EB266552AF00A73CD6 /* Embed App Extensions */ = {
+		711553EB266552AF00A73CD6 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed App Extensions */,
-				711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed App Extensions */,
+				71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed Foundation Extensions */,
+				711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -488,7 +490,7 @@
 				7115533F266279CF00A73CD6 /* Sources */,
 				71155340266279CF00A73CD6 /* Frameworks */,
 				71155341266279CF00A73CD6 /* Resources */,
-				711553EB266552AF00A73CD6 /* Embed App Extensions */,
+				711553EB266552AF00A73CD6 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -543,8 +545,9 @@
 		7115533B266279CF00A73CD6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					71155342266279CF00A73CD6 = {
 						CreatedOnToolsVersion = 12.5;
@@ -880,6 +883,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -909,6 +913,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -916,6 +921,64 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		711553AF266548BD00A73CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 3.0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
+				PRODUCT_NAME = Zeitgeist;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		711553B0266548BD00A73CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 3.0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
+				PRODUCT_NAME = Zeitgeist;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -936,6 +999,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -961,6 +1025,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -983,6 +1048,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1005,6 +1071,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
