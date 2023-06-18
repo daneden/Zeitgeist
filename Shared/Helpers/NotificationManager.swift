@@ -13,30 +13,6 @@ class NotificationManager {
 	static let shared = NotificationManager()
 	private let notificationCenter = UNUserNotificationCenter.current()
 
-	@AppStorage(Preferences.notificationsEnabled) var notificationsEnabled {
-		didSet {
-			Task {
-				await self.toggleNotifications(notificationsEnabled)
-			}
-		}
-	}
-
-	/**
-	 Requests notification permissions and enables notifications, or removes pending notifications when toggled off.
-	 - Parameters:
-	 - on: Whether notifications should be enabled (true) or disabled (false)
-	 */
-	@discardableResult
-	func toggleNotifications(_ enabled: Bool) async -> Bool {
-		if enabled {
-			let result = try? await notificationCenter.requestAuthorization(options: [.alert, .sound])
-			return result ?? false
-		} else {
-			notificationCenter.removeAllPendingNotificationRequests()
-			return false
-		}
-	}
-
 	static func requestAuthorization() async throws -> Bool {
 		return try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
 	}

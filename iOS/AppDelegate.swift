@@ -18,15 +18,8 @@ import WidgetKit
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-	@AppStorage(Preferences.notificationsEnabled)
-	private var notificationsEnabled
-
 	@AppStorage(Preferences.authenticatedAccounts)
-	private var authenticatedAccounts {
-		didSet {
-			UIApplication.shared.registerForRemoteNotifications()
-		}
-	}
+	private var authenticatedAccounts
 	
 	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
@@ -37,21 +30,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	) -> Bool {
 		UIApplication.shared.registerForRemoteNotifications()
 
-		UNUserNotificationCenter.current().getNotificationSettings { [self] settings in
-			switch settings.authorizationStatus {
-			case .denied, .notDetermined:
-				self.notificationsEnabled = false
-				return
-			default:
-				return
-			}
-		}
-
 		UNUserNotificationCenter.current().delegate = self
-
-		Task {
-			await NotificationManager.shared.toggleNotifications(notificationsEnabled)
-		}
 
 		return true
 	}
