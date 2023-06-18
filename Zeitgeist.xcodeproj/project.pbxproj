@@ -73,6 +73,11 @@
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7136901028DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */; };
 		713CD9BE28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
+		713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
+		713F1FE728CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */; };
+		713F1FE828CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */; };
+		713F1FEA28CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */; };
+		713F1FEB28CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */; };
 		7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04D2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
@@ -103,6 +108,10 @@
 		71D0BC372882A2D600A22693 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
 		71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
 		71D0BC3B28868FF400A22693 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
+		71D0BC3C28868FF400A22693 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
+		71D0BC3D288694A500A22693 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
+		71DBAFFD28D0922B00015292 /* EnvironmentVariableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */; };
+		71DBAFFE28D0922B00015292 /* EnvironmentVariableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */; };
 		71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
 		71F2608028C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
 		71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
@@ -200,6 +209,8 @@
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
 		7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VercelSession+accountCRUD.swift"; sourceTree = "<group>"; };
 		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
+		713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEnvironmentVariablesView.swift; sourceTree = "<group>"; };
+		713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableEditView.swift; sourceTree = "<group>"; };
 		7144D0492887F9C900F0AE1E /* VercelDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDomain.swift; sourceTree = "<group>"; };
 		71493651278AEBA2001CB921 /* DeploymentLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentLogView.swift; sourceTree = "<group>"; };
 		714D4498289FD979005105B7 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
@@ -220,6 +231,7 @@
 		71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+ZPS.swift"; sourceTree = "<group>"; };
 		71D0BC362882A2D500A22693 /* View+dataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+dataTask.swift"; sourceTree = "<group>"; };
 		71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNotificationsView.swift; sourceTree = "<group>"; };
+		71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableRowView.swift; sourceTree = "<group>"; };
 		71F2607F28C48DE40089195B /* NavigationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelpers.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -257,10 +269,10 @@
 		71059A7C28786F2D00BF8B2E /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				71059A7D28786F4100BF8B2E /* ProjectsListView.swift */,
 				71059A892878737900BF8B2E /* ProjectDetailView.swift */,
 				71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */,
 				714D449F289FF550005105B7 /* ProjectsListRowView.swift */,
+				71059A7D28786F4100BF8B2E /* ProjectsListView.swift */,
 			);
 			path = Projects;
 			sourceTree = "<group>";
@@ -411,11 +423,12 @@
 		711A4A39266A368500DA9EE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				711A4A3B266A369600DA9EE3 /* Accounts */,
+				711A4A3A266A368D00DA9EE3 /* Deployments */,
+				71DBAFFF28D0924000015292 /* Environment Variables */,
 				714D44A628B2398D005105B7 /* Onboarding */,
 				71059A7C28786F2D00BF8B2E /* Projects */,
 				711A4A48266B8A9B00DA9EE3 /* Settings */,
-				711A4A3B266A369600DA9EE3 /* Accounts */,
-				711A4A3A266A368D00DA9EE3 /* Deployments */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -478,6 +491,16 @@
 				7115534C266279D000A73CD6 /* Preview Content */,
 			);
 			path = Zeitgeist;
+			sourceTree = "<group>";
+		};
+		71DBAFFF28D0924000015292 /* Environment Variables */ = {
+			isa = PBXGroup;
+			children = (
+				713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */,
+				71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */,
+				713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */,
+			);
+			path = "Environment Variables";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -615,7 +638,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713F1FE728CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift in Sources */,
 				7135EA102788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
+				713F1FEA28CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift in Sources */,
 				71059A7E28786F4100BF8B2E /* ProjectsListView.swift in Sources */,
 				71622AF328B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
 				7136901028DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */,
@@ -668,6 +693,67 @@
 				71F2608028C48DE40089195B /* NavigationHelpers.swift in Sources */,
 				7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
 				7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */,
+				71DBAFFD28D0922B00015292 /* EnvironmentVariableRowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7115539D266548BD00A73CD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71D0BC302881F2C200A22693 /* Notification+ZPS.swift in Sources */,
+				714D44AA28B24722005105B7 /* SettingsView.swift in Sources */,
+				71059A90287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */,
+				711553B9266548E400A73CD6 /* DeploymentListView.swift in Sources */,
+				71D0BC382882A2D600A22693 /* View+dataTask.swift in Sources */,
+				711553B2266548E400A73CD6 /* ZeitgeistApp.swift in Sources */,
+				71059A94287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
+				711A4A3F266B672300DA9EE3 /* VercelAPI.swift in Sources */,
+				71059A7F28786F4100BF8B2E /* ProjectsListView.swift in Sources */,
+				71059A8228786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
+				711A4A4E266B943800DA9EE3 /* Dictionary.swift in Sources */,
+				711553BD266548F400A73CD6 /* Array.extension.swift in Sources */,
+				711553B6266548E400A73CD6 /* DeploymentListRowView.swift in Sources */,
+				711A4A44266B803300DA9EE3 /* OnboardingView.swift in Sources */,
+				71609DE528B3AB9100323156 /* ZeitgeistLogo.swift in Sources */,
+				714D44A1289FF550005105B7 /* ProjectsListRowView.swift in Sources */,
+				71059A8B2878737900BF8B2E /* ProjectDetailView.swift in Sources */,
+				714D449A289FD979005105B7 /* Pasteboard.swift in Sources */,
+				711553B7266548E400A73CD6 /* DeploymentStateIndicator.swift in Sources */,
+				7136901128DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */,
+				71493653278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
+				71622AF428B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
+				713CD9BF28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */,
+				71F2608128C48DE40089195B /* NavigationHelpers.swift in Sources */,
+				711553C52665490E00A73CD6 /* KeychainItem.swift in Sources */,
+				711553CA2665491300A73CD6 /* VercelSession.swift in Sources */,
+				71D0BC3D288694A500A22693 /* NotificationManager.swift in Sources */,
+				71DBAFFE28D0922B00015292 /* EnvironmentVariableRowView.swift in Sources */,
+				71CAE83F28AD20B90063F338 /* MigrationHelpers.swift in Sources */,
+				711A4A57266BDF0900DA9EE3 /* PostalService.swift in Sources */,
+				711553BB266548E400A73CD6 /* LabelView.swift in Sources */,
+				71059A8628786FEA00BF8B2E /* GitRepoModel.swift in Sources */,
+				711553B8266548E400A73CD6 /* DeploymentDetailView.swift in Sources */,
+				7162FD812880103400D20E62 /* AccountListRowView.swift in Sources */,
+				7144D04B2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
+				711553B1266548E400A73CD6 /* PlaceholderView.swift in Sources */,
+				714D44A928B239A4005105B7 /* NewFeaturesView.swift in Sources */,
+				71A33E5D269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
+				711553C72665491300A73CD6 /* SignInViewModel.swift in Sources */,
+				711553BA266548E400A73CD6 /* DeploymentFilterView.swift in Sources */,
+				713F1FEB28CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift in Sources */,
+				711553C82665491300A73CD6 /* VercelDeployment.swift in Sources */,
+				711AB5F22676829F004D0768 /* URL.extension.swift in Sources */,
+				714D44AD28B52359005105B7 /* NotificationPreview.swift in Sources */,
+				711553C92665491300A73CD6 /* VercelAccountModel.swift in Sources */,
+				713F1FE828CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift in Sources */,
+				71D0BC3C28868FF400A22693 /* ProjectNotificationsView.swift in Sources */,
+				71CAE84228AD24260063F338 /* ContentView.swift in Sources */,
+				711553CC2665491300A73CD6 /* GitCommit.swift in Sources */,
+				711553BF2665490800A73CD6 /* VercelUserAvatarView.swift in Sources */,
+				714D449D289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
+				7135EA112788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
+				71F9020A26656A21000A8873 /* Preferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,6 +969,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -913,6 +1000,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -945,6 +1033,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
@@ -974,6 +1064,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = Zeitgeist;
@@ -999,6 +1091,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1025,6 +1118,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1048,6 +1142,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1071,6 +1166,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0.3;
 				MARKETING_VERSION = 3.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
