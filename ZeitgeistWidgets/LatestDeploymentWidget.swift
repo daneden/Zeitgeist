@@ -157,16 +157,9 @@ struct LatestDeploymentWidgetView: View {
 		if isAccessoryView {
 			switch widgetFamily {
 			case .accessoryCircular:
-				VStack {
-					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-						.font(.largeTitle)
-						.imageScale(.large)
-				}
-				.background {
-					if #available(iOSApplicationExtension 16.0, *) {
-						AccessoryWidgetBackground()
-					}
-				}
+				Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
+					.font(.largeTitle)
+					.imageScale(.large)
 			default:
 				VStack(alignment: .leading) {
 					if let deployment = config.deployment {
