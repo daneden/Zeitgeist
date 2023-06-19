@@ -135,8 +135,17 @@ struct AnyCommit: Decodable, GitCommit {
 	var deployHookId: String? { wrapped.deployHookId }
 	var deployHookName: String? { wrapped.deployHookName }
 	var deployHookRef: String? { wrapped.deployHookRef }
+	
+	var action: Action?
+	var originalDeploymentId: VercelDeployment.ID?
+	
+	enum CodingKeys: CodingKey {
+		case action, originalDeploymentId
+	}
 
 	init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		
 		if let githubCommit = try? GitHubCommit(from: decoder) {
 			wrapped = githubCommit
 		} else if let gitlabCommit = try? GitLabCommit(from: decoder) {
@@ -146,5 +155,14 @@ struct AnyCommit: Decodable, GitCommit {
 		} else {
 			throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unable to decode commit"))
 		}
+		
+		action = try? container.decodeIfPresent(Action.self, forKey: .action)
+		originalDeploymentId = try? container.decodeIfPresent(VercelDeployment.ID.self, forKey: .originalDeploymentId)
+	}
+}
+
+extension AnyCommit {
+	enum Action: String, Codable {
+		case promote
 	}
 }

@@ -53,7 +53,12 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 	var deploymentCause: DeploymentCause {
 		guard let commit = commit else { return .manual }
 
-		if let deploymentHookName = commit.deployHookName {
+		if let action = commit.action {
+			switch action {
+			case .promote:
+				return .promotion(originalDeploymentId: commit.originalDeploymentId)
+			}
+		} else if let deploymentHookName = commit.deployHookName {
 			return .deployHook(name: deploymentHookName)
 		} else {
 			return .gitCommit(commit: commit)
@@ -156,6 +161,7 @@ extension VercelDeployment {
 	enum DeploymentCause {
 		case deployHook(name: String)
 		case gitCommit(commit: AnyCommit)
+		case promotion(originalDeploymentId: VercelDeployment.ID?)
 		case manual
 
 		var description: String {
@@ -164,6 +170,8 @@ extension VercelDeployment {
 				return commit.commitMessageSummary
 			case let .deployHook(name):
 				return name
+			case .promotion(_):
+				return "Production Rebuild"
 			case .manual:
 				return "Manual deployment"
 			}
@@ -175,6 +183,8 @@ extension VercelDeployment {
 				return commit.provider.rawValue
 			case .deployHook:
 				return "hook"
+			case .promotion(_):
+				return "arrow.up.circle"
 			case .manual:
 				return nil
 			}

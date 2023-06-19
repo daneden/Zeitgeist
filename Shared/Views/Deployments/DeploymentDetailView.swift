@@ -22,31 +22,15 @@ struct DeploymentDetailView: View {
 					switch deployment.deploymentCause {
 					case let .deployHook(name):
 						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+					case .promotion(_):
+						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)")
+						if let commit = deployment.commit {
+							CommitSummary(commit: commit)
+						}
 					case .manual:
 						Text("Manual Deployment")
 					case let .gitCommit(commit):
-						Text(commit.commitMessageSummary)
-						Link(destination: commit.commitUrl) {
-							Text("\(Image(deployment.deploymentCause.icon!)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
-								.font(.footnote)
-						}
-						.contextMenu {
-							Section {
-								Button {
-									Pasteboard.setString(commit.commitSha)
-								} label: {
-									Text("Copy Commit Sha")
-								}
-								
-								Button {
-									Pasteboard.setString(commit.commitUrl.absoluteString)
-								} label: {
-									Text("Copy Commit URL")
-								}
-							} header: {
-								Label("Copy", systemImage: "doc.on.doc")
-							}
-						}
+						CommitSummary(commit: commit)
 					}
 				}
 				URLDetails(accountId: accountId, deployment: deployment)
@@ -73,6 +57,35 @@ struct DeploymentDetailView: View {
 		let (data, _) = try await URLSession.shared.data(for: request)
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
+	}
+}
+
+private struct CommitSummary: View {
+	var commit: AnyCommit
+	
+	var body: some View {
+		Text(commit.commitMessageSummary)
+		Link(destination: commit.commitUrl) {
+			Text("\(Image(commit.provider.rawValue)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
+				.font(.footnote)
+		}
+		.contextMenu {
+			Section {
+				Button {
+					Pasteboard.setString(commit.commitSha)
+				} label: {
+					Text("Copy Commit Sha")
+				}
+				
+				Button {
+					Pasteboard.setString(commit.commitUrl.absoluteString)
+				} label: {
+					Text("Copy Commit URL")
+				}
+			} header: {
+				Label("Copy", systemImage: "doc.on.doc")
+			}
+		}
 	}
 }
 
@@ -176,6 +189,7 @@ private struct DeploymentDetails: View {
 	@State var deleteConfirmation = false
 	@State var redeployConfirmation = false
 	@State var promoteToProductionConfirmation = false
+	@State var instantRollbackConfirmation = false
 
 	@State var mutating = false
 	@State var recentlyCancelled = false
