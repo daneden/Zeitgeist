@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum SidebarNavigationValue: Hashable {
-	case projects(account: VercelAccount)
-	case deployments(account: VercelAccount)
-}
-
 enum DetailDestinationValue: Hashable {
 	case project(id: VercelProject.ID, account: VercelAccount)
 	case deployment(id: VercelDeployment.ID, account: VercelAccount)

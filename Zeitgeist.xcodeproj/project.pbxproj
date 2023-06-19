@@ -32,7 +32,6 @@
 		7115537926629BB900A73CD6 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
 		7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
 		7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */; };
-		711553812663AE0900A73CD6 /* DeploymentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553802663AE0900A73CD6 /* DeploymentListView.swift */; };
 		711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
 		7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538826642A5100A73CD6 /* DeploymentDetailView.swift */; };
 		7115538D2664E00A00A73CD6 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* LabelView.swift */; };
@@ -173,7 +172,6 @@
 		7115537826629BB900A73CD6 /* VercelDeployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelDeployment.swift; sourceTree = "<group>"; };
 		7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentListRowView.swift; sourceTree = "<group>"; };
 		7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentStateIndicator.swift; sourceTree = "<group>"; };
-		711553802663AE0900A73CD6 /* DeploymentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentListView.swift; sourceTree = "<group>"; };
 		711553862663B03C00A73CD6 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		7115538826642A5100A73CD6 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
 		7115538C2664E00A00A73CD6 /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
@@ -434,7 +432,6 @@
 				7115538826642A5100A73CD6 /* DeploymentDetailView.swift */,
 				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
 				7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */,
-				711553802663AE0900A73CD6 /* DeploymentListView.swift */,
 				71493651278AEBA2001CB921 /* DeploymentLogView.swift */,
 				7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */,
 			);
@@ -655,7 +652,6 @@
 				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
 				711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
 				71D0BC372882A2D600A22693 /* View+dataTask.swift in Sources */,
-				711553812663AE0900A73CD6 /* DeploymentListView.swift in Sources */,
 				7115537926629BB900A73CD6 /* VercelDeployment.swift in Sources */,
 				7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */,
