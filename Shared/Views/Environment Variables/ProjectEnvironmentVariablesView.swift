@@ -10,9 +10,14 @@ import LocalAuthentication
 
 struct ProjectEnvironmentVariablesView: View {
 	@EnvironmentObject var session: VercelSession
+	@AppStorage(Preferences.lastAuthenticated) var lastAuthenticated
+	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	@State private var envVars: [VercelEnv] = []
-	@State private var isAuthenticated = false
 	@State private var editSheetPresented = false
+	
+	var isAuthenticated: Bool {
+		abs(lastAuthenticated.distance(to: .now)) < authenticationTimeout
+	}
 	
 	var projectId: VercelProject.ID
 	
@@ -20,9 +25,19 @@ struct ProjectEnvironmentVariablesView: View {
 		ZStack {
 			List {
 				if isAuthenticated {
-					ForEach(envVars) { envVar in
-						EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
-							.id(envVar.hashValue)
+					Section {
+						ForEach(envVars) { envVar in
+							if #available(iOS 16.0, *) {
+								EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
+									.id(envVar.hashValue)
+									.draggable(envVar)
+							} else {
+								EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
+									.id(envVar.hashValue)
+							}
+						}
+					} footer: {
+						Label("Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported.", systemImage: "lock")
 					}
 				}
 			}
@@ -35,7 +50,9 @@ struct ProjectEnvironmentVariablesView: View {
 			}
 			.navigationTitle("Environment Variables")
 			.onAppear {
-				authenticate()
+				if !isAuthenticated {
+					authenticate()
+				}
 			}
 			.dataTask {
 				await loadEnvironmentVariables()
@@ -47,18 +64,24 @@ struct ProjectEnvironmentVariablesView: View {
 			}
 			
 			if !isAuthenticated {
-				VStack {
+				VStack(spacing: 8) {
 					Image(systemName: "lock")
 						.font(.largeTitle)
 						.symbolVariant(.fill)
 					Text("Authentication Required")
 						.font(.title3)
+					Button("Authenticate") {
+						authenticate()
+					}.buttonStyle(.bordered)
 				}
 				.foregroundStyle(.secondary)
 			} else if envVars.isEmpty {
 				PlaceholderView(forRole: .NoEnvVars)
 			}
 		}
+		#if !os(macOS)
+		.listStyle(.insetGrouped)
+		#endif
 		.animation(.default, value: isAuthenticated)
 	}
 	
@@ -84,7 +107,10 @@ struct ProjectEnvironmentVariablesView: View {
 			let reason = "Authentication is required to view decrypted environment variables"
 			
 			context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authError in
-				isAuthenticated = success
+				if success {
+					lastAuthenticated = .now
+				}
+				
 				if let authError = authError {
 					print(authError)
 				}

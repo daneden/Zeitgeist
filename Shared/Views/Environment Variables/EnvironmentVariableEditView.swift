@@ -61,22 +61,26 @@ struct EnvironmentVariableEditView: View {
 				Text("At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website.")
 			}
 			
-			Button {
-				Task {
-					await saveEnvVar()
-				}
-			} label: {
-				HStack {
-					Text("Submit")
-					
-					if saving {
-						Spacer()
-						ProgressView()
+			Section {
+				Button {
+					Task {
+						await saveEnvVar()
+					}
+				} label: {
+					HStack {
+						Text("Submit")
+						
+						if saving {
+							Spacer()
+							ProgressView()
+						}
 					}
 				}
+				.disabled(!envVarIsValid)
+				.disabled(saving)
+			} footer: {
+				Text("A new deployment is required for your changes to take effect.")
 			}
-			.disabled(!envVarIsValid)
-			.disabled(saving)
 		}
 		.navigationTitle("\(id == nil ? "Add" : "Edit") Environment Variable")
 		.toolbar {

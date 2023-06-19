@@ -94,6 +94,7 @@
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162FD7F2880103400D20E62 /* AccountListRowView.swift */; };
+		716F4E392A4090C4008133F0 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */; };
 		71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71832D53277B94AA00CB2903 /* StoreKit.framework */; };
 		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71CAE83E28AD20B90063F338 /* MigrationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */; };
@@ -216,6 +217,7 @@
 		71611C042665667100119324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBannerView.swift; sourceTree = "<group>"; };
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
+		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
 		71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHelpers.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				71D0BC362882A2D500A22693 /* View+dataTask.swift */,
 				713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */,
+				716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				71059A93287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
 				71059A8128786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
 				7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */,
+				716F4E392A4090C4008133F0 /* Date+RawRepresentable.swift in Sources */,
 				711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */,
 				71059A8F287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */,
 				7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */,

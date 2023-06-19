@@ -33,7 +33,7 @@ struct EnvironmentVariableRowView: View {
 					.foregroundStyle(.secondary)
 			}
 			
-			HStack {
+			HStack(spacing: 4) {
 				if envVar.type == .secret {
 					Image(systemName: "lock")
 				}

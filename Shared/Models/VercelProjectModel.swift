@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct VercelProject: Decodable, Identifiable {
 	typealias ID = String
@@ -121,4 +122,23 @@ extension VercelEnv {
 	var targetsProduction: Bool { target.contains(where: { $0 == "production" }) }
 	var targetsPreview: Bool { target.contains(where: { $0 == "preview" }) }
 	var targetsDevelopment: Bool { target.contains(where: { $0 == "development" }) }
+}
+
+@available (iOS 16.0, *)
+extension VercelEnv: Transferable {
+	func data() -> Data {
+		guard let data = try? JSONEncoder().encode(self) else {
+			return Data()
+		}
+		
+		return data
+	}
+	
+	static var transferRepresentation: some TransferRepresentation {
+		DataRepresentation(exportedContentType: .json) { envVar in
+			envVar.data()
+		}
+		
+		CodableRepresentation(contentType: .json)
+	}
 }
