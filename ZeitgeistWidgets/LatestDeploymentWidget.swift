@@ -270,15 +270,13 @@ struct LatestDeploymentWidgetView_Previews: PreviewProvider {
 		project: WidgetProject(identifier: "1", display: "example-project")
 	)
 	static var previews: some View {
-		ForEach(DynamicTypeSize.allCases, id: \.self) { typeSize in
-			Group {
-				LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
-					.previewContext(WidgetPreviewContext(family: .systemSmall))
-				LatestDeploymentWidgetView(config: exampleConfig)
-					.previewContext(WidgetPreviewContext(family: .systemSmall))
-				LatestDeploymentWidgetView(config: exampleConfig)
-					.previewContext(WidgetPreviewContext(family: .systemMedium))
-			}.environment(\.dynamicTypeSize, typeSize)
+		Group {
+			LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
+				.previewContext(WidgetPreviewContext(family: .systemSmall))
+				.previewDisplayName("Latest Deployment Widget: No Account")
+			LatestDeploymentWidgetView(config: exampleConfig)
+				.previewContext(WidgetPreviewContext(family: .systemSmall))
+				.previewDisplayName("Latest Deployment Widget: Example Data")
 		}
 	}
 }
