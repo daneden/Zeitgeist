@@ -157,13 +157,16 @@ struct LatestDeploymentWidgetView: View {
 		if isAccessoryView {
 			switch widgetFamily {
 			case .accessoryCircular:
-				ZStack {
-					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle.fill")
+				VStack {
+					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
-						.scaledToFit()
-						.symbolVariant(.fill)
-				}.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+				}
+					.background {
+						if #available(iOSApplicationExtension 16.0, *) {
+							AccessoryWidgetBackground()
+						}
+					}
 			default:
 				VStack(alignment: .leading) {
 					if let deployment = config.deployment {
