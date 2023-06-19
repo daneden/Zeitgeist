@@ -48,3 +48,9 @@ extension View {
 		modifier(DataTaskModifier(action: action))
 	}
 }
+
+extension DataTaskModifier {
+	static func postNotification() {
+		NotificationCenter.default.post(name: .ZPSNotification, object: nil)
+	}
+}

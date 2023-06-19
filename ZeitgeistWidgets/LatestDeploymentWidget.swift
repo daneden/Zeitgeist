@@ -147,7 +147,7 @@ struct LatestDeploymentWidgetView: View {
 	
 	var isAccessoryView: Bool {
 		if #available(iOSApplicationExtension 16.0, *) {
-			return widgetFamily == .accessoryRectangular || widgetFamily == .accessoryCircular
+			return widgetFamily == .accessoryRectangular || widgetFamily == .accessoryCircular || widgetFamily == .accessoryInline
 		} else {
 			return false
 		}
@@ -157,23 +157,27 @@ struct LatestDeploymentWidgetView: View {
 		if isAccessoryView {
 			switch widgetFamily {
 			case .accessoryCircular:
-				ZStack {
-					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle.fill")
-						.resizable()
-						.aspectRatio(contentMode: .fit)
-						.scaledToFit()
-						.symbolVariant(.fill)
-				}.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+				VStack {
+					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
+						.font(.largeTitle)
+						.imageScale(.large)
+				}
+				.background {
+					if #available(iOSApplicationExtension 16.0, *) {
+						AccessoryWidgetBackground()
+					}
+				}
 			default:
 				VStack(alignment: .leading) {
 					if let deployment = config.deployment {
 						Label {
 							Text(deployment.project)
-								.fontWeight(.bold)
+								.font(.headline)
 						} icon: {
 							DeploymentStateIndicator(state: deployment.state, style: .compact)
 								.symbolRenderingMode(.monochrome)
 						}
+						
 						Text(deployment.deploymentCause.description)
 							.lineLimit(2)
 						Text(deployment.created, style: .relative)
@@ -266,15 +270,13 @@ struct LatestDeploymentWidgetView_Previews: PreviewProvider {
 		project: WidgetProject(identifier: "1", display: "example-project")
 	)
 	static var previews: some View {
-		ForEach(DynamicTypeSize.allCases, id: \.self) { typeSize in
-			Group {
-				LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
-					.previewContext(WidgetPreviewContext(family: .systemSmall))
-				LatestDeploymentWidgetView(config: exampleConfig)
-					.previewContext(WidgetPreviewContext(family: .systemSmall))
-				LatestDeploymentWidgetView(config: exampleConfig)
-					.previewContext(WidgetPreviewContext(family: .systemMedium))
-			}.environment(\.dynamicTypeSize, typeSize)
+		Group {
+			LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
+				.previewContext(WidgetPreviewContext(family: .systemSmall))
+				.previewDisplayName("Latest Deployment Widget: No Account")
+			LatestDeploymentWidgetView(config: exampleConfig)
+				.previewContext(WidgetPreviewContext(family: .systemSmall))
+				.previewDisplayName("Latest Deployment Widget: Example Data")
 		}
 	}
 }

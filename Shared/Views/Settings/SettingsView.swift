@@ -17,6 +17,8 @@ struct SettingsView: View {
 	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
 	
+	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
+	
 	var githubIssuesURL: URL {
 		
 		var body = """
@@ -38,7 +40,6 @@ struct SettingsView: View {
 	}
 
 	var body: some View {
-		
 		Form {
 			Section {
 				Picker(selection: $notificationGrouping) {
@@ -56,6 +57,26 @@ struct SettingsView: View {
 				Text("Notifications")
 			} footer: {
 				Text("Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed")
+			}
+			
+			Section {
+				Picker(selection: $authenticationTimeout) {
+					ForEach(timeoutPresets, id: \.self) { preset in
+						if #available(iOS 16.0, *) {
+							Text(Duration.seconds(preset).formatted(.units()))
+						} else {
+							Text(DateComponentsFormatter().string(from: preset) ?? "")
+						}
+					}
+					
+					Text("Never").tag(TimeInterval.infinity)
+				} label: {
+					Text("Auto-lock after")
+				}
+			} header: {
+				Text("Authentication")
+			} footer: {
+				Text("Authentication is used to protect sensitive information such as environment variables")
 			}
 			
 			Section {
@@ -121,6 +142,15 @@ extension SettingsView {
 		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
 	}
 }
+
+fileprivate let timeoutPresets: Array<TimeInterval> = [
+	60 * 1,
+	60 * 5,
+	60 * 10,
+	60 * 15,
+	60 * 30,
+	60 * 60
+]
 
 struct SettingsView_Previews: PreviewProvider {
 	static var previews: some View {

@@ -52,13 +52,11 @@ struct LogEventView: View {
 		HStack(alignment: .firstTextBaseline) {
 			Text(event.date, style: .time)
 				.foregroundStyle(.secondary)
-				.fixedSize()
+				.fixedSize(horizontal: true, vertical: false)
 
-			if let text = event.text {
-				Text(text)
-					.fixedSize()
-					.foregroundStyle(.primary)
-			}
+			Text(event.text)
+				.foregroundStyle(.primary)
+				.fixedSize(horizontal: true, vertical: false)
 
 			Spacer()
 		}
@@ -86,7 +84,7 @@ struct DeploymentLogView: View {
 		ScrollViewReader { proxy in
 			GeometryReader { geometry in
 				ScrollView([.vertical, .horizontal]) {
-					LazyVStack(alignment: .leading, spacing: 0) {
+					VStack(alignment: .leading, spacing: 0) {
 						ForEach(logEvents) { event in
 							LogEventView(event: event)
 								.id(event.id)
@@ -98,6 +96,7 @@ struct DeploymentLogView: View {
 							proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
 						}
 					}
+					.fixedSize(horizontal: false, vertical: true)
 					.frame(minHeight: geometry.size.height, alignment: .topLeading)
 					.font(.footnote.monospaced())
 					#if os(iOS)

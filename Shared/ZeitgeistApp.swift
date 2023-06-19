@@ -12,20 +12,28 @@ struct ZeitgeistApp: App {
 	#if !os(macOS)
 		@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
+	
+	var content: some View {
+		ContentView()
+			.onAppear {
+				if MigrationHelpers.V3.needsMigration {
+					Task {
+						await MigrationHelpers.V3.migrateAccountIdsToAccounts()
+					}
+				}
+			}
+	}
 
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
-				.onAppear {
-					if MigrationHelpers.V3.needsMigration {
-						Task {
-							await MigrationHelpers.V3.migrateAccountIdsToAccounts()
-						}
-					}
-				}
+			content
     }
+#if os(macOS)
+		MenuBarExtra("Zeitgeist") {
+			content
+		}
+		.menuBarExtraStyle(.window)
 		
-		#if os(macOS)
 		Settings {
 			SettingsView()
 		}

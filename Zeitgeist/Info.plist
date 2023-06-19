@@ -35,6 +35,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Zeitgeist uses Face ID to secure project environment variables</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>SelectAccountIntent</string>

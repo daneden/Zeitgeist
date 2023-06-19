@@ -40,10 +40,10 @@ struct ProjectDetailView: View {
 					}
 					
 					if let gitLink = project.link,
-						 let slug = gitLink.repoSlug,
-						 let provider = gitLink.type,
-						 let url = gitLink.repoUrl
-					{
+						 let url = gitLink.repoUrl {
+						let slug = gitLink.repoSlug
+						let provider = gitLink.type
+						
 						LabelView("Git Repository") {
 							Link(destination: url) {
 								Label(slug, image: provider.rawValue)
@@ -52,6 +52,10 @@ struct ProjectDetailView: View {
 						
 						LabelView("Production Branch") {
 							Text(gitLink.productionBranch)
+						}
+						
+						NavigationLink(destination: ProjectEnvironmentVariablesView(projectId: project.id).environmentObject(session)) {
+							Text("Environment Variables")
 						}
 					}
 				}
@@ -70,17 +74,6 @@ struct ProjectDetailView: View {
 				}
 				
 				Section {
-#if os(macOS)
-					Table(deployments) {
-						TableColumn("Status") { deployment in
-							DeploymentStateIndicator(state: deployment.state, style: .compact)
-						}.width(16)
-						TableColumn("Cause", value: \.deploymentCause.description)
-						TableColumn("Date") { deployment in
-							Text(deployment.created, style: .relative)
-						}
-					}
-#else
 					if filter.filtersApplied {
 						Button {
 							filter = .init()
@@ -113,7 +106,6 @@ struct ProjectDetailView: View {
 								}
 							}
 					}
-#endif
 				} header: {
 					Text("Recent Deployments")
 				}
@@ -121,6 +113,7 @@ struct ProjectDetailView: View {
 				ProgressView()
 			}
 		}
+		.makeContainer()
 		.toolbar {
 			ToolbarItem {
 				Button {

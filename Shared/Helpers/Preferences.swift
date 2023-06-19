@@ -20,7 +20,9 @@ struct Preferences {
 		     deploymentNotificationIds,
 				 notificationGrouping,
 				 notificationEmoji,
-				 projectSummaryDisplayOption
+				 projectSummaryDisplayOption,
+				 lastAuthenticated,
+				 authenticationTimeout
 	}
 
 	typealias AppStorageKVPair<T> = (key: Keys, value: T)
@@ -35,6 +37,8 @@ struct Preferences {
 	static let notificationEmoji: AppStorageKVPair<Bool> = (.notificationEmoji, false)
 	static let notificationGrouping: AppStorageKVPair<NotificationGrouping> = (.notificationGrouping, .project)
 	static let projectSummaryDisplayOption: AppStorageKVPair<ProjectSummaryDisplayOption> = (.projectSummaryDisplayOption, .productionDeployment)
+	static let lastAuthenticated: AppStorageKVPair<Date> = (.lastAuthenticated, .distantPast)
+	static let authenticationTimeout: AppStorageKVPair<TimeInterval> = (.authenticationTimeout, 60 * 10)
 	
 	@available(*, deprecated)
 	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
@@ -51,6 +55,10 @@ extension AppStorage {
 	}
 
 	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == Bool {
+		self.init(wrappedValue: kv.value, kv.key.rawValue, store: Preferences.store)
+	}
+	
+	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == TimeInterval {
 		self.init(wrappedValue: kv.value, kv.key.rawValue, store: Preferences.store)
 	}
 	

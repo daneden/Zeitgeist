@@ -27,6 +27,6 @@ struct WidgetLabel: View {
 		.padding(2)
 		.padding(.horizontal, 2)
 		.background(.thickMaterial)
-		.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+		.clipShape(ContainerRelativeShape())
 	}
 }

@@ -32,6 +32,10 @@ struct DeploymentListRowView: View {
 						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
 							.lineLimit(2)
 							.imageScale(.small)
+					case .promotion(_):
+						Text("\(Image(systemName: "arrow.up.circle")) Production Rebuild")
+							.lineLimit(2)
+							.imageScale(.small)
 					default:
 						Text(deployment.deploymentCause.description)
 							.lineLimit(2)
