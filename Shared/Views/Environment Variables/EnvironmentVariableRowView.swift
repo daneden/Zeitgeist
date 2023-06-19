@@ -53,7 +53,7 @@ struct EnvironmentVariableRowView: View {
 			.font(.footnote.monospaced())
 			.foregroundStyle(.secondary)
 			
-			Text(envVar.target.joined(separator: ", ").capitalized)
+			Text(envVar.target.map { $0.capitalized }.formatted(.list(type: .and)))
 				.font(.caption)
 				.foregroundStyle(.tertiary)
 				.textSelection(.disabled)
