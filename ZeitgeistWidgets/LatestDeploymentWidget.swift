@@ -147,7 +147,7 @@ struct LatestDeploymentWidgetView: View {
 	
 	var isAccessoryView: Bool {
 		if #available(iOSApplicationExtension 16.0, *) {
-			return widgetFamily == .accessoryRectangular || widgetFamily == .accessoryCircular
+			return widgetFamily == .accessoryRectangular || widgetFamily == .accessoryCircular || widgetFamily == .accessoryInline
 		} else {
 			return false
 		}
@@ -159,24 +159,25 @@ struct LatestDeploymentWidgetView: View {
 			case .accessoryCircular:
 				VStack {
 					Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-						.resizable()
-						.aspectRatio(contentMode: .fit)
+						.font(.largeTitle)
+						.imageScale(.large)
 				}
-					.background {
-						if #available(iOSApplicationExtension 16.0, *) {
-							AccessoryWidgetBackground()
-						}
+				.background {
+					if #available(iOSApplicationExtension 16.0, *) {
+						AccessoryWidgetBackground()
 					}
+				}
 			default:
 				VStack(alignment: .leading) {
 					if let deployment = config.deployment {
 						Label {
 							Text(deployment.project)
-								.fontWeight(.bold)
+								.font(.headline)
 						} icon: {
 							DeploymentStateIndicator(state: deployment.state, style: .compact)
 								.symbolRenderingMode(.monochrome)
 						}
+						
 						Text(deployment.deploymentCause.description)
 							.lineLimit(2)
 						Text(deployment.created, style: .relative)

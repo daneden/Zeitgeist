@@ -33,7 +33,7 @@ struct DeploymentStateIndicator: View {
 				Label(label, systemImage: iconName)
 			} else {
 				Label(label, systemImage: iconName)
-					.labelStyle(IconOnlyLabelStyle())
+					.labelStyle(.iconOnly)
 			}
 		}
 		.foregroundStyle(color)
