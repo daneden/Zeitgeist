@@ -175,6 +175,7 @@ private struct DeploymentDetails: View {
 	@State var cancelConfirmation = false
 	@State var deleteConfirmation = false
 	@State var redeployConfirmation = false
+	@State var promoteToProductionConfirmation = false
 
 	@State var mutating = false
 	@State var recentlyCancelled = false
@@ -188,83 +189,124 @@ private struct DeploymentDetails: View {
 				Label("View Logs", systemImage: "terminal")
 			}
 			
-			if let redeployPayload = deployment.redeployDataPayload {
-				Button {
-					redeployConfirmation = true
-				} label: {
-					Label("Redeploy", systemImage: "arrow.clockwise")
-				}
-				.disabled(mutating)
-				.confirmationDialog("Redeploy\(deployment.target == .production ? " to Production" : "")", isPresented: $redeployConfirmation) {
-					Button(role: .cancel) {
-						redeployConfirmation = false
-					} label: {
-						Text("Cancel")
-					}
-					
+			Group {
+				if let promoteToProductionDataPayload = deployment.promoteToProductionDataPayload {
 					Button {
-						Task { await redeploy(data: redeployPayload) }
+						promoteToProductionConfirmation = true
 					} label: {
-						Text("Redeploy")
+						Label("Promote to Production", systemImage: "arrow.up.circle")
 					}
-					
-					Button {
-						Task { await redeploy(withCache: true, data: redeployPayload) }
-					} label: {
-						Text("Redeploy with existing Build Cache")
-					}
-				} message: {
-					Text("You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings.")
-				}
-				
-			}
-
-			if (deployment.state != .queued && deployment.state != .building)
-				|| deployment.state == .cancelled
-				|| recentlyCancelled
-			{
-				Button(role: .destructive, action: { deleteConfirmation = true }) {
-					HStack {
-						Label("Delete Deployment", systemImage: "trash")
-					}
-				}
-				.alert(isPresented: $deleteConfirmation) {
-					Alert(
-						title: Text("Are you sure you want to delete this deployment?"),
-						message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
-						primaryButton: .destructive(Text("Delete"), action: {
-							Task { await deleteDeployment() }
-						}),
-						secondaryButton: .cancel()
-					)
-				}
-				.disabled(mutating)
-				.symbolRenderingMode(.multicolor)
-			} else {
-				Button(role: .destructive, action: { cancelConfirmation = true }) {
-					HStack {
-						Label("Cancel Deployment", systemImage: "xmark")
-
-						if mutating {
-							Spacer()
-							ProgressView()
+					.confirmationDialog("Promote to Production", isPresented: $promoteToProductionConfirmation) {
+						Button(role: .cancel) {
+							promoteToProductionConfirmation = false
+						} label: {
+							Text("Cancel")
+						}
+						
+						Button {
+							Task { await promoteToProduction(data: promoteToProductionDataPayload) }
+						} label: {
+							Text("Promote to Production")
+						}
+					} message: {
+						VStack {
+							Text("This Deployment will be promoted to Production. This Project's domains will point to your new deployment, and all Environment Variables defined for the Production Environment in the Project Settings will be applied.")
 						}
 					}
 				}
-				.disabled(mutating)
-				.alert(isPresented: $cancelConfirmation) {
-					Alert(
-						title: Text("Are you sure you want to cancel this deployment?"),
-						message: Text("This will immediately stop the build, with no option to resume."),
-						primaryButton: .destructive(Text("Cancel Deployment"), action: {
-							Task { await cancelDeployment() }
-						}),
-						secondaryButton: .cancel(Text("Close"))
-					)
+				
+				if let redeployPayload = deployment.redeployDataPayload {
+					Button {
+						redeployConfirmation = true
+					} label: {
+						Label("Redeploy", systemImage: "arrow.clockwise")
+					}
+					.confirmationDialog("Redeploy\(deployment.target == .production ? " to Production" : "")", isPresented: $redeployConfirmation) {
+						Button(role: .cancel) {
+							redeployConfirmation = false
+						} label: {
+							Text("Cancel")
+						}
+						
+						Button {
+							Task { await redeploy(data: redeployPayload) }
+						} label: {
+							Text("Redeploy")
+						}
+						
+						Button {
+							Task { await redeploy(withCache: true, data: redeployPayload) }
+						} label: {
+							Text("Redeploy with existing Build Cache")
+						}
+					} message: {
+						Text("You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings.")
+					}
 				}
-				.symbolRenderingMode(.multicolor)
+				
+				if (deployment.state != .queued && deployment.state != .building)
+						|| deployment.state == .cancelled
+						|| recentlyCancelled
+				{
+					Button(role: .destructive, action: { deleteConfirmation = true }) {
+						HStack {
+							Label("Delete Deployment", systemImage: "trash")
+						}
+					}
+					.alert(isPresented: $deleteConfirmation) {
+						Alert(
+							title: Text("Are you sure you want to delete this deployment?"),
+							message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
+							primaryButton: .destructive(Text("Delete"), action: {
+								Task { await deleteDeployment() }
+							}),
+							secondaryButton: .cancel()
+						)
+					}
+					.symbolRenderingMode(.multicolor)
+				} else {
+					Button(role: .destructive, action: { cancelConfirmation = true }) {
+						HStack {
+							Label("Cancel Deployment", systemImage: "xmark")
+							
+							if mutating {
+								Spacer()
+								ProgressView()
+							}
+						}
+					}
+					.alert(isPresented: $cancelConfirmation) {
+						Alert(
+							title: Text("Are you sure you want to cancel this deployment?"),
+							message: Text("This will immediately stop the build, with no option to resume."),
+							primaryButton: .destructive(Text("Cancel Deployment"), action: {
+								Task { await cancelDeployment() }
+							}),
+							secondaryButton: .cancel(Text("Close"))
+						)
+					}
+					.symbolRenderingMode(.multicolor)
+				}
 			}
+			.disabled(mutating)
 		}
+	}
+	
+	func promoteToProduction(data: Data) async {
+		mutating = true
+		
+		do {
+			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, method: .POST)
+			request.httpBody = data
+			try session.signRequest(&request)
+			
+			let _ = try await URLSession.shared.data(for: request)
+			dismiss()
+		} catch {
+			print(error)
+		}
+		
+		mutating = false
 	}
 	
 	func redeploy(withCache: Bool = false, data: Data) async {

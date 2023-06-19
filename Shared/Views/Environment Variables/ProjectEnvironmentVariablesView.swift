@@ -33,7 +33,6 @@ struct ProjectEnvironmentVariablesView: View {
 					Label("Add new environment variable", systemImage: "plus.circle")
 				}
 			}
-			.listStyle(.insetGrouped)
 			.navigationTitle("Environment Variables")
 			.onAppear {
 				authenticate()

@@ -945,6 +945,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_WARN_COMPLETION_HANDLER_MISUSE = NO;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -970,6 +971,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_WARN_COMPLETION_HANDLER_MISUSE = NO;
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -993,6 +995,7 @@
 		71611C092665667100119324 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_COMPLETION_HANDLER_MISUSE = NO;
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1015,6 +1018,7 @@
 		71611C0A2665667100119324 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_COMPLETION_HANDLER_MISUSE = NO;
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

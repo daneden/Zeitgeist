@@ -249,6 +249,19 @@ extension VercelDeployment.State {
 }
 
 extension VercelDeployment {
+	var promoteToProductionDataPayload: Data? {
+		let dataDict: [String: Any] = [
+			"deploymentId": id,
+			"meta": [
+				"action": "promote"
+			],
+			"name": project,
+			"target": "production"
+		]
+		
+		return try? JSONSerialization.data(withJSONObject: dataDict)
+	}
+	
 	var redeployDataPayload: Data? {
 		guard let commit else {
 			return nil
