@@ -8,7 +8,18 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 	var target: Target?
 	
 	private var createdAt: Int = .init(Date().timeIntervalSince1970) / 1000
+	private var buildingAt: Int?
 	private var ready: Int?
+	
+	var readyAt: Date? {
+		guard let ready else { return nil }
+		return Date(timeIntervalSince1970: TimeInterval(ready / 1000))
+	}
+	
+	var building: Date? {
+		guard let buildingAt else { return nil }
+		return Date(timeIntervalSince1970: TimeInterval(buildingAt))
+	}
 
 	var created: Date {
 		return Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
@@ -61,6 +72,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		case createdAtFallback = "createdAt"
 		case commit = "meta"
 		case inspectorUrlString = "inspectorUrl"
+		case buildingAt = "buildingAt"
 
 		case state, creator, target, readyState, ready, uid, id, teamId, team
 	}
@@ -71,6 +83,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		state = try container.decodeIfPresent(VercelDeployment.State.self, forKey: .readyState) ?? container.decode(VercelDeployment.State.self, forKey: .state)
 		urlString = try container.decode(String.self, forKey: .urlString)
 		createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
+		buildingAt = try container.decodeIfPresent(Int.self, forKey: .buildingAt)
 		id = try container.decodeIfPresent(String.self, forKey: .uid) ?? container.decode(String.self, forKey: .id)
 		commit = try? container.decode(AnyCommit.self, forKey: .commit)
 		target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
