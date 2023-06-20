@@ -10,11 +10,19 @@ import SwiftUI
 fileprivate struct AccountListRow: View {
 	var account: VercelAccount
 	
+	var size: Double {
+		#if os(macOS)
+		20
+		#else
+		24
+		#endif
+	}
+	
 	var body: some View {
 		Label {
 			Text(account.name ?? account.username)
 		} icon: {
-			VercelUserAvatarView(account: account, size: 24)
+			VercelUserAvatarView(account: account, size: size)
 		}
 	}
 }
@@ -26,9 +34,9 @@ struct AuthenticatedContentView: View {
 	@State private var presentSettingsView = false
 	@State private var selectedAccount: VercelAccount?
 	
+	#if os(iOS)
 	@ToolbarContentBuilder
 	var toolbarContent: some ToolbarContent {
-		#if os(iOS)
 		ToolbarItem(placement: .navigation) {
 			Button {
 				presentSettingsView = true
@@ -42,8 +50,8 @@ struct AuthenticatedContentView: View {
 				}
 			}
 		}
-		#endif
 	}
+	#endif
 
 	var body: some View {
 		if #available(iOS 16.0, macOS 13.0, *) {
@@ -64,9 +72,11 @@ struct AuthenticatedContentView: View {
 						Text("Accounts")
 					}
 				}
+				#if os(iOS)
 				.toolbar {
 					toolbarContent
 				}
+				#endif
 				.navigationTitle("Zeitgeist")
 			} content: {
 				if let selectedAccount {
@@ -103,9 +113,11 @@ struct AuthenticatedContentView: View {
 					}
 				}
 				.navigationTitle("Zeitgeist")
+				#if os(iOS)
 				.toolbar {
 					toolbarContent
 				}
+				#endif
 				
 				if let account = accounts.first {
 					let session = VercelSession(account: account)

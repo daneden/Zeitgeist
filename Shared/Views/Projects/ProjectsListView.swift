@@ -11,7 +11,7 @@ struct LoadingListCell: View {
 	var title: LocalizedStringKey = "Loading"
 	var body: some View {
 		HStack(spacing: 8) {
-			ProgressView()
+			ProgressView().controlSize(.small)
 			Text(title)
 		}
 		.foregroundStyle(.secondary)

@@ -31,6 +31,7 @@ struct ZeitgeistApp: App {
 #if os(macOS)
 		MenuBarExtra("Zeitgeist") {
 			content
+				.frame(width: 800, height: 600)
 		}
 		.menuBarExtraStyle(.window)
 		

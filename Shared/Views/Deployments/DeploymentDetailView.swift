@@ -40,6 +40,7 @@ struct DeploymentDetailView: View {
 			}
 		}
 		.navigationTitle("Deployment Details")
+		.formStyle(.grouped)
 		.makeContainer()
 		.dataTask {
 			do {
@@ -93,7 +94,7 @@ private struct Overview: View {
 	var deployment: VercelDeployment
 
 	var body: some View {
-		DetailSection(header: Text("Overview")) {
+		Section(header: Text("Overview")) {
 			LabelView("Project") {
 				Text(deployment.project)
 			}
@@ -123,7 +124,7 @@ private struct URLDetails: View {
 	@State private var aliases: [VercelAlias] = []
 
 	var body: some View {
-		DetailSection(header: Text("Deployment URL")) {
+		Section(header: Text("Deployment URL")) {
 			Link(destination: deployment.url) {
 				Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
@@ -195,7 +196,7 @@ private struct DeploymentDetails: View {
 	@State var recentlyCancelled = false
 
 	var body: some View {
-		DetailSection(header: Text("Details")) {
+		Section(header: Text("Details")) {
 			NavigationLink {
 				DeploymentLogView(deployment: deployment, accountID: accountId)
 					.environmentObject(session)
@@ -396,33 +397,5 @@ private struct DeploymentDetails: View {
 		}
 
 		mutating = false
-	}
-}
-
-private struct DetailSection<Content: View>: View {
-	var header: Text
-	var content: Content
-
-	init(header: Text, @ViewBuilder content: @escaping () -> Content) {
-		self.content = content()
-		self.header = header
-	}
-
-	var body: some View {
-		#if os(macOS)
-			GroupBox(label: header) {
-				HStack {
-					VStack(alignment: .leading) {
-						content
-					}
-					Spacer(minLength: 0)
-				}
-				.padding()
-			}
-		#else
-			Section(header: header) {
-				content
-			}
-		#endif
 	}
 }
