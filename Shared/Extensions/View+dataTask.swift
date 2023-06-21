@@ -50,7 +50,7 @@ extension View {
 }
 
 extension DataTaskModifier {
-	static func postNotification() {
-		NotificationCenter.default.post(name: .ZPSNotification, object: nil)
+	static func postNotification(_ userInfo: [AnyHashable: Any]? = nil) {
+		NotificationCenter.default.post(name: .ZPSNotification, object: nil, userInfo: userInfo)
 	}
 }

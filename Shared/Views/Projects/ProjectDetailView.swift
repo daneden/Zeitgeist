@@ -113,7 +113,6 @@ struct ProjectDetailView: View {
 				ProgressView()
 			}
 		}
-		.formStyle(.grouped)
 		.makeContainer()
 		.toolbar {
 			ToolbarItem {

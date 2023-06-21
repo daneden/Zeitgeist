@@ -51,7 +51,6 @@ struct ProjectEnvironmentVariablesView: View {
 					Label("Add new environment variable", systemImage: "plus.circle")
 				}
 			}
-			.formStyle(.grouped)
 			.navigationTitle("Environment Variables")
 			.onAppear {
 				if !isAuthenticated {

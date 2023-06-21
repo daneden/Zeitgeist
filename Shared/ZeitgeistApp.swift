@@ -10,7 +10,9 @@ import SwiftUI
 @main
 struct ZeitgeistApp: App {
 	#if !os(macOS)
-		@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	#else
+	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
 	
 	var content: some View {
@@ -25,18 +27,21 @@ struct ZeitgeistApp: App {
 	}
 
 	var body: some Scene {
-		WindowGroup {
-			content
-    }
-#if os(macOS)
-		MenuBarExtra("Zeitgeist") {
+		#if os(macOS)
+		MenuBarExtra {
 			content
 				.frame(width: 800, height: 600)
+		} label: {
+			LatestEventMenuBarLabel()
 		}
 		.menuBarExtraStyle(.window)
 		
 		Settings {
 			SettingsView()
+		}
+		#else
+		WindowGroup {
+			content
 		}
 		#endif
 	}

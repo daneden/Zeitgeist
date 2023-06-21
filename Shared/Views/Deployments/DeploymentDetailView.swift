@@ -40,7 +40,6 @@ struct DeploymentDetailView: View {
 			}
 		}
 		.navigationTitle("Deployment Details")
-		.formStyle(.grouped)
 		.makeContainer()
 		.dataTask {
 			do {

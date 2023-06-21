@@ -18,7 +18,12 @@ struct ContentView: View {
 			if accounts.isEmpty {
 				OnboardingView()
 			} else {
-				AuthenticatedContentView()
+				if #available(iOS 16.0, *) {
+					AuthenticatedContentView()
+						.formStyle(.grouped)
+				} else {
+					AuthenticatedContentView()
+				}
 			}
 		}
 		.animation(.default, value: accounts.isEmpty)

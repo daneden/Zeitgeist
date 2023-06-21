@@ -115,7 +115,6 @@ struct SettingsView: View {
 				}
 			}.symbolRenderingMode(.multicolor)
 		}
-		.formStyle(.grouped)
 		.navigationTitle("Settings")
 		#if os(iOS)
 		.toolbar {
