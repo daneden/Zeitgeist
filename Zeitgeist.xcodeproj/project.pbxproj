@@ -96,6 +96,9 @@
 		716F4E392A4090C4008133F0 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */; };
 		71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71832D53277B94AA00CB2903 /* StoreKit.framework */; };
 		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
+		71C154B42A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
+		71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
+		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71CAE83E28AD20B90063F338 /* MigrationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */; };
 		71CAE84128AD24260063F338 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE84028AD24260063F338 /* ContentView.swift */; };
 		71D0BC2F2881F2C200A22693 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
@@ -218,6 +221,7 @@
 		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
+		71C154B32A4DE14A00495F47 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHelpers.swift; sourceTree = "<group>"; };
 		71CAE84028AD24260063F338 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+ZPS.swift"; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
+				71C154B32A4DE14A00495F47 /* Localizable.xcstrings */,
 				711553D7266552AD00A73CD6 /* Frameworks */,
 				71155344266279CF00A73CD6 /* Products */,
 				71611C012665667100119324 /* SelectWidgetAccountIntent */,
@@ -566,6 +571,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 7115533A266279CF00A73CD6;
 			packageReferences = (
@@ -586,6 +592,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71C154B42A4DE14A00495F47 /* Localizable.xcstrings in Resources */,
 				7115534B266279D000A73CD6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -596,6 +603,7 @@
 			files = (
 				71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */,
 				711553E1266552AF00A73CD6 /* Assets.xcassets in Resources */,
+				71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +611,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

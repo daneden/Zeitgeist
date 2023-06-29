@@ -1,0 +1,349 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ %@ by %@ in %@/%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ by %3$@ in %4$@/%5$@"
+          }
+        }
+      }
+    },
+    "%@ • %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ • %2$@"
+          }
+        }
+      }
+    },
+    "%@ ago" : {
+
+    },
+    "%@ Production Rebuild" : {
+
+    },
+    "A new deployment is required for your changes to take effect." : {
+
+    },
+    "Accounts" : {
+
+    },
+    "All statuses" : {
+
+    },
+    "Are you sure you want to cancel this deployment?" : {
+
+    },
+    "Are you sure you want to delete this deployment?" : {
+
+    },
+    "Are you sure you want to permanently delete this environment variable?" : {
+
+    },
+    "At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website." : {
+
+    },
+    "Authentication" : {
+
+    },
+    "Authentication is used to protect sensitive information such as environment variables" : {
+
+    },
+    "Authentication Required" : {
+
+    },
+    "Auto-lock after" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Cancel Deployment" : {
+
+    },
+    "Clear filters" : {
+
+    },
+    "Close" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Copy" : {
+
+    },
+    "Copy Commit Sha" : {
+
+    },
+    "Copy Commit URL" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone." : {
+
+    },
+    "Deployment URL" : {
+
+    },
+    "Details" : {
+
+    },
+    "Development" : {
+
+    },
+    "Done" : {
+
+    },
+    "Environment" : {
+
+    },
+    "Environment variable names must begin with a letter and can only contain letters, numbers, and underscores" : {
+
+    },
+    "Environment Variables" : {
+
+    },
+    "Filter deployments by:" : {
+
+    },
+    "Go to the Settings app to enable notifications for Zeitgeist" : {
+
+    },
+    "Group notifications by" : {
+
+    },
+    "Loading..." : {
+
+    },
+    "Manual Deployment" : {
+
+    },
+    "Never" : {
+
+    },
+    "No aliases assigned to deployment" : {
+
+    },
+    "Notifications" : {
+
+    },
+    "Open Settings" : {
+
+    },
+    "Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed" : {
+
+    },
+    "Overview" : {
+
+    },
+    "Preview" : {
+
+    },
+    "Privacy Policy" : {
+
+    },
+    "Production" : {
+
+    },
+    "Promote to Production" : {
+
+    },
+    "Recent Deployments" : {
+
+    },
+    "Redeploy" : {
+
+    },
+    "Redeploy with existing Build Cache" : {
+
+    },
+    "Remove account" : {
+
+    },
+    "Select an account" : {
+
+    },
+    "Show Emoji in notification titles" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher Emoji dans les titres de notification"
+          }
+        }
+      }
+    },
+    "Submit" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyer"
+          }
+        }
+      }
+    },
+    "Team Account" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte d'équipe"
+          }
+        }
+      }
+    },
+    "Terms of Use" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conditions d'utilisation"
+          }
+        }
+      }
+    },
+    "There was a problem loading data for this account. It may have been deleted, or its access token may have been revoked." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il y a eu un problème de chargement des données pour ce compte. Il se peut qu'il ait été supprimé ou que son jeton d'accès ait été révoqué."
+          }
+        }
+      }
+    },
+    "This Deployment will be promoted to Production. This Project's domains will point to your new deployment, and all Environment Variables defined for the Production Environment in the Project Settings will be applied." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce déploiement sera promu à la production. Les domaines de ce projet pointeront vers votre nouveau déploiement, et toutes les variables d'environnement définies pour l'environnement de production dans les paramètres du projet seront appliquées."
+          }
+        }
+      }
+    },
+    "This will immediately stop the build, with no option to resume." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela arrête immédiatement la construir, sans possibilité de reprendre."
+          }
+        }
+      }
+    },
+    "To get started, sign in with your Vercel account." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour commencer, connectez-vous avec votre compte Vercel."
+          }
+        }
+      }
+    },
+    "Value" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeur"
+          }
+        }
+      }
+    },
+    "Waiting for data" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente de données"
+          }
+        }
+      }
+    },
+    "Watch builds complete, cancel or delete them, and get quick access to their URLs, logs, and commits." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regardez les builds se terminer, les annuler ou les supprimer, et obtenez un accès rapide à leurs URL, journaux et commits."
+          }
+        }
+      }
+    },
+    "Welcome to Zeitgeist" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue à Zeitgeist"
+          }
+        }
+      }
+    },
+    "What’s new in Zeitgeist" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quoi de neuf dans Zeitgeist"
+          }
+        }
+      }
+    },
+    "When enabled, Zeitgeist will only send the notification types selected below for deployments targeting a production environment." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsqu'il est activé, Zeitgeist n'enverra que les types de notification sélectionnés ci-dessous pour les déploiements ciblant un environnement de production."
+          }
+        }
+      }
+    },
+    "You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous êtes sur le point de créer un nouveau déploiement avec le même code source que votre déploiement actuel, mais avec la configuration la plus récente à partir de vos paramètres de projet."
+          }
+        }
+      }
+    },
+    "Zeitgeist lets you see and manage your Vercel deployments." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitgeist vous permet de voir et de gérer vos déploiements Vercel."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
