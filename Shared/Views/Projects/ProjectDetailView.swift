@@ -146,14 +146,34 @@ struct ProjectDetailView: View {
 			}
 		}
 		.sheet(isPresented: $projectNotificationsVisible) {
-			if let project {
+			notificationsSheet
+		}
+	}
+	
+	@ViewBuilder
+	var notificationsSheet: some View {
+		if let project {
+			if #available(iOS 16.0, *) {
+				Group {
 #if os(iOS)
-				NavigationView {
-					ProjectNotificationsView(project: project)
-				}
+					NavigationView {
+						ProjectNotificationsView(project: project)
+					}
 #else
-				ProjectNotificationsView(project: project)
+					ProjectNotificationsView(project: project)
 #endif
+				}
+				.presentationDetents([.medium])
+			} else {
+				Group {
+#if os(iOS)
+					NavigationView {
+						ProjectNotificationsView(project: project)
+					}
+#else
+					ProjectNotificationsView(project: project)
+#endif
+				}
 			}
 		}
 	}
