@@ -171,7 +171,7 @@ extension VercelDeployment {
 			case let .deployHook(name):
 				return name
 			case .promotion(_):
-				return "Production Rebuild"
+				return "Production rebuild"
 			case .manual:
 				return "Manual deployment"
 			}

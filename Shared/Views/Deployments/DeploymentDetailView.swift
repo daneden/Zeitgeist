@@ -21,14 +21,14 @@ struct DeploymentDetailView: View {
 				Section("Deployment Cause") {
 					switch deployment.deploymentCause {
 					case let .deployHook(name):
-						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
 					case .promotion(_):
-						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)")
+						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
 						if let commit = deployment.commit {
 							CommitSummary(commit: commit)
 						}
 					case .manual:
-						Text("Manual Deployment")
+						Text("Manual Deployment", comment: "Manual deployment cause label")
 					case let .gitCommit(commit):
 						CommitSummary(commit: commit)
 					}
@@ -66,7 +66,7 @@ private struct CommitSummary: View {
 	var body: some View {
 		Text(commit.commitMessageSummary)
 		Link(destination: commit.commitUrl) {
-			Text("\(Image(commit.provider.rawValue)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
+			Text("\(Image(commit.provider.rawValue)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)", comment: "Commit details ({icon} {shortsha} by {authorName} in {repo})")
 				.font(.footnote)
 		}
 		.contextMenu {
@@ -93,7 +93,7 @@ private struct Overview: View {
 	var deployment: VercelDeployment
 
 	var body: some View {
-		Section(header: Text("Overview")) {
+		Section("Overview") {
 			LabelView("Project") {
 				Text(deployment.project)
 			}
@@ -149,11 +149,8 @@ private struct URLDetails: View {
 					}
 				}
 			} label: {
-				HStack {
-					Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
-					Spacer()
-					Text("\(aliases.count)").foregroundColor(.secondary)
-				}
+				Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
+					.badge(aliases.count)
 			}
 			.task {
 				do {
@@ -195,7 +192,7 @@ private struct DeploymentDetails: View {
 	@State var recentlyCancelled = false
 
 	var body: some View {
-		Section(header: Text("Details")) {
+		Section("Details") {
 			NavigationLink {
 				DeploymentLogView(deployment: deployment, accountID: accountId)
 					.environmentObject(session)
@@ -296,7 +293,7 @@ private struct DeploymentDetails: View {
 							primaryButton: .destructive(Text("Cancel Deployment"), action: {
 								Task { await cancelDeployment() }
 							}),
-							secondaryButton: .cancel(Text("Close"))
+							secondaryButton: .cancel(Text("Close", comment: "Label to dismiss the build cancellation confirmation"))
 						)
 					}
 					.symbolRenderingMode(.multicolor)

@@ -20,7 +20,7 @@ fileprivate struct AccountListRow: View {
 	
 	var body: some View {
 		Label {
-			Text(account.name ?? account.username)
+			Text(verbatim: account.name ?? account.username)
 		} icon: {
 			VercelUserAvatarView(account: account, size: size)
 		}
