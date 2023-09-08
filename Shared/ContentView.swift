@@ -15,15 +15,11 @@ struct ContentView: View {
 
 	var body: some View {
 		Group {
-			if accounts.isEmpty {
-				OnboardingView()
+			if #available(iOS 16.0, *) {
+				AuthenticatedContentView()
+					.formStyle(.grouped)
 			} else {
-				if #available(iOS 16.0, *) {
-					AuthenticatedContentView()
-						.formStyle(.grouped)
-				} else {
-					AuthenticatedContentView()
-				}
+				AuthenticatedContentView()
 			}
 		}
 		.animation(.default, value: accounts.isEmpty)
@@ -37,6 +33,10 @@ struct ContentView: View {
 		}
 		.sheet(isPresented: $presentNewFeaturesScreen) {
 			NewFeaturesView()
+		}
+		.sheet(isPresented: .constant(accounts.isEmpty)) {
+			OnboardingView()
+				.interactiveDismissDisabled()
 		}
 	}
 }
