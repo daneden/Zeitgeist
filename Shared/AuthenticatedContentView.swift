@@ -28,7 +28,6 @@ fileprivate struct AccountListRow: View {
 }
 
 struct AuthenticatedContentView: View {
-	@Environment(\.horizontalSizeClass) var horizontalSizeClass
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
 	
 	@State private var signInModel = SignInViewModel()
