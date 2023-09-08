@@ -215,9 +215,13 @@ struct RecentDeploymentsListRowView: View {
 						}
 						
 						if project?.identifier == nil {
-							Text("\(deployment.project) • \(deployment.created, style: .relative)")
+							HStack {
+								Text(deployment.project)
+								Text(verbatim: "•")
+								Text(deployment.created, style: .relative)
+							}
 						} else {
-							Text("\(deployment.created, style: .relative)")
+							Text(deployment.created, style: .relative)
 						}
 					}
 				}

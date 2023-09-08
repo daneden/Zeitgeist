@@ -68,7 +68,7 @@ struct EnvironmentVariableEditView: View {
 					}
 				} label: {
 					HStack {
-						Text("Submit")
+						Text("Submit", comment: "Button label to save a new environment variable")
 						
 						if saving {
 							Spacer()
@@ -82,7 +82,7 @@ struct EnvironmentVariableEditView: View {
 				Text("A new deployment is required for your changes to take effect.")
 			}
 		}
-		.navigationTitle("\(id == nil ? "Add" : "Edit") Environment Variable")
+		.navigationTitle(Text("\(id == nil ? "Add" : "Edit") Environment Variable", comment: "Navigation title for either adding or editing an env var"))
 		.toolbar {
 			Button {
 				dismiss()

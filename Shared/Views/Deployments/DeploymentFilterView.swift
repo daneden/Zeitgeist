@@ -33,7 +33,7 @@ struct DeploymentFilterView: View {
 	@Binding var filter: DeploymentFilter
 
 	var body: some View {
-		Section(header: Text("Filter deployments by:")) {
+		Section("Filter deployments by:") {
 			Picker("Status", selection: $filter.state.animation()) {
 				Text("All statuses").tag(Optional<VercelDeployment.State>(nil))
 

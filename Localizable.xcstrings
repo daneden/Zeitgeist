@@ -2,13 +2,26 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%@" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
     },
     "%@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "%1$@ %2$@"
           }
         }
@@ -21,6 +34,12 @@
             "state" : "new",
             "value" : "%1$@ %2$@ by %3$@ in %4$@/%5$@"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ par %3$@ dans %4$@/%5$@"
+          }
         }
       }
     },
@@ -31,158 +50,514 @@
             "state" : "new",
             "value" : "%1$@ • %2$@"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
         }
       }
     },
     "%@ ago" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il y a %@ "
+          }
+        }
+      }
     },
     "%@ Production Rebuild" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Reconstruction de la production"
+          }
+        }
+      }
     },
     "A new deployment is required for your changes to take effect." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nouveau déploiement est nécessaire pour que vos modifications prennent effet."
+          }
+        }
+      }
     },
     "Accounts" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comptes"
+          }
+        }
+      }
     },
     "All statuses" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les statuts"
+          }
+        }
+      }
     },
     "Are you sure you want to cancel this deployment?" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir annuler ce déploiement ?"
+          }
+        }
+      }
     },
     "Are you sure you want to delete this deployment?" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir supprimer ce déploiement ?"
+          }
+        }
+      }
     },
     "Are you sure you want to permanently delete this environment variable?" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir supprimer définitivement cette variable d'environnement ?"
+          }
+        }
+      }
     },
     "At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au moins une cible doit être sélectionnée. Pour des paramètres plus avancés, tels que la configuration personnalisée de la branche Git pour les cibles de prévisualisation, configurez votre variable d'environnement sur le site Web de Vercel."
+          }
+        }
+      }
     },
     "Authentication" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentification"
+          }
+        }
+      }
     },
     "Authentication is used to protect sensitive information such as environment variables" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'authentification est utilisée pour protéger les informations sensibles telles que les variables d'environnement"
+          }
+        }
+      }
     },
     "Authentication Required" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentification requise"
+          }
+        }
+      }
     },
     "Auto-lock after" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrouillage automatique après"
+          }
+        }
+      }
     },
     "Cancel" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
     },
     "Cancel Deployment" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler le déploiement"
+          }
+        }
+      }
     },
     "Clear filters" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les filtres"
+          }
+        }
+      }
     },
     "Close" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        }
+      }
     },
     "Continue" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuer"
+          }
+        }
+      }
     },
     "Copy" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copie"
+          }
+        }
+      }
     },
     "Copy Commit Sha" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier Commit Sha"
+          }
+        }
+      }
     },
     "Copy Commit URL" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier l'URL de commit"
+          }
+        }
+      }
     },
     "Delete" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        }
+      }
     },
     "Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La suppression de ce déploiement peut casser les liens utilisés dans les intégrations, tels que ceux des demandes de tirage de votre fournisseur Git. Cette action ne peut pas être annulée."
+          }
+        }
+      }
     },
     "Deployment URL" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL de déploiement"
+          }
+        }
+      }
     },
     "Details" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Détails"
+          }
+        }
+      }
     },
     "Development" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Développement"
+          }
+        }
+      }
     },
     "Done" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finir"
+          }
+        }
+      }
     },
     "Environment" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Environnement"
+          }
+        }
+      }
     },
     "Environment variable names must begin with a letter and can only contain letters, numbers, and underscores" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les noms des variables d'environnement doivent commencer par une lettre et ne peuvent contenir que des lettres, des chiffres et des traits de soulignement."
+          }
+        }
+      }
     },
     "Environment Variables" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variables d'environnement"
+          }
+        }
+      }
     },
     "Filter deployments by:" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrer les déploiements par:"
+          }
+        }
+      }
     },
     "Go to the Settings app to enable notifications for Zeitgeist" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accédez à l'application Paramètres pour activer les notifications pour Zeitgeist"
+          }
+        }
+      }
     },
     "Group notifications by" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications de groupe par"
+          }
+        }
+      }
     },
     "Loading..." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement..."
+          }
+        }
+      }
     },
     "Manual Deployment" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déploiement manuel"
+          }
+        }
+      }
     },
     "Never" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jamais"
+          }
+        }
+      }
     },
     "No aliases assigned to deployment" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun alias assigné au déploiement"
+          }
+        }
+      }
     },
     "Notifications" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
     },
     "Open Settings" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les paramètres"
+          }
+        }
+      }
     },
     "Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En option, affichez des emoji pour indiquer rapidement différents statuts de construction : ⏱ La construction a commencé, ✅ Déployé, et 🛑 Échec de la construction"
+          }
+        }
+      }
     },
     "Overview" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vue d'ensemble"
+          }
+        }
+      }
     },
     "Preview" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aperçu"
+          }
+        }
+      }
     },
     "Privacy Policy" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politique de confidentialité"
+          }
+        }
+      }
     },
     "Production" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Production"
+          }
+        }
+      }
     },
     "Promote to Production" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Promouvoir à la production"
+          }
+        }
+      }
     },
     "Recent Deployments" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déploiements récents"
+          }
+        }
+      }
     },
     "Redeploy" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeploy"
+          }
+        }
+      }
     },
     "Redeploy with existing Build Cache" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redéployez avec le cache de construction existant"
+          }
+        }
+      }
     },
     "Remove account" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le compte"
+          }
+        }
+      }
     },
     "Select an account" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez un compte"
+          }
+        }
+      }
     },
     "Show Emoji in notification titles" : {
       "localizations" : {

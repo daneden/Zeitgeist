@@ -268,7 +268,7 @@ private struct DeploymentDetails: View {
 						Alert(
 							title: Text("Are you sure you want to delete this deployment?"),
 							message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
-							primaryButton: .destructive(Text("Delete"), action: {
+							primaryButton: .destructive(Text("Delete", comment: "Confirmation label for deleting a deployment"), action: {
 								Task { await deleteDeployment() }
 							}),
 							secondaryButton: .cancel()

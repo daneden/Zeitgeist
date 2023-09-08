@@ -29,7 +29,7 @@ struct PlaceholderView: View {
 		}
 	}
 
-	var text: String {
+	var text: LocalizedStringKey {
 		switch forRole {
 		case .ProjectDetail:
 			return "No Project Selected"
