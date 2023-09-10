@@ -12,6 +12,7 @@
       }
     },
     "%@ %@" : {
+      "comment" : "Deploy hook cause icon and name\n   Promoted deployment cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nIcon and name of a repository for a project in the projects list\n   The cause of a deployment in the projects list",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -28,6 +29,7 @@
       }
     },
     "%@ %@ by %@ in %@/%@" : {
+      "comment" : "Commit details ({icon} {shortsha} by {authorName} in {repo})",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -44,6 +46,7 @@
       }
     },
     "%@ • %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -60,6 +63,7 @@
       }
     },
     "%@ ago" : {
+      "comment" : "Timestamp for when a deployment was created in a deployment list row",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -69,7 +73,11 @@
         }
       }
     },
+    "%@ Environment Variable" : {
+      "comment" : "Navigation title for either adding or editing an env var"
+    },
     "%@ Production Rebuild" : {
+      "comment" : "Label for a deployment caused by a promotion to production",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -90,6 +98,7 @@
       }
     },
     "Accounts" : {
+      "comment" : "Header for accounts list",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -220,6 +229,7 @@
       }
     },
     "Close" : {
+      "comment" : "Label to dismiss the build cancellation confirmation",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -270,6 +280,7 @@
       }
     },
     "Delete" : {
+      "comment" : "Confirmation label for deleting a deployment",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -400,6 +411,7 @@
       }
     },
     "Manual Deployment" : {
+      "comment" : "Manual deployment cause label",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -418,6 +430,9 @@
           }
         }
       }
+    },
+    "No account selected" : {
+      "comment" : "Label for projects list when no account is selected"
     },
     "No aliases assigned to deployment" : {
       "localizations" : {
@@ -550,6 +565,7 @@
       }
     },
     "Select an account" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -570,6 +586,7 @@
       }
     },
     "Submit" : {
+      "comment" : "Button label to save a new environment variable",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -580,6 +597,7 @@
       }
     },
     "Team Account" : {
+      "comment" : "Subtitle for team accounts in the account list",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

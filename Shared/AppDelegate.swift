@@ -7,7 +7,9 @@
 
 
 import SwiftUI
+#if canImport(WidgetKit)
 import WidgetKit
+#endif
 import UserNotifications
 
 #if canImport(UIKit)
@@ -138,7 +140,10 @@ extension AppDelegate {
 	@discardableResult
 	func handleBackgroundNotification(_ userInfo: [AnyHashable: Any]) async -> RemoteNotificationResult {
 		print("Received remote notification")
+		
+		#if canImport(WidgetKit)
 		WidgetCenter.shared.reloadAllTimelines()
+		#endif
 		
 		await DataTaskModifier.postNotification(userInfo)
 		

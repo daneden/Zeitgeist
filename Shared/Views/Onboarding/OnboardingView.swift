@@ -21,8 +21,9 @@ struct OnboardingView: View {
 						.frame(maxWidth: .infinity)
 					
 					Text("Welcome to Zeitgeist")
-						.font(.largeTitle.bold())
-						.multilineTextAlignment(.center)
+						.font(.largeTitle)
+						.fontWeight(.bold)
+					
 					Text("Zeitgeist lets you see and manage your Vercel deployments.")
 					Text("Watch builds complete, cancel or delete them, and get quick access to their URLs, logs, and commits.")
 						.padding(.bottom)
@@ -68,6 +69,7 @@ struct OnboardingView: View {
 				}
 				.padding()
 				.frame(minHeight: geometry.size.height)
+				.multilineTextAlignment(.center)
 			}
 			.background {
 				ZStack(alignment: .top) {

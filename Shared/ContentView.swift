@@ -37,6 +37,7 @@ struct ContentView: View {
 		.sheet(isPresented: .constant(accounts.isEmpty)) {
 			OnboardingView()
 				.interactiveDismissDisabled()
+				.frame(minWidth: 800, minHeight: 600)
 		}
 	}
 }

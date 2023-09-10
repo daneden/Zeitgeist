@@ -113,7 +113,6 @@ struct ProjectDetailView: View {
 				ProgressView()
 			}
 		}
-		.makeContainer()
 		.toolbar {
 			ToolbarItem {
 				Button {

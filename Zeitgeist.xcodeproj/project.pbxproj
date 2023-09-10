@@ -95,7 +95,6 @@
 		7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162FD7F2880103400D20E62 /* AccountListRowView.swift */; };
 		716F4E392A4090C4008133F0 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */; };
 		71832D54277B94AA00CB2903 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71832D53277B94AA00CB2903 /* StoreKit.framework */; };
-		71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */; };
 		71C154B42A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
@@ -220,7 +219,6 @@
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.ViewModifier.swift; sourceTree = "<group>"; };
 		71C154B32A4DE14A00495F47 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHelpers.swift; sourceTree = "<group>"; };
 		71CAE84028AD24260063F338 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -351,7 +349,6 @@
 		7115535F26627F3400A73CD6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				71A33E5B269B839D00DC34FC /* Container.ViewModifier.swift */,
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
 				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
 				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
@@ -635,7 +632,6 @@
 				71D0BC2F2881F2C200A22693 /* Notification+ZPS.swift in Sources */,
 				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
 				714D449C289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
-				71A33E5C269B839D00DC34FC /* Container.ViewModifier.swift in Sources */,
 				71028B242A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift in Sources */,
 				714D44AC28B52359005105B7 /* NotificationPreview.swift in Sources */,
 				714D4499289FD979005105B7 /* Pasteboard.swift in Sources */,
@@ -891,6 +887,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Shared/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -900,11 +897,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -924,6 +921,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Shared/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -933,11 +931,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};

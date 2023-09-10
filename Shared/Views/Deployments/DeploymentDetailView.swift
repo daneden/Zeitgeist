@@ -40,7 +40,6 @@ struct DeploymentDetailView: View {
 			}
 		}
 		.navigationTitle("Deployment Details")
-		.makeContainer()
 		.dataTask {
 			do {
 				try await loadDeploymentDetails()
