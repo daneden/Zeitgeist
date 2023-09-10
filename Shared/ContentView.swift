@@ -37,7 +37,9 @@ struct ContentView: View {
 		.sheet(isPresented: .constant(accounts.isEmpty)) {
 			OnboardingView()
 				.interactiveDismissDisabled()
+			#if !os(iOS)
 				.frame(minWidth: 800, minHeight: 600)
+			#endif
 		}
 	}
 }

@@ -36,7 +36,7 @@ struct LabelView<S: View, Content: View>: View {
 }
 
 extension LabelView where S == Text {
-	init(_ label: String, @ViewBuilder content: () -> Content) {
+	init(_ label: LocalizedStringKey, @ViewBuilder content: () -> Content) {
 		self.label = { Text(label) }
 		self.content = content()
 	}

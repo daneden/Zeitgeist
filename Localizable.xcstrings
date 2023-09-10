@@ -45,23 +45,6 @@
         }
       }
     },
-    "%@ • %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ • %2$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        }
-      }
-    },
     "%@ ago" : {
       "comment" : "Timestamp for when a deployment was created in a deployment list row",
       "localizations" : {
@@ -432,7 +415,15 @@
       }
     },
     "No account selected" : {
-      "comment" : "Label for projects list when no account is selected"
+      "comment" : "Label for projects list when no account is selected",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun compte sélectionné"
+          }
+        }
+      }
     },
     "No aliases assigned to deployment" : {
       "localizations" : {
@@ -560,17 +551,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer le compte"
-          }
-        }
-      }
-    },
-    "Select an account" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sélectionnez un compte"
           }
         }
       }
