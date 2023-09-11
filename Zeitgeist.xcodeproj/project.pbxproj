@@ -178,7 +178,6 @@
 		7115538826642A5100A73CD6 /* DeploymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentDetailView.swift; sourceTree = "<group>"; };
 		7115538C2664E00A00A73CD6 /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
 		7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentFilterView.swift; sourceTree = "<group>"; };
-		711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ZeitgeistWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		711553D8266552AD00A73CD6 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		711553DA266552AD00A73CD6 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -219,6 +218,7 @@
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		71832D53277B94AA00CB2903 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		71A7700A2AAF5E3600418E4E /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71C154B32A4DE14A00495F47 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHelpers.swift; sourceTree = "<group>"; };
 		71CAE84028AD24260063F338 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 		71155345266279CF00A73CD6 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				711553AD266548BD00A73CD6 /* Zeitgeist.entitlements */,
+				71A7700A2AAF5E3600418E4E /* Zeitgeist.entitlements */,
 				7115534F266279D000A73CD6 /* Info.plist */,
 				711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */,
 				71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */,
@@ -548,7 +548,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					71155342266279CF00A73CD6 = {
 						CreatedOnToolsVersion = 12.5;
@@ -757,6 +757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -790,6 +791,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -819,6 +821,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -852,6 +855,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

@@ -986,6 +986,17 @@
         }
       }
     },
+    "Show deployment cause for..." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montrer la cause du déploiement pour..."
+          }
+        }
+      }
+    },
     "Show Emoji in notification titles" : {
       "localizations" : {
         "fr" : {

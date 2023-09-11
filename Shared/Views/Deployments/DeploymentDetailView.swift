@@ -200,7 +200,7 @@ private struct DeploymentDetails: View {
 	var body: some View {
 		Section("Details") {
 			NavigationLink {
-				DeploymentLogView(deployment: deployment, accountID: accountId)
+				DeploymentLogView(deployment: deployment)
 					.environmentObject(session)
 			} label: {
 				Label("View Logs", systemImage: "terminal")
