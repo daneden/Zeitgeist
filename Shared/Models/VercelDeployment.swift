@@ -131,14 +131,15 @@ extension VercelDeployment {
 		case normal = "NORMAL"
 		case offline = "OFFLINE"
 		case cancelled = "CANCELED"
+		case initializing = "INITIALIZING"
 
 		static var typicalCases: [VercelDeployment.State] {
 			return Self.allCases.filter { state in
-				state != .normal && state != .offline
+				state != .normal && state != .offline && state != .initializing
 			}
 		}
 
-		var description: String {
+		var description: LocalizedStringKey {
 			switch self {
 			case .error:
 				return "Error building"
@@ -193,6 +194,15 @@ extension VercelDeployment {
 
 	enum Target: String, Codable, CaseIterable {
 		case production, staging
+		
+		var description: LocalizedStringKey {
+			switch self {
+			case .production:
+				return "Production"
+			case .staging:
+				return "Staging"
+			}
+		}
 	}
 }
 

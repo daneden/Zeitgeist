@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+fileprivate struct ValueLabelStyle: LabelStyle {
+	func makeBody(configuration: Configuration) -> some View {
+		HStack {
+			configuration.icon
+			configuration.title
+		}
+	}
+}
+
 struct LabelView<S: View, Content: View>: View {
 	var label: S
 	var content: Content
@@ -20,6 +29,7 @@ struct LabelView<S: View, Content: View>: View {
 		if #available(iOS 16.0, macOS 13.0, *) {
 			LabeledContent {
 				content
+					.labelStyle(ValueLabelStyle())
 			} label: {
 				label
 					.alignmentGuide(.listRowSeparatorLeading, computeValue: { dimension in

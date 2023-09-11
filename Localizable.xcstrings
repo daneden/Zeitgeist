@@ -28,23 +28,6 @@
         }
       }
     },
-    "%@ %@ by %@ in %@/%@" : {
-      "comment" : "Commit details ({icon} {shortsha} by {authorName} in {repo})",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@ by %3$@ in %4$@/%5$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$@ par %3$@ dans %4$@/%5$@"
-          }
-        }
-      }
-    },
     "%@ ago" : {
       "comment" : "Timestamp for when a deployment was created in a deployment list row",
       "localizations" : {
@@ -219,6 +202,17 @@
         }
       }
     },
+    "Building" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Construire"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "fr" : {
@@ -235,6 +229,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annuler le déploiement"
+          }
+        }
+      }
+    },
+    "Cancelled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulé"
           }
         }
       }
@@ -322,6 +327,17 @@
         }
       }
     },
+    "Danger Zone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zone de danger"
+          }
+        }
+      }
+    },
     "Delete" : {
       "comment" : "Confirmation label for deleting a deployment",
       "localizations" : {
@@ -350,6 +366,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La suppression de ce déploiement peut casser les liens utilisés dans les intégrations, tels que ceux des demandes de tirage de votre fournisseur Git. Cette action ne peut pas être annulée."
+          }
+        }
+      }
+    },
+    "Deployed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déployé"
           }
         }
       }
@@ -476,6 +503,17 @@
         }
       }
     },
+    "Error building" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur"
+          }
+        }
+      }
+    },
     "Filter deployments by:" : {
       "localizations" : {
         "fr" : {
@@ -534,6 +572,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernier déploiement de production"
+          }
+        }
+      }
+    },
+    "Loading Deployments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des déploiements"
           }
         }
       }
@@ -690,6 +739,27 @@
         }
       }
     },
+    "Offline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hors ligne"
+          }
+        }
+      }
+    },
+    "Open in %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvert dans %@"
+          }
+        }
+      }
+    },
     "Open Settings" : {
       "localizations" : {
         "fr" : {
@@ -796,6 +866,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Promouvoir à la production"
+          }
+        }
+      }
+    },
+    "Queued" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En file d'attente"
+          }
+        }
+      }
+    },
+    "Ready" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt"
           }
         }
       }
@@ -996,9 +1088,6 @@
           }
         }
       }
-    },
-    "title" : {
-
     },
     "To get started, sign in with your Vercel account." : {
       "localizations" : {

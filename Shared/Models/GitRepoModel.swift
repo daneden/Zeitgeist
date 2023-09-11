@@ -9,6 +9,17 @@ import Foundation
 
 enum GitSVNProvider: String, Codable {
 	case bitbucket, github, gitlab
+	
+	var name: String {
+		switch self {
+		case .bitbucket:
+			return "Bitbucket"
+		case .github:
+			return "GitHub"
+		case .gitlab:
+			return "GitLab"
+		}
+	}
 }
 
 protocol GitRepo: Decodable {

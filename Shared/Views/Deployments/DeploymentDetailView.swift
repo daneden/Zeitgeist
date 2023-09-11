@@ -63,26 +63,33 @@ private struct CommitSummary: View {
 	var commit: AnyCommit
 	
 	var body: some View {
-		Text(commit.commitMessageSummary)
-		Link(destination: commit.commitUrl) {
-			Text("\(Image(commit.provider.rawValue)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)", comment: "Commit details ({icon} {shortsha} by {authorName} in {repo})")
-				.font(.footnote)
+		HStack(alignment: .firstTextBaseline) {
+			Text(commit.commitMessageSummary)
+			Spacer()
+			Text(commit.shortSha)
+				.font(.system(.footnote, design: .monospaced))
+				.foregroundStyle(.secondary)
 		}
 		.contextMenu {
-			Section {
-				Button {
-					Pasteboard.setString(commit.commitSha)
-				} label: {
-					Text("Copy Commit Sha")
-				}
-				
-				Button {
-					Pasteboard.setString(commit.commitUrl.absoluteString)
-				} label: {
-					Text("Copy Commit URL")
-				}
-			} header: {
-				Label("Copy", systemImage: "doc.on.doc")
+			Button {
+				Pasteboard.setString(commit.commitSha)
+			} label: {
+				Label("Copy Commit Sha", systemImage: "doc.on.doc")
+			}
+		}
+		
+		Link(destination: commit.commitUrl) {
+			Label {
+				Text("Open in \(commit.provider.name)")
+			} icon: {
+				Image(commit.provider.rawValue)
+			}
+		}
+		.contextMenu {
+			Button {
+				Pasteboard.setString(commit.commitUrl.absoluteString)
+			} label: {
+				Label("Copy Commit URL", systemImage: "doc.on.doc")
 			}
 		}
 	}
