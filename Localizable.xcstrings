@@ -60,6 +60,17 @@
         }
       }
     },
+    "Account" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte"
+          }
+        }
+      }
+    },
     "Accounts" : {
       "comment" : "Header for accounts list",
       "localizations" : {
@@ -377,6 +388,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Déployé"
+          }
+        }
+      }
+    },
+    "Deployment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déploiement"
           }
         }
       }

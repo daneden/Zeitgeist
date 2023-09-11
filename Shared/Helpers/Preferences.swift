@@ -70,7 +70,7 @@ extension AppStorage {
 enum NotificationGrouping: String, Codable, RawRepresentable, CaseIterable {
 	case account, project, deployment
 
-	var description: String {
+	var description: LocalizedStringKey {
 		switch self {
 		case .project:
 			return "Project"
