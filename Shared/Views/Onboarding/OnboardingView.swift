@@ -31,7 +31,7 @@ struct OnboardingView: View {
 					Button(action: { signInModel.signIn() }) {
 						HStack {
 							Spacer()
-							Label("Sign In With Vercel", systemImage: "triangle.fill")
+							Label("Sign in with Vercel", systemImage: "triangle.fill")
 							Spacer()
 						}
 						.font(.body.bold())

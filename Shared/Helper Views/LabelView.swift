@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct LabelView<S: View, Content: View>: View {
-	var label: () -> S
+	var label: S
 	var content: Content
 
 	init(_ label: @escaping () -> S, @ViewBuilder content: () -> Content) {
-		self.label = label
+		self.label = label()
 		self.content = content()
 	}
 
@@ -21,12 +21,15 @@ struct LabelView<S: View, Content: View>: View {
 			LabeledContent {
 				content
 			} label: {
-				label()
+				label
+					.alignmentGuide(.listRowSeparatorLeading, computeValue: { dimension in
+						dimension[.listRowSeparatorLeading]
+					})
 			}
 
 		} else {
 			HStack {
-				label()
+				label
 				Spacer()
 				content
 					.foregroundStyle(.secondary)
@@ -37,7 +40,12 @@ struct LabelView<S: View, Content: View>: View {
 
 extension LabelView where S == Text {
 	init(_ label: LocalizedStringKey, @ViewBuilder content: () -> Content) {
-		self.label = { Text(label) }
+		self.label = Text(label)
+		self.content = content()
+	}
+	
+	init(_ label: Text, @ViewBuilder content: () -> Content) {
+		self.label = label
 		self.content = content()
 	}
 }

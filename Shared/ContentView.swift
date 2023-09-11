@@ -12,6 +12,7 @@ struct ContentView: View {
 	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
 	
 	@State private var presentNewFeaturesScreen = false
+	@State private var presentOnboardingView = false
 
 	var body: some View {
 		Group {
@@ -34,7 +35,10 @@ struct ContentView: View {
 		.sheet(isPresented: $presentNewFeaturesScreen) {
 			NewFeaturesView()
 		}
-		.sheet(isPresented: .constant(accounts.isEmpty)) {
+		.task(id: accounts.hashValue) {
+			presentOnboardingView = accounts.isEmpty
+		}
+		.sheet(isPresented: $presentOnboardingView) {
 			OnboardingView()
 				.interactiveDismissDisabled()
 			#if !os(iOS)

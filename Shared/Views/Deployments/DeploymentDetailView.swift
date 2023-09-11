@@ -39,7 +39,7 @@ struct DeploymentDetailView: View {
 				ProgressView()
 			}
 		}
-		.navigationTitle("Deployment Details")
+		.navigationTitle(Text("Deployment Details"))
 		.dataTask {
 			do {
 				try await loadDeploymentDetails()
@@ -93,15 +93,15 @@ private struct Overview: View {
 
 	var body: some View {
 		Section("Overview") {
-			LabelView("Project") {
+			LabelView(Text("Project")) {
 				Text(deployment.project)
 			}
 
-			LabelView("Status") {
+			LabelView(Text("Status")) {
 				DeploymentStateIndicator(state: deployment.state)
 			}
 
-			LabelView("Target") {
+			LabelView(Text("Target")) {
 				if deployment.target == .production {
 					Label("Production", systemImage: "theatermasks")
 						.symbolVariant(.fill)

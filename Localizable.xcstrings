@@ -12,7 +12,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Deploy hook cause icon and name\n   Promoted deployment cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nIcon and name of a repository for a project in the projects list\n   The cause of a deployment in the projects list",
+      "comment" : "Deploy hook cause icon and name\n   Promoted deployment cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nIcon and name of a repository for a project in the projects list\n   The cause of a deployment in the projects list\nA widget label with an icon and label text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -56,9 +56,6 @@
         }
       }
     },
-    "%@ Environment Variable" : {
-      "comment" : "Navigation title for either adding or editing an env var"
-    },
     "%@ Production Rebuild" : {
       "comment" : "Label for a deployment caused by a promotion to production",
       "localizations" : {
@@ -87,6 +84,27 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comptes"
+          }
+        }
+      }
+    },
+    "Add Account" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un compte"
+          }
+        }
+      }
+    },
+    "Add Environment Variable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une variable d'environnement"
           }
         }
       }
@@ -141,6 +159,16 @@
         }
       }
     },
+    "Authenticate" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentifiez-vous"
+          }
+        }
+      }
+    },
     "Authentication" : {
       "localizations" : {
         "fr" : {
@@ -177,6 +205,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verrouillage automatique après"
+          }
+        }
+      }
+    },
+    "Build Logs" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Journaux pour la construction"
           }
         }
       }
@@ -262,6 +300,28 @@
         }
       }
     },
+    "Copy URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier l'URL"
+          }
+        }
+      }
+    },
+    "Current Production Deployment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déploiement actuel de la production"
+          }
+        }
+      }
+    },
     "Delete" : {
       "comment" : "Confirmation label for deleting a deployment",
       "localizations" : {
@@ -273,12 +333,55 @@
         }
       }
     },
+    "Delete Deployment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le déploiement"
+          }
+        }
+      }
+    },
     "Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "La suppression de ce déploiement peut casser les liens utilisés dans les intégrations, tels que ceux des demandes de tirage de votre fournisseur Git. Cette action ne peut pas être annulée."
+          }
+        }
+      }
+    },
+    "Deployment Aliases" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alias de déploiement"
+          }
+        }
+      }
+    },
+    "Deployment Cause" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cause du déploiement"
+          }
+        }
+      }
+    },
+    "Deployment Details" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Détails du déploiement"
           }
         }
       }
@@ -323,6 +426,16 @@
         }
       }
     },
+    "Edit Environment Variable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier la variable d'environnement"
+          }
+        }
+      }
+    },
     "Environment" : {
       "localizations" : {
         "fr" : {
@@ -353,12 +466,32 @@
         }
       }
     },
+    "Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les variables d'environnement avec les valeurs Vercel Secrets sont indiquées par une icône de cadenas. Notez que la création et la mise à jour de Secrets ne sont actuellement pas prises en charge."
+          }
+        }
+      }
+    },
     "Filter deployments by:" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtrer les déploiements par:"
+          }
+        }
+      }
+    },
+    "Git Repository" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépôt Git"
           }
         }
       }
@@ -379,6 +512,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications de groupe par"
+          }
+        }
+      }
+    },
+    "Latest Deployment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernier déploiement"
+          }
+        }
+      }
+    },
+    "Latest Production Deployment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernier déploiement de production"
           }
         }
       }
@@ -404,6 +559,16 @@
         }
       }
     },
+    "Name" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
+          }
+        }
+      }
+    },
     "Never" : {
       "localizations" : {
         "fr" : {
@@ -425,6 +590,26 @@
         }
       }
     },
+    "No Account Selected" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun Compte Sélectionné"
+          }
+        }
+      }
+    },
+    "No Accounts Found" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun compte trouvé"
+          }
+        }
+      }
+    },
     "No aliases assigned to deployment" : {
       "localizations" : {
         "fr" : {
@@ -435,12 +620,72 @@
         }
       }
     },
+    "No Deployment Selected" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun déploiement sélectionné"
+          }
+        }
+      }
+    },
+    "No Deployments To Show" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun Déploiement À Montrer"
+          }
+        }
+      }
+    },
+    "No Environment Variables for Project" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune variable d'environnement pour le projet"
+          }
+        }
+      }
+    },
+    "No Project Selected" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun projet sélectionné"
+          }
+        }
+      }
+    },
+    "No Projects To Show" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun Projet À Montrer"
+          }
+        }
+      }
+    },
     "Notifications" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "Notifications for %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications pour %@"
           }
         }
       }
@@ -505,6 +750,46 @@
         }
       }
     },
+    "Production Branch" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction de la production"
+          }
+        }
+      }
+    },
+    "Project" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projet"
+          }
+        }
+      }
+    },
+    "Project Details" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Détails du projet"
+          }
+        }
+      }
+    },
+    "Projects" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projets"
+          }
+        }
+      }
+    },
     "Promote to Production" : {
       "localizations" : {
         "fr" : {
@@ -530,7 +815,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Redeploy"
+            "value" : "Redéploy"
           }
         }
       }
@@ -555,12 +840,76 @@
         }
       }
     },
+    "Reset notification settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinitialiser les paramètres de notification"
+          }
+        }
+      }
+    },
+    "Review on the App Store" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avis sur l'App Store"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres"
+          }
+        }
+      }
+    },
     "Show Emoji in notification titles" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher Emoji dans les titres de notification"
+          }
+        }
+      }
+    },
+    "Sign in with Vercel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se connecter avec Vercel"
+          }
+        }
+      }
+    },
+    "Sign out of all accounts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter de tous les comptes"
+          }
+        }
+      }
+    },
+    "Status" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statut"
           }
         }
       }
@@ -572,6 +921,27 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Envoyer"
+          }
+        }
+      }
+    },
+    "Submit feedback" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soumettre des commentaires"
+          }
+        }
+      }
+    },
+    "Target" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cible"
           }
         }
       }
@@ -627,6 +997,9 @@
         }
       }
     },
+    "title" : {
+
+    },
     "To get started, sign in with your Vercel account." : {
       "localizations" : {
         "fr" : {
@@ -643,6 +1016,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valeur"
+          }
+        }
+      }
+    },
+    "View Logs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir les journaux"
           }
         }
       }

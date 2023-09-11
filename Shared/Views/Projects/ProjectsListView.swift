@@ -19,8 +19,8 @@ struct LoadingListCell: View {
 }
 
 struct ProjectsListView: View {
-	@EnvironmentObject var session: VercelSession
 	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
+	@EnvironmentObject var session: VercelSession
 	
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
@@ -82,7 +82,7 @@ struct ProjectsListView: View {
 				PlaceholderView(forRole: .NoProjects)
 			}
 		}
-		.navigationTitle("Projects")
+		.navigationTitle(Text("Projects"))
 		.permissionRevocationDialog(session: session)
 	}
 	
@@ -127,7 +127,7 @@ struct ProjectListPlaceholderView: View {
 					ProjectsListRowView(project: .exampleData)
 				}
 			}
-			.navigationTitle("Projects")
+			.navigationTitle(Text("Projects"))
 		}.redacted(reason: .placeholder)
 	}
 }

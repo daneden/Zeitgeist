@@ -120,17 +120,17 @@ struct AuthenticatedContentView: View {
 						let session = VercelSession(account: account)
 						ProjectsListView()
 							.environmentObject(session)
-							.navigationTitle("Projects")
+							.navigationTitle(Text("Projects"))
 					} else {
 						PlaceholderView(forRole: .NoProjects)
 					}
 					
 					PlaceholderView(forRole: .ProjectDetail)
-						.navigationTitle("Project Details")
+						.navigationTitle(Text("Project Details"))
 				}
 			}
 		}
-		.task {
+		.task(id: accounts.first) {
 			selectedAccount = accounts.first
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .VercelAccountAddedNotification)) { _ in
@@ -141,10 +141,13 @@ struct AuthenticatedContentView: View {
 				return
 			}
 			
-			if accounts.indices.contains(accounts.index(before: index)) {
-				selectedAccount = accounts[accounts.index(before: index)]
-			} else if accounts.indices.contains(accounts.index(after: index)) {
-				selectedAccount = accounts[accounts.index(after: index)]
+			let previousAccountIndex = accounts.index(before: index)
+			let nextAccountIndex = accounts.index(after: index)
+			
+			if accounts.indices.contains(previousAccountIndex) {
+				selectedAccount = accounts[previousAccountIndex]
+			} else if accounts.indices.contains(nextAccountIndex) {
+				selectedAccount = accounts[nextAccountIndex]
 			} else if accounts.indices.contains(index) {
 				selectedAccount = accounts[index]
 			} else {

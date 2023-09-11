@@ -131,7 +131,7 @@ struct DeploymentLogView: View {
 				ProgressView()
 			}
 		}
-		.navigationTitle("Build Logs")
+		.navigationTitle(Text("Build Logs"))
 		.task {
 			do {
 				let queryItems: [URLQueryItem] = [

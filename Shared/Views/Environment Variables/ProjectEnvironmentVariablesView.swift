@@ -40,7 +40,11 @@ struct ProjectEnvironmentVariablesView: View {
 							.contentShape(Rectangle())
 						}
 					} footer: {
-						Label("Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported.", systemImage: "lock")
+						Label {
+							Text("Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported.")
+						} icon: {
+							Image(systemName: "lock")
+						}
 					}
 				}
 			}
@@ -51,7 +55,7 @@ struct ProjectEnvironmentVariablesView: View {
 					Label("Add new environment variable", systemImage: "plus.circle")
 				}
 			}
-			.navigationTitle("Environment Variables")
+			.navigationTitle(Text("Environment Variables"))
 			.onAppear {
 				if !isAuthenticated {
 					authenticate()
@@ -73,8 +77,10 @@ struct ProjectEnvironmentVariablesView: View {
 						.symbolVariant(.fill)
 					Text("Authentication Required")
 						.font(.title3)
-					Button("Authenticate") {
+					Button {
 						authenticate()
+					} label: {
+						Text("Authenticate")
 					}.buttonStyle(.bordered)
 				}
 				.foregroundStyle(.secondary)
