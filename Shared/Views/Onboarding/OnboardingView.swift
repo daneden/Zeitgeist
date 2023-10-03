@@ -40,11 +40,10 @@ struct OnboardingView: View {
 						}
 						.frame(maxWidth: .infinity)
 						.font(.headline)
-						.padding()
-						.padding(.horizontal)
 					}
 					.buttonStyle(.borderedProminent)
-					.frame(maxWidth: 500)
+					.controlSize(.large)
+					.frame(maxWidth: 400)
 					.disabled(signInModel.isSigningIn)
 					
 					Text("To get started, sign in with your Vercel account.")

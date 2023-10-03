@@ -34,6 +34,7 @@ struct ZeitgeistApp: App {
 		#if os(macOS)
 		Settings {
 			SettingsView()
+				.formStyle(.grouped)
 		}
 		#endif
 	}
