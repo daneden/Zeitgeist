@@ -48,6 +48,7 @@ class VercelURLAuthenticationBuilder {
 }
 
 class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
+	private(set) var isSigningIn = false
 	private var subscriptions: [AnyCancellable] = []
 
 	func presentationAnchor(for _: ASWebAuthenticationSession) -> ASPresentationAnchor {
@@ -56,6 +57,8 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
 
 	@MainActor
 	func signIn() {
+		self.isSigningIn = true
+		
 		let signInPromise = Future<URL, Error> { completion in
 			let apiData = VercelAPIConfiguration()
 			let authUrl = VercelURLAuthenticationBuilder(clientID: apiData.clientId)()
@@ -73,6 +76,8 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
 		}
 
 		signInPromise.sink { completion in
+			self.isSigningIn = false
+			
 			switch completion {
 			case let .failure(error):
 				print("auth failed for reason: \(error)")

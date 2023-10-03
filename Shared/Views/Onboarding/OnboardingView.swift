@@ -29,17 +29,23 @@ struct OnboardingView: View {
 						.padding(.bottom)
 					
 					Button(action: { signInModel.signIn() }) {
-						HStack {
-							Spacer()
-							Label("Sign in with Vercel", systemImage: "triangle.fill")
-							Spacer()
+						Label {
+							Text("Sign in with Vercel")
+						} icon: {
+							if signInModel.isSigningIn {
+								ProgressView()
+							} else {
+								Image(systemName: "triangle.fill")
+							}
 						}
-						.font(.body.bold())
+						.frame(maxWidth: .infinity)
+						.font(.headline)
 						.padding()
 						.padding(.horizontal)
 					}
 					.buttonStyle(.borderedProminent)
 					.frame(maxWidth: 500)
+					.disabled(signInModel.isSigningIn)
 					
 					Text("To get started, sign in with your Vercel account.")
 						.font(.caption)
