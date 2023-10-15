@@ -15,7 +15,7 @@ struct DeploymentStateIndicator: View {
 	var state: VercelDeployment.State
 	var style: StateIndicatorStyle = .normal
 
-	var label: String {
+	var label: LocalizedStringKey {
 		state.description
 	}
 

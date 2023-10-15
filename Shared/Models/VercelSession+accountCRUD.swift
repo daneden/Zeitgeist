@@ -30,13 +30,15 @@ extension VercelSession {
 						Preferences.accounts.append(decoded)
 					}
 				}
+				
+				NotificationCenter.default.post(Notification(name: .VercelAccountAddedNotification))
 			}
 			
-#if os(iOS)
+			#if os(iOS)
 			await UIApplication.shared.registerForRemoteNotifications()
-#elseif os(macOS)
+			#elseif os(macOS)
 			await NSApplication.shared.registerForRemoteNotifications()
-#endif
+			#endif
 		} catch {
 			print("Encountered an error when adding account with ID \(id)")
 			print(error)
@@ -45,10 +47,16 @@ extension VercelSession {
 	
 	static func deleteAccount(id: String) {
 		let keychain = KeychainItem(account: id)
+		keychain.wrappedValue = nil
+		
+		guard let accountIndex = Preferences.accounts.firstIndex(where: { $0.id == id }) else {
+			return
+		}
+		
+		NotificationCenter.default.post(name: .VercelAccountWillBeRemovedNotification, object: accountIndex)
 		
 		withAnimation {
-			Preferences.accounts.removeAll { id == $0.id }
-			keychain.wrappedValue = nil
+			_ = Preferences.accounts.remove(at: accountIndex)
 		}
 	}
 }

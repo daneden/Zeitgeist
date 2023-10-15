@@ -9,4 +9,7 @@ import Foundation
 
 extension Notification.Name {
 	static var ZPSNotification = Notification.Name("ZPSNotification")
+	
+	static var VercelAccountAddedNotification = Notification.Name("VercelAccountAddedNotification")
+	static var VercelAccountWillBeRemovedNotification = Notification.Name("VercelAccountWillBeRemovedNotification")
 }

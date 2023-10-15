@@ -88,7 +88,7 @@ struct ProjectNotificationsView: View {
 				Label("Dismiss", systemImage: "xmark")
 			}
 		}
-		.navigationTitle("Notifications for \(project.name)")
+		.navigationTitle(Text("Notifications for \(project.name)"))
 		#if os(iOS)
 		.navigationBarTitleDisplayMode(.inline)
 		#endif

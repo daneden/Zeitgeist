@@ -33,6 +33,19 @@ enum ZPSEventType: String {
 			return "🗑 "
 		}
 	}
+	
+	var associatedState: VercelDeployment.State? {
+		switch self {
+		case .deployment:
+			return .building
+		case .deploymentReady:
+			return .ready
+		case .deploymentError:
+			return .error
+		default:
+			return nil
+		}
+	}
 }
 
 struct ZPSNotificationPayload: Hashable {

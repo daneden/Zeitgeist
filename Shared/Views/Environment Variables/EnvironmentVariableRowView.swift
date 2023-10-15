@@ -53,7 +53,7 @@ struct EnvironmentVariableRowView: View {
 			.font(.footnote.monospaced())
 			.foregroundStyle(.secondary)
 			
-			Text(envVar.target.map { $0.capitalized }.formatted(.list(type: .and)))
+			Text(LocalizedStringKey(envVar.target.map { $0.capitalized }.formatted(.list(type: .and))), comment: "A list of target environments for an environment variable")
 				.font(.caption)
 				.foregroundStyle(.tertiary)
 				.textSelection(.disabled)

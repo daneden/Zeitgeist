@@ -12,11 +12,13 @@ struct ContentView: View {
 	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
 	
 	@State private var presentNewFeaturesScreen = false
+	@State private var presentOnboardingView = false
 
 	var body: some View {
 		Group {
-			if accounts.isEmpty {
-				OnboardingView()
+			if #available(iOS 16.0, *) {
+				AuthenticatedContentView()
+					.formStyle(.grouped)
 			} else {
 				AuthenticatedContentView()
 			}
@@ -32,6 +34,16 @@ struct ContentView: View {
 		}
 		.sheet(isPresented: $presentNewFeaturesScreen) {
 			NewFeaturesView()
+		}
+		.task(id: accounts.hashValue) {
+			presentOnboardingView = accounts.isEmpty
+		}
+		.sheet(isPresented: $presentOnboardingView) {
+			OnboardingView()
+				.interactiveDismissDisabled()
+			#if !os(iOS)
+				.frame(minWidth: 800, minHeight: 600)
+			#endif
 		}
 	}
 }

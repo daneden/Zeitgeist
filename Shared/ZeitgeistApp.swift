@@ -10,7 +10,9 @@ import SwiftUI
 @main
 struct ZeitgeistApp: App {
 	#if !os(macOS)
-		@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	#else
+	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
 	
 	var content: some View {
@@ -27,15 +29,12 @@ struct ZeitgeistApp: App {
 	var body: some Scene {
 		WindowGroup {
 			content
-    }
-#if os(macOS)
-		MenuBarExtra("Zeitgeist") {
-			content
 		}
-		.menuBarExtraStyle(.window)
 		
+		#if os(macOS)
 		Settings {
 			SettingsView()
+				.formStyle(.grouped)
 		}
 		#endif
 	}

@@ -29,11 +29,11 @@ struct DeploymentListRowView: View {
 					
 					switch deployment.deploymentCause {
 					case let .deployHook(name):
-						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Label for a deployment caused by a deploy hook ({icon} {name})")
 							.lineLimit(2)
 							.imageScale(.small)
 					case .promotion(_):
-						Text("\(Image(systemName: "arrow.up.circle")) Production Rebuild")
+						Text("\(Image(systemName: "arrow.up.circle")) Production Rebuild", comment: "Label for a deployment caused by a promotion to production")
 							.lineLimit(2)
 							.imageScale(.small)
 					default:
@@ -42,7 +42,7 @@ struct DeploymentListRowView: View {
 					}
 					
 					VStack(alignment: .leading, spacing: 2) {
-						Text("\(deployment.created, style: .relative) ago")
+						Text("\(deployment.created, style: .relative) ago", comment: "Timestamp for when a deployment was created in a deployment list row")
 							.fixedSize()
 							.foregroundStyle(.secondary)
 							.font(.caption)

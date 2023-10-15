@@ -35,7 +35,8 @@ struct ProjectsListRowView: View {
 			if let productionDeploymentCause = deploymentSummarySource?.deploymentCause {
 				if case .deployHook(_) = productionDeploymentCause,
 					 let icon = productionDeploymentCause.icon {
-					Text("\(Image(icon)) \(productionDeploymentCause.description)").lineLimit(2)
+					Text("\(Image(icon)) \(productionDeploymentCause.description)", comment: "The cause of a deployment in the projects list")
+						.lineLimit(2)
 				} else {
 					Text(productionDeploymentCause.description).lineLimit(2)
 				}
@@ -44,7 +45,7 @@ struct ProjectsListRowView: View {
 			if let repoSlug = project.link?.repoSlug,
 			   let provider = project.link?.type
 			{
-				Text("\(Image(provider.rawValue)) \(repoSlug)")
+				Text("\(Image(provider.rawValue)) \(repoSlug)", comment: "Icon and name of a repository for a project in the projects list")
 					.font(.footnote)
 					.foregroundStyle(.secondary)
 			}

@@ -81,11 +81,11 @@ struct SettingsView: View {
 			
 			Section {
 				Link(destination: githubIssuesURL) {
-					Label("Submit Feedback", systemImage: "ladybug")
+					Label("Submit feedback", systemImage: "ladybug")
 				}
 				
 				Link(destination: .ReviewURL) {
-					Label("Review on App Store", systemImage: "star.fill")
+					Label("Review on the App Store", systemImage: "star.fill")
 				}
 			}
 			
@@ -103,19 +103,20 @@ struct SettingsView: View {
 				Button {
 					resetNotifications()
 				} label: {
-					Label("Reset Notification Settings", systemImage: "bell.slash")
+					Label("Reset notification settings", systemImage: "bell.slash")
 				}.disabled(notificationsResettable)
 				
 				Button(role: .destructive) {
+					dismiss()
 					Preferences.accounts.forEach { account in
 						VercelSession.deleteAccount(id: account.id)
 					}
 				} label: {
-					Label("Sign Out All Accounts", systemImage: "person.badge.minus")
+					Label("Sign out of all accounts", systemImage: "person.badge.minus")
 				}
 			}.symbolRenderingMode(.multicolor)
 		}
-		.navigationTitle("Settings")
+		.navigationTitle(Text("Settings"))
 		#if os(iOS)
 		.toolbar {
 			Button(action: { dismiss() }) {

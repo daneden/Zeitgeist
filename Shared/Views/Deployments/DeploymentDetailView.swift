@@ -21,14 +21,14 @@ struct DeploymentDetailView: View {
 				Section("Deployment Cause") {
 					switch deployment.deploymentCause {
 					case let .deployHook(name):
-						Text("\(Image(deployment.deploymentCause.icon!)) \(name)")
+						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
 					case .promotion(_):
-						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)")
+						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
 						if let commit = deployment.commit {
 							CommitSummary(commit: commit)
 						}
 					case .manual:
-						Text("Manual Deployment")
+						Text("Manual Deployment", comment: "Manual deployment cause label")
 					case let .gitCommit(commit):
 						CommitSummary(commit: commit)
 					}
@@ -39,8 +39,7 @@ struct DeploymentDetailView: View {
 				ProgressView()
 			}
 		}
-		.navigationTitle("Deployment Details")
-		.makeContainer()
+		.navigationTitle(Text("Deployment Details"))
 		.dataTask {
 			do {
 				try await loadDeploymentDetails()
@@ -64,26 +63,33 @@ private struct CommitSummary: View {
 	var commit: AnyCommit
 	
 	var body: some View {
-		Text(commit.commitMessageSummary)
-		Link(destination: commit.commitUrl) {
-			Text("\(Image(commit.provider.rawValue)) \(Text(commit.shortSha).font(.system(.footnote, design: .monospaced))) by \(commit.commitAuthorName) in \(commit.org)/\(commit.repo)")
-				.font(.footnote)
+		HStack(alignment: .firstTextBaseline) {
+			Text(commit.commitMessageSummary)
+			Spacer()
+			Text(commit.shortSha)
+				.font(.system(.footnote, design: .monospaced))
+				.foregroundStyle(.secondary)
 		}
 		.contextMenu {
-			Section {
-				Button {
-					Pasteboard.setString(commit.commitSha)
-				} label: {
-					Text("Copy Commit Sha")
-				}
-				
-				Button {
-					Pasteboard.setString(commit.commitUrl.absoluteString)
-				} label: {
-					Text("Copy Commit URL")
-				}
-			} header: {
-				Label("Copy", systemImage: "doc.on.doc")
+			Button {
+				Pasteboard.setString(commit.commitSha)
+			} label: {
+				Label("Copy Commit Sha", systemImage: "doc.on.doc")
+			}
+		}
+		
+		Link(destination: commit.commitUrl) {
+			Label {
+				Text("Open in \(commit.provider.name)")
+			} icon: {
+				Image(commit.provider.rawValue)
+			}
+		}
+		.contextMenu {
+			Button {
+				Pasteboard.setString(commit.commitUrl.absoluteString)
+			} label: {
+				Label("Copy Commit URL", systemImage: "doc.on.doc")
 			}
 		}
 	}
@@ -93,16 +99,16 @@ private struct Overview: View {
 	var deployment: VercelDeployment
 
 	var body: some View {
-		DetailSection(header: Text("Overview")) {
-			LabelView("Project") {
+		Section("Overview") {
+			LabelView(Text("Project")) {
 				Text(deployment.project)
 			}
 
-			LabelView("Status") {
+			LabelView(Text("Status")) {
 				DeploymentStateIndicator(state: deployment.state)
 			}
 
-			LabelView("Target") {
+			LabelView(Text("Target")) {
 				if deployment.target == .production {
 					Label("Production", systemImage: "theatermasks")
 						.symbolVariant(.fill)
@@ -123,7 +129,7 @@ private struct URLDetails: View {
 	@State private var aliases: [VercelAlias] = []
 
 	var body: some View {
-		DetailSection(header: Text("Deployment URL")) {
+		Section(header: Text("Deployment URL")) {
 			Link(destination: deployment.url) {
 				Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
@@ -149,11 +155,8 @@ private struct URLDetails: View {
 					}
 				}
 			} label: {
-				HStack {
-					Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
-					Spacer()
-					Text("\(aliases.count)").foregroundColor(.secondary)
-				}
+				Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
+					.badge(aliases.count)
 			}
 			.task {
 				do {
@@ -195,9 +198,9 @@ private struct DeploymentDetails: View {
 	@State var recentlyCancelled = false
 
 	var body: some View {
-		DetailSection(header: Text("Details")) {
+		Section("Details") {
 			NavigationLink {
-				DeploymentLogView(deployment: deployment, accountID: accountId)
+				DeploymentLogView(deployment: deployment)
 					.environmentObject(session)
 			} label: {
 				Label("View Logs", systemImage: "terminal")
@@ -271,7 +274,7 @@ private struct DeploymentDetails: View {
 						Alert(
 							title: Text("Are you sure you want to delete this deployment?"),
 							message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
-							primaryButton: .destructive(Text("Delete"), action: {
+							primaryButton: .destructive(Text("Delete", comment: "Confirmation label for deleting a deployment"), action: {
 								Task { await deleteDeployment() }
 							}),
 							secondaryButton: .cancel()
@@ -296,7 +299,7 @@ private struct DeploymentDetails: View {
 							primaryButton: .destructive(Text("Cancel Deployment"), action: {
 								Task { await cancelDeployment() }
 							}),
-							secondaryButton: .cancel(Text("Close"))
+							secondaryButton: .cancel(Text("Close", comment: "Label to dismiss the build cancellation confirmation"))
 						)
 					}
 					.symbolRenderingMode(.multicolor)
@@ -396,33 +399,5 @@ private struct DeploymentDetails: View {
 		}
 
 		mutating = false
-	}
-}
-
-private struct DetailSection<Content: View>: View {
-	var header: Text
-	var content: Content
-
-	init(header: Text, @ViewBuilder content: @escaping () -> Content) {
-		self.content = content()
-		self.header = header
-	}
-
-	var body: some View {
-		#if os(macOS)
-			GroupBox(label: header) {
-				HStack {
-					VStack(alignment: .leading) {
-						content
-					}
-					Spacer(minLength: 0)
-				}
-				.padding()
-			}
-		#else
-			Section(header: header) {
-				content
-			}
-		#endif
 	}
 }

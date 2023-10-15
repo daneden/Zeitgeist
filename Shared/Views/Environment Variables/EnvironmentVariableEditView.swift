@@ -26,6 +26,13 @@ struct EnvironmentVariableEditView: View {
 		key.range(of: #"^[a-zA-Z][_\w]*$"#, options: .regularExpression) != nil
 	}
 	
+	var navBarTitle: Text {
+		switch id {
+		case .none: return Text("Add Environment Variable")
+		case .some(_): return Text("Edit Environment Variable")
+		}
+	}
+	
 	var body: some View {
 		Form {
 			Section {
@@ -68,7 +75,7 @@ struct EnvironmentVariableEditView: View {
 					}
 				} label: {
 					HStack {
-						Text("Submit")
+						Text("Submit", comment: "Button label to save a new environment variable")
 						
 						if saving {
 							Spacer()
@@ -82,7 +89,7 @@ struct EnvironmentVariableEditView: View {
 				Text("A new deployment is required for your changes to take effect.")
 			}
 		}
-		.navigationTitle("\(id == nil ? "Add" : "Edit") Environment Variable")
+		.navigationTitle(navBarTitle)
 		.toolbar {
 			Button {
 				dismiss()

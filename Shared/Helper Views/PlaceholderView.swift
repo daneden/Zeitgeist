@@ -29,22 +29,22 @@ struct PlaceholderView: View {
 		}
 	}
 
-	var text: String {
+	var text: Text {
 		switch forRole {
 		case .ProjectDetail:
-			return "No Project Selected"
+			return Text("No Project Selected")
 		case .DeploymentDetail:
-			return "No Deployment Selected"
+			return Text("No Deployment Selected")
 		case .DeploymentList:
-			return "No Account Selected"
+			return Text("No Account Selected")
 		case .NoDeployments:
-			return "No Deployments To Show"
+			return Text("No Deployments To Show")
 		case .NoAccounts:
-			return "No Accounts Found"
+			return Text("No Accounts Found")
 		case .NoProjects:
-			return "No Projects To Show"
+			return Text("No Projects To Show")
 		case .NoEnvVars:
-			return "No Environment Variables for Project"
+			return Text("No Environment Variables for Project")
 		}
 	}
 
@@ -52,7 +52,7 @@ struct PlaceholderView: View {
 		VStack(alignment: alignment, spacing: spacing) {
 			Image(systemName: imageName)
 				.imageScale(.large)
-			Text(text)
+			text
 		}
 		.multilineTextAlignment(alignment == .leading ? .leading : .center)
 		.foregroundColor(.secondary)

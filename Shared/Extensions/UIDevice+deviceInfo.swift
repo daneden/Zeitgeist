@@ -99,6 +99,8 @@ public extension UIDevice {
 			case "i386", "x86_64": return "Simulator \(mapToDevice(identifier: ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "tvOS"))"
 			default: return identifier
 			}
+#elseif os(visionOS)
+			return identifier
 #endif
 		}
 		

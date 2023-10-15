@@ -33,7 +33,7 @@ struct VercelUserAvatarView: View {
 			Image(systemName: "person.crop.circle.fill")
 				.resizable()
 				.scaledToFit()
-				.foregroundColor(.accentColor)
+				.foregroundStyle(.tint)
 		}
 		.frame(width: size, height: size)
 	}

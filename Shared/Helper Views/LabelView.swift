@@ -7,12 +7,21 @@
 
 import SwiftUI
 
+fileprivate struct ValueLabelStyle: LabelStyle {
+	func makeBody(configuration: Configuration) -> some View {
+		HStack {
+			configuration.icon
+			configuration.title
+		}
+	}
+}
+
 struct LabelView<S: View, Content: View>: View {
-	var label: () -> S
+	var label: S
 	var content: Content
 
 	init(_ label: @escaping () -> S, @ViewBuilder content: () -> Content) {
-		self.label = label
+		self.label = label()
 		self.content = content()
 	}
 
@@ -20,13 +29,17 @@ struct LabelView<S: View, Content: View>: View {
 		if #available(iOS 16.0, macOS 13.0, *) {
 			LabeledContent {
 				content
+					.labelStyle(ValueLabelStyle())
 			} label: {
-				label()
+				label
+					.alignmentGuide(.listRowSeparatorLeading, computeValue: { dimension in
+						dimension[.listRowSeparatorLeading]
+					})
 			}
 
 		} else {
 			HStack {
-				label()
+				label
 				Spacer()
 				content
 					.foregroundStyle(.secondary)
@@ -36,8 +49,13 @@ struct LabelView<S: View, Content: View>: View {
 }
 
 extension LabelView where S == Text {
-	init(_ label: String, @ViewBuilder content: () -> Content) {
-		self.label = { Text(label) }
+	init(_ label: LocalizedStringKey, @ViewBuilder content: () -> Content) {
+		self.label = Text(label)
+		self.content = content()
+	}
+	
+	init(_ label: Text, @ViewBuilder content: () -> Content) {
+		self.label = label
 		self.content = content()
 	}
 }

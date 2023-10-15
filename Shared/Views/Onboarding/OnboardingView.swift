@@ -21,24 +21,30 @@ struct OnboardingView: View {
 						.frame(maxWidth: .infinity)
 					
 					Text("Welcome to Zeitgeist")
-						.font(.largeTitle.bold())
-						.multilineTextAlignment(.center)
+						.font(.largeTitle)
+						.fontWeight(.bold)
+					
 					Text("Zeitgeist lets you see and manage your Vercel deployments.")
 					Text("Watch builds complete, cancel or delete them, and get quick access to their URLs, logs, and commits.")
 						.padding(.bottom)
 					
 					Button(action: { signInModel.signIn() }) {
-						HStack {
-							Spacer()
-							Label("Sign In With Vercel", systemImage: "triangle.fill")
-							Spacer()
+						Label {
+							Text("Sign in with Vercel")
+						} icon: {
+							if signInModel.isSigningIn {
+								ProgressView()
+							} else {
+								Image(systemName: "triangle.fill")
+							}
 						}
-						.font(.body.bold())
-						.padding()
-						.padding(.horizontal)
+						.frame(maxWidth: .infinity)
+						.font(.headline)
 					}
 					.buttonStyle(.borderedProminent)
-					.frame(maxWidth: 500)
+					.controlSize(.large)
+					.frame(maxWidth: 400)
+					.disabled(signInModel.isSigningIn)
 					
 					Text("To get started, sign in with your Vercel account.")
 						.font(.caption)
@@ -68,6 +74,7 @@ struct OnboardingView: View {
 				}
 				.padding()
 				.frame(minHeight: geometry.size.height)
+				.multilineTextAlignment(.center)
 			}
 			.background {
 				ZStack(alignment: .top) {

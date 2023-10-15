@@ -15,10 +15,10 @@ struct AccountListRowView: View {
 			if let account = account {
 				Label {
 					VStack(alignment: .leading) {
-						Text(account.name ?? account.username)
+						Text(verbatim: account.name ?? account.username)
 
 						if account.isTeam {
-							Text("Team Account")
+							Text("Team Account", comment: "Subtitle for team accounts in the account list")
 								.foregroundStyle(.secondary)
 								.font(.caption)
 						}

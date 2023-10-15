@@ -30,12 +30,20 @@ struct ProjectDetailView: View {
 		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds)
 			.contains { $0 == projectId }
 	}
+	
+	var navBarTitle: Text {
+		guard let name = project?.name else {
+			return Text("Project Details")
+		}
+		
+		return Text(name)
+	}
 
 	var body: some View {
 		Form {
 			if let project {
 				Section("Details") {
-					LabelView("Name") {
+					LabelView(Text("Name")) {
 						Text(project.name)
 					}
 					
@@ -44,13 +52,13 @@ struct ProjectDetailView: View {
 						let slug = gitLink.repoSlug
 						let provider = gitLink.type
 						
-						LabelView("Git Repository") {
+						LabelView(Text("Git Repository")) {
 							Link(destination: url) {
 								Label(slug, image: provider.rawValue)
 							}
 						}
 						
-						LabelView("Production Branch") {
+						LabelView(Text("Production Branch")) {
 							Text(gitLink.productionBranch)
 						}
 						
@@ -73,7 +81,7 @@ struct ProjectDetailView: View {
 					}
 				}
 				
-				Section {
+				Section("Recent Deployments") {
 					if filter.filtersApplied {
 						Button {
 							filter = .init()
@@ -106,14 +114,11 @@ struct ProjectDetailView: View {
 								}
 							}
 					}
-				} header: {
-					Text("Recent Deployments")
 				}
 			} else {
 				ProgressView()
 			}
 		}
-		.makeContainer()
 		.toolbar {
 			ToolbarItem {
 				Button {
@@ -132,7 +137,7 @@ struct ProjectDetailView: View {
 				}
 			}
 		}
-		.navigationTitle(project?.name ?? "Project Details")
+		.navigationTitle(navBarTitle)
 		.onChange(of: filter) { _ in
 			Task {
 				try? await loadDeployments()
@@ -146,14 +151,34 @@ struct ProjectDetailView: View {
 			}
 		}
 		.sheet(isPresented: $projectNotificationsVisible) {
-			if let project {
+			notificationsSheet
+		}
+	}
+	
+	@ViewBuilder
+	var notificationsSheet: some View {
+		if let project {
+			if #available(iOS 16.0, *) {
+				Group {
 #if os(iOS)
-				NavigationView {
-					ProjectNotificationsView(project: project)
-				}
+					NavigationView {
+						ProjectNotificationsView(project: project)
+					}
 #else
-				ProjectNotificationsView(project: project)
+					ProjectNotificationsView(project: project)
 #endif
+				}
+				.presentationDetents([.medium])
+			} else {
+				Group {
+#if os(iOS)
+					NavigationView {
+						ProjectNotificationsView(project: project)
+					}
+#else
+					ProjectNotificationsView(project: project)
+#endif
+				}
 			}
 		}
 	}
