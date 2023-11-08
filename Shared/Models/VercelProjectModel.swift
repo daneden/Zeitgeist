@@ -83,7 +83,9 @@ extension VercelProject {
 }
 
 enum DeploymentTypeProtection: String, Codable {
-	case preview, all
+	case standard = "prod_deployment_urls_and_all_previews"
+	case preview
+	case all
 }
 
 struct VercelEnv: Codable, Identifiable, Hashable {
