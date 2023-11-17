@@ -12,7 +12,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Deploy hook cause icon and name\n   Promoted deployment cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nIcon and name of a repository for a project in the projects list\n   The cause of a deployment in the projects list",
+      "comment" : "Deploy hook cause icon and name\n   Promoted deployment cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nIcon and name of a repository for a project in the projects list\n   The cause of a deployment in the projects list\nA widget label with an icon and label text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
