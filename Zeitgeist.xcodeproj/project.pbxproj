@@ -897,7 +897,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -932,7 +932,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -962,7 +962,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -988,7 +988,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1011,7 +1011,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1034,7 +1034,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.SelectWidgetAccountIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
