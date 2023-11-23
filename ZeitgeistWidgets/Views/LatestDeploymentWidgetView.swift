@@ -102,7 +102,7 @@ struct LatestDeploymentWidgetView: View {
 		.symbolRenderingMode(.hierarchical)
 		.tint(.indigo)
 		.widgetPadding()
-		.widgetBackgroundRemovedPadding(8)
+		.widgetStandByModePadding(8)
 	}
 
 	private var circularAccessoryView: some View {

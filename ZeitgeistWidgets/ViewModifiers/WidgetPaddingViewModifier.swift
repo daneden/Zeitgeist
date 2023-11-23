@@ -21,7 +21,7 @@ extension View {
 		modifier(WidgetPaddingViewModifier())
 	}
 	
-	/// Apply padding to this widget view when its container background has been removed.
+	/// Apply padding to this widget view when it's being displayed in StandBy mode.
 	///
 	/// For iOS 16 and below, this modifier has no effect.
 	///
@@ -30,18 +30,18 @@ extension View {
 	///   - length: An amount, given in points, to pad this view on the specified edges. If you set the value to `nil`,
 	///     SwiftUI uses a platform-specific default amount. The default value of this parameter is `nil`.
 	/// - Returns: A view that's padded by the specified amount on the specified edges.
-	func widgetBackgroundRemovedPadding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> some View {
-		modifier(WidgetBackgroundRemovedPaddingViewModifier(edges: edges, length: length))
+	func widgetStandByModePadding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> some View {
+		modifier(WidgetStandByModePaddingViewModifier(edges: edges, length: length))
 	}
 	
-	/// Apply padding to this widget view when its container background has been removed.
+	/// Apply padding to this widget view when it's being displayed in StandBy mode.
 	///
 	/// For iOS 16 and below, this modifier has no effect.
 	///
 	/// - Parameter length: The amount, given in points, to pad this view on all edges.
 	/// - Returns: A view that's padded by the amount you specify.
-	func widgetBackgroundRemovedPadding(_ length: CGFloat) -> some View {
-		widgetBackgroundRemovedPadding(.all, length)
+	func widgetStandByModePadding(_ length: CGFloat) -> some View {
+		widgetStandByModePadding(.all, length)
 	}
 }
 
@@ -57,9 +57,9 @@ private struct WidgetPaddingViewModifier: ViewModifier {
 	}
 }
 
-// MARK: - WidgetBackgroundRemovedPaddingViewModifier
+// MARK: - WidgetStandByModePaddingViewModifier
 
-private struct WidgetBackgroundRemovedPaddingViewModifier: ViewModifier {
+private struct WidgetStandByModePaddingViewModifier: ViewModifier {
 
 	// MARK: Internal
 
@@ -67,7 +67,11 @@ private struct WidgetBackgroundRemovedPaddingViewModifier: ViewModifier {
 	let length: CGFloat?
 
 	func body(content: Content) -> some View {
-		if #available(iOSApplicationExtension 17.0, *), !showsWidgetContainerBackground {
+		if 
+			#available(iOSApplicationExtension 17.0, *),
+			isPhone,
+			!showsWidgetContainerBackground
+		{
 			content.padding(edges, length)
 		} else {
 			content
@@ -76,6 +80,7 @@ private struct WidgetBackgroundRemovedPaddingViewModifier: ViewModifier {
 
 	// MARK: Private
 
+	private let isPhone = UIDevice.current.userInterfaceIdiom == .phone
 	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
 
 }
