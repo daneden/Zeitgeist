@@ -9,43 +9,18 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - RecentDeploymentsWidgetView
+
 struct RecentDeploymentsWidgetView: View {
-	@Environment(\.sizeCategory) var sizeCategory
-	var config: RecentDeploymentsEntry
 
-	var accountLabel: some View {
-		Label {
-			Text(config.account.displayString)
-		} icon: {
-			Image(systemName: "person")
-				.symbolVariant(config.account.identifier == nil ? .none : .fill)
-		}
-		.foregroundStyle(.secondary)
-	}
+	// MARK: Internal
 
-	var widgetTitle: some View {
-		Label("Recent Deployments", systemImage: "clock")
-			.font(.footnote.bold())
-	}
-
-	var numberOfDeployments: Int {
-		switch sizeCategory {
-		case .extraSmall,
-				.small,
-				.medium,
-				.large:
-			return 5
-		case .accessibilityExtraLarge,
-				.accessibilityExtraExtraLarge,
-				.accessibilityExtraExtraExtraLarge:
-			return 3
-		default: return 4
-		}
-	}
+	let config: RecentDeploymentsEntry
 
 	var body: some View {
 		VStack(alignment: .leading) {
-			widgetTitle
+			Label("Recent Deployments", systemImage: "clock")
+				.font(.footnote.bold())
 
 			if let deployments = config.deployments?.prefix(numberOfDeployments) {
 				ForEach(deployments) { deployment in
@@ -85,16 +60,40 @@ struct RecentDeploymentsWidgetView: View {
 			.foregroundStyle(.secondary)
 			.lineLimit(1)
 		}
-		.padding()
-		.background(.background)
+		.widgetBackground(.background)
 	}
+
+	// MARK: Private
+
+	@Environment(\.sizeCategory) private var sizeCategory
+
+	private var numberOfDeployments: Int {
+		switch sizeCategory {
+		case .extraSmall,
+				.small,
+				.medium,
+				.large:
+			return 5
+		case .accessibilityExtraLarge,
+				.accessibilityExtraExtraLarge,
+				.accessibilityExtraExtraExtraLarge:
+			return 3
+		default: 
+			return 4
+		}
+	}
+
 }
 
+// MARK: - RecentDeploymentsListRowView
+
 struct RecentDeploymentsListRowView: View {
-	@Environment(\.dynamicTypeSize) var dynamicTypeSize
-	var accountId: String
-	var deployment: VercelDeployment
-	var project: WidgetProject?
+
+	// MARK: Internal
+
+	let accountId: String
+	let deployment: VercelDeployment
+	let project: WidgetProject?
 
 	var body: some View {
 		Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
@@ -134,6 +133,11 @@ struct RecentDeploymentsListRowView: View {
 			.tint(.indigo)
 		}
 	}
+
+	// MARK: Private
+
+	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
 }
 
 #if DEBUG
