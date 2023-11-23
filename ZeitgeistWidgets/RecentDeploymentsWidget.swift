@@ -8,23 +8,18 @@
 import SwiftUI
 import WidgetKit
 
-struct RecentDeploymentsEntry: TimelineEntry {
-	var date = Date()
-	var deployments: [VercelDeployment]?
-	var account: WidgetAccount
-	var project: WidgetProject?
-	var relevance: TimelineEntryRelevance?
-}
-
 struct RecentDeploymentsProvider: IntentTimelineProvider {
-	typealias Entry = RecentDeploymentsEntry
-	func placeholder(in _: Context) -> Entry {
-		return Entry(
+	func placeholder(in _: Context) -> RecentDeploymentsEntry {
+		return RecentDeploymentsEntry(
 			account: WidgetAccount(identifier: nil, display: "No Account")
 		)
 	}
 
-	func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Entry) -> Void) {
+	func getSnapshot(
+		for configuration: SelectAccountIntent,
+		in context: Context,
+		completion: @escaping (RecentDeploymentsEntry) -> Void)
+	{
 		Task {
 			guard let intentAccount = configuration.account,
 						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
@@ -47,14 +42,18 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
 
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-				completion(Entry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance))
+				completion(RecentDeploymentsEntry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance))
 			} catch {
 				print(error)
 			}
 		}
 	}
 
-	func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+	func getTimeline(
+		for configuration: SelectAccountIntent,
+		in context: Context,
+		completion: @escaping (Timeline<RecentDeploymentsEntry>) -> Void)
+	{
 		Task {
 			guard let intentAccount = configuration.account,
 						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
@@ -81,7 +80,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
 				completion(
 					Timeline(
-						entries: [Entry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance)],
+						entries: [RecentDeploymentsEntry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance)],
 						policy: .atEnd
 					)
 				)
@@ -94,19 +93,17 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 }
 
 struct RecentDeploymentsWidget: Widget {
-	private let kind: String = "RecentDeploymentsWidget"
-
 	public var body: some WidgetConfiguration {
 		IntentConfiguration(
-			kind: kind,
+			kind: "RecentDeploymentsWidget",
 			intent: SelectAccountIntent.self,
 			provider: RecentDeploymentsProvider()
 		) { entry in
 			RecentDeploymentsWidgetView(config: entry)
 		}
-		.supportedFamilies([.systemLarge, .systemExtraLarge])
 		.configurationDisplayName("Recent Deployments")
 		.description("View a list of the most recent Vercel deployments for an account or project")
+		.supportedFamilies([.systemLarge, .systemExtraLarge])
 	}
 }
 
@@ -237,18 +234,26 @@ struct RecentDeploymentsListRowView: View {
 	}
 }
 
+#if DEBUG
+
 struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
-	static var exampleConfig = RecentDeploymentsEntry(
-		deployments: Array(repeating: VercelProject.exampleData.targets!.production!, count: 12),
-		account: WidgetAccount(identifier: "1", display: "Test Account"),
-		project: WidgetProject(identifier: "1", display: "example-project")
-	)
+
+	// MARK: Internal
+
 	static var previews: some View {
-		ForEach(DynamicTypeSize.allCases, id: \.self) { typeSize in
-			Group {
-				RecentDeploymentsWidgetView(config: exampleConfig)
-					.previewContext(WidgetPreviewContext(family: .systemLarge))
-			}.environment(\.dynamicTypeSize, typeSize)
-		}
+		RecentDeploymentsWidgetView(config: .mockNoAccount)
+			.previewContext(WidgetPreviewContext(family: widgetFamily))
+			.previewDisplayName("No Account")
+
+		RecentDeploymentsWidgetView(config: .mockExample)
+			.previewContext(WidgetPreviewContext(family: widgetFamily))
+			.previewDisplayName("Example")
 	}
+
+	// MARK: Private
+
+	@Environment(\.widgetFamily) private static var widgetFamily
+
 }
+
+#endif

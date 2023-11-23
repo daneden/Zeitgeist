@@ -8,21 +8,16 @@
 import SwiftUI
 import WidgetKit
 
-struct LatestDeploymentEntry: TimelineEntry {
-	var date = Date()
-	var deployment: VercelDeployment?
-	var account: WidgetAccount
-	var project: WidgetProject?
-	var relevance: TimelineEntryRelevance?
-}
-
 struct LatestDeploymentProvider: IntentTimelineProvider {
-	typealias Entry = LatestDeploymentEntry
 	func placeholder(in _: Context) -> LatestDeploymentEntry {
 		LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
 	}
 
-	func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (LatestDeploymentEntry) -> Void) {
+	func getSnapshot(
+		for configuration: SelectAccountIntent,
+		in context: Context,
+		completion: @escaping (LatestDeploymentEntry) -> Void)
+	{
 		Task {
 			guard let intentAccount = configuration.account,
 						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
@@ -61,7 +56,11 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 		}
 	}
 
-	func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void) {
+	func getTimeline(
+		for configuration: SelectAccountIntent,
+		in context: Context,
+		completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void)
+	{
 		Task {
 			guard let intentAccount = configuration.account,
 						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
@@ -108,31 +107,24 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 }
 
 struct LatestDeploymentWidget: Widget {
-	private let kind: String = "LatestDeploymentWidget"
-
 	public var body: some WidgetConfiguration {
-		if #available(iOSApplicationExtension 16.0, *) {
-			return IntentConfiguration(
-				kind: kind,
-				intent: SelectAccountIntent.self,
-				provider: LatestDeploymentProvider()
-			) { entry in
-				LatestDeploymentWidgetView(config: entry)
-			}
-			.supportedFamilies([.accessoryRectangular, .accessoryCircular, .systemSmall, .systemMedium])
-			.configurationDisplayName("Latest Deployment")
-			.description("View the most recent Vercel deployment for an account or project")
+		return IntentConfiguration(
+			kind: "LatestDeploymentWidget",
+			intent: SelectAccountIntent.self,
+			provider: LatestDeploymentProvider()
+		) { entry in
+			LatestDeploymentWidgetView(config: entry)
+		}
+		.configurationDisplayName("Latest Deployment")
+		.description("View the most recent Vercel deployment for an account or project")
+		.supportedFamilies(supportedFamilies)
+	}
+
+	private var supportedFamilies: [WidgetFamily] {
+		if #available(iOS 16.0, *) {
+			[.systemSmall, .systemMedium, .accessoryRectangular, .accessoryCircular]
 		} else {
-			return IntentConfiguration(
-				kind: kind,
-				intent: SelectAccountIntent.self,
-				provider: LatestDeploymentProvider()
-			) { entry in
-				LatestDeploymentWidgetView(config: entry)
-			}
-			.supportedFamilies([.systemSmall, .systemMedium])
-			.configurationDisplayName("Latest Deployment")
-			.description("View the most recent Vercel deployment for an account or project")
+			[.systemSmall, .systemMedium]
 		}
 	}
 }
@@ -256,20 +248,26 @@ struct LatestDeploymentWidgetView: View {
 	}
 }
 
+#if DEBUG
+
 struct LatestDeploymentWidgetView_Previews: PreviewProvider {
-	static var exampleConfig = LatestDeploymentEntry(
-		deployment: VercelProject.exampleData.targets!.production!,
-		account: WidgetAccount(identifier: "1", display: "Test Account"),
-		project: WidgetProject(identifier: "1", display: "example-project")
-	)
+
+	// MARK: Internal
+
 	static var previews: some View {
-		Group {
-			LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
-				.previewContext(WidgetPreviewContext(family: .systemSmall))
-				.previewDisplayName("Latest Deployment Widget: No Account")
-			LatestDeploymentWidgetView(config: exampleConfig)
-				.previewContext(WidgetPreviewContext(family: .systemSmall))
-				.previewDisplayName("Latest Deployment Widget: Example Data")
-		}
+		LatestDeploymentWidgetView(config: .mockNoAccount)
+			.previewContext(WidgetPreviewContext(family: widgetFamily))
+			.previewDisplayName("No Account")
+
+		LatestDeploymentWidgetView(config: .mockExample)
+			.previewContext(WidgetPreviewContext(family: widgetFamily))
+			.previewDisplayName("Example")
 	}
+
+	// MARK: Private
+
+	@Environment(\.widgetFamily) private static var widgetFamily
+
 }
+
+#endif
