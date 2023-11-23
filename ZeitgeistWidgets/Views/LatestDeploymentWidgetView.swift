@@ -20,12 +20,15 @@ struct LatestDeploymentWidgetView: View {
 	var body: some View {
 		Group {
 			switch widgetFamily {
+			case .systemSmall, .systemMedium:
+				systemView
+			case .systemLarge, .systemExtraLarge:
+				/// These sizes are unsupported by the widget. See ``LatestDeploymentWidget`` for configuration.
+				Color.clear
 			case .accessoryCircular:
 				circularAccessoryView
 			case .accessoryRectangular, .accessoryInline:
 				accessoryView
-			case .systemSmall, .systemMedium, .systemLarge, .systemExtraLarge:
-				systemView
 			@unknown default:
 				Color.clear
 			}
@@ -36,48 +39,10 @@ struct LatestDeploymentWidgetView: View {
 	// MARK: Private
 
 	@Environment(\.widgetFamily) private var widgetFamily
+	@Environment(\.showsWidgetContainerBackground) private var showsContainerBackground
 
 	private var hasProject: Bool {
 		config.project?.identifier != nil
-	}
-
-	private var circularAccessoryView: some View {
-		Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-			.font(.largeTitle)
-			.imageScale(.large)
-	}
-
-	private var accessoryView: some View {
-		VStack(alignment: .leading) {
-			if let deployment = config.deployment {
-				Label {
-					Text(deployment.project)
-						.font(.headline)
-				} icon: {
-					DeploymentStateIndicator(state: deployment.state, style: .compact)
-						.symbolRenderingMode(.monochrome)
-				}
-
-				Text(deployment.deploymentCause.description)
-					.lineLimit(2)
-				Text(deployment.created, style: .relative)
-					.foregroundStyle(.secondary)
-			} else {
-				Group {
-					HStack {
-						DeploymentStateIndicator(state: .queued, style: .compact)
-						Text("Loading...")
-					}
-					Text("Waiting for data")
-						.foregroundStyle(.secondary)
-					Text(.now, style: .relative)
-						.foregroundStyle(.tertiary)
-				}
-				.redacted(reason: .placeholder)
-			}
-		}
-		.allowsTightening(true)
-		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 	}
 
 	private var systemView: some View {
@@ -136,8 +101,47 @@ struct LatestDeploymentWidgetView: View {
 		}
 		.font(.footnote)
 		.foregroundStyle(.primary)
+		.padding(.all, showsContainerBackground ? 0 : 10)
 		.symbolRenderingMode(.hierarchical)
 		.tint(.indigo)
+	}
+
+	private var circularAccessoryView: some View {
+		Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
+			.resizable()
+	}
+
+	private var accessoryView: some View {
+		VStack(alignment: .leading) {
+			if let deployment = config.deployment {
+				Label {
+					Text(deployment.project)
+						.font(.headline)
+				} icon: {
+					DeploymentStateIndicator(state: deployment.state, style: .compact)
+						.symbolRenderingMode(.monochrome)
+				}
+
+				Text(deployment.deploymentCause.description)
+					.lineLimit(2)
+				Text(deployment.created, style: .relative)
+					.foregroundStyle(.secondary)
+			} else {
+				Group {
+					HStack {
+						DeploymentStateIndicator(state: .queued, style: .compact)
+						Text("Loading...")
+					}
+					Text("Waiting for data")
+						.foregroundStyle(.secondary)
+					Text(.now, style: .relative)
+						.foregroundStyle(.tertiary)
+				}
+				.redacted(reason: .placeholder)
+			}
+		}
+		.allowsTightening(true)
+		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 	}
 
 }

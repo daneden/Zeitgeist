@@ -18,6 +18,24 @@ struct RecentDeploymentsWidgetView: View {
 	let config: RecentDeploymentsEntry
 
 	var body: some View {
+		Group {
+			switch widgetFamily {
+			case .systemSmall, .systemMedium:
+				/// These sizes are unsupported by the widget. See ``RecentDeploymentsWidget`` for configuration.
+				Color.clear
+			case .systemLarge, .systemExtraLarge:
+				systemView
+			case .accessoryCircular, .accessoryRectangular, .accessoryInline:
+				/// These sizes are unsupported by the widget. See ``RecentDeploymentsWidget`` for configuration.
+				Color.clear
+			@unknown default:
+				Color.clear
+			}
+		}
+		.widgetBackground()
+	}
+
+	var systemView: some View {
 		VStack(alignment: .leading) {
 			Label("Recent Deployments", systemImage: "clock")
 				.font(.footnote.bold())
@@ -60,23 +78,25 @@ struct RecentDeploymentsWidgetView: View {
 			.foregroundStyle(.secondary)
 			.lineLimit(1)
 		}
-		.widgetBackground(.background)
+		.padding(showsContainerBackground ? 0 : 10)
 	}
 
 	// MARK: Private
 
-	@Environment(\.sizeCategory) private var sizeCategory
+	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
+	@Environment(\.showsWidgetContainerBackground) private var showsContainerBackground
+	@Environment(\.widgetFamily) private var widgetFamily
 
 	private var numberOfDeployments: Int {
-		switch sizeCategory {
-		case .extraSmall,
+		switch dynamicTypeSize {
+		case .xSmall,
 				.small,
 				.medium,
 				.large:
 			return 5
-		case .accessibilityExtraLarge,
-				.accessibilityExtraExtraLarge,
-				.accessibilityExtraExtraExtraLarge:
+		case .accessibility3,
+				.accessibility4,
+				.accessibility5:
 			return 3
 		default: 
 			return 4
