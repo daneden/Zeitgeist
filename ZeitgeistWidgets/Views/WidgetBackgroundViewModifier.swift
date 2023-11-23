@@ -14,11 +14,7 @@ extension View {
 		modifier(WidgetBackgroundViewModifier(shape: shape))
 	}
 
-	func widgetBackground(
-		alignment: Alignment = .center,
-		content: @escaping () -> some View)
-	-> some View
-	{
+	func widgetBackground(alignment: Alignment = .center, content: @escaping () -> some View) -> some View {
 		modifier(WidgetBackgroundViewModifier(alignment: alignment, background: content))
 	}
 }

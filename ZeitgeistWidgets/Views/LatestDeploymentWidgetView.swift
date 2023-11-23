@@ -38,8 +38,8 @@ struct LatestDeploymentWidgetView: View {
 
 	// MARK: Private
 
+	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
 	@Environment(\.widgetFamily) private var widgetFamily
-	@Environment(\.showsWidgetContainerBackground) private var showsContainerBackground
 
 	private var hasProject: Bool {
 		config.project?.identifier != nil
@@ -82,7 +82,6 @@ struct LatestDeploymentWidgetView: View {
 
 				Spacer()
 
-
 				Group {
 					WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
 						.symbolVariant(config.account.identifier == nil ? .none : .fill)
@@ -101,7 +100,7 @@ struct LatestDeploymentWidgetView: View {
 		}
 		.font(.footnote)
 		.foregroundStyle(.primary)
-		.padding(.all, showsContainerBackground ? 0 : 10)
+		.padding(.all, showsWidgetContainerBackground ? 0 : 10)
 		.symbolRenderingMode(.hierarchical)
 		.tint(.indigo)
 	}

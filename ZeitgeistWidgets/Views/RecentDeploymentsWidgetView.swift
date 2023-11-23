@@ -35,7 +35,29 @@ struct RecentDeploymentsWidgetView: View {
 		.widgetBackground()
 	}
 
-	var systemView: some View {
+	// MARK: Private
+
+	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
+	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
+	@Environment(\.widgetFamily) private var widgetFamily
+
+	private var numberOfDeployments: Int {
+		switch dynamicTypeSize {
+		case .xSmall,
+				.small,
+				.medium,
+				.large:
+			return 5
+		case .accessibility3,
+				.accessibility4,
+				.accessibility5:
+			return 3
+		default: 
+			return 4
+		}
+	}
+
+	private var systemView: some View {
 		VStack(alignment: .leading) {
 			Label("Recent Deployments", systemImage: "clock")
 				.font(.footnote.bold())
@@ -78,29 +100,7 @@ struct RecentDeploymentsWidgetView: View {
 			.foregroundStyle(.secondary)
 			.lineLimit(1)
 		}
-		.padding(showsContainerBackground ? 0 : 10)
-	}
-
-	// MARK: Private
-
-	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
-	@Environment(\.showsWidgetContainerBackground) private var showsContainerBackground
-	@Environment(\.widgetFamily) private var widgetFamily
-
-	private var numberOfDeployments: Int {
-		switch dynamicTypeSize {
-		case .xSmall,
-				.small,
-				.medium,
-				.large:
-			return 5
-		case .accessibility3,
-				.accessibility4,
-				.accessibility5:
-			return 3
-		default: 
-			return 4
-		}
+		.padding(showsWidgetContainerBackground ? 0 : 10)
 	}
 
 }

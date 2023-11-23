@@ -11,8 +11,8 @@ import SwiftUI
 // MARK: - WidgetLabel
 
 struct WidgetLabel: View {
-	var label: String
-	var iconName: String
+	let label: String
+	let iconName: String
 
 	var body: some View {
 		Label(label, systemImage: iconName)
@@ -32,13 +32,14 @@ private struct WidgetLabelStyle: LabelStyle {
 			configuration.title
 		}
 		.font(.system(size: 13, weight: .medium))
-		.padding(.horizontal, showsContainerBackground ? 4 : 0)
-		.padding(.vertical, showsContainerBackground ? 2 : 0)
-		.background(showsContainerBackground ? AnyShapeStyle(.thickMaterial) : AnyShapeStyle(.clear))
+		.padding(.horizontal, showsWidgetContainerBackground ? 4 : 0)
+		.padding(.vertical, showsWidgetContainerBackground ? 2 : 0)
+		.background(showsWidgetContainerBackground ? AnyShapeStyle(.thickMaterial) : AnyShapeStyle(.clear))
 		.clipShape(ContainerRelativeShape())
 	}
 
 	// MARK: Private
 
-	@Environment(\.showsWidgetContainerBackground) private var showsContainerBackground
+	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
+
 }

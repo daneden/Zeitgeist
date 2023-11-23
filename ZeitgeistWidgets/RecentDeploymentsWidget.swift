@@ -8,11 +8,11 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - RecentDeploymentsProvider
+
 struct RecentDeploymentsProvider: IntentTimelineProvider {
 	func placeholder(in _: Context) -> RecentDeploymentsEntry {
-		return RecentDeploymentsEntry(
-			account: WidgetAccount(identifier: nil, display: "No Account")
-		)
+		RecentDeploymentsEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
 	}
 
 	func getSnapshot(
@@ -91,6 +91,8 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 		}
 	}
 }
+
+// MARK: - RecentDeploymentsWidget
 
 struct RecentDeploymentsWidget: Widget {
 	public var body: some WidgetConfiguration {

@@ -8,6 +8,8 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - LatestDeploymentProvider
+
 struct LatestDeploymentProvider: IntentTimelineProvider {
 	func placeholder(in _: Context) -> LatestDeploymentEntry {
 		LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
@@ -106,9 +108,14 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 	}
 }
 
+// MARK: - LatestDeploymentWidget
+
 struct LatestDeploymentWidget: Widget {
+
+	// MARK: Public
+
 	public var body: some WidgetConfiguration {
-		return IntentConfiguration(
+		IntentConfiguration(
 			kind: "LatestDeploymentWidget",
 			intent: SelectAccountIntent.self,
 			provider: LatestDeploymentProvider()
@@ -120,6 +127,8 @@ struct LatestDeploymentWidget: Widget {
 		.supportedFamilies(supportedFamilies)
 	}
 
+	// MARK: Private
+
 	private var supportedFamilies: [WidgetFamily] {
 		if #available(iOS 16.0, *) {
 			[.systemSmall, .systemMedium, .accessoryRectangular, .accessoryCircular]
@@ -127,4 +136,5 @@ struct LatestDeploymentWidget: Widget {
 			[.systemSmall, .systemMedium]
 		}
 	}
+
 }
