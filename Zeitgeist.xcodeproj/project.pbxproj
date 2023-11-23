@@ -122,6 +122,8 @@
 		E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */; };
 		E875EDD32B1A460E00BB3BBA /* RecentDeploymentsEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */; };
 		E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */; };
+		E875EDD52B1A466900BB3BBA /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */; };
+		E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +162,8 @@
 		5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentEntry.swift; sourceTree = "<group>"; };
 		5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsEntry.swift; sourceTree = "<group>"; };
 		5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLabel.swift; sourceTree = "<group>"; };
+		5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidgetView.swift; sourceTree = "<group>"; };
+		5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidgetView.swift; sourceTree = "<group>"; };
 		71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestEventMenuBarLabel.swift; sourceTree = "<group>"; };
 		71059A7D28786F4100BF8B2E /* ProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListView.swift; sourceTree = "<group>"; };
 		71059A8028786F6000BF8B2E /* VercelProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelProjectModel.swift; sourceTree = "<group>"; };
@@ -280,6 +284,8 @@
 		5CCA9F192B0F0D1100030016 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */,
+				5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */,
 				5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */,
 			);
 			path = Views;
@@ -724,6 +730,7 @@
 				71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
 				71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */,
 				711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
+				E875EDD52B1A466900BB3BBA /* LatestDeploymentWidgetView.swift in Sources */,
 				711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */,
 				71623BAE28A1257900551580 /* Pasteboard.swift in Sources */,
 				7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
@@ -734,6 +741,7 @@
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
 				7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
+				E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */,
 				71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */,
 				714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */,
