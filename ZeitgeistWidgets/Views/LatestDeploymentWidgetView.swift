@@ -38,7 +38,6 @@ struct LatestDeploymentWidgetView: View {
 
 	// MARK: Private
 
-	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
 	@Environment(\.widgetFamily) private var widgetFamily
 
 	private var hasProject: Bool {
@@ -100,14 +99,16 @@ struct LatestDeploymentWidgetView: View {
 		}
 		.font(.footnote)
 		.foregroundStyle(.primary)
-		.padding(.all, showsWidgetContainerBackground ? 0 : 10)
 		.symbolRenderingMode(.hierarchical)
 		.tint(.indigo)
+		.widgetPadding()
+		.widgetBackgroundRemovedPadding(8)
 	}
 
 	private var circularAccessoryView: some View {
 		Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-			.resizable()
+			.imageScale(.large)
+			.font(.largeTitle)
 	}
 
 	private var accessoryView: some View {

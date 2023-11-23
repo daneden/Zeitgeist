@@ -38,7 +38,6 @@ struct RecentDeploymentsWidgetView: View {
 	// MARK: Private
 
 	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
-	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
 	@Environment(\.widgetFamily) private var widgetFamily
 
 	private var numberOfDeployments: Int {
@@ -61,6 +60,8 @@ struct RecentDeploymentsWidgetView: View {
 		VStack(alignment: .leading) {
 			Label("Recent Deployments", systemImage: "clock")
 				.font(.footnote.bold())
+
+			Spacer(minLength: 0)
 
 			if let deployments = config.deployments?.prefix(numberOfDeployments) {
 				ForEach(deployments) { deployment in
@@ -100,7 +101,7 @@ struct RecentDeploymentsWidgetView: View {
 			.foregroundStyle(.secondary)
 			.lineLimit(1)
 		}
-		.padding(showsWidgetContainerBackground ? 0 : 10)
+		.widgetPadding()
 	}
 
 }
