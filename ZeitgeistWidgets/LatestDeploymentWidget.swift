@@ -130,7 +130,7 @@ struct LatestDeploymentWidget: Widget {
 	// MARK: Private
 
 	private var supportedFamilies: [WidgetFamily] {
-		if #available(iOS 16.0, *) {
+		if #available(iOSApplicationExtension 16.0, *) {
 			[.systemSmall, .systemMedium, .accessoryRectangular, .accessoryCircular]
 		} else {
 			[.systemSmall, .systemMedium]
