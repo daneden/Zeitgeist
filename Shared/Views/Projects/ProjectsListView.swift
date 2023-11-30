@@ -25,6 +25,7 @@ struct ProjectsListView: View {
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
 	@State private var searchText = ""
+	@State private var projectsError: SessionError?
 	
 	var filteredProjects: [VercelProject] {
 		if searchText.isEmpty {
@@ -76,10 +77,22 @@ struct ProjectsListView: View {
 					Label("View Options", systemImage: "eye.circle")
 				}
 			}
-			.dataTask { do { try await loadProjects() } catch { print(error) } }
+			.dataTask {
+				do {
+					try await loadProjects()
+				} catch {
+					if let error = error as? SessionError {
+						self.projectsError = error
+					}
+				}
+			}
 			
-			if projects.isEmpty {
+			if projects.isEmpty && projectsError == nil {
 				PlaceholderView(forRole: .NoProjects)
+			}
+			
+			if let projectsError {
+				PlaceholderView(forRole: .AuthError)
 			}
 		}
 		.navigationTitle(Text("Projects"))

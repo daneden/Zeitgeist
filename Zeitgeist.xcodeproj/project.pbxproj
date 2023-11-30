@@ -94,6 +94,7 @@
 		7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
+		7139DCE92B18D27A00E86183 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04D2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		71493654278AEF0D001CB921 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
@@ -200,6 +201,7 @@
 		71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+deviceInfo.swift"; sourceTree = "<group>"; };
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
 		7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VercelSession+accountCRUD.swift"; sourceTree = "<group>"; };
+		7139DCE82B18D27A00E86183 /* SignOutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutButton.swift; sourceTree = "<group>"; };
 		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
 		713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEnvironmentVariablesView.swift; sourceTree = "<group>"; };
 		713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableEditView.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 				7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */,
 				71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */,
 				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
+				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				7109AD052B18A47500724454 /* URL.extension.swift in Sources */,
 				7109AD092B18A47900724454 /* LatestEventMenuBarLabel.swift in Sources */,
 				7109AD0C2B18A47900724454 /* ZeitgeistLogo.swift in Sources */,
+				7139DCE92B18D27A00E86183 /* SignOutButton.swift in Sources */,
 				7109AD002B18A47500724454 /* UIDevice+deviceInfo.swift in Sources */,
 				7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */,
 				7109AD012B18A47500724454 /* View+permissionRevocationDialog.swift in Sources */,
@@ -765,6 +769,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Shared/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -776,7 +781,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 3.2.1;
+				MARKETING_VERSION = 3.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -805,6 +810,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Shared/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -816,7 +822,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 3.2.1;
+				MARKETING_VERSION = 3.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

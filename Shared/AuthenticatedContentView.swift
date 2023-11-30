@@ -24,6 +24,13 @@ fileprivate struct AccountListRow: View {
 		} icon: {
 			VercelUserAvatarView(account: account, size: size)
 		}
+		.contextMenu {
+			Button(role: .destructive) {
+				VercelSession.deleteAccount(id: account.id)
+			} label: {
+				Label("Sign out", systemImage: "person.badge.minus")
+			}
+		}
 	}
 }
 

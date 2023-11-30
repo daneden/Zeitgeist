@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum PlaceholderRole {
-	case DeploymentList, DeploymentDetail, NoDeployments, NoAccounts, ProjectDetail, NoProjects, NoEnvVars
+	case DeploymentList, DeploymentDetail, NoDeployments, NoAccounts, ProjectDetail, NoProjects, NoEnvVars, AuthError
 }
 
 struct PlaceholderView: View {
@@ -26,25 +26,35 @@ struct PlaceholderView: View {
 			return "text.magnifyingglass"
 		case .NoAccounts:
 			return "person.3.fill"
+		case .AuthError:
+			return "person.crop.circle.badge.exclamationmark"
 		}
 	}
 
-	var text: Text {
+	@ViewBuilder
+	var text: some View {
 		switch forRole {
 		case .ProjectDetail:
-			return Text("No Project Selected")
+			Text("No Project Selected")
 		case .DeploymentDetail:
-			return Text("No Deployment Selected")
+			Text("No Deployment Selected")
 		case .DeploymentList:
-			return Text("No Account Selected")
+			Text("No Account Selected")
 		case .NoDeployments:
-			return Text("No Deployments To Show")
+			Text("No Deployments To Show")
 		case .NoAccounts:
-			return Text("No Accounts Found")
+			Text("No Accounts Found")
 		case .NoProjects:
-			return Text("No Projects To Show")
+			Text("No Projects To Show")
 		case .NoEnvVars:
-			return Text("No Environment Variables for Project")
+			Text("No Environment Variables for Project")
+		case .AuthError:
+			VStack {
+				Text("Error authenticating account")
+					.font(.headline)
+				Text("The selected account has not been authorised on this device. You can try signing out and signing in again.")
+				SignOutButton()
+			}
 		}
 	}
 

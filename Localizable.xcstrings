@@ -13,7 +13,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Deploy hook cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nThe cause of a deployment in the projects list\nA widget label with an icon and label text",
+      "comment" : "Deploy hook cause icon and name\nThe cause of a deployment in the projects list\nLabel for a deployment caused by a deploy hook ({icon} {name})",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -543,6 +543,9 @@
           }
         }
       }
+    },
+    "Error authenticating account" : {
+
     },
     "Error building" : {
       "extractionState" : "manual",
@@ -1076,6 +1079,9 @@
         }
       }
     },
+    "Sign out" : {
+
+    },
     "Sign out of all accounts" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1152,6 +1158,9 @@
           }
         }
       }
+    },
+    "The selected account has not been authorised on this device. You can try signing out and signing in again." : {
+
     },
     "There was a problem loading data for this account. It may have been deleted, or its access token may have been revoked." : {
       "localizations" : {
