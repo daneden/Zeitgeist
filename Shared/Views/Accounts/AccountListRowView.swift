@@ -8,34 +8,28 @@
 import SwiftUI
 
 struct AccountListRowView: View {
-	var account: VercelAccount?
-
+	var account: VercelAccount
+	
+	var size: Double {
+#if os(macOS)
+		20
+#else
+		24
+#endif
+	}
+	
 	var body: some View {
-		Group {
-			if let account = account {
-				Label {
-					VStack(alignment: .leading) {
-						Text(verbatim: account.name ?? account.username)
-
-						if account.isTeam {
-							Text("Team Account", comment: "Subtitle for team accounts in the account list")
-								.foregroundStyle(.secondary)
-								.font(.caption)
-						}
-					}
-				} icon: {
-					VercelUserAvatarView(account: account)
-				}
-			} else {
-				ProgressView("Loading")
+		Label {
+			Text(verbatim: account.name ?? account.username)
+		} icon: {
+			VercelUserAvatarView(account: account, size: size)
+		}
+		.contextMenu {
+			Button(role: .destructive) {
+				VercelSession.deleteAccount(id: account.id)
+			} label: {
+				Label("Sign out", systemImage: "person.badge.minus")
 			}
 		}
-		.id(account?.id)
-	}
-}
-
-struct AccountListRowView_Previews: PreviewProvider {
-	static var previews: some View {
-		AccountListRowView()
 	}
 }

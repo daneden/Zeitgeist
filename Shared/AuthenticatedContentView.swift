@@ -7,33 +7,6 @@
 
 import SwiftUI
 
-fileprivate struct AccountListRow: View {
-	var account: VercelAccount
-	
-	var size: Double {
-		#if os(macOS)
-		20
-		#else
-		24
-		#endif
-	}
-	
-	var body: some View {
-		Label {
-			Text(verbatim: account.name ?? account.username)
-		} icon: {
-			VercelUserAvatarView(account: account, size: size)
-		}
-		.contextMenu {
-			Button(role: .destructive) {
-				VercelSession.deleteAccount(id: account.id)
-			} label: {
-				Label("Sign out", systemImage: "person.badge.minus")
-			}
-		}
-	}
-}
-
 struct AuthenticatedContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
 	
@@ -67,7 +40,7 @@ struct AuthenticatedContentView: View {
 					List(selection: $selectedAccount) {
 						Section {
 							ForEach(accounts, id: \.self) {
-								AccountListRow(account: $0)
+								AccountListRowView(account: $0)
 							}
 							.onDelete(perform: deleteAccount)
 							
@@ -112,7 +85,7 @@ struct AuthenticatedContentView: View {
 								ProjectsListView()
 									.environmentObject(session)
 							} label: {
-								AccountListRow(account: account)
+								AccountListRowView(account: account)
 							}
 						}
 					}

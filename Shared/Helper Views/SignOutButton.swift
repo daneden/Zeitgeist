@@ -12,7 +12,9 @@ struct SignOutButton: View {
 	
 	var body: some View {
 		Button {
-			VercelSession.deleteAccount(id: session.account.id)
+			#if !EXTENSION
+				VercelSession.deleteAccount(id: session.account.id)
+			#endif
 		} label: {
 			Label("Sign out", systemImage: "person.badge.minus")
 		}

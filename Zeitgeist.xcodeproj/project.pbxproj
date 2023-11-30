@@ -104,6 +104,7 @@
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		71B881392B18D5F0005EFD48 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
 		71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
@@ -685,6 +686,7 @@
 				711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */,
 				711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */,
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
+				71B881392B18D5F0005EFD48 /* SignOutButton.swift in Sources */,
 				711553EF266553F400A73CD6 /* VercelSession.swift in Sources */,
 				711553FC26655E0C00A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				71059A95287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
@@ -977,6 +979,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXTENSION DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1003,6 +1006,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist.ZeitgeistWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = EXTENSION;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

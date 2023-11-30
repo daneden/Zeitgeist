@@ -13,7 +13,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Deploy hook cause icon and name\nThe cause of a deployment in the projects list\nLabel for a deployment caused by a deploy hook ({icon} {name})",
+      "comment" : "The cause of a deployment in the projects list\nDeploy hook cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nA widget label with an icon and label text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1140,6 +1140,7 @@
     },
     "Team Account" : {
       "comment" : "Subtitle for team accounts in the account list",
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
