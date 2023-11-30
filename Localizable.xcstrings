@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -12,7 +13,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Deploy hook cause icon and name\n   Promoted deployment cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nIcon and name of a repository for a project in the projects list\n   The cause of a deployment in the projects list\nA widget label with an icon and label text",
+      "comment" : "Deploy hook cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nThe cause of a deployment in the projects list\nA widget label with an icon and label text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -71,6 +72,9 @@
         }
       }
     },
+    "Account Permissions Revoked" : {
+
+    },
     "Accounts" : {
       "comment" : "Header for accounts list",
       "localizations" : {
@@ -102,6 +106,9 @@
           }
         }
       }
+    },
+    "Add new environment variable" : {
+
     },
     "All statuses" : {
       "localizations" : {
@@ -265,6 +272,9 @@
         }
       }
     },
+    "Clear Filters" : {
+
+    },
     "Close" : {
       "comment" : "Label to dismiss the build cancellation confirmation",
       "localizations" : {
@@ -371,6 +381,9 @@
         }
       }
     },
+    "Delete Environment Variable" : {
+
+    },
     "Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone." : {
       "localizations" : {
         "fr" : {
@@ -465,6 +478,9 @@
         }
       }
     },
+    "Dismiss" : {
+
+    },
     "Done" : {
       "localizations" : {
         "fr" : {
@@ -474,6 +490,9 @@
           }
         }
       }
+    },
+    "Edit" : {
+
     },
     "Edit Environment Variable" : {
       "localizations" : {
@@ -536,6 +555,9 @@
         }
       }
     },
+    "Filter Deployments" : {
+
+    },
     "Filter deployments by:" : {
       "localizations" : {
         "fr" : {
@@ -545,6 +567,9 @@
           }
         }
       }
+    },
+    "Follow logs" : {
+
     },
     "Git Repository" : {
       "localizations" : {
@@ -576,6 +601,9 @@
         }
       }
     },
+    "Label" : {
+
+    },
     "Latest Deployment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -598,6 +626,9 @@
         }
       }
     },
+    "Loading" : {
+
+    },
     "Loading Deployments" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -608,6 +639,9 @@
           }
         }
       }
+    },
+    "Loading Projects" : {
+
     },
     "Loading..." : {
       "localizations" : {
@@ -629,6 +663,9 @@
           }
         }
       }
+    },
+    "More" : {
+
     },
     "Name" : {
       "localizations" : {
@@ -741,6 +778,12 @@
         }
       }
     },
+    "Notification Permissions Required" : {
+
+    },
+    "Notification settings)" : {
+
+    },
     "Notifications" : {
       "localizations" : {
         "fr" : {
@@ -781,6 +824,9 @@
           }
         }
       }
+    },
+    "Open in Safari" : {
+
     },
     "Open Settings" : {
       "localizations" : {
@@ -851,6 +897,15 @@
           }
         }
       }
+    },
+    "Production Deployment" : {
+
+    },
+    "Production deployments only" : {
+
+    },
+    "Production only" : {
+
     },
     "Project" : {
       "localizations" : {
@@ -944,6 +999,9 @@
         }
       }
     },
+    "Redeploy%@" : {
+
+    },
     "Remove account" : {
       "localizations" : {
         "fr" : {
@@ -1028,6 +1086,9 @@
           }
         }
       }
+    },
+    "Staging" : {
+
     },
     "Status" : {
       "localizations" : {
@@ -1153,6 +1214,9 @@
         }
       }
     },
+    "View Options" : {
+
+    },
     "Waiting for data" : {
       "localizations" : {
         "fr" : {
@@ -1212,6 +1276,9 @@
           }
         }
       }
+    },
+    "Zeitgeist" : {
+
     },
     "Zeitgeist lets you see and manage your Vercel deployments." : {
       "localizations" : {

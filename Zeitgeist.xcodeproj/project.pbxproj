@@ -7,42 +7,76 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		71028B242A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */; };
-		71059A7E28786F4100BF8B2E /* ProjectsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A7D28786F4100BF8B2E /* ProjectsListView.swift */; };
-		71059A8128786F6000BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
 		71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
-		71059A8528786FEA00BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
 		71059A8728786FEA00BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
 		71059A88287872B600BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
-		71059A8A2878737900BF8B2E /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A892878737900BF8B2E /* ProjectDetailView.swift */; };
 		71059A8D2878756B00BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
-		71059A8F287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */; };
-		71059A93287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A92287D5CA500BF8B2E /* VercelAliasModel.swift */; };
 		71059A95287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A92287D5CA500BF8B2E /* VercelAliasModel.swift */; };
 		71059A96287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A92287D5CA500BF8B2E /* VercelAliasModel.swift */; };
-		71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
-		7115534B266279D000A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
-		7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535626627AD800A73CD6 /* SignInViewModel.swift */; };
-		7115535926627B2900A73CD6 /* VercelSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* VercelSession.swift */; };
-		7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
-		71155364266282C900A73CD6 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
-		71155366266289F500A73CD6 /* VercelAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* VercelAccountModel.swift */; };
-		7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */; };
-		7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
-		7115537926629BB900A73CD6 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
-		7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
-		7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */; };
-		711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
-		7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538826642A5100A73CD6 /* DeploymentDetailView.swift */; };
-		7115538D2664E00A00A73CD6 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* LabelView.swift */; };
-		7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */; };
+		7109ACF92B18A47000724454 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE84028AD24260063F338 /* ContentView.swift */; };
+		7109ACFA2B18A47000724454 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */; };
+		7109ACFB2B18A47000724454 /* AuthenticatedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */; };
+		7109ACFC2B18A47000724454 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
+		7109ACFD2B18A47000724454 /* ZeitgeistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155346266279CF00A73CD6 /* ZeitgeistApp.swift */; };
+		7109ACFE2B18A47500724454 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
+		7109ACFF2B18A47500724454 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
+		7109AD002B18A47500724454 /* UIDevice+deviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */; };
+		7109AD012B18A47500724454 /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
+		7109AD022B18A47500724454 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
+		7109AD032B18A47500724454 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */; };
+		7109AD042B18A47500724454 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
+		7109AD052B18A47500724454 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
+		7109AD062B18A47500724454 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
+		7109AD072B18A47900724454 /* VercelUserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */; };
+		7109AD082B18A47900724454 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538C2664E00A00A73CD6 /* LabelView.swift */; };
+		7109AD092B18A47900724454 /* LatestEventMenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */; };
+		7109AD0A2B18A47900724454 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
+		7109AD0B2B18A47900724454 /* StatusBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */; };
+		7109AD0C2B18A47900724454 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */; };
+		7109AD0D2B18A48000724454 /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
+		7109AD0E2B18A48000724454 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
+		7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
+		7109AD102B18A48000724454 /* MigrationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */; };
+		7109AD112B18A48000724454 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
+		7109AD122B18A48000724454 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
+		7109AD132B18A48000724454 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		7109AD142B18A48000724454 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
+		7109AD152B18A48500724454 /* VercelAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* VercelAccountModel.swift */; };
+		7109AD162B18A48500724454 /* VercelSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* VercelSession.swift */; };
+		7109AD172B18A48500724454 /* VercelSession+accountCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */; };
+		7109AD182B18A48500724454 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
+		7109AD192B18A48500724454 /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
+		7109AD1A2B18A48500724454 /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
+		7109AD1B2B18A48500724454 /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
+		7109AD1C2B18A48500724454 /* VercelAliasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A92287D5CA500BF8B2E /* VercelAliasModel.swift */; };
+		7109AD1D2B18A48500724454 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
+		7109AD1E2B18A48500724454 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535626627AD800A73CD6 /* SignInViewModel.swift */; };
+		7109AD1F2B18A48900724454 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
+		7109AD202B18A49000724454 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162FD7F2880103400D20E62 /* AccountListRowView.swift */; };
+		7109AD212B18A49400724454 /* DeploymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115538826642A5100A73CD6 /* DeploymentDetailView.swift */; };
+		7109AD222B18A49400724454 /* DeploymentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */; };
+		7109AD232B18A49400724454 /* DeploymentLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71493651278AEBA2001CB921 /* DeploymentLogView.swift */; };
+		7109AD242B18A49400724454 /* DeploymentStateIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537C2663AD8000A73CD6 /* DeploymentStateIndicator.swift */; };
+		7109AD252B18A49400724454 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
+		7109AD262B18A49900724454 /* ProjectEnvironmentVariablesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */; };
+		7109AD272B18A49900724454 /* EnvironmentVariableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */; };
+		7109AD282B18A49900724454 /* EnvironmentVariableEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */; };
+		7109AD292B18A49D00724454 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
+		7109AD2A2B18A49D00724454 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
+		7109AD2B2B18A4A200724454 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
+		7109AD2C2B18A4A200724454 /* ProjectsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A7D28786F4100BF8B2E /* ProjectsListView.swift */; };
+		7109AD2D2B18A4A200724454 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
+		7109AD2E2B18A4A200724454 /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A892878737900BF8B2E /* ProjectDetailView.swift */; };
+		7109AD2F2B18A4A700724454 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
+		7109AD302B18A4A700724454 /* NotificationPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44AB28B52359005105B7 /* NotificationPreview.swift */; };
+		7109AD312B18A4CC00724454 /* SelectWidgetAccountIntent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7109AD342B18A4CC00724454 /* ZeitgeistWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7184F50B2B080997001CA695 /* StoreKit.framework */; };
 		711553D9266552AD00A73CD6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711553D8266552AD00A73CD6 /* WidgetKit.framework */; };
 		711553DB266552AE00A73CD6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711553DA266552AD00A73CD6 /* SwiftUI.framework */; };
 		711553DE266552AE00A73CD6 /* ZeitgeistWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */; };
 		711553E1266552AF00A73CD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 711553E0266552AF00A73CD6 /* Assets.xcassets */; };
 		711553E3266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
-		711553E4266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
-		711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		711553EF266553F400A73CD6 /* VercelSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* VercelSession.swift */; };
 		711553F12665548D00A73CD6 /* VercelAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155365266289F500A73CD6 /* VercelAccountModel.swift */; };
 		711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
@@ -54,60 +88,26 @@
 		711A4A332667A42E00DA9EE3 /* RecentDeploymentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */; };
 		711A4A342667AC0C00DA9EE3 /* DeploymentListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */; };
 		711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
-		711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A35266976CA00DA9EE3 /* URL.extension.swift */; };
 		711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711553862663B03C00A73CD6 /* PlaceholderView.swift */; };
-		711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
 		711A4A41266B672300DA9EE3 /* VercelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A3D266B672300DA9EE3 /* VercelAPI.swift */; };
-		711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A42266B803300DA9EE3 /* OnboardingView.swift */; };
-		711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A49266B8AAC00DA9EE3 /* SettingsView.swift */; };
-		711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A4C266B943800DA9EE3 /* Dictionary.swift */; };
-		711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A52266BDE3B00DA9EE3 /* AppDelegate.swift */; };
-		711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
-		711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
-		71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */; };
-		7135EA102788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
-		7136901028DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */; };
-		713CD9BE28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */; };
-		713F1FE728CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */; };
-		713F1FEA28CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */; };
-		7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
+		7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04D2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
-		71493652278AEBA2001CB921 /* DeploymentLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71493651278AEBA2001CB921 /* DeploymentLogView.swift */; };
 		71493654278AEF0D001CB921 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
 		71493655278AEF1A001CB921 /* GitCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537626629BAA00A73CD6 /* GitCommit.swift */; };
-		714D4499289FD979005105B7 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
-		714D449C289FEEA2005105B7 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
 		714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
-		714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449F289FF550005105B7 /* ProjectsListRowView.swift */; };
-		714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44A728B239A4005105B7 /* NewFeaturesView.swift */; };
-		714D44AC28B52359005105B7 /* NotificationPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D44AB28B52359005105B7 /* NotificationPreview.swift */; };
-		71609DE428B3AB9100323156 /* ZeitgeistLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
-		71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		71622AF328B3B54C00DB34C5 /* StatusBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
-		7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162FD7F2880103400D20E62 /* AccountListRowView.swift */; };
-		716F4E392A4090C4008133F0 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */; };
-		7184F50C2B080997001CA695 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7184F50B2B080997001CA695 /* StoreKit.framework */; };
-		71C154B42A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
-		71CAE83E28AD20B90063F338 /* MigrationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */; };
-		71CAE84128AD24260063F338 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE84028AD24260063F338 /* ContentView.swift */; };
-		71D0BC2F2881F2C200A22693 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
 		71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
-		71D0BC372882A2D600A22693 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
 		71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
-		71D0BC3B28868FF400A22693 /* ProjectNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */; };
-		71DBAFFD28D0922B00015292 /* EnvironmentVariableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */; };
 		71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
-		71F2608028C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
 		71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71F90201266567D7000A8873 /* ZeitgeistWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 711553DF266552AE00A73CD6 /* ZeitgeistWidgets.intentdefinition */; };
@@ -115,37 +115,36 @@
 		71F902052665682C000A8873 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115536026627F3E00A73CD6 /* KeychainItem.swift */; };
 		71F9020626656834000A8873 /* VercelSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115535826627B2900A73CD6 /* VercelSession.swift */; };
 		71F902072665683B000A8873 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
-		71F9020926656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		71F9020B26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		71F9020C26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		711553E5266552AF00A73CD6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7115533B266279CF00A73CD6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 711553D5266552AD00A73CD6;
-			remoteInfo = ZeitgeistWidgetsExtension;
-		};
-		71611C052665667100119324 /* PBXContainerItemProxy */ = {
+		7109AD322B18A4CC00724454 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7115533B266279CF00A73CD6 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 71611BFE2665667100119324;
 			remoteInfo = SelectWidgetAccountIntent;
 		};
+		7109AD352B18A4CC00724454 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7115533B266279CF00A73CD6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 711553D5266552AD00A73CD6;
+			remoteInfo = ZeitgeistWidgetsExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		711553EB266552AF00A73CD6 /* Embed Foundation Extensions */ = {
+		7109AD372B18A4CC00724454 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				71611C072665667100119324 /* SelectWidgetAccountIntent.appex in Embed Foundation Extensions */,
-				711553E7266552AF00A73CD6 /* ZeitgeistWidgetsExtension.appex in Embed Foundation Extensions */,
+				7109AD312B18A4CC00724454 /* SelectWidgetAccountIntent.appex in Embed Foundation Extensions */,
+				7109AD342B18A4CC00724454 /* ZeitgeistWidgetsExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,7 +159,8 @@
 		71059A892878737900BF8B2E /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
 		71059A8E287C0C9200BF8B2E /* AuthenticatedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedContentView.swift; sourceTree = "<group>"; };
 		71059A92287D5CA500BF8B2E /* VercelAliasModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelAliasModel.swift; sourceTree = "<group>"; };
-		71155343266279CF00A73CD6 /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7109ACEB2B18A41900724454 /* Zeitgeist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zeitgeist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7109AD392B18A4E900724454 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Zeitgeist.entitlements; path = Zeitgeist/Zeitgeist.entitlements; sourceTree = "<group>"; };
 		71155346266279CF00A73CD6 /* ZeitgeistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistApp.swift; sourceTree = "<group>"; };
 		7115534A266279D000A73CD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7115534F266279D000A73CD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -217,7 +217,6 @@
 		71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBannerView.swift; sourceTree = "<group>"; };
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
-		7184F50A2B080280001CA695 /* Zeitgeist.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Zeitgeist.entitlements; sourceTree = "<group>"; };
 		7184F50B2B080997001CA695 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		71C154B32A4DE14A00495F47 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHelpers.swift; sourceTree = "<group>"; };
@@ -232,11 +231,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		71155340266279CF00A73CD6 /* Frameworks */ = {
+		7109ACE82B18A41900724454 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7184F50C2B080997001CA695 /* StoreKit.framework in Frameworks */,
+				7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +273,7 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
-				7184F50A2B080280001CA695 /* Zeitgeist.entitlements */,
+				7109AD392B18A4E900724454 /* Zeitgeist.entitlements */,
 				71C154B32A4DE14A00495F47 /* Localizable.xcstrings */,
 				711553D7266552AD00A73CD6 /* Frameworks */,
 				71155344266279CF00A73CD6 /* Products */,
@@ -290,9 +289,9 @@
 		71155344266279CF00A73CD6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71155343266279CF00A73CD6 /* Zeitgeist.app */,
 				711553D6266552AD00A73CD6 /* ZeitgeistWidgetsExtension.appex */,
 				71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */,
+				7109ACEB2B18A41900724454 /* Zeitgeist.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -484,26 +483,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		71155342266279CF00A73CD6 /* Zeitgeist */ = {
+		7109ACEA2B18A41900724454 /* Zeitgeist */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 71155352266279D000A73CD6 /* Build configuration list for PBXNativeTarget "Zeitgeist" */;
+			buildConfigurationList = 7109ACF62B18A41B00724454 /* Build configuration list for PBXNativeTarget "Zeitgeist" */;
 			buildPhases = (
-				7115533F266279CF00A73CD6 /* Sources */,
-				71155340266279CF00A73CD6 /* Frameworks */,
-				71155341266279CF00A73CD6 /* Resources */,
-				711553EB266552AF00A73CD6 /* Embed Foundation Extensions */,
+				7109ACE72B18A41900724454 /* Sources */,
+				7109ACE82B18A41900724454 /* Frameworks */,
+				7109ACE92B18A41900724454 /* Resources */,
+				7109AD372B18A4CC00724454 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				711553E6266552AF00A73CD6 /* PBXTargetDependency */,
-				71611C062665667100119324 /* PBXTargetDependency */,
+				7109AD332B18A4CC00724454 /* PBXTargetDependency */,
+				7109AD362B18A4CC00724454 /* PBXTargetDependency */,
 			);
 			name = Zeitgeist;
-			packageProductDependencies = (
-			);
-			productName = Verdant;
-			productReference = 71155343266279CF00A73CD6 /* Zeitgeist.app */;
+			productName = Zeitgeist;
+			productReference = 7109ACEB2B18A41900724454 /* Zeitgeist.app */;
 			productType = "com.apple.product-type.application";
 		};
 		711553D5266552AD00A73CD6 /* ZeitgeistWidgetsExtension */ = {
@@ -547,11 +544,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					71155342266279CF00A73CD6 = {
-						CreatedOnToolsVersion = 12.5;
+					7109ACEA2B18A41900724454 = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 					711553D5266552AD00A73CD6 = {
 						CreatedOnToolsVersion = 12.5;
@@ -577,7 +574,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				71155342266279CF00A73CD6 /* Zeitgeist */,
+				7109ACEA2B18A41900724454 /* Zeitgeist */,
 				711553D5266552AD00A73CD6 /* ZeitgeistWidgetsExtension */,
 				71611BFE2665667100119324 /* SelectWidgetAccountIntent */,
 			);
@@ -585,12 +582,12 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		71155341266279CF00A73CD6 /* Resources */ = {
+		7109ACE92B18A41900724454 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71C154B42A4DE14A00495F47 /* Localizable.xcstrings in Resources */,
-				7115534B266279D000A73CD6 /* Assets.xcassets in Resources */,
+				7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */,
+				7109ACFC2B18A47000724454 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,66 +612,65 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7115533F266279CF00A73CD6 /* Sources */ = {
+		7109ACE72B18A41900724454 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				713F1FE728CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift in Sources */,
-				7135EA102788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
-				713F1FEA28CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift in Sources */,
-				71059A7E28786F4100BF8B2E /* ProjectsListView.swift in Sources */,
-				71622AF328B3B54C00DB34C5 /* StatusBannerView.swift in Sources */,
-				7136901028DD9A17007B1D4E /* VercelSession+accountCRUD.swift in Sources */,
-				7115536126627F3E00A73CD6 /* KeychainItem.swift in Sources */,
-				7115535926627B2900A73CD6 /* VercelSession.swift in Sources */,
-				71155364266282C900A73CD6 /* Array.extension.swift in Sources */,
-				7115538D2664E00A00A73CD6 /* LabelView.swift in Sources */,
-				71D0BC2F2881F2C200A22693 /* Notification+ZPS.swift in Sources */,
-				711A4A53266BDE3B00DA9EE3 /* AppDelegate.swift in Sources */,
-				714D449C289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
-				71028B242A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift in Sources */,
-				714D44AC28B52359005105B7 /* NotificationPreview.swift in Sources */,
-				714D4499289FD979005105B7 /* Pasteboard.swift in Sources */,
-				7115539C26653CA000A73CD6 /* DeploymentFilterView.swift in Sources */,
-				71155366266289F500A73CD6 /* VercelAccountModel.swift in Sources */,
-				7115537726629BAA00A73CD6 /* GitCommit.swift in Sources */,
-				7115537B2663AD2900A73CD6 /* DeploymentListRowView.swift in Sources */,
-				711A4A59266BDF3100DA9EE3 /* NotificationManager.swift in Sources */,
-				71D0BC372882A2D600A22693 /* View+dataTask.swift in Sources */,
-				7115537926629BB900A73CD6 /* VercelDeployment.swift in Sources */,
-				7115537D2663AD8000A73CD6 /* DeploymentStateIndicator.swift in Sources */,
-				711A4A43266B803300DA9EE3 /* OnboardingView.swift in Sources */,
-				71059A8528786FEA00BF8B2E /* GitRepoModel.swift in Sources */,
-				71059A8A2878737900BF8B2E /* ProjectDetailView.swift in Sources */,
-				71D0BC3B28868FF400A22693 /* ProjectNotificationsView.swift in Sources */,
-				711553E4266552AF00A73CD6 /* ZeitgeistWidgets.intentdefinition in Sources */,
-				71059A93287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
-				71059A8128786F6000BF8B2E /* VercelProjectModel.swift in Sources */,
-				7115536D266292AF00A73CD6 /* VercelUserAvatarView.swift in Sources */,
-				716F4E392A4090C4008133F0 /* Date+RawRepresentable.swift in Sources */,
-				711553872663B03C00A73CD6 /* PlaceholderView.swift in Sources */,
-				71059A8F287C0C9200BF8B2E /* AuthenticatedContentView.swift in Sources */,
-				7115538926642A5100A73CD6 /* DeploymentDetailView.swift in Sources */,
-				711A4A4D266B943800DA9EE3 /* Dictionary.swift in Sources */,
-				711A4A56266BDF0900DA9EE3 /* PostalService.swift in Sources */,
-				71609DE428B3AB9100323156 /* ZeitgeistLogo.swift in Sources */,
-				71F9020926656A21000A8873 /* Preferences.swift in Sources */,
-				71155347266279CF00A73CD6 /* ZeitgeistApp.swift in Sources */,
-				7115535726627AD800A73CD6 /* SignInViewModel.swift in Sources */,
-				714D44A828B239A4005105B7 /* NewFeaturesView.swift in Sources */,
-				71CAE83E28AD20B90063F338 /* MigrationHelpers.swift in Sources */,
-				71CAE84128AD24260063F338 /* ContentView.swift in Sources */,
-				713CD9BE28B781AE003E26DF /* View+permissionRevocationDialog.swift in Sources */,
-				711A4A372669790500DA9EE3 /* URL.extension.swift in Sources */,
-				711A4A3E266B672300DA9EE3 /* VercelAPI.swift in Sources */,
-				71493652278AEBA2001CB921 /* DeploymentLogView.swift in Sources */,
-				711A4A4A266B8AAC00DA9EE3 /* SettingsView.swift in Sources */,
-				71335A562789B94F00FC2099 /* UIDevice+deviceInfo.swift in Sources */,
-				714D44A0289FF550005105B7 /* ProjectsListRowView.swift in Sources */,
-				71F2608028C48DE40089195B /* NavigationHelpers.swift in Sources */,
-				7144D04A2887F9C900F0AE1E /* VercelDomain.swift in Sources */,
-				7162FD802880103400D20E62 /* AccountListRowView.swift in Sources */,
-				71DBAFFD28D0922B00015292 /* EnvironmentVariableRowView.swift in Sources */,
+				7109AD052B18A47500724454 /* URL.extension.swift in Sources */,
+				7109AD092B18A47900724454 /* LatestEventMenuBarLabel.swift in Sources */,
+				7109AD0C2B18A47900724454 /* ZeitgeistLogo.swift in Sources */,
+				7109AD002B18A47500724454 /* UIDevice+deviceInfo.swift in Sources */,
+				7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */,
+				7109AD012B18A47500724454 /* View+permissionRevocationDialog.swift in Sources */,
+				7109AD072B18A47900724454 /* VercelUserAvatarView.swift in Sources */,
+				7109AD1D2B18A48500724454 /* GitCommit.swift in Sources */,
+				7109AD102B18A48000724454 /* MigrationHelpers.swift in Sources */,
+				7109AD062B18A47500724454 /* Dictionary.swift in Sources */,
+				7109AD232B18A49400724454 /* DeploymentLogView.swift in Sources */,
+				7109AD2B2B18A4A200724454 /* ProjectsListRowView.swift in Sources */,
+				7109AD1E2B18A48500724454 /* SignInViewModel.swift in Sources */,
+				7109AD0A2B18A47900724454 /* PlaceholderView.swift in Sources */,
+				7109AD0E2B18A48000724454 /* Preferences.swift in Sources */,
+				7109AD252B18A49400724454 /* DeploymentListRowView.swift in Sources */,
+				7109ACFA2B18A47000724454 /* AppDelegate.swift in Sources */,
+				7109AD032B18A47500724454 /* Date+RawRepresentable.swift in Sources */,
+				7109AD1F2B18A48900724454 /* VercelAPI.swift in Sources */,
+				7109AD182B18A48500724454 /* VercelDeployment.swift in Sources */,
+				7109ACFB2B18A47000724454 /* AuthenticatedContentView.swift in Sources */,
+				7109AD2F2B18A4A700724454 /* SettingsView.swift in Sources */,
+				7109AD2D2B18A4A200724454 /* ProjectNotificationsView.swift in Sources */,
+				7109AD152B18A48500724454 /* VercelAccountModel.swift in Sources */,
+				7109AD302B18A4A700724454 /* NotificationPreview.swift in Sources */,
+				7109AD0B2B18A47900724454 /* StatusBannerView.swift in Sources */,
+				7109ACFF2B18A47500724454 /* Array.extension.swift in Sources */,
+				7109AD1B2B18A48500724454 /* GitRepoModel.swift in Sources */,
+				7109AD2C2B18A4A200724454 /* ProjectsListView.swift in Sources */,
+				7109AD132B18A48000724454 /* Pasteboard.swift in Sources */,
+				7109AD202B18A49000724454 /* AccountListRowView.swift in Sources */,
+				7109AD0D2B18A48000724454 /* NavigationHelpers.swift in Sources */,
+				7109AD282B18A49900724454 /* EnvironmentVariableEditView.swift in Sources */,
+				7109AD1A2B18A48500724454 /* VercelDomain.swift in Sources */,
+				7109AD162B18A48500724454 /* VercelSession.swift in Sources */,
+				7109AD022B18A47500724454 /* View+dataTask.swift in Sources */,
+				7109AD272B18A49900724454 /* EnvironmentVariableRowView.swift in Sources */,
+				7109AD212B18A49400724454 /* DeploymentDetailView.swift in Sources */,
+				7109AD112B18A48000724454 /* PostalService.swift in Sources */,
+				7109AD042B18A47500724454 /* Notification+ZPS.swift in Sources */,
+				7109ACFD2B18A47000724454 /* ZeitgeistApp.swift in Sources */,
+				7109AD222B18A49400724454 /* DeploymentFilterView.swift in Sources */,
+				7109ACF92B18A47000724454 /* ContentView.swift in Sources */,
+				7109AD122B18A48000724454 /* PlaceholderData.swift in Sources */,
+				7109AD2A2B18A49D00724454 /* NewFeaturesView.swift in Sources */,
+				7109AD262B18A49900724454 /* ProjectEnvironmentVariablesView.swift in Sources */,
+				7109ACFE2B18A47500724454 /* Sequence+asyncMethods.swift in Sources */,
+				7109AD1C2B18A48500724454 /* VercelAliasModel.swift in Sources */,
+				7109AD2E2B18A4A200724454 /* ProjectDetailView.swift in Sources */,
+				7109AD242B18A49400724454 /* DeploymentStateIndicator.swift in Sources */,
+				7109AD192B18A48500724454 /* VercelProjectModel.swift in Sources */,
+				7109AD082B18A47900724454 /* LabelView.swift in Sources */,
+				7109AD292B18A49D00724454 /* OnboardingView.swift in Sources */,
+				7109AD142B18A48000724454 /* KeychainItem.swift in Sources */,
+				7109AD172B18A48500724454 /* VercelSession+accountCRUD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,21 +734,100 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		711553E6266552AF00A73CD6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			platformFilter = ios;
-			target = 711553D5266552AD00A73CD6 /* ZeitgeistWidgetsExtension */;
-			targetProxy = 711553E5266552AF00A73CD6 /* PBXContainerItemProxy */;
-		};
-		71611C062665667100119324 /* PBXTargetDependency */ = {
+		7109AD332B18A4CC00724454 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			platformFilter = ios;
 			target = 71611BFE2665667100119324 /* SelectWidgetAccountIntent */;
-			targetProxy = 71611C052665667100119324 /* PBXContainerItemProxy */;
+			targetProxy = 7109AD322B18A4CC00724454 /* PBXContainerItemProxy */;
+		};
+		7109AD362B18A4CC00724454 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 711553D5266552AD00A73CD6 /* ZeitgeistWidgetsExtension */;
+			targetProxy = 7109AD352B18A4CC00724454 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7109ACF72B18A41B00724454 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Shared/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 3.2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7109ACF82B18A41B00724454 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Shared/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 3.2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		71155350266279D000A73CD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -875,76 +950,6 @@
 			};
 			name = Release;
 		};
-		71155353266279D000A73CD6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Zeitgeist.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = YC249PY26F;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Shared/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 3.2.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-			};
-			name = Debug;
-		};
-		71155354266279D000A73CD6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Zeitgeist.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = YC249PY26F;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Shared/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 3.2.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-			};
-			name = Release;
-		};
 		711553E9266552AF00A73CD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1046,20 +1051,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7109ACF62B18A41B00724454 /* Build configuration list for PBXNativeTarget "Zeitgeist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7109ACF72B18A41B00724454 /* Debug */,
+				7109ACF82B18A41B00724454 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7115533E266279CF00A73CD6 /* Build configuration list for PBXProject "Zeitgeist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				71155350266279D000A73CD6 /* Debug */,
 				71155351266279D000A73CD6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		71155352266279D000A73CD6 /* Build configuration list for PBXNativeTarget "Zeitgeist" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				71155353266279D000A73CD6 /* Debug */,
-				71155354266279D000A73CD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

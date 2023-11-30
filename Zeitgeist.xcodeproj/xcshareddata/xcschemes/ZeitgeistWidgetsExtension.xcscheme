@@ -30,8 +30,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "71155342266279CF00A73CD6"
-               BuildableName = "Zeitgeist.app"
-               BlueprintName = "Zeitgeist"
+               BuildableName = "Zeitgeist-bad.app"
+               BlueprintName = "Zeitgeist-bad"
                ReferencedContainer = "container:Zeitgeist.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "71155342266279CF00A73CD6"
-            BuildableName = "Zeitgeist.app"
-            BlueprintName = "Zeitgeist"
+            BuildableName = "Zeitgeist-bad.app"
+            BlueprintName = "Zeitgeist-bad"
             ReferencedContainer = "container:Zeitgeist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -98,8 +98,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "71155342266279CF00A73CD6"
-            BuildableName = "Zeitgeist.app"
-            BlueprintName = "Zeitgeist"
+            BuildableName = "Zeitgeist-bad.app"
+            BlueprintName = "Zeitgeist-bad"
             ReferencedContainer = "container:Zeitgeist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
