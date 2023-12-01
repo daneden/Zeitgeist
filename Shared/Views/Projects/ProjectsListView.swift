@@ -81,6 +81,7 @@ struct ProjectsListView: View {
 				do {
 					try await loadProjects()
 				} catch {
+					print(error)
 					if let error = error as? SessionError {
 						self.projectsError = error
 					}
