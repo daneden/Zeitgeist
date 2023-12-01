@@ -11,31 +11,12 @@ import SwiftUI
 struct VercelProject: Decodable, Identifiable {
 	typealias ID = String
 	let accountId: String
-	let autoExposeSystemEnvs: Bool?
-	let buildCommand: String?
 	let createdAt: Int
-	let devCommand: String?
-	let directoryListing: Bool
-	let framework: VercelFramework?
-	let gitForkProtection: Bool?
 	let id: ID
 	let latestDeployments: [VercelDeployment]?
 	let name: String
-	let nodeVersion: String
-	let outputDirectory: String?
-	let passwordProtection: ProtectionSettings?
-	let publicSource: Bool?
-	let rootDirectory: String?
-	let serverlessFunctionRegion: String?
-	let sourceFilesOutsideRootDirectory: Bool?
-	let ssoProtection: ProtectionSettings?
 	let targets: Targets?
-	let transferCompletedAt: Int?
-	let transferStartedAt: Int?
-	let transferToAccountId: String?
-	let transferredFromAccountId: String?
 	let updatedAt: Int?
-	let live: Bool?
 	let link: VercelRepositoryLink?
 }
 
@@ -65,27 +46,6 @@ struct Pagination: Codable {
 	let count: Int
 	let prev: Int?
 	let next: Int?
-}
-
-enum VercelFramework: String, Codable {
-	case blitzjs, nextjs, gatsby, remix, astro, hexo, eleventy, docusaurus, preact, solidstart, dojo, ember, vue, scully, angular, polymer, svelte, sveltekit, gridsome, umijs, sapper, saber, stencil, nuxtjs, redwoodjs, hugo, jekyll, brunch, middleman, zola, vite, parcel, sanity
-
-	case createReactApp = "create-react-app"
-	case ionicReact = "ionic-react"
-	case ionicAngular = "ionic-angular"
-	case docusaurus2 = "docusaurus-2"
-}
-
-extension VercelProject {
-	struct ProtectionSettings: Codable {
-		let deploymentType: DeploymentTypeProtection?
-	}
-}
-
-enum DeploymentTypeProtection: String, Codable {
-	case standard = "prod_deployment_urls_and_all_previews"
-	case preview
-	case all
 }
 
 struct VercelEnv: Codable, Identifiable, Hashable {
