@@ -29,9 +29,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "71155342266279CF00A73CD6"
-               BuildableName = "Zeitgeist-bad.app"
-               BlueprintName = "Zeitgeist-bad"
+               BlueprintIdentifier = "7109ACEA2B18A41900724454"
+               BuildableName = "Zeitgeist.app"
+               BlueprintName = "Zeitgeist"
                ReferencedContainer = "container:Zeitgeist.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -41,9 +41,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -57,31 +56,41 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "71155342266279CF00A73CD6"
-            BuildableName = "Zeitgeist-bad.app"
-            BlueprintName = "Zeitgeist-bad"
+            BlueprintIdentifier = "711553D5266552AD00A73CD6"
+            BuildableName = "ZeitgeistWidgetsExtension.appex"
+            BlueprintName = "ZeitgeistWidgetsExtension"
             ReferencedContainer = "container:Zeitgeist.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7109ACEA2B18A41900724454"
+            BuildableName = "Zeitgeist.app"
+            BlueprintName = "Zeitgeist"
+            ReferencedContainer = "container:Zeitgeist.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCWidgetKind"
-            value = ""
-            isEnabled = "NO">
+            value = "LatestDeploymentWidget"
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "_XCWidgetDefaultView"
             value = "timeline"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "_XCWidgetFamily"
-            value = "medium"
-            isEnabled = "NO">
+            value = "systemMedium"
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
@@ -97,9 +106,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "71155342266279CF00A73CD6"
-            BuildableName = "Zeitgeist-bad.app"
-            BlueprintName = "Zeitgeist-bad"
+            BlueprintIdentifier = "7109ACEA2B18A41900724454"
+            BuildableName = "Zeitgeist.app"
+            BlueprintName = "Zeitgeist"
             ReferencedContainer = "container:Zeitgeist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
