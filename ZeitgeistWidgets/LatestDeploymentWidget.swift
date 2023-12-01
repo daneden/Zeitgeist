@@ -8,21 +8,18 @@
 import SwiftUI
 import WidgetKit
 
-struct LatestDeploymentEntry: TimelineEntry {
-	var date = Date()
-	var deployment: VercelDeployment?
-	var account: WidgetAccount
-	var project: WidgetProject?
-	var relevance: TimelineEntryRelevance?
-}
+// MARK: - LatestDeploymentProvider
 
 struct LatestDeploymentProvider: IntentTimelineProvider {
-	typealias Entry = LatestDeploymentEntry
 	func placeholder(in _: Context) -> LatestDeploymentEntry {
 		LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
 	}
 
-	func getSnapshot(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (LatestDeploymentEntry) -> Void) {
+	func getSnapshot(
+		for configuration: SelectAccountIntent,
+		in context: Context,
+		completion: @escaping (LatestDeploymentEntry) -> Void)
+	{
 		Task {
 			guard let intentAccount = configuration.account,
 						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
@@ -61,7 +58,11 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 		}
 	}
 
-	func getTimeline(for configuration: SelectAccountIntent, in context: Context, completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void) {
+	func getTimeline(
+		for configuration: SelectAccountIntent,
+		in context: Context,
+		completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void)
+	{
 		Task {
 			guard let intentAccount = configuration.account,
 						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
@@ -107,169 +108,33 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 	}
 }
 
+// MARK: - LatestDeploymentWidget
+
 struct LatestDeploymentWidget: Widget {
-	private let kind: String = "LatestDeploymentWidget"
+
+	// MARK: Public
 
 	public var body: some WidgetConfiguration {
+		IntentConfiguration(
+			kind: "LatestDeploymentWidget",
+			intent: SelectAccountIntent.self,
+			provider: LatestDeploymentProvider()
+		) { entry in
+			LatestDeploymentWidgetView(config: entry)
+		}
+		.configurationDisplayName("Latest Deployment")
+		.description("View the most recent Vercel deployment for an account or project")
+		.supportedFamilies(supportedFamilies)
+	}
+
+	// MARK: Private
+
+	private var supportedFamilies: [WidgetFamily] {
 		if #available(iOSApplicationExtension 16.0, *) {
-			return IntentConfiguration(
-				kind: kind,
-				intent: SelectAccountIntent.self,
-				provider: LatestDeploymentProvider()
-			) { entry in
-				LatestDeploymentWidgetView(config: entry)
-			}
-			.supportedFamilies([.accessoryRectangular, .accessoryCircular, .systemSmall, .systemMedium])
-			.configurationDisplayName("Latest Deployment")
-			.description("View the most recent Vercel deployment for an account or project")
+			[.systemSmall, .systemMedium, .accessoryRectangular, .accessoryCircular]
 		} else {
-			return IntentConfiguration(
-				kind: kind,
-				intent: SelectAccountIntent.self,
-				provider: LatestDeploymentProvider()
-			) { entry in
-				LatestDeploymentWidgetView(config: entry)
-			}
-			.supportedFamilies([.systemSmall, .systemMedium])
-			.configurationDisplayName("Latest Deployment")
-			.description("View the most recent Vercel deployment for an account or project")
-		}
-	}
-}
-
-struct LatestDeploymentWidgetView: View {
-	@Environment(\.widgetFamily) var widgetFamily
-	var config: LatestDeploymentEntry
-	
-	var hasProject: Bool {
-		config.project?.identifier != nil
-	}
-	
-	var isAccessoryView: Bool {
-		if #available(iOSApplicationExtension 16.0, *) {
-			return widgetFamily == .accessoryRectangular || widgetFamily == .accessoryCircular || widgetFamily == .accessoryInline
-		} else {
-			return false
+			[.systemSmall, .systemMedium]
 		}
 	}
 
-	var body: some View {
-		if isAccessoryView {
-			switch widgetFamily {
-			case .accessoryCircular:
-				Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-					.font(.largeTitle)
-					.imageScale(.large)
-			default:
-				VStack(alignment: .leading) {
-					if let deployment = config.deployment {
-						Label {
-							Text(deployment.project)
-								.font(.headline)
-						} icon: {
-							DeploymentStateIndicator(state: deployment.state, style: .compact)
-								.symbolRenderingMode(.monochrome)
-						}
-						
-						Text(deployment.deploymentCause.description)
-							.lineLimit(2)
-						Text(deployment.created, style: .relative)
-							.foregroundStyle(.secondary)
-					} else {
-						Group {
-							HStack {
-								DeploymentStateIndicator(state: .queued, style: .compact)
-								Text("Loading...")
-							}
-							Text("Waiting for data")
-								.foregroundStyle(.secondary)
-							Text(.now, style: .relative)
-								.foregroundStyle(.tertiary)
-						}
-						.redacted(reason: .placeholder)
-					}
-				}
-				.allowsTightening(true)
-				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-			}
-		} else {
-			Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
-				VStack(alignment: .leading, spacing: 4) {
-					if let deployment = config.deployment {
-						HStack {
-							DeploymentStateIndicator(state: deployment.state)
-							Spacer()
-							if deployment.target == .production {
-								Image(systemName: "theatermasks")
-									.foregroundStyle(.tint)
-									.symbolVariant(.fill)
-									.imageScale(.small)
-							}
-						}
-						.font(.caption.bold())
-						.padding(.bottom, 2)
-						
-						Text(deployment.deploymentCause.description)
-							.font(.subheadline)
-							.fontWeight(.bold)
-							.lineLimit(3)
-						
-						Text(deployment.created, style: .relative)
-							.foregroundStyle(.secondary)
-						
-						if !hasProject {
-							Text(deployment.project)
-								.lineLimit(1)
-								.foregroundStyle(.secondary)
-						}
-					} else {
-						PlaceholderView(forRole: .NoDeployments, alignment: .leading)
-							.font(.footnote)
-					}
-					
-					Spacer()
-					
-					
-					Group {
-						WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
-							.symbolVariant(config.account.identifier == nil ? .none : .fill)
-						
-						if let project = config.project,
-							 project.identifier != nil {
-							WidgetLabel(label: project.displayString, iconName: "folder")
-						}
-					}
-					.foregroundStyle(.secondary)
-					.imageScale(.small)
-					.lineLimit(1)
-				}
-				.multilineTextAlignment(.leading)
-				.frame(maxWidth: .infinity, alignment: .leading)
-			}
-			.font(.footnote)
-			.foregroundStyle(.primary)
-			.padding()
-			.background(.background)
-			.symbolRenderingMode(.hierarchical)
-			.tint(.indigo)
-		}
-	}
-}
-
-struct LatestDeploymentWidgetView_Previews: PreviewProvider {
-	static var exampleConfig = LatestDeploymentEntry(
-		deployment: VercelProject.exampleData.targets!.production!,
-		account: WidgetAccount(identifier: "1", display: "Test Account"),
-		project: WidgetProject(identifier: "1", display: "example-project")
-	)
-	static var previews: some View {
-		Group {
-			LatestDeploymentWidgetView(config: LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account")))
-				.previewContext(WidgetPreviewContext(family: .systemSmall))
-				.previewDisplayName("Latest Deployment Widget: No Account")
-			LatestDeploymentWidgetView(config: exampleConfig)
-				.previewContext(WidgetPreviewContext(family: .systemSmall))
-				.previewDisplayName("Latest Deployment Widget: Example Data")
-		}
-	}
 }

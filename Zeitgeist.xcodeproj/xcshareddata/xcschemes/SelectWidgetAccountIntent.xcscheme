@@ -29,9 +29,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "71155342266279CF00A73CD6"
-               BuildableName = "Zeitgeist-bad.app"
-               BlueprintName = "Zeitgeist-bad"
+               BlueprintIdentifier = "7109ACEA2B18A41900724454"
+               BuildableName = "Zeitgeist.app"
+               BlueprintName = "Zeitgeist"
                ReferencedContainer = "container:Zeitgeist.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -41,9 +41,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -61,9 +60,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "71155342266279CF00A73CD6"
-            BuildableName = "Zeitgeist-bad.app"
-            BlueprintName = "Zeitgeist-bad"
+            BlueprintIdentifier = "7109ACEA2B18A41900724454"
+            BuildableName = "Zeitgeist.app"
+            BlueprintName = "Zeitgeist"
             ReferencedContainer = "container:Zeitgeist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -80,9 +79,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "71155342266279CF00A73CD6"
-            BuildableName = "Zeitgeist-bad.app"
-            BlueprintName = "Zeitgeist-bad"
+            BlueprintIdentifier = "7109ACEA2B18A41900724454"
+            BuildableName = "Zeitgeist.app"
+            BlueprintName = "Zeitgeist"
             ReferencedContainer = "container:Zeitgeist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
