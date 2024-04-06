@@ -22,8 +22,8 @@ struct DataTaskModifier: ViewModifier {
 				print("Updating due to refresh")
 				await action()
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { _ in
-				print("Updating based background notification")
+			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { content in
+				print("Updating based on background notification")
 				Task { await action() }
 			}
 			.onReceive(session.objectWillChange) { _ in

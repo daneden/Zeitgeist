@@ -92,7 +92,7 @@ struct ProjectsListView: View {
 				PlaceholderView(forRole: .NoProjects)
 			}
 			
-			if let projectsError {
+			if projectsError != nil {
 				PlaceholderView(forRole: .AuthError)
 			}
 		}

@@ -13,7 +13,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Label for a deployment caused by a deploy hook ({icon} {name})\nThe cause of a deployment in the projects list\nDeploy hook cause icon and name",
+      "comment" : "Deploy hook cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nThe cause of a deployment in the projects list",
       "localizations" : {
         "en" : {
           "stringUnit" : {

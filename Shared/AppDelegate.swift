@@ -64,8 +64,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	}
 	
 	func application(_: UIApplication,
-									 didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
-		return await handleBackgroundNotification(userInfo)
+									 didReceiveRemoteNotification userInfo: [AnyHashable: Any]) -> UIBackgroundFetchResult {
+		return handleBackgroundNotification(userInfo)
 	}
 }
 #elseif canImport(AppKit)
@@ -138,14 +138,16 @@ extension AppDelegate {
 	}
 	
 	@discardableResult
-	func handleBackgroundNotification(_ userInfo: [AnyHashable: Any]) async -> RemoteNotificationResult {
+	func handleBackgroundNotification(_ userInfo: [AnyHashable: Any]) -> RemoteNotificationResult {
 		print("Received remote notification")
 		
 		#if canImport(WidgetKit)
 		WidgetCenter.shared.reloadAllTimelines()
 		#endif
 		
-		await DataTaskModifier.postNotification(userInfo)
+		Task {
+			await DataTaskModifier.postNotification(userInfo)
+		}
 		
 		do {
 			let title = userInfo["title"] as? String
@@ -216,7 +218,9 @@ extension AppDelegate {
 			
 			let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
 			print("Pushing notification with ID \(notificationID)")
-			try await UNUserNotificationCenter.current().add(request)
+			Task {
+				try await UNUserNotificationCenter.current().add(request)
+			}
 			return .newData
 		} catch {
 			switch error {
