@@ -7,6 +7,8 @@
 
 
 import SwiftUI
+import OSLog
+
 #if canImport(WidgetKit)
 import WidgetKit
 #endif
@@ -32,6 +34,11 @@ class AppDelegate: NSObject {
 	
 	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
+	
+	private static let logger = Logger(
+		subsystem: Bundle.main.bundleIdentifier!,
+		category: String(describing: AppDelegate.self)
+	)
 }
 
 #if canImport(UIKit)
@@ -64,8 +71,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	}
 	
 	func application(_: UIApplication,
-									 didReceiveRemoteNotification userInfo: [AnyHashable: Any]) -> UIBackgroundFetchResult {
-		return handleBackgroundNotification(userInfo)
+									 didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+		return await handleBackgroundNotification(userInfo)
 	}
 }
 #elseif canImport(AppKit)
@@ -113,12 +120,12 @@ extension AppDelegate {
 			// Open deep link on macOS
 			#endif
 		default:
-			print("Uncaught notification category identifier")
+			Self.logger.warning("Uncaught notification category identifier: \(response.notification.request.content.categoryIdentifier, privacy: .public)")
 		}
 	}
 	
 	func registerDeviceTokenWithZPS(_ deviceToken: Data) {
-		print("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
+		Self.logger.trace("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
 		
 		authenticatedAccounts.forEach { account in
 			let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
@@ -127,27 +134,25 @@ extension AppDelegate {
 			
 			URLSession.shared.dataTask(with: request) { data, _, error in
 				if let error = error {
-					print(error)
+					Self.logger.error("Error registering device ID to ZPS: \(error, privacy: .auto)")
 				}
 				
 				if data != nil {
-					print("Successfully registered device ID to ZPS")
+					Self.logger.notice("Successfully registered device ID \(token) to ZPS")
 				}
 			}.resume()
 		}
 	}
 	
 	@discardableResult
-	func handleBackgroundNotification(_ userInfo: [AnyHashable: Any]) -> RemoteNotificationResult {
-		print("Received remote notification")
+	func handleBackgroundNotification(_ userInfo: [AnyHashable: Any]) async -> RemoteNotificationResult {
+		Self.logger.trace("Received remote notification")
 		
 		#if canImport(WidgetKit)
 		WidgetCenter.shared.reloadAllTimelines()
 		#endif
 		
-		Task {
-			await DataTaskModifier.postNotification(userInfo)
-		}
+		await DataTaskModifier.postNotification(userInfo)
 		
 		do {
 			let title = userInfo["title"] as? String
@@ -179,7 +184,7 @@ extension AppDelegate {
 				with: projectId,
 				target: VercelDeployment.Target(rawValue: target ?? "")
 			) else {
-				print("Notification suppressed due to user preferences")
+				Self.logger.notice("Notification suppressed due to user preferences")
 				return .newData
 			}
 			
@@ -217,22 +222,20 @@ extension AppDelegate {
 			let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
 			
 			let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
-			print("Pushing notification with ID \(notificationID)")
-			Task {
-				try await UNUserNotificationCenter.current().add(request)
-			}
+			Self.logger.notice("Pushing notification with ID \(notificationID)")
+			try await UNUserNotificationCenter.current().add(request)
 			return .newData
 		} catch {
 			switch error {
 			case let ZPSError.FieldCastingError(field):
-				print(field.debugDescription)
+				Self.logger.error("Notification failed with field casting error: \(field.debugDescription, privacy: .public)")
 			case let ZPSError.EventTypeCastingError(eventType):
-				print(eventType.debugDescription)
+				Self.logger.error("Notification failed with event type casting error: \(eventType.debugDescription)")
 			default:
-				print("Unknown error occured when handling background notification")
+				Self.logger.error("Unknown error occured when handling background notification")
 			}
 			
-			print(error.localizedDescription)
+			Self.logger.error("Error details: \(error.localizedDescription, privacy: .public)")
 			
 			return .failed
 		}
