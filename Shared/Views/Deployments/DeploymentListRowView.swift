@@ -46,6 +46,7 @@ struct DeploymentListRowView: View {
 							.fixedSize()
 							.foregroundStyle(.secondary)
 							.font(.caption)
+							.contentTransition(.numericText())
 					}
 				}
 			} icon: {

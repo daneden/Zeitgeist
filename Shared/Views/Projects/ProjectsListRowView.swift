@@ -30,6 +30,7 @@ struct ProjectsListRowView: View {
 				Text(project.updated ?? project.created, style: .relative)
 					.foregroundStyle(.secondary)
 					.font(.caption)
+					.contentTransition(.numericText())
 			}
 
 			if let productionDeploymentCause = deploymentSummarySource?.deploymentCause {

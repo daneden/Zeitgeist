@@ -121,7 +121,7 @@ struct BitBucketCommit: Codable, GitCommit {
 	}
 }
 
-struct AnyCommit: Decodable, GitCommit {
+struct AnyCommit: Codable, GitCommit {
 	var wrapped: GitCommit
 
 	var provider: GitSVNProvider { wrapped.provider }
@@ -141,6 +141,10 @@ struct AnyCommit: Decodable, GitCommit {
 	
 	enum CodingKeys: CodingKey {
 		case action, originalDeploymentId
+	}
+	
+	init(wrappedCommit: GitCommit) {
+		self.wrapped = wrappedCommit
 	}
 
 	init(from decoder: Decoder) throws {

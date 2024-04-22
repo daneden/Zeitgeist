@@ -14,6 +14,7 @@ struct ProjectDetailView: View {
 
 	@State private var filter = DeploymentFilter()
 	@State private var deployments: [VercelDeployment] = []
+	@State private var productionDeployment: VercelDeployment?
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
 
@@ -68,7 +69,7 @@ struct ProjectDetailView: View {
 					}
 				}
 				
-				if let productionDeployment = project.targets?.production {
+				if let productionDeployment {
 					Section("Current Production Deployment") {
 						NavigationLink {
 							DeploymentDetailView(deploymentId: productionDeployment.id, deployment: productionDeployment)
@@ -184,6 +185,7 @@ struct ProjectDetailView: View {
 	}
 
 	func initialLoad() async throws {
+		try await loadProductionDeployment()
 		try await loadDeployments()
 		try await loadProject()
 	}
@@ -197,6 +199,28 @@ struct ProjectDetailView: View {
 		
 		withAnimation {
 			self.project = projectResponse
+		}
+	}
+	
+	func loadProductionDeployment() async throws {
+		let queryItems: [URLQueryItem] = [
+			URLQueryItem(name: "projectId", value: projectId),
+			URLQueryItem(name: "limit", value: "1"),
+			URLQueryItem(name: "target", value: "production"),
+			URLQueryItem(name: "state", value: "ready,building".uppercased())
+		]
+		
+		var request = VercelAPI.request(for: .deployments(),
+																		with: session.account.id,
+																		queryItems: queryItems)
+		
+		try session.signRequest(&request)
+		
+		let (data, _) = try await URLSession.shared.data(for: request)
+		let deploymentsResponse = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data)
+		
+		withAnimation {
+			productionDeployment = deploymentsResponse.deployments.first
 		}
 	}
 
