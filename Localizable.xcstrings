@@ -13,7 +13,7 @@
       }
     },
     "%@ %@" : {
-      "comment" : "Deploy hook cause icon and name\nLabel for a deployment caused by a deploy hook ({icon} {name})\nThe cause of a deployment in the projects list",
+      "comment" : "Deploy hook cause icon and name\nIcon and name of a repository for a project in the projects list\nLabel for a deployment caused by a deploy hook ({icon} {name})\nPromoted deployment cause icon and name\nThe cause of a deployment in the projects list",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -603,9 +603,6 @@
           }
         }
       }
-    },
-    "Label" : {
-
     },
     "Latest Deployment" : {
       "extractionState" : "manual",

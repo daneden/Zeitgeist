@@ -56,6 +56,7 @@ struct LatestDeploymentWidgetView: View {
 								.foregroundStyle(.tint)
 								.symbolVariant(.fill)
 								.imageScale(.small)
+								.backwardsCompatibleWidgetAccentable()
 						}
 					}
 					.font(.caption.bold())

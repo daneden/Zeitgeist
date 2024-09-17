@@ -121,7 +121,7 @@ struct BitBucketCommit: Codable, GitCommit {
 	}
 }
 
-struct AnyCommit: Decodable, GitCommit {
+struct AnyCommit: Codable, GitCommit {
 	var wrapped: GitCommit
 
 	var provider: GitSVNProvider { wrapped.provider }

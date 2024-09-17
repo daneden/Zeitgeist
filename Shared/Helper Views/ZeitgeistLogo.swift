@@ -59,7 +59,7 @@ struct ZeitgeistLogo: View {
 		.overlay {
 			clipShape
 				.strokeBorder(Color.primary.opacity(0.2), style: .init())
-				.blendMode(.overlay)
+				.blendMode(.plusLighter)
 		}
 		.frame(width: size, height: size)
 		.shadow(

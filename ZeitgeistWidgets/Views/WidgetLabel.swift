@@ -17,6 +17,7 @@ struct WidgetLabel: View {
 	var body: some View {
 		Label(label, systemImage: iconName)
 			.labelStyle(WidgetLabelStyle())
+			.backwardsCompatibleWidgetAccentable()
 	}
 }
 
@@ -34,7 +35,7 @@ private struct WidgetLabelStyle: LabelStyle {
 		.font(.system(size: 13, weight: .medium))
 		.padding(.horizontal, showsWidgetContainerBackground ? 4 : 0)
 		.padding(.vertical, showsWidgetContainerBackground ? 2 : 0)
-		.background(showsWidgetContainerBackground ? AnyShapeStyle(.thickMaterial) : AnyShapeStyle(.clear))
+		.background(showsWidgetContainerBackground ? AnyShapeStyle(.quaternary.opacity(0.5)) : AnyShapeStyle(.clear))
 		.clipShape(ContainerRelativeShape())
 	}
 

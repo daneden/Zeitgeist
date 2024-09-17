@@ -159,7 +159,7 @@ extension VercelDeployment {
 		}
 	}
 
-	enum DeploymentCause {
+	enum DeploymentCause: Codable {
 		case deployHook(name: String)
 		case gitCommit(commit: AnyCommit)
 		case promotion(originalDeploymentId: VercelDeployment.ID?)

@@ -131,6 +131,7 @@ struct RecentDeploymentsListRowView: View {
 								.symbolRenderingMode(.hierarchical)
 								.symbolVariant(.fill)
 								.imageScale(.small)
+								.backwardsCompatibleWidgetAccentable()
 						}
 
 						if project?.identifier == nil {
