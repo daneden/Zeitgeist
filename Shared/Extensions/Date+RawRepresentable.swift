@@ -8,7 +8,7 @@
 import Foundation
 
 /// Allows dates to be stored in AppStorage
-extension Date: RawRepresentable {
+extension Date: @retroactive RawRepresentable {
 	public var rawValue: String {
 		self.timeIntervalSinceReferenceDate.description
 	}

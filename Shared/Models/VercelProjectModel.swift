@@ -86,7 +86,7 @@ extension VercelEnv {
 	var targetsDevelopment: Bool { target.contains(where: { $0 == "development" }) }
 }
 
-@available (iOS 16.0, *)
+@available(iOS 16.0, *)
 extension VercelEnv: Transferable {
 	func data() -> Data {
 		guard let data = try? JSONEncoder().encode(self) else {
