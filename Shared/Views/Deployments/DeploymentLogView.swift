@@ -77,7 +77,9 @@ struct DeploymentLogView: View {
 	
 	@State private var followLogs = false
 	@State private var logEvents: [LogEvent] = []
-	
+
+	@State private var longestLogLineWidth: CGFloat = 0
+
 	var deployment: VercelDeployment
 	
 	var accountID: VercelAccount.ID {
@@ -92,6 +94,15 @@ struct DeploymentLogView: View {
 						ForEach(logEvents) { event in
 							LogEventView(event: event)
 								.id(event.id)
+								.background(
+									GeometryReader { innerGeometry in
+										Color.clear
+											.onAppear {
+													let contentWidth = innerGeometry.size.width
+												longestLogLineWidth = max(longestLogLineWidth, contentWidth)
+											}
+									}
+								)
 						}
 					}
 					.textSelection(.enabled)
@@ -101,7 +112,7 @@ struct DeploymentLogView: View {
 						}
 					}
 					.fixedSize(horizontal: false, vertical: true)
-					.frame(minWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
+					.frame(minWidth: longestLogLineWidth, minHeight: geometry.size.height, alignment: .topLeading)
 					.font(.footnote.monospaced())
 				}
 				.toolbar {
