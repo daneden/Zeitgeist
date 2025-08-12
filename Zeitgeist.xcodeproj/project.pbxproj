@@ -113,8 +113,6 @@
 		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
 		71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
-		71E248F52C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */; };
-		71E248F62C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */; };
 		71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
 		71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
@@ -130,8 +128,6 @@
 		E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */; };
 		E875EDD52B1A466900BB3BBA /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */; };
 		E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */; };
-		E875EDDC2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E875EDDA2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift */; };
-		E875EDDD2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E875EDDB2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,12 +244,9 @@
 		71D0BC362882A2D500A22693 /* View+dataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+dataTask.swift"; sourceTree = "<group>"; };
 		71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNotificationsView.swift; sourceTree = "<group>"; };
 		71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableRowView.swift; sourceTree = "<group>"; };
-		71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardsCompatibleWidgetAccentable.swift; sourceTree = "<group>"; };
 		71F2607F28C48DE40089195B /* NavigationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelpers.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
-		E875EDDA2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetPaddingViewModifier.swift; sourceTree = "<group>"; };
-		E875EDDB2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetBackgroundViewModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,7 +446,6 @@
 				711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */,
 				711553E0266552AF00A73CD6 /* Assets.xcassets */,
 				5CCA9F102B0F09CB00030016 /* Models */,
-				E875EDD92B1A479C00BB3BBA /* ViewModifiers */,
 				5CCA9F192B0F0D1100030016 /* Views */,
 				710E0C6C2BCAC0C7000F2FE6 /* DeploymentLiveActivity.swift */,
 			);
@@ -529,16 +521,6 @@
 				713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */,
 			);
 			path = "Environment Variables";
-			sourceTree = "<group>";
-		};
-		E875EDD92B1A479C00BB3BBA /* ViewModifiers */ = {
-			isa = PBXGroup;
-			children = (
-				E875EDDB2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift */,
-				E875EDDA2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift */,
-				71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */,
-			);
-			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -714,7 +696,6 @@
 				7109AD202B18A49000724454 /* AccountListRowView.swift in Sources */,
 				7109AD0D2B18A48000724454 /* NavigationHelpers.swift in Sources */,
 				7109AD282B18A49900724454 /* EnvironmentVariableEditView.swift in Sources */,
-				71E248F62C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */,
 				7109AD1A2B18A48500724454 /* VercelDomain.swift in Sources */,
 				7109AD162B18A48500724454 /* VercelSession.swift in Sources */,
 				7109AD022B18A47500724454 /* View+dataTask.swift in Sources */,
@@ -749,7 +730,6 @@
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
 				71B881392B18D5F0005EFD48 /* SignOutButton.swift in Sources */,
 				711553EF266553F400A73CD6 /* VercelSession.swift in Sources */,
-				E875EDDC2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift in Sources */,
 				711553FC26655E0C00A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				71059A95287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
 				E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */,
@@ -771,14 +751,12 @@
 				71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */,
 				710E0C6D2BCAC0C7000F2FE6 /* DeploymentLiveActivity.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
-				E875EDDD2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift in Sources */,
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
 				7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
 				E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */,
 				71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */,
 				714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */,
-				71E248F52C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */,
 				711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);
