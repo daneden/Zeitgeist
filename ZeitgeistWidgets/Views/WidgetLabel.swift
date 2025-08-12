@@ -17,7 +17,7 @@ struct WidgetLabel: View {
 	var body: some View {
 		Label(label, systemImage: iconName)
 			.labelStyle(WidgetLabelStyle())
-			.backwardsCompatibleWidgetAccentable()
+			.widgetAccentable()
 	}
 }
 

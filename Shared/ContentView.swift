@@ -13,37 +13,31 @@ struct ContentView: View {
 	
 	@State private var presentNewFeaturesScreen = false
 	@State private var presentOnboardingView = false
-
+	
 	var body: some View {
-		Group {
-			if #available(iOS 16.0, *) {
-				AuthenticatedContentView()
-					.formStyle(.grouped)
-			} else {
-				AuthenticatedContentView()
+		AuthenticatedContentView()
+			.formStyle(.grouped)
+			.animation(.default, value: accounts.isEmpty)
+			.symbolRenderingMode(.hierarchical)
+			.onAppear {
+				if let lastAppVersionOpened,
+					 lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3" {
+					presentNewFeaturesScreen = true
+					self.lastAppVersionOpened = ZeitgeistApp.majorAppVersion
+				}
 			}
-		}
-		.animation(.default, value: accounts.isEmpty)
-		.symbolRenderingMode(.hierarchical)
-		.onAppear {
-			if let lastAppVersionOpened = lastAppVersionOpened,
-				 lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3" {
-				presentNewFeaturesScreen = true
-				self.lastAppVersionOpened = ZeitgeistApp.majorAppVersion
+			.sheet(isPresented: $presentNewFeaturesScreen) {
+				NewFeaturesView()
 			}
-		}
-		.sheet(isPresented: $presentNewFeaturesScreen) {
-			NewFeaturesView()
-		}
-		.task(id: accounts.hashValue) {
-			presentOnboardingView = accounts.isEmpty
-		}
-		.sheet(isPresented: $presentOnboardingView) {
-			OnboardingView()
-				.interactiveDismissDisabled()
-			#if !os(iOS)
-				.frame(minWidth: 800, minHeight: 600)
-			#endif
-		}
+			.task(id: accounts.hashValue) {
+				presentOnboardingView = accounts.isEmpty
+			}
+			.sheet(isPresented: $presentOnboardingView) {
+				OnboardingView()
+					.interactiveDismissDisabled()
+#if !os(iOS)
+					.frame(minWidth: 800, minHeight: 600)
+#endif
+			}
 	}
 }

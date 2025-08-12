@@ -62,11 +62,7 @@ struct SettingsView: View {
 			Section {
 				Picker(selection: $authenticationTimeout) {
 					ForEach(timeoutPresets, id: \.self) { preset in
-						if #available(iOS 16.0, *) {
-							Text(Duration.seconds(preset).formatted(.units()))
-						} else {
-							Text(DateComponentsFormatter().string(from: preset) ?? "")
-						}
+						Text(Duration.seconds(preset).formatted(.units()))
 					}
 					
 					Text("Never").tag(TimeInterval.infinity)

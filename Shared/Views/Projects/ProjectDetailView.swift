@@ -158,28 +158,16 @@ struct ProjectDetailView: View {
 	@ViewBuilder
 	var notificationsSheet: some View {
 		if let project {
-			if #available(iOS 16.0, *) {
-				Group {
-#if os(iOS)
-					NavigationView {
-						ProjectNotificationsView(project: project)
-					}
-#else
+			Group {
+				#if os(iOS)
+				NavigationView {
 					ProjectNotificationsView(project: project)
-#endif
 				}
-				.presentationDetents([.medium])
-			} else {
-				Group {
-#if os(iOS)
-					NavigationView {
-						ProjectNotificationsView(project: project)
-					}
-#else
-					ProjectNotificationsView(project: project)
-#endif
-				}
+				#else
+				ProjectNotificationsView(project: project)
+				#endif
 			}
+			.presentationDetents([.medium])
 		}
 	}
 

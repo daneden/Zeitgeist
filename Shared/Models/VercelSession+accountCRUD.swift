@@ -22,7 +22,7 @@ extension VercelSession {
 			let (data, _) = try await URLSession.shared.data(for: request)
 			let decoded = try JSONDecoder().decode(VercelAccount.self, from: data)
 			
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { [decoded] in
 				withAnimation {
 					if let index = Preferences.accounts.firstIndex(where: { $0.id == decoded.id }) {
 						Preferences.accounts[index] = decoded
@@ -60,3 +60,4 @@ extension VercelSession {
 		}
 	}
 }
+
