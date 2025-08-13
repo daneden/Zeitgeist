@@ -40,12 +40,12 @@ struct AuthenticatedContentView: View {
 					} label: {
 						Label("Settings", systemImage: "ellipsis")
 					}
-					.sheet(isPresented: $presentSettingsView) {
-						NavigationView {
-							SettingsView()
-								.navigationBarTitleDisplayMode(.inline)
-						}
-					}
+				}
+			}
+			.sheet(isPresented: $presentSettingsView) {
+				NavigationView {
+					SettingsView()
+						.navigationBarTitleDisplayMode(.inline)
 				}
 			}
 #endif
