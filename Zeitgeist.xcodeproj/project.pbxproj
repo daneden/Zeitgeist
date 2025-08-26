@@ -98,6 +98,7 @@
 		7139DCE92B18D27A00E86183 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
 		713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */ = {isa = PBXBuildFile; productRef = 713B1DF22E5E3C65009AC3C4 /* Suite */; };
 		713B1DF52E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713B1DF42E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift */; };
+		713B1DF72E5E4A82009AC3C4 /* BackportCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04D2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		71493654278AEF0D001CB921 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
@@ -222,6 +223,7 @@
 		7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VercelSession+accountCRUD.swift"; sourceTree = "<group>"; };
 		7139DCE82B18D27A00E86183 /* SignOutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutButton.swift; sourceTree = "<group>"; };
 		713B1DF42E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+backportCircleSymbolVariant.swift"; sourceTree = "<group>"; };
+		713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackportCloseButton.swift; sourceTree = "<group>"; };
 		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
 		713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEnvironmentVariablesView.swift; sourceTree = "<group>"; };
 		713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableEditView.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */,
 				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
 				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
+				713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -700,6 +703,7 @@
 				7109ACFF2B18A47500724454 /* Array.extension.swift in Sources */,
 				7109AD1B2B18A48500724454 /* GitRepoModel.swift in Sources */,
 				7109AD2C2B18A4A200724454 /* ProjectsListView.swift in Sources */,
+				713B1DF72E5E4A82009AC3C4 /* BackportCloseButton.swift in Sources */,
 				7109AD132B18A48000724454 /* Pasteboard.swift in Sources */,
 				7109AD202B18A49000724454 /* AccountListRowView.swift in Sources */,
 				7109AD0D2B18A48000724454 /* NavigationHelpers.swift in Sources */,

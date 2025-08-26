@@ -86,7 +86,7 @@ struct ProjectDetailView: View {
 						Button {
 							filter = .init()
 						} label: {
-							Label("Clear Filters", systemImage: "xmark.circle")
+							Label("Clear filters", systemImage: "xmark.circle")
 						}
 					}
 					ForEach(deployments) { deployment in
@@ -101,11 +101,11 @@ struct ProjectDetailView: View {
 					}
 					
 					if deployments.isEmpty {
-						LoadingListCell(title: "Loading Deployments")
+						LoadingListCell(title: "Loading deployments")
 					}
 					
 					if let pageId = pagination?.next {
-						LoadingListCell(title: "Loading Deployments")
+						LoadingListCell(title: "Loading deployments")
 							.task {
 								do {
 									try await loadDeployments(pageId: pageId)
@@ -124,7 +124,7 @@ struct ProjectDetailView: View {
 				Button {
 					projectNotificationsVisible = true
 				} label: {
-					Label("Notification settings)", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
+					Label("Notification settings", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
 				}
 			}
 			
@@ -136,7 +136,7 @@ struct ProjectDetailView: View {
 				Menu {
 					DeploymentFilterView(filter: $filter)
 				} label: {
-					Label("Filter Deployments", systemImage: "line.3.horizontal.decrease")
+					Label("Filter deployments", systemImage: "line.3.horizontal.decrease")
 						.backportCircleSymbolVariant()
 						.symbolVariant(filter.filtersApplied ? .fill : .none)
 				}

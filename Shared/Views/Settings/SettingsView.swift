@@ -103,10 +103,10 @@ struct SettingsView: View {
 				}.disabled(notificationsResettable)
 				
 				Button(role: .destructive) {
-					dismiss()
 					Preferences.accounts.forEach { account in
 						VercelSession.deleteAccount(id: account.id)
 					}
+					dismiss()
 				} label: {
 					Label("Sign out of all accounts", systemImage: "person.badge.minus")
 				}
@@ -115,9 +115,9 @@ struct SettingsView: View {
 		.navigationTitle(Text("Settings"))
 		#if os(iOS)
 		.toolbar {
-			Button(action: { dismiss() }) {
-				Text("Done")
-			}.keyboardShortcut(.cancelAction)
+			BackportCloseButton {
+				dismiss()
+			}
 		}
 		#endif
 		

@@ -51,7 +51,7 @@ struct AuthenticatedContentView: View {
 				}
 			}
 #endif
-			.navigationTitle("Zeitgeist")
+			.navigationTitle(Text(verbatim: "Zeitgeist"))
 		} content: {
 			if let selectedAccount {
 				NavigationStack {

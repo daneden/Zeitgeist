@@ -129,7 +129,7 @@ struct EnvironmentVariableRowView: View {
 				Label("Delete", systemImage: "trash")
 			}
 		}
-		.confirmationDialog("Delete Environment Variable", isPresented: $confirmDeletion) {
+		.confirmationDialog("Delete environment variable", isPresented: $confirmDeletion) {
 			Button(role: .cancel) {
 				confirmDeletion = false
 			} label: {

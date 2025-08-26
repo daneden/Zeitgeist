@@ -16,7 +16,7 @@ fileprivate struct LogEntryMaxWidthPreferenceKey: PreferenceKey {
 	}
 }
 
-struct LogEvent: Codable, Identifiable {
+struct LogEvent: Codable, Equatable, Identifiable {
 	enum EventType: String, Codable {
 		case command, stderr, stdout, delimiter, exit
 	}
@@ -26,7 +26,7 @@ struct LogEvent: Codable, Identifiable {
 		var readyState: VercelDeployment.State
 	}
 	
-	struct Payload: Codable {
+	struct Payload: Codable, Equatable {
 		var id: String
 		var text: String
 		var date: TimeInterval
@@ -112,6 +112,7 @@ struct LogEventView: View {
 		.padding(.horizontal, -8)
 		.scenePadding(.horizontal)
 		.readSize($logLineSize)
+		.transition(.opacity)
 	}
 }
 
@@ -140,6 +141,7 @@ struct DeploymentLogView: View {
 								.id(event.id)
 						}
 					}
+					.animation(.default, value: logEvents)
 					.frame(minWidth: maxLineWidth, minHeight: geometry.size.height, alignment: .topLeading)
 					.textSelection(.enabled)
 					.font(.footnote.monospaced())
@@ -160,8 +162,8 @@ struct DeploymentLogView: View {
 					}
 				}
 				.toolbar {
-					ToolbarItemGroup {
-						Toggle(isOn: $followLogs) {
+					ToolbarItem {
+						Toggle(isOn: $followLogs.animation()) {
 							Label("Follow logs", systemImage: "arrow.down.to.line.compact")
 								.padding(-4)
 								.padding(.horizontal, -4)
@@ -170,12 +172,20 @@ struct DeploymentLogView: View {
 						.disabled(logEvents.isEmpty)
 						.onChange(of: followLogs) { _ in
 							if followLogs {
-								proxy.scrollTo(logEvents.last?.id, anchor: .bottomLeading)
+								withAnimation {
+									proxy.scrollTo(logEvents.last?.id, anchor: .bottomLeading)
+								}
 							}
 						}
-						
+					}
+					
+					if #available(iOS 26, macOS 26, *) {
+						ToolbarSpacer()
+					}
+					
+					ToolbarItem {
 						Link(destination: deployment.inspectorUrl) {
-							Label("Open in Safari", systemImage: "safari")
+							Label("Open in browser", systemImage: "safari")
 						}
 					}
 				}

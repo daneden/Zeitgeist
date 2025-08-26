@@ -52,7 +52,7 @@ struct ProjectsListView: View {
 				}
 				
 				if let pageId = pagination?.next {
-					LoadingListCell(title: "Loading Projects")
+					LoadingListCell(title: "Loading projects")
 						.task {
 							do {
 								try await loadProjects(pageId: pageId)
@@ -71,10 +71,10 @@ struct ProjectsListView: View {
 								.tag(option)
 						}
 					} label: {
-						Label("Show deployment cause for...", systemImage: "info.circle")
+						Label("Show deployment cause for...", systemImage: "rectangle.and.text.magnifyingglass")
 					}
 				} label: {
-					Label("View Options", systemImage: "eye")
+					Label("View options", systemImage: "eye")
 						.backportCircleSymbolVariant()
 				}
 			}

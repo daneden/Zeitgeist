@@ -16,7 +16,7 @@ struct DeploymentListRowView: View {
 				VStack(alignment: .leading) {
 					HStack(spacing: 4) {
 						if deployment.target == .production {
-							Label("Production Deployment", systemImage: "theatermasks")
+							Label("Production deployment", systemImage: "theatermasks")
 								.labelStyle(.iconOnly)
 								.foregroundStyle(.tint)
 								.symbolVariant(.fill)

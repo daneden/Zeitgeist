@@ -238,7 +238,7 @@ private struct DeploymentDetails: View {
 					} label: {
 						Label("Redeploy", systemImage: "arrow.clockwise")
 					}
-					.confirmationDialog("Redeploy\(deployment.target == .production ? " to Production" : "")", isPresented: $redeployConfirmation) {
+					.confirmationDialog(deployment.target == .production ? "Redeploy to production" : "Redeploy", isPresented: $redeployConfirmation) {
 						Button(role: .cancel) {
 							redeployConfirmation = false
 						} label: {
@@ -254,10 +254,10 @@ private struct DeploymentDetails: View {
 						Button {
 							Task { await redeploy(withCache: true, data: redeployPayload) }
 						} label: {
-							Text("Redeploy with existing Build Cache")
+							Text("Redeploy with existing build cache")
 						}
 					} message: {
-						Text("You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings.")
+						Text("You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.")
 					}
 				}
 				
@@ -267,7 +267,7 @@ private struct DeploymentDetails: View {
 				{
 					Button(role: .destructive, action: { deleteConfirmation = true }) {
 						HStack {
-							Label("Delete Deployment", systemImage: "trash")
+							Label("Delete deployment", systemImage: "trash")
 						}
 					}
 					.alert(isPresented: $deleteConfirmation) {
@@ -284,7 +284,7 @@ private struct DeploymentDetails: View {
 				} else {
 					Button(role: .destructive, action: { cancelConfirmation = true }) {
 						HStack {
-							Label("Cancel Deployment", systemImage: "xmark")
+							Label("Cancel deployment", systemImage: "xmark")
 							
 							if mutating {
 								Spacer()
@@ -296,7 +296,7 @@ private struct DeploymentDetails: View {
 						Alert(
 							title: Text("Are you sure you want to cancel this deployment?"),
 							message: Text("This will immediately stop the build, with no option to resume."),
-							primaryButton: .destructive(Text("Cancel Deployment"), action: {
+							primaryButton: .destructive(Text("Cancel deployment"), action: {
 								Task { await cancelDeployment() }
 							}),
 							secondaryButton: .cancel(Text("Close", comment: "Label to dismiss the build cancellation confirmation"))
