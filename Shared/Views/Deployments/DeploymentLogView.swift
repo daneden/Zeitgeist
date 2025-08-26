@@ -52,6 +52,13 @@ struct LogEvent: Codable, Identifiable {
 			return .primary
 		}
 	}
+	
+	var backgroundStyle: AnyShapeStyle {
+		switch type {
+		case .stderr: return AnyShapeStyle(.quaternary)
+		default: return AnyShapeStyle(.clear)
+		}
+	}
 }
 
 struct LogEventView: View {
@@ -63,6 +70,24 @@ struct LogEventView: View {
 	
 	var event: LogEvent
 	var display: DisplayOption = .both
+	
+	var previousType: LogEvent.EventType? = nil
+	var nextType: LogEvent.EventType? = nil
+	
+	private var cornerRadii: RectangleCornerRadii {
+		let matchesPrev = previousType == event.type
+		let matchesNext = nextType == event.type
+		switch (matchesPrev, matchesNext) {
+		case (false, false):
+			return .init(topLeading: 4, bottomLeading: 4, bottomTrailing: 4, topTrailing: 4)
+		case (false, true):
+			return .init(topLeading: 4, topTrailing: 4)
+		case (true, false):
+			return .init(bottomLeading: 4, bottomTrailing: 4)
+		case (true, true):
+			return .init()
+		}
+	}
 	
 	var body: some View {
 		HStack(alignment: .firstTextBaseline) {
@@ -79,17 +104,14 @@ struct LogEventView: View {
 					.frame(maxWidth: .infinity, alignment: .leading)
 			}
 		}
-		.scenePadding(.horizontal)
 		.padding(.vertical, 2)
-		.readSize($logLineSize)
+		.padding(.horizontal, 8)
 		.preference(key: LogEntryMaxWidthPreferenceKey.self, value: logLineSize.width)
-		.background {
-			if event.type == .stderr {
-				Color.clear
-					.background(.quinary)
-			}
-		}
+		.background(event.backgroundStyle, in: UnevenRoundedRectangle(cornerRadii: cornerRadii, style: .continuous))
 		.foregroundStyle(event.outputColor)
+		.padding(.horizontal, -8)
+		.scenePadding(.horizontal)
+		.readSize($logLineSize)
 	}
 }
 
@@ -111,12 +133,14 @@ struct DeploymentLogView: View {
 			GeometryReader { geometry in
 				ScrollView([.horizontal, .vertical]) {
 					LazyVStack(alignment: .leading, spacing: 0) {
-						ForEach(logEvents) { event in
-							LogEventView(event: event)
+						ForEach(Array(logEvents.enumerated()), id: \.element.id) { index, event in
+							let prevType = index > 0 ? logEvents[index - 1].type : nil
+							let nextType = index < logEvents.count - 1 ? logEvents[index + 1].type : nil
+							LogEventView(event: event, previousType: prevType, nextType: nextType)
 								.id(event.id)
 						}
 					}
-					.frame(minWidth: maxLineWidth, alignment: .leading)
+					.frame(minWidth: maxLineWidth, minHeight: geometry.size.height, alignment: .topLeading)
 					.textSelection(.enabled)
 					.font(.footnote.monospaced())
 					.onPreferenceChange(LogEntryMaxWidthPreferenceKey.self) { width in
@@ -125,7 +149,7 @@ struct DeploymentLogView: View {
 				}
 				.modify {
 					if #available(iOS 17, macOS 14, *) {
-						$0.defaultScrollAnchor(followLogs ? .bottom : .top)
+						$0.defaultScrollAnchor(followLogs ? .bottomLeading : .topLeading)
 					} else {
 						$0
 							.task(id: logEvents.last?.id) {

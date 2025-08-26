@@ -45,7 +45,8 @@ struct ProjectEnvironmentVariablesView: View {
 				Button {
 					editSheetPresented = true
 				} label: {
-					Label("Add new environment variable", systemImage: "plus.circle")
+					Label("Add new environment variable", systemImage: "plus")
+						.backportCircleSymbolVariant()
 				}
 			}
 			.navigationTitle(Text("Environment Variables"))

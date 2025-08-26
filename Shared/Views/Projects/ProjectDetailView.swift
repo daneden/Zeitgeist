@@ -128,11 +128,16 @@ struct ProjectDetailView: View {
 				}
 			}
 			
+			if #available(iOS 26, macOS 26, *) {
+				ToolbarSpacer()
+			}
+			
 			ToolbarItem {
 				Menu {
 					DeploymentFilterView(filter: $filter)
 				} label: {
-					Label("Filter Deployments", systemImage: "line.3.horizontal.decrease.circle")
+					Label("Filter Deployments", systemImage: "line.3.horizontal.decrease")
+						.backportCircleSymbolVariant()
 						.symbolVariant(filter.filtersApplied ? .fill : .none)
 				}
 			}

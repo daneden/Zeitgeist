@@ -26,7 +26,8 @@ struct AuthenticatedContentView: View {
 					Button {
 						Task { signInModel.signIn() }
 					} label: {
-						Label("Add Account", systemImage: "plus.circle")
+						Label("Add Account", systemImage: "plus")
+							.backportCircleSymbolVariant()
 					}
 				} header: {
 					Text("Accounts", comment: "Header for accounts list")
@@ -39,6 +40,7 @@ struct AuthenticatedContentView: View {
 						presentSettingsView = true
 					} label: {
 						Label("Settings", systemImage: "ellipsis")
+							.backportCircleSymbolVariant()
 					}
 				}
 			}

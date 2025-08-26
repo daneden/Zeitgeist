@@ -74,7 +74,8 @@ struct ProjectsListView: View {
 						Label("Show deployment cause for...", systemImage: "info.circle")
 					}
 				} label: {
-					Label("View Options", systemImage: "eye.circle")
+					Label("View Options", systemImage: "eye")
+						.backportCircleSymbolVariant()
 				}
 			}
 			.dataTask {

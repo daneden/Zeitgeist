@@ -38,16 +38,14 @@ struct EnvironmentVariableRowView: View {
 					Image(systemName: "lock")
 				}
 				
-				if needsDecrypting {
-					Text(Array(repeating: "•", count: 15).joined())
-					
-					if loading {
-						ProgressView()
-							.controlSize(.mini)
-					}
-				} else {
-					Text(envVar.value)
-						.privacySensitive(true)
+				Text(verbatim: needsDecrypting ? Array(repeating: "•", count: 15).joined() : envVar.value)
+					.privacySensitive(!needsDecrypting)
+					.contentTransition(.numericText())
+					.animation(.default, value: envVar.value)
+				
+				if loading {
+					ProgressView()
+						.controlSize(.mini)
 				}
 			}
 			.font(.footnote.monospaced())

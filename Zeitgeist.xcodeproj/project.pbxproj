@@ -96,6 +96,8 @@
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		7139DCE92B18D27A00E86183 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
+		713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */ = {isa = PBXBuildFile; productRef = 713B1DF22E5E3C65009AC3C4 /* Suite */; };
+		713B1DF52E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713B1DF42E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04D2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		71493654278AEF0D001CB921 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
@@ -219,6 +221,7 @@
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
 		7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VercelSession+accountCRUD.swift"; sourceTree = "<group>"; };
 		7139DCE82B18D27A00E86183 /* SignOutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutButton.swift; sourceTree = "<group>"; };
+		713B1DF42E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+backportCircleSymbolVariant.swift"; sourceTree = "<group>"; };
 		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
 		713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEnvironmentVariablesView.swift; sourceTree = "<group>"; };
 		713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableEditView.swift; sourceTree = "<group>"; };
@@ -255,6 +258,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */,
 				7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */,
 				71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */,
 			);
@@ -414,6 +418,7 @@
 				71D0BC362882A2D500A22693 /* View+dataTask.swift */,
 				713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */,
 				716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */,
+				713B1DF42E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -614,7 +619,7 @@
 			);
 			mainGroup = 7115533A266279CF00A73CD6;
 			packageReferences = (
-				71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */,
+				713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */,
 			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
@@ -707,6 +712,7 @@
 				7109AD112B18A48000724454 /* PostalService.swift in Sources */,
 				7109AD042B18A47500724454 /* Notification+ZPS.swift in Sources */,
 				7109ACFD2B18A47000724454 /* ZeitgeistApp.swift in Sources */,
+				713B1DF52E5E465C009AC3C4 /* View+backportCircleSymbolVariant.swift in Sources */,
 				7109AD222B18A49400724454 /* DeploymentFilterView.swift in Sources */,
 				7109ACF92B18A47000724454 /* ContentView.swift in Sources */,
 				7109AD122B18A48000724454 /* PlaceholderData.swift in Sources */,
@@ -1173,6 +1179,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daneden/Suite";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/daneden/Suite";
@@ -1184,6 +1198,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		713B1DF22E5E3C65009AC3C4 /* Suite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */;
+			productName = Suite;
+		};
 		71AE8B9B2E5E1AC7001166B7 /* Suite */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */;
