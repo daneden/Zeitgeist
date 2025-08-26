@@ -6,6 +6,15 @@
 //
 
 import SwiftUI
+import Suite
+
+fileprivate struct LogEntryMaxWidthPreferenceKey: PreferenceKey {
+	static var defaultValue: CGFloat = 0
+	
+	static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+		value = max(value, nextValue())
+	}
+}
 
 struct LogEvent: Codable, Identifiable {
 	enum EventType: String, Codable {
@@ -46,26 +55,38 @@ struct LogEvent: Codable, Identifiable {
 }
 
 struct LogEventView: View {
+	enum DisplayOption {
+		case timestamp, log, both
+	}
+	
+	@State private var logLineSize: CGSize = .zero
+	
 	var event: LogEvent
+	var display: DisplayOption = .both
 	
 	var body: some View {
 		HStack(alignment: .firstTextBaseline) {
-			Text(event.date, style: .time)
-				.foregroundStyle(.secondary)
-				.fixedSize(horizontal: true, vertical: false)
+			if display == .timestamp || display == .both {
+				Text(event.date, style: .time)
+					.foregroundStyle(.secondary)
+					.fixedSize(horizontal: true, vertical: false)
+			}
 			
-			Text(event.text)
-				.foregroundStyle(.primary)
-				.fixedSize(horizontal: event.type != .stderr, vertical: false)
-			
-			Spacer()
+			if display == .log || display == .both {
+				Text(event.text)
+					.foregroundStyle(.primary)
+					.fixedSize(horizontal: true, vertical: false)
+					.frame(maxWidth: .infinity, alignment: .leading)
+			}
 		}
 		.scenePadding(.horizontal)
 		.padding(.vertical, 2)
+		.readSize($logLineSize)
+		.preference(key: LogEntryMaxWidthPreferenceKey.self, value: logLineSize.width)
 		.background {
 			if event.type == .stderr {
 				Color.clear
-					.background(.quaternary)
+					.background(.quinary)
 			}
 		}
 		.foregroundStyle(event.outputColor)
@@ -77,6 +98,7 @@ struct DeploymentLogView: View {
 	
 	@State private var followLogs = false
 	@State private var logEvents: [LogEvent] = []
+	@State private var maxLineWidth: CGFloat = 0
 	
 	var deployment: VercelDeployment
 	
@@ -94,15 +116,24 @@ struct DeploymentLogView: View {
 								.id(event.id)
 						}
 					}
+					.frame(minWidth: maxLineWidth, alignment: .leading)
 					.textSelection(.enabled)
-					.task(id: logEvents.last?.id) {
-						if followLogs, let latestEvent = logEvents.last {
-							proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
-						}
-					}
-					.fixedSize(horizontal: false, vertical: true)
-					.frame(minWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
 					.font(.footnote.monospaced())
+					.onPreferenceChange(LogEntryMaxWidthPreferenceKey.self) { width in
+						maxLineWidth = width
+					}
+				}
+				.modify {
+					if #available(iOS 17, macOS 14, *) {
+						$0.defaultScrollAnchor(followLogs ? .bottom : .top)
+					} else {
+						$0
+							.task(id: logEvents.last?.id) {
+								if followLogs, let latestEvent = logEvents.last {
+									proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
+								}
+							}
+					}
 				}
 				.toolbar {
 					ToolbarItemGroup {

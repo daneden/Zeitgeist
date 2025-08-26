@@ -108,6 +108,7 @@
 		718FC2F02DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
 		718FC2F12DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
 		718FC2F22DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
+		71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */ = {isa = PBXBuildFile; productRef = 71AE8B9B2E5E1AC7001166B7 /* Suite */; };
 		71B881392B18D5F0005EFD48 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
 		71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
@@ -255,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */,
+				71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +614,7 @@
 			);
 			mainGroup = 7115533A266279CF00A73CD6;
 			packageReferences = (
+				71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */,
 			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
@@ -811,9 +814,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
@@ -836,6 +841,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
@@ -855,9 +861,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
@@ -880,6 +888,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
@@ -1162,6 +1171,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daneden/Suite";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		71AE8B9B2E5E1AC7001166B7 /* Suite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */;
+			productName = Suite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7115533B266279CF00A73CD6 /* Project object */;
 }
