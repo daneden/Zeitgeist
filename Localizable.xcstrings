@@ -29,7 +29,7 @@
         }
       }
     },
-    "%@ Production Rebuild" : {
+    "%@ Production rebuild" : {
       "comment" : "Label for a deployment caused by a promotion to production",
       "localizations" : {
         "fr" : {
@@ -82,7 +82,7 @@
         }
       }
     },
-    "Add Account" : {
+    "Add account" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -93,7 +93,7 @@
         }
       }
     },
-    "Add Environment Variable" : {
+    "Add environment variable" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -193,7 +193,7 @@
         }
       }
     },
-    "Authentication Required" : {
+    "Authentication required" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -213,7 +213,7 @@
         }
       }
     },
-    "Build Logs" : {
+    "Build logs" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -306,17 +306,17 @@
         }
       }
     },
-    "Copy Commit Sha" : {
+    "Copy commit SHA" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copier Commit Sha"
+            "value" : "Copier commit SHA"
           }
         }
       }
     },
-    "Copy Commit URL" : {
+    "Copy commit URL" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -380,17 +380,6 @@
         }
       }
     },
-    "Delete Deployment" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer le déploiement"
-          }
-        }
-      }
-    },
     "Delete environment variable" : {
       "localizations" : {
         "fr" : {
@@ -433,7 +422,7 @@
         }
       }
     },
-    "Deployment Aliases" : {
+    "Deployment aliases" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -444,7 +433,7 @@
         }
       }
     },
-    "Deployment Cause" : {
+    "Deployment cause" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -455,7 +444,7 @@
         }
       }
     },
-    "Deployment Details" : {
+    "Deployment details" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -515,7 +504,7 @@
         }
       }
     },
-    "Edit Environment Variable" : {
+    "Edit environment variable" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -545,7 +534,7 @@
         }
       }
     },
-    "Environment Variables" : {
+    "Environment variables" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -616,7 +605,7 @@
         }
       }
     },
-    "Git Repository" : {
+    "Git repository" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -646,7 +635,7 @@
         }
       }
     },
-    "Latest Deployment" : {
+    "Latest deployment" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -657,7 +646,7 @@
         }
       }
     },
-    "Latest Production Deployment" : {
+    "Latest production deployment" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -688,17 +677,6 @@
         }
       }
     },
-    "Loading Deployments" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chargement des déploiements"
-          }
-        }
-      }
-    },
     "Loading projects" : {
       "localizations" : {
         "fr" : {
@@ -719,7 +697,7 @@
         }
       }
     },
-    "Manual Deployment" : {
+    "Manual deployment" : {
       "comment" : "Manual deployment cause label",
       "localizations" : {
         "fr" : {
@@ -761,17 +739,7 @@
         }
       }
     },
-    "No Account Selected" : {
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun Compte Sélectionné"
-          }
-        }
-      }
-    },
-    "No Accounts Found" : {
+    "No accounts found" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -791,7 +759,7 @@
         }
       }
     },
-    "No Deployment Selected" : {
+    "No deployment selected" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -801,7 +769,7 @@
         }
       }
     },
-    "No Deployments To Show" : {
+    "No deployments to show" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -811,17 +779,17 @@
         }
       }
     },
-    "No Environment Variables for Project" : {
+    "No environment variables for project" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aucune variable d'environnement pour le projet"
+            "value" : "Aucune variable d'environnement"
           }
         }
       }
     },
-    "No Project Selected" : {
+    "No project selected" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -831,7 +799,7 @@
         }
       }
     },
-    "No Projects To Show" : {
+    "No projects to show" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -972,7 +940,7 @@
         }
       }
     },
-    "Production Branch" : {
+    "Production branch" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1022,7 +990,7 @@
         }
       }
     },
-    "Project Details" : {
+    "Project details" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1042,7 +1010,7 @@
         }
       }
     },
-    "Promote to Production" : {
+    "Promote to production" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1074,7 +1042,7 @@
         }
       }
     },
-    "Recent Deployments" : {
+    "Recent deployments" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1291,7 +1259,7 @@
         }
       }
     },
-    "This Deployment will be promoted to Production. This Project's domains will point to your new deployment, and all Environment Variables defined for the Production Environment in the Project Settings will be applied." : {
+    "This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1331,7 +1299,7 @@
         }
       }
     },
-    "View Logs" : {
+    "View logs" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {

@@ -33,7 +33,7 @@ struct DeploymentListRowView: View {
 							.lineLimit(2)
 							.imageScale(.small)
 					case .promotion(_):
-						Text("\(Image(systemName: "arrow.up.circle")) Production Rebuild", comment: "Label for a deployment caused by a promotion to production")
+						Text("\(Image(systemName: "arrow.up.circle")) Production rebuild", comment: "Label for a deployment caused by a promotion to production")
 							.lineLimit(2)
 							.imageScale(.small)
 					default:

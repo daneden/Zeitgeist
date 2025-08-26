@@ -88,8 +88,8 @@ enum ProjectSummaryDisplayOption: String, Codable, CaseIterable {
 	
 	var description: LocalizedStringKey {
 		switch self {
-		case .latestDeployment: return "Latest Deployment"
-		case .productionDeployment: return "Latest Production Deployment"
+		case .latestDeployment: return "Latest deployment"
+		case .productionDeployment: return "Latest production deployment"
 		}
 	}
 }

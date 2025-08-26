@@ -26,7 +26,7 @@ struct AuthenticatedContentView: View {
 					Button {
 						Task { signInModel.signIn() }
 					} label: {
-						Label("Add Account", systemImage: "plus")
+						Label("Add account", systemImage: "plus")
 							.backportCircleSymbolVariant()
 					}
 				} header: {

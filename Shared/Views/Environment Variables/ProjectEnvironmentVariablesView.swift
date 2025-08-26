@@ -49,7 +49,7 @@ struct ProjectEnvironmentVariablesView: View {
 						.backportCircleSymbolVariant()
 				}
 			}
-			.navigationTitle(Text("Environment Variables"))
+			.navigationTitle(Text("Environment variables"))
 			.onAppear {
 				if !isAuthenticated {
 					authenticate()
@@ -69,7 +69,7 @@ struct ProjectEnvironmentVariablesView: View {
 					Image(systemName: "lock")
 						.font(.largeTitle)
 						.symbolVariant(.fill)
-					Text("Authentication Required")
+					Text("Authentication required")
 						.font(.title3)
 					Button {
 						authenticate()

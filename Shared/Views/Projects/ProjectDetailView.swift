@@ -33,7 +33,7 @@ struct ProjectDetailView: View {
 	
 	var navBarTitle: Text {
 		guard let name = project?.name else {
-			return Text("Project Details")
+			return Text("Project details")
 		}
 		
 		return Text(name)
@@ -52,18 +52,18 @@ struct ProjectDetailView: View {
 						let slug = gitLink.repoSlug
 						let provider = gitLink.type
 						
-						LabelView(Text("Git Repository")) {
+						LabelView(Text("Git repository")) {
 							Link(destination: url) {
 								Label(slug, image: provider.rawValue)
 							}
 						}
 						
-						LabelView(Text("Production Branch")) {
+						LabelView(Text("Production branch")) {
 							Text(gitLink.productionBranch)
 						}
 						
 						NavigationLink(destination: ProjectEnvironmentVariablesView(projectId: project.id).environmentObject(session)) {
-							Text("Environment Variables")
+							Text("Environment variables")
 						}
 					}
 				}
@@ -81,7 +81,7 @@ struct ProjectDetailView: View {
 					}
 				}
 				
-				Section("Recent Deployments") {
+				Section("Recent deployments") {
 					if filter.filtersApplied {
 						Button {
 							filter = .init()
