@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LocalAuthentication
+import Suite
 
 struct ProjectEnvironmentVariablesView: View {
 	@EnvironmentObject var session: VercelSession

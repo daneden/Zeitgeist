@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Suite
 
 struct LoadingListCell: View {
 	var title: LocalizedStringKey = "Loading"

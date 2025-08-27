@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Suite
 
 struct AuthenticatedContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts

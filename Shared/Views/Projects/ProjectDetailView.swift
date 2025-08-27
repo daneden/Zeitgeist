@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Suite
 
 struct ProjectDetailView: View {
 	@EnvironmentObject var session: VercelSession
