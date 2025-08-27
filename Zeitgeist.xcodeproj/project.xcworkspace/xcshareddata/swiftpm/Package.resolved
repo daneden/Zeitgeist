@@ -1,0 +1,15 @@
+{
+  "originHash" : "cdcc958cfe6c6dbc4b95b38cfc43b36f3fe0486a5f7f24c29c6672dde47bf70b",
+  "pins" : [
+    {
+      "identity" : "suite",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/daneden/Suite",
+      "state" : {
+        "branch" : "main",
+        "revision" : "47805d0836b5812017e143933a77898a9e5c27db"
+      }
+    }
+  ],
+  "version" : 3
+}
