@@ -119,7 +119,7 @@ struct LogEventView: View {
 struct DeploymentLogView: View {
 	@EnvironmentObject private var session: VercelSession
 	
-	@State private var followLogs = false
+	@AppStorage(Preferences.followLogs) var followLogs
 	@State private var logEvents: [LogEvent] = []
 	@State private var maxLineWidth: CGFloat = 0
 	
