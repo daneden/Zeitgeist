@@ -76,6 +76,13 @@
         }
       ],
       "name" : "Group",
+      "position" : {
+        "scale" : 1,
+        "translation-in-points" : [
+          0,
+          -16.46875
+        ]
+      },
       "shadow-specializations" : [
         {
           "appearance" : "dark",
@@ -114,14 +121,23 @@
             {
               "appearance" : "dark",
               "value" : "none"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "none"
             }
           ],
           "glass" : false,
+          "hidden" : false,
           "image-name" : "Background.png",
           "name" : "Background",
           "opacity-specializations" : [
             {
               "appearance" : "dark",
+              "value" : 0
+            },
+            {
+              "appearance" : "tinted",
               "value" : 0
             }
           ],
