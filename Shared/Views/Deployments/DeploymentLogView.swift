@@ -6,8 +6,17 @@
 //
 
 import SwiftUI
+import Suite
 
-struct LogEvent: Codable, Identifiable {
+fileprivate struct LogEntryMaxWidthPreferenceKey: PreferenceKey {
+	static var defaultValue: CGFloat = 0
+	
+	static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+		value = max(value, nextValue())
+	}
+}
+
+struct LogEvent: Codable, Equatable, Identifiable {
 	enum EventType: String, Codable {
 		case command, stderr, stdout, delimiter, exit
 	}
@@ -17,7 +26,7 @@ struct LogEvent: Codable, Identifiable {
 		var readyState: VercelDeployment.State
 	}
 	
-	struct Payload: Codable {
+	struct Payload: Codable, Equatable {
 		var id: String
 		var text: String
 		var date: TimeInterval
@@ -43,40 +52,76 @@ struct LogEvent: Codable, Identifiable {
 			return .primary
 		}
 	}
+	
+	var backgroundStyle: AnyShapeStyle {
+		switch type {
+		case .stderr: return AnyShapeStyle(.quaternary)
+		default: return AnyShapeStyle(.clear)
+		}
+	}
 }
 
 struct LogEventView: View {
+	enum DisplayOption {
+		case timestamp, log, both
+	}
+	
+	@State private var logLineSize: CGSize = .zero
+	
 	var event: LogEvent
+	var display: DisplayOption = .both
+	
+	var previousType: LogEvent.EventType? = nil
+	var nextType: LogEvent.EventType? = nil
+	
+	private var cornerRadii: RectangleCornerRadii {
+		let matchesPrev = previousType == event.type
+		let matchesNext = nextType == event.type
+		switch (matchesPrev, matchesNext) {
+		case (false, false):
+			return .init(topLeading: 4, bottomLeading: 4, bottomTrailing: 4, topTrailing: 4)
+		case (false, true):
+			return .init(topLeading: 4, topTrailing: 4)
+		case (true, false):
+			return .init(bottomLeading: 4, bottomTrailing: 4)
+		case (true, true):
+			return .init()
+		}
+	}
 	
 	var body: some View {
 		HStack(alignment: .firstTextBaseline) {
-			Text(event.date, style: .time)
-				.foregroundStyle(.secondary)
-				.fixedSize(horizontal: true, vertical: false)
+			if display == .timestamp || display == .both {
+				Text(event.date, style: .time)
+					.foregroundStyle(.secondary)
+					.fixedSize(horizontal: true, vertical: false)
+			}
 			
-			Text(event.text)
-				.foregroundStyle(.primary)
-				.fixedSize(horizontal: event.type != .stderr, vertical: false)
-			
-			Spacer()
-		}
-		.scenePadding(.horizontal)
-		.padding(.vertical, 2)
-		.background {
-			if event.type == .stderr {
-				Color.clear
-					.background(.quaternary)
+			if display == .log || display == .both {
+				Text(event.text)
+					.foregroundStyle(.primary)
+					.fixedSize(horizontal: true, vertical: false)
+					.frame(maxWidth: .infinity, alignment: .leading)
 			}
 		}
+		.padding(.vertical, 2)
+		.padding(.horizontal, 8)
+		.preference(key: LogEntryMaxWidthPreferenceKey.self, value: logLineSize.width)
+		.background(event.backgroundStyle, in: UnevenRoundedRectangle(cornerRadii: cornerRadii, style: .continuous))
 		.foregroundStyle(event.outputColor)
+		.padding(.horizontal, -8)
+		.scenePadding(.horizontal)
+		.readSize($logLineSize)
+		.transition(.opacity)
 	}
 }
 
 struct DeploymentLogView: View {
 	@EnvironmentObject private var session: VercelSession
 	
-	@State private var followLogs = false
+	@AppStorage(Preferences.followLogs) var followLogs
 	@State private var logEvents: [LogEvent] = []
+	@State private var maxLineWidth: CGFloat = 0
 	
 	var deployment: VercelDeployment
 	
@@ -89,24 +134,36 @@ struct DeploymentLogView: View {
 			GeometryReader { geometry in
 				ScrollView([.horizontal, .vertical]) {
 					LazyVStack(alignment: .leading, spacing: 0) {
-						ForEach(logEvents) { event in
-							LogEventView(event: event)
+						ForEach(Array(logEvents.enumerated()), id: \.element.id) { index, event in
+							let prevType = index > 0 ? logEvents[index - 1].type : nil
+							let nextType = index < logEvents.count - 1 ? logEvents[index + 1].type : nil
+							LogEventView(event: event, previousType: prevType, nextType: nextType)
 								.id(event.id)
 						}
 					}
+					.animation(.default, value: logEvents)
+					.frame(minWidth: maxLineWidth, minHeight: geometry.size.height, alignment: .topLeading)
 					.textSelection(.enabled)
-					.task(id: logEvents.last?.id) {
-						if followLogs, let latestEvent = logEvents.last {
-							proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
-						}
-					}
-					.fixedSize(horizontal: false, vertical: true)
-					.frame(minWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
 					.font(.footnote.monospaced())
+					.onPreferenceChange(LogEntryMaxWidthPreferenceKey.self) { width in
+						maxLineWidth = width
+					}
+				}
+				.modify {
+					if #available(iOS 17, macOS 14, *) {
+						$0.defaultScrollAnchor(followLogs ? .bottomLeading : .topLeading)
+					} else {
+						$0
+							.task(id: logEvents.last?.id) {
+								if followLogs, let latestEvent = logEvents.last {
+									proxy.scrollTo(latestEvent.id, anchor: .bottomLeading)
+								}
+							}
+					}
 				}
 				.toolbar {
-					ToolbarItemGroup {
-						Toggle(isOn: $followLogs) {
+					ToolbarItem {
+						Toggle(isOn: $followLogs.animation()) {
 							Label("Follow logs", systemImage: "arrow.down.to.line.compact")
 								.padding(-4)
 								.padding(.horizontal, -4)
@@ -115,12 +172,20 @@ struct DeploymentLogView: View {
 						.disabled(logEvents.isEmpty)
 						.onChange(of: followLogs) { _ in
 							if followLogs {
-								proxy.scrollTo(logEvents.last?.id, anchor: .bottomLeading)
+								withAnimation {
+									proxy.scrollTo(logEvents.last?.id, anchor: .bottomLeading)
+								}
 							}
 						}
-						
+					}
+					
+					if #available(iOS 26, macOS 26, *) {
+						ToolbarSpacer()
+					}
+					
+					ToolbarItem {
 						Link(destination: deployment.inspectorUrl) {
-							Label("Open in Safari", systemImage: "safari")
+							Label("Open in browser", systemImage: "safari")
 						}
 					}
 				}
@@ -131,7 +196,7 @@ struct DeploymentLogView: View {
 				ProgressView()
 			}
 		}
-		.navigationTitle(Text("Build Logs"))
+		.navigationTitle(Text("Build logs"))
 		.task {
 			do {
 				let queryItems: [URLQueryItem] = [

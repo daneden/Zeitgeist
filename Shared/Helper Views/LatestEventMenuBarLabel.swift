@@ -14,26 +14,30 @@ struct LatestEventMenuBarLabel: View {
 	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 	
 	var body: some View {
-		Label("Zeitgeist", systemImage: latestEvent?.imageName ?? VercelDeployment.State.normal.imageName)
-			.symbolVariant(.fill)
-			.symbolRenderingMode(.hierarchical)
-			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { notificationPayload in
-				guard let userInfo = notificationPayload.userInfo,
-							let eventTypeString = userInfo["eventType"] as? String,
-							let eventType: ZPSEventType = ZPSEventType(rawValue: eventTypeString) else {
-					return
-				}
-				
-				withAnimation {
-					latestEvent = eventType.associatedState
-					lastReceivedEvent = .now
-				}
+		Label {
+			Text(verbatim: "Zeitgeist")
+		} icon: {
+			Image(systemName: latestEvent?.imageName ?? VercelDeployment.State.normal.imageName)
+		}
+		.symbolVariant(.fill)
+		.symbolRenderingMode(.hierarchical)
+		.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { notificationPayload in
+			guard let userInfo = notificationPayload.userInfo,
+						let eventTypeString = userInfo["eventType"] as? String,
+						let eventType: ZPSEventType = ZPSEventType(rawValue: eventTypeString) else {
+				return
 			}
-			.onReceive(timer) { _ in
-				if latestEvent != nil && abs(lastReceivedEvent.distance(to: .now)) > 60 {
-					latestEvent = nil
-				}
+			
+			withAnimation {
+				latestEvent = eventType.associatedState
+				lastReceivedEvent = .now
 			}
+		}
+		.onReceive(timer) { _ in
+			if latestEvent != nil && abs(lastReceivedEvent.distance(to: .now)) > 60 {
+				latestEvent = nil
+			}
+		}
 	}
 }
 

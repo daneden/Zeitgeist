@@ -18,7 +18,7 @@ struct DeploymentDetailView: View {
 		Form {
 			if let deployment {
 				Overview(deployment: deployment)
-				Section("Deployment Cause") {
+				Section("Deployment cause") {
 					switch deployment.deploymentCause {
 					case let .deployHook(name):
 						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
@@ -28,7 +28,7 @@ struct DeploymentDetailView: View {
 							CommitSummary(commit: commit)
 						}
 					case .manual:
-						Text("Manual Deployment", comment: "Manual deployment cause label")
+						Text("Manual deployment", comment: "Manual deployment cause label")
 					case let .gitCommit(commit):
 						CommitSummary(commit: commit)
 					}
@@ -39,7 +39,7 @@ struct DeploymentDetailView: View {
 				ProgressView()
 			}
 		}
-		.navigationTitle(Text("Deployment Details"))
+		.navigationTitle(Text("Deployment details"))
 		.dataTask {
 			do {
 				try await loadDeploymentDetails()
@@ -74,7 +74,7 @@ private struct CommitSummary: View {
 			Button {
 				Pasteboard.setString(commit.commitSha)
 			} label: {
-				Label("Copy Commit Sha", systemImage: "doc.on.doc")
+				Label("Copy commit SHA", systemImage: "doc.on.doc")
 			}
 		}
 		
@@ -89,7 +89,7 @@ private struct CommitSummary: View {
 			Button {
 				Pasteboard.setString(commit.commitUrl.absoluteString)
 			} label: {
-				Label("Copy Commit URL", systemImage: "doc.on.doc")
+				Label("Copy commit URL", systemImage: "doc.on.doc")
 			}
 		}
 	}
@@ -155,7 +155,7 @@ private struct URLDetails: View {
 					}
 				}
 			} label: {
-				Label("Deployment Aliases", systemImage: "arrowshape.turn.up.right")
+				Label("Deployment aliases", systemImage: "arrowshape.turn.up.right")
 					.badge(aliases.count)
 			}
 			.task {
@@ -203,7 +203,7 @@ private struct DeploymentDetails: View {
 				DeploymentLogView(deployment: deployment)
 					.environmentObject(session)
 			} label: {
-				Label("View Logs", systemImage: "terminal")
+				Label("View logs", systemImage: "terminal")
 			}
 			
 			Group {
@@ -211,9 +211,9 @@ private struct DeploymentDetails: View {
 					Button {
 						promoteToProductionConfirmation = true
 					} label: {
-						Label("Promote to Production", systemImage: "arrow.up.circle")
+						Label("Promote to production", systemImage: "arrow.up.circle")
 					}
-					.confirmationDialog("Promote to Production", isPresented: $promoteToProductionConfirmation) {
+					.confirmationDialog("Promote to production", isPresented: $promoteToProductionConfirmation) {
 						Button(role: .cancel) {
 							promoteToProductionConfirmation = false
 						} label: {
@@ -223,11 +223,11 @@ private struct DeploymentDetails: View {
 						Button {
 							Task { await promoteToProduction(data: promoteToProductionDataPayload) }
 						} label: {
-							Text("Promote to Production")
+							Text("Promote to production")
 						}
 					} message: {
 						VStack {
-							Text("This Deployment will be promoted to Production. This Project's domains will point to your new deployment, and all Environment Variables defined for the Production Environment in the Project Settings will be applied.")
+							Text("This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied.")
 						}
 					}
 				}
@@ -238,7 +238,7 @@ private struct DeploymentDetails: View {
 					} label: {
 						Label("Redeploy", systemImage: "arrow.clockwise")
 					}
-					.confirmationDialog("Redeploy\(deployment.target == .production ? " to Production" : "")", isPresented: $redeployConfirmation) {
+					.confirmationDialog(deployment.target == .production ? "Redeploy to production" : "Redeploy", isPresented: $redeployConfirmation) {
 						Button(role: .cancel) {
 							redeployConfirmation = false
 						} label: {
@@ -254,10 +254,10 @@ private struct DeploymentDetails: View {
 						Button {
 							Task { await redeploy(withCache: true, data: redeployPayload) }
 						} label: {
-							Text("Redeploy with existing Build Cache")
+							Text("Redeploy with existing build cache")
 						}
 					} message: {
-						Text("You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings.")
+						Text("You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.")
 					}
 				}
 				
@@ -267,7 +267,7 @@ private struct DeploymentDetails: View {
 				{
 					Button(role: .destructive, action: { deleteConfirmation = true }) {
 						HStack {
-							Label("Delete Deployment", systemImage: "trash")
+							Label("Delete deployment", systemImage: "trash")
 						}
 					}
 					.alert(isPresented: $deleteConfirmation) {
@@ -284,7 +284,7 @@ private struct DeploymentDetails: View {
 				} else {
 					Button(role: .destructive, action: { cancelConfirmation = true }) {
 						HStack {
-							Label("Cancel Deployment", systemImage: "xmark")
+							Label("Cancel deployment", systemImage: "xmark")
 							
 							if mutating {
 								Spacer()
@@ -296,7 +296,7 @@ private struct DeploymentDetails: View {
 						Alert(
 							title: Text("Are you sure you want to cancel this deployment?"),
 							message: Text("This will immediately stop the build, with no option to resume."),
-							primaryButton: .destructive(Text("Cancel Deployment"), action: {
+							primaryButton: .destructive(Text("Cancel deployment"), action: {
 								Task { await cancelDeployment() }
 							}),
 							secondaryButton: .cancel(Text("Close", comment: "Label to dismiss the build cancellation confirmation"))

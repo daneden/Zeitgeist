@@ -39,6 +39,8 @@ struct ProjectsListRowView: View {
 						.lineLimit(2)
 				} else {
 					Text(productionDeploymentCause.description).lineLimit(2)
+						.contentTransition(.numericText())
+						.animation(.default, value: projectSummaryDisplayOption)
 				}
 			}
 

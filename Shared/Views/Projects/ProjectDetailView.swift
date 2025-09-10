@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Suite
 
 struct ProjectDetailView: View {
 	@EnvironmentObject var session: VercelSession
@@ -33,7 +34,7 @@ struct ProjectDetailView: View {
 	
 	var navBarTitle: Text {
 		guard let name = project?.name else {
-			return Text("Project Details")
+			return Text("Project details")
 		}
 		
 		return Text(name)
@@ -52,18 +53,18 @@ struct ProjectDetailView: View {
 						let slug = gitLink.repoSlug
 						let provider = gitLink.type
 						
-						LabelView(Text("Git Repository")) {
+						LabelView(Text("Git repository")) {
 							Link(destination: url) {
 								Label(slug, image: provider.rawValue)
 							}
 						}
 						
-						LabelView(Text("Production Branch")) {
+						LabelView(Text("Production branch")) {
 							Text(gitLink.productionBranch)
 						}
 						
 						NavigationLink(destination: ProjectEnvironmentVariablesView(projectId: project.id).environmentObject(session)) {
-							Text("Environment Variables")
+							Text("Environment variables")
 						}
 					}
 				}
@@ -81,12 +82,12 @@ struct ProjectDetailView: View {
 					}
 				}
 				
-				Section("Recent Deployments") {
+				Section("Recent deployments") {
 					if filter.filtersApplied {
 						Button {
 							filter = .init()
 						} label: {
-							Label("Clear Filters", systemImage: "xmark.circle")
+							Label("Clear filters", systemImage: "xmark.circle")
 						}
 					}
 					ForEach(deployments) { deployment in
@@ -101,11 +102,11 @@ struct ProjectDetailView: View {
 					}
 					
 					if deployments.isEmpty {
-						LoadingListCell(title: "Loading Deployments")
+						LoadingListCell(title: "Loading deployments")
 					}
 					
 					if let pageId = pagination?.next {
-						LoadingListCell(title: "Loading Deployments")
+						LoadingListCell(title: "Loading deployments")
 							.task {
 								do {
 									try await loadDeployments(pageId: pageId)
@@ -124,15 +125,20 @@ struct ProjectDetailView: View {
 				Button {
 					projectNotificationsVisible = true
 				} label: {
-					Label("Notification settings)", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
+					Label("Notification settings", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
 				}
+			}
+			
+			if #available(iOS 26, macOS 26, *) {
+				ToolbarSpacer()
 			}
 			
 			ToolbarItem {
 				Menu {
 					DeploymentFilterView(filter: $filter)
 				} label: {
-					Label("Filter Deployments", systemImage: "line.3.horizontal.decrease.circle")
+					Label("Filter deployments", systemImage: "line.3.horizontal.decrease")
+						.backportCircleSymbolVariant()
 						.symbolVariant(filter.filtersApplied ? .fill : .none)
 				}
 			}
@@ -158,28 +164,16 @@ struct ProjectDetailView: View {
 	@ViewBuilder
 	var notificationsSheet: some View {
 		if let project {
-			if #available(iOS 16.0, *) {
-				Group {
-#if os(iOS)
-					NavigationView {
-						ProjectNotificationsView(project: project)
-					}
-#else
+			Group {
+				#if os(iOS)
+				NavigationView {
 					ProjectNotificationsView(project: project)
-#endif
 				}
-				.presentationDetents([.medium])
-			} else {
-				Group {
-#if os(iOS)
-					NavigationView {
-						ProjectNotificationsView(project: project)
-					}
-#else
-					ProjectNotificationsView(project: project)
-#endif
-				}
+				#else
+				ProjectNotificationsView(project: project)
+				#endif
 			}
+			.presentationDetents([.medium])
 		}
 	}
 

@@ -1,17 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
-          }
-        }
-      }
-    },
     "%@ %@" : {
       "comment" : "Deploy hook cause icon and name\nIcon and name of a repository for a project in the projects list\nLabel for a deployment caused by a deploy hook ({icon} {name})\nPromoted deployment cause icon and name\nThe cause of a deployment in the projects list",
       "localizations" : {
@@ -40,7 +29,7 @@
         }
       }
     },
-    "%@ Production Rebuild" : {
+    "%@ Production rebuild" : {
       "comment" : "Label for a deployment caused by a promotion to production",
       "localizations" : {
         "fr" : {
@@ -72,8 +61,15 @@
         }
       }
     },
-    "Account Permissions Revoked" : {
-
+    "Account permissions revoked" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisations de compte révoquées"
+          }
+        }
+      }
     },
     "Accounts" : {
       "comment" : "Header for accounts list",
@@ -86,7 +82,7 @@
         }
       }
     },
-    "Add Account" : {
+    "Add account" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -97,7 +93,7 @@
         }
       }
     },
-    "Add Environment Variable" : {
+    "Add environment variable" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -108,7 +104,14 @@
       }
     },
     "Add new environment variable" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une nouvelle variable d'environnement"
+          }
+        }
+      }
     },
     "All statuses" : {
       "localizations" : {
@@ -190,7 +193,7 @@
         }
       }
     },
-    "Authentication Required" : {
+    "Authentication required" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -210,7 +213,7 @@
         }
       }
     },
-    "Build Logs" : {
+    "Build logs" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -241,7 +244,7 @@
         }
       }
     },
-    "Cancel Deployment" : {
+    "Cancel deployment" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -271,9 +274,6 @@
           }
         }
       }
-    },
-    "Clear Filters" : {
-
     },
     "Close" : {
       "comment" : "Label to dismiss the build cancellation confirmation",
@@ -306,17 +306,17 @@
         }
       }
     },
-    "Copy Commit Sha" : {
+    "Copy commit SHA" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copier Commit Sha"
+            "value" : "Copier commit SHA"
           }
         }
       }
     },
-    "Copy Commit URL" : {
+    "Copy commit URL" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -370,8 +370,7 @@
         }
       }
     },
-    "Delete Deployment" : {
-      "extractionState" : "manual",
+    "Delete deployment" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -381,8 +380,15 @@
         }
       }
     },
-    "Delete Environment Variable" : {
-
+    "Delete environment variable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la variable d'environnement"
+          }
+        }
+      }
     },
     "Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone." : {
       "localizations" : {
@@ -416,7 +422,7 @@
         }
       }
     },
-    "Deployment Aliases" : {
+    "Deployment aliases" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -427,7 +433,7 @@
         }
       }
     },
-    "Deployment Cause" : {
+    "Deployment cause" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -438,7 +444,7 @@
         }
       }
     },
-    "Deployment Details" : {
+    "Deployment details" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -479,22 +485,26 @@
       }
     },
     "Dismiss" : {
-
-    },
-    "Done" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finir"
+            "value" : "Fermer"
           }
         }
       }
     },
     "Edit" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Éditer"
+          }
+        }
+      }
     },
-    "Edit Environment Variable" : {
+    "Edit environment variable" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -524,7 +534,7 @@
         }
       }
     },
-    "Environment Variables" : {
+    "Environment variables" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -545,7 +555,14 @@
       }
     },
     "Error authenticating account" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur lors de l'authentification du compte"
+          }
+        }
+      }
     },
     "Error building" : {
       "extractionState" : "manual",
@@ -558,8 +575,15 @@
         }
       }
     },
-    "Filter Deployments" : {
-
+    "Filter deployments" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrer les déploiements"
+          }
+        }
+      }
     },
     "Filter deployments by:" : {
       "localizations" : {
@@ -572,9 +596,16 @@
       }
     },
     "Follow logs" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivre les journaux"
+          }
+        }
+      }
     },
-    "Git Repository" : {
+    "Git repository" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -604,7 +635,7 @@
         }
       }
     },
-    "Latest Deployment" : {
+    "Latest deployment" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -615,7 +646,7 @@
         }
       }
     },
-    "Latest Production Deployment" : {
+    "Latest production deployment" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -627,10 +658,16 @@
       }
     },
     "Loading" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement"
+          }
+        }
+      }
     },
-    "Loading Deployments" : {
-      "extractionState" : "manual",
+    "Loading deployments" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -640,8 +677,15 @@
         }
       }
     },
-    "Loading Projects" : {
-
+    "Loading projects" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des projets"
+          }
+        }
+      }
     },
     "Loading..." : {
       "localizations" : {
@@ -653,7 +697,7 @@
         }
       }
     },
-    "Manual Deployment" : {
+    "Manual deployment" : {
       "comment" : "Manual deployment cause label",
       "localizations" : {
         "fr" : {
@@ -663,9 +707,6 @@
           }
         }
       }
-    },
-    "More" : {
-
     },
     "Name" : {
       "localizations" : {
@@ -698,17 +739,7 @@
         }
       }
     },
-    "No Account Selected" : {
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun Compte Sélectionné"
-          }
-        }
-      }
-    },
-    "No Accounts Found" : {
+    "No accounts found" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -728,7 +759,7 @@
         }
       }
     },
-    "No Deployment Selected" : {
+    "No deployment selected" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -738,7 +769,7 @@
         }
       }
     },
-    "No Deployments To Show" : {
+    "No deployments to show" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -748,17 +779,17 @@
         }
       }
     },
-    "No Environment Variables for Project" : {
+    "No environment variables for project" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aucune variable d'environnement pour le projet"
+            "value" : "Aucune variable d'environnement"
           }
         }
       }
     },
-    "No Project Selected" : {
+    "No project selected" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -768,7 +799,7 @@
         }
       }
     },
-    "No Projects To Show" : {
+    "No projects to show" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -778,11 +809,25 @@
         }
       }
     },
-    "Notification Permissions Required" : {
-
+    "Notification permissions required" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisations de notification requises"
+          }
+        }
+      }
     },
-    "Notification settings)" : {
-
+    "Notification settings" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres de notification"
+          }
+        }
+      }
     },
     "Notifications" : {
       "localizations" : {
@@ -825,8 +870,15 @@
         }
       }
     },
-    "Open in Safari" : {
-
+    "Open in browser" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir dans le navigateur"
+          }
+        }
+      }
     },
     "Open Settings" : {
       "localizations" : {
@@ -888,7 +940,7 @@
         }
       }
     },
-    "Production Branch" : {
+    "Production branch" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -898,14 +950,35 @@
         }
       }
     },
-    "Production Deployment" : {
-
+    "Production deployment" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déploiement de la production"
+          }
+        }
+      }
     },
     "Production deployments only" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déploiements de production uniquement"
+          }
+        }
+      }
     },
     "Production only" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Production uniquement"
+          }
+        }
+      }
     },
     "Project" : {
       "localizations" : {
@@ -917,7 +990,7 @@
         }
       }
     },
-    "Project Details" : {
+    "Project details" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -937,7 +1010,7 @@
         }
       }
     },
-    "Promote to Production" : {
+    "Promote to production" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -969,7 +1042,7 @@
         }
       }
     },
-    "Recent Deployments" : {
+    "Recent deployments" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -989,7 +1062,17 @@
         }
       }
     },
-    "Redeploy with existing Build Cache" : {
+    "Redeploy to production" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redéployer en production"
+          }
+        }
+      }
+    },
+    "Redeploy with existing build cache" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -998,9 +1081,6 @@
           }
         }
       }
-    },
-    "Redeploy%@" : {
-
     },
     "Remove account" : {
       "localizations" : {
@@ -1077,7 +1157,14 @@
       }
     },
     "Sign out" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se désinscrire"
+          }
+        }
+      }
     },
     "Sign out of all accounts" : {
       "extractionState" : "manual",
@@ -1091,7 +1178,14 @@
       }
     },
     "Staging" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Staging"
+          }
+        }
+      }
     },
     "Status" : {
       "localizations" : {
@@ -1135,18 +1229,6 @@
         }
       }
     },
-    "Team Account" : {
-      "comment" : "Subtitle for team accounts in the account list",
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compte d'équipe"
-          }
-        }
-      }
-    },
     "Terms of Use" : {
       "localizations" : {
         "fr" : {
@@ -1158,7 +1240,14 @@
       }
     },
     "The selected account has not been authorised on this device. You can try signing out and signing in again." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le compte sélectionné n'a pas été autorisé sur cet appareil. Vous pouvez essayer de vous déconnecter et de vous connecter à nouveau."
+          }
+        }
+      }
     },
     "There was a problem loading data for this account. It may have been deleted, or its access token may have been revoked." : {
       "localizations" : {
@@ -1170,7 +1259,7 @@
         }
       }
     },
-    "This Deployment will be promoted to Production. This Project's domains will point to your new deployment, and all Environment Variables defined for the Production Environment in the Project Settings will be applied." : {
+    "This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1210,7 +1299,7 @@
         }
       }
     },
-    "View Logs" : {
+    "View logs" : {
       "extractionState" : "manual",
       "localizations" : {
         "fr" : {
@@ -1221,8 +1310,15 @@
         }
       }
     },
-    "View Options" : {
-
+    "View options" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Options de visualisation"
+          }
+        }
+      }
     },
     "Waiting for data" : {
       "localizations" : {
@@ -1274,7 +1370,7 @@
         }
       }
     },
-    "You are about to create a new Deployment with the same source code as your current Deployment, but with the newest configuration from your Project Settings." : {
+    "You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1283,9 +1379,6 @@
           }
         }
       }
-    },
-    "Zeitgeist" : {
-
     },
     "Zeitgeist lets you see and manage your Vercel deployments." : {
       "localizations" : {

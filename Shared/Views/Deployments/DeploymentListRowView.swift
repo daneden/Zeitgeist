@@ -16,7 +16,7 @@ struct DeploymentListRowView: View {
 				VStack(alignment: .leading) {
 					HStack(spacing: 4) {
 						if deployment.target == .production {
-							Label("Production Deployment", systemImage: "theatermasks")
+							Label("Production deployment", systemImage: "theatermasks")
 								.labelStyle(.iconOnly)
 								.foregroundStyle(.tint)
 								.symbolVariant(.fill)
@@ -33,7 +33,7 @@ struct DeploymentListRowView: View {
 							.lineLimit(2)
 							.imageScale(.small)
 					case .promotion(_):
-						Text("\(Image(systemName: "arrow.up.circle")) Production Rebuild", comment: "Label for a deployment caused by a promotion to production")
+						Text("\(Image(systemName: "arrow.up.circle")) Production rebuild", comment: "Label for a deployment caused by a promotion to production")
 							.lineLimit(2)
 							.imageScale(.small)
 					default:

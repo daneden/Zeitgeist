@@ -46,7 +46,7 @@ struct ProjectNotificationsView: View {
 
 		return Form {
 			if !notificationsPermitted {
-				Section("Notification Permissions Required") {
+				Section("Notification permissions required") {
 					Text("Go to the Settings app to enable notifications for Zeitgeist")
 					#if os(iOS)
 					if let url = URL(string: UIApplication.openSettingsURLString),

@@ -26,24 +26,14 @@ struct LabelView<S: View, Content: View>: View {
 	}
 
 	var body: some View {
-		if #available(iOS 16.0, macOS 13.0, *) {
-			LabeledContent {
-				content
-					.labelStyle(ValueLabelStyle())
-			} label: {
-				label
-					.alignmentGuide(.listRowSeparatorLeading, computeValue: { dimension in
-						dimension[.listRowSeparatorLeading]
-					})
-			}
-
-		} else {
-			HStack {
-				label
-				Spacer()
-				content
-					.foregroundStyle(.secondary)
-			}
+		LabeledContent {
+			content
+				.labelStyle(ValueLabelStyle())
+		} label: {
+			label
+				.alignmentGuide(.listRowSeparatorLeading, computeValue: { dimension in
+					dimension[.listRowSeparatorLeading]
+				})
 		}
 	}
 }

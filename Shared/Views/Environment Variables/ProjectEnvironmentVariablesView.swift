@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LocalAuthentication
+import Suite
 
 struct ProjectEnvironmentVariablesView: View {
 	@EnvironmentObject var session: VercelSession
@@ -27,17 +28,10 @@ struct ProjectEnvironmentVariablesView: View {
 				if isAuthenticated {
 					Section {
 						ForEach(envVars) { envVar in
-							Group {
-								if #available(iOS 16.0, *) {
-									EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
-										.id(envVar.hashValue)
-										.draggable(envVar)
-								} else {
-									EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
-										.id(envVar.hashValue)
-								}
-							}
-							.contentShape(Rectangle())
+							EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
+								.id(envVar.hashValue)
+								.draggable(envVar)
+								.contentShape(Rectangle())
 						}
 					} footer: {
 						Label {
@@ -52,10 +46,11 @@ struct ProjectEnvironmentVariablesView: View {
 				Button {
 					editSheetPresented = true
 				} label: {
-					Label("Add new environment variable", systemImage: "plus.circle")
+					Label("Add new environment variable", systemImage: "plus")
+						.backportCircleSymbolVariant()
 				}
 			}
-			.navigationTitle(Text("Environment Variables"))
+			.navigationTitle(Text("Environment variables"))
 			.onAppear {
 				if !isAuthenticated {
 					authenticate()
@@ -75,7 +70,7 @@ struct ProjectEnvironmentVariablesView: View {
 					Image(systemName: "lock")
 						.font(.largeTitle)
 						.symbolVariant(.fill)
-					Text("Authentication Required")
+					Text("Authentication required")
 						.font(.title3)
 					Button {
 						authenticate()
@@ -88,9 +83,9 @@ struct ProjectEnvironmentVariablesView: View {
 				PlaceholderView(forRole: .NoEnvVars)
 			}
 		}
-		#if !os(macOS)
+#if !os(macOS)
 		.listStyle(.insetGrouped)
-		#endif
+#endif
 		.animation(.default, value: isAuthenticated)
 	}
 	

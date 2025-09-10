@@ -19,7 +19,7 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 				isVisible = session.requestsDenied
 			}
 			.confirmationDialog(
-				"Account Permissions Revoked",
+				"Account permissions revoked",
 				isPresented: $isVisible) {
 				Button(role: .destructive) {
 					VercelSession.deleteAccount(id: session.account.id)

@@ -39,7 +39,7 @@ struct DeploymentStateIndicator: View {
 		.foregroundStyle(color)
 		.symbolVariant(.fill)
 		.symbolRenderingMode(.hierarchical)
-		.backwardsCompatibleWidgetAccentable()
+		.widgetAccentable()
 	}
 }
 

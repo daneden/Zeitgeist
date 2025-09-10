@@ -22,7 +22,8 @@ struct Preferences {
 				 notificationEmoji,
 				 projectSummaryDisplayOption,
 				 lastAuthenticated,
-				 authenticationTimeout
+				 authenticationTimeout,
+				 followLogs
 	}
 
 	typealias AppStorageKVPair<T> = (key: Keys, value: T)
@@ -39,6 +40,7 @@ struct Preferences {
 	static let projectSummaryDisplayOption: AppStorageKVPair<ProjectSummaryDisplayOption> = (.projectSummaryDisplayOption, .productionDeployment)
 	static let lastAuthenticated: AppStorageKVPair<Date> = (.lastAuthenticated, .distantPast)
 	static let authenticationTimeout: AppStorageKVPair<TimeInterval> = (.authenticationTimeout, 60 * 10)
+	static let followLogs: AppStorageKVPair<Bool> = (.followLogs, false)
 	
 	@available(*, deprecated)
 	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
@@ -88,8 +90,8 @@ enum ProjectSummaryDisplayOption: String, Codable, CaseIterable {
 	
 	var description: LocalizedStringKey {
 		switch self {
-		case .latestDeployment: return "Latest Deployment"
-		case .productionDeployment: return "Latest Production Deployment"
+		case .latestDeployment: return "Latest deployment"
+		case .productionDeployment: return "Latest production deployment"
 		}
 	}
 }

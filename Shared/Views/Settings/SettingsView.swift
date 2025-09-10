@@ -62,11 +62,7 @@ struct SettingsView: View {
 			Section {
 				Picker(selection: $authenticationTimeout) {
 					ForEach(timeoutPresets, id: \.self) { preset in
-						if #available(iOS 16.0, *) {
-							Text(Duration.seconds(preset).formatted(.units()))
-						} else {
-							Text(DateComponentsFormatter().string(from: preset) ?? "")
-						}
+						Text(Duration.seconds(preset).formatted(.units()))
 					}
 					
 					Text("Never").tag(TimeInterval.infinity)
@@ -107,10 +103,10 @@ struct SettingsView: View {
 				}.disabled(notificationsResettable)
 				
 				Button(role: .destructive) {
-					dismiss()
 					Preferences.accounts.forEach { account in
 						VercelSession.deleteAccount(id: account.id)
 					}
+					dismiss()
 				} label: {
 					Label("Sign out of all accounts", systemImage: "person.badge.minus")
 				}
@@ -119,9 +115,9 @@ struct SettingsView: View {
 		.navigationTitle(Text("Settings"))
 		#if os(iOS)
 		.toolbar {
-			Button(action: { dismiss() }) {
-				Text("Done")
-			}.keyboardShortcut(.cancelAction)
+			BackportCloseButton {
+				dismiss()
+			}
 		}
 		#endif
 		

@@ -28,8 +28,8 @@ struct EnvironmentVariableEditView: View {
 	
 	var navBarTitle: Text {
 		switch id {
-		case .none: return Text("Add Environment Variable")
-		case .some(_): return Text("Edit Environment Variable")
+		case .none: return Text("Add environment variable")
+		case .some(_): return Text("Edit environment variable")
 		}
 	}
 	

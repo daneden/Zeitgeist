@@ -33,7 +33,6 @@ struct LatestDeploymentWidgetView: View {
 				Color.clear
 			}
 		}
-		.widgetBackground()
 	}
 
 	// MARK: Private
@@ -56,7 +55,7 @@ struct LatestDeploymentWidgetView: View {
 								.foregroundStyle(.tint)
 								.symbolVariant(.fill)
 								.imageScale(.small)
-								.backwardsCompatibleWidgetAccentable()
+								.widgetAccentable()
 						}
 					}
 					.font(.caption.bold())
@@ -102,8 +101,6 @@ struct LatestDeploymentWidgetView: View {
 		.foregroundStyle(.primary)
 		.symbolRenderingMode(.hierarchical)
 		.tint(.indigo)
-		.widgetPadding()
-		.widgetStandByModePadding(8)
 	}
 
 	private var circularAccessoryView: some View {

@@ -32,7 +32,6 @@ struct RecentDeploymentsWidgetView: View {
 				Color.clear
 			}
 		}
-		.widgetBackground()
 	}
 
 	// MARK: Private
@@ -101,7 +100,6 @@ struct RecentDeploymentsWidgetView: View {
 			.foregroundStyle(.secondary)
 			.lineLimit(1)
 		}
-		.widgetPadding()
 	}
 
 }
@@ -131,7 +129,7 @@ struct RecentDeploymentsListRowView: View {
 								.symbolRenderingMode(.hierarchical)
 								.symbolVariant(.fill)
 								.imageScale(.small)
-								.backwardsCompatibleWidgetAccentable()
+								.widgetAccentable()
 						}
 
 						if project?.identifier == nil {

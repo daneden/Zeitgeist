@@ -35,19 +35,19 @@ struct PlaceholderView: View {
 	var text: some View {
 		switch forRole {
 		case .ProjectDetail:
-			Text("No Project Selected")
+			Text("No project selected")
 		case .DeploymentDetail:
-			Text("No Deployment Selected")
+			Text("No deployment selected")
 		case .DeploymentList:
-			Text("No Account Selected")
+			Text("No account selected")
 		case .NoDeployments:
-			Text("No Deployments To Show")
+			Text("No deployments to show")
 		case .NoAccounts:
-			Text("No Accounts Found")
+			Text("No accounts found")
 		case .NoProjects:
-			Text("No Projects To Show")
+			Text("No projects to show")
 		case .NoEnvVars:
-			Text("No Environment Variables for Project")
+			Text("No environment variables for project")
 		case .AuthError:
 			VStack {
 				Text("Error authenticating account")

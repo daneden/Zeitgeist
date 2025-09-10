@@ -14,21 +14,15 @@ struct ZeitgeistApp: App {
 	#else
 	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
-	
-	var content: some View {
-		ContentView()
-			.onAppear {
-				if MigrationHelpers.V3.needsMigration {
-					Task {
-						await MigrationHelpers.V3.migrateAccountIdsToAccounts()
-					}
-				}
-			}
-	}
 
 	var body: some Scene {
 		WindowGroup {
-			content
+			ContentView()
+				.task {
+					if MigrationHelpers.V3.needsMigration {
+						await MigrationHelpers.V3.migrateAccountIdsToAccounts()
+					}
+				}
 		}
 		
 		#if os(macOS)

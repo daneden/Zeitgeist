@@ -96,6 +96,8 @@
 		7135EA132788671800C94E86 /* Sequence+asyncMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */; };
 		7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		7139DCE92B18D27A00E86183 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
+		713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */ = {isa = PBXBuildFile; productRef = 713B1DF22E5E3C65009AC3C4 /* Suite */; };
+		713B1DF72E5E4A82009AC3C4 /* BackportCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */; };
 		7144D04C2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		7144D04D2887F9C900F0AE1E /* VercelDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7144D0492887F9C900F0AE1E /* VercelDomain.swift */; };
 		71493654278AEF0D001CB921 /* VercelDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7115537826629BB900A73CD6 /* VercelDeployment.swift */; };
@@ -105,13 +107,15 @@
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		718FC2F02DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
+		718FC2F12DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
+		718FC2F22DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
+		71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */ = {isa = PBXBuildFile; productRef = 71AE8B9B2E5E1AC7001166B7 /* Suite */; };
 		71B881392B18D5F0005EFD48 /* SignOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139DCE82B18D27A00E86183 /* SignOutButton.swift */; };
 		71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 71C154B32A4DE14A00495F47 /* Localizable.xcstrings */; };
 		71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */; };
 		71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D0BC362882A2D500A22693 /* View+dataTask.swift */; };
-		71E248F52C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */; };
-		71E248F62C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */; };
 		71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7115534A266279D000A73CD6 /* Assets.xcassets */; };
 		71F2608228C48DE40089195B /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F2607F28C48DE40089195B /* NavigationHelpers.swift */; };
 		71F90200266567C7000A8873 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
@@ -127,8 +131,6 @@
 		E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */; };
 		E875EDD52B1A466900BB3BBA /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */; };
 		E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */; };
-		E875EDDC2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E875EDDA2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift */; };
-		E875EDDD2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E875EDDB2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,6 +221,7 @@
 		7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+asyncMethods.swift"; sourceTree = "<group>"; };
 		7136900F28DD9A17007B1D4E /* VercelSession+accountCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VercelSession+accountCRUD.swift"; sourceTree = "<group>"; };
 		7139DCE82B18D27A00E86183 /* SignOutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutButton.swift; sourceTree = "<group>"; };
+		713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackportCloseButton.swift; sourceTree = "<group>"; };
 		713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+permissionRevocationDialog.swift"; sourceTree = "<group>"; };
 		713F1FE628CF3C8000B68DA6 /* ProjectEnvironmentVariablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEnvironmentVariablesView.swift; sourceTree = "<group>"; };
 		713F1FE928CF7ABD00B68DA6 /* EnvironmentVariableEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableEditView.swift; sourceTree = "<group>"; };
@@ -237,6 +240,7 @@
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		7184F50B2B080997001CA695 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		718FC2EF2DFB829C00E1A437 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		71C154B32A4DE14A00495F47 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHelpers.swift; sourceTree = "<group>"; };
 		71CAE84028AD24260063F338 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -244,12 +248,9 @@
 		71D0BC362882A2D500A22693 /* View+dataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+dataTask.swift"; sourceTree = "<group>"; };
 		71D0BC3A28868FF400A22693 /* ProjectNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNotificationsView.swift; sourceTree = "<group>"; };
 		71DBAFFC28D0922B00015292 /* EnvironmentVariableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableRowView.swift; sourceTree = "<group>"; };
-		71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardsCompatibleWidgetAccentable.swift; sourceTree = "<group>"; };
 		71F2607F28C48DE40089195B /* NavigationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelpers.swift; sourceTree = "<group>"; };
 		71F901FE266566FB000A8873 /* SelectWidgetAccountIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectWidgetAccountIntent.entitlements; sourceTree = "<group>"; };
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
-		E875EDDA2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetPaddingViewModifier.swift; sourceTree = "<group>"; };
-		E875EDDB2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetBackgroundViewModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,7 +258,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */,
 				7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */,
+				71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +317,7 @@
 		7115533A266279CF00A73CD6 = {
 			isa = PBXGroup;
 			children = (
+				718FC2EF2DFB829C00E1A437 /* AppIcon.icon */,
 				7109AD392B18A4E900724454 /* Zeitgeist.entitlements */,
 				71C154B32A4DE14A00495F47 /* Localizable.xcstrings */,
 				711553D7266552AD00A73CD6 /* Frameworks */,
@@ -383,6 +387,7 @@
 				71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */,
 				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
 				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
+				713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -448,7 +453,6 @@
 				711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */,
 				711553E0266552AF00A73CD6 /* Assets.xcassets */,
 				5CCA9F102B0F09CB00030016 /* Models */,
-				E875EDD92B1A479C00BB3BBA /* ViewModifiers */,
 				5CCA9F192B0F0D1100030016 /* Views */,
 				710E0C6C2BCAC0C7000F2FE6 /* DeploymentLiveActivity.swift */,
 			);
@@ -526,16 +530,6 @@
 			path = "Environment Variables";
 			sourceTree = "<group>";
 		};
-		E875EDD92B1A479C00BB3BBA /* ViewModifiers */ = {
-			isa = PBXGroup;
-			children = (
-				E875EDDB2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift */,
-				E875EDDA2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift */,
-				71E248F42C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift */,
-			);
-			path = ViewModifiers;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -601,7 +595,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					7109ACEA2B18A41900724454 = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -625,6 +619,7 @@
 			);
 			mainGroup = 7115533A266279CF00A73CD6;
 			packageReferences = (
+				713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */,
 			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
@@ -644,6 +639,7 @@
 			files = (
 				7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */,
 				7109ACFC2B18A47000724454 /* Assets.xcassets in Resources */,
+				718FC2F02DFB829C00E1A437 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71EAB5D328BA5CC900E782CF /* Assets.xcassets in Resources */,
+				718FC2F22DFB829C00E1A437 /* AppIcon.icon in Resources */,
 				711553E1266552AF00A73CD6 /* Assets.xcassets in Resources */,
 				71C154B52A4DE14A00495F47 /* Localizable.xcstrings in Resources */,
 			);
@@ -662,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71C154B62A4DE14A00495F47 /* Localizable.xcstrings in Resources */,
+				718FC2F12DFB829C00E1A437 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,11 +700,11 @@
 				7109ACFF2B18A47500724454 /* Array.extension.swift in Sources */,
 				7109AD1B2B18A48500724454 /* GitRepoModel.swift in Sources */,
 				7109AD2C2B18A4A200724454 /* ProjectsListView.swift in Sources */,
+				713B1DF72E5E4A82009AC3C4 /* BackportCloseButton.swift in Sources */,
 				7109AD132B18A48000724454 /* Pasteboard.swift in Sources */,
 				7109AD202B18A49000724454 /* AccountListRowView.swift in Sources */,
 				7109AD0D2B18A48000724454 /* NavigationHelpers.swift in Sources */,
 				7109AD282B18A49900724454 /* EnvironmentVariableEditView.swift in Sources */,
-				71E248F62C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */,
 				7109AD1A2B18A48500724454 /* VercelDomain.swift in Sources */,
 				7109AD162B18A48500724454 /* VercelSession.swift in Sources */,
 				7109AD022B18A47500724454 /* View+dataTask.swift in Sources */,
@@ -741,7 +739,6 @@
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
 				71B881392B18D5F0005EFD48 /* SignOutButton.swift in Sources */,
 				711553EF266553F400A73CD6 /* VercelSession.swift in Sources */,
-				E875EDDC2B1A479C00BB3BBA /* WidgetPaddingViewModifier.swift in Sources */,
 				711553FC26655E0C00A73CD6 /* DeploymentStateIndicator.swift in Sources */,
 				71059A95287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
 				E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */,
@@ -763,14 +760,12 @@
 				71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */,
 				710E0C6D2BCAC0C7000F2FE6 /* DeploymentLiveActivity.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
-				E875EDDD2B1A479C00BB3BBA /* WidgetBackgroundViewModifier.swift in Sources */,
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
 				7135EA122788671800C94E86 /* Sequence+asyncMethods.swift in Sources */,
 				E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */,
 				71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */,
 				714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
 				E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */,
-				71E248F52C9A1456000094FC /* BackwardsCompatibleWidgetAccentable.swift in Sources */,
 				711A4A40266B672300DA9EE3 /* VercelAPI.swift in Sources */,
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 			);
@@ -825,10 +820,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -841,6 +839,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -848,6 +847,8 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -866,10 +867,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = Zeitgeist/Zeitgeist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -882,6 +886,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -889,6 +894,8 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.daneden.Zeitgeist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -935,6 +942,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -954,11 +962,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.2.4;
+				MARKETING_VERSION = 3.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1001,6 +1010,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YC249PY26F;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1014,10 +1024,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.2.4;
+				MARKETING_VERSION = 3.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -1033,8 +1044,10 @@
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1058,8 +1071,10 @@
 				CODE_SIGN_ENTITLEMENTS = ZeitgeistWidgets/ZeitgeistWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = ZeitgeistWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1081,8 +1096,10 @@
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1103,8 +1120,10 @@
 				CODE_SIGN_ENTITLEMENTS = SelectWidgetAccountIntent/SelectWidgetAccountIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YC249PY26F;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = SelectWidgetAccountIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1158,6 +1177,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daneden/Suite";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daneden/Suite";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		713B1DF22E5E3C65009AC3C4 /* Suite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */;
+			productName = Suite;
+		};
+		71AE8B9B2E5E1AC7001166B7 /* Suite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */;
+			productName = Suite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7115533B266279CF00A73CD6 /* Project object */;
 }
