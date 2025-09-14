@@ -27,11 +27,7 @@ struct AuthenticatedContentView: View {
 					
 					Button {
 						Task {
-							do {
-								try await signInModel.signIn(using: webAuthenticationSession)
-							} catch {
-								print(error.localizedDescription)
-							}
+							await signInModel.signIn(using: webAuthenticationSession)
 						}
 					} label: {
 						Label("Add account", systemImage: "plus")

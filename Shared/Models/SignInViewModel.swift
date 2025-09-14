@@ -69,15 +69,23 @@ class SignInViewModel: NSObject, ObservableObject {
 	}
 	
 	@discardableResult
-	func signIn(using webAuthenticationSession: WebAuthenticationSession) async throws -> Bool {
+	func signIn(using webAuthenticationSession: WebAuthenticationSession) async -> Bool {
 		self.isSigningIn = true
 		
 		let apiData = VercelAPIConfiguration()
 		let authUrl = VercelURLAuthenticationBuilder(clientID: apiData.clientId)()
-		let urlWithToken = try await webAuthenticationSession.authenticate(using: authUrl,
-																																			 callbackURLScheme: "https",
-																																			 preferredBrowserSession: .shared)
 		
-		return await processResponseURL(url: urlWithToken)
+		do {
+			let urlWithToken = try await webAuthenticationSession.authenticate(using: authUrl,
+																																				 callbackURLScheme: "https",
+																																				 preferredBrowserSession: .shared)
+			self.isSigningIn = false
+			return await processResponseURL(url: urlWithToken)
+		} catch {
+			self.isSigningIn = false
+			print(error.localizedDescription)
+			
+			return false
+		}
 	}
 }

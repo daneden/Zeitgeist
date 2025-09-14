@@ -31,11 +31,7 @@ struct OnboardingView: View {
 					
 					Button {
 						Task {
-							do {
-								try await signInModel.signIn(using: webAuthenticationSession)
-							} catch {
-								print(error.localizedDescription)
-							}
+							await signInModel.signIn(using: webAuthenticationSession)
 						}
 					} label: {
 						Label {
