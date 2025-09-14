@@ -47,50 +47,11 @@ class VercelURLAuthenticationBuilder {
 	}
 }
 
-class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
+class SignInViewModel: NSObject, ObservableObject {
 	private(set) var isSigningIn = false
-	private var subscriptions: [AnyCancellable] = []
-
-	func presentationAnchor(for _: ASWebAuthenticationSession) -> ASPresentationAnchor {
-		return ASPresentationAnchor()
-	}
 
 	@MainActor
-	func signIn() {
-		self.isSigningIn = true
-		
-		let signInPromise = Future<URL, Error> { completion in
-			let apiData = VercelAPIConfiguration()
-			let authUrl = VercelURLAuthenticationBuilder(clientID: apiData.clientId)()
-
-			let authSession = ASWebAuthenticationSession(url: authUrl, callbackURLScheme: "https") { url, error in
-				if let error = error {
-					completion(.failure(error))
-				} else if let url = url {
-					completion(.success(url))
-				}
-			}
-
-			authSession.presentationContextProvider = self
-			authSession.start()
-		}
-
-		signInPromise.sink { completion in
-			self.isSigningIn = false
-			
-			switch completion {
-			case let .failure(error):
-				print("auth failed for reason: \(error)")
-			default: break
-			}
-		} receiveValue: { url in
-			self.processResponseURL(url: url)
-		}
-		.store(in: &subscriptions)
-	}
-
-	@MainActor
-	func processResponseURL(url: URL) {
+	func processResponseURL(url: URL) async -> Bool {
 		let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
 
 		if let queryItems = components?.queryItems,
@@ -99,11 +60,24 @@ class SignInViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentati
 			let teamId = queryItems.filter { $0.name == "teamId" }.first?.value ?? nil
 			let userId = queryItems.filter { $0.name == "userId" }.first?.value ?? nil
 
-			Task {
-				await VercelSession.addAccount(id: teamId ?? userId ?? VercelAccount.ID.NullValue, token: token)
-			}
+			await VercelSession.addAccount(id: teamId ?? userId ?? VercelAccount.ID.NullValue, token: token)
+			return true
 		} else {
 			print("Something went wrong!")
+			return false
 		}
+	}
+	
+	@discardableResult
+	func signIn(using webAuthenticationSession: WebAuthenticationSession) async throws -> Bool {
+		self.isSigningIn = true
+		
+		let apiData = VercelAPIConfiguration()
+		let authUrl = VercelURLAuthenticationBuilder(clientID: apiData.clientId)()
+		let urlWithToken = try await webAuthenticationSession.authenticate(using: authUrl,
+																																			 callbackURLScheme: "https",
+																																			 preferredBrowserSession: .shared)
+		
+		return await processResponseURL(url: urlWithToken)
 	}
 }

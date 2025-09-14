@@ -9,6 +9,7 @@ import SwiftUI
 import Suite
 
 struct AuthenticatedContentView: View {
+	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
 	
 	@State private var signInModel = SignInViewModel()
@@ -25,7 +26,13 @@ struct AuthenticatedContentView: View {
 					.onDelete(perform: deleteAccount)
 					
 					Button {
-						Task { signInModel.signIn() }
+						Task {
+							do {
+								try await signInModel.signIn(using: webAuthenticationSession)
+							} catch {
+								print(error.localizedDescription)
+							}
+						}
 					} label: {
 						Label("Add account", systemImage: "plus")
 							.backportCircleSymbolVariant()

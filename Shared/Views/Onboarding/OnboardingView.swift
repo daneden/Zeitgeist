@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingView: View {
 	@State var signInModel = SignInViewModel()
+	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
 	
 	var body: some View {
 		GeometryReader { geometry in
@@ -28,12 +29,21 @@ struct OnboardingView: View {
 					Text("Watch builds complete, cancel or delete them, and get quick access to their URLs, logs, and commits.")
 						.padding(.bottom)
 					
-					Button(action: { signInModel.signIn() }) {
+					Button {
+						Task {
+							do {
+								try await signInModel.signIn(using: webAuthenticationSession)
+							} catch {
+								print(error.localizedDescription)
+							}
+						}
+					} label: {
 						Label {
 							Text("Sign in with Vercel")
 						} icon: {
 							if signInModel.isSigningIn {
 								ProgressView()
+									.controlSize(.small)
 							} else {
 								Image(systemName: "triangle.fill")
 							}
