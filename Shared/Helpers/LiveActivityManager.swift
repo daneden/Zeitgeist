@@ -74,8 +74,8 @@ class LiveActivityManager {
 
 			let activity = try Activity<DeploymentAttributes>.request(
 				attributes: attributes,
-				content: .init(state: contentState, staleDate: nil),
-				pushType: .token
+				content: ActivityContent<DeploymentAttributes.ContentState>(state: contentState, staleDate: nil),
+				pushType: PushType.token
 			)
 
 			logger.notice("Started Live Activity for deployment \(deployment.id)")
@@ -105,7 +105,7 @@ class LiveActivityManager {
 		let contentState = DeploymentAttributes.ContentState(deploymentState: state)
 
 		await activity.update(
-			.init(state: contentState, staleDate: nil)
+			ActivityContent<DeploymentAttributes.ContentState>(state: contentState, staleDate: nil)
 		)
 
 		logger.notice("Updated Live Activity for deployment \(deploymentId) to state \(state.rawValue)")
@@ -128,8 +128,8 @@ class LiveActivityManager {
 		let contentState = DeploymentAttributes.ContentState(deploymentState: finalState)
 
 		await activity.end(
-			.init(state: contentState, staleDate: nil),
-			dismissalPolicy: .default
+			ActivityContent<DeploymentAttributes.ContentState>(state: contentState, staleDate: nil),
+			dismissalPolicy: ActivityUIDismissalPolicy.default
 		)
 
 		logger.notice("Ended Live Activity for deployment \(deploymentId)")
@@ -138,7 +138,7 @@ class LiveActivityManager {
 	/// End all active Live Activities
 	static func endAllActivities() async {
 		for activity in Activity<DeploymentAttributes>.activities {
-			await activity.end(nil, dismissalPolicy: .immediate)
+			await activity.end(nil as ActivityContent<DeploymentAttributes.ContentState>?, dismissalPolicy: ActivityUIDismissalPolicy.immediate)
 		}
 		logger.notice("Ended all Live Activities")
 	}
