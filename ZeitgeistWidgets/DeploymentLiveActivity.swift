@@ -39,12 +39,10 @@ struct DeploymentLiveActivity: Widget {
 						if case .gitCommit(let commit) = context.attributes.deploymentCause {
 							Text("·")
 								.foregroundStyle(.secondary)
-							if let message = commit.commitMessage {
-								Text(message)
-									.font(.subheadline)
-									.foregroundStyle(.secondary)
-									.lineLimit(1)
-							}
+							Text(commit.commitMessage)
+								.font(.subheadline)
+								.foregroundStyle(.secondary)
+								.lineLimit(1)
 						} else if case .deployHook(let name) = context.attributes.deploymentCause {
 							Text("·")
 								.foregroundStyle(.secondary)
@@ -85,12 +83,10 @@ struct DeploymentLiveActivity: Widget {
 							.lineLimit(1)
 
 						if case .gitCommit(let commit) = context.attributes.deploymentCause {
-							if let message = commit.commitMessage {
-								Text(message)
-									.font(.caption)
-									.foregroundStyle(.secondary)
-									.lineLimit(2)
-							}
+							Text(commit.commitMessage)
+								.font(.caption)
+								.foregroundStyle(.secondary)
+								.lineLimit(2)
 						}
 					}
 				}
