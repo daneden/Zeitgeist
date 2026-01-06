@@ -27,6 +27,9 @@ struct ProjectNotificationsView: View {
 	@AppStorage(Preferences.deploymentNotificationsProductionOnly)
 	private var deploymentNotificationsProductionOnly
 
+	@AppStorage(Preferences.liveActivityProjectIds)
+	private var liveActivityProjectIds
+
 	var body: some View {
 		let allowDeploymentNotifications = Binding {
 			deploymentNotificationIds.contains { $0 == project.id }
@@ -44,6 +47,10 @@ struct ProjectNotificationsView: View {
 			deploymentNotificationsProductionOnly.contains { $0 == project.id }
 		} set: { deploymentNotificationsProductionOnly.toggleElement(project.id, inArray: $0) }
 
+		let allowLiveActivities = Binding {
+			liveActivityProjectIds.contains { $0 == project.id }
+		} set: { liveActivityProjectIds.toggleElement(project.id, inArray: $0) }
+
 		return Form {
 			if !notificationsPermitted {
 				Section("Notification permissions required") {
@@ -58,7 +65,19 @@ struct ProjectNotificationsView: View {
 					#endif
 				}
 			}
-			
+
+			#if os(iOS)
+			Section {
+				Toggle(isOn: allowLiveActivities) {
+					Label("Live Activities", systemImage: "bell.badge.fill")
+				}
+			} header: {
+				Text("Live Activities")
+			} footer: {
+				Text("Show live build status on your Lock Screen and Dynamic Island while deployments are in progress.")
+			}
+			#endif
+
 			Section {
 				Toggle(isOn: productionNotificationsOnly) {
 					Label("Production only", systemImage: "theatermasks.fill")
@@ -119,7 +138,7 @@ extension ProjectNotificationsView {
 	}
 	
 	private var overallNotificationSettings: [String] {
-		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly)
+		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly + liveActivityProjectIds)
 	}
 }
 

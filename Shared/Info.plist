@@ -30,5 +30,7 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 </dict>
 </plist>
