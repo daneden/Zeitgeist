@@ -189,11 +189,11 @@ extension AppDelegate {
 
 		case .deploymentReady:
 			// Update and end Live Activity
-			await LiveActivityManager.updateActivity(for: deploymentId, state: .ready)
+			await LiveActivityManager.updateActivity(for: deploymentId, state: VercelDeployment.State.ready)
 
 		case .deploymentError:
 			// Update and end Live Activity
-			await LiveActivityManager.updateActivity(for: deploymentId, state: .error)
+			await LiveActivityManager.updateActivity(for: deploymentId, state: VercelDeployment.State.error)
 
 		default:
 			break
