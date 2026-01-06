@@ -37,6 +37,7 @@
 		7109AD0E2B18A48000724454 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */; };
 		166924EEA516443680665D35 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A59553115E84BD294C799E3 /* LiveActivityManager.swift */; };
+		C225273A03814CAF9D2233FE /* DeploymentLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710E0C6C2BCAC0C7000F2FE6 /* DeploymentLiveActivity.swift */; };
 		7109AD102B18A48000724454 /* MigrationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */; };
 		7109AD112B18A48000724454 /* PostalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A4A55266BDF0900DA9EE3 /* PostalService.swift */; };
 		7109AD122B18A48000724454 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D449B289FEEA2005105B7 /* PlaceholderData.swift */; };
@@ -680,6 +681,7 @@
 				7109AD002B18A47500724454 /* UIDevice+deviceInfo.swift in Sources */,
 				7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */,
 				166924EEA516443680665D35 /* LiveActivityManager.swift in Sources */,
+				C225273A03814CAF9D2233FE /* DeploymentLiveActivity.swift in Sources */,
 				7109AD012B18A47500724454 /* View+permissionRevocationDialog.swift in Sources */,
 				7109AD072B18A47900724454 /* VercelUserAvatarView.swift in Sources */,
 				7109AD1D2B18A48500724454 /* GitCommit.swift in Sources */,
