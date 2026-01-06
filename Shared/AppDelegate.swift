@@ -12,6 +12,9 @@ import OSLog
 #if canImport(WidgetKit)
 import WidgetKit
 #endif
+#if canImport(ActivityKit)
+import ActivityKit
+#endif
 import UserNotifications
 
 #if canImport(UIKit)
@@ -144,6 +147,60 @@ extension AppDelegate {
 		}
 	}
 	
+	#if canImport(ActivityKit)
+	/// Fetch deployment details and handle Live Activity lifecycle
+	func handleLiveActivity(for eventType: ZPSEventType, deploymentId: String, projectId: String, accountId: String) async {
+		// Find the account
+		guard let account = authenticatedAccounts.first(where: { $0.id == accountId }) else {
+			Self.logger.warning("Account not found for Live Activity: \(accountId)")
+			return
+		}
+
+		// Check if Live Activities are enabled for this project
+		guard LiveActivityManager.userAllowedLiveActivities(for: projectId) else {
+			Self.logger.debug("Live Activities not enabled for project \(projectId)")
+			return
+		}
+
+		switch eventType {
+		case .deployment:
+			// Fetch deployment details to start Live Activity
+			do {
+				let session = VercelSession(account: account)
+				var request = VercelAPI.request(for: .deployments(deploymentID: deploymentId), with: accountId)
+				try session.signRequest(&request)
+
+				let (data, _) = try await URLSession.shared.data(for: request)
+				let deployment = try JSONDecoder().decode(VercelDeployment.self, from: data)
+
+				// Fetch project details to get project name
+				var projectRequest = VercelAPI.request(for: .projects(projectId), with: accountId)
+				try session.signRequest(&projectRequest)
+
+				let (projectData, _) = try await URLSession.shared.data(for: projectRequest)
+				let project = try JSONDecoder().decode(VercelProject.self, from: projectData)
+
+				// Start Live Activity
+				await LiveActivityManager.startActivity(for: deployment, projectName: project.name)
+				Self.logger.notice("Started Live Activity for deployment \(deploymentId)")
+			} catch {
+				Self.logger.error("Failed to start Live Activity: \(error.localizedDescription)")
+			}
+
+		case .deploymentReady:
+			// Update and end Live Activity
+			await LiveActivityManager.updateActivity(for: deploymentId, state: .ready)
+
+		case .deploymentError:
+			// Update and end Live Activity
+			await LiveActivityManager.updateActivity(for: deploymentId, state: .error)
+
+		default:
+			break
+		}
+	}
+	#endif
+
 	@discardableResult
 	func handleBackgroundNotification(_ userInfo: [AnyHashable: Any]) async -> RemoteNotificationResult {
 		Self.logger.trace("Received remote notification")
@@ -220,10 +277,18 @@ extension AppDelegate {
 			]
 			
 			let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
-			
+
 			let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: nil)
 			Self.logger.notice("Pushing notification with ID \(notificationID)")
 			try await UNUserNotificationCenter.current().add(request)
+
+			// Handle Live Activity
+			#if canImport(ActivityKit)
+			if let deploymentId = deploymentId {
+				await handleLiveActivity(for: eventType, deploymentId: deploymentId, projectId: projectId, accountId: accountId)
+			}
+			#endif
+
 			return .newData
 		} catch {
 			switch error {

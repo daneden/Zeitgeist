@@ -14,5 +14,6 @@ struct ZeitgeistWidgets: WidgetBundle {
 	var body: some Widget {
 		LatestDeploymentWidget()
 		RecentDeploymentsWidget()
+		DeploymentLiveActivity()
 	}
 }
