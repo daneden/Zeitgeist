@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "·" : {
-
-    },
     "%@ %@" : {
       "comment" : "Deploy hook cause icon and name\nIcon and name of a repository for a project in the projects list\nLabel for a deployment caused by a deploy hook ({icon} {name})\nPromoted deployment cause icon and name\nThe cause of a deployment in the projects list",
       "localizations" : {
@@ -660,12 +657,6 @@
         }
       }
     },
-    "Live Activities" : {
-
-    },
-    "Live Activities are disabled in system settings" : {
-
-    },
     "Loading" : {
       "localizations" : {
         "fr" : {
@@ -1153,9 +1144,6 @@
           }
         }
       }
-    },
-    "Show live build status on your Lock Screen and Dynamic Island while deployments are in progress." : {
-
     },
     "Sign in with Vercel" : {
       "extractionState" : "manual",

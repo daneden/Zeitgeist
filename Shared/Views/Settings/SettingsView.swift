@@ -17,8 +17,6 @@ struct SettingsView: View {
 	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
 
-	@AppStorage(Preferences.liveActivityProjectIds) private var liveActivityProjectIds
-
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	
 	var githubIssuesURL: URL {
@@ -134,12 +132,11 @@ extension SettingsView {
 			deploymentReadyNotificationIds.removeAll()
 			deploymentErrorNotificationIds.removeAll()
 			deploymentProductionNotificationIds.removeAll()
-			liveActivityProjectIds.removeAll()
 		}
 	}
 
 	var notificationsResettable: Bool {
-		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds + liveActivityProjectIds).isEmpty
+		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
 	}
 }
 
