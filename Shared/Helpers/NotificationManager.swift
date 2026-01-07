@@ -40,7 +40,7 @@ class NotificationManager {
 		switch eventType {
 		case .deployment:
 			return deploymentNotificationIds.contains(projectId)
-		case .deploymentError:
+		case .deploymentError, .deploymentCanceled:
 			return deploymentErrorNotificationIds.contains(projectId)
 		case .deploymentReady:
 			return deploymentReadyNotificationIds.contains(projectId)

@@ -16,9 +16,10 @@ enum ZPSEventType: String {
 	case deployment
 	case deploymentReady = "deployment-ready"
 	case deploymentError = "deployment-error"
+	case deploymentCanceled = "deployment-canceled"
 	case projectCreated = "project-created"
 	case projectRemoved = "project-removed"
-	
+
 	var emojiPrefix: String {
 		switch self {
 		case .deployment:
@@ -27,13 +28,15 @@ enum ZPSEventType: String {
 			return "✅ "
 		case .deploymentError:
 			return "🛑 "
+		case .deploymentCanceled:
+			return "🚫 "
 		case .projectCreated:
 			return "📂 "
 		case .projectRemoved:
 			return "🗑 "
 		}
 	}
-	
+
 	var associatedState: VercelDeployment.State? {
 		switch self {
 		case .deployment:
@@ -42,6 +45,8 @@ enum ZPSEventType: String {
 			return .ready
 		case .deploymentError:
 			return .error
+		case .deploymentCanceled:
+			return .cancelled
 		default:
 			return nil
 		}
