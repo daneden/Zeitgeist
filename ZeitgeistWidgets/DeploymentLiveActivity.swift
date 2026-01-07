@@ -12,6 +12,33 @@ import ActivityKit
 struct DeploymentAttributes: ActivityAttributes {
 	struct ContentState: Codable & Hashable {
 		let deploymentState: VercelDeployment.State
+		let progress: Int?
+		let errorMessage: String?
+
+		enum CodingKeys: String, CodingKey {
+			case status, progress, errorMessage
+		}
+
+		init(deploymentState: VercelDeployment.State, progress: Int? = nil, errorMessage: String? = nil) {
+			self.deploymentState = deploymentState
+			self.progress = progress
+			self.errorMessage = errorMessage
+		}
+
+		init(from decoder: Decoder) throws {
+			let container = try decoder.container(keyedBy: CodingKeys.self)
+			let statusString = try container.decode(String.self, forKey: .status)
+			self.deploymentState = VercelDeployment.State(rawValue: statusString) ?? .building
+			self.progress = try container.decodeIfPresent(Int.self, forKey: .progress)
+			self.errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
+		}
+
+		func encode(to encoder: Encoder) throws {
+			var container = encoder.container(keyedBy: CodingKeys.self)
+			try container.encode(deploymentState.rawValue, forKey: .status)
+			try container.encodeIfPresent(progress, forKey: .progress)
+			try container.encodeIfPresent(errorMessage, forKey: .errorMessage)
+		}
 	}
 
 	let deploymentId: VercelDeployment.ID

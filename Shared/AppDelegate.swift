@@ -34,14 +34,17 @@ enum RemoteNotificationResult {
 class AppDelegate: NSObject {
 	@AppStorage(Preferences.authenticatedAccounts)
 	private var authenticatedAccounts
-	
+
 	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
-	
+
 	private static let logger = Logger(
 		subsystem: Bundle.main.bundleIdentifier!,
 		category: String(describing: AppDelegate.self)
 	)
+
+	/// Stored device token for push notifications, used for Live Activity registration
+	static var deviceToken: String?
 }
 
 #if canImport(UIKit)
@@ -129,17 +132,21 @@ extension AppDelegate {
 	
 	func registerDeviceTokenWithZPS(_ deviceToken: Data) {
 		Self.logger.trace("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
-		
+
+		let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+
+		// Store the device token for Live Activity registration
+		Self.deviceToken = token
+
 		authenticatedAccounts.forEach { account in
-			let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 			let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(account.id)&device_id=\(token)&platform=\(platform)")!
 			let request = URLRequest(url: url)
-			
+
 			URLSession.shared.dataTask(with: request) { data, _, error in
 				if let error = error {
 					Self.logger.error("Error registering device ID to ZPS: \(error, privacy: .auto)")
 				}
-				
+
 				if data != nil {
 					Self.logger.notice("Successfully registered device ID \(token) to ZPS")
 				}
