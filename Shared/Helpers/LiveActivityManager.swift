@@ -37,43 +37,51 @@ class LiveActivityManager {
 	#endif
 
 	#if canImport(ActivityKit) && os(iOS)
-	/// Start a Live Activity for a deployment
-	static func startActivity(for deployment: VercelDeployment, projectName: String) async {
+	/// Start a Live Activity for a deployment using data from the push notification payload
+	/// This avoids network requests in background mode where execution time is limited
+	static func startActivity(
+		deploymentId: VercelDeployment.ID,
+		projectId: VercelProject.ID,
+		projectName: String,
+		commitMessage: String?
+	) async {
 		guard ActivityAuthorizationInfo().areActivitiesEnabled else {
 			logger.warning("Live Activities are not authorized by the system")
 			return
 		}
 
-		guard userAllowedLiveActivities(for: deployment.project) else {
-			logger.debug("Live Activities not enabled for project \(deployment.project)")
-			return
-		}
-
-		// Only start activities for building or queued deployments
-		guard deployment.state == .building || deployment.state == .queued || deployment.state == .initializing else {
-			logger.debug("Not starting Live Activity for deployment in state: \(deployment.state.rawValue)")
+		guard userAllowedLiveActivities(for: projectId) else {
+			logger.debug("Live Activities not enabled for project \(projectId)")
 			return
 		}
 
 		// Check if an activity already exists for this deployment
 		let existingActivity = Activity<DeploymentAttributes>.activities.first {
-			$0.attributes.deploymentId == deployment.id
+			$0.attributes.deploymentId == deploymentId
 		}
 
 		if existingActivity != nil {
-			logger.debug("Live Activity already exists for deployment \(deployment.id)")
+			logger.debug("Live Activity already exists for deployment \(deploymentId)")
 			return
+		}
+
+		// Create deployment cause from the commit message, or use manual if not provided
+		let deploymentCause: VercelDeployment.DeploymentCause
+		if let message = commitMessage {
+			deploymentCause = .pushNotification(message: message)
+		} else {
+			deploymentCause = .manual
 		}
 
 		do {
 			let attributes = DeploymentAttributes(
-				deploymentId: deployment.id,
-				deploymentCause: deployment.deploymentCause,
+				deploymentId: deploymentId,
+				deploymentCause: deploymentCause,
 				deploymentProject: projectName
 			)
 
 			let contentState = DeploymentAttributes.ContentState(
-				deploymentState: deployment.state
+				deploymentState: .building
 			)
 
 			let activity = try Activity<DeploymentAttributes>.request(
@@ -82,7 +90,7 @@ class LiveActivityManager {
 				pushType: PushType.token
 			)
 
-			logger.notice("Started Live Activity for deployment \(deployment.id)")
+			logger.notice("Started Live Activity for deployment \(deploymentId)")
 
 			// Listen for push token updates and register with server for remote updates
 			Task {
@@ -93,8 +101,8 @@ class LiveActivityManager {
 					// Register the activity token with the backend for remote updates
 					await registerActivityToken(
 						activityToken: tokenString,
-						deploymentId: deployment.id,
-						projectId: deployment.project
+						deploymentId: deploymentId,
+						projectId: projectId
 					)
 				}
 			}

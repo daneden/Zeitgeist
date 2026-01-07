@@ -31,6 +31,8 @@ struct DeploymentDetailView: View {
 						Text("Manual deployment", comment: "Manual deployment cause label")
 					case let .gitCommit(commit):
 						CommitSummary(commit: commit)
+					case let .pushNotification(message):
+						Text(message)
 					}
 				}
 				URLDetails(accountId: accountId, deployment: deployment)
