@@ -80,16 +80,67 @@ class LiveActivityManager {
 
 			logger.notice("Started Live Activity for deployment \(deployment.id)")
 
-			// Listen for push token updates
+			// Listen for push token updates and register with server for remote updates
 			Task {
 				for await pushToken in activity.pushTokenUpdates {
 					let tokenString = pushToken.map { String(format: "%02x", $0) }.joined()
 					logger.debug("Live Activity push token: \(tokenString)")
-					// TODO: Register push token with backend if needed
+
+					// Register the activity token with the backend for remote updates
+					await registerActivityToken(
+						activityToken: tokenString,
+						deploymentId: deployment.id,
+						projectId: deployment.project
+					)
 				}
 			}
 		} catch {
 			logger.error("Failed to start Live Activity: \(error.localizedDescription)")
+		}
+	}
+
+	/// Register Live Activity token with the backend for remote updates
+	private static func registerActivityToken(
+		activityToken: String,
+		deploymentId: String,
+		projectId: String
+	) async {
+		guard let deviceId = AppDelegate.deviceToken else {
+			logger.warning("Device token not available for Live Activity registration")
+			return
+		}
+
+		guard let url = URL(string: "https://zeitgeist.link/api/registerLiveActivityToken") else {
+			logger.error("Invalid URL for Live Activity registration")
+			return
+		}
+
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST"
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+		let body: [String: Any] = [
+			"activityToken": activityToken,
+			"deviceId": deviceId,
+			"deploymentId": deploymentId,
+			"projectId": projectId,
+			"platform": platform
+		]
+
+		do {
+			request.httpBody = try JSONSerialization.data(withJSONObject: body)
+			let (data, response) = try await URLSession.shared.data(for: request)
+
+			if let httpResponse = response as? HTTPURLResponse {
+				if httpResponse.statusCode == 200 {
+					logger.notice("Registered Live Activity token for deployment \(deploymentId)")
+				} else {
+					let responseBody = String(data: data, encoding: .utf8) ?? "unknown"
+					logger.warning("Failed to register Live Activity token: HTTP \(httpResponse.statusCode) - \(responseBody)")
+				}
+			}
+		} catch {
+			logger.error("Error registering Live Activity token: \(error.localizedDescription)")
 		}
 	}
 
