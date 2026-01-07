@@ -8,7 +8,7 @@
 import SwiftUI
 import WidgetKit
 
-#if os(iOS)
+#if canImport(ActivityKit)
 import ActivityKit
 
 struct DeploymentAttributes: ActivityAttributes {
