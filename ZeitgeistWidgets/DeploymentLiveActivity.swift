@@ -79,6 +79,13 @@ struct DeploymentLiveActivity: Widget {
 								.font(.subheadline)
 								.foregroundStyle(.secondary)
 								.lineLimit(1)
+						} else if case .pushNotification(let message) = context.attributes.deploymentCause {
+							Text("·")
+								.foregroundStyle(.secondary)
+							Text(message)
+								.font(.subheadline)
+								.foregroundStyle(.secondary)
+								.lineLimit(1)
 						}
 					}
 				}
@@ -113,6 +120,11 @@ struct DeploymentLiveActivity: Widget {
 
 						if case .gitCommit(let commit) = context.attributes.deploymentCause {
 							Text(commit.commitMessage)
+								.font(.caption)
+								.foregroundStyle(.secondary)
+								.lineLimit(2)
+						} else if case .pushNotification(let message) = context.attributes.deploymentCause {
+							Text(message)
 								.font(.caption)
 								.foregroundStyle(.secondary)
 								.lineLimit(2)
