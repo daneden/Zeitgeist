@@ -13,10 +13,14 @@ struct SettingsView: View {
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
 	@AppStorage(Preferences.deploymentNotificationsProductionOnly) private var deploymentProductionNotificationIds
-	
+
 	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
-	
+
+	#if canImport(ActivityKit)
+	@AppStorage(Preferences.liveActivitiesEnabled) var liveActivitiesEnabled
+	#endif
+
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	
 	var githubIssuesURL: URL {
@@ -49,7 +53,7 @@ struct SettingsView: View {
 				} label: {
 					Text("Group notifications by")
 				}
-				
+
 				Toggle(isOn: $notificationEmoji) {
 					Text("Show Emoji in notification titles")
 				}
@@ -58,6 +62,18 @@ struct SettingsView: View {
 			} footer: {
 				Text("Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed")
 			}
+
+			#if canImport(ActivityKit)
+			Section {
+				Toggle(isOn: $liveActivitiesEnabled) {
+					Label("Enable Live Activities", systemImage: "circle.badge.checkmark")
+				}
+			} header: {
+				Text("Live Activities")
+			} footer: {
+				Text("Track deployment progress in real-time on your Lock Screen and Dynamic Island. You can enable Live Activities for specific projects in their notification settings.")
+			}
+			#endif
 			
 			Section {
 				Picker(selection: $authenticationTimeout) {
@@ -132,6 +148,9 @@ extension SettingsView {
 			deploymentReadyNotificationIds.removeAll()
 			deploymentErrorNotificationIds.removeAll()
 			deploymentProductionNotificationIds.removeAll()
+			#if canImport(ActivityKit)
+			liveActivitiesEnabled = false
+			#endif
 		}
 	}
 	
