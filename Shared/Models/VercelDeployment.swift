@@ -164,8 +164,6 @@ extension VercelDeployment {
 		case gitCommit(commit: AnyCommit)
 		case promotion(originalDeploymentId: VercelDeployment.ID?)
 		case manual
-		/// Used when starting Live Activities from push notifications where we only have the formatted message
-		case pushNotification(message: String)
 
 		var description: String {
 			switch self {
@@ -177,8 +175,6 @@ extension VercelDeployment {
 				return "Production rebuild"
 			case .manual:
 				return "Manual deployment"
-			case let .pushNotification(message):
-				return message
 			}
 		}
 
@@ -190,7 +186,7 @@ extension VercelDeployment {
 				return "hook"
 			case .promotion(_):
 				return "arrow.up.circle"
-			case .manual, .pushNotification:
+			case .manual:
 				return nil
 			}
 		}
