@@ -142,6 +142,11 @@ extension AppDelegate {
 		// Store the device token for Live Activity registration
 		Self.deviceToken = token
 
+		// Start observing push-to-start tokens for Live Activities
+		#if canImport(ActivityKit) && os(iOS)
+		startLiveActivityTokenObservation()
+		#endif
+
 		authenticatedAccounts.forEach { account in
 			let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(account.id)&device_id=\(token)&platform=\(platform)")!
 			let request = URLRequest(url: url)
@@ -159,46 +164,24 @@ extension AppDelegate {
 	}
 	
 	#if canImport(ActivityKit) && os(iOS)
-	/// Handle Live Activity lifecycle using data from the push notification payload
-	func handleLiveActivity(
-		for eventType: ZPSEventType,
-		deploymentId: String,
-		projectId: String,
-		projectName: String?,
-		commitMessage: String?
-	) async {
-		// Check if Live Activities are enabled for this project
-		guard LiveActivityManager.userAllowedLiveActivities(for: projectId) else {
-			Self.logger.debug("Live Activities not enabled for project \(projectId)")
+	/// Start observing push-to-start token updates for Live Activities.
+	/// This should be called after the user is authenticated and device token is available.
+	func startLiveActivityTokenObservation() {
+		guard let deviceToken = Self.deviceToken else {
+			Self.logger.debug("Device token not yet available, will retry later")
 			return
 		}
 
-		switch eventType {
-		case .deployment:
-			// Start Live Activity using data from push payload (no network requests needed)
-			guard let projectName = projectName else {
-				Self.logger.warning("Missing projectName in push payload for Live Activity")
-				return
+		// Get all authenticated accounts and their enabled project IDs
+		for account in authenticatedAccounts {
+			let enabledProjectIds = LiveActivityManager.liveActivityProjectIds
+			if !enabledProjectIds.isEmpty {
+				LiveActivityManager.observePushToStartTokenUpdates(
+					userId: account.id,
+					projectIds: Array(enabledProjectIds)
+				)
+				Self.logger.notice("Started push-to-start token observation for \(enabledProjectIds.count) projects")
 			}
-
-			await LiveActivityManager.startActivity(
-				deploymentId: deploymentId,
-				projectId: projectId,
-				projectName: projectName,
-				commitMessage: commitMessage
-			)
-			Self.logger.notice("Started Live Activity for deployment \(deploymentId)")
-
-		case .deploymentReady:
-			// Update and end Live Activity
-			await LiveActivityManager.updateActivity(for: deploymentId, state: VercelDeployment.State.ready)
-
-		case .deploymentError:
-			// Update and end Live Activity
-			await LiveActivityManager.updateActivity(for: deploymentId, state: VercelDeployment.State.error)
-
-		default:
-			break
 		}
 	}
 	#endif
@@ -284,20 +267,8 @@ extension AppDelegate {
 			Self.logger.notice("Pushing notification with ID \(notificationID)")
 			try await UNUserNotificationCenter.current().add(request)
 
-			// Handle Live Activity
-			#if canImport(ActivityKit) && os(iOS)
-			if let deploymentId = deploymentId {
-				let projectName = userInfo["projectName"] as? String
-				let commitMessage = userInfo["commitMessage"] as? String
-				await handleLiveActivity(
-					for: eventType,
-					deploymentId: deploymentId,
-					projectId: projectId,
-					projectName: projectName,
-					commitMessage: commitMessage
-				)
-			}
-			#endif
+			// Note: Live Activities are now started by the server via push-to-start (iOS 17.2+)
+			// The server sends an APNS "start" event which iOS handles automatically
 
 			return .newData
 		} catch {
