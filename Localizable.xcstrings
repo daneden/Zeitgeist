@@ -517,9 +517,6 @@
         }
       }
     },
-    "Enable Live Activities" : {
-
-    },
     "Environment" : {
       "localizations" : {
         "fr" : {
@@ -664,6 +661,9 @@
       }
     },
     "Live Activities" : {
+
+    },
+    "Live Activities are disabled in system settings" : {
 
     },
     "Loading" : {
@@ -1300,9 +1300,6 @@
           }
         }
       }
-    },
-    "Track deployment progress in real-time on your Lock Screen and Dynamic Island. You can enable Live Activities for specific projects in their notification settings." : {
-
     },
     "Value" : {
       "localizations" : {
