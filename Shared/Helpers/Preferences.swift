@@ -43,8 +43,10 @@ struct Preferences {
 	static let lastAuthenticated: AppStorageKVPair<Date> = (.lastAuthenticated, .distantPast)
 	static let authenticationTimeout: AppStorageKVPair<TimeInterval> = (.authenticationTimeout, 60 * 10)
 	static let followLogs: AppStorageKVPair<Bool> = (.followLogs, false)
-	static let liveActivitiesEnabled: AppStorageKVPair<Bool> = (.liveActivitiesEnabled, false)
 	static let liveActivityProjectIds: AppStorageKVPair<[VercelProject.ID]> = (.liveActivityProjectIds, [])
+
+	@available(*, deprecated, message: "Live Activities are now enabled per-project via liveActivityProjectIds")
+	static let liveActivitiesEnabled: AppStorageKVPair<Bool> = (.liveActivitiesEnabled, false)
 	
 	@available(*, deprecated)
 	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])

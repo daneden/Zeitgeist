@@ -21,16 +21,20 @@ class LiveActivityManager {
 		category: String(describing: LiveActivityManager.self)
 	)
 
-	@AppStorage(Preferences.liveActivitiesEnabled)
-	static var liveActivitiesEnabled
-
 	@AppStorage(Preferences.liveActivityProjectIds)
 	static var liveActivityProjectIds
 
 	/// Check if user has enabled Live Activities for a specific project
 	static func userAllowedLiveActivities(for projectId: VercelProject.ID) -> Bool {
-		return liveActivitiesEnabled && liveActivityProjectIds.contains(projectId)
+		return liveActivityProjectIds.contains(projectId)
 	}
+
+	#if canImport(ActivityKit)
+	/// Check if Live Activities are authorized by the system
+	static var areActivitiesAuthorized: Bool {
+		return ActivityAuthorizationInfo().areActivitiesEnabled
+	}
+	#endif
 
 	#if canImport(ActivityKit) && os(iOS)
 	/// Start a Live Activity for a deployment
