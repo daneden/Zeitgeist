@@ -19,11 +19,6 @@ struct ProjectNotificationsView: View {
 	// Assume notifications have been permitted
 	@State private var notificationsPermitted = true
 
-	#if canImport(ActivityKit)
-	// Track Live Activities permission status
-	@State private var liveActivitiesPermitted = ActivityAuthorizationInfo().areActivitiesEnabled
-	#endif
-
 	@AppStorage(Preferences.deploymentNotificationIds)
 	private var deploymentNotificationIds
 
@@ -35,9 +30,6 @@ struct ProjectNotificationsView: View {
 
 	@AppStorage(Preferences.deploymentNotificationsProductionOnly)
 	private var deploymentNotificationsProductionOnly
-
-	@AppStorage(Preferences.liveActivityProjectIds)
-	private var liveActivityProjectIds
 
 	var body: some View {
 		let allowDeploymentNotifications = Binding {
@@ -56,10 +48,6 @@ struct ProjectNotificationsView: View {
 			deploymentNotificationsProductionOnly.contains { $0 == project.id }
 		} set: { deploymentNotificationsProductionOnly.toggleElement(project.id, inArray: $0) }
 
-		let allowLiveActivities = Binding {
-			liveActivityProjectIds.contains { $0 == project.id }
-		} set: { liveActivityProjectIds.toggleElement(project.id, inArray: $0) }
-
 		return Form {
 			if !notificationsPermitted {
 				Section("Notification permissions required") {
@@ -74,37 +62,6 @@ struct ProjectNotificationsView: View {
 					#endif
 				}
 			}
-
-			#if canImport(ActivityKit)
-			Section {
-				Toggle(isOn: allowLiveActivities) {
-					Label("Live Activities", systemImage: "bell.badge.fill")
-				}
-
-				if !liveActivitiesPermitted && liveActivityProjectIds.contains(project.id) {
-					Label {
-						Text("Live Activities are disabled in system settings")
-					} icon: {
-						Image(systemName: "exclamationmark.triangle.fill")
-							.foregroundStyle(.yellow)
-					}
-					.font(.footnote)
-
-					#if os(iOS)
-					if let url = URL(string: UIApplication.openSettingsURLString),
-						 UIApplication.shared.canOpenURL(url) {
-						Link(destination: url) {
-							Label("Open Settings", systemImage: "gear")
-						}
-					}
-					#endif
-				}
-			} header: {
-				Text("Live Activities")
-			} footer: {
-				Text("Show live build status on your Lock Screen and Dynamic Island while deployments are in progress.")
-			}
-			#endif
 
 			Section {
 				Toggle(isOn: productionNotificationsOnly) {
@@ -143,25 +100,11 @@ struct ProjectNotificationsView: View {
 			if notificationsChanged {
 				requestAndUpdateNotificationPermittedStatus()
 			}
-			#if canImport(ActivityKit)
-			updateLiveActivitiesPermittedStatus()
-			#endif
 		}
 		.onChange(of: overallNotificationSettings) { _, _ in
 			requestAndUpdateNotificationPermittedStatus()
 		}
-		#if canImport(ActivityKit)
-		.onChange(of: liveActivityProjectIds) { _, _ in
-			updateLiveActivitiesPermittedStatus()
-		}
-		#endif
 	}
-
-	#if canImport(ActivityKit)
-	func updateLiveActivitiesPermittedStatus() {
-		liveActivitiesPermitted = ActivityAuthorizationInfo().areActivitiesEnabled
-	}
-	#endif
 	
 	func requestAndUpdateNotificationPermittedStatus() {
 		Task {
