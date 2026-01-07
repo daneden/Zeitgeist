@@ -13,8 +13,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>SelectAccountIntent</string>
@@ -30,7 +28,5 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
-	<key>NSSupportsLiveActivities</key>
-	<true/>
 </dict>
 </plist>

@@ -50,7 +50,7 @@ struct DeploymentDetailView: View {
 	}
 
 	private func loadDeploymentDetails() async throws {
-		var request = VercelAPI.request(for: .deployments(deploymentID: deploymentId), with: accountId)
+		var request = VercelAPI.request(for: .deployments(version: 13, deploymentID: deploymentId), with: accountId)
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)
