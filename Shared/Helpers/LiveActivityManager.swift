@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import OSLog
 
-#if os(iOS)
+#if canImport(ActivityKit)
 import ActivityKit
 #endif
 
@@ -32,7 +32,7 @@ class LiveActivityManager {
 		return liveActivitiesEnabled && liveActivityProjectIds.contains(projectId)
 	}
 
-	#if os(iOS)
+	#if canImport(ActivityKit)
 	/// Start a Live Activity for a deployment
 	static func startActivity(for deployment: VercelDeployment, projectName: String) async {
 		guard ActivityAuthorizationInfo().areActivitiesEnabled else {
