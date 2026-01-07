@@ -15,7 +15,7 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 			.onAppear {
 				isVisible = session.requestsDenied
 			}
-			.onChange(of: session.requestsDenied) { _ in
+			.onChange(of: session.requestsDenied) { _, _ in
 				isVisible = session.requestsDenied
 			}
 			.confirmationDialog(

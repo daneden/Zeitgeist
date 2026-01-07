@@ -116,7 +116,7 @@ struct ProjectNotificationsView: View {
 				requestAndUpdateNotificationPermittedStatus()
 			}
 		}
-		.onChange(of: overallNotificationSettings) { _ in
+		.onChange(of: overallNotificationSettings) { _, _ in
 			requestAndUpdateNotificationPermittedStatus()
 		}
 	}

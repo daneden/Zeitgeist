@@ -7,6 +7,8 @@
 
 import SwiftUI
 import WidgetKit
+
+#if os(iOS)
 import ActivityKit
 
 struct DeploymentAttributes: ActivityAttributes {
@@ -143,3 +145,4 @@ struct DeploymentLiveActivity: Widget {
 		}
 	}
 }
+#endif
