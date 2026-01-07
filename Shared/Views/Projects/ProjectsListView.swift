@@ -79,7 +79,7 @@ struct ProjectsListView: View {
 						.backportCircleSymbolVariant()
 				}
 			}
-			.dataTask {
+			.zeitgeistDataTask {
 				do {
 					try await loadProjects()
 				} catch {
