@@ -102,6 +102,7 @@ struct RecentDeploymentsWidget: Widget {
 			provider: RecentDeploymentsProvider()
 		) { entry in
 			RecentDeploymentsWidgetView(config: entry)
+				.containerBackground(.background, for: .widget)
 		}
 		.configurationDisplayName("Recent Deployments")
 		.description("View a list of the most recent Vercel deployments for an account or project")
