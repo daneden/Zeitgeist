@@ -159,14 +159,14 @@ extension AppDelegate {
 	}
 	
 	#if canImport(ActivityKit) && os(iOS)
-	/// Fetch deployment details and handle Live Activity lifecycle
-	func handleLiveActivity(for eventType: ZPSEventType, deploymentId: String, projectId: String, accountId: String) async {
-		// Find the account
-		guard let account = authenticatedAccounts.first(where: { $0.id == accountId }) else {
-			Self.logger.warning("Account not found for Live Activity: \(accountId)")
-			return
-		}
-
+	/// Handle Live Activity lifecycle using data from the push notification payload
+	func handleLiveActivity(
+		for eventType: ZPSEventType,
+		deploymentId: String,
+		projectId: String,
+		projectName: String?,
+		commitMessage: String?
+	) async {
 		// Check if Live Activities are enabled for this project
 		guard LiveActivityManager.userAllowedLiveActivities(for: projectId) else {
 			Self.logger.debug("Live Activities not enabled for project \(projectId)")
@@ -175,28 +175,19 @@ extension AppDelegate {
 
 		switch eventType {
 		case .deployment:
-			// Fetch deployment details to start Live Activity
-			do {
-				let session = VercelSession(account: account)
-				var request = VercelAPI.request(for: .deployments(deploymentID: deploymentId), with: accountId)
-				try session.signRequest(&request)
-
-				let (data, _) = try await URLSession.shared.data(for: request)
-				let deployment = try JSONDecoder().decode(VercelDeployment.self, from: data)
-
-				// Fetch project details to get project name
-				var projectRequest = VercelAPI.request(for: .projects(projectId), with: accountId)
-				try session.signRequest(&projectRequest)
-
-				let (projectData, _) = try await URLSession.shared.data(for: projectRequest)
-				let project = try JSONDecoder().decode(VercelProject.self, from: projectData)
-
-				// Start Live Activity
-				await LiveActivityManager.startActivity(for: deployment, projectName: project.name)
-				Self.logger.notice("Started Live Activity for deployment \(deploymentId)")
-			} catch {
-				Self.logger.error("Failed to start Live Activity: \(error.localizedDescription)")
+			// Start Live Activity using data from push payload (no network requests needed)
+			guard let projectName = projectName else {
+				Self.logger.warning("Missing projectName in push payload for Live Activity")
+				return
 			}
+
+			await LiveActivityManager.startActivity(
+				deploymentId: deploymentId,
+				projectId: projectId,
+				projectName: projectName,
+				commitMessage: commitMessage
+			)
+			Self.logger.notice("Started Live Activity for deployment \(deploymentId)")
 
 		case .deploymentReady:
 			// Update and end Live Activity
@@ -296,7 +287,15 @@ extension AppDelegate {
 			// Handle Live Activity
 			#if canImport(ActivityKit) && os(iOS)
 			if let deploymentId = deploymentId {
-				await handleLiveActivity(for: eventType, deploymentId: deploymentId, projectId: projectId, accountId: accountId)
+				let projectName = userInfo["projectName"] as? String
+				let commitMessage = userInfo["commitMessage"] as? String
+				await handleLiveActivity(
+					for: eventType,
+					deploymentId: deploymentId,
+					projectId: projectId,
+					projectName: projectName,
+					commitMessage: commitMessage
+				)
 			}
 			#endif
 
