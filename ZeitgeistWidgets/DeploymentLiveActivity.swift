@@ -43,9 +43,10 @@ struct DeploymentAttributes: ActivityAttributes {
 		}
 	}
 
-	let deploymentId: VercelDeployment.ID
-	let deploymentCause: VercelDeployment.DeploymentCause
-	let deploymentProject: String
+	/// Simple string attributes that match server encoding for push-to-start
+	let deploymentId: String
+	let projectName: String
+	let commitMessage: String?
 }
 
 struct DeploymentLiveActivity: Widget {
@@ -57,7 +58,7 @@ struct DeploymentLiveActivity: Widget {
 					.font(.title2)
 
 				VStack(alignment: .leading, spacing: 4) {
-					Text(context.attributes.deploymentProject)
+					Text(context.attributes.projectName)
 						.font(.headline)
 						.lineLimit(1)
 
@@ -65,21 +66,7 @@ struct DeploymentLiveActivity: Widget {
 						DeploymentStateIndicator(state: context.state.deploymentState)
 							.font(.subheadline)
 
-						if case .gitCommit(let commit) = context.attributes.deploymentCause {
-							Text("·")
-								.foregroundStyle(.secondary)
-							Text(commit.commitMessage)
-								.font(.subheadline)
-								.foregroundStyle(.secondary)
-								.lineLimit(1)
-						} else if case .deployHook(let name) = context.attributes.deploymentCause {
-							Text("·")
-								.foregroundStyle(.secondary)
-							Text(name)
-								.font(.subheadline)
-								.foregroundStyle(.secondary)
-								.lineLimit(1)
-						} else if case .pushNotification(let message) = context.attributes.deploymentCause {
+						if let message = context.attributes.commitMessage {
 							Text("·")
 								.foregroundStyle(.secondary)
 							Text(message)
@@ -114,16 +101,11 @@ struct DeploymentLiveActivity: Widget {
 
 				DynamicIslandExpandedRegion(.center) {
 					VStack(alignment: .leading, spacing: 4) {
-						Text(context.attributes.deploymentProject)
+						Text(context.attributes.projectName)
 							.font(.headline)
 							.lineLimit(1)
 
-						if case .gitCommit(let commit) = context.attributes.deploymentCause {
-							Text(commit.commitMessage)
-								.font(.caption)
-								.foregroundStyle(.secondary)
-								.lineLimit(2)
-						} else if case .pushNotification(let message) = context.attributes.deploymentCause {
+						if let message = context.attributes.commitMessage {
 							Text(message)
 								.font(.caption)
 								.foregroundStyle(.secondary)
