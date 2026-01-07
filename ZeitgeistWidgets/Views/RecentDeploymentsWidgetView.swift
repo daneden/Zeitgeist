@@ -57,7 +57,7 @@ struct RecentDeploymentsWidgetView: View {
 
 	private var systemView: some View {
 		VStack(alignment: .leading) {
-			Label("Recent Deployments", systemImage: "clock")
+			Label(config.productionOnly ? "Recent Production Deployments" : "Recent Deployments", systemImage: "clock")
 				.font(.footnote.bold())
 
 			Spacer(minLength: 0)
