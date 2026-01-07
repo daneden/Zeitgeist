@@ -158,7 +158,7 @@ extension AppDelegate {
 		}
 	}
 	
-	#if canImport(ActivityKit)
+	#if canImport(ActivityKit) && os(iOS)
 	/// Fetch deployment details and handle Live Activity lifecycle
 	func handleLiveActivity(for eventType: ZPSEventType, deploymentId: String, projectId: String, accountId: String) async {
 		// Find the account
@@ -294,7 +294,7 @@ extension AppDelegate {
 			try await UNUserNotificationCenter.current().add(request)
 
 			// Handle Live Activity
-			#if canImport(ActivityKit)
+			#if canImport(ActivityKit) && os(iOS)
 			if let deploymentId = deploymentId {
 				await handleLiveActivity(for: eventType, deploymentId: deploymentId, projectId: projectId, accountId: accountId)
 			}
