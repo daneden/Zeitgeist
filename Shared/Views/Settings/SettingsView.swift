@@ -17,9 +17,7 @@ struct SettingsView: View {
 	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
 
-	#if canImport(ActivityKit)
-	@AppStorage(Preferences.liveActivitiesEnabled) var liveActivitiesEnabled
-	#endif
+	@AppStorage(Preferences.liveActivityProjectIds) private var liveActivityProjectIds
 
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	
@@ -63,18 +61,6 @@ struct SettingsView: View {
 				Text("Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed")
 			}
 
-			#if canImport(ActivityKit)
-			Section {
-				Toggle(isOn: $liveActivitiesEnabled) {
-					Label("Enable Live Activities", systemImage: "circle.badge.checkmark")
-				}
-			} header: {
-				Text("Live Activities")
-			} footer: {
-				Text("Track deployment progress in real-time on your Lock Screen and Dynamic Island. You can enable Live Activities for specific projects in their notification settings.")
-			}
-			#endif
-			
 			Section {
 				Picker(selection: $authenticationTimeout) {
 					ForEach(timeoutPresets, id: \.self) { preset in
@@ -148,14 +134,12 @@ extension SettingsView {
 			deploymentReadyNotificationIds.removeAll()
 			deploymentErrorNotificationIds.removeAll()
 			deploymentProductionNotificationIds.removeAll()
-			#if canImport(ActivityKit)
-			liveActivitiesEnabled = false
-			#endif
+			liveActivityProjectIds.removeAll()
 		}
 	}
-	
+
 	var notificationsResettable: Bool {
-		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
+		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds + liveActivityProjectIds).isEmpty
 	}
 }
 

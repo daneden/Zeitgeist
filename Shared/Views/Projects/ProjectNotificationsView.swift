@@ -7,13 +7,22 @@
 
 import SwiftUI
 
+#if canImport(ActivityKit)
+import ActivityKit
+#endif
+
 struct ProjectNotificationsView: View {
 	@Environment(\.dismiss) var dismiss
 
 	var project: VercelProject
-	
+
 	// Assume notifications have been permitted
 	@State private var notificationsPermitted = true
+
+	#if canImport(ActivityKit)
+	// Track Live Activities permission status
+	@State private var liveActivitiesPermitted = ActivityAuthorizationInfo().areActivitiesEnabled
+	#endif
 
 	@AppStorage(Preferences.deploymentNotificationIds)
 	private var deploymentNotificationIds
@@ -66,10 +75,29 @@ struct ProjectNotificationsView: View {
 				}
 			}
 
-			#if os(iOS)
+			#if canImport(ActivityKit)
 			Section {
 				Toggle(isOn: allowLiveActivities) {
 					Label("Live Activities", systemImage: "bell.badge.fill")
+				}
+
+				if !liveActivitiesPermitted && liveActivityProjectIds.contains(project.id) {
+					Label {
+						Text("Live Activities are disabled in system settings")
+					} icon: {
+						Image(systemName: "exclamationmark.triangle.fill")
+							.foregroundStyle(.yellow)
+					}
+					.font(.footnote)
+
+					#if os(iOS)
+					if let url = URL(string: UIApplication.openSettingsURLString),
+						 UIApplication.shared.canOpenURL(url) {
+						Link(destination: url) {
+							Label("Open Settings", systemImage: "gear")
+						}
+					}
+					#endif
 				}
 			} header: {
 				Text("Live Activities")
@@ -115,11 +143,25 @@ struct ProjectNotificationsView: View {
 			if notificationsChanged {
 				requestAndUpdateNotificationPermittedStatus()
 			}
+			#if canImport(ActivityKit)
+			updateLiveActivitiesPermittedStatus()
+			#endif
 		}
 		.onChange(of: overallNotificationSettings) { _, _ in
 			requestAndUpdateNotificationPermittedStatus()
 		}
+		#if canImport(ActivityKit)
+		.onChange(of: liveActivityProjectIds) { _, _ in
+			updateLiveActivitiesPermittedStatus()
+		}
+		#endif
 	}
+
+	#if canImport(ActivityKit)
+	func updateLiveActivitiesPermittedStatus() {
+		liveActivitiesPermitted = ActivityAuthorizationInfo().areActivitiesEnabled
+	}
+	#endif
 	
 	func requestAndUpdateNotificationPermittedStatus() {
 		Task {
@@ -138,12 +180,6 @@ extension ProjectNotificationsView {
 	}
 	
 	private var overallNotificationSettings: [String] {
-		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly + liveActivityProjectIds)
+		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly)
 	}
 }
-
-// struct ProjectNotificationsView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    ProjectNotificationsView()
-//  }
-// }
