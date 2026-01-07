@@ -40,7 +40,7 @@ struct DeploymentDetailView: View {
 			}
 		}
 		.navigationTitle(Text("Deployment details"))
-		.dataTask {
+		.zeitgeistDataTask {
 			do {
 				try await loadDeploymentDetails()
 			} catch {
@@ -492,3 +492,4 @@ private struct DeploymentDetails: View {
 		mutating = false
 	}
 }
+

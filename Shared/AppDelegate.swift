@@ -25,10 +25,14 @@ enum RemoteNotificationResult {
 }
 #endif
 
-#if DEBUG
-	let platform = "ios_sandbox"
+#if os(iOS)
+	#if DEBUG
+		let platform = "ios_sandbox"
+	#else
+		let platform = "ios"
+	#endif
 #else
-	let platform = "ios"
+	let platform = "macos"
 #endif
 
 class AppDelegate: NSObject {
@@ -154,7 +158,7 @@ extension AppDelegate {
 		}
 	}
 	
-	#if canImport(ActivityKit)
+	#if os(iOS)
 	/// Fetch deployment details and handle Live Activity lifecycle
 	func handleLiveActivity(for eventType: ZPSEventType, deploymentId: String, projectId: String, accountId: String) async {
 		// Find the account
@@ -290,7 +294,7 @@ extension AppDelegate {
 			try await UNUserNotificationCenter.current().add(request)
 
 			// Handle Live Activity
-			#if canImport(ActivityKit)
+			#if os(iOS)
 			if let deploymentId = deploymentId {
 				await handleLiveActivity(for: eventType, deploymentId: deploymentId, projectId: projectId, accountId: accountId)
 			}

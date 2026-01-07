@@ -144,12 +144,12 @@ struct ProjectDetailView: View {
 			}
 		}
 		.navigationTitle(navBarTitle)
-		.onChange(of: filter) { _ in
+		.onChange(of: filter) { _, _ in
 			Task {
 				try? await loadDeployments()
 			}
 		}
-		.dataTask {
+		.zeitgeistDataTask {
 			do {
 				try await initialLoad()
 			} catch {
