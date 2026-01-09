@@ -211,8 +211,31 @@ private struct DeploymentDetails: View {
 			}
 			
 			Group {
+				// Instant rollback for production deployments
+				if deployment.target == .production, deployment.state == .ready {
+					Button {
+						instantRollbackConfirmation = true
+					} label: {
+						Label("Instant rollback", systemImage: "clock.arrow.circlepath")
+					}
+					.confirmationDialog("Instant rollback", isPresented: $instantRollbackConfirmation) {
+						Button(role: .cancel) {
+							instantRollbackConfirmation = false
+						} label: {
+							Text("Cancel")
+						}
+
+						Button {
+							Task { await instantRollback() }
+						} label: {
+							Text("Restore to production")
+						}
+					} message: {
+						Text("This will restore this deployment to production. Your project's production domains will point to this deployment.")
+					}
+				}
 				// Promote staging deployment to production (without rebuild)
-				if deployment.target == .staging {
+				else if deployment.target == .staging {
 					Button {
 						promoteStagingToProductionConfirmation = true
 					} label: {
@@ -369,6 +392,26 @@ private struct DeploymentDetails: View {
 			dismiss()
 		} catch {
 			print("Error promoting staging deployment: \(error)")
+		}
+
+		mutating = false
+	}
+
+	func instantRollback() async {
+		mutating = true
+
+		do {
+			var request = VercelAPI.request(
+				for: .deployments(version: 13, deploymentID: deployment.id, path: "promote"),
+				with: accountId,
+				method: .PATCH
+			)
+			try session.signRequest(&request)
+
+			let _ = try await URLSession.shared.data(for: request)
+			dismiss()
+		} catch {
+			print("Error performing instant rollback: \(error)")
 		}
 
 		mutating = false
