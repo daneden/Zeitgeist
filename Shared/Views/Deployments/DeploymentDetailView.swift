@@ -382,7 +382,7 @@ private struct DeploymentDetails: View {
 
 		do {
 			var request = VercelAPI.request(
-				for: .deployments(version: 13, deploymentID: deployment.id, path: "promote"),
+				for: .projects(version: 10, deployment.project, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .PATCH
 			)
@@ -402,7 +402,7 @@ private struct DeploymentDetails: View {
 
 		do {
 			var request = VercelAPI.request(
-				for: .deployments(version: 13, deploymentID: deployment.id, path: "promote"),
+				for: .projects(version: 10, deployment.project, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .PATCH
 			)
