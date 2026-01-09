@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+#if canImport(ActivityKit)
+import ActivityKit
+#endif
+
 struct ProjectNotificationsView: View {
 	@Environment(\.dismiss) var dismiss
 
 	var project: VercelProject
-	
+
 	// Assume notifications have been permitted
 	@State private var notificationsPermitted = true
 
@@ -58,7 +62,7 @@ struct ProjectNotificationsView: View {
 					#endif
 				}
 			}
-			
+
 			Section {
 				Toggle(isOn: productionNotificationsOnly) {
 					Label("Production only", systemImage: "theatermasks.fill")
@@ -97,7 +101,7 @@ struct ProjectNotificationsView: View {
 				requestAndUpdateNotificationPermittedStatus()
 			}
 		}
-		.onChange(of: overallNotificationSettings) { _ in
+		.onChange(of: overallNotificationSettings) { _, _ in
 			requestAndUpdateNotificationPermittedStatus()
 		}
 	}
@@ -122,9 +126,3 @@ extension ProjectNotificationsView {
 		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly)
 	}
 }
-
-// struct ProjectNotificationsView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    ProjectNotificationsView()
-//  }
-// }

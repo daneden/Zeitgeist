@@ -21,6 +21,8 @@ struct NotificationPreview: View {
 			return "\(emoji)Deployment ready for \(projectName)"
 		case .deploymentError:
 			return "\(emoji)Build failed for \(projectName)"
+		case .deploymentCanceled:
+			return "\(emoji)Build cancelled for \(projectName)"
 		case .projectCreated:
 			return "\(emoji)Project Created"
 		case .projectRemoved:

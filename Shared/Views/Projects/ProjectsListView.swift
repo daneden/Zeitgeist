@@ -79,9 +79,10 @@ struct ProjectsListView: View {
 						.backportCircleSymbolVariant()
 				}
 			}
-			.dataTask {
+			.zeitgeistDataTask {
 				do {
 					try await loadProjects()
+					projectsError = nil
 				} catch {
 					print(error)
 					if let error = error as? SessionError {

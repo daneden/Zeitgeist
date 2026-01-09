@@ -13,10 +13,10 @@ struct SettingsView: View {
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
 	@AppStorage(Preferences.deploymentNotificationsProductionOnly) private var deploymentProductionNotificationIds
-	
+
 	@AppStorage(Preferences.notificationEmoji) var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
-	
+
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	
 	var githubIssuesURL: URL {
@@ -49,7 +49,7 @@ struct SettingsView: View {
 				} label: {
 					Text("Group notifications by")
 				}
-				
+
 				Toggle(isOn: $notificationEmoji) {
 					Text("Show Emoji in notification titles")
 				}
@@ -58,7 +58,7 @@ struct SettingsView: View {
 			} footer: {
 				Text("Optionally display emoji to quickly denote different build statuses: ⏱ Build Started, ✅ Deployed, and 🛑 Build Failed")
 			}
-			
+
 			Section {
 				Picker(selection: $authenticationTimeout) {
 					ForEach(timeoutPresets, id: \.self) { preset in
@@ -134,7 +134,7 @@ extension SettingsView {
 			deploymentProductionNotificationIds.removeAll()
 		}
 	}
-	
+
 	var notificationsResettable: Bool {
 		(deploymentNotificationIds + deploymentErrorNotificationIds + deploymentReadyNotificationIds + deploymentProductionNotificationIds).isEmpty
 	}

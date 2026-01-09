@@ -31,18 +31,24 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 			do {
 				let session = VercelSession(account: account)
 				var queryItems: [URLQueryItem] = []
-				
+
 				if let projectId = configuration.project?.identifier {
 					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
 				}
 				
+				let productionOnly = configuration.productionOnly?.boolValue ?? false
+
+				if productionOnly {
+					queryItems.append(URLQueryItem(name: "target", value: "production"))
+				}
+
 				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
 				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
 				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
 
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-				completion(RecentDeploymentsEntry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance))
+				completion(RecentDeploymentsEntry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance, productionOnly: productionOnly))
 			} catch {
 				print(error)
 			}
@@ -63,15 +69,19 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 				)
 				return
 			}
-			
+
 			do {
 				let session = VercelSession(account: account)
 				var queryItems: [URLQueryItem] = []
-				
+
 				if let projectId = configuration.project?.identifier {
 					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
 				}
-				
+
+				if configuration.productionOnly?.boolValue == true {
+					queryItems.append(URLQueryItem(name: "target", value: "production"))
+				}
+
 				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
 				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
@@ -102,6 +112,7 @@ struct RecentDeploymentsWidget: Widget {
 			provider: RecentDeploymentsProvider()
 		) { entry in
 			RecentDeploymentsWidgetView(config: entry)
+				.containerBackground(.background, for: .widget)
 		}
 		.configurationDisplayName("Recent Deployments")
 		.description("View a list of the most recent Vercel deployments for an account or project")

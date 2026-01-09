@@ -31,11 +31,15 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 			do {
 				let session = VercelSession(account: account)
 				var queryItems: [URLQueryItem] = []
-				
+
 				if let projectId = configuration.project?.identifier {
 					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
 				}
-				
+
+				if configuration.productionOnly?.boolValue == true {
+					queryItems.append(URLQueryItem(name: "target", value: "production"))
+				}
+
 				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
 				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
@@ -72,15 +76,19 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 				)
 				return
 			}
-			
+
 			do {
 				let session = VercelSession(account: account)
 				var queryItems: [URLQueryItem] = []
-				
+
 				if let projectId = configuration.project?.identifier {
 					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
 				}
-				
+
+				if configuration.productionOnly?.boolValue == true {
+					queryItems.append(URLQueryItem(name: "target", value: "production"))
+				}
+
 				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
 				try session.signRequest(&request)
 				let (data, _) = try await URLSession.shared.data(for: request)
@@ -121,6 +129,7 @@ struct LatestDeploymentWidget: Widget {
 			provider: LatestDeploymentProvider()
 		) { entry in
 			LatestDeploymentWidgetView(config: entry)
+				.containerBackground(.background, for: .widget)
 		}
 		.configurationDisplayName("Latest Deployment")
 		.description("View the most recent Vercel deployment for an account or project")

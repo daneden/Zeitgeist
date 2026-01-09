@@ -34,8 +34,8 @@ struct DataTaskModifier: ViewModifier {
 					print("Skipping dataTask since the session is no longer authenticated")
 				}
 			}
-			.onChange(of: scenePhase) { currentScenePhase in
-				if case .active = currentScenePhase {
+			.onChange(of: scenePhase) { _, newValue in
+				if case .active = newValue {
 					print("Updating based on scenePhase")
 					Task { await action() }
 				}
@@ -44,7 +44,7 @@ struct DataTaskModifier: ViewModifier {
 }
 
 extension View {
-	func dataTask(perform action: @escaping () async -> Void) -> some View {
+	func zeitgeistDataTask(perform action: @escaping () async -> Void) -> some View {
 		modifier(DataTaskModifier(action: action))
 	}
 }

@@ -41,7 +41,7 @@ struct Preferences {
 	static let lastAuthenticated: AppStorageKVPair<Date> = (.lastAuthenticated, .distantPast)
 	static let authenticationTimeout: AppStorageKVPair<TimeInterval> = (.authenticationTimeout, 60 * 10)
 	static let followLogs: AppStorageKVPair<Bool> = (.followLogs, false)
-	
+
 	@available(*, deprecated)
 	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
 
@@ -59,11 +59,11 @@ extension AppStorage {
 	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == Bool {
 		self.init(wrappedValue: kv.value, kv.key.rawValue, store: Preferences.store)
 	}
-	
+
 	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == TimeInterval {
 		self.init(wrappedValue: kv.value, kv.key.rawValue, store: Preferences.store)
 	}
-	
+
 	init(_ kv: Preferences.AppStorageKVPair<Value>) where Value == String? {
 		self.init(kv.key.rawValue, store: Preferences.store)
 	}
@@ -87,7 +87,7 @@ enum NotificationGrouping: String, Codable, RawRepresentable, CaseIterable {
 
 enum ProjectSummaryDisplayOption: String, Codable, CaseIterable {
 	case productionDeployment, latestDeployment
-	
+
 	var description: LocalizedStringKey {
 		switch self {
 		case .latestDeployment: return "Latest deployment"

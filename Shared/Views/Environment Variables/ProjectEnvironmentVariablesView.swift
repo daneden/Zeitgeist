@@ -56,7 +56,7 @@ struct ProjectEnvironmentVariablesView: View {
 					authenticate()
 				}
 			}
-			.dataTask {
+			.zeitgeistDataTask {
 				await loadEnvironmentVariables()
 			}
 			.sheet(isPresented: $editSheetPresented) {

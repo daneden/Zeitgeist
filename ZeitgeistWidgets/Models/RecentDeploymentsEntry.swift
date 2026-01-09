@@ -17,6 +17,7 @@ struct RecentDeploymentsEntry: TimelineEntry {
 	var account: WidgetAccount
 	var project: WidgetProject?
 	var relevance: TimelineEntryRelevance?
+	var productionOnly: Bool = false
 }
 
 #if DEBUG
