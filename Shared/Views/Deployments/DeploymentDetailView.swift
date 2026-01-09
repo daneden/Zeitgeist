@@ -112,6 +112,9 @@ private struct Overview: View {
 				if deployment.target == .production {
 					Label("Production", systemImage: "theatermasks")
 						.symbolVariant(.fill)
+				} else if deployment.target == .staging {
+					Label("Staging", systemImage: "staroflife")
+						.symbolVariant(.fill)
 				} else {
 					Text("Preview")
 				}
@@ -192,6 +195,7 @@ private struct DeploymentDetails: View {
 	@State var deleteConfirmation = false
 	@State var redeployConfirmation = false
 	@State var promoteToProductionConfirmation = false
+	@State var promoteStagingToProductionConfirmation = false
 	@State var instantRollbackConfirmation = false
 
 	@State var mutating = false
@@ -207,7 +211,31 @@ private struct DeploymentDetails: View {
 			}
 			
 			Group {
-				if let promoteToProductionDataPayload = deployment.promoteToProductionDataPayload {
+				// Promote staging deployment to production (without rebuild)
+				if deployment.target == .staging {
+					Button {
+						promoteStagingToProductionConfirmation = true
+					} label: {
+						Label("Promote to production", systemImage: "arrow.up.circle")
+					}
+					.confirmationDialog("Promote to production", isPresented: $promoteStagingToProductionConfirmation) {
+						Button(role: .cancel) {
+							promoteStagingToProductionConfirmation = false
+						} label: {
+							Text("Cancel")
+						}
+
+						Button {
+							Task { await promoteStagingToProduction() }
+						} label: {
+							Text("Promote to production")
+						}
+					} message: {
+						Text("This will promote the staging deployment to production. Your project's production domains will point to this deployment.")
+					}
+				}
+				// Promote preview/other deployment to production (with rebuild)
+				else if let promoteToProductionDataPayload = deployment.promoteToProductionDataPayload {
 					Button {
 						promoteToProductionConfirmation = true
 					} label: {
@@ -219,7 +247,7 @@ private struct DeploymentDetails: View {
 						} label: {
 							Text("Cancel")
 						}
-						
+
 						Button {
 							Task { await promoteToProduction(data: promoteToProductionDataPayload) }
 						} label: {
@@ -311,18 +339,38 @@ private struct DeploymentDetails: View {
 	
 	func promoteToProduction(data: Data) async {
 		mutating = true
-		
+
 		do {
 			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, method: .POST)
 			request.httpBody = data
 			try session.signRequest(&request)
-			
+
 			let _ = try await URLSession.shared.data(for: request)
 			dismiss()
 		} catch {
 			print(error)
 		}
-		
+
+		mutating = false
+	}
+
+	func promoteStagingToProduction() async {
+		mutating = true
+
+		do {
+			var request = VercelAPI.request(
+				for: .deployments(version: 13, deploymentID: deployment.id, path: "promote"),
+				with: accountId,
+				method: .PATCH
+			)
+			try session.signRequest(&request)
+
+			let _ = try await URLSession.shared.data(for: request)
+			dismiss()
+		} catch {
+			print("Error promoting staging deployment: \(error)")
+		}
+
 		mutating = false
 	}
 	
