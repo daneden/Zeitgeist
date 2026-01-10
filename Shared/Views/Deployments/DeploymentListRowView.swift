@@ -10,6 +10,8 @@ import SwiftUI
 struct DeploymentListRowView: View {
 	var deployment: VercelDeployment
 	var projectName: String?
+	
+	var isCurrentProduction = false
 
 	var body: some View {
 		return Label {
@@ -18,7 +20,7 @@ struct DeploymentListRowView: View {
 						if deployment.target == .production {
 							Label("Production deployment", systemImage: "theatermasks")
 								.labelStyle(.iconOnly)
-								.foregroundStyle(.tint)
+								.foregroundStyle(isCurrentProduction ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
 								.symbolVariant(.fill)
 								.imageScale(.small)
 						}
