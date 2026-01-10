@@ -635,6 +635,9 @@
         }
       }
     },
+    "Instant rollback" : {
+
+    },
     "Latest deployment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1103,6 +1106,9 @@
         }
       }
     },
+    "Restore to production" : {
+
+    },
     "Review on the App Store" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1278,6 +1284,12 @@
           }
         }
       }
+    },
+    "This will promote the staging deployment to production. Your project's production domains will point to this deployment." : {
+
+    },
+    "This will restore this deployment to production. Your project's production domains will point to this deployment." : {
+
     },
     "To get started, sign in with your Vercel account." : {
       "localizations" : {

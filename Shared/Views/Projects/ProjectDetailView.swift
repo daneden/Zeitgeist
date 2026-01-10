@@ -72,11 +72,16 @@ struct ProjectDetailView: View {
 				if let productionDeployment = project.targets?.production {
 					Section("Current Production Deployment") {
 						NavigationLink {
-							DeploymentDetailView(deploymentId: productionDeployment.id, deployment: productionDeployment)
+							DeploymentDetailView(
+								deploymentId: productionDeployment.id,
+								deployment: productionDeployment,
+								isCurrentProduction: true
+							)
 								.id(productionDeployment.id)
 								.environmentObject(session)
+								.environment(\.project, project)
 						} label: {
-							DeploymentListRowView(deployment: productionDeployment)
+							DeploymentListRowView(deployment: productionDeployment, isCurrentProduction: true)
 								.id(productionDeployment.id)
 						}
 					}
@@ -92,11 +97,19 @@ struct ProjectDetailView: View {
 					}
 					ForEach(deployments) { deployment in
 						NavigationLink {
-							DeploymentDetailView(deploymentId: deployment.id, deployment: deployment)
+							DeploymentDetailView(
+								deploymentId: deployment.id,
+								deployment: deployment,
+								isCurrentProduction: deployment.id == project.targets?.production?.id
+							)
 								.id(deployment.id)
 								.environmentObject(session)
+								.environment(\.project, project)
 						} label: {
-							DeploymentListRowView(deployment: deployment)
+							DeploymentListRowView(
+								deployment: deployment,
+								isCurrentProduction: deployment.id == project.targets?.production?.id
+							)
 								.id(deployment.id)
 						}
 					}
