@@ -7,12 +7,17 @@
 
 import SwiftUI
 
+extension EnvironmentValues {
+	@Entry var project: VercelProject?
+}
+
 struct DeploymentDetailView: View {
 	@EnvironmentObject var session: VercelSession
 
 	var accountId: VercelAccount.ID { session.account.id }
 	var deploymentId: VercelDeployment.ID
 	@State var deployment: VercelDeployment?
+	@State var isCurrentProduction = false
 
 	var body: some View {
 		Form {
@@ -34,7 +39,7 @@ struct DeploymentDetailView: View {
 					}
 				}
 				URLDetails(accountId: accountId, deployment: deployment)
-				DeploymentDetails(accountId: accountId, deployment: deployment)
+				DeploymentDetails(accountId: accountId, deployment: deployment, isCurrentProduction: isCurrentProduction)
 			} else {
 				ProgressView()
 			}
@@ -186,11 +191,13 @@ private struct URLDetails: View {
 
 private struct DeploymentDetails: View {
 	@Environment(\.dismiss) var dismiss
+	@Environment(\.project) var project: VercelProject?
 	@EnvironmentObject var session: VercelSession
 
 	var accountId: VercelAccount.ID
 	var deployment: VercelDeployment
 
+	@State var isCurrentProduction = false
 	@State var cancelConfirmation = false
 	@State var deleteConfirmation = false
 	@State var redeployConfirmation = false
@@ -212,7 +219,7 @@ private struct DeploymentDetails: View {
 			
 			Group {
 				// Instant rollback for production deployments
-				if deployment.target == .production, deployment.state == .ready {
+				if deployment.target == .production, deployment.state == .ready, !isCurrentProduction {
 					Button {
 						instantRollbackConfirmation = true
 					} label: {
@@ -235,7 +242,7 @@ private struct DeploymentDetails: View {
 					}
 				}
 				// Promote staging deployment to production (without rebuild)
-				else if deployment.target == .staging {
+				if (deployment.target == .staging) || (deployment.target == .production && !isCurrentProduction) {
 					Button {
 						promoteStagingToProductionConfirmation = true
 					} label: {
@@ -380,16 +387,19 @@ private struct DeploymentDetails: View {
 	func promoteStagingToProduction() async {
 		mutating = true
 
+		guard let project else { return }
+		
 		do {
 			var request = VercelAPI.request(
-				for: .projects(version: 10, deployment.project, path: "promote/\(deployment.id)"),
+				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
 				with: accountId,
-				method: .PATCH
+				method: .POST
 			)
 			try session.signRequest(&request)
 
-			let _ = try await URLSession.shared.data(for: request)
-			dismiss()
+			let (data, _) = try await URLSession.shared.data(for: request)
+			
+			print(String(data: data, encoding: .utf8))
 		} catch {
 			print("Error promoting staging deployment: \(error)")
 		}
@@ -399,10 +409,12 @@ private struct DeploymentDetails: View {
 
 	func instantRollback() async {
 		mutating = true
+		
+		guard let project else { return }
 
 		do {
 			var request = VercelAPI.request(
-				for: .projects(version: 10, deployment.project, path: "promote/\(deployment.id)"),
+				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .PATCH
 			)
