@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct VercelProject: Decodable, Identifiable {
+struct VercelProject: Decodable, Identifiable, Equatable {
 	typealias ID = String
 	let accountId: String
 	let createdAt: Int
@@ -37,7 +37,7 @@ extension VercelProject {
 		let pagination: Pagination
 	}
 
-	struct Targets: Decodable {
+	struct Targets: Decodable, Equatable {
 		let production: VercelDeployment?
 	}
 }
