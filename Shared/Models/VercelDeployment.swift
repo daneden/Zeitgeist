@@ -34,6 +34,8 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 	}
 
 	var state: State
+	var readySubstate: ReadySubstate?
+	
 	private var urlString: String = "vercel.com"
 	private var inspectorUrlString: String = "vercel.com"
 
@@ -79,7 +81,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		case inspectorUrlString = "inspectorUrl"
 		case buildingAt = "buildingAt"
 
-		case state, creator, target, readyState, ready, uid, id, teamId, team
+		case state, creator, target, readyState, readySubstate, ready, uid, id, teamId, team
 	}
 
 	init(from decoder: Decoder) throws {
@@ -97,6 +99,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable {
 		teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
 		creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
 		ready = try container.decodeIfPresent(Int.self, forKey: .ready)
+		readySubstate = try container.decodeIfPresent(ReadySubstate.self, forKey: .readySubstate)
 	}
 
 	static func == (lhs: VercelDeployment, rhs: VercelDeployment) -> Bool {
@@ -157,6 +160,10 @@ extension VercelDeployment {
 				return "Ready"
 			}
 		}
+	}
+	
+	enum ReadySubstate: String, Codable, CaseIterable {
+		case staged = "STAGED", rolling = "ROLLING", promoted = "PROMOTED"
 	}
 
 	enum DeploymentCause: Codable {
