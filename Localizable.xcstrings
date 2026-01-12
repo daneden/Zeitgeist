@@ -1285,9 +1285,6 @@
         }
       }
     },
-    "This will promote the staging deployment to production. Your project's production domains will point to this deployment." : {
-
-    },
     "This will restore this deployment to production. Your project's production domains will point to this deployment." : {
 
     },
