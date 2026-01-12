@@ -196,17 +196,23 @@ private struct DeploymentDetails: View {
 
 	var accountId: VercelAccount.ID
 	var deployment: VercelDeployment
+	var isCurrentProduction: Bool
 
-	@State var isCurrentProduction = false
-	@State var cancelConfirmation = false
-	@State var deleteConfirmation = false
-	@State var redeployConfirmation = false
-	@State var promoteToProductionConfirmation = false
-	@State var promoteStagingToProductionConfirmation = false
-	@State var instantRollbackConfirmation = false
+	@State private var actionsService: DeploymentActionsService?
 
-	@State var mutating = false
-	@State var recentlyCancelled = false
+	private var service: DeploymentActionsService {
+		actionsService ?? DeploymentActionsService(session: session, accountId: accountId)
+	}
+
+	private var showDeleteButton: Bool {
+		(deployment.state != .queued && deployment.state != .building)
+			|| deployment.state == .cancelled
+			|| service.recentlyCancelled
+	}
+
+	private var shouldUseStagingPromote: Bool {
+		(deployment.target == .staging) || (deployment.target == .production && !isCurrentProduction)
+	}
 
 	var body: some View {
 		Section("Details") {
@@ -216,260 +222,112 @@ private struct DeploymentDetails: View {
 			} label: {
 				Label("View logs", systemImage: "terminal")
 			}
-			
+
 			Group {
 				// Instant rollback for production deployments
-				Button {
-					instantRollbackConfirmation = true
+				ConfirmableActionButton(
+					title: "Instant rollback",
+					message: "This will restore this deployment to production. Your project's production domains will point to this deployment.",
+					confirmLabel: "Restore to production",
+					isDisabled: deployment.readySubstate != .promoted || isCurrentProduction
+				) {
+					guard let project else { return }
+					if await service.instantRollback(deployment, project: project) {
+						dismiss()
+					}
 				} label: {
 					Label("Instant rollback", systemImage: "clock.arrow.circlepath")
 				}
-				.disabled(deployment.readySubstate != .promoted || isCurrentProduction)
-				.confirmationDialog("Instant rollback", isPresented: $instantRollbackConfirmation) {
-					Button(role: .cancel) {
-						instantRollbackConfirmation = false
-					} label: {
-						Text("Cancel")
+
+				// Promote to production
+				ConfirmableActionButton(
+					title: "Promote to production",
+					message: "This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied.",
+					confirmLabel: "Promote to production",
+					isDisabled: deployment.state != .ready
+				) {
+					let success: Bool
+					if shouldUseStagingPromote, let project {
+						success = await service.promoteStagingToProduction(deployment, project: project)
+					} else {
+						success = await service.promoteToProduction(deployment)
 					}
-					
-					Button {
-						Task { await instantRollback() }
-					} label: {
-						Text("Restore to production")
+					if success {
+						dismiss()
 					}
-				} message: {
-					Text("This will restore this deployment to production. Your project's production domains will point to this deployment.")
-				}
-				
-				Button {
-					promoteToProductionConfirmation = true
 				} label: {
 					Label("Promote to production", systemImage: "arrow.up.circle")
 				}
-				.disabled(deployment.state != .ready)
-				.confirmationDialog("Promote to production", isPresented: $promoteToProductionConfirmation) {
-					Button(role: .cancel) {
-						promoteToProductionConfirmation = false
-					} label: {
-						Text("Cancel")
-					}
-					
-					Button {
-						if (deployment.target == .staging) || (deployment.target == .production && !isCurrentProduction) {
-							Task { await promoteStagingToProduction() }
-						} else {
-							Task { await promoteToProduction(data: deployment.promoteToProductionDataPayload) }
+
+				// Redeploy (with multiple options)
+				ConfirmableActionButton(
+					title: deployment.target == .production ? "Redeploy to production" : "Redeploy",
+					message: "You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.",
+					actions: [
+						ConfirmableAction("Redeploy") {
+							if await service.redeploy(deployment) {
+								dismiss()
+							}
+						},
+						ConfirmableAction("Redeploy with existing build cache") {
+							if await service.redeploy(deployment, withCache: true) {
+								dismiss()
+							}
 						}
-					} label: {
-						Text("Promote to production")
-					}
-				} message: {
-					VStack {
-						Text("This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied.")
-					}
-				}
-				
-				Button {
-					redeployConfirmation = true
-				} label: {
+					]
+				) {
 					Label("Redeploy", systemImage: "arrow.clockwise")
 				}
-				.confirmationDialog(deployment.target == .production ? "Redeploy to production" : "Redeploy", isPresented: $redeployConfirmation) {
-					Button(role: .cancel) {
-						redeployConfirmation = false
-					} label: {
-						Text("Cancel")
-					}
-					
-					Button {
-						Task { await redeploy(data: deployment.redeployDataPayload) }
-					} label: {
-						Text("Redeploy")
-					}
-					
-					Button {
-						Task { await redeploy(withCache: true, data: deployment.redeployDataPayload) }
-					} label: {
-						Text("Redeploy with existing build cache")
-					}
-				} message: {
-					Text("You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.")
-				}
-				
-				if (deployment.state != .queued && deployment.state != .building)
-						|| deployment.state == .cancelled
-						|| recentlyCancelled
-				{
-					Button(role: .destructive, action: { deleteConfirmation = true }) {
-						HStack {
-							Label("Delete deployment", systemImage: "trash")
+
+				// Delete or Cancel deployment
+				if showDeleteButton {
+					ConfirmableActionButton(
+						title: "Are you sure you want to delete this deployment?",
+						message: "Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone.",
+						confirmLabel: "Delete deployment",
+						confirmRole: .destructive,
+						buttonRole: .destructive,
+						useAlert: true
+					) {
+						if await service.deleteDeployment(deployment) {
+							#if !os(macOS)
+								dismiss()
+							#endif
 						}
+					} label: {
+						Label("Delete deployment", systemImage: "trash")
 					}
 					.symbolRenderingMode(.multicolor)
-					.alert("Are you sure you want to delete this deployment?", isPresented: $deleteConfirmation) {
-						Button("Delete deployment", role: .destructive) { Task { await deleteDeployment() }}
-						Button("Close", role: .cancel) { cancelConfirmation = false }
-					} message: {
-						Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone.")
-					}
 				} else {
-					Button(role: .destructive, action: { cancelConfirmation = true }) {
+					ConfirmableActionButton(
+						title: "Are you sure you want to cancel this deployment?",
+						message: "This will immediately stop the build, with no option to resume.",
+						confirmLabel: "Cancel deployment",
+						confirmRole: .destructive,
+						buttonRole: .destructive,
+						useAlert: true
+					) {
+						await service.cancelDeployment(deployment)
+					} label: {
 						HStack {
 							Label("Cancel deployment", systemImage: "xmark")
-							
-							if mutating {
+
+							if service.isMutating {
 								Spacer()
 								ProgressView()
 							}
 						}
 					}
 					.symbolRenderingMode(.multicolor)
-					.alert("Are you sure you want to cancel this deployment?", isPresented: $cancelConfirmation) {
-						Button("Cancel deployment", role: .destructive) { Task { await cancelDeployment() } }
-						Button("Close", role: .cancel) { cancelConfirmation = false }
-					} message: {
-						Text("This will immediately stop the build, with no option to resume.")
-					}
 				}
 			}
-			.disabled(mutating)
+			.disabled(service.isMutating)
 		}
-	}
-	
-	func promoteToProduction(data: Data?) async {
-		guard let data else { return }
-		mutating = true
-
-		do {
-			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, method: .POST)
-			request.httpBody = data
-			try session.signRequest(&request)
-
-			let _ = try await URLSession.shared.data(for: request)
-			dismiss()
-		} catch {
-			print(error)
-		}
-
-		mutating = false
-	}
-
-	func promoteStagingToProduction() async {
-		mutating = true
-
-		guard let project else { return }
-		
-		do {
-			var request = VercelAPI.request(
-				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
-				with: accountId,
-				method: .POST
-			)
-			try session.signRequest(&request)
-
-			let _ = try await URLSession.shared.data(for: request)
-		} catch {
-			print("Error promoting staging deployment: \(error)")
-		}
-
-		mutating = false
-	}
-
-	func instantRollback() async {
-		mutating = true
-		
-		guard let project else { return }
-
-		do {
-			var request = VercelAPI.request(
-				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
-				with: accountId,
-				method: .POST
-			)
-			try session.signRequest(&request)
-
-			let _ = try await URLSession.shared.data(for: request)
-		} catch {
-			print("Error performing instant rollback: \(error)")
-		}
-
-		mutating = false
-	}
-	
-	func redeploy(withCache: Bool = false, data: Data?) async {
-		guard let data else { return }
-		mutating = true
-		
-		do {
-			var queryItems = [URLQueryItem(name: "forceBuild", value: "1")]
-			
-			if withCache {
-				queryItems.append(URLQueryItem(name: "withCache", value: "1"))
+		.onAppear {
+			if actionsService == nil {
+				actionsService = DeploymentActionsService(session: session, accountId: accountId)
 			}
-			
-			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, queryItems: queryItems, method: .POST)
-			request.httpBody = data
-			try session.signRequest(&request)
-			
-			let _ = try await URLSession.shared.data(for: request)
-			dismiss()
-		} catch {
-			print(error)
 		}
-		
-		mutating = false
-	}
-
-	func deleteDeployment() async {
-		mutating = true
-
-		do {
-			var request = VercelAPI.request(
-				for: .deployments(version: 13, deploymentID: deployment.id),
-				with: accountId,
-				method: .DELETE
-			)
-			try session.signRequest(&request)
-
-			let (_, response) = try await URLSession.shared.data(for: request)
-
-			if let response = response as? HTTPURLResponse,
-			   response.statusCode == 200
-			{
-				#if !os(macOS)
-					dismiss()
-				#endif
-			}
-		} catch {
-			print("Error deleting deployment: \(error.localizedDescription)")
-		}
-
-		mutating = false
-	}
-
-	func cancelDeployment() async {
-		mutating = true
-
-		do {
-			var request = VercelAPI.request(
-				for: .deployments(version: 12, deploymentID: deployment.id, path: "cancel"),
-				with: accountId,
-				method: .PATCH
-			)
-			try session.signRequest(&request)
-
-			let (_, response) = try await URLSession.shared.data(for: request)
-
-			if let response = response as? HTTPURLResponse,
-			   response.statusCode == 200
-			{
-				recentlyCancelled = true
-			}
-		} catch {
-			print("Error cancelling deployment: \(error.localizedDescription)")
-		}
-
-		mutating = false
 	}
 }
 

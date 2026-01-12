@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710427B02F151697005629B9 /* DeploymentActionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427AE2F151697005629B9 /* DeploymentActionsService.swift */; };
+		710427B22F1516E6005629B9 /* ConfirmableActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B12F1516E6005629B9 /* ConfirmableActionButton.swift */; };
 		71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
 		71059A8728786FEA00BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
 		71059A88287872B600BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
@@ -171,6 +173,8 @@
 		5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidgetView.swift; sourceTree = "<group>"; };
 		5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidgetView.swift; sourceTree = "<group>"; };
 		71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestEventMenuBarLabel.swift; sourceTree = "<group>"; };
+		710427AE2F151697005629B9 /* DeploymentActionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentActionsService.swift; sourceTree = "<group>"; };
+		710427B12F1516E6005629B9 /* ConfirmableActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmableActionButton.swift; sourceTree = "<group>"; };
 		71059A7D28786F4100BF8B2E /* ProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListView.swift; sourceTree = "<group>"; };
 		71059A8028786F6000BF8B2E /* VercelProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelProjectModel.swift; sourceTree = "<group>"; };
 		71059A8428786FEA00BF8B2E /* GitRepoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepoModel.swift; sourceTree = "<group>"; };
@@ -301,6 +305,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		710427AF2F151697005629B9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				710427AE2F151697005629B9 /* DeploymentActionsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		71059A7C28786F2D00BF8B2E /* Projects */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,6 +365,7 @@
 				7115535F26627F3400A73CD6 /* Helpers */,
 				7115535526627ACD00A73CD6 /* Models */,
 				7115536726628B7400A73CD6 /* Networking */,
+				710427AF2F151697005629B9 /* Services */,
 				711A4A39266A368500DA9EE3 /* Views */,
 			);
 			path = Shared;
@@ -378,14 +391,15 @@
 		7115535A26627BA800A73CD6 /* Helper Views */ = {
 			isa = PBXGroup;
 			children = (
+				713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */,
+				710427B12F1516E6005629B9 /* ConfirmableActionButton.swift */,
 				7115538C2664E00A00A73CD6 /* LabelView.swift */,
+				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
 				711553862663B03C00A73CD6 /* PlaceholderView.swift */,
+				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
 				71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */,
 				7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */,
 				71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */,
-				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
-				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
-				713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -394,13 +408,13 @@
 			isa = PBXGroup;
 			children = (
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
-				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
-				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
-				71F9020826656A21000A8873 /* Preferences.swift */,
-				714D4498289FD979005105B7 /* Pasteboard.swift */,
-				714D449B289FEEA2005105B7 /* PlaceholderData.swift */,
 				71CAE83D28AD20B90063F338 /* MigrationHelpers.swift */,
 				71F2607F28C48DE40089195B /* NavigationHelpers.swift */,
+				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
+				714D4498289FD979005105B7 /* Pasteboard.swift */,
+				714D449B289FEEA2005105B7 /* PlaceholderData.swift */,
+				711A4A55266BDF0900DA9EE3 /* PostalService.swift */,
+				71F9020826656A21000A8873 /* Preferences.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -675,6 +689,7 @@
 				7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */,
 				7109AD012B18A47500724454 /* View+permissionRevocationDialog.swift in Sources */,
 				7109AD072B18A47900724454 /* VercelUserAvatarView.swift in Sources */,
+				710427B22F1516E6005629B9 /* ConfirmableActionButton.swift in Sources */,
 				7109AD1D2B18A48500724454 /* GitCommit.swift in Sources */,
 				7109AD102B18A48000724454 /* MigrationHelpers.swift in Sources */,
 				7109AD062B18A47500724454 /* Dictionary.swift in Sources */,
@@ -685,6 +700,7 @@
 				7109AD0E2B18A48000724454 /* Preferences.swift in Sources */,
 				7109AD252B18A49400724454 /* DeploymentListRowView.swift in Sources */,
 				7109ACFA2B18A47000724454 /* AppDelegate.swift in Sources */,
+				710427B02F151697005629B9 /* DeploymentActionsService.swift in Sources */,
 				7109AD032B18A47500724454 /* Date+RawRepresentable.swift in Sources */,
 				7109AD1F2B18A48900724454 /* VercelAPI.swift in Sources */,
 				7109AD182B18A48500724454 /* VercelDeployment.swift in Sources */,
