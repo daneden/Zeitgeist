@@ -14,7 +14,12 @@ final class AppFocusedState {
 	var account: VercelAccount?
 	var project: VercelProject?
 	var deployment: VercelDeployment?
-	var isCurrentProduction: Bool = false
+
+	// Computed from project and deployment
+	var isCurrentProduction: Bool {
+		guard let deployment, let project else { return false }
+		return deployment.id == project.targets?.production?.id
+	}
 
 	// Services
 	weak var deploymentActionsService: DeploymentActionsService?

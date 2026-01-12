@@ -257,9 +257,6 @@
         }
       }
     },
-    "Cancel Deployment" : {
-
-    },
     "Cancelled" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -385,9 +382,6 @@
           }
         }
       }
-    },
-    "Delete Deployment" : {
-
     },
     "Delete environment variable" : {
       "localizations" : {
@@ -645,9 +639,6 @@
       }
     },
     "Instant rollback" : {
-
-    },
-    "Instant Rollback" : {
 
     },
     "Latest deployment" : {
@@ -1035,9 +1026,6 @@
         }
       }
     },
-    "Promote to Production" : {
-
-    },
     "Queued" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1089,9 +1077,6 @@
           }
         }
       }
-    },
-    "Redeploy with Build Cache" : {
-
     },
     "Redeploy with existing build cache" : {
       "localizations" : {

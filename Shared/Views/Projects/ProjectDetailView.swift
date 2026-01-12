@@ -74,8 +74,7 @@ struct ProjectDetailView: View {
 						NavigationLink {
 							DeploymentDetailView(
 								deploymentId: productionDeployment.id,
-								deployment: productionDeployment,
-								isCurrentProduction: true
+								deployment: productionDeployment
 							)
 								.id(productionDeployment.id)
 								.environmentObject(session)
@@ -99,8 +98,7 @@ struct ProjectDetailView: View {
 						NavigationLink {
 							DeploymentDetailView(
 								deploymentId: deployment.id,
-								deployment: deployment,
-								isCurrentProduction: deployment.id == project.targets?.production?.id
+								deployment: deployment
 							)
 								.id(deployment.id)
 								.environmentObject(session)
