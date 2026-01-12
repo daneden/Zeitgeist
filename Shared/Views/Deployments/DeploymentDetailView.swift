@@ -19,7 +19,6 @@ struct DeploymentDetailView: View {
 	var accountId: VercelAccount.ID { session.account.id }
 	var deploymentId: VercelDeployment.ID
 	@State var deployment: VercelDeployment?
-	@State var isCurrentProduction = false
 	@State private var actionsService: DeploymentActionsService?
 	@State private var confirmingAction: DeploymentAction?
 	@State private var focusedState = AppFocusedState()
@@ -54,7 +53,7 @@ struct DeploymentDetailView: View {
 				ToolbarItem(placement: .primaryAction) {
 					DeploymentActionsMenu(
 						deployment: deployment,
-						isCurrentProduction: isCurrentProduction,
+						isCurrentProduction: focusedState.isCurrentProduction,
 						isMutating: service.isMutating,
 						confirmingAction: $confirmingAction
 					)
@@ -65,7 +64,6 @@ struct DeploymentDetailView: View {
 			confirmingAction: $confirmingAction,
 			deployment: deployment,
 			project: project,
-			isCurrentProduction: isCurrentProduction,
 			service: actionsService,
 			onDismiss: { dismiss() }
 		))
@@ -80,9 +78,6 @@ struct DeploymentDetailView: View {
 		}
 		.task(id: project) {
 			focusedState.project = project
-		}
-		.task(id: isCurrentProduction) {
-			focusedState.isCurrentProduction = isCurrentProduction
 		}
 		.onChange(of: actionsService?.id) { _, _ in
 			if let actionsService {
@@ -119,9 +114,13 @@ private struct DeploymentActionConfirmationsModifier: ViewModifier {
 	@Binding var confirmingAction: DeploymentAction?
 	let deployment: VercelDeployment?
 	let project: VercelProject?
-	let isCurrentProduction: Bool
 	let service: DeploymentActionsService?
 	let onDismiss: () -> Void
+
+	private var isCurrentProduction: Bool {
+		guard let deployment, let project else { return false }
+		return deployment.id == project.targets?.production?.id
+	}
 
 	func body(content: Content) -> some View {
 		if let deployment, let service {
