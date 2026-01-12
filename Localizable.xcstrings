@@ -82,6 +82,9 @@
         }
       }
     },
+    "Actions" : {
+
+    },
     "Add account" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -254,6 +257,9 @@
         }
       }
     },
+    "Cancel Deployment" : {
+
+    },
     "Cancelled" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -379,6 +385,9 @@
           }
         }
       }
+    },
+    "Delete Deployment" : {
+
     },
     "Delete environment variable" : {
       "localizations" : {
@@ -636,6 +645,9 @@
       }
     },
     "Instant rollback" : {
+
+    },
+    "Instant Rollback" : {
 
     },
     "Latest deployment" : {
@@ -1023,6 +1035,9 @@
         }
       }
     },
+    "Promote to Production" : {
+
+    },
     "Queued" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1074,6 +1089,9 @@
           }
         }
       }
+    },
+    "Redeploy with Build Cache" : {
+
     },
     "Redeploy with existing build cache" : {
       "localizations" : {
@@ -1378,6 +1396,9 @@
           }
         }
       }
+    },
+    "You are about to create a new deployment with the same source code and build cache as your current deployment, but with the newest configuration from your project settings." : {
+
     },
     "You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings." : {
       "localizations" : {

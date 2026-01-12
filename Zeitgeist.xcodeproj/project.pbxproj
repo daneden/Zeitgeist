@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		710427B02F151697005629B9 /* DeploymentActionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427AE2F151697005629B9 /* DeploymentActionsService.swift */; };
 		710427B22F1516E6005629B9 /* ConfirmableActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B12F1516E6005629B9 /* ConfirmableActionButton.swift */; };
+		710427B42F151AC1005629B9 /* DeploymentActionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B32F151AC1005629B9 /* DeploymentActionsMenu.swift */; };
 		71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
 		71059A8728786FEA00BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
 		71059A88287872B600BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
@@ -175,6 +176,7 @@
 		71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestEventMenuBarLabel.swift; sourceTree = "<group>"; };
 		710427AE2F151697005629B9 /* DeploymentActionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentActionsService.swift; sourceTree = "<group>"; };
 		710427B12F1516E6005629B9 /* ConfirmableActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmableActionButton.swift; sourceTree = "<group>"; };
+		710427B32F151AC1005629B9 /* DeploymentActionsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentActionsMenu.swift; sourceTree = "<group>"; };
 		71059A7D28786F4100BF8B2E /* ProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListView.swift; sourceTree = "<group>"; };
 		71059A8028786F6000BF8B2E /* VercelProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelProjectModel.swift; sourceTree = "<group>"; };
 		71059A8428786FEA00BF8B2E /* GitRepoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepoModel.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 		711A4A3A266A368D00DA9EE3 /* Deployments */ = {
 			isa = PBXGroup;
 			children = (
+				710427B32F151AC1005629B9 /* DeploymentActionsMenu.swift */,
 				7115538826642A5100A73CD6 /* DeploymentDetailView.swift */,
 				7115539B26653CA000A73CD6 /* DeploymentFilterView.swift */,
 				7115537A2663AD2900A73CD6 /* DeploymentListRowView.swift */,
@@ -730,6 +733,7 @@
 				7109ACF92B18A47000724454 /* ContentView.swift in Sources */,
 				7109AD122B18A48000724454 /* PlaceholderData.swift in Sources */,
 				7109AD2A2B18A49D00724454 /* NewFeaturesView.swift in Sources */,
+				710427B42F151AC1005629B9 /* DeploymentActionsMenu.swift in Sources */,
 				7109AD262B18A49900724454 /* ProjectEnvironmentVariablesView.swift in Sources */,
 				7109ACFE2B18A47500724454 /* Sequence+asyncMethods.swift in Sources */,
 				7109AD1C2B18A48500724454 /* VercelAliasModel.swift in Sources */,
