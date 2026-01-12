@@ -10,10 +10,9 @@ import SwiftUI
 struct ContentView: View {
 	@AppStorage(Preferences.authenticatedAccounts) var accounts
 	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
-	
+
 	@State private var presentNewFeaturesScreen = false
-	@State private var presentOnboardingView = false
-	
+
 	var body: some View {
 		AuthenticatedContentView()
 			.formStyle(.grouped)
@@ -29,10 +28,7 @@ struct ContentView: View {
 			.sheet(isPresented: $presentNewFeaturesScreen) {
 				NewFeaturesView()
 			}
-			.task(id: accounts.hashValue) {
-				presentOnboardingView = accounts.isEmpty
-			}
-			.sheet(isPresented: $presentOnboardingView) {
+			.sheet(isPresented: Binding(get: { accounts.isEmpty }, set: { _ in })) {
 				OnboardingView()
 					.interactiveDismissDisabled()
 #if !os(iOS)
