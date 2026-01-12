@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct VercelDeployment: Identifiable, Hashable, Decodable {
+struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 	var isMockDeployment: Bool?
 	var project: String
 	var id: String

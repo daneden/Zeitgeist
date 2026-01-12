@@ -22,7 +22,7 @@ enum GitSVNProvider: String, Codable {
 	}
 }
 
-protocol GitRepo: Decodable {
+protocol GitRepo: Decodable, Equatable {
 	var type: GitSVNProvider { get }
 	var org: String { get }
 	var name: String { get }
@@ -51,7 +51,7 @@ extension GitRepo {
 	}
 }
 
-struct GitDeployHook: Identifiable, Codable {
+struct GitDeployHook: Identifiable, Codable, Equatable {
 	let createdAt: Int?
 	let id: String
 	let name: String
@@ -114,8 +114,8 @@ struct BitBucketRepo: GitRepo, Codable {
 	}
 }
 
-struct VercelRepositoryLink: Decodable, GitRepo {
-	private var wrapped: GitRepo
+struct VercelRepositoryLink: Decodable, GitRepo, Equatable {
+	private var wrapped: any GitRepo
 
 	var name: String { wrapped.name }
 	var type: GitSVNProvider { wrapped.type }
@@ -139,5 +139,9 @@ struct VercelRepositoryLink: Decodable, GitRepo {
 				DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unable to decode repository")
 			)
 		}
+	}
+
+	static func == (lhs: VercelRepositoryLink, rhs: VercelRepositoryLink) -> Bool {
+		lhs.type == rhs.type && lhs.org == rhs.org && lhs.name == rhs.name
 	}
 }

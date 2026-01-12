@@ -24,7 +24,10 @@ struct ZeitgeistApp: App {
 					}
 				}
 		}
-		
+		.commands {
+			DeploymentCommands()
+		}
+
 		#if os(macOS)
 		Settings {
 			SettingsView()
