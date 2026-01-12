@@ -2,37 +2,39 @@
 //  DeploymentActionsMenu.swift
 //  Zeitgeist
 //
-//  Created by Claude on 2026-01-12.
-//
 
 import SwiftUI
 
-// MARK: - Focused Values for macOS Menu Commands
+// MARK: - App Focused State
+
+/// Unified focused state for the app, tracking current context at each navigation level
 @Observable
-final class DeploymentFocusedState {
-	var deployment: VercelDeployment?
+final class AppFocusedState {
+	// Current context
+	var account: VercelAccount?
 	var project: VercelProject?
+	var deployment: VercelDeployment?
 	var isCurrentProduction: Bool = false
-	weak var service: DeploymentActionsService?
-	var pendingAction: DeploymentAction?
+
+	// Services
+	weak var deploymentActionsService: DeploymentActionsService?
+
+	// Pending action (triggered by menu commands)
+	var pendingDeploymentAction: DeploymentAction?
 
 	func triggerAction(_ action: DeploymentAction) {
-		pendingAction = action
-	}
-
-	func consumeAction() -> DeploymentAction? {
-		let action = pendingAction
-		pendingAction = nil
-		return action
+		pendingDeploymentAction = action
 	}
 }
 
 extension FocusedValues {
-	@Entry var deploymentState: DeploymentFocusedState?
+	@Entry var appState: AppFocusedState?
 }
 
-/// Actions that can be performed on a deployment, used for confirmation dialogs
-enum DeploymentAction: Identifiable {
+// MARK: - Deployment Action
+
+/// Actions that can be performed on a deployment
+enum DeploymentAction: String, CaseIterable, Identifiable {
 	case instantRollback
 	case promote
 	case redeploy
@@ -41,78 +43,158 @@ enum DeploymentAction: Identifiable {
 	case cancel
 
 	var id: Self { self }
+
+	// MARK: - UI Metadata
+
+	var label: LocalizedStringKey {
+		switch self {
+		case .instantRollback: "Instant rollback"
+		case .promote: "Promote to production"
+		case .redeploy: "Redeploy"
+		case .redeployWithCache: "Redeploy with existing build cache"
+		case .delete: "Delete deployment"
+		case .cancel: "Cancel deployment"
+		}
+	}
+
+	var systemImage: String {
+		switch self {
+		case .instantRollback: "clock.arrow.circlepath"
+		case .promote: "arrow.up.circle"
+		case .redeploy, .redeployWithCache: "arrow.clockwise"
+		case .delete: "trash"
+		case .cancel: "xmark"
+		}
+	}
+
+	var keyboardShortcut: KeyboardShortcut? {
+		switch self {
+		case .instantRollback: KeyboardShortcut("r", modifiers: [.command, .shift, .option])
+		case .promote: KeyboardShortcut("p", modifiers: [.command, .shift])
+		case .redeploy: KeyboardShortcut("r", modifiers: [.command, .shift])
+		case .redeployWithCache: nil
+		case .delete: KeyboardShortcut(.delete, modifiers: [.command])
+		case .cancel: KeyboardShortcut(".", modifiers: [.command])
+		}
+	}
+
+	var isDestructive: Bool {
+		switch self {
+		case .delete, .cancel: true
+		default: false
+		}
+	}
+
+	// MARK: - Availability
+
+	/// Whether this action is available for the given deployment state
+	func isAvailable(for deployment: VercelDeployment, isCurrentProduction: Bool) -> Bool {
+		switch self {
+		case .instantRollback:
+			deployment.readySubstate == .promoted && !isCurrentProduction
+		case .promote:
+			deployment.state == .ready
+		case .redeploy, .redeployWithCache:
+			true
+		case .delete:
+			(deployment.state != .queued && deployment.state != .building) || deployment.state == .cancelled
+		case .cancel:
+			(deployment.state == .queued || deployment.state == .building) && deployment.state != .cancelled
+		}
+	}
+
+	/// Whether this action should be shown (vs hidden entirely)
+	func shouldShow(for deployment: VercelDeployment) -> Bool {
+		switch self {
+		case .delete:
+			(deployment.state != .queued && deployment.state != .building) || deployment.state == .cancelled
+		case .cancel:
+			(deployment.state == .queued || deployment.state == .building) && deployment.state != .cancelled
+		default:
+			true
+		}
+	}
 }
 
-/// A toolbar menu containing all deployment actions
+// MARK: - Shared Menu Content
+
+/// Shared menu content for deployment actions, used by both toolbar menu and macOS commands
+struct DeploymentActionMenuContent: View {
+	let deployment: VercelDeployment
+	let isCurrentProduction: Bool
+	let trigger: (DeploymentAction) -> Void
+
+	var body: some View {
+		// Rollback & Promote
+		actionButton(.instantRollback)
+		actionButton(.promote)
+
+		Divider()
+
+		// Redeploy submenu
+		Menu {
+			actionButton(.redeploy, showIcon: false)
+			actionButton(.redeployWithCache, showIcon: false)
+		} label: {
+			Label(DeploymentAction.redeploy.label, systemImage: DeploymentAction.redeploy.systemImage)
+		}
+
+		Divider()
+
+		// Delete or Cancel
+		if DeploymentAction.delete.shouldShow(for: deployment) {
+			actionButton(.delete)
+		}
+		if DeploymentAction.cancel.shouldShow(for: deployment) {
+			actionButton(.cancel)
+		}
+	}
+
+	@ViewBuilder
+	private func actionButton(_ action: DeploymentAction, showIcon: Bool = true) -> some View {
+		Button(role: action.isDestructive ? .destructive : nil) {
+			trigger(action)
+		} label: {
+			if showIcon {
+				Label(action.label, systemImage: action.systemImage)
+			} else {
+				Text(action.label)
+			}
+		}
+		.disabled(!action.isAvailable(for: deployment, isCurrentProduction: isCurrentProduction))
+		.modifier(KeyboardShortcutModifier(shortcut: action.keyboardShortcut))
+	}
+}
+
+/// Modifier to conditionally apply keyboard shortcut
+private struct KeyboardShortcutModifier: ViewModifier {
+	let shortcut: KeyboardShortcut?
+
+	func body(content: Content) -> some View {
+		if let shortcut {
+			content.keyboardShortcut(shortcut)
+		} else {
+			content
+		}
+	}
+}
+
+// MARK: - Toolbar Menu
+
+/// Toolbar menu for deployment actions
 struct DeploymentActionsMenu: View {
 	let deployment: VercelDeployment
-	let project: VercelProject?
 	let isCurrentProduction: Bool
 	let isMutating: Bool
 	@Binding var confirmingAction: DeploymentAction?
 
-	private var canInstantRollback: Bool {
-		deployment.readySubstate == .promoted && !isCurrentProduction
-	}
-
-	private var canPromote: Bool {
-		deployment.state == .ready
-	}
-
-	private var showDeleteButton: Bool {
-		(deployment.state != .queued && deployment.state != .building)
-			|| deployment.state == .cancelled
-	}
-
 	var body: some View {
 		Menu {
-			Button {
-				confirmingAction = .instantRollback
-			} label: {
-				Label("Instant rollback", systemImage: "clock.arrow.circlepath")
-			}
-			.disabled(!canInstantRollback)
-
-			Button {
-				confirmingAction = .promote
-			} label: {
-				Label("Promote to production", systemImage: "arrow.up.circle")
-			}
-			.disabled(!canPromote)
-
-			Divider()
-
-			Menu {
-				Button {
-					confirmingAction = .redeploy
-				} label: {
-					Text("Redeploy")
-				}
-
-				Button {
-					confirmingAction = .redeployWithCache
-				} label: {
-					Text("Redeploy with existing build cache")
-				}
-			} label: {
-				Label("Redeploy", systemImage: "arrow.clockwise")
-			}
-
-			Divider()
-
-			if showDeleteButton {
-				Button(role: .destructive) {
-					confirmingAction = .delete
-				} label: {
-					Label("Delete deployment", systemImage: "trash")
-				}
-			} else {
-				Button(role: .destructive) {
-					confirmingAction = .cancel
-				} label: {
-					Label("Cancel deployment", systemImage: "xmark")
-				}
-			}
+			DeploymentActionMenuContent(
+				deployment: deployment,
+				isCurrentProduction: isCurrentProduction,
+				trigger: { confirmingAction = $0 }
+			)
 		} label: {
 			if isMutating {
 				ProgressView()
@@ -124,7 +206,28 @@ struct DeploymentActionsMenu: View {
 	}
 }
 
-// MARK: - Confirmation Dialog Modifier
+// MARK: - macOS Menu Bar Commands
+
+struct DeploymentCommands: Commands {
+	@FocusedValue(\.appState) var state
+
+	var body: some Commands {
+		CommandMenu("Deployment") {
+			if let deployment = state?.deployment {
+				DeploymentActionMenuContent(
+					deployment: deployment,
+					isCurrentProduction: state?.isCurrentProduction ?? false,
+					trigger: { state?.triggerAction($0) }
+				)
+			} else {
+				Text("No deployment selected")
+					.foregroundStyle(.secondary)
+			}
+		}
+	}
+}
+
+// MARK: - Confirmation Dialogs
 
 extension View {
 	/// Attaches confirmation dialogs for all deployment actions
@@ -253,78 +356,5 @@ extension View {
 			} message: {
 				Text("This will immediately stop the build, with no option to resume.")
 			}
-	}
-}
-
-// MARK: - Menu Bar Commands
-struct DeploymentCommands: Commands {
-	@FocusedValue(\.deploymentState) var state
-
-	private var deployment: VercelDeployment? {
-		state?.deployment
-	}
-
-	private var canInstantRollback: Bool {
-		guard let state, let deployment = state.deployment else { return false }
-		return deployment.readySubstate == .promoted && !state.isCurrentProduction
-	}
-
-	private var canPromote: Bool {
-		guard let deployment else { return false }
-		return deployment.state == .ready
-	}
-
-	private var showDeleteButton: Bool {
-		guard let deployment else { return false }
-		return (deployment.state != .queued && deployment.state != .building)
-			|| deployment.state == .cancelled
-	}
-
-	var body: some Commands {
-		CommandMenu("Deployment") {
-			Button("Instant Rollback") {
-				state?.triggerAction(.instantRollback)
-			}
-			.keyboardShortcut("r", modifiers: [.command, .shift, .option])
-			.disabled(deployment == nil || !canInstantRollback)
-			.onChange(of: state?.deployment) { _, newValue in
-				print(state)
-			}
-
-			Button("Promote to Production") {
-				state?.triggerAction(.promote)
-			}
-			.keyboardShortcut("p", modifiers: [.command, .shift])
-			.disabled(deployment == nil || !canPromote)
-
-			Divider()
-
-			Button("Redeploy") {
-				state?.triggerAction(.redeploy)
-			}
-			.keyboardShortcut("r", modifiers: [.command, .shift])
-			.disabled(deployment == nil)
-
-			Button("Redeploy with Build Cache") {
-				state?.triggerAction(.redeployWithCache)
-			}
-			.disabled(deployment == nil)
-
-			Divider()
-
-			if showDeleteButton {
-				Button("Delete Deployment") {
-					state?.triggerAction(.delete)
-				}
-				.keyboardShortcut(.delete, modifiers: [.command])
-				.disabled(deployment == nil)
-			} else {
-				Button("Cancel Deployment") {
-					state?.triggerAction(.cancel)
-				}
-				.keyboardShortcut(".", modifiers: [.command])
-				.disabled(deployment == nil)
-			}
-		}
 	}
 }

@@ -22,7 +22,7 @@ struct DeploymentDetailView: View {
 	@State var isCurrentProduction = false
 	@State private var actionsService: DeploymentActionsService?
 	@State private var confirmingAction: DeploymentAction?
-	@State private var focusedState = DeploymentFocusedState()
+	@State private var focusedState = AppFocusedState()
 
 	var body: some View {
 		Form {
@@ -54,7 +54,6 @@ struct DeploymentDetailView: View {
 				ToolbarItem(placement: .primaryAction) {
 					DeploymentActionsMenu(
 						deployment: deployment,
-						project: project,
 						isCurrentProduction: isCurrentProduction,
 						isMutating: service.isMutating,
 						confirmingAction: $confirmingAction
@@ -70,7 +69,7 @@ struct DeploymentDetailView: View {
 			service: actionsService,
 			onDismiss: { dismiss() }
 		))
-		.focusedSceneValue(\.deploymentState, focusedState)
+		.focusedSceneValue(\.appState, focusedState)
 		.onAppear {
 			if actionsService == nil {
 				actionsService = DeploymentActionsService(session: session, accountId: accountId)
@@ -87,13 +86,13 @@ struct DeploymentDetailView: View {
 		}
 		.onChange(of: actionsService?.id) { _, _ in
 			if let actionsService {
-				focusedState.service = actionsService
+				focusedState.deploymentActionsService = actionsService
 			}
 		}
-		.onChange(of: focusedState.pendingAction) { _, newValue in
+		.onChange(of: focusedState.pendingDeploymentAction) { _, newValue in
 			if let action = newValue {
 				confirmingAction = action
-				focusedState.pendingAction = nil
+				focusedState.pendingDeploymentAction = nil
 			}
 		}
 		.zeitgeistDataTask {
