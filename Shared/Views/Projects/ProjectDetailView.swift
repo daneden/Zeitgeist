@@ -141,6 +141,10 @@ struct ProjectDetailView: View {
 				}
 			}
 			
+			if #available(iOS 26, macOS 26, *) {
+				ToolbarSpacer(.fixed)
+			}
+			
 			ToolbarItem {
 				Menu {
 					DeploymentFilterView(filter: $filter)
