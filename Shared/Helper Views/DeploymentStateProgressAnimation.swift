@@ -10,7 +10,6 @@ struct DeploymentStateProgressAnimation: View {
 	var state: VercelDeployment.State
 	@State var isAnimating = false
 	@State var isHidden = true
-	@State var extraGlow = false
 	
 	var glowAlignment: Alignment {
 		switch state {
@@ -41,7 +40,6 @@ struct DeploymentStateProgressAnimation: View {
 			HStack {
 					Ellipse()
 						.fill(state.color.gradient.tertiary)
-						.brightness(extraGlow ? 1 : 0)
 						.frame(maxWidth: width(in: geometry.size), maxHeight: 40)
 						.blur(radius: 20)
 						.opacity(isHidden ? 0 : 1)
@@ -52,9 +50,8 @@ struct DeploymentStateProgressAnimation: View {
 			.frame(maxWidth: .infinity, alignment: glowAlignment)
 			.animation(animation, value: isAnimating)
 			.padding(.horizontal)
+			.position(x: geometry.size.width / 2, y: 0)
 			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-			.padding(.horizontal, -20)
-			.padding(.top, -20)
 		}
 		.animation(.default, value: state)
 		.task(id: state) {
@@ -73,9 +70,6 @@ struct DeploymentStateProgressAnimation: View {
 					}
 				}
 			}
-			
-			withAnimation(.snappy(duration: 0.3)) { extraGlow = true }
-			withAnimation(.smooth(duration: 1).delay(0.3)) { extraGlow = false }
 		}
 	}
 	
