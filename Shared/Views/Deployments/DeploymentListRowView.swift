@@ -20,7 +20,7 @@ struct DeploymentListRowView: View {
 					if deployment.target == .production {
 						Label("Production deployment", systemImage: "theatermasks")
 							.labelStyle(.iconOnly)
-							.foregroundStyle(.tint)
+							.foregroundStyle(isCurrentProduction ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
 							.symbolVariant(.fill)
 							.imageScale(.small)
 					}
