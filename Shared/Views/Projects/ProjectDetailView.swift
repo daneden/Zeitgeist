@@ -94,6 +94,7 @@ struct ProjectDetailView: View {
 							Label("Clear filters", systemImage: "xmark.circle")
 						}
 					}
+					
 					ForEach(deployments) { deployment in
 						NavigationLink {
 							DeploymentDetailView(
@@ -138,10 +139,6 @@ struct ProjectDetailView: View {
 				} label: {
 					Label("Notification settings", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
 				}
-			}
-			
-			if #available(iOS 26, macOS 26, *) {
-				ToolbarSpacer()
 			}
 			
 			ToolbarItem {
