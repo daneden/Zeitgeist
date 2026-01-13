@@ -93,28 +93,29 @@ enum DeploymentAction: String, CaseIterable, Identifiable {
 	// MARK: - Availability
 
 	/// Whether this action is available for the given deployment state
-	func isAvailable(for deployment: VercelDeployment, isCurrentProduction: Bool) -> Bool {
+	func isAvailable(for deployment: VercelDeployment?, isCurrentProduction: Bool) -> Bool {
+		guard let deployment else { return false }
 		switch self {
 		case .instantRollback:
-			deployment.readySubstate == .promoted && !isCurrentProduction
+			return deployment.readySubstate == .promoted && !isCurrentProduction
 		case .promote:
-			deployment.state == .ready
+			return deployment.state == .ready
 		case .redeploy, .redeployWithCache:
-			true
+			return true
 		case .delete:
-			(deployment.state != .queued && deployment.state != .building) || deployment.state == .cancelled
+			return (deployment.state != .queued && deployment.state != .building) || deployment.state == .cancelled
 		case .cancel:
-			(deployment.state == .queued || deployment.state == .building) && deployment.state != .cancelled
+			return (deployment.state == .queued || deployment.state == .building) && deployment.state != .cancelled
 		}
 	}
 
 	/// Whether this action should be shown (vs hidden entirely)
-	func shouldShow(for deployment: VercelDeployment) -> Bool {
+	func shouldShow(for deployment: VercelDeployment?) -> Bool {
 		switch self {
 		case .delete:
-			(deployment.state != .queued && deployment.state != .building) || deployment.state == .cancelled
+			(deployment?.state != .queued && deployment?.state != .building) || deployment?.state == .cancelled
 		case .cancel:
-			(deployment.state == .queued || deployment.state == .building) && deployment.state != .cancelled
+			(deployment?.state == .queued || deployment?.state == .building) && deployment?.state != .cancelled
 		default:
 			true
 		}
@@ -125,7 +126,7 @@ enum DeploymentAction: String, CaseIterable, Identifiable {
 
 /// Shared menu content for deployment actions, used by both toolbar menu and macOS commands
 struct DeploymentActionMenuContent: View {
-	let deployment: VercelDeployment
+	let deployment: VercelDeployment?
 	let isCurrentProduction: Bool
 	let trigger: (DeploymentAction) -> Void
 
@@ -218,16 +219,12 @@ struct DeploymentCommands: Commands {
 
 	var body: some Commands {
 		CommandMenu("Deployment") {
-			if let deployment = state?.deployment {
-				DeploymentActionMenuContent(
-					deployment: deployment,
-					isCurrentProduction: state?.isCurrentProduction ?? false,
-					trigger: { state?.triggerAction($0) }
-				)
-			} else {
-				Text("No deployment selected")
-					.foregroundStyle(.secondary)
-			}
+			DeploymentActionMenuContent(
+				deployment: state?.deployment,
+				isCurrentProduction: state?.isCurrentProduction ?? false,
+				trigger: { state?.triggerAction($0) }
+			)
+			.disabled(state?.deployment == nil)
 		}
 	}
 }
