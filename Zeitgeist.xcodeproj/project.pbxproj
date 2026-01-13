@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710427B62F1679AA005629B9 /* DeploymentStateProgressAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B52F1679AA005629B9 /* DeploymentStateProgressAnimation.swift */; };
+		710427B82F167C7F005629B9 /* EdgeInsets++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B72F167C7F005629B9 /* EdgeInsets++.swift */; };
+		710427B92F167C7F005629B9 /* EdgeInsets++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B72F167C7F005629B9 /* EdgeInsets++.swift */; };
+		710427BA2F16807C005629B9 /* DeploymentStateProgressAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B52F1679AA005629B9 /* DeploymentStateProgressAnimation.swift */; };
 		71059A8328786F6000BF8B2E /* VercelProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8028786F6000BF8B2E /* VercelProjectModel.swift */; };
 		71059A8728786FEA00BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
 		71059A88287872B600BF8B2E /* GitRepoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71059A8428786FEA00BF8B2E /* GitRepoModel.swift */; };
@@ -171,6 +175,8 @@
 		5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentWidgetView.swift; sourceTree = "<group>"; };
 		5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsWidgetView.swift; sourceTree = "<group>"; };
 		71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestEventMenuBarLabel.swift; sourceTree = "<group>"; };
+		710427B52F1679AA005629B9 /* DeploymentStateProgressAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentStateProgressAnimation.swift; sourceTree = "<group>"; };
+		710427B72F167C7F005629B9 /* EdgeInsets++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInsets++.swift"; sourceTree = "<group>"; };
 		71059A7D28786F4100BF8B2E /* ProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListView.swift; sourceTree = "<group>"; };
 		71059A8028786F6000BF8B2E /* VercelProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VercelProjectModel.swift; sourceTree = "<group>"; };
 		71059A8428786FEA00BF8B2E /* GitRepoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepoModel.swift; sourceTree = "<group>"; };
@@ -378,14 +384,15 @@
 		7115535A26627BA800A73CD6 /* Helper Views */ = {
 			isa = PBXGroup;
 			children = (
+				713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */,
+				710427B52F1679AA005629B9 /* DeploymentStateProgressAnimation.swift */,
 				7115538C2664E00A00A73CD6 /* LabelView.swift */,
+				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
 				711553862663B03C00A73CD6 /* PlaceholderView.swift */,
+				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
 				71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */,
 				7115536C266292AF00A73CD6 /* VercelUserAvatarView.swift */,
 				71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */,
-				71028B232A433FAC00EEE9AF /* LatestEventMenuBarLabel.swift */,
-				7139DCE82B18D27A00E86183 /* SignOutButton.swift */,
-				713B1DF62E5E4A82009AC3C4 /* BackportCloseButton.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -409,14 +416,15 @@
 			isa = PBXGroup;
 			children = (
 				71155363266282C900A73CD6 /* Array.extension.swift */,
+				716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */,
 				711A4A4C266B943800DA9EE3 /* Dictionary.swift */,
+				710427B72F167C7F005629B9 /* EdgeInsets++.swift */,
 				71D0BC2E2881F2C200A22693 /* Notification+ZPS.swift */,
 				7135EA0F2788671800C94E86 /* Sequence+asyncMethods.swift */,
 				71335A552789B94F00FC2099 /* UIDevice+deviceInfo.swift */,
 				711A4A35266976CA00DA9EE3 /* URL.extension.swift */,
 				71D0BC362882A2D500A22693 /* View+dataTask.swift */,
 				713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */,
-				716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -671,6 +679,7 @@
 				7109AD092B18A47900724454 /* LatestEventMenuBarLabel.swift in Sources */,
 				7109AD0C2B18A47900724454 /* ZeitgeistLogo.swift in Sources */,
 				7139DCE92B18D27A00E86183 /* SignOutButton.swift in Sources */,
+				710427B62F1679AA005629B9 /* DeploymentStateProgressAnimation.swift in Sources */,
 				7109AD002B18A47500724454 /* UIDevice+deviceInfo.swift in Sources */,
 				7109AD0F2B18A48000724454 /* NotificationManager.swift in Sources */,
 				7109AD012B18A47500724454 /* View+permissionRevocationDialog.swift in Sources */,
@@ -691,6 +700,7 @@
 				7109ACFB2B18A47000724454 /* AuthenticatedContentView.swift in Sources */,
 				7109AD2F2B18A4A700724454 /* SettingsView.swift in Sources */,
 				7109AD2D2B18A4A200724454 /* ProjectNotificationsView.swift in Sources */,
+				710427B82F167C7F005629B9 /* EdgeInsets++.swift in Sources */,
 				7109AD152B18A48500724454 /* VercelAccountModel.swift in Sources */,
 				7109AD302B18A4A700724454 /* NotificationPreview.swift in Sources */,
 				7109AD0B2B18A47900724454 /* StatusBannerView.swift in Sources */,
@@ -731,6 +741,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				710427B92F167C7F005629B9 /* EdgeInsets++.swift in Sources */,
 				711A4A36266976CA00DA9EE3 /* URL.extension.swift in Sources */,
 				711553F3266554D600A73CD6 /* KeychainItem.swift in Sources */,
 				71F90200266567C7000A8873 /* IntentHandler.swift in Sources */,
@@ -740,6 +751,7 @@
 				71059A95287D5CA500BF8B2E /* VercelAliasModel.swift in Sources */,
 				E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */,
 				711553F4266554F300A73CD6 /* Array.extension.swift in Sources */,
+				710427BA2F16807C005629B9 /* DeploymentStateProgressAnimation.swift in Sources */,
 				711553F12665548D00A73CD6 /* VercelAccountModel.swift in Sources */,
 				71059A8728786FEA00BF8B2E /* GitRepoModel.swift in Sources */,
 				711553FB26655DB000A73CD6 /* LatestDeploymentWidget.swift in Sources */,
