@@ -33,8 +33,7 @@ enum RemoteNotificationResult {
 #endif
 
 class AppDelegate: NSObject {
-	@AppStorage(Preferences.authenticatedAccounts)
-	private var authenticatedAccounts
+	private let accountStorage: AccountStorage = UserDefaultsAccountStorage()
 
 	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
@@ -43,6 +42,11 @@ class AppDelegate: NSObject {
 		subsystem: Bundle.main.bundleIdentifier!,
 		category: String(describing: AppDelegate.self)
 	)
+
+	/// Authenticated accounts loaded from storage
+	private var authenticatedAccounts: [VercelAccount] {
+		accountStorage.loadAccounts()
+	}
 }
 
 #if canImport(UIKit)
@@ -174,7 +178,7 @@ extension AppDelegate {
 			let userId: String? = userInfo["userId"] as? String
 
 			guard let accountId = teamId ?? userId,
-						Preferences.accounts.contains(where: { $0.id == accountId }) else {
+						authenticatedAccounts.contains(where: { $0.id == accountId }) else {
 				return .noData
 			}
 

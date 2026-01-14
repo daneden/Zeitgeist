@@ -9,12 +9,13 @@ import SwiftUI
 
 struct SignOutButton: View {
 	@Environment(\.session) private var session
+	@Environment(AccountManager.self) private var accountManager
 
 	var body: some View {
 		Button {
 			#if !EXTENSION
 			if let session {
-				VercelSession.deleteAccount(id: session.account.id)
+				accountManager.deleteAccount(id: session.account.id)
 			}
 			#endif
 		} label: {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PermissionRevocationDialogModifier: ViewModifier {
 	@Bindable var session: VercelSession
+	@Environment(AccountManager.self) private var accountManager
 	@State var isVisible = false
 
 	func body(content: Content) -> some View {
@@ -23,7 +24,7 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 				"Account permissions revoked",
 				isPresented: $isVisible) {
 				Button(role: .destructive) {
-					VercelSession.deleteAccount(id: session.account.id)
+					accountManager.deleteAccount(id: session.account.id)
 				} label: {
 					Text("Remove account")
 				}

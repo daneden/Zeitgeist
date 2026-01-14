@@ -45,9 +45,6 @@ struct Preferences {
 	@available(*, deprecated)
 	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
 
-	@AppStorage(Preferences.authenticatedAccounts)
-	static var accounts
-
 	static let store = UserDefaults(suiteName: "group.me.daneden.Zeitgeist")!
 }
 

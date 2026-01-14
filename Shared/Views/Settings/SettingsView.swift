@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
 	@Environment(\.dismiss) var dismiss
+	@Environment(AccountManager.self) private var accountManager
 	@AppStorage(Preferences.deploymentNotificationIds) private var deploymentNotificationIds
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
@@ -103,8 +104,8 @@ struct SettingsView: View {
 				}.disabled(notificationsResettable)
 				
 				Button(role: .destructive) {
-					Preferences.accounts.forEach { account in
-						VercelSession.deleteAccount(id: account.id)
+					accountManager.accounts.forEach { account in
+						accountManager.deleteAccount(id: account.id)
 					}
 					dismiss()
 				} label: {

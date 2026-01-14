@@ -9,7 +9,8 @@ import SwiftUI
 
 struct AccountListRowView: View {
 	var account: VercelAccount
-	
+	@Environment(AccountManager.self) private var accountManager
+
 	var size: Double {
 #if os(macOS)
 		20
@@ -17,7 +18,7 @@ struct AccountListRowView: View {
 		24
 #endif
 	}
-	
+
 	var body: some View {
 		Label {
 			Text(verbatim: account.name ?? account.username)
@@ -26,7 +27,7 @@ struct AccountListRowView: View {
 		}
 		.contextMenu {
 			Button(role: .destructive) {
-				VercelSession.deleteAccount(id: account.id)
+				accountManager.deleteAccount(id: account.id)
 			} label: {
 				Label("Sign out", systemImage: "person.badge.minus")
 			}
