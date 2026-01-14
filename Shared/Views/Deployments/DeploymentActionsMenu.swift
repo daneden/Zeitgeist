@@ -5,35 +5,13 @@
 
 import SwiftUI
 
-// MARK: - App Focused State
-
-/// Unified focused state for the app, tracking current context at each navigation level
-@Observable
-final class AppFocusedState {
-	// Current context
-	var account: VercelAccount?
-	var project: VercelProject?
-	var deployment: VercelDeployment?
-
-	// Computed from project and deployment
-	var isCurrentProduction: Bool {
-		guard let deployment, let project else { return false }
-		return deployment.id == project.targets?.production?.id
-	}
-
-	// Services
-	weak var deploymentActionsService: DeploymentActionsService?
-
-	// Pending action (triggered by menu commands)
-	var pendingDeploymentAction: DeploymentAction?
-
-	func triggerAction(_ action: DeploymentAction) {
-		pendingDeploymentAction = action
-	}
-}
+// MARK: - Focused Values
 
 extension FocusedValues {
-	@Entry var appState: AppFocusedState?
+	@Entry var focusedAccount: VercelAccount?
+	@Entry var focusedProject: VercelProject?
+	@Entry var focusedDeployment: VercelDeployment?
+	@Entry var deploymentActionTrigger: ((DeploymentAction) -> Void)?
 }
 
 // MARK: - Deployment Action
@@ -215,16 +193,23 @@ struct DeploymentActionsMenu: View {
 // MARK: - macOS Menu Bar Commands
 
 struct DeploymentCommands: Commands {
-	@FocusedValue(\.appState) var state
+	@FocusedValue(\.focusedProject) private var project
+	@FocusedValue(\.focusedDeployment) private var deployment
+	@FocusedValue(\.deploymentActionTrigger) private var triggerAction
+
+	private var isCurrentProduction: Bool {
+		guard let deployment, let project else { return false }
+		return deployment.id == project.targets?.production?.id
+	}
 
 	var body: some Commands {
 		CommandMenu("Deployment") {
 			DeploymentActionMenuContent(
-				deployment: state?.deployment,
-				isCurrentProduction: state?.isCurrentProduction ?? false,
-				trigger: { state?.triggerAction($0) }
+				deployment: deployment,
+				isCurrentProduction: isCurrentProduction,
+				trigger: { triggerAction?($0) }
 			)
-			.disabled(state?.deployment == nil)
+			.disabled(deployment == nil)
 		}
 	}
 }

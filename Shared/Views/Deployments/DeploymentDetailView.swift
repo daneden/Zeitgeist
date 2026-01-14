@@ -7,13 +7,17 @@
 
 import SwiftUI
 
+// MARK: - Environment Key for Project
+
 extension EnvironmentValues {
 	@Entry var project: VercelProject?
 }
 
+// MARK: - Deployment Detail View
+
 struct DeploymentDetailView: View {
 	@Environment(\.dismiss) var dismiss
-	@Environment(\.project) var project: VercelProject?
+	@Environment(\.project) var project
 	@EnvironmentObject var session: VercelSession
 
 	var accountId: VercelAccount.ID { session.account.id }
@@ -21,7 +25,11 @@ struct DeploymentDetailView: View {
 	@State var deployment: VercelDeployment?
 	@State private var actionsService: DeploymentActionsService?
 	@State private var confirmingAction: DeploymentAction?
-	@State private var focusedState = AppFocusedState()
+
+	private var isCurrentProduction: Bool {
+		guard let deployment, let project else { return false }
+		return deployment.id == project.targets?.production?.id
+	}
 
 	var body: some View {
 		Form {
@@ -53,7 +61,7 @@ struct DeploymentDetailView: View {
 				ToolbarItem(placement: .primaryAction) {
 					DeploymentActionsMenu(
 						deployment: deployment,
-						isCurrentProduction: focusedState.isCurrentProduction,
+						isCurrentProduction: isCurrentProduction,
 						isMutating: service.isMutating,
 						confirmingAction: $confirmingAction
 					)
@@ -67,27 +75,11 @@ struct DeploymentDetailView: View {
 			service: actionsService,
 			onDismiss: { dismiss() }
 		))
-		.focusedSceneValue(\.appState, focusedState)
+		.focusedSceneValue(\.focusedDeployment, deployment)
+		.focusedSceneValue(\.deploymentActionTrigger) { confirmingAction = $0 }
 		.onAppear {
 			if actionsService == nil {
 				actionsService = DeploymentActionsService(session: session, accountId: accountId)
-			}
-		}
-		.task(id: deployment) {
-			focusedState.deployment = deployment
-		}
-		.task(id: project) {
-			focusedState.project = project
-		}
-		.onChange(of: actionsService?.id) { _, _ in
-			if let actionsService {
-				focusedState.deploymentActionsService = actionsService
-			}
-		}
-		.onChange(of: focusedState.pendingDeploymentAction) { _, newValue in
-			if let action = newValue {
-				confirmingAction = action
-				focusedState.pendingDeploymentAction = nil
 			}
 		}
 		.zeitgeistDataTask {
