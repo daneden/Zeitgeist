@@ -28,6 +28,9 @@ struct ProjectsListView: View {
 	@State private var searchText = ""
 	@State private var projectsError: SessionError?
 	
+	@Binding var selectedProject: VercelProject?
+	@Binding var selectedDeployment: VercelDeployment?
+	
 	var filteredProjects: [VercelProject] {
 		if searchText.isEmpty {
 			return projects
@@ -40,10 +43,10 @@ struct ProjectsListView: View {
 	
 	var body: some View {
 		ZStack {
-			List {
+			List(selection: $selectedProject) {
 				ForEach(filteredProjects) { project in
 					NavigationLink {
-						ProjectDetailView(projectId: project.id, project: project)
+						ProjectDetailView(projectId: project.id, project: project, selectedDeployment: $selectedDeployment)
 							.id(project.id)
 							.environmentObject(session)
 					} label: {
