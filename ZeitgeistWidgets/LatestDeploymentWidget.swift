@@ -11,6 +11,8 @@ import WidgetKit
 // MARK: - LatestDeploymentProvider
 
 struct LatestDeploymentProvider: IntentTimelineProvider {
+	private let accountStorage: AccountStorage = UserDefaultsAccountStorage()
+
 	func placeholder(in _: Context) -> LatestDeploymentEntry {
 		LatestDeploymentEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
 	}
@@ -22,7 +24,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 	{
 		Task { @MainActor in
 			guard let intentAccount = configuration.account,
-						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier }),
+						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier }),
 						let session = VercelSession(account: account)
 			else {
 				completion(placeholder(in: context))
@@ -69,7 +71,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 	{
 		Task { @MainActor in
 			guard let intentAccount = configuration.account,
-						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier }),
+						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier }),
 						let session = VercelSession(account: account)
 			else {
 				completion(

@@ -98,7 +98,7 @@ struct DeploymentDetailView: View {
 		var request = VercelAPI.request(for: .deployments(version: 13, deploymentID: deploymentId), with: accountId)
 		try session.signRequest(&request)
 
-		let (data, response) = try await URLSession.shared.data(for: request)
+		let (data, _) = try await URLSession.shared.data(for: request)
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
 	}

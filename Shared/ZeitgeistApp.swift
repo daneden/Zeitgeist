@@ -15,9 +15,12 @@ struct ZeitgeistApp: App {
 	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
 
+	@State private var accountManager = AccountManager()
+
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
+				.environment(accountManager)
 				.task {
 					if MigrationHelpers.V3.needsMigration {
 						await MigrationHelpers.V3.migrateAccountIdsToAccounts()
@@ -31,6 +34,7 @@ struct ZeitgeistApp: App {
 		#if os(macOS)
 		Settings {
 			SettingsView()
+				.environment(accountManager)
 				.formStyle(.grouped)
 		}
 		#endif
