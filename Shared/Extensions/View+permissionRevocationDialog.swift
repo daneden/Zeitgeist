@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct PermissionRevocationDialogModifier: ViewModifier {
-	@ObservedObject var session: VercelSession
+	@Bindable var session: VercelSession
 	@State var isVisible = false
+
 	func body(content: Content) -> some View {
 		content
 			.onAppear {
 				isVisible = session.requestsDenied
 			}
-			.onChange(of: session.requestsDenied) { _, _ in
-				isVisible = session.requestsDenied
+			.onChange(of: session.requestsDenied) { _, newValue in
+				isVisible = newValue
 			}
 			.confirmationDialog(
 				"Account permissions revoked",
@@ -26,7 +27,7 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 				} label: {
 					Text("Remove account")
 				}
-				
+
 				Button(role: .cancel) {
 					isVisible = false
 				} label: {
@@ -41,5 +42,18 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 extension View {
 	func permissionRevocationDialog(session: VercelSession) -> some View {
 		modifier(PermissionRevocationDialogModifier(session: session))
+	}
+}
+
+/// Modifier that handles optional session for permission revocation dialog
+struct OptionalPermissionRevocationDialogModifier: ViewModifier {
+	let session: VercelSession?
+
+	func body(content: Content) -> some View {
+		if let session {
+			content.permissionRevocationDialog(session: session)
+		} else {
+			content
+		}
 	}
 }

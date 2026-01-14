@@ -10,7 +10,7 @@ import LocalAuthentication
 import Suite
 
 struct ProjectEnvironmentVariablesView: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	@AppStorage(Preferences.lastAuthenticated) var lastAuthenticated
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	@State private var envVars: [VercelEnv] = []
@@ -90,10 +90,11 @@ struct ProjectEnvironmentVariablesView: View {
 	}
 	
 	func loadEnvironmentVariables() async {
+		guard let session else { return }
 		do {
 			var request = VercelAPI.request(for: .projects(projectId, path: "env"), with: session.account.id)
 			try session.signRequest(&request)
-			
+
 			let (data, _) = try await URLSession.shared.data(for: request)
 			try withAnimation {
 				envVars = try JSONDecoder().decode(VercelEnv.APIResponse.self, from: data).envs

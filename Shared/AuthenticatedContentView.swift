@@ -11,26 +11,32 @@ import Suite
 struct AuthenticatedContentView: View {
 	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
 	@AppStorage(Preferences.authenticatedAccounts) private var accounts
-	
+
 	@State private var signInModel = SignInViewModel()
 	@State private var presentSettingsView = false
 	@State private var selectedAccount: VercelAccount?
-	
+	@State private var session: VercelSession?
+
 	@State private var selectedProject: VercelProject?
 	@State private var selectedDeployment: VercelDeployment?
 
 	var body: some View {
 		NavigationSplitView {
 			Group {
-				if let selectedAccount {
+				if let session {
 					ProjectsListView(selectedProject: $selectedProject, selectedDeployment: $selectedDeployment)
-						.environmentObject(VercelSession(account: selectedAccount))
+				} else if selectedAccount != nil {
+					// Account exists but session creation failed (missing token)
+					ContentUnavailableView(
+						"Authentication Required",
+						systemImage: "key.slash",
+						description: Text("Please sign in again to continue using this account.")
+					)
 				} else {
 					ContentUnavailableView("No account selected", image: "person.fill.questionmark")
 				}
 			}
-			.toolbar {
-				ToolbarItem(placement: .bottomBar) {
+			.backportSafeAreaBar {
 					Menu {
 						Picker(selection: $selectedAccount) {
 							ForEach(accounts, id: \.self) { account in
@@ -39,10 +45,8 @@ struct AuthenticatedContentView: View {
 						} label: {
 							Text("Accounts")
 						}
-						.pickerStyle(.inline)
-						
+
 						#if os(iOS)
-						Divider()
 						Button {
 							presentSettingsView = true
 						} label: {
@@ -55,7 +59,6 @@ struct AuthenticatedContentView: View {
 							AccountListRowView(account: selectedAccount)
 						}
 					}
-				}
 			}
 			#if os(iOS)
 			.sheet(isPresented: $presentSettingsView) {
@@ -67,18 +70,18 @@ struct AuthenticatedContentView: View {
 			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
 		} content: {
-			if let selectedProject {
+			if let selectedProject, session != nil {
 				ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
 			} else {
-				NavigationStack {
-					PlaceholderView(forRole: .ProjectDetail)
-				}
+				PlaceholderView(forRole: .ProjectDetail)
 			}
 		} detail: {
-			if let selectedDeployment {
-				DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
-			} else {
-				
+			NavigationStack {
+				if let selectedDeployment, session != nil {
+					DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
+				} else {
+					PlaceholderView(forRole: .DeploymentDetail)
+				}
 			}
 		}
 		.onAppear {
@@ -87,6 +90,9 @@ struct AuthenticatedContentView: View {
 		.task(id: accounts.first) {
 			selectedAccount = accounts.first
 		}
+		.onChange(of: selectedAccount) { _, newAccount in
+			updateSession(for: newAccount)
+		}
 		.onReceive(NotificationCenter.default.publisher(for: .VercelAccountAddedNotification)) { _ in
 			selectedAccount = accounts.last
 		}
@@ -94,10 +100,10 @@ struct AuthenticatedContentView: View {
 			guard let index = output.object as? Int else {
 				return
 			}
-			
+
 			let previousAccountIndex = accounts.index(before: index)
 			let nextAccountIndex = accounts.index(after: index)
-			
+
 			if accounts.indices.contains(previousAccountIndex) {
 				selectedAccount = accounts[previousAccountIndex]
 			} else if accounts.indices.contains(nextAccountIndex) {
@@ -108,8 +114,19 @@ struct AuthenticatedContentView: View {
 				selectedAccount = nil
 			}
 		})
+		.environment(\.session, session)
 	}
-	
+
+	private func updateSession(for account: VercelAccount?) {
+		guard let account else {
+			session = nil
+			return
+		}
+
+		// Try to create a new session (validates token exists)
+		session = VercelSession(account: account)
+	}
+
 	func deleteAccount(at indices: IndexSet) {
 		for index in indices {
 			VercelSession.deleteAccount(id: accounts[index].id)

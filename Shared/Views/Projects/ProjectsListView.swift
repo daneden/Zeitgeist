@@ -21,13 +21,13 @@ struct LoadingListCell: View {
 
 struct ProjectsListView: View {
 	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
-	@EnvironmentObject var session: VercelSession
-	
+	@Environment(\.session) private var session
+
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
 	@State private var searchText = ""
 	@State private var projectsError: SessionError?
-	
+
 	@Binding var selectedProject: VercelProject?
 	@Binding var selectedDeployment: VercelDeployment?
 	
@@ -45,11 +45,7 @@ struct ProjectsListView: View {
 		ZStack {
 			List(selection: $selectedProject) {
 				ForEach(filteredProjects) { project in
-					NavigationLink {
-						ProjectDetailView(projectId: project.id, project: project, selectedDeployment: $selectedDeployment)
-							.id(project.id)
-							.environmentObject(session)
-					} label: {
+					NavigationLink(value: project) {
 						ProjectsListRowView(project: project)
 							.id(project.id)
 					}
@@ -102,30 +98,31 @@ struct ProjectsListView: View {
 				PlaceholderView(forRole: .AuthError)
 			}
 		}
-		.navigationTitle(Text("Projects"))
-		.focusedSceneValue(\.focusedAccount, session.account)
-		.permissionRevocationDialog(session: session)
+		.navigationTitle("Projects")
+		.focusedSceneValue(\.focusedAccount, session?.account)
+		.modifier(OptionalPermissionRevocationDialogModifier(session: session))
 	}
 	
 	func loadProjects(pageId: Int? = nil) async throws {
+		guard let session else { return }
 		if session.requestsDenied == true { return }
-		
+
 		var params: [URLQueryItem] = []
-		
+
 		if let pageId = pageId {
 			params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
 		}
-		
+
 		var request = VercelAPI.request(for: .projects(), with: session.account.id, queryItems: params)
 		try session.signRequest(&request)
-		
+
 		if pageId == nil,
 			 let cachedResponse = URLCache.shared.cachedResponse(for: request),
 			 let decodedFromCache = try? JSONDecoder().decode(VercelProject.APIResponse.self, from: cachedResponse.data)
 		{
 			projects = decodedFromCache.projects
 		}
-		
+
 		let (data, response) = try await URLSession.shared.data(for: request)
 		session.validateResponse(response)
 		let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)

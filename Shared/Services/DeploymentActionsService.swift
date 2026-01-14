@@ -8,6 +8,7 @@
 import Foundation
 
 @Observable
+@MainActor
 final class DeploymentActionsService {
 	var isMutating = false
 	var recentlyCancelled = false
