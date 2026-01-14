@@ -7,7 +7,6 @@
 //
 
 import AuthenticationServices
-import Combine
 import Foundation
 import SwiftUI
 
@@ -47,10 +46,11 @@ class VercelURLAuthenticationBuilder {
 	}
 }
 
-class SignInViewModel: NSObject, ObservableObject {
+@Observable
+@MainActor
+final class SignInViewModel {
 	private(set) var isSigningIn = false
 
-	@MainActor
 	func processResponseURL(url: URL) async -> Bool {
 		let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
 

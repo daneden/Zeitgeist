@@ -206,10 +206,7 @@ private struct Overview: View {
 				}
 			}
 
-			NavigationLink {
-				DeploymentLogView(deployment: deployment)
-					.environment(\.session, session)
-			} label: {
+			NavigationLink(value: DetailDestinationValue.deploymentLogs(deployment: deployment)) {
 				Label("View logs", systemImage: "terminal")
 			}
 		}
