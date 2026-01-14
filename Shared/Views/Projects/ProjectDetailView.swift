@@ -171,7 +171,7 @@ struct ProjectDetailView: View {
 		if let project {
 			Group {
 				#if os(iOS)
-				NavigationView {
+				NavigationStack {
 					ProjectNotificationsView(project: project)
 				}
 				#else

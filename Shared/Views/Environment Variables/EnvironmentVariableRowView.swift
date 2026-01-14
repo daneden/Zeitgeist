@@ -57,7 +57,7 @@ struct EnvironmentVariableRowView: View {
 				.textSelection(.disabled)
 		}
 		.sheet(isPresented: $editing) {
-			NavigationView {
+			NavigationStack {
 				EnvironmentVariableEditView(projectId: projectId,
 																		id: envVar.id,
 																		key: envVar.key,

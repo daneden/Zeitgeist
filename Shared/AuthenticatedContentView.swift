@@ -20,6 +20,9 @@ struct AuthenticatedContentView: View {
 	@State private var selectedProject: VercelProject?
 	@State private var selectedDeployment: VercelDeployment?
 
+	// Scene storage for navigation state persistence across app launches
+	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
+
 	var body: some View {
 		NavigationSplitView {
 			Group {
@@ -62,7 +65,7 @@ struct AuthenticatedContentView: View {
 			}
 			#if os(iOS)
 			.sheet(isPresented: $presentSettingsView) {
-				NavigationView {
+				NavigationStack {
 					SettingsView()
 						.navigationBarTitleDisplayMode(.inline)
 				}
@@ -77,10 +80,19 @@ struct AuthenticatedContentView: View {
 			}
 		} detail: {
 			NavigationStack {
-				if let selectedDeployment, session != nil {
-					DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
-				} else {
-					PlaceholderView(forRole: .DeploymentDetail)
+				Group {
+					if let selectedDeployment, session != nil {
+						DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
+					} else {
+						PlaceholderView(forRole: .DeploymentDetail)
+					}
+				}
+				.navigationDestination(for: DetailDestinationValue.self) { destination in
+					switch destination {
+					case .deploymentLogs(let deployment):
+						DeploymentLogView(deployment: deployment)
+							.environment(\.session, session)
+					}
 				}
 			}
 		}
@@ -92,6 +104,9 @@ struct AuthenticatedContentView: View {
 		}
 		.onChange(of: selectedAccount) { _, newAccount in
 			updateSession(for: newAccount)
+		}
+		.onChange(of: selectedProject) { _, newProject in
+			selectedProjectId = newProject?.id
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .VercelAccountAddedNotification)) { _ in
 			selectedAccount = accounts.last
