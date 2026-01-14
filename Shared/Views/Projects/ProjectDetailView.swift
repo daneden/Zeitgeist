@@ -12,13 +12,14 @@ struct ProjectDetailView: View {
 	@EnvironmentObject var session: VercelSession
 	var projectId: VercelProject.ID
 	@State var project: VercelProject?
+	@Binding var selectedDeployment: VercelDeployment?
 
 	@State private var filter = DeploymentFilter()
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
 	
-	@State var currentProductionDeployment: VercelDeployment?
+	@State private var currentProductionDeployment: VercelDeployment?
 
 	@AppStorage(Preferences.deploymentNotificationIds)
 	private var deploymentNotificationIds
@@ -43,7 +44,7 @@ struct ProjectDetailView: View {
 	}
 
 	var body: some View {
-		Form {
+		List(selection: $selectedDeployment) {
 			if let project {
 				Section("Details") {
 					LabelView(Text("Name")) {
@@ -85,6 +86,7 @@ struct ProjectDetailView: View {
 							DeploymentListRowView(deployment: currentProductionDeployment, isCurrentProduction: true)
 								.id(currentProductionDeployment.id)
 						}
+						.tag(currentProductionDeployment)
 					}
 				}
 				
@@ -113,6 +115,7 @@ struct ProjectDetailView: View {
 							)
 								.id(deployment.id)
 						}
+						.tag(deployment)
 					}
 					
 					if deployments.isEmpty {
