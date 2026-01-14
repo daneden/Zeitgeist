@@ -100,6 +100,7 @@ struct ProjectsListView: View {
 			}
 		}
 		.navigationTitle(Text("Projects"))
+		.focusedSceneValue(\.focusedAccount, session.account)
 		.permissionRevocationDialog(session: session)
 	}
 	

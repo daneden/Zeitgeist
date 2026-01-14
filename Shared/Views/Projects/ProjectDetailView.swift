@@ -156,6 +156,7 @@ struct ProjectDetailView: View {
 			}
 		}
 		.navigationTitle(navBarTitle)
+		.focusedSceneValue(\.focusedProject, project)
 		.onChange(of: filter) { _, _ in
 			Task {
 				try? await loadDeployments()
