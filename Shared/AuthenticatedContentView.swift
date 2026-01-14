@@ -15,62 +15,74 @@ struct AuthenticatedContentView: View {
 	@State private var signInModel = SignInViewModel()
 	@State private var presentSettingsView = false
 	@State private var selectedAccount: VercelAccount?
+	
+	@State private var selectedProject: VercelProject?
+	@State private var selectedDeployment: VercelDeployment?
 
 	var body: some View {
 		NavigationSplitView {
-			List(selection: $selectedAccount) {
-				Section {
-					ForEach(accounts, id: \.self) {
-						AccountListRowView(account: $0)
-					}
-					.onDelete(perform: deleteAccount)
-					
-					Button {
-						Task {
-							await signInModel.signIn(using: webAuthenticationSession)
-						}
-					} label: {
-						Label("Add account", systemImage: "plus")
-							.backportCircleSymbolVariant()
-					}
-				} header: {
-					Text("Accounts", comment: "Header for accounts list")
+			Group {
+				if let selectedAccount {
+					ProjectsListView(selectedProject: $selectedProject, selectedDeployment: $selectedDeployment)
+						.environmentObject(VercelSession(account: selectedAccount))
+				} else {
+					ContentUnavailableView("No account selected", image: "person.fill.questionmark")
 				}
 			}
-#if os(iOS)
 			.toolbar {
-				ToolbarItem(placement: .navigation) {
-					Button {
-						presentSettingsView = true
+				ToolbarItem(placement: .bottomBar) {
+					Menu {
+						Picker(selection: $selectedAccount) {
+							ForEach(accounts, id: \.self) { account in
+								AccountListRowView(account: account)
+							}
+						} label: {
+							Text("Accounts")
+						}
+						.pickerStyle(.inline)
+						
+						#if os(iOS)
+						Divider()
+						Button {
+							presentSettingsView = true
+						} label: {
+							Label("Settings", systemImage: "gearshape")
+								.backportCircleSymbolVariant()
+						}
+						#endif
 					} label: {
-						Label("Settings", systemImage: "ellipsis")
-							.backportCircleSymbolVariant()
+						if let selectedAccount {
+							AccountListRowView(account: selectedAccount)
+						}
 					}
 				}
 			}
+			#if os(iOS)
 			.sheet(isPresented: $presentSettingsView) {
 				NavigationView {
 					SettingsView()
 						.navigationBarTitleDisplayMode(.inline)
 				}
 			}
-#endif
+			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
 		} content: {
-			if let selectedAccount {
-				NavigationStack {
-					ProjectsListView()
-						.environmentObject(VercelSession(account: selectedAccount))
-						.id(selectedAccount)
-				}
+			if let selectedProject {
+				ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
 			} else {
-				Text("No account selected", comment: "Label for projects list when no account is selected")
-					.foregroundStyle(.secondary)
+				NavigationStack {
+					PlaceholderView(forRole: .ProjectDetail)
+				}
 			}
 		} detail: {
-			NavigationStack {
-				PlaceholderView(forRole: .ProjectDetail)
+			if let selectedDeployment {
+				DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
+			} else {
+				
 			}
+		}
+		.onAppear {
+			selectedAccount = accounts.first
 		}
 		.task(id: accounts.first) {
 			selectedAccount = accounts.first
