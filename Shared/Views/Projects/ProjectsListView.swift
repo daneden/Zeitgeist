@@ -30,6 +30,9 @@ struct ProjectsListView: View {
 
 	@Binding var selectedProject: VercelProject?
 	@Binding var selectedDeployment: VercelDeployment?
+
+	// Read stored project ID for restoration
+	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
 	
 	var filteredProjects: [VercelProject] {
 		if searchText.isEmpty {
@@ -82,6 +85,13 @@ struct ProjectsListView: View {
 				do {
 					try await loadProjects()
 					projectsError = nil
+
+					// Restore selection from scene storage if available
+					if selectedProject == nil,
+					   let savedProjectId = selectedProjectId,
+					   let restoredProject = projects.first(where: { $0.id == savedProjectId }) {
+						selectedProject = restoredProject
+					}
 				} catch {
 					print(error)
 					if let error = error as? SessionError {
@@ -139,7 +149,7 @@ struct ProjectsListView: View {
 
 struct ProjectListPlaceholderView: View {
 	var body: some View {
-		NavigationView {
+		NavigationStack {
 			List {
 				ForEach(0..<10, id: \.self) { _ in
 					ProjectsListRowView(project: .exampleData)

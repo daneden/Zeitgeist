@@ -60,7 +60,7 @@ struct ProjectEnvironmentVariablesView: View {
 				await loadEnvironmentVariables()
 			}
 			.sheet(isPresented: $editSheetPresented) {
-				NavigationView {
+				NavigationStack {
 					EnvironmentVariableEditView(projectId: projectId)
 				}
 			}
