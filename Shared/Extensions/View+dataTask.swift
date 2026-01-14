@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DataTaskModifier: ViewModifier {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	@Environment(\.scenePhase) var scenePhase
 	let action: () async -> Void
 
@@ -22,16 +22,18 @@ struct DataTaskModifier: ViewModifier {
 				print("Updating due to refresh")
 				await action()
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { content in
+			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { _ in
 				print("Updating based on background notification")
 				Task { await action() }
 			}
-			.onReceive(session.objectWillChange) { _ in
-				print("Updating based on change in session")
-				if session.isAuthenticated {
-					Task { await action() }
-				} else {
+			.onChange(of: session?.account.id) { oldValue, newValue in
+				print("Updating based on change in session account")
+				guard let session, session.isAuthenticated else {
 					print("Skipping dataTask since the session is no longer authenticated")
+					return
+				}
+				if oldValue != newValue {
+					Task { await action() }
 				}
 			}
 			.onChange(of: scenePhase) { _, newValue in

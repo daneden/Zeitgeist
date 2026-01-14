@@ -117,16 +117,16 @@ struct LogEventView: View {
 }
 
 struct DeploymentLogView: View {
-	@EnvironmentObject private var session: VercelSession
-	
+	@Environment(\.session) private var session
+
 	@AppStorage(Preferences.followLogs) var followLogs
 	@State private var logEvents: [LogEvent] = []
 	@State private var maxLineWidth: CGFloat = 0
-	
+
 	var deployment: VercelDeployment
-	
-	var accountID: VercelAccount.ID {
-		session.account.id
+
+	var accountID: VercelAccount.ID? {
+		session?.account.id
 	}
 	
 	var body: some View {
@@ -198,21 +198,22 @@ struct DeploymentLogView: View {
 		}
 		.navigationTitle(Text("Build logs"))
 		.task {
+			guard let session, let accountID else { return }
 			do {
 				let queryItems: [URLQueryItem] = [
 					URLQueryItem(name: "follow", value: "1"),
 					URLQueryItem(name: "limit", value: "-1"),
 				]
-				
+
 				var request = VercelAPI.request(
 					for: .deployments(version: 2, deploymentID: deployment.id, path: "events"),
 					with: accountID,
 					queryItems: queryItems
 				)
 				try session.signRequest(&request)
-				
+
 				let (data, _) = try await URLSession.shared.bytes(for: request)
-				
+
 				for try await line in data.lines {
 					if let lineAsData = line.data(using: .utf8),
 						 let event = try? JSONDecoder().decode(LogEvent.self, from: lineAsData)

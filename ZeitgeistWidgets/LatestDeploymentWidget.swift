@@ -20,16 +20,16 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 		in context: Context,
 		completion: @escaping (LatestDeploymentEntry) -> Void)
 	{
-		Task {
+		Task { @MainActor in
 			guard let intentAccount = configuration.account,
-						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
+						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier }),
+						let session = VercelSession(account: account)
 			else {
 				completion(placeholder(in: context))
 				return
 			}
-			
+
 			do {
-				let session = VercelSession(account: account)
 				var queryItems: [URLQueryItem] = []
 
 				if let projectId = configuration.project?.identifier {
@@ -67,9 +67,10 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 		in context: Context,
 		completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void)
 	{
-		Task {
+		Task { @MainActor in
 			guard let intentAccount = configuration.account,
-						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier })
+						let account = Preferences.accounts.first(where: { $0.id == intentAccount.identifier }),
+						let session = VercelSession(account: account)
 			else {
 				completion(
 					Timeline(entries: [placeholder(in: context)], policy: .atEnd)
@@ -78,7 +79,6 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 			}
 
 			do {
-				let session = VercelSession(account: account)
 				var queryItems: [URLQueryItem] = []
 
 				if let projectId = configuration.project?.identifier {
