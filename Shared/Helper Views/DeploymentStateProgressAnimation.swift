@@ -39,19 +39,23 @@ struct DeploymentStateProgressAnimation: View {
 			.default
 		}
 	}
+	
+	var fraction: CGFloat {
+		switch state {
+		case .building, .queued: 0.5
+		default: 1
+		}
+	}
 
 	var body: some View {
-		GeometryReader { geometry in
-			HStack {
-				EllipticalGradient(
-					colors: [state.color.opacity(0.3), .clear],
-					center: glowAlignment,
-					startRadiusFraction: 0,
-					endRadiusFraction: isHidden ? 0 : width(in: geometry.size) / geometry.size.width
-				)
-				.opacity(isHidden ? 0 : 1)
-			}
-		}
+		EllipticalGradient(
+			colors: [state.color.opacity(0.3), .clear],
+			center: glowAlignment,
+			startRadiusFraction: 0,
+			endRadiusFraction: isHidden ? 0 : fraction
+		)
+		.opacity(isHidden ? 0 : 1)
+		.padding(-26)
 		.animation(.default, value: state)
 		.task(id: state) {
 			switch state {
@@ -84,13 +88,6 @@ struct DeploymentStateProgressAnimation: View {
 					}
 				}
 			}
-		}
-	}
-	
-	func width(in size: CGSize) -> CGFloat {
-		switch state {
-		case .building, .queued: size.width / 2
-		default: size.width / 1.25
 		}
 	}
 }
