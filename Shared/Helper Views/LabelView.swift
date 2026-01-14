@@ -17,13 +17,11 @@ fileprivate struct ValueLabelStyle: LabelStyle {
 }
 
 struct LabelView<S: View, Content: View>: View {
+	@ViewBuilder
 	var label: S
+	
+	@ViewBuilder
 	var content: Content
-
-	init(_ label: @escaping () -> S, @ViewBuilder content: () -> Content) {
-		self.label = label()
-		self.content = content()
-	}
 
 	var body: some View {
 		LabeledContent {

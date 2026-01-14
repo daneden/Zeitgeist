@@ -18,7 +18,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 	
 	var building: Date? {
 		guard let buildingAt else { return nil }
-		return Date(timeIntervalSince1970: TimeInterval(buildingAt))
+		return Date(timeIntervalSince1970: TimeInterval(buildingAt / 1000))
 	}
 
 	var created: Date {

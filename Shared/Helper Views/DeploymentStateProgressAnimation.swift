@@ -55,7 +55,9 @@ struct DeploymentStateProgressAnimation: View {
 			endRadiusFraction: isHidden ? 0 : fraction
 		)
 		.opacity(isHidden ? 0 : 1)
+		.frame(maxWidth: .infinity)
 		.padding(-26)
+		.padding(.trailing, -26)
 		.animation(.default, value: state)
 		.task(id: state) {
 			switch state {
