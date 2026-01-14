@@ -14,10 +14,15 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
 			return .init(items: [])
 		}
 
-		let session = VercelSession(account: account)
 		var request = VercelAPI.request(for: .projects(), with: account.id, queryItems: [URLQueryItem(name: "limit", value: "100")])
-		try session.signRequest(&request)
-		
+
+		try await MainActor.run {
+			guard let session = VercelSession(account: account) else {
+				return
+			}
+			try session.signRequest(&request)
+		}
+
 		let (data, _) = try await URLSession.shared.data(for: request)
 		let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)
 		return .init(items: [WidgetProject(identifier: nil, display: "All Projects")] + decoded.projects.map { WidgetProject(identifier: $0.id, display: $0.name) })

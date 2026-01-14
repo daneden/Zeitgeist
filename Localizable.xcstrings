@@ -209,6 +209,9 @@
         }
       }
     },
+    "Authentication Required" : {
+
+    },
     "Auto-lock after" : {
       "localizations" : {
         "fr" : {
@@ -921,6 +924,9 @@
           }
         }
       }
+    },
+    "Please sign in again to continue using this account." : {
+
     },
     "Preview" : {
       "localizations" : {

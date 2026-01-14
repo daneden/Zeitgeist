@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EnvironmentVariableEditView: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	@Environment(\.dismiss) private var dismiss
 	
 	var projectId: VercelProject.ID
@@ -103,8 +103,9 @@ struct EnvironmentVariableEditView: View {
 	}
 	
 	func saveEnvVar() async {
+		guard let session else { return }
 		saving = true
-		
+
 		do {
 			var path = "env"
 			var method: VercelAPI.RequestMethod = .POST
@@ -113,35 +114,35 @@ struct EnvironmentVariableEditView: View {
 				method = .PATCH
 			}
 			var request: URLRequest = VercelAPI.request(for: .projects(projectId, path: path), with: session.account.id, method: method)
-			
+
 			var targets = [String]()
-			
+
 			if targetProduction { targets.append("production") }
 			if targetPreview { targets.append("preview") }
 			if targetDevelopment { targets.append("development") }
-			
+
 			let body: [String: Any] = [
 				"key": key,
 				"value": value,
 				"target": targets,
 				"type": "encrypted"
 			]
-			
+
 			let encoded = try JSONSerialization.data(withJSONObject: body)
 			request.httpBody = encoded
-			
+
 			try session.signRequest(&request)
 			let (data, _) = try await URLSession.shared.data(for: request)
-			
+
 			let response = try JSONDecoder().decode(VercelEnv.self, from: data)
 			print("Successfully created/updated env var with key \(response.key)")
-			
+
 			dismiss()
 			DataTaskModifier.postNotification()
 		} catch {
 			print(error)
 		}
-		
+
 		saving = false
 	}
 }

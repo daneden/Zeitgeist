@@ -5,22 +5,28 @@
 //  Created by Daniel Eden on 29/05/2021.
 //
 
-import Combine
 import Foundation
 import SwiftUI
 
+// MARK: - Session Errors
+
 enum SessionError: Error {
 	case notAuthenticated
+	case tokenNotFound(accountId: String)
 }
 
-extension SessionError: CustomStringConvertible {
-	var description: String {
+extension SessionError: LocalizedError {
+	var errorDescription: String? {
 		switch self {
 		case .notAuthenticated:
 			return "The chosen account has not been authenticated on this device"
+		case .tokenNotFound(let accountId):
+			return "No authentication token found for account: \(accountId)"
 		}
 	}
 }
+
+// MARK: - VercelAccount Extension
 
 extension VercelAccount {
 	func deepEqual(to comparison: VercelAccount) -> Bool {
@@ -31,47 +37,71 @@ extension VercelAccount {
 	}
 }
 
-class VercelSession: ObservableObject {
-	@AppStorage(Preferences.authenticatedAccounts)
-	private var authenticatedAccounts
+// MARK: - VercelSession
 
-	@Published var account: VercelAccount {
-		willSet {
-			if newValue.id != account.id {
-				accountLastUpdated = nil
-			}
+@Observable
+@MainActor
+final class VercelSession {
+	// MARK: - Properties
+
+	private(set) var account: VercelAccount
+	private(set) var requestsDenied = false
+	private var accountLastUpdated: Date?
+
+	// MARK: - Initialization
+
+	/// Failable initializer that validates the account has an authentication token
+	init?(account: VercelAccount) {
+		guard KeychainItem(account: account.id).wrappedValue != nil else {
+			return nil
 		}
-	}
-	
-	private var accountLastUpdated: Date? = nil
-	@Published private(set) var requestsDenied = false
-	
-	init(account: VercelAccount) {
 		self.account = account
 	}
-	
+
+	/// Initializer for contexts where token validation may be deferred (e.g., widgets)
+	/// - Parameters:
+	///   - account: The account to create a session for
+	///   - skipTokenValidation: Must be `true` to use this initializer
+	init(account: VercelAccount, skipTokenValidation: Bool) {
+		precondition(skipTokenValidation, "Use init?(account:) for validated initialization")
+		self.account = account
+	}
+
+	// MARK: - Account Management
+
+	/// Switches the session to a different account
+	/// - Parameter newAccount: The account to switch to
+	func switchAccount(to newAccount: VercelAccount) {
+		guard newAccount.id != account.id else { return }
+		accountLastUpdated = nil
+		account = newAccount
+	}
+
 	func refreshAccount() async {
 		accountLastUpdated = .now
-		let moreRecentAccount = await loadAccount()
-		
-		if let moreRecentAccount = moreRecentAccount,
-			 account != moreRecentAccount {
-			self.account.updateAccount(to: moreRecentAccount)
-			if let index = authenticatedAccounts.firstIndex(of: account) {
-				authenticatedAccounts[index] = moreRecentAccount
-			}
+
+		guard let moreRecentAccount = await loadAccount() else { return }
+		guard !account.deepEqual(to: moreRecentAccount) else { return }
+
+		account.updateAccount(to: moreRecentAccount)
+
+		if let index = Preferences.accounts.firstIndex(where: { $0.id == account.id }) {
+			Preferences.accounts[index] = moreRecentAccount
 		}
 	}
 
+	// MARK: - Authentication
+
 	var authenticationToken: String? {
-		return KeychainItem(account: account.id).wrappedValue
+		KeychainItem(account: account.id).wrappedValue
 	}
 
 	var isAuthenticated: Bool {
 		authenticationToken != nil
 	}
 
-	@MainActor
+	// MARK: - API Methods
+
 	func loadAccount() async -> VercelAccount? {
 		do {
 			guard authenticationToken != nil else {
@@ -82,7 +112,7 @@ class VercelSession: ObservableObject {
 			try signRequest(&request)
 
 			let (data, response) = try await URLSession.shared.data(for: request)
-			
+
 			validateResponse(response)
 
 			return try JSONDecoder().decode(VercelAccount.self, from: data)
@@ -91,7 +121,7 @@ class VercelSession: ObservableObject {
 			return nil
 		}
 	}
-	
+
 	func validateResponse(_ response: URLResponse) {
 		if let response = response as? HTTPURLResponse,
 			 response.statusCode == 403 {
@@ -100,17 +130,23 @@ class VercelSession: ObservableObject {
 	}
 
 	func signRequest(_ request: inout URLRequest) throws {
-		guard let authenticationToken = authenticationToken else {
-			throw SessionError.notAuthenticated
+		guard let authenticationToken else {
+			throw SessionError.tokenNotFound(accountId: account.id)
 		}
-		
+
 		if accountLastUpdated == nil {
 			Task { await refreshAccount() }
-		} else if let accountLastUpdated = accountLastUpdated,
+		} else if let accountLastUpdated,
 							accountLastUpdated.distance(to: .now) > 60 * 60 {
 			Task { await refreshAccount() }
 		}
 
 		request.addValue("Bearer \(authenticationToken)", forHTTPHeaderField: "Authorization")
 	}
+}
+
+// MARK: - Environment Key
+
+extension EnvironmentValues {
+	@Entry var session: VercelSession?
 }

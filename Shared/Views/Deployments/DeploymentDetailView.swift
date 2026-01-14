@@ -18,9 +18,9 @@ extension EnvironmentValues {
 struct DeploymentDetailView: View {
 	@Environment(\.dismiss) var dismiss
 	@Environment(\.project) var project
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 
-	var accountId: VercelAccount.ID { session.account.id }
+	var accountId: VercelAccount.ID? { session?.account.id }
 	var deploymentId: VercelDeployment.ID
 	@State var deployment: VercelDeployment?
 	@State private var actionsService: DeploymentActionsService?
@@ -50,7 +50,9 @@ struct DeploymentDetailView: View {
 						CommitSummary(commit: commit)
 					}
 				}
-				URLDetails(accountId: accountId, deployment: deployment)
+				if let accountId {
+					URLDetails(accountId: accountId, deployment: deployment)
+				}
 			} else {
 				ProgressView()
 			}
@@ -78,7 +80,7 @@ struct DeploymentDetailView: View {
 		.focusedSceneValue(\.focusedDeployment, deployment)
 		.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
 		.onAppear {
-			if actionsService == nil {
+			if actionsService == nil, let session, let accountId {
 				actionsService = DeploymentActionsService(session: session, accountId: accountId)
 			}
 		}
@@ -86,16 +88,17 @@ struct DeploymentDetailView: View {
 			do {
 				try await loadDeploymentDetails()
 			} catch {
-				print(error)
+				print(error.localizedDescription)
 			}
 		}
 	}
 
 	private func loadDeploymentDetails() async throws {
+		guard let session, let accountId else { return }
 		var request = VercelAPI.request(for: .deployments(version: 13, deploymentID: deploymentId), with: accountId)
 		try session.signRequest(&request)
 
-		let (data, _) = try await URLSession.shared.data(for: request)
+		let (data, response) = try await URLSession.shared.data(for: request)
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
 	}
@@ -132,7 +135,7 @@ private struct DeploymentActionConfirmationsModifier: ViewModifier {
 
 private struct CommitSummary: View {
 	var commit: AnyCommit
-	
+
 	var body: some View {
 		HStack(alignment: .firstTextBaseline) {
 			Text(commit.commitMessageSummary)
@@ -148,7 +151,7 @@ private struct CommitSummary: View {
 				Label("Copy commit SHA", systemImage: "doc.on.doc")
 			}
 		}
-		
+
 		Link(destination: commit.commitUrl) {
 			Label {
 				Text("Open in \(commit.provider.name)")
@@ -167,7 +170,7 @@ private struct CommitSummary: View {
 }
 
 private struct Overview: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	var deployment: VercelDeployment
 
 	var body: some View {
@@ -191,7 +194,7 @@ private struct Overview: View {
 					Text("Preview")
 				}
 			}
-			
+
 			LabelView(Text("Build duration")) {
 				if let building = deployment.building,
 					 let readyAt = deployment.readyAt {
@@ -202,10 +205,10 @@ private struct Overview: View {
 					Text("—")
 				}
 			}
-			
+
 			NavigationLink {
 				DeploymentLogView(deployment: deployment)
-					.environmentObject(session)
+					.environment(\.session, session)
 			} label: {
 				Label("View logs", systemImage: "terminal")
 			}
@@ -214,7 +217,7 @@ private struct Overview: View {
 }
 
 private struct URLDetails: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 
 	var accountId: VercelAccount.ID
 	var deployment: VercelDeployment
@@ -252,6 +255,7 @@ private struct URLDetails: View {
 					.badge(aliases.count)
 			}
 			.task {
+				guard let session else { return }
 				do {
 					var request = VercelAPI.request(
 						for: .deployments(
@@ -273,4 +277,3 @@ private struct URLDetails: View {
 		}
 	}
 }
-
