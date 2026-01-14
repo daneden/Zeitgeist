@@ -17,6 +17,8 @@ struct ProjectDetailView: View {
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
+	
+	@State var currentProductionDeployment: VercelDeployment?
 
 	@AppStorage(Preferences.deploymentNotificationIds)
 	private var deploymentNotificationIds
@@ -69,19 +71,19 @@ struct ProjectDetailView: View {
 					}
 				}
 				
-				if let productionDeployment = project.targets?.production {
+				if let currentProductionDeployment {
 					Section("Current Production Deployment") {
 						NavigationLink {
 							DeploymentDetailView(
-								deploymentId: productionDeployment.id,
-								deployment: productionDeployment
+								deploymentId: currentProductionDeployment.id,
+								deployment: currentProductionDeployment
 							)
-								.id(productionDeployment.id)
+								.id(currentProductionDeployment.id)
 								.environmentObject(session)
 								.environment(\.project, project)
 						} label: {
-							DeploymentListRowView(deployment: productionDeployment, isCurrentProduction: true)
-								.id(productionDeployment.id)
+							DeploymentListRowView(deployment: currentProductionDeployment, isCurrentProduction: true)
+								.id(currentProductionDeployment.id)
 						}
 					}
 				}
@@ -191,8 +193,11 @@ struct ProjectDetailView: View {
 	}
 
 	func initialLoad() async throws {
-		try await loadDeployments()
-		try await loadProject()
+		async let project: Void = loadProject()
+		async let deployments: Void = loadDeployments()
+		
+		try await project
+		try await deployments
 	}
 	
 	func loadProject() async throws {
@@ -204,6 +209,16 @@ struct ProjectDetailView: View {
 		
 		withAnimation {
 			self.project = projectResponse
+		}
+		
+		if let currentProductionDeploymentID = projectResponse.targets?.production?.id {
+			var currentProductionDeploymentRequest = VercelAPI.request(for: .deployments(version: 13, deploymentID: currentProductionDeploymentID), with: session.account.id)
+			try session.signRequest(&currentProductionDeploymentRequest)
+			
+			let (data, _) = try await URLSession.shared.data(for: currentProductionDeploymentRequest)
+			try withAnimation {
+				self.currentProductionDeployment = try JSONDecoder().decode(VercelDeployment.self, from: data)
+			}
 		}
 	}
 
