@@ -76,7 +76,7 @@ struct DeploymentDetailView: View {
 			onDismiss: { dismiss() }
 		))
 		.focusedSceneValue(\.focusedDeployment, deployment)
-		.focusedSceneValue(\.deploymentActionTrigger) { confirmingAction = $0 }
+		.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
 		.onAppear {
 			if actionsService == nil {
 				actionsService = DeploymentActionsService(session: session, accountId: accountId)
@@ -189,6 +189,17 @@ private struct Overview: View {
 						.symbolVariant(.fill)
 				} else {
 					Text("Preview")
+				}
+			}
+			
+			LabelView(Text("Build duration")) {
+				if let building = deployment.building,
+					 let readyAt = deployment.readyAt {
+					Text(Duration.seconds(building.distance(to: readyAt)).formatted())
+				} else if let building = deployment.building {
+					Text(building, style: .timer)
+				} else {
+					Text("—")
 				}
 			}
 			

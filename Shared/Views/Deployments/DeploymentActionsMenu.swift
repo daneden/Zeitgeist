@@ -11,7 +11,7 @@ extension FocusedValues {
 	@Entry var focusedAccount: VercelAccount?
 	@Entry var focusedProject: VercelProject?
 	@Entry var focusedDeployment: VercelDeployment?
-	@Entry var deploymentActionTrigger: ((DeploymentAction) -> Void)?
+	@Entry var confirmingDeploymentAction: Binding<DeploymentAction?>?
 }
 
 // MARK: - Deployment Action
@@ -195,7 +195,7 @@ struct DeploymentActionsMenu: View {
 struct DeploymentCommands: Commands {
 	@FocusedValue(\.focusedProject) private var project
 	@FocusedValue(\.focusedDeployment) private var deployment
-	@FocusedValue(\.deploymentActionTrigger) private var triggerAction
+	@FocusedValue(\.confirmingDeploymentAction) private var confirmingAction
 
 	private var isCurrentProduction: Bool {
 		guard let deployment, let project else { return false }
@@ -207,7 +207,7 @@ struct DeploymentCommands: Commands {
 			DeploymentActionMenuContent(
 				deployment: deployment,
 				isCurrentProduction: isCurrentProduction,
-				trigger: { triggerAction?($0) }
+				trigger: { confirmingAction?.wrappedValue = $0 }
 			)
 			.disabled(deployment == nil)
 		}
