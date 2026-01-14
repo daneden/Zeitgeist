@@ -84,10 +84,7 @@ final class VercelSession {
 		guard !account.deepEqual(to: moreRecentAccount) else { return }
 
 		account.updateAccount(to: moreRecentAccount)
-
-		if let index = Preferences.accounts.firstIndex(where: { $0.id == account.id }) {
-			Preferences.accounts[index] = moreRecentAccount
-		}
+		// Note: AccountManager.refreshCurrentAccount() handles persisting the updated account
 	}
 
 	// MARK: - Authentication

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-	@AppStorage(Preferences.authenticatedAccounts) var accounts
+	@Environment(AccountManager.self) var accountManager
 	@AppStorage(Preferences.lastAppVersionOpened) private var lastAppVersionOpened
 
 	@State private var presentNewFeaturesScreen = false
@@ -16,7 +16,7 @@ struct ContentView: View {
 	var body: some View {
 		AuthenticatedContentView()
 			.formStyle(.grouped)
-			.animation(.default, value: accounts.isEmpty)
+			.animation(.default, value: accountManager.hasAccounts)
 			.symbolRenderingMode(.hierarchical)
 			.onAppear {
 				if let lastAppVersionOpened,
@@ -28,7 +28,7 @@ struct ContentView: View {
 			.sheet(isPresented: $presentNewFeaturesScreen) {
 				NewFeaturesView()
 			}
-			.sheet(isPresented: Binding(get: { accounts.isEmpty }, set: { _ in })) {
+			.sheet(isPresented: Binding(get: { !accountManager.hasAccounts }, set: { _ in })) {
 				OnboardingView()
 					.interactiveDismissDisabled()
 #if !os(iOS)
