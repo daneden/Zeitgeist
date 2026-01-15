@@ -148,7 +148,8 @@ struct ProjectsListView: View {
 		.navigationTitle("Projects")
 		.modify {
 			if #available(iOS 26, macOS 11, *) {
-				if let account = session?.account {
+				if let account = session?.account,
+					let name = account.name ?? account.username {
 					$0.navigationSubtitle(account.name)
 				} else {
 					$0
