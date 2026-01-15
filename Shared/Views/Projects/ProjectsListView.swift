@@ -150,7 +150,7 @@ struct ProjectsListView: View {
 			if #available(iOS 26, macOS 11, *) {
 				if let account = session?.account,
 					let name = account.name ?? account.username {
-					$0.navigationSubtitle(account.name)
+					$0.navigationSubtitle(name)
 				} else {
 					$0
 				}
