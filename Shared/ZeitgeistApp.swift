@@ -21,11 +21,6 @@ struct ZeitgeistApp: App {
 		WindowGroup {
 			ContentView()
 				.environment(accountManager)
-				.task {
-					if MigrationHelpers.V3.needsMigration {
-						await MigrationHelpers.V3.migrateAccountIdsToAccounts()
-					}
-				}
 		}
 		.commands {
 			DeploymentCommands()

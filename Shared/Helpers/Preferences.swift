@@ -11,7 +11,6 @@ import SwiftUI
 struct Preferences {
 	enum Keys: String {
 		case authenticatedAccounts,
-				 authenticatedAccountIds,
 				 lastAppVersionOpened,
 		     notificationsEnabled,
 		     deploymentNotificationsProductionOnly,
@@ -41,9 +40,6 @@ struct Preferences {
 	static let lastAuthenticated: AppStorageKVPair<Date> = (.lastAuthenticated, .distantPast)
 	static let authenticationTimeout: AppStorageKVPair<TimeInterval> = (.authenticationTimeout, 60 * 10)
 	static let followLogs: AppStorageKVPair<Bool> = (.followLogs, false)
-
-	@available(*, deprecated)
-	static let authenticatedAccountIds: AppStorageKVPair<[VercelAccount.ID]> = (.authenticatedAccountIds, [])
 
 	static let store = UserDefaults(suiteName: "group.me.daneden.Zeitgeist")!
 }
