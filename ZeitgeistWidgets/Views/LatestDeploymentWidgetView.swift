@@ -33,6 +33,7 @@ struct LatestDeploymentWidgetView: View {
 				Color.clear
 			}
 		}
+		.containerBackground(.background, for: .widget)
 	}
 
 	// MARK: Private
@@ -103,10 +104,26 @@ struct LatestDeploymentWidgetView: View {
 		.tint(.indigo)
 	}
 
+	@ViewBuilder
 	private var circularAccessoryView: some View {
-		Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-			.imageScale(.large)
-			.font(.largeTitle)
+		ZStack {
+			AccessoryWidgetBackground()
+			
+			Label {
+				if let deployment = config.deployment {
+					let stateText = Text(deployment.state.description)
+					Text("Latest deployment for \(deployment.project): \(stateText)")
+				} else {
+					Text("No recent deployment")
+				}
+			} icon: {
+				Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
+					.imageScale(.large)
+					.font(.largeTitle)
+			}
+			.labelStyle(.iconOnly)
+		}
+		
 	}
 
 	private var accessoryView: some View {
