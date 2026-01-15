@@ -330,3 +330,24 @@ extension VercelDeployment {
 		return try? JSONSerialization.data(withJSONObject: dataDict)
 	}
 }
+
+extension VercelDeployment: Encodable {
+	func encode(to encoder: any Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(project, forKey: .project)
+		try container.encodeIfPresent(projectId, forKey: .projectId)
+		try container.encode(urlString, forKey: .urlString)
+		try container.encode(createdAt, forKey: .createdAt)
+		try container.encodeIfPresent(buildingAt, forKey: .buildingAt)
+		try container.encode(id, forKey: .id)
+		try container.encodeIfPresent(commit, forKey: .commit)
+		try container.encodeIfPresent(target, forKey: .target)
+		try container.encode(inspectorUrlString, forKey: .inspectorUrlString)
+		try container.encodeIfPresent(team, forKey: .team)
+		try container.encodeIfPresent(teamId, forKey: .teamId)
+		try container.encodeIfPresent(creator, forKey: .creator)
+		try container.encodeIfPresent(ready, forKey: .ready)
+		try container.encodeIfPresent(readySubstate, forKey: .readySubstate)
+		try container.encode(state, forKey: .state)
+	}
+}
