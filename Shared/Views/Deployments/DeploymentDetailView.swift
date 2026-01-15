@@ -259,12 +259,12 @@ private struct URLDetails: View {
 
 	var body: some View {
 		Section(header: Text("Deployment URL")) {
-			Link(destination: deployment.url) {
-				Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
+			Link(destination: deployment.deploymentURL) {
+				Label(deployment.deploymentURL.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
 
 			Button {
-				Pasteboard.setString(deployment.url.absoluteString)
+				Pasteboard.setString(deployment.deploymentURL.absoluteString)
 			} label: {
 				Label("Copy URL", systemImage: "doc.on.doc")
 			}.keyboardShortcut("c", modifiers: [.command])
