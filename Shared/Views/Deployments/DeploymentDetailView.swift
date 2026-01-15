@@ -184,29 +184,9 @@ private struct CommitSummary: View {
 				}
 			}
 			
-			if let commitAuthorName = meta.commitAuthorName,
-				 let commitAuthorAvatarUrl = meta.commitAuthorAvatarUrl {
-				HStack(spacing: 4) {
-					AsyncImage(url: commitAuthorAvatarUrl) { image in
-						image
-							.resizable()
-							.frame(maxWidth: 16, maxHeight: 16)
-							.clipShape(.circle)
-							.overlay {
-								Circle()
-									.fill(.clear)
-									.strokeBorder(.secondary.opacity(0.3), lineWidth: 1)
-							}
-					} placeholder: {
-						ProgressView()
-							.controlSize(.small)
-					}
-					
-					Text(commitAuthorName)
-						.font(.caption)
-						.foregroundStyle(.secondary)
-				}
-			}
+			CommitAuthorAttributionView(commit: meta)
+				.font(.caption)
+				.foregroundStyle(.secondary)
 		}
 		.contextMenu {
 			if let sha = meta.commitSha {
