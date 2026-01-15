@@ -47,24 +47,31 @@ final class VercelSession {
 	private(set) var account: VercelAccount
 	private(set) var requestsDenied = false
 	private var accountLastUpdated: Date?
+	private let tokenStore: TokenStore
 
 	// MARK: - Initialization
 
 	/// Failable initializer that validates the account has an authentication token
-	init?(account: VercelAccount) {
-		guard KeychainItem(account: account.id).wrappedValue != nil else {
+	/// - Parameters:
+	///   - account: The account to create a session for
+	///   - tokenStore: Backend for secure token storage. Defaults to Keychain.
+	init?(account: VercelAccount, tokenStore: TokenStore = KeychainTokenStore()) {
+		guard tokenStore.hasToken(for: account.id) else {
 			return nil
 		}
 		self.account = account
+		self.tokenStore = tokenStore
 	}
 
 	/// Initializer for contexts where token validation may be deferred (e.g., widgets)
 	/// - Parameters:
 	///   - account: The account to create a session for
+	///   - tokenStore: Backend for secure token storage. Defaults to Keychain.
 	///   - skipTokenValidation: Must be `true` to use this initializer
-	init(account: VercelAccount, skipTokenValidation: Bool) {
+	init(account: VercelAccount, tokenStore: TokenStore = KeychainTokenStore(), skipTokenValidation: Bool) {
 		precondition(skipTokenValidation, "Use init?(account:) for validated initialization")
 		self.account = account
+		self.tokenStore = tokenStore
 	}
 
 	// MARK: - Account Management
@@ -88,9 +95,8 @@ final class VercelSession {
 	}
 
 	// MARK: - Authentication
-
 	var authenticationToken: String? {
-		KeychainItem(account: account.id).wrappedValue
+		tokenStore.getToken(for: account.id)
 	}
 
 	var isAuthenticated: Bool {
