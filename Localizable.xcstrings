@@ -664,6 +664,16 @@
         }
       }
     },
+    "Latest deployment for %@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Latest deployment for %1$@: %2$@"
+          }
+        }
+      }
+    },
     "Latest production deployment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -829,6 +839,9 @@
           }
         }
       }
+    },
+    "No recent deployment" : {
+
     },
     "Notification permissions required" : {
       "localizations" : {
