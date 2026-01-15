@@ -66,7 +66,10 @@ struct ProjectDetailView: View {
 							Text(gitLink.productionBranch)
 						}
 
-						NavigationLink(destination: ProjectEnvironmentVariablesView(projectId: project.id).environment(\.session, session)) {
+						NavigationLink {
+							ProjectEnvironmentVariablesView(projectId: project.id)
+								.environment(\.session, session)
+						} label: {
 							Text("Environment variables")
 						}
 					}
@@ -123,6 +126,8 @@ struct ProjectDetailView: View {
 		}
 		#if os(iOS)
 		.listStyle(.insetGrouped)
+		#elseif os(macOS)
+		.listStyle(.inset)
 		#endif
 		.toolbar {
 			ToolbarItem {
@@ -192,6 +197,16 @@ struct ProjectDetailView: View {
 
 	func loadProject() async throws {
 		guard let session else { return }
+		
+		/// Try to decode a current production deployment as soon as possible
+		if let currentProductionDeploymentId = project?.targets?.production?.id {
+			let request = VercelAPI.request(for: .deployments(version: 13, deploymentID: currentProductionDeploymentId), with: session.account.id)
+			if let cachedResponse = URLCache.shared.cachedResponse(for: request)?.data,
+				 let decodedFromCache = try? JSONDecoder().decode(VercelDeployment.self, from: cachedResponse) {
+				self.currentProductionDeployment = decodedFromCache
+			}
+		}
+		
 		var request = VercelAPI.request(for: .projects(projectId), with: session.account.id)
 		try session.signRequest(&request)
 
