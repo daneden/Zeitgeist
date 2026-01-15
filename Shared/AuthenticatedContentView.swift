@@ -74,12 +74,6 @@ struct AuthenticatedContentView: View {
 		}
 		.environment(\.session, session)
 	}
-
-	func deleteAccount(at indices: IndexSet) {
-		for index in indices {
-			accountManager.deleteAccount(id: accountManager.accounts[index].id)
-		}
-	}
 }
 
 struct AuthenticatedContentView_Previews: PreviewProvider {

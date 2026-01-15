@@ -15,10 +15,6 @@ extension Array where Element: Hashable {
 			removeAll { $0 == element }
 		}
 	}
-
-	func contains(_ element: Element) -> Bool {
-		contains { $0 == element }
-	}
 }
 
 extension Array: @retroactive RawRepresentable where Element: Codable {

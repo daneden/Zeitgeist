@@ -11,17 +11,13 @@ import Foundation
 @MainActor
 final class DeploymentActionsService {
 	var isMutating = false
-	var recentlyCancelled = false
 
-	private(set) var id = UUID()
-	
 	private let session: VercelSession
 	private let accountId: VercelAccount.ID
 
 	init(session: VercelSession, accountId: VercelAccount.ID) {
 		self.session = session
 		self.accountId = accountId
-		self.id = UUID()
 	}
 
 	// MARK: - Promote to Production
@@ -171,7 +167,6 @@ final class DeploymentActionsService {
 			if let response = response as? HTTPURLResponse,
 			   response.statusCode == 200
 			{
-				recentlyCancelled = true
 				return true
 			}
 			return false
