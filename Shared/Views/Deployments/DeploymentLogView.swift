@@ -170,7 +170,7 @@ struct DeploymentLogView: View {
 						}
 						.toggleStyle(.button)
 						.disabled(logEvents.isEmpty)
-						.onChange(of: followLogs) { _ in
+						.task(id: followLogs) {
 							if followLogs {
 								withAnimation {
 									proxy.scrollTo(logEvents.last?.id, anchor: .bottomLeading)
@@ -180,7 +180,7 @@ struct DeploymentLogView: View {
 					}
 					
 					if #available(iOS 26, macOS 26, *) {
-						ToolbarSpacer()
+						ToolbarSpacer(.fixed)
 					}
 					
 					ToolbarItem {

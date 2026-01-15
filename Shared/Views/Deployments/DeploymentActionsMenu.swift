@@ -237,8 +237,7 @@ extension View {
 				Button("Cancel", role: .cancel) {}
 				Button("Restore to production") {
 					Task {
-						guard let project else { return }
-						if await service.instantRollback(deployment, project: project) {
+						if await service.instantRollback(deployment) {
 							onDismiss()
 						}
 					}
@@ -258,8 +257,8 @@ extension View {
 					Task {
 						let shouldUseStagingPromote = (deployment.target == .staging) || (deployment.target == .production && !isCurrentProduction)
 						let success: Bool
-						if shouldUseStagingPromote, let project {
-							success = await service.promoteStagingToProduction(deployment, project: project)
+						if shouldUseStagingPromote, deployment.projectId != nil {
+							success = await service.promoteStagingToProduction(deployment)
 						} else {
 							success = await service.promoteToProduction(deployment)
 						}

@@ -39,19 +39,23 @@ struct AuthenticatedContentView: View {
 					ContentUnavailableView("No account selected", image: "person.fill.questionmark")
 				}
 			}
+			#if os(iOS)
 			.withAccountSwitcher()
+			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
 		} content: {
-			if let selectedProject, session != nil {
-				ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
-			} else {
-				PlaceholderView(forRole: .ProjectDetail)
-			}
+				if let selectedProject, session != nil {
+					ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
+						.id(selectedProject)
+				} else {
+					PlaceholderView(forRole: .ProjectDetail)
+				}
 		} detail: {
 			NavigationStack {
 				Group {
 					if let selectedDeployment, session != nil {
 						DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
+							.id(selectedDeployment)
 					} else {
 						PlaceholderView(forRole: .DeploymentDetail)
 					}

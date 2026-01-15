@@ -27,6 +27,8 @@ struct ProjectsListView: View {
 	@State private var pagination: Pagination?
 	@State private var searchText = ""
 	@State private var projectsError: SessionError?
+	
+	@State private var showAccountManagementView = false
 
 	@Binding var selectedProject: VercelProject?
 	@Binding var selectedDeployment: VercelDeployment?
@@ -47,6 +49,35 @@ struct ProjectsListView: View {
 	var body: some View {
 		ZStack {
 			List(selection: $selectedProject) {
+				#if os(macOS)
+				if let selectedAccount = session?.account {
+					Section {
+						Button {
+							showAccountManagementView = true
+						} label: {
+							HStack {
+								AccountListRowView(account: selectedAccount)
+									.frame(maxWidth: .infinity, alignment: .leading)
+								
+								Image(systemName: "chevron.up.chevron.down")
+							}
+							.contentShape(.capsule(style: .continuous))
+						}
+						.buttonStyle(.plain)
+					}
+					.sheet(isPresented: $showAccountManagementView) {
+						AccountManagementView()
+							.modify {
+								if #available(macOS 15, *) {
+									$0.presentationSizing(.form)
+								} else {
+									$0.frame(minHeight: 400)
+								}
+							}
+					}
+				}
+				#endif
+				
 				ForEach(filteredProjects) { project in
 					NavigationLink(value: project) {
 						ProjectsListRowView(project: project)
@@ -67,18 +98,24 @@ struct ProjectsListView: View {
 			}
 			.searchable(text: $searchText)
 			.toolbar {
-				Menu {
-					Picker(selection: $projectSummaryDisplayOption) {
-						ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
-							Text(option.description)
-								.tag(option)
+				ToolbarItem(placement: .secondaryAction) {
+					Menu {
+						Picker(selection: $projectSummaryDisplayOption) {
+							ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
+								Text(option.description)
+									.tag(option)
+							}
+						} label: {
+							Label("Show deployment cause for...", systemImage: "rectangle.and.text.magnifyingglass")
 						}
 					} label: {
-						Label("Show deployment cause for...", systemImage: "rectangle.and.text.magnifyingglass")
+						Label("View options", systemImage: "eye")
+							.backportCircleSymbolVariant()
 					}
-				} label: {
-					Label("View options", systemImage: "eye")
-						.backportCircleSymbolVariant()
+				}
+				
+				if #available(iOS 26, macOS 26, *) {
+					ToolbarSpacer(.fixed)
 				}
 			}
 			.zeitgeistDataTask {

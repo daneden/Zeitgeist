@@ -48,13 +48,13 @@ final class DeploymentActionsService {
 
 	/// Promotes a staging or previous production deployment to production using the project promote endpoint
 	@discardableResult
-	func promoteStagingToProduction(_ deployment: VercelDeployment, project: VercelProject) async -> Bool {
+	func promoteStagingToProduction(_ deployment: VercelDeployment) async -> Bool {
 		isMutating = true
 		defer { isMutating = false }
 
 		do {
 			var request = VercelAPI.request(
-				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
+				for: .projects(version: 10, deployment.projectId, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .POST
 			)
@@ -72,13 +72,13 @@ final class DeploymentActionsService {
 
 	/// Performs instant rollback to a previous production deployment
 	@discardableResult
-	func instantRollback(_ deployment: VercelDeployment, project: VercelProject) async -> Bool {
+	func instantRollback(_ deployment: VercelDeployment) async -> Bool {
 		isMutating = true
 		defer { isMutating = false }
 
 		do {
 			var request = VercelAPI.request(
-				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
+				for: .projects(version: 10, deployment.projectId, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .POST
 			)

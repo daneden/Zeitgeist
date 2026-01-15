@@ -4,6 +4,7 @@ import SwiftUI
 struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 	var isMockDeployment: Bool?
 	var project: String
+	var projectId: String?
 	var id: String
 	var target: Target?
 	
@@ -74,6 +75,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 
 	enum CodingKeys: String, CodingKey {
 		case project = "name"
+		case projectId = "projectId"
 		case urlString = "url"
 		case createdAt = "created"
 		case createdAtFallback = "createdAt"
@@ -87,6 +89,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		project = try container.decode(String.self, forKey: .project)
+		projectId = try container.decodeIfPresent(String.self, forKey: .projectId)
 		state = try container.decodeIfPresent(VercelDeployment.State.self, forKey: .readyState) ?? container.decode(VercelDeployment.State.self, forKey: .state)
 		urlString = try container.decode(String.self, forKey: .urlString)
 		createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
@@ -112,6 +115,7 @@ struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 		}
 
 		project = "Example Project"
+		projectId = UUID().uuidString
 		state = .allCases.randomElement()!
 		urlString = "zeitgeist.daneden.me"
 		createdAt = Int(Date().timeIntervalSince1970 * 1000)
