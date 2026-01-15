@@ -19,7 +19,9 @@ struct AccountManagementView: View {
 				Section {
 					ForEach(accountManager.accounts) { account in
 						Button {
-							accountManager.selectAccount(account)
+							withAnimation {
+								accountManager.selectAccount(account)
+							}
 						} label: {
 							HStack {
 								AccountListRowView(account: account)
@@ -30,6 +32,7 @@ struct AccountManagementView: View {
 										.foregroundStyle(.tint)
 								}
 							}
+							.contentShape(.rect)
 						}
 						.buttonStyle(.plain)
 						.contextMenu {
