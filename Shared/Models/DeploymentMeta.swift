@@ -141,8 +141,11 @@ struct DeploymentMeta: Codable, Equatable, Hashable {
 	}
 	
 	var commitAuthorAvatarUrl: URL? {
-		if let githubCommitAuthorLogin {
-			return URL(string: "https://github.com/\(githubCommitAuthorLogin).png")
+		if let githubCommitAuthorLogin,
+			 /// Dependabot, one of the more common automated GitHub contributors, reports its username as dependabot[bot]
+			 /// To get the correct username URL, we split on "[" here
+			 let username = githubCommitAuthorLogin.split(separator: "[").first {
+			return URL(string: "https://avatars.githubusercontent.com/\(String(username))?s=48")
 		} else if let bitbucketCommitAuthorAvatar {
 			return URL(string: bitbucketCommitAuthorAvatar)
 		} else {

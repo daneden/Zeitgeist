@@ -43,12 +43,19 @@ struct DeploymentListRowView: View {
 						.lineLimit(2)
 				}
 				
-				VStack(alignment: .leading, spacing: 2) {
+				HStack {
+					if let meta = deployment.meta {
+						CommitAuthorAttributionView(commit: meta)
+						
+						Circle()
+							.foregroundStyle(.secondary)
+							.frame(width: 4)
+					}
+					
 					Text("\(deployment.created, style: .relative) ago", comment: "Timestamp for when a deployment was created in a deployment list row")
-						.fixedSize()
-						.foregroundStyle(.secondary)
-						.font(.caption)
 				}
+				.font(.caption)
+				.foregroundStyle(.secondary)
 			}
 		} icon: {
 			DeploymentStateIndicator(state: deployment.state, style: .compact)

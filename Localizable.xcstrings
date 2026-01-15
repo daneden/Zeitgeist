@@ -43,6 +43,9 @@
         }
       }
     },
+    "•" : {
+
+    },
     "A new deployment is required for your changes to take effect." : {
       "localizations" : {
         "fr" : {
