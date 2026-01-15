@@ -13,7 +13,7 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 	var creator: CreatorOverview?
 	var team: TeamOverview?
 	var teamId: String?
-	var meta: AnyCommit?
+	var meta: DeploymentMeta?
 
 	private var createdAt: Int
 	private var buildingAt: Int?
@@ -54,10 +54,7 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 		URL(string: "https://\(inspectorUrl)")!
 	}
 
-	// MARK: - Computed Properties (Backwards Compatibility)
-
-	/// Alias for `meta` - the commit/webhook info that triggered this deployment
-	var commit: AnyCommit? { meta }
+	// MARK: - Computed Properties (Deployment Cause)
 
 	var deploymentCause: DeploymentCause {
 		guard let meta else { return .manual }
@@ -67,10 +64,12 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 			case .promote:
 				return .promotion(originalDeploymentId: meta.originalDeploymentId)
 			}
-		} else if let deploymentHookName = meta.deployHookName {
-			return .deployHook(name: deploymentHookName)
+		} else if let deployHookName = meta.deployHookName {
+			return .deployHook(name: deployHookName)
+		} else if meta.hasCommitInfo {
+			return .gitCommit(meta: meta)
 		} else {
-			return .gitCommit(commit: meta)
+			return .manual
 		}
 	}
 
@@ -85,23 +84,29 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 		lhs.id == rhs.id && lhs.state == rhs.state
 	}
 
-	// MARK: - CodingKeys (for auto-synthesized Encodable)
+	// MARK: - CodingKeys
 	//
 	// Maps Swift property names to JSON keys.
-	// Encodable is auto-synthesized using these keys.
+	// Includes aliased keys for fields that differ between API endpoints.
 
 	enum CodingKeys: String, CodingKey {
-		case id
+		// Aliased fields (different keys per endpoint)
+		case id                         // single-deployment
+		case uid                        // list-deployments
+		case createdAt                  // single-deployment
+		case created                    // list-deployments
+		case state                      // list-deployments
+		case readyState                 // single-deployment
+
+		// Common fields
 		case project = "name"
 		case projectId
 		case target
-		case state = "readyState"
 		case readySubstate
 		case creator
 		case team
 		case teamId
 		case meta
-		case createdAt
 		case buildingAt
 		case ready
 		case url
@@ -111,82 +116,68 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 	// MARK: - Decodable (Manual)
 	//
 	// The Vercel API returns different keys depending on the endpoint:
-	// - List deployments: uid, created, state
-	// - Get single deployment: id, createdAt, readyState
+	// - List deployments (/v6/deployments): uid, created, state
+	// - Get single deployment (/v13/deployments/{id}): id, createdAt, readyState
 	//
-	// We use RawAPIResponse to handle both formats, then normalize.
+	// We use the KeyedDecodingContainer+Fallback extension to handle both formats.
 
 	init(from decoder: Decoder) throws {
-		let raw = try RawAPIResponse(from: decoder)
+		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		// Normalize aliased fields (prefer list-deployments keys, fall back to single-deployment keys)
-		guard let id = raw.uid ?? raw.id else {
-			throw DecodingError.keyNotFound(
-				CodingKeys.id,
-				DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Neither 'uid' nor 'id' found")
-			)
-		}
-		self.id = id
-
-		guard let createdAt = raw.created ?? raw.createdAt else {
-			throw DecodingError.keyNotFound(
-				CodingKeys.createdAt,
-				DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Neither 'created' nor 'createdAt' found")
-			)
-		}
-		self.createdAt = createdAt
-
-		guard let state = raw.state ?? raw.readyState else {
-			throw DecodingError.keyNotFound(
-				CodingKeys.state,
-				DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Neither 'state' nor 'readyState' found")
-			)
-		}
-		self.state = state
+		// Decode aliased fields using fallback extension
+		self.id = try container.decode(String.self, forKeys: .uid, .id)
+		self.createdAt = try container.decode(Int.self, forKeys: .created, .createdAt)
+		self.state = try container.decode(State.self, forKeys: .state, .readyState)
 
 		// Direct mappings
-		self.project = raw.name
-		self.projectId = raw.projectId
-		self.target = raw.target
-		self.readySubstate = raw.readySubstate
-		self.creator = raw.creator
-		self.team = raw.team
-		self.teamId = raw.teamId
-		self.buildingAt = raw.buildingAt
-		self.ready = raw.ready
-		self.url = raw.url
-		self.inspectorUrl = raw.inspectorUrl ?? "\(raw.url)/_logs"
+		self.project = try container.decode(String.self, forKey: .project)
+		self.projectId = try container.decodeIfPresent(String.self, forKey: .projectId)
+		self.target = try container.decodeIfPresent(Target.self, forKey: .target)
+		self.readySubstate = try container.decodeIfPresent(ReadySubstate.self, forKey: .readySubstate)
+		self.creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
+		self.team = try container.decodeIfPresent(TeamOverview.self, forKey: .team)
+		self.teamId = try container.decodeIfPresent(String.self, forKey: .teamId)
+		self.buildingAt = try container.decodeIfPresent(Int.self, forKey: .buildingAt)
+		self.ready = try container.decodeIfPresent(Int.self, forKey: .ready)
+		self.url = try container.decode(String.self, forKey: .url)
 
-		// Decode meta separately - it may have different structures across endpoints,
-		// so we gracefully fall back to nil if it can't be decoded as AnyCommit
-		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.meta = try? container.decodeIfPresent(AnyCommit.self, forKey: .meta)
+		// Inspector URL with fallback to constructed URL
+		if let inspectorUrl = try container.decodeIfPresent(String.self, forKey: .inspectorUrl) {
+			self.inspectorUrl = inspectorUrl
+		} else {
+			self.inspectorUrl = "\(self.url)/_logs"
+		}
+
+		// Decode meta with graceful fallback to nil
+		self.meta = try? container.decodeIfPresent(DeploymentMeta.self, forKey: .meta)
 	}
 
-	/// Raw API response structure that handles both endpoint formats.
-	/// All aliased fields are optional; normalization happens in init(from:).
-	/// Note: `meta` is excluded here and decoded separately with failure tolerance.
-	private struct RawAPIResponse: Decodable {
-		// Aliased fields (different keys per endpoint)
-		let uid: String?        // list-deployments
-		let id: String?         // single-deployment
-		let created: Int?       // list-deployments
-		let createdAt: Int?     // single-deployment
-		let state: State?       // list-deployments
-		let readyState: State?  // single-deployment
+	// MARK: - Encodable (Manual)
+	//
+	// We encode using the single-deployment format (id, createdAt, readyState)
+	// since that's the canonical representation.
 
-		// Common fields (same keys across endpoints)
-		let name: String
-		let projectId: String?
-		let target: Target?
-		let readySubstate: ReadySubstate?
-		let creator: CreatorOverview?
-		let team: TeamOverview?
-		let teamId: String?
-		let buildingAt: Int?
-		let ready: Int?
-		let url: String
-		let inspectorUrl: String?
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+
+		// Use single-deployment keys for encoding
+		try container.encode(id, forKey: .id)
+		try container.encode(createdAt, forKey: .createdAt)
+		try container.encode(state, forKey: .readyState)
+
+		// Common fields
+		try container.encode(project, forKey: .project)
+		try container.encodeIfPresent(projectId, forKey: .projectId)
+		try container.encodeIfPresent(target, forKey: .target)
+		try container.encodeIfPresent(readySubstate, forKey: .readySubstate)
+		try container.encodeIfPresent(creator, forKey: .creator)
+		try container.encodeIfPresent(team, forKey: .team)
+		try container.encodeIfPresent(teamId, forKey: .teamId)
+		try container.encodeIfPresent(meta, forKey: .meta)
+		try container.encodeIfPresent(buildingAt, forKey: .buildingAt)
+		try container.encodeIfPresent(ready, forKey: .ready)
+		try container.encode(url, forKey: .url)
+		try container.encode(inspectorUrl, forKey: .inspectorUrl)
 	}
 
 	// MARK: - Mock Initializer
@@ -265,15 +256,15 @@ extension VercelDeployment {
 		}
 	}
 
-	enum DeploymentCause: Codable {
+	enum DeploymentCause: Codable, Equatable {
 		case deployHook(name: String)
-		case gitCommit(commit: AnyCommit)
+		case gitCommit(meta: DeploymentMeta)
 		case promotion(originalDeploymentId: VercelDeployment.ID?)
 		case manual
 
 		var description: String {
 			switch self {
-			case .gitCommit(let commit): return commit.commitMessageSummary
+			case .gitCommit(let meta): return meta.commitMessageSummary
 			case .deployHook(let name): return name
 			case .promotion: return "Production rebuild"
 			case .manual: return "Manual deployment"
@@ -282,7 +273,7 @@ extension VercelDeployment {
 
 		var icon: String? {
 			switch self {
-			case .gitCommit(let commit): return commit.provider.rawValue
+			case .gitCommit(let meta): return meta.provider?.rawValue
 			case .deployHook: return "hook"
 			case .promotion: return "arrow.up.circle"
 			case .manual: return nil
@@ -361,12 +352,12 @@ extension VercelDeployment {
 	}
 
 	var redeployDataPayload: Data? {
-		guard let meta else { return nil }
+		guard let meta, let provider = meta.provider else { return nil }
 
 		var gitSource: [String: String?] = [
 			"ref": meta.commitRef,
 			"sha": meta.commitSha,
-			"type": meta.provider.rawValue,
+			"type": provider.rawValue,
 		]
 
 		var dataDict: [String: Any] = ["name": project]
@@ -375,14 +366,14 @@ extension VercelDeployment {
 			dataDict["target"] = "production"
 		}
 
-		switch meta.provider {
+		switch provider {
 		case .github:
 			gitSource["repoId"] = meta.repoId
 			gitSource["prId"] = nil
 		case .bitbucket:
 			gitSource["owner"] = meta.org
 			gitSource["slug"] = meta.repo
-			gitSource["workspaceUuid"] = (meta.wrapped as? BitBucketCommit)?.workspaceId
+			gitSource["workspaceUuid"] = meta.workspaceId
 			gitSource["repoUuid"] = meta.repoId
 		case .gitlab:
 			gitSource["projectId"] = meta.repoId
