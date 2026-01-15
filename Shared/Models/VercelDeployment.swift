@@ -73,36 +73,61 @@ struct VercelDeployment: Identifiable, Hashable, Decodable, Equatable {
 		hasher.combine(state)
 	}
 
-	enum CodingKeys: String, CodingKey {
-		case project = "name"
-		case projectId = "projectId"
-		case urlString = "url"
-		case createdAt = "created"
-		case createdAtFallback = "createdAt"
-		case commit = "meta"
-		case inspectorUrlString = "inspectorUrl"
-		case buildingAt = "buildingAt"
+	// MARK: - Coding Keys
+	//
+	// The Vercel API returns different keys depending on the endpoint:
+	// - List deployments: uid, created, state
+	// - Get single deployment: id, createdAt, readyState
+	//
+	// We use fallback decoding to handle both response formats.
 
-		case state, creator, target, readyState, readySubstate, ready, uid, id, teamId, team
+	enum CodingKeys: String, CodingKey {
+		// Primary keys (from single deployment endpoint)
+		case id
+		case createdAt
+		case readyState
+
+		// Fallback keys (from list deployments endpoint)
+		case uid
+		case created
+		case state
+
+		// Common keys
+		case name  // maps to `project` property
+		case projectId
+		case url
+		case meta  // maps to `commit` property
+		case inspectorUrl
+		case buildingAt
+		case ready
+		case readySubstate
+		case target
+		case creator
+		case team
+		case teamId
 	}
 
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		project = try container.decode(String.self, forKey: .project)
+
+		// Decode with fallbacks for API inconsistencies
+		id = try container.decode(String.self, forKeys: .uid, .id)
+		createdAt = try container.decode(Int.self, forKeys: .created, .createdAt)
+		state = try container.decode(State.self, forKeys: .readyState, .state)
+
+		// Standard decoding
+		project = try container.decode(String.self, forKey: .name)
 		projectId = try container.decodeIfPresent(String.self, forKey: .projectId)
-		state = try container.decodeIfPresent(VercelDeployment.State.self, forKey: .readyState) ?? container.decode(VercelDeployment.State.self, forKey: .state)
-		urlString = try container.decode(String.self, forKey: .urlString)
-		createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAtFallback) ?? container.decode(Int.self, forKey: .createdAt)
+		urlString = try container.decode(String.self, forKey: .url)
 		buildingAt = try container.decodeIfPresent(Int.self, forKey: .buildingAt)
-		id = try container.decodeIfPresent(String.self, forKey: .uid) ?? container.decode(String.self, forKey: .id)
-		commit = try? container.decode(AnyCommit.self, forKey: .commit)
-		target = try? container.decode(VercelDeployment.Target.self, forKey: .target)
-		inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrlString) ?? "\(urlString)/_logs"
-		team = try? container.decodeIfPresent(TeamOverview.self, forKey: .team)
-		teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
-		creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
 		ready = try container.decodeIfPresent(Int.self, forKey: .ready)
 		readySubstate = try container.decodeIfPresent(ReadySubstate.self, forKey: .readySubstate)
+		target = try container.decodeIfPresent(Target.self, forKey: .target)
+		creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
+		team = try container.decodeIfPresent(TeamOverview.self, forKey: .team)
+		teamId = try container.decodeIfPresent(String.self, forKey: .teamId)
+		commit = try? container.decodeIfPresent(AnyCommit.self, forKey: .meta)
+		inspectorUrlString = try container.decodeIfPresent(String.self, forKey: .inspectorUrl) ?? "\(urlString)/_logs"
 	}
 
 	static func == (lhs: VercelDeployment, rhs: VercelDeployment) -> Bool {
@@ -334,20 +359,23 @@ extension VercelDeployment {
 extension VercelDeployment: Encodable {
 	func encode(to encoder: any Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
-		try container.encode(project, forKey: .project)
-		try container.encodeIfPresent(projectId, forKey: .projectId)
-		try container.encode(urlString, forKey: .urlString)
-		try container.encode(createdAt, forKey: .createdAt)
-		try container.encodeIfPresent(buildingAt, forKey: .buildingAt)
+
+		// Use the single-deployment endpoint key names for consistency
 		try container.encode(id, forKey: .id)
-		try container.encodeIfPresent(commit, forKey: .commit)
-		try container.encodeIfPresent(target, forKey: .target)
-		try container.encode(inspectorUrlString, forKey: .inspectorUrlString)
-		try container.encodeIfPresent(team, forKey: .team)
-		try container.encodeIfPresent(teamId, forKey: .teamId)
-		try container.encodeIfPresent(creator, forKey: .creator)
+		try container.encode(createdAt, forKey: .createdAt)
+		try container.encode(state, forKey: .readyState)
+
+		try container.encode(project, forKey: .name)
+		try container.encodeIfPresent(projectId, forKey: .projectId)
+		try container.encode(urlString, forKey: .url)
+		try container.encodeIfPresent(buildingAt, forKey: .buildingAt)
 		try container.encodeIfPresent(ready, forKey: .ready)
 		try container.encodeIfPresent(readySubstate, forKey: .readySubstate)
-		try container.encode(state, forKey: .state)
+		try container.encodeIfPresent(target, forKey: .target)
+		try container.encodeIfPresent(creator, forKey: .creator)
+		try container.encodeIfPresent(team, forKey: .team)
+		try container.encodeIfPresent(teamId, forKey: .teamId)
+		try container.encodeIfPresent(commit, forKey: .meta)
+		try container.encode(inspectorUrlString, forKey: .inspectorUrl)
 	}
 }
