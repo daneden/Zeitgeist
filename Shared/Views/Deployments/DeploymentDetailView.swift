@@ -64,9 +64,20 @@ struct DeploymentDetailView: View {
 				.sheet(isPresented: $showJson) {
 					NavigationStack {
 						ScrollView {
-							if let deploymentData,
-								 let json = String(data: deploymentData, encoding: .utf8) {
+							let json: String? = {
+								let encoder = JSONEncoder()
+								encoder.outputFormatting = .prettyPrinted
+								
+								guard let data = try? encoder.encode(deployment) else { return nil }
+								
+								return String(data: data, encoding: .utf8)
+							}()
+							
+							if let json {
 								Text(json)
+									.monospaced()
+									.textSelection(.enabled)
+									.padding()
 							}
 						}
 					}
@@ -114,7 +125,12 @@ struct DeploymentDetailView: View {
 
 	private func loadDeploymentDetails() async throws {
 		guard let session, let accountId else { return }
-		var request = VercelAPI.request(for: .deployments(version: 13, deploymentID: deploymentId), with: accountId)
+		var request = VercelAPI.request(
+			for: .deployments(version: 13, deploymentID: deploymentId),
+			with: accountId,
+			queryItems: [URLQueryItem(name: "withGitRepoInfo", value: "true")]
+		)
+		
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)
