@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4982B91CD5EB2BCBAA1F76B6 /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
+		4AC41801CCBB14A5458245E1 /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		53E8EB9800C39A84BD7FA2A6 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		66D7E3D74353CE004F70FFD6 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
 		698273CD60982A7136A15671 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
@@ -138,6 +139,8 @@
 		71F9020C26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0AA153294FD69B9B5756D /* AccountManager.swift */; };
+		B1EF3840F859A51089DB621B /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
+		B68C81FDCD7CDAF606780663 /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
 		C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
 		D798378B6887B6EEEB59F379 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
@@ -276,6 +279,7 @@
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		A0C004202C2679F32CA2E703 /* TokenStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountStorage.swift; sourceTree = "<group>"; };
+		E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeploymentMeta.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -417,6 +421,7 @@
 				7144D0492887F9C900F0AE1E /* VercelDomain.swift */,
 				71059A8028786F6000BF8B2E /* VercelProjectModel.swift */,
 				7115535826627B2900A73CD6 /* VercelSession.swift */,
+				E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -787,6 +792,7 @@
 				EC996626FF5D158A88E8EB07 /* AccountStorage.swift in Sources */,
 				860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */,
 				66D7E3D74353CE004F70FFD6 /* KeyedDecodingContainer+Fallback.swift in Sources */,
+				B68C81FDCD7CDAF606780663 /* DeploymentMeta.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,6 +837,7 @@
 				BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */,
 				53E8EB9800C39A84BD7FA2A6 /* TokenStore.swift in Sources */,
 				C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */,
+				B1EF3840F859A51089DB621B /* DeploymentMeta.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,6 +864,7 @@
 				4982B91CD5EB2BCBAA1F76B6 /* AccountStorage.swift in Sources */,
 				D798378B6887B6EEEB59F379 /* TokenStore.swift in Sources */,
 				698273CD60982A7136A15671 /* KeyedDecodingContainer+Fallback.swift in Sources */,
+				4AC41801CCBB14A5458245E1 /* DeploymentMeta.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

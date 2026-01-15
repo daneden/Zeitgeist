@@ -44,13 +44,13 @@ struct DeploymentDetailView: View {
 						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
 					case .promotion(_):
 						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
-						if let commit = deployment.commit {
-							CommitSummary(commit: commit)
+						if let meta = deployment.meta, meta.hasCommitInfo {
+							CommitSummary(meta: meta)
 						}
 					case .manual:
 						Text("Manual deployment", comment: "Manual deployment cause label")
-					case let .gitCommit(commit):
-						CommitSummary(commit: commit)
+					case let .gitCommit(meta):
+						CommitSummary(meta: meta)
 					}
 				}
 				if let accountId {
@@ -170,36 +170,42 @@ private struct DeploymentActionConfirmationsModifier: ViewModifier {
 }
 
 private struct CommitSummary: View {
-	var commit: AnyCommit
+	var meta: DeploymentMeta
 
 	var body: some View {
 		HStack(alignment: .firstTextBaseline) {
-			Text(commit.commitMessageSummary)
+			Text(meta.commitMessageSummary)
 			Spacer()
-			Text(commit.shortSha)
-				.font(.system(.footnote, design: .monospaced))
-				.foregroundStyle(.secondary)
+			if let shortSha = meta.shortSha {
+				Text(shortSha)
+					.font(.system(.footnote, design: .monospaced))
+					.foregroundStyle(.secondary)
+			}
 		}
 		.contextMenu {
-			Button {
-				Pasteboard.setString(commit.commitSha)
-			} label: {
-				Label("Copy commit SHA", systemImage: "doc.on.doc")
+			if let sha = meta.commitSha {
+				Button {
+					Pasteboard.setString(sha)
+				} label: {
+					Label("Copy commit SHA", systemImage: "doc.on.doc")
+				}
 			}
 		}
 
-		Link(destination: commit.commitUrl) {
-			Label {
-				Text("Open in \(commit.provider.name)")
-			} icon: {
-				Image(commit.provider.rawValue)
+		if let commitUrl = meta.commitUrl, let provider = meta.provider {
+			Link(destination: commitUrl) {
+				Label {
+					Text("Open in \(provider.name)")
+				} icon: {
+					Image(provider.rawValue)
+				}
 			}
-		}
-		.contextMenu {
-			Button {
-				Pasteboard.setString(commit.commitUrl.absoluteString)
-			} label: {
-				Label("Copy commit URL", systemImage: "doc.on.doc")
+			.contextMenu {
+				Button {
+					Pasteboard.setString(commitUrl.absoluteString)
+				} label: {
+					Label("Copy commit URL", systemImage: "doc.on.doc")
+				}
 			}
 		}
 	}
