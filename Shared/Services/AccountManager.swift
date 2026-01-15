@@ -227,7 +227,8 @@ final class AccountManager {
 		}
 
 		// Create session (validates token exists via failable init)
-		currentSession = VercelSession(account: account)
+		// Pass our tokenStore for consistency
+		currentSession = VercelSession(account: account, tokenStore: tokenStore)
 	}
 
 	private func validateAndFetchAccount(id: String, token: String) async -> VercelAccount? {
