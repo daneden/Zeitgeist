@@ -35,16 +35,31 @@ extension TokenStore {
 
 /// Default implementation using the system Keychain via KeychainItem.
 /// Tokens are stored with iCloud sync enabled for cross-device availability.
+/// Uses the app group for Keychain access to enable sharing between app and extensions.
 struct KeychainTokenStore: TokenStore {
+	/// Keychain access group for sharing tokens between app and widget extensions.
+	/// Must match the app group identifier configured in entitlements.
+	private static let keychainAccessGroup = "group.me.daneden.Zeitgeist"
+
 	func getToken(for accountId: String) -> String? {
-		KeychainItem(account: accountId).wrappedValue
+		// First try the shared keychain with access group
+		if let token = KeychainItem(account: accountId, accessGroup: Self.keychainAccessGroup).wrappedValue {
+			return token
+		}
+		// Fall back to legacy keychain (without access group) for migration
+		return KeychainItem(account: accountId).wrappedValue
 	}
 
 	func setToken(_ token: String, for accountId: String) {
-		KeychainItem(account: accountId).wrappedValue = token
+		// Always store in shared keychain with access group
+		KeychainItem(account: accountId, accessGroup: Self.keychainAccessGroup).wrappedValue = token
+		// Clean up legacy keychain entry if it exists
+		KeychainItem(account: accountId).wrappedValue = nil
 	}
 
 	func removeToken(for accountId: String) {
+		// Remove from both shared and legacy keychain locations
+		KeychainItem(account: accountId, accessGroup: Self.keychainAccessGroup).wrappedValue = nil
 		KeychainItem(account: accountId).wrappedValue = nil
 	}
 }
