@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4982B91CD5EB2BCBAA1F76B6 /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
 		53E8EB9800C39A84BD7FA2A6 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
+		66D7E3D74353CE004F70FFD6 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
+		698273CD60982A7136A15671 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
 		710427B02F151697005629B9 /* DeploymentActionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427AE2F151697005629B9 /* DeploymentActionsService.swift */; };
 		710427B22F1516E6005629B9 /* ConfirmableActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B12F1516E6005629B9 /* ConfirmableActionButton.swift */; };
 		710427B42F151AC1005629B9 /* DeploymentActionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710427B32F151AC1005629B9 /* DeploymentActionsMenu.swift */; };
@@ -137,6 +139,7 @@
 		860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0AA153294FD69B9B5756D /* AccountManager.swift */; };
 		BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
+		C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
 		D798378B6887B6EEEB59F379 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */; };
 		E875EDD32B1A460E00BB3BBA /* RecentDeploymentsEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */; };
@@ -180,6 +183,7 @@
 
 /* Begin PBXFileReference section */
 		2EC0AA153294FD69B9B5756D /* AccountManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+Fallback.swift"; sourceTree = "<group>"; };
 		5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentEntry.swift; sourceTree = "<group>"; };
 		5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsEntry.swift; sourceTree = "<group>"; };
 		5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLabel.swift; sourceTree = "<group>"; };
@@ -459,6 +463,7 @@
 				71D0BC362882A2D500A22693 /* View+dataTask.swift */,
 				713CD9BD28B781AE003E26DF /* View+permissionRevocationDialog.swift */,
 				715489952F185BDA00FD5CCE /* View+withAccountSwitcher.swift */,
+				539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -777,6 +782,7 @@
 				89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */,
 				EC996626FF5D158A88E8EB07 /* AccountStorage.swift in Sources */,
 				860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */,
+				66D7E3D74353CE004F70FFD6 /* KeyedDecodingContainer+Fallback.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,6 +826,7 @@
 				711553FF26655E5600A73CD6 /* GitCommit.swift in Sources */,
 				BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */,
 				53E8EB9800C39A84BD7FA2A6 /* TokenStore.swift in Sources */,
+				C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +852,7 @@
 				71F9020C26656A21000A8873 /* Preferences.swift in Sources */,
 				4982B91CD5EB2BCBAA1F76B6 /* AccountStorage.swift in Sources */,
 				D798378B6887B6EEEB59F379 /* TokenStore.swift in Sources */,
+				698273CD60982A7136A15671 /* KeyedDecodingContainer+Fallback.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
