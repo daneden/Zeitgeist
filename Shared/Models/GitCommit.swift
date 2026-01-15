@@ -159,6 +159,26 @@ struct AnyCommit: Codable, GitCommit {
 		action = try? container.decodeIfPresent(Action.self, forKey: .action)
 		originalDeploymentId = try? container.decodeIfPresent(VercelDeployment.ID.self, forKey: .originalDeploymentId)
 	}
+
+	func encode(to encoder: any Encoder) throws {
+		// First encode the concrete wrapped commit payload
+		if let github = wrapped as? GitHubCommit {
+			try github.encode(to: encoder)
+		} else if let gitlab = wrapped as? GitLabCommit {
+			try gitlab.encode(to: encoder)
+		} else if let bitbucket = wrapped as? BitBucketCommit {
+			try bitbucket.encode(to: encoder)
+		} else {
+			// If we reach here, we don't know how to encode this wrapped type
+			let context = EncodingError.Context(codingPath: encoder.codingPath, debugDescription: "Unsupported wrapped commit type: \(type(of: wrapped))")
+			throw EncodingError.invalidValue(wrapped, context)
+		}
+
+		// Then encode AnyCommit-specific keys alongside the payload
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encodeIfPresent(action, forKey: .action)
+		try container.encodeIfPresent(originalDeploymentId, forKey: .originalDeploymentId)
+	}
 }
 
 extension AnyCommit {
