@@ -76,14 +76,6 @@ final class VercelSession {
 
 	// MARK: - Account Management
 
-	/// Switches the session to a different account
-	/// - Parameter newAccount: The account to switch to
-	func switchAccount(to newAccount: VercelAccount) {
-		guard newAccount.id != account.id else { return }
-		accountLastUpdated = nil
-		account = newAccount
-	}
-
 	func refreshAccount() async {
 		accountLastUpdated = .now
 

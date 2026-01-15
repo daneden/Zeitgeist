@@ -114,14 +114,3 @@ private struct VercelTeam: Account, Codable {
 		case username = "slug"
 	}
 }
-
-// extension AccountViewModel {
-//  func loadCachedData() -> VercelAccount? {
-//    if let cachedResults = URLCache.shared.cachedResponse(for: request),
-//       let decodedResults = handleResponseData(data: cachedResults.data, isTeam: accountId.isTeam) {
-//      return decodedResults
-//    }
-//
-//    return nil
-//  }
-// }
