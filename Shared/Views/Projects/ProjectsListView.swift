@@ -146,6 +146,17 @@ struct ProjectsListView: View {
 			}
 		}
 		.navigationTitle("Projects")
+		.modify {
+			if #available(iOS 26, macOS 11, *) {
+				if let account = session?.account {
+					$0.navigationSubtitle(account.name)
+				} else {
+					$0
+				}
+			} else {
+				$0
+			}
+		}
 		.focusedSceneValue(\.focusedAccount, session?.account)
 		.modifier(OptionalPermissionRevocationDialogModifier(session: session))
 	}

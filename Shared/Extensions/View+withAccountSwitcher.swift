@@ -17,20 +17,13 @@ struct WithAccountSwitcherModifier: ViewModifier {
 		content
 			.toolbar {
 				ToolbarItem(placement: .navigation) {
-					Menu {
-						if let selectedAccount = accountManager.selectedAccount {
-							Section("Signed in as") {
-								AccountListRowView(account: selectedAccount)
-							}
-						}
-						
-						Button("Manage accounts") {
-							presentAccountManagementView = true
-						}
+					Button {
+						presentAccountManagementView = true
 					} label: {
 						VercelUserAvatarView(account: accountManager.selectedAccount)
-							.accessibilityLabel("Accounts and settings")
+							.accessibilityLabel("Manage accounts")
 					}
+					.buttonBorderShape(.circle)
 				}
 				
 				ToolbarItem(placement: .secondaryAction) {
