@@ -30,6 +30,9 @@ struct DeploymentDetailView: View {
 		guard let deployment, let project else { return false }
 		return deployment.id == project.targets?.production?.id
 	}
+	
+	@State private var showJson = false
+	@State private var deploymentData: Data?
 
 	var body: some View {
 		Form {
@@ -53,6 +56,22 @@ struct DeploymentDetailView: View {
 				if let accountId {
 					URLDetails(accountId: accountId, deployment: deployment)
 				}
+				
+				#if DEBUG
+				Button("View JSON", systemImage: "ellipsis.curlybraces") {
+					showJson = true
+				}
+				.sheet(isPresented: $showJson) {
+					NavigationStack {
+						ScrollView {
+							if let deploymentData,
+								 let json = String(data: deploymentData, encoding: .utf8) {
+								Text(json)
+							}
+						}
+					}
+				}
+				#endif
 			} else {
 				ProgressView()
 			}
@@ -99,6 +118,7 @@ struct DeploymentDetailView: View {
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)
+		deploymentData = data
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
 	}
