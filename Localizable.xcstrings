@@ -85,9 +85,6 @@
         }
       }
     },
-    "Accounts and settings" : {
-
-    },
     "Actions" : {
 
     },
@@ -1203,9 +1200,6 @@
           }
         }
       }
-    },
-    "Signed in as" : {
-
     },
     "Staging" : {
       "localizations" : {
