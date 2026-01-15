@@ -184,7 +184,7 @@ struct DeploymentLogView: View {
 					}
 					
 					ToolbarItem {
-						Link(destination: deployment.inspectorUrl) {
+						Link(destination: deployment.inspectorURL) {
 							Label("Open in browser", systemImage: "safari")
 						}
 					}
