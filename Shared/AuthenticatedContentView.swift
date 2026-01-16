@@ -38,7 +38,7 @@ struct AuthenticatedContentView: View {
 						description: Text("Please sign in again to continue using this account.")
 					)
 				} else {
-					ContentUnavailableView("No account selected", image: "person.fill.questionmark")
+					ContentUnavailableView("No account selected", systemImage: "person.fill.questionmark")
 				}
 			}
 			#if os(iOS)

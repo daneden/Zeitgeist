@@ -1206,6 +1206,9 @@
         }
       }
     },
+    "Sign out of account" : {
+
+    },
     "Sign out of all accounts" : {
       "extractionState" : "manual",
       "localizations" : {
