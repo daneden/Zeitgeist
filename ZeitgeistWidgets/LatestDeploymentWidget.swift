@@ -106,7 +106,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 								project: configuration.project,
 								relevance: relevance
 							),
-						], policy: .atEnd)
+						], policy: .never)
 					)
 				} else {
 					completion(Timeline(entries: [], policy: .atEnd))
