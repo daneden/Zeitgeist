@@ -105,6 +105,7 @@
 		7154899E2F19A76000FD5CCE /* CommitAuthorAttributionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154899C2F19A76000FD5CCE /* CommitAuthorAttributionView.swift */; };
 		715489A02F19A8F700FD5CCE /* View+avatarMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154899F2F19A8F700FD5CCE /* View+avatarMask.swift */; };
 		715489A12F19A8F700FD5CCE /* View+avatarMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7154899F2F19A8F700FD5CCE /* View+avatarMask.swift */; };
+		715489A32F1A4A6800FD5CCE /* WidgetPushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A22F1A4A6800FD5CCE /* WidgetPushHandler.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
@@ -129,12 +130,12 @@
 		71F9020C26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0AA153294FD69B9B5756D /* AccountManager.swift */; };
-		DEEF1A2C2F39C86400000002 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */; };
 		B1EF3840F859A51089DB621B /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		B68C81FDCD7CDAF606780663 /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
 		C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
 		D798378B6887B6EEEB59F379 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
+		DEEF1A2C2F39C86400000002 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */; };
 		E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */; };
 		E875EDD32B1A460E00BB3BBA /* RecentDeploymentsEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */; };
 		E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */; };
@@ -177,7 +178,6 @@
 
 /* Begin PBXFileReference section */
 		2EC0AA153294FD69B9B5756D /* AccountManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
-		DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+Fallback.swift"; sourceTree = "<group>"; };
 		5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentEntry.swift; sourceTree = "<group>"; };
 		5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsEntry.swift; sourceTree = "<group>"; };
@@ -246,6 +246,7 @@
 		715489982F18E11000FD5CCE /* AccountManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementView.swift; sourceTree = "<group>"; };
 		7154899C2F19A76000FD5CCE /* CommitAuthorAttributionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitAuthorAttributionView.swift; sourceTree = "<group>"; };
 		7154899F2F19A8F700FD5CCE /* View+avatarMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+avatarMask.swift"; sourceTree = "<group>"; };
+		715489A22F1A4A6800FD5CCE /* WidgetPushHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPushHandler.swift; sourceTree = "<group>"; };
 		71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistLogo.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -266,6 +267,7 @@
 		71F9020826656A21000A8873 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		A0C004202C2679F32CA2E703 /* TokenStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountStorage.swift; sourceTree = "<group>"; };
+		DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeploymentMeta.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -487,6 +489,7 @@
 				711553E2266552AF00A73CD6 /* Info.plist */,
 				711553F926655DB000A73CD6 /* LatestDeploymentWidget.swift */,
 				711A4A322667A42E00DA9EE3 /* RecentDeploymentsWidget.swift */,
+				715489A22F1A4A6800FD5CCE /* WidgetPushHandler.swift */,
 				711553DD266552AE00A73CD6 /* ZeitgeistWidgets.swift */,
 				711553E0266552AF00A73CD6 /* Assets.xcassets */,
 				5CCA9F102B0F09CB00030016 /* Models */,
@@ -805,6 +808,7 @@
 				71D0BC392882A2D600A22693 /* View+dataTask.swift in Sources */,
 				71F9020B26656A21000A8873 /* Preferences.swift in Sources */,
 				711A4A3C266B62C600DA9EE3 /* PlaceholderView.swift in Sources */,
+				715489A32F1A4A6800FD5CCE /* WidgetPushHandler.swift in Sources */,
 				E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */,
 				71D0BC312881F2C200A22693 /* Notification+ZPS.swift in Sources */,
 				714D449E289FEEA2005105B7 /* PlaceholderData.swift in Sources */,
