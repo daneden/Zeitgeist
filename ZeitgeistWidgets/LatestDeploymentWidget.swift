@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import Suite
 
 // MARK: - LatestDeploymentProvider
 
@@ -119,11 +120,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 }
 
 // MARK: - LatestDeploymentWidget
-
 struct LatestDeploymentWidget: Widget {
-
-	// MARK: Public
-
 	public var body: some WidgetConfiguration {
 		IntentConfiguration(
 			kind: "LatestDeploymentWidget",
@@ -138,8 +135,6 @@ struct LatestDeploymentWidget: Widget {
 		.supportedFamilies(supportedFamilies)
 	}
 
-	// MARK: Private
-
 	private var supportedFamilies: [WidgetFamily] {
 		if #available(iOSApplicationExtension 16.0, *) {
 			[.systemSmall, .systemMedium, .accessoryRectangular, .accessoryCircular]
@@ -147,5 +142,13 @@ struct LatestDeploymentWidget: Widget {
 			[.systemSmall, .systemMedium]
 		}
 	}
+}
 
+@available(iOS 26, *)
+struct LatestDeploymentWidgetWithPushHandler: Widget {
+	public var body: some WidgetConfiguration {
+		LatestDeploymentWidget()
+			.body
+			.pushHandler(ZeitgeistWidgetPushHandler.self)
+	}
 }

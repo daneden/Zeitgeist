@@ -163,7 +163,9 @@ extension AppDelegate {
 		Self.logger.trace("Received remote notification")
 
 		#if canImport(WidgetKit)
-		WidgetCenter.shared.reloadAllTimelines()
+		if #unavailable(iOS 26, macOS 26) {
+			WidgetCenter.shared.reloadAllTimelines()
+		}
 		#endif
 
 		await DataTaskModifier.postNotification(userInfo)
