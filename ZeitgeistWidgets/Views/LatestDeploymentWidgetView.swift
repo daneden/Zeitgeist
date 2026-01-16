@@ -44,8 +44,15 @@ struct LatestDeploymentWidgetView: View {
 		config.project?.identifier != nil
 	}
 
+	private var deepLinkURL: URL {
+		let accountId = config.account.identifier ?? "0"
+		let deploymentId = config.deployment?.id ?? "0"
+		let projectId = config.deployment?.projectId ?? ""
+		return URL(string: "zeitgeist://deployment/\(accountId)/\(deploymentId)/\(projectId)")!
+	}
+
 	private var systemView: some View {
-		Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
+		Link(destination: deepLinkURL) {
 			VStack(alignment: .leading, spacing: 4) {
 				if let deployment = config.deployment {
 					HStack {

@@ -114,8 +114,13 @@ struct RecentDeploymentsListRowView: View {
 	let deployment: VercelDeployment
 	let project: WidgetProject?
 
+	private var deepLinkURL: URL {
+		let projectId = deployment.projectId ?? ""
+		return URL(string: "zeitgeist://deployment/\(accountId)/\(deployment.id)/\(projectId)")!
+	}
+
 	var body: some View {
-		Link(destination: URL(string: "zeitgeist://open/\(accountId)/\(deployment.id)")!) {
+		Link(destination: deepLinkURL) {
 			Label {
 				VStack(alignment: .leading) {
 					Text(deployment.deploymentCause.description)

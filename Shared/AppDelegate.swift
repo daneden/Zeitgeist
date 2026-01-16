@@ -120,12 +120,17 @@ extension AppDelegate {
 		guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
 					let teamID = userInfo["TEAM_ID"] as? String else { return }
 
+		let projectID = userInfo["PROJECT_ID"] as? String
+
 		switch response.notification.request.content.categoryIdentifier {
 		case ZPSNotificationCategory.deployment.rawValue:
+			// Include projectId in URL for parallel fetching optimization
+			let projectPath = projectID.map { "/\($0)" } ?? ""
+			let deepLinkURL = URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)\(projectPath)")!
 			#if canImport(UIKit)
-			await UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
+			await UIApplication.shared.open(deepLinkURL, options: [:])
 			#elseif canImport(AppKit)
-			// Open deep link on macOS
+			NSWorkspace.shared.open(deepLinkURL)
 			#endif
 		default:
 			Self.logger.warning("Uncaught notification category identifier: \(response.notification.request.content.categoryIdentifier, privacy: .public)")
