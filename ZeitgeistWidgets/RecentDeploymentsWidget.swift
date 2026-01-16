@@ -5,6 +5,7 @@
 //  Created by Daniel Eden on 31/05/2021.
 //
 
+import OSLog
 import SwiftUI
 import WidgetKit
 
@@ -12,6 +13,18 @@ import WidgetKit
 
 struct RecentDeploymentsProvider: IntentTimelineProvider {
 	private let accountStorage: AccountStorage = UserDefaultsAccountStorage()
+	private let networkManager = WidgetNetworkManager.shared
+
+	private static let logger = Logger(
+		subsystem: "me.daneden.Zeitgeist.ZeitgeistWidgets",
+		category: String(describing: RecentDeploymentsProvider.self)
+	)
+
+	/// Refresh interval for successful fetches (15 minutes)
+	private static let refreshInterval: TimeInterval = 15 * 60
+
+	/// Refresh interval for failed fetches (5 minutes) - retry sooner on error
+	private static let errorRefreshInterval: TimeInterval = 5 * 60
 
 	func placeholder(in _: Context) -> RecentDeploymentsEntry {
 		RecentDeploymentsEntry(account: WidgetAccount(identifier: nil, display: "No Account"))
@@ -22,37 +35,42 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 		in context: Context,
 		completion: @escaping (RecentDeploymentsEntry) -> Void)
 	{
-		Task { @MainActor in
+		// For previews, return placeholder immediately
+		if context.isPreview {
+			completion(placeholder(in: context))
+			return
+		}
+
+		Task {
 			guard let intentAccount = configuration.account,
-						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier }),
-						let session = VercelSession(account: account)
+						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
 			else {
+				Self.logger.debug("No account configured for snapshot")
 				completion(placeholder(in: context))
 				return
 			}
 
-			do {
-				var queryItems: [URLQueryItem] = []
+			let productionOnly = configuration.productionOnly?.boolValue ?? false
+			let deployments = await networkManager.fetchDeployments(
+				account: account,
+				projectId: configuration.project?.identifier,
+				productionOnly: productionOnly
+			)
 
-				if let projectId = configuration.project?.identifier {
-					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
-				}
-
-				let productionOnly = configuration.productionOnly?.boolValue ?? false
-
-				if productionOnly {
-					queryItems.append(URLQueryItem(name: "target", value: "production"))
-				}
-
-				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
-				try session.signRequest(&request)
-				let (data, _) = try await URLSession.shared.data(for: request)
-				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
-
+			if let deployments = deployments {
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
-				completion(RecentDeploymentsEntry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance, productionOnly: productionOnly))
-			} catch {
-				print(error)
+				completion(
+					RecentDeploymentsEntry(
+						deployments: deployments,
+						account: intentAccount,
+						project: configuration.project,
+						relevance: relevance,
+						productionOnly: productionOnly
+					)
+				)
+			} else {
+				Self.logger.warning("Snapshot fetch returned no deployments")
+				completion(placeholder(in: context))
 			}
 		}
 	}
@@ -62,43 +80,53 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 		in context: Context,
 		completion: @escaping (Timeline<RecentDeploymentsEntry>) -> Void)
 	{
-		Task { @MainActor in
+		Task {
 			guard let intentAccount = configuration.account,
-						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier }),
-						let session = VercelSession(account: account)
+						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
 			else {
+				Self.logger.debug("No account configured for timeline")
 				completion(
-					Timeline(entries: [placeholder(in: context)], policy: .atEnd)
+					Timeline(
+						entries: [placeholder(in: context)],
+						policy: .after(Date().addingTimeInterval(Self.errorRefreshInterval))
+					)
 				)
 				return
 			}
 
-			do {
-				var queryItems: [URLQueryItem] = []
+			let productionOnly = configuration.productionOnly?.boolValue ?? false
+			let deployments = await networkManager.fetchDeployments(
+				account: account,
+				projectId: configuration.project?.identifier,
+				productionOnly: productionOnly
+			)
 
-				if let projectId = configuration.project?.identifier {
-					queryItems.append(URLQueryItem(name: "projectId", value: projectId))
-				}
-
-				if configuration.productionOnly?.boolValue == true {
-					queryItems.append(URLQueryItem(name: "target", value: "production"))
-				}
-
-				var request = VercelAPI.request(for: .deployments(), with: account.id, queryItems: queryItems)
-				try session.signRequest(&request)
-				let (data, _) = try await URLSession.shared.data(for: request)
-				let deployments = try JSONDecoder().decode(VercelDeployment.APIResponse.self, from: data).deployments
-
+			if let deployments = deployments {
 				let relevance: TimelineEntryRelevance? = deployments.prefix(2).first(where: { $0.state == .error }) != nil ? .init(score: 10) : nil
+				Self.logger.debug("Timeline updated with \(deployments.count) deployments")
 				completion(
 					Timeline(
-						entries: [RecentDeploymentsEntry(deployments: deployments, account: intentAccount, project: configuration.project, relevance: relevance)],
-						policy: .atEnd
+						entries: [
+							RecentDeploymentsEntry(
+								deployments: deployments,
+								account: intentAccount,
+								project: configuration.project,
+								relevance: relevance,
+								productionOnly: productionOnly
+							)
+						],
+						policy: .after(Date().addingTimeInterval(Self.refreshInterval))
 					)
 				)
-			} catch {
-				print(error)
-				completion(Timeline(entries: [], policy: .atEnd))
+			} else {
+				// Always call completion, even when fetch fails
+				Self.logger.warning("Timeline fetch failed, scheduling retry")
+				completion(
+					Timeline(
+						entries: [placeholder(in: context)],
+						policy: .after(Date().addingTimeInterval(Self.errorRefreshInterval))
+					)
+				)
 			}
 		}
 	}
