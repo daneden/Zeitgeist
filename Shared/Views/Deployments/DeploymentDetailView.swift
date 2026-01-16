@@ -244,14 +244,18 @@ private struct Overview: View {
 			}
 
 			LabelView(Text("Build duration")) {
-				if let building = deployment.building,
-					 let readyAt = deployment.readyAt {
-					Text(Duration.seconds(building.distance(to: readyAt)).formatted())
-				} else if let building = deployment.building {
-					Text(building, style: .timer)
-				} else {
-					Text("—")
+				Group {
+					if let building = deployment.building,
+						 let readyAt = deployment.readyAt,
+						 abs(building.distance(to: readyAt)) > 1 {
+						Text(timerInterval: building...readyAt, countsDown: false, showsHours: false)
+					} else if let building = deployment.building {
+						Text(building, style: .timer)
+					} else {
+						Text("—")
+					}
 				}
+				.monospacedDigit()
 			}
 
 			NavigationLink(value: DetailDestinationValue.deploymentLogs(deployment: deployment)) {

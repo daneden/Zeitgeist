@@ -148,7 +148,7 @@ struct ProjectDetailView: View {
 				} label: {
 					Label("Filter deployments", systemImage: "line.3.horizontal.decrease")
 						.backportCircleSymbolVariant()
-						.symbolVariant(filter.filtersApplied ? .fill : .none)
+						.symbolVariant(filter.filtersApplied ? .circle.fill : .none)
 				}
 			}
 		}
