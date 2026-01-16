@@ -68,32 +68,33 @@ struct EnvironmentVariableEditView: View {
 				} footer: {
 					Text("At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website.")
 				}
-				
-				Section {
+			}
+			.navigationTitle(navBarTitle)
+			.toolbar {
+				ToolbarItem(placement: .confirmationAction) {
 					Button {
 						Task {
 							await saveEnvVar()
 						}
 					} label: {
-						HStack {
-							Text("Submit", comment: "Button label to save a new environment variable")
-							
+						Label {
+							Text("Done")
+						} icon: {
 							if saving {
-								Spacer()
 								ProgressView()
+							} else {
+								Image(systemName: "checkmark")
 							}
 						}
 					}
+					.labelStyle(.iconOnly)
 					.disabled(!envVarIsValid)
 					.disabled(saving)
-				} footer: {
-					Text("A new deployment is required for your changes to take effect.")
 				}
-			}
-			.navigationTitle(navBarTitle)
-			.toolbar {
-				BackportCloseButton {
-					dismiss()
+				ToolbarItem(placement: .cancellationAction) {
+					BackportCloseButton {
+						dismiss()
+					}
 				}
 			}
 			#if os(iOS)
