@@ -8,19 +8,16 @@
 import Foundation
 
 @Observable
+@MainActor
 final class DeploymentActionsService {
 	var isMutating = false
-	var recentlyCancelled = false
 
-	private(set) var id = UUID()
-	
 	private let session: VercelSession
 	private let accountId: VercelAccount.ID
 
 	init(session: VercelSession, accountId: VercelAccount.ID) {
 		self.session = session
 		self.accountId = accountId
-		self.id = UUID()
 	}
 
 	// MARK: - Promote to Production
@@ -47,13 +44,13 @@ final class DeploymentActionsService {
 
 	/// Promotes a staging or previous production deployment to production using the project promote endpoint
 	@discardableResult
-	func promoteStagingToProduction(_ deployment: VercelDeployment, project: VercelProject) async -> Bool {
+	func promoteStagingToProduction(_ deployment: VercelDeployment) async -> Bool {
 		isMutating = true
 		defer { isMutating = false }
 
 		do {
 			var request = VercelAPI.request(
-				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
+				for: .projects(version: 10, deployment.projectId, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .POST
 			)
@@ -71,13 +68,13 @@ final class DeploymentActionsService {
 
 	/// Performs instant rollback to a previous production deployment
 	@discardableResult
-	func instantRollback(_ deployment: VercelDeployment, project: VercelProject) async -> Bool {
+	func instantRollback(_ deployment: VercelDeployment) async -> Bool {
 		isMutating = true
 		defer { isMutating = false }
 
 		do {
 			var request = VercelAPI.request(
-				for: .projects(version: 10, project.id, path: "promote/\(deployment.id)"),
+				for: .projects(version: 10, deployment.projectId, path: "promote/\(deployment.id)"),
 				with: accountId,
 				method: .POST
 			)
@@ -170,7 +167,6 @@ final class DeploymentActionsService {
 			if let response = response as? HTTPURLResponse,
 			   response.statusCode == 200
 			{
-				recentlyCancelled = true
 				return true
 			}
 			return false

@@ -7,7 +7,6 @@
 //
 
 import AuthenticationServices
-import Combine
 import Foundation
 import SwiftUI
 
@@ -47,11 +46,12 @@ class VercelURLAuthenticationBuilder {
 	}
 }
 
-class SignInViewModel: NSObject, ObservableObject {
+@Observable
+@MainActor
+final class SignInViewModel {
 	private(set) var isSigningIn = false
 
-	@MainActor
-	func processResponseURL(url: URL) async -> Bool {
+	func processResponseURL(url: URL, accountManager: AccountManager) async -> Bool {
 		let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
 
 		if let queryItems = components?.queryItems,
@@ -60,8 +60,14 @@ class SignInViewModel: NSObject, ObservableObject {
 			let teamId = queryItems.filter { $0.name == "teamId" }.first?.value ?? nil
 			let userId = queryItems.filter { $0.name == "userId" }.first?.value ?? nil
 
-			await VercelSession.addAccount(id: teamId ?? userId ?? VercelAccount.ID.NullValue, token: token)
-			return true
+			let result = await accountManager.addAccount(id: teamId ?? userId ?? VercelAccount.ID.NullValue, token: token)
+			switch result {
+			case .success:
+				return true
+			case .failure(let error):
+				print("Failed to add account: \(error)")
+				return false
+			}
 		} else {
 			print("Something went wrong!")
 			return false
@@ -69,22 +75,22 @@ class SignInViewModel: NSObject, ObservableObject {
 	}
 	
 	@discardableResult
-	func signIn(using webAuthenticationSession: WebAuthenticationSession) async -> Bool {
+	func signIn(using webAuthenticationSession: WebAuthenticationSession, accountManager: AccountManager) async -> Bool {
 		self.isSigningIn = true
-		
+
 		let apiData = VercelAPIConfiguration()
 		let authUrl = VercelURLAuthenticationBuilder(clientID: apiData.clientId)()
-		
+
 		do {
 			let urlWithToken = try await webAuthenticationSession.authenticate(using: authUrl,
 																																				 callbackURLScheme: "https",
 																																				 preferredBrowserSession: .shared)
 			self.isSigningIn = false
-			return await processResponseURL(url: urlWithToken)
+			return await processResponseURL(url: urlWithToken, accountManager: accountManager)
 		} catch {
 			self.isSigningIn = false
 			print(error.localizedDescription)
-			
+
 			return false
 		}
 	}

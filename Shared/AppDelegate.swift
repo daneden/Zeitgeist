@@ -33,8 +33,7 @@ enum RemoteNotificationResult {
 #endif
 
 class AppDelegate: NSObject {
-	@AppStorage(Preferences.authenticatedAccounts)
-	private var authenticatedAccounts
+	private let accountStorage: AccountStorage = UserDefaultsAccountStorage()
 
 	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
 	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
@@ -43,6 +42,11 @@ class AppDelegate: NSObject {
 		subsystem: Bundle.main.bundleIdentifier!,
 		category: String(describing: AppDelegate.self)
 	)
+
+	/// Authenticated accounts loaded from storage
+	private var authenticatedAccounts: [VercelAccount] {
+		accountStorage.loadAccounts()
+	}
 }
 
 #if canImport(UIKit)
@@ -116,12 +120,17 @@ extension AppDelegate {
 		guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
 					let teamID = userInfo["TEAM_ID"] as? String else { return }
 
+		let projectID = userInfo["PROJECT_ID"] as? String
+
 		switch response.notification.request.content.categoryIdentifier {
 		case ZPSNotificationCategory.deployment.rawValue:
+			// Include projectId in URL for parallel fetching optimization
+			let projectPath = projectID.map { "/\($0)" } ?? ""
+			let deepLinkURL = URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)\(projectPath)")!
 			#if canImport(UIKit)
-			await UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
+			await UIApplication.shared.open(deepLinkURL, options: [:])
 			#elseif canImport(AppKit)
-			// Open deep link on macOS
+			NSWorkspace.shared.open(deepLinkURL)
 			#endif
 		default:
 			Self.logger.warning("Uncaught notification category identifier: \(response.notification.request.content.categoryIdentifier, privacy: .public)")
@@ -154,7 +163,9 @@ extension AppDelegate {
 		Self.logger.trace("Received remote notification")
 
 		#if canImport(WidgetKit)
-		WidgetCenter.shared.reloadAllTimelines()
+		if #unavailable(iOS 26, macOS 26) {
+			WidgetCenter.shared.reloadAllTimelines()
+		}
 		#endif
 
 		await DataTaskModifier.postNotification(userInfo)
@@ -174,7 +185,7 @@ extension AppDelegate {
 			let userId: String? = userInfo["userId"] as? String
 
 			guard let accountId = teamId ?? userId,
-						Preferences.accounts.contains(where: { $0.id == accountId }) else {
+						authenticatedAccounts.contains(where: { $0.id == accountId }) else {
 				return .noData
 			}
 

@@ -5,22 +5,28 @@
 //  Created by Daniel Eden on 29/05/2021.
 //
 
-import Combine
 import Foundation
 import SwiftUI
 
+// MARK: - Session Errors
+
 enum SessionError: Error {
 	case notAuthenticated
+	case tokenNotFound(accountId: String)
 }
 
-extension SessionError: CustomStringConvertible {
-	var description: String {
+extension SessionError: LocalizedError {
+	var errorDescription: String? {
 		switch self {
 		case .notAuthenticated:
 			return "The chosen account has not been authenticated on this device"
+		case .tokenNotFound(let accountId):
+			return "No authentication token found for account: \(accountId)"
 		}
 	}
 }
+
+// MARK: - VercelAccount Extension
 
 extension VercelAccount {
 	func deepEqual(to comparison: VercelAccount) -> Bool {
@@ -31,47 +37,66 @@ extension VercelAccount {
 	}
 }
 
-class VercelSession: ObservableObject {
-	@AppStorage(Preferences.authenticatedAccounts)
-	private var authenticatedAccounts
+// MARK: - VercelSession
 
-	@Published var account: VercelAccount {
-		willSet {
-			if newValue.id != account.id {
-				accountLastUpdated = nil
-			}
+@Observable
+@MainActor
+final class VercelSession {
+	// MARK: - Properties
+
+	private(set) var account: VercelAccount
+	private(set) var requestsDenied = false
+	private var accountLastUpdated: Date?
+	private let tokenStore: TokenStore
+
+	// MARK: - Initialization
+
+	/// Failable initializer that validates the account has an authentication token
+	/// - Parameters:
+	///   - account: The account to create a session for
+	///   - tokenStore: Backend for secure token storage. Defaults to Keychain.
+	init?(account: VercelAccount, tokenStore: TokenStore = KeychainTokenStore()) {
+		guard tokenStore.hasToken(for: account.id) else {
+			return nil
 		}
-	}
-	
-	private var accountLastUpdated: Date? = nil
-	@Published private(set) var requestsDenied = false
-	
-	init(account: VercelAccount) {
 		self.account = account
+		self.tokenStore = tokenStore
 	}
-	
+
+	/// Initializer for contexts where token validation may be deferred (e.g., widgets)
+	/// - Parameters:
+	///   - account: The account to create a session for
+	///   - tokenStore: Backend for secure token storage. Defaults to Keychain.
+	///   - skipTokenValidation: Must be `true` to use this initializer
+	init(account: VercelAccount, tokenStore: TokenStore = KeychainTokenStore(), skipTokenValidation: Bool) {
+		precondition(skipTokenValidation, "Use init?(account:) for validated initialization")
+		self.account = account
+		self.tokenStore = tokenStore
+	}
+
+	// MARK: - Account Management
+
 	func refreshAccount() async {
 		accountLastUpdated = .now
-		let moreRecentAccount = await loadAccount()
-		
-		if let moreRecentAccount = moreRecentAccount,
-			 account != moreRecentAccount {
-			self.account.updateAccount(to: moreRecentAccount)
-			if let index = authenticatedAccounts.firstIndex(of: account) {
-				authenticatedAccounts[index] = moreRecentAccount
-			}
-		}
+
+		guard let moreRecentAccount = await loadAccount() else { return }
+		guard !account.deepEqual(to: moreRecentAccount) else { return }
+
+		account.updateAccount(to: moreRecentAccount)
+		// Note: AccountManager.refreshCurrentAccount() handles persisting the updated account
 	}
 
+	// MARK: - Authentication
 	var authenticationToken: String? {
-		return KeychainItem(account: account.id).wrappedValue
+		tokenStore.getToken(for: account.id)
 	}
 
 	var isAuthenticated: Bool {
 		authenticationToken != nil
 	}
 
-	@MainActor
+	// MARK: - API Methods
+
 	func loadAccount() async -> VercelAccount? {
 		do {
 			guard authenticationToken != nil else {
@@ -82,7 +107,7 @@ class VercelSession: ObservableObject {
 			try signRequest(&request)
 
 			let (data, response) = try await URLSession.shared.data(for: request)
-			
+
 			validateResponse(response)
 
 			return try JSONDecoder().decode(VercelAccount.self, from: data)
@@ -91,7 +116,7 @@ class VercelSession: ObservableObject {
 			return nil
 		}
 	}
-	
+
 	func validateResponse(_ response: URLResponse) {
 		if let response = response as? HTTPURLResponse,
 			 response.statusCode == 403 {
@@ -100,17 +125,23 @@ class VercelSession: ObservableObject {
 	}
 
 	func signRequest(_ request: inout URLRequest) throws {
-		guard let authenticationToken = authenticationToken else {
-			throw SessionError.notAuthenticated
+		guard let authenticationToken else {
+			throw SessionError.tokenNotFound(accountId: account.id)
 		}
-		
+
 		if accountLastUpdated == nil {
 			Task { await refreshAccount() }
-		} else if let accountLastUpdated = accountLastUpdated,
+		} else if let accountLastUpdated,
 							accountLastUpdated.distance(to: .now) > 60 * 60 {
 			Task { await refreshAccount() }
 		}
 
 		request.addValue("Bearer \(authenticationToken)", forHTTPHeaderField: "Authorization")
 	}
+}
+
+// MARK: - Environment Key
+
+extension EnvironmentValues {
+	@Entry var session: VercelSession?
 }

@@ -24,11 +24,7 @@ struct VercelUserAvatarView: View {
 			image
 				.resizable()
 				.scaledToFit()
-				.clipShape(Circle())
-				.overlay(
-					Circle()
-						.stroke(Color.primary.opacity(0.1), lineWidth: 1)
-				)
+				.avatarMask()
 		} placeholder: {
 			Image(systemName: "person.crop.circle.fill")
 				.resizable()

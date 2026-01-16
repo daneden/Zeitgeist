@@ -33,6 +33,7 @@ struct LatestDeploymentWidgetView: View {
 				Color.clear
 			}
 		}
+		.containerBackground(.background, for: .widget)
 	}
 
 	// MARK: Private
@@ -43,8 +44,15 @@ struct LatestDeploymentWidgetView: View {
 		config.project?.identifier != nil
 	}
 
+	private var deepLinkURL: URL {
+		let accountId = config.account.identifier ?? "0"
+		let deploymentId = config.deployment?.id ?? "0"
+		let projectId = config.deployment?.projectId ?? ""
+		return URL(string: "zeitgeist://deployment/\(accountId)/\(deploymentId)/\(projectId)")!
+	}
+
 	private var systemView: some View {
-		Link(destination: URL(string: "zeitgeist://open/\(config.account.identifier ?? "0")/\(config.deployment?.id ?? "0")")!) {
+		Link(destination: deepLinkURL) {
 			VStack(alignment: .leading, spacing: 4) {
 				if let deployment = config.deployment {
 					HStack {
@@ -103,10 +111,26 @@ struct LatestDeploymentWidgetView: View {
 		.tint(.indigo)
 	}
 
+	@ViewBuilder
 	private var circularAccessoryView: some View {
-		Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
-			.imageScale(.large)
-			.font(.largeTitle)
+		ZStack {
+			AccessoryWidgetBackground()
+			
+			Label {
+				if let deployment = config.deployment {
+					let stateText = Text(deployment.state.description)
+					Text("Latest deployment for \(deployment.project): \(stateText)")
+				} else {
+					Text("No recent deployment")
+				}
+			} icon: {
+				Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
+					.imageScale(.large)
+					.font(.largeTitle)
+			}
+			.labelStyle(.iconOnly)
+		}
+		
 	}
 
 	private var accessoryView: some View {

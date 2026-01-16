@@ -10,98 +10,214 @@ import Suite
 
 struct AuthenticatedContentView: View {
 	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
-	@AppStorage(Preferences.authenticatedAccounts) private var accounts
-	
+	@Environment(AccountManager.self) var accountManager
+	@Environment(DeepLinkHandler.self) var deepLinkHandler
+
 	@State private var signInModel = SignInViewModel()
-	@State private var presentSettingsView = false
-	@State private var selectedAccount: VercelAccount?
+	@State private var selectedProject: VercelProject?
+	@State private var selectedDeployment: VercelDeployment?
+	@State private var isHandlingDeepLink = false
+
+	// Scene storage for navigation state persistence across app launches
+	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
+
+	// Convenience accessors for cleaner code
+	private var session: VercelSession? { accountManager.currentSession }
+	private var selectedAccount: VercelAccount? { accountManager.selectedAccount }
 
 	var body: some View {
 		NavigationSplitView {
-			List(selection: $selectedAccount) {
-				Section {
-					ForEach(accounts, id: \.self) {
-						AccountListRowView(account: $0)
-					}
-					.onDelete(perform: deleteAccount)
-					
-					Button {
-						Task {
-							await signInModel.signIn(using: webAuthenticationSession)
-						}
-					} label: {
-						Label("Add account", systemImage: "plus")
-							.backportCircleSymbolVariant()
-					}
-				} header: {
-					Text("Accounts", comment: "Header for accounts list")
+			Group {
+				if session != nil {
+					ProjectsListView(selectedProject: $selectedProject, selectedDeployment: $selectedDeployment)
+				} else if selectedAccount != nil {
+					// Account exists but session creation failed (missing token)
+					ContentUnavailableView(
+						"Authentication Required",
+						systemImage: "key.slash",
+						description: Text("Please sign in again to continue using this account.")
+					)
+				} else {
+					ContentUnavailableView("No account selected", systemImage: "person.fill.questionmark")
 				}
 			}
-#if os(iOS)
-			.toolbar {
-				ToolbarItem(placement: .navigation) {
-					Button {
-						presentSettingsView = true
-					} label: {
-						Label("Settings", systemImage: "ellipsis")
-							.backportCircleSymbolVariant()
-					}
-				}
-			}
-			.sheet(isPresented: $presentSettingsView) {
-				NavigationView {
-					SettingsView()
-						.navigationBarTitleDisplayMode(.inline)
-				}
-			}
-#endif
+			#if os(iOS)
+			.withAccountSwitcher()
+			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
 		} content: {
-			if let selectedAccount {
-				NavigationStack {
-					ProjectsListView()
-						.environmentObject(VercelSession(account: selectedAccount))
-						.id(selectedAccount)
+				if let selectedProject, session != nil {
+					ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
+						.id(selectedProject)
+				} else {
+					PlaceholderView(forRole: .ProjectDetail)
 				}
-			} else {
-				Text("No account selected", comment: "Label for projects list when no account is selected")
-					.foregroundStyle(.secondary)
-			}
 		} detail: {
 			NavigationStack {
-				PlaceholderView(forRole: .ProjectDetail)
+				Group {
+					if let selectedDeployment, session != nil {
+						DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
+							.id(selectedDeployment)
+					} else {
+						PlaceholderView(forRole: .DeploymentDetail)
+					}
+				}
+				.navigationDestination(for: DetailDestinationValue.self) { destination in
+					switch destination {
+					case .deploymentLogs(let deployment):
+						DeploymentLogView(deployment: deployment)
+							.environment(\.session, session)
+					}
+				}
 			}
 		}
-		.task(id: accounts.first) {
-			selectedAccount = accounts.first
+		.onChange(of: selectedProject) { _, newProject in
+			selectedProjectId = newProject?.id
 		}
-		.onReceive(NotificationCenter.default.publisher(for: .VercelAccountAddedNotification)) { _ in
-			selectedAccount = accounts.last
+		.onChange(of: deepLinkHandler.pendingDeepLink) { _, newValue in
+			guard let deepLink = newValue, !isHandlingDeepLink else { return }
+			Task {
+				await handleDeepLink(deepLink)
+			}
 		}
-		.onReceive(NotificationCenter.default.publisher(for: .VercelAccountWillBeRemovedNotification), perform: { output in
-			guard let index = output.object as? Int else {
+		.environment(\.session, session)
+	}
+
+	// MARK: - Deep Link Handling
+
+	private func handleDeepLink(_ deepLink: DeepLinkHandler.DeepLink) async {
+		isHandlingDeepLink = true
+		defer {
+			isHandlingDeepLink = false
+			deepLinkHandler.pendingDeepLink = nil
+		}
+
+		switch deepLink {
+		case .deployment(let accountId, let deploymentId, let projectId):
+			await navigateToDeployment(accountId: accountId, deploymentId: deploymentId, projectId: projectId)
+		}
+	}
+
+	private func navigateToDeployment(accountId: String, deploymentId: String, projectId: String?) async {
+		// Switch account if needed
+		if accountManager.selectedAccountId != accountId {
+			guard accountManager.accounts.contains(where: { $0.id == accountId }) else {
+				print("Deep link error: Account \(accountId) not found")
 				return
 			}
-			
-			let previousAccountIndex = accounts.index(before: index)
-			let nextAccountIndex = accounts.index(after: index)
-			
-			if accounts.indices.contains(previousAccountIndex) {
-				selectedAccount = accounts[previousAccountIndex]
-			} else if accounts.indices.contains(nextAccountIndex) {
-				selectedAccount = accounts[nextAccountIndex]
-			} else if accounts.indices.contains(index) {
-				selectedAccount = accounts[index]
-			} else {
-				selectedAccount = nil
-			}
-		})
-	}
-	
-	func deleteAccount(at indices: IndexSet) {
-		for index in indices {
-			VercelSession.deleteAccount(id: accounts[index].id)
+			accountManager.selectedAccountId = accountId
+			// Wait a moment for session to update
+			try? await Task.sleep(for: .milliseconds(100))
 		}
+
+		guard let session = accountManager.currentSession else {
+			print("Deep link error: No active session for account \(accountId)")
+			return
+		}
+
+		do {
+			var deploymentRequest = VercelAPI.request(
+				for: .deployments(version: 13, deploymentID: deploymentId),
+				with: accountId
+			)
+			try session.signRequest(&deploymentRequest)
+
+			// If we have projectId, fetch both in parallel
+			if let projectId {
+				var projectRequest = VercelAPI.request(
+					for: .projects(version: 9, projectId),
+					with: accountId
+				)
+				try session.signRequest(&projectRequest)
+
+				// Try cache first for instant navigation
+				if let (cachedDeployment, cachedProject) = getCachedData(
+					deploymentRequest: deploymentRequest,
+					projectRequest: projectRequest
+				) {
+					selectedProject = cachedProject
+					selectedDeployment = cachedDeployment
+				}
+
+				// Fetch both in parallel
+				async let deploymentTask = URLSession.shared.data(for: deploymentRequest)
+				async let projectTask = URLSession.shared.data(for: projectRequest)
+
+				let (deploymentResult, projectResult) = try await (deploymentTask, projectTask)
+
+				let deployment = try JSONDecoder().decode(VercelDeployment.self, from: deploymentResult.0)
+				let project = try JSONDecoder().decode(VercelProject.self, from: projectResult.0)
+
+				selectedProject = project
+				selectedDeployment = deployment
+			} else {
+				// No projectId - must fetch deployment first to get it
+				// Try cache first
+				if let cachedDeployment = getCachedDeployment(request: deploymentRequest) {
+					if let projectId = cachedDeployment.projectId {
+						var projectRequest = VercelAPI.request(
+							for: .projects(version: 9, projectId),
+							with: accountId
+						)
+						try session.signRequest(&projectRequest)
+
+						if let cachedProject = getCachedProject(request: projectRequest) {
+							selectedProject = cachedProject
+							selectedDeployment = cachedDeployment
+						}
+					}
+				}
+
+				// Fetch deployment
+				let (deploymentData, _) = try await URLSession.shared.data(for: deploymentRequest)
+				let deployment = try JSONDecoder().decode(VercelDeployment.self, from: deploymentData)
+
+				guard let projectId = deployment.projectId else {
+					print("Deep link error: Deployment has no projectId")
+					return
+				}
+
+				var projectRequest = VercelAPI.request(
+					for: .projects(version: 9, projectId),
+					with: accountId
+				)
+				try session.signRequest(&projectRequest)
+				let (projectData, _) = try await URLSession.shared.data(for: projectRequest)
+				let project = try JSONDecoder().decode(VercelProject.self, from: projectData)
+
+				selectedProject = project
+				selectedDeployment = deployment
+			}
+		} catch {
+			print("Deep link error: \(error.localizedDescription)")
+		}
+	}
+
+	// MARK: - Cache Helpers
+
+	private func getCachedData(
+		deploymentRequest: URLRequest,
+		projectRequest: URLRequest
+	) -> (VercelDeployment, VercelProject)? {
+		guard let cachedDeployment = getCachedDeployment(request: deploymentRequest),
+			  let cachedProject = getCachedProject(request: projectRequest) else {
+			return nil
+		}
+		return (cachedDeployment, cachedProject)
+	}
+
+	private func getCachedDeployment(request: URLRequest) -> VercelDeployment? {
+		guard let cachedResponse = URLCache.shared.cachedResponse(for: request) else {
+			return nil
+		}
+		return try? JSONDecoder().decode(VercelDeployment.self, from: cachedResponse.data)
+	}
+
+	private func getCachedProject(request: URLRequest) -> VercelProject? {
+		guard let cachedResponse = URLCache.shared.cachedResponse(for: request) else {
+			return nil
+		}
+		return try? JSONDecoder().decode(VercelProject.self, from: cachedResponse.data)
 	}
 }
 

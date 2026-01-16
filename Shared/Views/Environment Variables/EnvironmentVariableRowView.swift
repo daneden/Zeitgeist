@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EnvironmentVariableRowView: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	var projectId: VercelProject.ID
 	@State var envVar: VercelEnv
 	@State private var loading = false
@@ -57,7 +57,7 @@ struct EnvironmentVariableRowView: View {
 				.textSelection(.disabled)
 		}
 		.sheet(isPresented: $editing) {
-			NavigationView {
+			NavigationStack {
 				EnvironmentVariableEditView(projectId: projectId,
 																		id: envVar.id,
 																		key: envVar.key,
@@ -150,24 +150,26 @@ struct EnvironmentVariableRowView: View {
 	}
 	
 	func decryptedValue() async -> VercelEnv? {
+		guard let session else { return nil }
 		do {
 			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id)
 			try session.signRequest(&request)
-			
+
 			let (data, _) = try await URLSession.shared.data(for: request)
 			return try JSONDecoder().decode(VercelEnv.self, from: data)
 		} catch {
 			print(error)
 		}
-		
+
 		return nil
 	}
-	
+
 	func delete() async {
+		guard let session else { return }
 		do {
 			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id, method: .DELETE)
 			try session.signRequest(&request)
-			
+
 			_ = try await URLSession.shared.data(for: request)
 		} catch {
 			print(error)

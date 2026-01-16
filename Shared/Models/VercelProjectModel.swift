@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct VercelProject: Decodable, Identifiable, Equatable {
+struct VercelProject: Decodable, Identifiable, Equatable, Hashable {
 	typealias ID = String
 	let accountId: String
 	let createdAt: Int
@@ -18,6 +18,11 @@ struct VercelProject: Decodable, Identifiable, Equatable {
 	let targets: Targets?
 	let updatedAt: Int?
 	let link: VercelRepositoryLink?
+	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(id)
+		hasher.combine(accountId)
+	}
 }
 
 extension VercelProject {

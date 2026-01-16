@@ -43,6 +43,9 @@
         }
       }
     },
+    "•" : {
+
+    },
     "A new deployment is required for your changes to take effect." : {
       "localizations" : {
         "fr" : {
@@ -208,6 +211,9 @@
           }
         }
       }
+    },
+    "Authentication Required" : {
+
     },
     "Auto-lock after" : {
       "localizations" : {
@@ -658,6 +664,16 @@
         }
       }
     },
+    "Latest deployment for %@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Latest deployment for %1$@: %2$@"
+          }
+        }
+      }
+    },
     "Latest production deployment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -708,6 +724,9 @@
           }
         }
       }
+    },
+    "Manage accounts" : {
+
     },
     "Manual deployment" : {
       "comment" : "Manual deployment cause label",
@@ -821,6 +840,9 @@
         }
       }
     },
+    "No recent deployment" : {
+
+    },
     "Notification permissions required" : {
       "localizations" : {
         "fr" : {
@@ -921,6 +943,9 @@
           }
         }
       }
+    },
+    "Please sign in again to continue using this account." : {
+
     },
     "Preview" : {
       "localizations" : {
@@ -1181,6 +1206,9 @@
         }
       }
     },
+    "Sign out of account" : {
+
+    },
     "Sign out of all accounts" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1316,6 +1344,9 @@
           }
         }
       }
+    },
+    "View JSON" : {
+
     },
     "View logs" : {
       "extractionState" : "manual",

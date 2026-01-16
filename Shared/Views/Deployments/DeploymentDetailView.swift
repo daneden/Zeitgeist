@@ -18,9 +18,9 @@ extension EnvironmentValues {
 struct DeploymentDetailView: View {
 	@Environment(\.dismiss) var dismiss
 	@Environment(\.project) var project
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 
-	var accountId: VercelAccount.ID { session.account.id }
+	var accountId: VercelAccount.ID? { session?.account.id }
 	var deploymentId: VercelDeployment.ID
 	@State var deployment: VercelDeployment?
 	@State private var actionsService: DeploymentActionsService?
@@ -30,6 +30,9 @@ struct DeploymentDetailView: View {
 		guard let deployment, let project else { return false }
 		return deployment.id == project.targets?.production?.id
 	}
+	
+	@State private var showJson = false
+	@State private var deploymentData: Data?
 
 	var body: some View {
 		Form {
@@ -41,16 +44,45 @@ struct DeploymentDetailView: View {
 						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
 					case .promotion(_):
 						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
-						if let commit = deployment.commit {
-							CommitSummary(commit: commit)
+						if let meta = deployment.meta, meta.hasCommitInfo {
+							CommitSummary(meta: meta)
 						}
 					case .manual:
 						Text("Manual deployment", comment: "Manual deployment cause label")
-					case let .gitCommit(commit):
-						CommitSummary(commit: commit)
+					case let .gitCommit(meta):
+						CommitSummary(meta: meta)
 					}
 				}
-				URLDetails(accountId: accountId, deployment: deployment)
+				if let accountId {
+					URLDetails(accountId: accountId, deployment: deployment)
+				}
+				
+				#if DEBUG
+				Button("View JSON", systemImage: "ellipsis.curlybraces") {
+					showJson = true
+				}
+				.sheet(isPresented: $showJson) {
+					NavigationStack {
+						ScrollView {
+							let json: String? = {
+								let encoder = JSONEncoder()
+								encoder.outputFormatting = .prettyPrinted
+								
+								guard let data = try? encoder.encode(deployment) else { return nil }
+								
+								return String(data: data, encoding: .utf8)
+							}()
+							
+							if let json {
+								Text(json)
+									.monospaced()
+									.textSelection(.enabled)
+									.padding()
+							}
+						}
+					}
+				}
+				#endif
 			} else {
 				ProgressView()
 			}
@@ -78,7 +110,7 @@ struct DeploymentDetailView: View {
 		.focusedSceneValue(\.focusedDeployment, deployment)
 		.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
 		.onAppear {
-			if actionsService == nil {
+			if actionsService == nil, let session, let accountId {
 				actionsService = DeploymentActionsService(session: session, accountId: accountId)
 			}
 		}
@@ -86,16 +118,23 @@ struct DeploymentDetailView: View {
 			do {
 				try await loadDeploymentDetails()
 			} catch {
-				print(error)
+				print(error.localizedDescription)
 			}
 		}
 	}
 
 	private func loadDeploymentDetails() async throws {
-		var request = VercelAPI.request(for: .deployments(version: 13, deploymentID: deploymentId), with: accountId)
+		guard let session, let accountId else { return }
+		var request = VercelAPI.request(
+			for: .deployments(version: 13, deploymentID: deploymentId),
+			with: accountId,
+			queryItems: [URLQueryItem(name: "withGitRepoInfo", value: "true")]
+		)
+		
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)
+		deploymentData = data
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
 	}
@@ -131,43 +170,55 @@ private struct DeploymentActionConfirmationsModifier: ViewModifier {
 }
 
 private struct CommitSummary: View {
-	var commit: AnyCommit
-	
+	var meta: DeploymentMeta
+
 	var body: some View {
-		HStack(alignment: .firstTextBaseline) {
-			Text(commit.commitMessageSummary)
-			Spacer()
-			Text(commit.shortSha)
-				.font(.system(.footnote, design: .monospaced))
+		VStack(alignment: .leading) {
+			HStack(alignment: .firstTextBaseline) {
+				Text(meta.commitMessageSummary)
+				Spacer()
+				if let shortSha = meta.shortSha {
+					Text(shortSha)
+						.font(.system(.footnote, design: .monospaced))
+						.foregroundStyle(.secondary)
+				}
+			}
+			
+			CommitAuthorAttributionView(commit: meta)
+				.font(.caption)
 				.foregroundStyle(.secondary)
 		}
 		.contextMenu {
-			Button {
-				Pasteboard.setString(commit.commitSha)
-			} label: {
-				Label("Copy commit SHA", systemImage: "doc.on.doc")
+			if let sha = meta.commitSha {
+				Button {
+					Pasteboard.setString(sha)
+				} label: {
+					Label("Copy commit SHA", systemImage: "doc.on.doc")
+				}
 			}
 		}
-		
-		Link(destination: commit.commitUrl) {
-			Label {
-				Text("Open in \(commit.provider.name)")
-			} icon: {
-				Image(commit.provider.rawValue)
+
+		if let commitUrl = meta.commitUrl, let provider = meta.provider {
+			Link(destination: commitUrl) {
+				Label {
+					Text("Open in \(provider.name)")
+				} icon: {
+					Image(provider.rawValue)
+				}
 			}
-		}
-		.contextMenu {
-			Button {
-				Pasteboard.setString(commit.commitUrl.absoluteString)
-			} label: {
-				Label("Copy commit URL", systemImage: "doc.on.doc")
+			.contextMenu {
+				Button {
+					Pasteboard.setString(commitUrl.absoluteString)
+				} label: {
+					Label("Copy commit URL", systemImage: "doc.on.doc")
+				}
 			}
 		}
 	}
 }
 
 private struct Overview: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	var deployment: VercelDeployment
 
 	var body: some View {
@@ -191,22 +242,23 @@ private struct Overview: View {
 					Text("Preview")
 				}
 			}
-			
+
 			LabelView(Text("Build duration")) {
-				if let building = deployment.building,
-					 let readyAt = deployment.readyAt {
-					Text(Duration.seconds(building.distance(to: readyAt)).formatted())
-				} else if let building = deployment.building {
-					Text(building, style: .timer)
-				} else {
-					Text("—")
+				Group {
+					if let building = deployment.building,
+						 let readyAt = deployment.readyAt,
+						 abs(building.distance(to: readyAt)) > 1 {
+						Text(timerInterval: building...readyAt, countsDown: false, showsHours: false)
+					} else if let building = deployment.building {
+						Text(building, style: .timer)
+					} else {
+						Text("—")
+					}
 				}
+				.monospacedDigit()
 			}
-			
-			NavigationLink {
-				DeploymentLogView(deployment: deployment)
-					.environmentObject(session)
-			} label: {
+
+			NavigationLink(value: DetailDestinationValue.deploymentLogs(deployment: deployment)) {
 				Label("View logs", systemImage: "terminal")
 			}
 		}
@@ -214,7 +266,7 @@ private struct Overview: View {
 }
 
 private struct URLDetails: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 
 	var accountId: VercelAccount.ID
 	var deployment: VercelDeployment
@@ -223,12 +275,12 @@ private struct URLDetails: View {
 
 	var body: some View {
 		Section(header: Text("Deployment URL")) {
-			Link(destination: deployment.url) {
-				Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
+			Link(destination: deployment.deploymentURL) {
+				Label(deployment.deploymentURL.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
 
 			Button {
-				Pasteboard.setString(deployment.url.absoluteString)
+				Pasteboard.setString(deployment.deploymentURL.absoluteString)
 			} label: {
 				Label("Copy URL", systemImage: "doc.on.doc")
 			}.keyboardShortcut("c", modifiers: [.command])
@@ -252,6 +304,7 @@ private struct URLDetails: View {
 					.badge(aliases.count)
 			}
 			.task {
+				guard let session else { return }
 				do {
 					var request = VercelAPI.request(
 						for: .deployments(
@@ -273,4 +326,3 @@ private struct URLDetails: View {
 		}
 	}
 }
-

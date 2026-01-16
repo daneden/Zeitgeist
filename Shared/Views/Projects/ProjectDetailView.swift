@@ -9,16 +9,17 @@ import SwiftUI
 import Suite
 
 struct ProjectDetailView: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	var projectId: VercelProject.ID
 	@State var project: VercelProject?
+	@Binding var selectedDeployment: VercelDeployment?
 
 	@State private var filter = DeploymentFilter()
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
-	
-	@State var currentProductionDeployment: VercelDeployment?
+
+	@State private var currentProductionDeployment: VercelDeployment?
 
 	@AppStorage(Preferences.deploymentNotificationIds)
 	private var deploymentNotificationIds
@@ -33,61 +34,57 @@ struct ProjectDetailView: View {
 		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds)
 			.contains { $0 == projectId }
 	}
-	
+
 	var navBarTitle: Text {
 		guard let name = project?.name else {
 			return Text("Project details")
 		}
-		
+
 		return Text(name)
 	}
 
 	var body: some View {
-		Form {
+		List(selection: $selectedDeployment) {
 			if let project {
 				Section("Details") {
 					LabelView(Text("Name")) {
 						Text(project.name)
 					}
-					
+
 					if let gitLink = project.link,
 						 let url = gitLink.repoUrl {
 						let slug = gitLink.repoSlug
 						let provider = gitLink.type
-						
+
 						LabelView(Text("Git repository")) {
 							Link(destination: url) {
 								Label(slug, image: provider.rawValue)
 							}
 						}
-						
+
 						LabelView(Text("Production branch")) {
 							Text(gitLink.productionBranch)
 						}
-						
-						NavigationLink(destination: ProjectEnvironmentVariablesView(projectId: project.id).environmentObject(session)) {
+
+						NavigationLink {
+							ProjectEnvironmentVariablesView(projectId: project.id)
+								.environment(\.session, session)
+						} label: {
 							Text("Environment variables")
 						}
 					}
 				}
-				
+
 				if let currentProductionDeployment {
 					Section("Current Production Deployment") {
-						NavigationLink {
-							DeploymentDetailView(
-								deploymentId: currentProductionDeployment.id,
-								deployment: currentProductionDeployment
-							)
-								.id(currentProductionDeployment.id)
-								.environmentObject(session)
-								.environment(\.project, project)
-						} label: {
+						NavigationLink(value: currentProductionDeployment) {
 							DeploymentListRowView(deployment: currentProductionDeployment, isCurrentProduction: true)
 								.id(currentProductionDeployment.id)
 						}
+						.tag(currentProductionDeployment)
 					}
 				}
-				
+
 				Section("Recent deployments") {
 					if filter.filtersApplied {
 						Button {
@@ -96,29 +93,22 @@ struct ProjectDetailView: View {
 							Label("Clear filters", systemImage: "xmark.circle")
 						}
 					}
-					
+
 					ForEach(deployments) { deployment in
-						NavigationLink {
-							DeploymentDetailView(
-								deploymentId: deployment.id,
-								deployment: deployment
-							)
-								.id(deployment.id)
-								.environmentObject(session)
-								.environment(\.project, project)
-						} label: {
+						NavigationLink(value: deployment) {
 							DeploymentListRowView(
 								deployment: deployment,
 								isCurrentProduction: deployment.id == project.targets?.production?.id
 							)
 								.id(deployment.id)
 						}
+						.tag(deployment)
 					}
-					
+
 					if deployments.isEmpty {
 						LoadingListCell(title: "Loading deployments")
 					}
-					
+
 					if let pageId = pagination?.next {
 						LoadingListCell(title: "Loading deployments")
 							.task {
@@ -134,6 +124,11 @@ struct ProjectDetailView: View {
 				ProgressView()
 			}
 		}
+		#if os(iOS)
+		.listStyle(.insetGrouped)
+		#elseif os(macOS)
+		.listStyle(.inset)
+		#endif
 		.toolbar {
 			ToolbarItem {
 				Button {
@@ -142,18 +137,18 @@ struct ProjectDetailView: View {
 					Label("Notification settings", systemImage: notificationsEnabled ? "bell.badge" : "bell.slash")
 				}
 			}
-			
+
 			if #available(iOS 26, macOS 26, *) {
 				ToolbarSpacer(.fixed)
 			}
-			
+
 			ToolbarItem {
 				Menu {
 					DeploymentFilterView(filter: $filter)
 				} label: {
 					Label("Filter deployments", systemImage: "line.3.horizontal.decrease")
 						.backportCircleSymbolVariant()
-						.symbolVariant(filter.filtersApplied ? .fill : .none)
+						.symbolVariant(filter.filtersApplied ? .circle.fill : .none)
 				}
 			}
 		}
@@ -175,13 +170,13 @@ struct ProjectDetailView: View {
 			notificationsSheet
 		}
 	}
-	
+
 	@ViewBuilder
 	var notificationsSheet: some View {
 		if let project {
 			Group {
 				#if os(iOS)
-				NavigationView {
+				NavigationStack {
 					ProjectNotificationsView(project: project)
 				}
 				#else
@@ -195,26 +190,37 @@ struct ProjectDetailView: View {
 	func initialLoad() async throws {
 		async let project: Void = loadProject()
 		async let deployments: Void = loadDeployments()
-		
+
 		try await project
 		try await deployments
 	}
-	
+
 	func loadProject() async throws {
+		guard let session else { return }
+		
+		/// Try to decode a current production deployment as soon as possible
+		if let currentProductionDeploymentId = project?.targets?.production?.id {
+			let request = VercelAPI.request(for: .deployments(version: 13, deploymentID: currentProductionDeploymentId), with: session.account.id)
+			if let cachedResponse = URLCache.shared.cachedResponse(for: request)?.data,
+				 let decodedFromCache = try? JSONDecoder().decode(VercelDeployment.self, from: cachedResponse) {
+				self.currentProductionDeployment = decodedFromCache
+			}
+		}
+		
 		var request = VercelAPI.request(for: .projects(projectId), with: session.account.id)
 		try session.signRequest(&request)
-		
+
 		let (data, _) = try await URLSession.shared.data(for: request)
 		let projectResponse = try JSONDecoder().decode(VercelProject.self, from: data)
-		
+
 		withAnimation {
 			self.project = projectResponse
 		}
-		
+
 		if let currentProductionDeploymentID = projectResponse.targets?.production?.id {
 			var currentProductionDeploymentRequest = VercelAPI.request(for: .deployments(version: 13, deploymentID: currentProductionDeploymentID), with: session.account.id)
 			try session.signRequest(&currentProductionDeploymentRequest)
-			
+
 			let (data, _) = try await URLSession.shared.data(for: currentProductionDeploymentRequest)
 			try withAnimation {
 				self.currentProductionDeployment = try JSONDecoder().decode(VercelDeployment.self, from: data)
@@ -223,6 +229,7 @@ struct ProjectDetailView: View {
 	}
 
 	func loadDeployments(pageId: Int? = nil) async throws {
+		guard let session else { return }
 		var queryItems: [URLQueryItem] = [
 			URLQueryItem(name: "projectId", value: projectId),
 		] + filter.urlQueryItems
