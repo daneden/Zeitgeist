@@ -18,6 +18,7 @@ struct VercelProject: Decodable, Identifiable, Equatable, Hashable {
 	let targets: Targets?
 	let updatedAt: Int?
 	let link: VercelRepositoryLink?
+	let env: [VercelEnv]?
 	
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(id)
@@ -53,7 +54,7 @@ struct Pagination: Codable {
 	let next: Int?
 }
 
-struct VercelEnv: Codable, Identifiable, Hashable {
+struct VercelEnv: Codable, Identifiable, Hashable, Equatable {
 	let id: String
 	let type: EnvType
 	let key: String
@@ -78,7 +79,7 @@ extension VercelEnv {
 	}
 	
 	enum EnvType: String, Codable {
-		case system, secret, encrypted, plain
+		case system, secret, encrypted, plain, sensitive
 	}
 	
 	struct APIResponse: Codable {

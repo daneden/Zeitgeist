@@ -11,10 +11,13 @@ import Suite
 
 struct ProjectEnvironmentVariablesView: View {
 	@Environment(\.session) private var session
+	@Environment(\.dismiss) private var dismiss
 	@AppStorage(Preferences.lastAuthenticated) var lastAuthenticated
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	@State private var envVars: [VercelEnv] = []
 	@State private var editSheetPresented = false
+	@State private var isLoading = false
+	@State private var sortOrder = [KeyPathComparator(\VercelEnv.key)]
 	
 	var isAuthenticated: Bool {
 		abs(lastAuthenticated.distance(to: .now)) < authenticationTimeout
@@ -23,9 +26,42 @@ struct ProjectEnvironmentVariablesView: View {
 	var projectId: VercelProject.ID
 	
 	var body: some View {
-		ZStack {
+		NavigationStack {
 			Form {
 				if isAuthenticated {
+					#if os(macOS)
+					Table(of: VercelEnv.self, sortOrder: $sortOrder) {
+						TableColumn("Key", value: \.key) {
+							Text($0.key)
+								.monospaced()
+								.lineLimit(3)
+						}
+						.width(min: 80, ideal: 120, max: 240)
+
+						TableColumn("Value") { envVar in
+							EnvironmentVariableDecryptingView(projectId: projectId, envVar: envVar)
+								.lineLimit(100)
+						}
+						.width(min: 120, ideal: 240, max: 500)
+						
+						TableColumn("Last updated", value: \.updated) { envVar in
+							Text(envVar.updated.formatted())
+								.lineLimit(2)
+						}
+						.width(min: 80, ideal: 120, max: 240)
+						
+						TableColumn("Targets") { envVar in
+							Text(envVar.target.map { $0.capitalized }.formatted(.list(type: .and)))
+								.lineLimit(3)
+						}
+						.width(min: 80, ideal: 120, max: 240)
+					} rows: {
+						ForEach(envVars.sorted(using: sortOrder)) { envVar in
+							TableRow(envVar)
+						}
+					}
+					.tableStyle(.bordered)
+					#elseif os(iOS)
 					Section {
 						ForEach(envVars) { envVar in
 							EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
@@ -40,14 +76,23 @@ struct ProjectEnvironmentVariablesView: View {
 							Image(systemName: "lock")
 						}
 					}
+					#endif
 				}
 			}
 			.toolbar {
-				Button {
-					editSheetPresented = true
-				} label: {
-					Label("Add new environment variable", systemImage: "plus")
-						.backportCircleSymbolVariant()
+				ToolbarItem(placement: .primaryAction) {
+					Button {
+						editSheetPresented = true
+					} label: {
+						Label("Add environment variable", systemImage: "plus")
+							.backportCircleSymbolVariant()
+					}
+				}
+				
+				ToolbarItem(placement: .cancellationAction) {
+					BackportCloseButton {
+						dismiss()
+					}
 				}
 			}
 			.navigationTitle(Text("Environment variables"))
@@ -64,33 +109,38 @@ struct ProjectEnvironmentVariablesView: View {
 					EnvironmentVariableEditView(projectId: projectId)
 				}
 			}
-			
-			if !isAuthenticated {
-				VStack(spacing: 8) {
-					Image(systemName: "lock")
-						.font(.largeTitle)
-						.symbolVariant(.fill)
-					Text("Authentication required")
-						.font(.title3)
-					Button {
-						authenticate()
-					} label: {
-						Text("Authenticate")
-					}.buttonStyle(.bordered)
+			.overlay {
+				if !isAuthenticated {
+					VStack(spacing: 8) {
+						Image(systemName: "lock")
+							.font(.largeTitle)
+							.symbolVariant(.fill)
+						Text("Authentication required")
+							.font(.title3)
+						Button {
+							authenticate()
+						} label: {
+							Text("Authenticate")
+						}.buttonStyle(.bordered)
+					}
+					.foregroundStyle(.secondary)
+				} else if envVars.isEmpty, !isLoading {
+					PlaceholderView(forRole: .NoEnvVars)
 				}
-				.foregroundStyle(.secondary)
-			} else if envVars.isEmpty {
-				PlaceholderView(forRole: .NoEnvVars)
 			}
 		}
-#if !os(macOS)
+		#if !os(macOS)
 		.listStyle(.insetGrouped)
-#endif
+		#endif
 		.animation(.default, value: isAuthenticated)
 	}
 	
 	func loadEnvironmentVariables() async {
 		guard let session else { return }
+		isLoading = true
+		
+		defer { isLoading = false }
+		
 		do {
 			var request = VercelAPI.request(for: .projects(projectId, path: "env"), with: session.account.id)
 			try session.signRequest(&request)
