@@ -12,12 +12,20 @@ import WidgetKit
 struct ZeitgeistWidgets: WidgetBundle {
 	@WidgetBundleBuilder
 	var body: some Widget {
+		makeBody()
+	}
+	
+	func makeBody() -> some Widget {
 		if #available(iOS 26, macOS 26, *) {
-			LatestDeploymentWidgetWithPushHandler()
-			RecentDeploymentsWidgetWithPushHandler()
+			return WidgetBundleBuilder.buildBlock(
+				LatestDeploymentWidgetWithPushHandler(),
+				RecentDeploymentsWidgetWithPushHandler()
+			)
+		} else {
+			return WidgetBundleBuilder.buildBlock(
+				LatestDeploymentWidget(),
+				RecentDeploymentsWidget()
+			)
 		}
-		
-		LatestDeploymentWidget()
-		RecentDeploymentsWidget()
 	}
 }
