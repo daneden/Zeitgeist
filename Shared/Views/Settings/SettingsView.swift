@@ -20,6 +20,8 @@ struct SettingsView: View {
 
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	
+	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
+	
 	var githubIssuesURL: URL {
 		
 		var body = """
@@ -42,6 +44,16 @@ struct SettingsView: View {
 
 	var body: some View {
 		Form {
+			Section("Display") {
+				Picker(selection: $projectSummaryDisplayOption) {
+					ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
+						Text(option.description)
+					}
+				} label: {
+					Text("Project list shows")
+				}
+			}
+			
 			Section {
 				Picker(selection: $notificationGrouping) {
 					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in

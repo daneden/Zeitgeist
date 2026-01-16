@@ -509,6 +509,9 @@
         }
       }
     },
+    "Display" : {
+
+    },
     "Edit" : {
       "localizations" : {
         "fr" : {
@@ -1037,6 +1040,9 @@
         }
       }
     },
+    "Project list shows" : {
+
+    },
     "Projects" : {
       "localizations" : {
         "fr" : {
@@ -1360,6 +1366,7 @@
       }
     },
     "View options" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

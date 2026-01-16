@@ -36,6 +36,7 @@ struct ZeitgeistApp: App {
 			SettingsView()
 				.environment(accountManager)
 				.formStyle(.grouped)
+				.frame(maxWidth: 400)
 		}
 		#endif
 	}
