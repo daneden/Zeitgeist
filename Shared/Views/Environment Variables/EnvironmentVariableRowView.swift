@@ -176,3 +176,75 @@ struct EnvironmentVariableRowView: View {
 		}
 	}
 }
+
+struct EnvironmentVariableDecryptingView: View {
+	@Environment(\.session) private var session
+	
+	var projectId: VercelProject.ID
+	
+	@State var envVar: VercelEnv
+	var showSpacer = true
+	
+	@State private var needsDecrypting = true
+	@State private var decrypting = false
+	
+	var body: some View {
+		HStack {
+			Text(verbatim: needsDecrypting ? Array(repeating: "•", count: 15).joined() : envVar.value)
+				.privacySensitive(!needsDecrypting)
+				.contentTransition(.numericText())
+				.animation(.default, value: envVar.value)
+				.monospaced()
+				.accessibilityHidden(needsDecrypting)
+			
+			if showSpacer {
+				Spacer()
+			}
+			
+			Button {
+				Task {
+					if envVar.decrypted != true,
+						 let decrypted = await decryptedValue() {
+						envVar = decrypted
+					}
+					
+					withAnimation {
+						needsDecrypting.toggle()
+					}
+				}
+			} label: {
+				Label(needsDecrypting ? "Show value" : "Hide value", systemImage: needsDecrypting ? "eye" : "eye.slash")
+					.labelStyle(.iconOnly)
+					.opacity(decrypting ? 0 : 1)
+					.overlay {
+						if decrypting {
+							ProgressView()
+						}
+					}
+			}
+			.buttonStyle(.plain)
+			.controlSize(.mini)
+		}
+	}
+	
+	func decryptedValue() async -> VercelEnv? {
+		withAnimation { decrypting = true }
+		defer {
+			withAnimation { decrypting = false }
+		}
+		
+		guard let session else { return nil }
+		
+		do {
+			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id)
+			try session.signRequest(&request)
+			
+			let (data, _) = try await URLSession.shared.data(for: request)
+			return try JSONDecoder().decode(VercelEnv.self, from: data)
+		} catch {
+			print(error)
+		}
+		
+		return nil
+	}
+}

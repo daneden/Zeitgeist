@@ -43,6 +43,9 @@
         }
       }
     },
+    "%lld environment variables" : {
+
+    },
     "•" : {
 
     },
@@ -113,6 +116,7 @@
       }
     },
     "Add new environment variable" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -532,6 +536,9 @@
         }
       }
     },
+    "Edit..." : {
+
+    },
     "Environment" : {
       "localizations" : {
         "fr" : {
@@ -653,7 +660,16 @@
         }
       }
     },
+    "Hide value" : {
+
+    },
     "Instant rollback" : {
+
+    },
+    "Key" : {
+
+    },
+    "Last updated" : {
 
     },
     "Latest deployment" : {
@@ -1191,6 +1207,9 @@
         }
       }
     },
+    "Show value" : {
+
+    },
     "Sign in with Vercel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1277,6 +1296,9 @@
           }
         }
       }
+    },
+    "Targets" : {
+
     },
     "Terms of Use" : {
       "localizations" : {

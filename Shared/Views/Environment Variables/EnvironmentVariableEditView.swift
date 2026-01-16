@@ -34,72 +34,72 @@ struct EnvironmentVariableEditView: View {
 	}
 	
 	var body: some View {
-		Form {
-			Section {
-				TextField("Name", text: $key)
-					.font(.body.monospaced())
-					.autocorrectionDisabled(true)
-			} footer: {
-				Text("Environment variable names must begin with a letter and can only contain letters, numbers, and underscores")
-			}
-			
-			Section("Value") {
-				TextEditor(text: $value)
-					.font(.body.monospaced())
-					.frame(minHeight: 80)
-					.autocorrectionDisabled(true)
-			}
-			
-			Section {
-				Toggle(isOn: $targetProduction) {
-					Text("Production")
+		NavigationStack {
+			Form {
+				Section {
+					TextField("Name", text: $key)
+						.font(.body.monospaced())
+						.autocorrectionDisabled(true)
+				} footer: {
+					Text("Environment variable names must begin with a letter and can only contain letters, numbers, and underscores")
 				}
 				
-				Toggle(isOn: $targetPreview) {
-					Text("Preview")
+				Section("Value") {
+					TextEditor(text: $value)
+						.font(.body.monospaced())
+						.frame(minHeight: 80)
+						.autocorrectionDisabled(true)
 				}
 				
-				Toggle(isOn: $targetDevelopment) {
-					Text("Development")
-				}
-			} header: {
-				Text("Environment")
-			} footer: {
-				Text("At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website.")
-			}
-			
-			Section {
-				Button {
-					Task {
-						await saveEnvVar()
+				Section {
+					Toggle(isOn: $targetProduction) {
+						Text("Production")
 					}
-				} label: {
-					HStack {
-						Text("Submit", comment: "Button label to save a new environment variable")
-						
-						if saving {
-							Spacer()
-							ProgressView()
+					
+					Toggle(isOn: $targetPreview) {
+						Text("Preview")
+					}
+					
+					Toggle(isOn: $targetDevelopment) {
+						Text("Development")
+					}
+				} header: {
+					Text("Environment")
+				} footer: {
+					Text("At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website.")
+				}
+				
+				Section {
+					Button {
+						Task {
+							await saveEnvVar()
+						}
+					} label: {
+						HStack {
+							Text("Submit", comment: "Button label to save a new environment variable")
+							
+							if saving {
+								Spacer()
+								ProgressView()
+							}
 						}
 					}
+					.disabled(!envVarIsValid)
+					.disabled(saving)
+				} footer: {
+					Text("A new deployment is required for your changes to take effect.")
 				}
-				.disabled(!envVarIsValid)
-				.disabled(saving)
-			} footer: {
-				Text("A new deployment is required for your changes to take effect.")
 			}
-		}
-		.navigationTitle(navBarTitle)
-		.toolbar {
-			Button {
-				dismiss()
-			} label: {
-				Text("Cancel")
+			.navigationTitle(navBarTitle)
+			.toolbar {
+				BackportCloseButton {
+					dismiss()
+				}
 			}
+			#if os(iOS)
+			.navigationBarTitleDisplayMode(.inline)
+			#endif
 		}
-		#if os(iOS)
-		.navigationBarTitleDisplayMode(.inline)
-		#endif
 	}
 	
 	func saveEnvVar() async {
