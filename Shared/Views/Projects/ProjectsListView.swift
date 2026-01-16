@@ -56,14 +56,29 @@ struct ProjectsListView: View {
 							showAccountManagementView = true
 						} label: {
 							HStack {
-								AccountListRowView(account: selectedAccount)
-									.frame(maxWidth: .infinity, alignment: .leading)
+								VercelUserAvatarView(account: selectedAccount, size: 24)
+									.id(selectedAccount.id)
+									.transition(.opacity)
 								
-								Image(systemName: "chevron.up.chevron.down")
+								VStack(alignment: .leading) {
+									Text(verbatim: selectedAccount.name ?? selectedAccount.username)
+									Text("Manage accounts")
+										.font(.caption)
+										.foregroundStyle(.secondary)
+								}
+								
+								Spacer()
+								
+								Image(systemName: "arrow.forward")
+									.symbolVariant(.circle.fill)
+									.symbolRenderingMode(.monochrome)
+									.foregroundStyle(.tertiary)
 							}
-							.contentShape(.capsule(style: .continuous))
+							.contentTransition(.numericText())
 						}
-						.buttonStyle(.plain)
+						.buttonStyle(.bordered)
+						.buttonBorderShape(.capsule)
+						.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 					}
 					.sheet(isPresented: $showAccountManagementView) {
 						AccountManagementView()

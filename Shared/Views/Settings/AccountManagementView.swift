@@ -13,66 +13,106 @@ struct AccountManagementView: View {
 	
 	@State private var signInViewModel = SignInViewModel()
 	
+	@ViewBuilder
+	var addAccountButton: some View {
+		Button {
+			Task {
+				await signInViewModel.signIn(using: webAuthenticationSession, accountManager: accountManager)
+			}
+		} label: {
+			HStack {
+				Label("Add account", systemImage: "plus")
+				
+				if signInViewModel.isSigningIn {
+					ProgressView()
+						.controlSize(.small)
+				}
+			}
+		}
+		.disabled(signInViewModel.isSigningIn)
+	}
+	
+	@ViewBuilder
+	var deleteAccountButton: some View {
+		Button("Sign out of account", systemImage: "minus") {
+			if let selectedAccountId = accountManager.selectedAccountId {
+				accountManager.deleteAccount(id: selectedAccountId)
+			}
+		}
+		.disabled(accountManager.selectedAccountId == nil)
+	}
+	
+	@ViewBuilder
+	var deleteAllAccountsButton: some View {
+		Button("Sign out of all accounts", systemImage: "person.2.badge.minus", role: .destructive) {
+			deleteAllAccounts()
+			dismiss()
+		}
+	}
+	
 	var body: some View {
+		@Bindable var accountManager = accountManager
 		NavigationStack {
-			List {
-				Section {
-					ForEach(accountManager.accounts) { account in
-						Button {
-							withAnimation {
-								accountManager.selectAccount(account)
+			Group {
+				#if os(macOS)
+				Table(accountManager.accounts, selection: $accountManager.selectedAccountId.animation()) {
+					TableColumn("Account") { account in
+						AccountListRowView(account: account)
+							.environment(self.accountManager)
+							.tag(account.id)
+					}
+					.width(max: .infinity)
+				}
+				.tableColumnHeaders(.hidden)
+				HStack {
+					deleteAllAccountsButton
+					
+					Spacer()
+					
+					ControlGroup {
+						deleteAccountButton
+						addAccountButton
+					}
+					.labelStyle(.iconOnly)
+				}
+				.padding()
+				#elseif os(iOS)
+				List {
+					Section {
+						ForEach(accountManager.accounts) { account in
+							Button {
+								withAnimation {
+									accountManager.selectAccount(account)
+								}
+							} label: {
+								HStack {
+									AccountListRowView(account: account)
+										.frame(maxWidth: .infinity, alignment: .leading)
+									
+									if account == accountManager.selectedAccount {
+										Image(systemName: "checkmark")
+											.foregroundStyle(.tint)
+									}
+								}
+								.contentShape(.rect)
 							}
-						} label: {
-							HStack {
-								AccountListRowView(account: account)
-									.frame(maxWidth: .infinity, alignment: .leading)
-								
-								if account == accountManager.selectedAccount {
-									Image(systemName: "checkmark")
-										.foregroundStyle(.tint)
+							.buttonStyle(.plain)
+							.contextMenu {
+								Button("Sign out", systemImage: "person.badge.minus", role: .destructive) {
+									accountManager.deleteAccount(id: account.id)
 								}
 							}
-							.contentShape(.rect)
 						}
-						.buttonStyle(.plain)
-						.contextMenu {
-							Button("Sign out", systemImage: "person.badge.minus", role: .destructive) {
-								accountManager.deleteAccount(id: account.id)
-							}
-						}
+						.onDelete(perform: deleteAccounts)
 					}
-					.onDelete(perform: deleteAccounts)
-				}
-				
-				Section {
-					Button {
-						Task {
-							await signInViewModel.signIn(using: webAuthenticationSession, accountManager: accountManager)
-						}
-					} label: {
-						HStack {
-							Label("Add account", systemImage: "person.badge.plus")
-							Spacer()
-							
-							if signInViewModel.isSigningIn {
-								ProgressView()
-									.controlSize(.small)
-							}
-						}
-					}
-					.disabled(signInViewModel.isSigningIn)
-					#if os(macOS)
-					.buttonStyle(.borderless)
-					#endif
 					
-					Button("Sign out of all accounts", systemImage: "person.2.badge.minus", role: .destructive) {
-						deleteAllAccounts()
-						dismiss()
+					Section {
+						addAccountButton
+						deleteAllAccountsButton
+							.symbolRenderingMode(.monochrome)
 					}
-					#if os(macOS)
-					.buttonStyle(.borderless)
-					#endif
 				}
+				#endif
 			}
 			.toolbar {
 				#if os(iOS)

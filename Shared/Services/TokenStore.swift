@@ -51,10 +51,7 @@ struct KeychainTokenStore: TokenStore {
 	}
 
 	func setToken(_ token: String, for accountId: String) {
-		// Always store in shared keychain with access group
 		KeychainItem(account: accountId, accessGroup: Self.keychainAccessGroup).wrappedValue = token
-		// Clean up legacy keychain entry if it exists
-		KeychainItem(account: accountId).wrappedValue = nil
 	}
 
 	func removeToken(for accountId: String) {
