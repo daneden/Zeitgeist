@@ -112,27 +112,6 @@ struct ProjectsListView: View {
 				}
 			}
 			.searchable(text: $searchText)
-			.toolbar {
-				ToolbarItem(placement: .secondaryAction) {
-					Menu {
-						Picker(selection: $projectSummaryDisplayOption) {
-							ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
-								Text(option.description)
-									.tag(option)
-							}
-						} label: {
-							Label("Show deployment cause for...", systemImage: "rectangle.and.text.magnifyingglass")
-						}
-					} label: {
-						Label("View options", systemImage: "eye")
-							.backportCircleSymbolVariant()
-					}
-				}
-				
-				if #available(iOS 26, macOS 26, *) {
-					ToolbarSpacer(.fixed)
-				}
-			}
 			.zeitgeistDataTask {
 				do {
 					try await loadProjects()
@@ -161,17 +140,6 @@ struct ProjectsListView: View {
 			}
 		}
 		.navigationTitle("Projects")
-		.modify {
-			if #available(iOS 26, macOS 11, *) {
-				if let account = session?.account {
-					$0.navigationSubtitle(account.name ?? account.username)
-				} else {
-					$0
-				}
-			} else {
-				$0
-			}
-		}
 		.focusedSceneValue(\.focusedAccount, session?.account)
 		.modifier(OptionalPermissionRevocationDialogModifier(session: session))
 	}

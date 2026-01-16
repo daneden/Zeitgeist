@@ -45,13 +45,17 @@ struct AuthenticatedContentView: View {
 			.withAccountSwitcher()
 			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
+			.backportNavigationSubtitle(session?.account.name ?? session?.account.username)
 		} content: {
+			Group {
 				if let selectedProject, session != nil {
 					ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
 						.id(selectedProject)
 				} else {
 					PlaceholderView(forRole: .ProjectDetail)
 				}
+			}
+			.backportNavigationSubtitle(session?.account.name ?? session?.account.username)
 		} detail: {
 			NavigationStack {
 				Group {
