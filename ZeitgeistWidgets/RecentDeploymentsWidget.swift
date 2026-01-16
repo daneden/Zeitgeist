@@ -121,3 +121,12 @@ struct RecentDeploymentsWidget: Widget {
 		.supportedFamilies([.systemLarge, .systemExtraLarge])
 	}
 }
+
+@available(iOS 26, macOS 26, *)
+struct RecentDeploymentsWidgetWithPushHandler: Widget {
+	public var body: some WidgetConfiguration {
+		RecentDeploymentsWidget()
+			.body
+			.pushHandler(ZeitgeistWidgetPushHandler.self)
+	}
+}
