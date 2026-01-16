@@ -50,6 +50,7 @@
 
     },
     "A new deployment is required for your changes to take effect." : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -514,6 +515,9 @@
       }
     },
     "Display" : {
+
+    },
+    "Done" : {
 
     },
     "Edit" : {
@@ -1267,6 +1271,7 @@
     },
     "Submit" : {
       "comment" : "Button label to save a new environment variable",
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
