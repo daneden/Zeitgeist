@@ -18,6 +18,7 @@ struct ProjectDetailView: View {
 	@State private var deployments: [VercelDeployment] = []
 	@State private var pagination: Pagination?
 	@State private var projectNotificationsVisible = false
+	@State private var editEnvironmentVariables = false
 
 	@State private var currentProductionDeployment: VercelDeployment?
 
@@ -65,12 +66,29 @@ struct ProjectDetailView: View {
 						LabelView(Text("Production branch")) {
 							Text(gitLink.productionBranch)
 						}
-
-						NavigationLink {
-							ProjectEnvironmentVariablesView(projectId: project.id)
-								.environment(\.session, session)
+						
+						LabeledContent {
+							Button("Edit...") {
+								editEnvironmentVariables = true
+							}
 						} label: {
-							Text("Environment variables")
+							if let env = project.env {
+								Text("\(env.count) environment variables")
+							} else {
+								Text("Environment variables")
+							}
+						}
+						.sheet(isPresented: $editEnvironmentVariables) {
+							ProjectEnvironmentVariablesView(projectId: project.id)
+							#if os(macOS)
+								.modify {
+									if #available(macOS 15, *) {
+										$0.presentationSizing(.page)
+									} else {
+										$0
+									}
+								}
+							#endif
 						}
 					}
 				}
