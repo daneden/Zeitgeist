@@ -129,6 +129,7 @@
 		71F9020C26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0AA153294FD69B9B5756D /* AccountManager.swift */; };
+		DEEF1A2C2F39C86400000002 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */; };
 		B1EF3840F859A51089DB621B /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		B68C81FDCD7CDAF606780663 /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
@@ -176,6 +177,7 @@
 
 /* Begin PBXFileReference section */
 		2EC0AA153294FD69B9B5756D /* AccountManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+Fallback.swift"; sourceTree = "<group>"; };
 		5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestDeploymentEntry.swift; sourceTree = "<group>"; };
 		5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDeploymentsEntry.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			children = (
 				2EC0AA153294FD69B9B5756D /* AccountManager.swift */,
 				A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */,
+				DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */,
 				A0C004202C2679F32CA2E703 /* TokenStore.swift */,
 			);
 			path = Services;
@@ -763,6 +766,7 @@
 				7109AD142B18A48000724454 /* KeychainItem.swift in Sources */,
 				7154899D2F19A76000FD5CCE /* CommitAuthorAttributionView.swift in Sources */,
 				89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */,
+				DEEF1A2C2F39C86400000002 /* DeepLinkHandler.swift in Sources */,
 				715489A02F19A8F700FD5CCE /* View+avatarMask.swift in Sources */,
 				EC996626FF5D158A88E8EB07 /* AccountStorage.swift in Sources */,
 				860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */,
