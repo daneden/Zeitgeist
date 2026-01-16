@@ -42,8 +42,10 @@ public final class KeychainItem {
 		self.accessGroup = accessGroup
 	}
 
-	private var baseDictionary: [String: AnyObject] {
-		let base = [
+	/// Base dictionary for queries - does NOT include accessibility attribute
+	/// to allow finding tokens stored with any accessibility level (for migration).
+	private var queryBaseDictionary: [String: AnyObject] {
+		let base: [String: AnyObject] = [
 			kSecClass as String: kSecClassGenericPassword,
 			kSecAttrAccount as String: account as AnyObject,
 			kSecAttrSynchronizable as String: kCFBooleanTrue!,
@@ -54,21 +56,38 @@ public final class KeychainItem {
 			: base.adding(key: kSecAttrAccessGroup as String, value: accessGroup as AnyObject)
 	}
 
+	/// Dictionary for adding/updating items - includes the desired accessibility attribute.
+	private var storageDictionary: [String: AnyObject] {
+		queryBaseDictionary.adding(
+			key: kSecAttrAccessible as String,
+			value: kSecAttrAccessibleAfterFirstUnlock
+		)
+	}
+
+	/// Query dictionary without accessibility - finds items regardless of how they were stored.
 	private var query: [String: AnyObject] {
-		return baseDictionary.adding(key: kSecMatchLimit as String, value: kSecMatchLimitOne)
+		return queryBaseDictionary.adding(key: kSecMatchLimit as String, value: kSecMatchLimitOne)
+	}
+
+	/// Query dictionary with the correct accessibility - for checking if migration is needed.
+	private var migratedQuery: [String: AnyObject] {
+		return storageDictionary.adding(key: kSecMatchLimit as String, value: kSecMatchLimitOne)
 	}
 
 	public var wrappedValue: String? {
 		get {
-			try? read()
+			guard let value = try? read() else { return nil }
+			// Attempt migration if needed (will silently fail if device is locked)
+			migrateIfNeeded(value: value)
+			return value
 		}
 		set {
 			if let v = newValue {
-				if let _ = try? read() {
-					try! update(v)
-				} else {
-					try! add(v)
-				}
+				// Always delete and re-add to ensure correct accessibility attribute.
+				// Both operations use try? since they may fail if device is locked
+				// (though setting tokens typically only happens when device is unlocked).
+				try? delete()
+				try? add(v)
 			} else {
 				try? delete()
 			}
@@ -77,7 +96,8 @@ public final class KeychainItem {
 
 	private func delete() throws {
 		// SecItemDelete seems to fail with errSecItemNotFound if the item does not exist in the keychain. Is this expected behavior?
-		let status = SecItemDelete(baseDictionary as CFDictionary)
+		// Use queryBaseDictionary to delete items regardless of their accessibility attribute
+		let status = SecItemDelete(queryBaseDictionary as CFDictionary)
 		guard status != errSecItemNotFound else { return }
 		try throwIfNotZero(status)
 	}
@@ -94,15 +114,26 @@ public final class KeychainItem {
 		return string
 	}
 
-	private func update(_ secret: String) throws {
-		let dictionary: [String: AnyObject] = [
-			kSecValueData as String: secret.data(using: String.Encoding.utf8)! as AnyObject,
-		]
-		try throwIfNotZero(SecItemUpdate(baseDictionary as CFDictionary, dictionary as CFDictionary))
+	/// Checks if the item is already stored with the correct accessibility attribute.
+	private func isAlreadyMigrated() -> Bool {
+		let query = migratedQuery.adding(key: kSecReturnData as String, value: false as AnyObject)
+		let status = SecItemCopyMatching(query as CFDictionary, nil)
+		return status == errSecSuccess
+	}
+
+	/// Migrates a token to use kSecAttrAccessibleAfterFirstUnlock if needed.
+	/// This ensures widgets can access the token when the device is locked.
+	private func migrateIfNeeded(value: String) {
+		guard !isAlreadyMigrated() else { return }
+		// Delete the old item and re-add with correct accessibility
+		// This may fail if device is locked, but that's okay - we'll try again next time
+		try? delete()
+		try? add(value)
 	}
 
 	private func add(_ secret: String) throws {
-		let dictionary = baseDictionary.adding(key: kSecValueData as String, value: secret.data(using: .utf8)! as AnyObject)
+		// Use storageDictionary to set the correct accessibility attribute for new items
+		let dictionary = storageDictionary.adding(key: kSecValueData as String, value: secret.data(using: .utf8)! as AnyObject)
 		try throwIfNotZero(SecItemAdd(dictionary as CFDictionary, nil))
 	}
 }
