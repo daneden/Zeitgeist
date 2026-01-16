@@ -7,7 +7,6 @@
 
 import SwiftUI
 import WidgetKit
-import Suite
 
 // MARK: - LatestDeploymentProvider
 
@@ -144,7 +143,7 @@ struct LatestDeploymentWidget: Widget {
 	}
 }
 
-@available(iOS 26, *)
+@available(iOS 26, macOS 26, *)
 struct LatestDeploymentWidgetWithPushHandler: Widget {
 	public var body: some WidgetConfiguration {
 		LatestDeploymentWidget()
