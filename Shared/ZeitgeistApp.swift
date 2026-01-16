@@ -16,11 +16,16 @@ struct ZeitgeistApp: App {
 	#endif
 
 	@State private var accountManager = AccountManager()
+	@State private var deepLinkHandler = DeepLinkHandler()
 
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
 				.environment(accountManager)
+				.environment(deepLinkHandler)
+				.onOpenURL { url in
+					deepLinkHandler.pendingDeepLink = deepLinkHandler.parse(url: url)
+				}
 		}
 		.commands {
 			DeploymentCommands()
