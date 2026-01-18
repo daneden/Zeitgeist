@@ -152,25 +152,25 @@ struct EnvironmentVariableRowView: View {
 	func decryptedValue() async -> VercelEnv? {
 		guard let session else { return nil }
 		do {
-			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id)
-			try session.signRequest(&request)
-
-			let (data, _) = try await URLSession.shared.data(for: request)
-			return try JSONDecoder().decode(VercelEnv.self, from: data)
+			return try await EnvironmentVariableService.fetchDecrypted(
+				projectId: projectId,
+				envVarId: envVar.id,
+				session: session
+			)
 		} catch {
 			print(error)
+			return nil
 		}
-
-		return nil
 	}
 
 	func delete() async {
 		guard let session else { return }
 		do {
-			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id, method: .DELETE)
-			try session.signRequest(&request)
-
-			_ = try await URLSession.shared.data(for: request)
+			try await EnvironmentVariableService.delete(
+				projectId: projectId,
+				envVarId: envVar.id,
+				session: session
+			)
 		} catch {
 			print(error)
 		}
@@ -232,19 +232,19 @@ struct EnvironmentVariableDecryptingView: View {
 		defer {
 			withAnimation { decrypting = false }
 		}
-		
+
 		guard let session else { return nil }
-		
+
 		do {
-			var request = VercelAPI.request(for: .projects(projectId, path: "env/\(envVar.id)"), with: session.account.id)
-			try session.signRequest(&request)
-			
-			let (data, _) = try await URLSession.shared.data(for: request)
-			return try JSONDecoder().decode(VercelEnv.self, from: data)
+			return try await EnvironmentVariableService.fetchDecrypted(
+				projectId: projectId,
+				envVarId: envVar.id,
+				session: session
+			)
 		} catch {
 			print(error)
+			return nil
 		}
-		
-		return nil
 	}
 }
+

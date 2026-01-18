@@ -178,6 +178,7 @@
       }
     },
     "Authenticate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -833,6 +834,9 @@
         }
       }
     },
+    "No environment variables" : {
+
+    },
     "No environment variables for project" : {
       "localizations" : {
         "fr" : {
@@ -1367,6 +1371,9 @@
           }
         }
       }
+    },
+    "Unlock" : {
+
     },
     "Value" : {
       "localizations" : {

@@ -14,69 +14,53 @@ struct ProjectEnvironmentVariablesView: View {
 	@Environment(\.dismiss) private var dismiss
 	@AppStorage(Preferences.lastAuthenticated) var lastAuthenticated
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
-	@State private var envVars: [VercelEnv] = []
+	
+	@State var envVars: [VercelEnv] = []
+	var projectId: VercelProject.ID
+	
 	@State private var editSheetPresented = false
 	@State private var isLoading = false
-	@State private var sortOrder = [KeyPathComparator(\VercelEnv.key)]
 	
 	var isAuthenticated: Bool {
 		abs(lastAuthenticated.distance(to: .now)) < authenticationTimeout
 	}
 	
-	var projectId: VercelProject.ID
-	
 	var body: some View {
 		NavigationStack {
-			Form {
-				if isAuthenticated {
-					#if os(macOS)
-					Table(of: VercelEnv.self, sortOrder: $sortOrder) {
-						TableColumn("Key", value: \.key) {
-							Text($0.key)
-								.monospaced()
-								.lineLimit(3)
-						}
-						.width(min: 80, ideal: 120, max: 240)
-
-						TableColumn("Value") { envVar in
-							EnvironmentVariableDecryptingView(projectId: projectId, envVar: envVar)
-								.lineLimit(100)
-						}
-						.width(min: 120, ideal: 240, max: 500)
+			Group {
+				if !isAuthenticated {
+					ContentUnavailableView {
+						Label("Authentication required", systemImage: "lock")
+					} description: {
 						
-						TableColumn("Last updated", value: \.updated) { envVar in
-							Text(envVar.updated.formatted())
-								.lineLimit(2)
-						}
-						.width(min: 80, ideal: 120, max: 240)
-						
-						TableColumn("Targets") { envVar in
-							Text(envVar.target.map { $0.capitalized }.formatted(.list(type: .and)))
-								.lineLimit(3)
-						}
-						.width(min: 80, ideal: 120, max: 240)
-					} rows: {
-						ForEach(envVars.sorted(using: sortOrder)) { envVar in
-							TableRow(envVar)
+					} actions: {
+						Button("Unlock") {
+							authenticate()
 						}
 					}
-					.tableStyle(.bordered)
-					#elseif os(iOS)
-					Section {
-						ForEach(envVars) { envVar in
-							EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
-								.id(envVar.hashValue)
-								.draggable(envVar)
-								.contentShape(Rectangle())
+				} else if envVars.isEmpty {
+						ContentUnavailableView("No environment variables", systemImage: "text.magnifyingglass")
+				} else {
+					Form {
+						#if os(macOS)
+						EnvironmentVariablesTableView(envVars: envVars, projectId: projectId)
+						#elseif os(iOS)
+						Section {
+							ForEach(envVars) { envVar in
+								EnvironmentVariableRowView(projectId: projectId, envVar: envVar)
+									.id(envVar.hashValue)
+									.draggable(envVar)
+									.contentShape(Rectangle())
+							}
+						} footer: {
+							Label {
+								Text("Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported.")
+							} icon: {
+								Image(systemName: "lock")
+							}
 						}
-					} footer: {
-						Label {
-							Text("Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported.")
-						} icon: {
-							Image(systemName: "lock")
-						}
+						#endif
 					}
-					#endif
 				}
 			}
 			.toolbar {
@@ -109,45 +93,26 @@ struct ProjectEnvironmentVariablesView: View {
 					EnvironmentVariableEditView(projectId: projectId)
 				}
 			}
-			.overlay {
-				if !isAuthenticated {
-					VStack(spacing: 8) {
-						Image(systemName: "lock")
-							.font(.largeTitle)
-							.symbolVariant(.fill)
-						Text("Authentication required")
-							.font(.title3)
-						Button {
-							authenticate()
-						} label: {
-							Text("Authenticate")
-						}.buttonStyle(.bordered)
-					}
-					.foregroundStyle(.secondary)
-				} else if envVars.isEmpty, !isLoading {
-					PlaceholderView(forRole: .NoEnvVars)
-				}
-			}
+			#if !os(macOS)
+			.listStyle(.insetGrouped)
+			#endif
+			.animation(.default, value: isAuthenticated)
 		}
-		#if !os(macOS)
-		.listStyle(.insetGrouped)
-		#endif
-		.animation(.default, value: isAuthenticated)
 	}
 	
 	func loadEnvironmentVariables() async {
 		guard let session else { return }
 		isLoading = true
-		
-		defer { isLoading = false }
-		
-		do {
-			var request = VercelAPI.request(for: .projects(projectId, path: "env"), with: session.account.id)
-			try session.signRequest(&request)
 
-			let (data, _) = try await URLSession.shared.data(for: request)
-			try withAnimation {
-				envVars = try JSONDecoder().decode(VercelEnv.APIResponse.self, from: data).envs
+		defer { isLoading = false }
+
+		do {
+			let fetched = try await EnvironmentVariableService.fetchAll(
+				projectId: projectId,
+				session: session
+			)
+			withAnimation {
+				envVars = fetched
 			}
 		} catch {
 			print(error)
@@ -173,6 +138,78 @@ struct ProjectEnvironmentVariablesView: View {
 		} else {
 			// No auth method available
 		}
+	}
+}
+
+struct EnvironmentVariablesTableView: View {
+	@Environment(\.session) private var session
+	var envVars: [VercelEnv] = []
+	var projectId: VercelProject.ID
+	
+	@State private var sortOrder = [KeyPathComparator(\VercelEnv.key)]
+	
+	@State private var editingEnv: VercelEnv?
+	
+	var body: some View {
+		Table(of: VercelEnv.self, sortOrder: $sortOrder) {
+			TableColumn("Key", value: \.key) {
+				Text($0.key)
+					.monospaced()
+					.lineLimit(3)
+			}
+			.width(min: 80, ideal: 120, max: 240)
+			
+			TableColumn("Value") { envVar in
+				EnvironmentVariableDecryptingView(projectId: projectId, envVar: envVar)
+					.lineLimit(100)
+			}
+			.width(min: 120, ideal: 240, max: 500)
+			
+			TableColumn("Last updated", value: \.updated) { envVar in
+				Text(envVar.updated.formatted())
+					.lineLimit(2)
+			}
+			.width(min: 80, ideal: 120, max: 240)
+			
+			TableColumn("Targets") { envVar in
+				Text(envVar.target.map { $0.capitalized }.formatted(.list(type: .and)))
+					.lineLimit(3)
+			}
+			.width(min: 80, ideal: 120, max: 240)
+		} rows: {
+			ForEach(envVars.sorted(using: sortOrder)) { envVar in
+				TableRow(envVar)
+					.contextMenu {
+						Button("Edit", systemImage: "pencil") {
+							editingEnv = envVar
+						}
+						.sheet(item: $editingEnv) { envVar in
+							EnvironmentVariableEditView(
+								projectId: projectId,
+								id: envVar.id,
+								key: envVar.key,
+								value: envVar.value,
+								targetProduction: envVar.targetsProduction,
+								targetPreview: envVar.targetsPreview,
+								targetDevelopment: envVar.targetsDevelopment)
+						}
+						
+						Button("Delete", systemImage: "trash", role: .destructive) {
+							guard let session else { return }
+							Task {
+								do {
+									try await EnvironmentVariableService.delete(projectId: projectId, envVarId: envVar.id, session: session)
+								} catch {
+									print(error.localizedDescription)
+								}
+							}
+						}
+					}
+			}
+		}
+		#if os(macOS)
+		.tableStyle(.bordered)
+		#endif
 	}
 }
 
