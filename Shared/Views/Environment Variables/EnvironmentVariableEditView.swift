@@ -107,35 +107,32 @@ struct EnvironmentVariableEditView: View {
 		guard let session else { return }
 		saving = true
 
+		let targets = EnvironmentVariableService.buildTargets(
+			production: targetProduction,
+			preview: targetPreview,
+			development: targetDevelopment
+		)
+
 		do {
-			var path = "env"
-			var method: VercelAPI.RequestMethod = .POST
+			let response: VercelEnv
 			if let id {
-				path += "/\(id)"
-				method = .PATCH
+				response = try await EnvironmentVariableService.update(
+					projectId: projectId,
+					envVarId: id,
+					key: key,
+					value: value,
+					targets: targets,
+					session: session
+				)
+			} else {
+				response = try await EnvironmentVariableService.create(
+					projectId: projectId,
+					key: key,
+					value: value,
+					targets: targets,
+					session: session
+				)
 			}
-			var request: URLRequest = VercelAPI.request(for: .projects(projectId, path: path), with: session.account.id, method: method)
-
-			var targets = [String]()
-
-			if targetProduction { targets.append("production") }
-			if targetPreview { targets.append("preview") }
-			if targetDevelopment { targets.append("development") }
-
-			let body: [String: Any] = [
-				"key": key,
-				"value": value,
-				"target": targets,
-				"type": "encrypted"
-			]
-
-			let encoded = try JSONSerialization.data(withJSONObject: body)
-			request.httpBody = encoded
-
-			try session.signRequest(&request)
-			let (data, _) = try await URLSession.shared.data(for: request)
-
-			let response = try JSONDecoder().decode(VercelEnv.self, from: data)
 			print("Successfully created/updated env var with key \(response.key)")
 
 			dismiss()
@@ -147,6 +144,7 @@ struct EnvironmentVariableEditView: View {
 		saving = false
 	}
 }
+
 
 struct EnvironmentVariableEditView_Previews: PreviewProvider {
     static var previews: some View {

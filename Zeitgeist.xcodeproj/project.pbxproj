@@ -108,6 +108,10 @@
 		715489A32F1A4A6800FD5CCE /* WidgetPushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A22F1A4A6800FD5CCE /* WidgetPushHandler.swift */; };
 		715489A42F1A4A6900FD5CCE /* WidgetNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A52F1A4A6900FD5CCE /* WidgetNetworkManager.swift */; };
 		715489A52F1AEB8A00FD5CCE /* View+accountScopeNavigationSubtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A42F1AEB8A00FD5CCE /* View+accountScopeNavigationSubtitle.swift */; };
+		715489AB2F1C201B00FD5CCE /* EnvironmentVariableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A92F1C201B00FD5CCE /* EnvironmentVariableService.swift */; };
+		715489AD2F1C201B00FD5CCE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489AA2F1C201B00FD5CCE /* TokenStore.swift */; };
+		715489AE2F1C201B00FD5CCE /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A72F1C201B00FD5CCE /* AccountStorage.swift */; };
+		715489AF2F1C201B00FD5CCE /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715489A82F1C201B00FD5CCE /* DeepLinkHandler.swift */; };
 		71611C002665667100119324 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71155406266562C100A73CD6 /* Intents.framework */; };
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
@@ -130,20 +134,17 @@
 		71F902072665683B000A8873 /* Array.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71155363266282C900A73CD6 /* Array.extension.swift */; };
 		71F9020B26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
 		71F9020C26656A21000A8873 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F9020826656A21000A8873 /* Preferences.swift */; };
-		860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
 		89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0AA153294FD69B9B5756D /* AccountManager.swift */; };
 		B1EF3840F859A51089DB621B /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		B68C81FDCD7CDAF606780663 /* DeploymentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0306C8F22A6FDEB126615B3 /* DeploymentMeta.swift */; };
 		BC0EADFF4A750FC78A17AAEC /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
 		C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539729D02BD23DC79AF4B857 /* KeyedDecodingContainer+Fallback.swift */; };
 		D798378B6887B6EEEB59F379 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C004202C2679F32CA2E703 /* TokenStore.swift */; };
-		DEEF1A2C2F39C86400000002 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1A2B2F39C86400000001 /* DeepLinkHandler.swift */; };
 		E875EDD22B1A460E00BB3BBA /* LatestDeploymentEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F112B0F09DC00030016 /* LatestDeploymentEntry.swift */; };
 		E875EDD32B1A460E00BB3BBA /* RecentDeploymentsEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F152B0F0B1300030016 /* RecentDeploymentsEntry.swift */; };
 		E875EDD42B1A461700BB3BBA /* WidgetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1C2B0F0D2600030016 /* WidgetLabel.swift */; };
 		E875EDD52B1A466900BB3BBA /* LatestDeploymentWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F1E2B0F0ECC00030016 /* LatestDeploymentWidgetView.swift */; };
 		E875EDD62B1A466B00BB3BBA /* RecentDeploymentsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA9F202B0F0F1300030016 /* RecentDeploymentsWidgetView.swift */; };
-		EC996626FF5D158A88E8EB07 /* AccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E934ADF05C41472BA9DFE5 /* AccountStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,11 @@
 		715489A22F1A4A6800FD5CCE /* WidgetPushHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPushHandler.swift; sourceTree = "<group>"; };
 		715489A42F1AEB8A00FD5CCE /* View+accountScopeNavigationSubtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+accountScopeNavigationSubtitle.swift"; sourceTree = "<group>"; };
 		715489A52F1A4A6900FD5CCE /* WidgetNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetNetworkManager.swift; sourceTree = "<group>"; };
+		715489A62F1C201B00FD5CCE /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		715489A72F1C201B00FD5CCE /* AccountStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStorage.swift; sourceTree = "<group>"; };
+		715489A82F1C201B00FD5CCE /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
+		715489A92F1C201B00FD5CCE /* EnvironmentVariableService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentVariableService.swift; sourceTree = "<group>"; };
+		715489AA2F1C201B00FD5CCE /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		71609DE328B3AB9100323156 /* ZeitgeistLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeitgeistLogo.swift; sourceTree = "<group>"; };
 		71611BFF2665667100119324 /* SelectWidgetAccountIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectWidgetAccountIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		71611C022665667100119324 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -339,6 +345,11 @@
 		710427AF2F151697005629B9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				715489A62F1C201B00FD5CCE /* AccountManager.swift */,
+				715489A72F1C201B00FD5CCE /* AccountStorage.swift */,
+				715489A82F1C201B00FD5CCE /* DeepLinkHandler.swift */,
+				715489A92F1C201B00FD5CCE /* EnvironmentVariableService.swift */,
+				715489AA2F1C201B00FD5CCE /* TokenStore.swift */,
 				710427AE2F151697005629B9 /* DeploymentActionsService.swift */,
 			);
 			path = Services;
@@ -774,12 +785,13 @@
 				7109AD292B18A49D00724454 /* OnboardingView.swift in Sources */,
 				715489962F185BDA00FD5CCE /* View+withAccountSwitcher.swift in Sources */,
 				7109AD142B18A48000724454 /* KeychainItem.swift in Sources */,
+				715489AB2F1C201B00FD5CCE /* EnvironmentVariableService.swift in Sources */,
+				715489AD2F1C201B00FD5CCE /* TokenStore.swift in Sources */,
+				715489AE2F1C201B00FD5CCE /* AccountStorage.swift in Sources */,
+				715489AF2F1C201B00FD5CCE /* DeepLinkHandler.swift in Sources */,
 				7154899D2F19A76000FD5CCE /* CommitAuthorAttributionView.swift in Sources */,
 				89C8B244C09D3F4E89E43C39 /* AccountManager.swift in Sources */,
-				DEEF1A2C2F39C86400000002 /* DeepLinkHandler.swift in Sources */,
 				715489A02F19A8F700FD5CCE /* View+avatarMask.swift in Sources */,
-				EC996626FF5D158A88E8EB07 /* AccountStorage.swift in Sources */,
-				860DDC75550F7E4CC7CA075F /* TokenStore.swift in Sources */,
 				66D7E3D74353CE004F70FFD6 /* KeyedDecodingContainer+Fallback.swift in Sources */,
 				B68C81FDCD7CDAF606780663 /* DeploymentMeta.swift in Sources */,
 			);

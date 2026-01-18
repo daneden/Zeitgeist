@@ -79,7 +79,7 @@ struct ProjectDetailView: View {
 							}
 						}
 						.sheet(isPresented: $editEnvironmentVariables) {
-							ProjectEnvironmentVariablesView(projectId: project.id)
+							ProjectEnvironmentVariablesView(envVars: project.env ?? [], projectId: project.id)
 							#if os(macOS)
 								.modify {
 									if #available(macOS 15, *) {
