@@ -10,6 +10,8 @@ import SwiftUI
 struct DataTaskModifier: ViewModifier {
 	@Environment(\.session) private var session
 	@Environment(\.scenePhase) var scenePhase
+	
+	let scope: DataTaskModifier.NotificationScope
 	let action: () async -> Void
 
 	func body(content: Content) -> some View {
@@ -22,9 +24,13 @@ struct DataTaskModifier: ViewModifier {
 				print("Updating due to refresh")
 				await action()
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { _ in
+			.onReceive(NotificationCenter.default.publisher(for: .ZPSNotification)) { notification in
 				print("Updating based on background notification")
-				Task { await action() }
+				if let scope = notification.object as? DataTaskModifier.NotificationScope {
+					Task { await respondToNotification(in: scope) }
+				} else {
+					Task { await action() }
+				}
 			}
 			.onChange(of: session?.account.id) { oldValue, newValue in
 				print("Updating based on change in session account")
@@ -43,16 +49,30 @@ struct DataTaskModifier: ViewModifier {
 				}
 			}
 	}
+	
+	func respondToNotification(in scope: NotificationScope) async {
+		print("Notification scoped to \(scope)")
+		guard self.scope >= scope else {
+			print("Scope \(scope) is narrower than \(self.scope), skipping update")
+			return
+		}
+		await action()
+	}
 }
 
 extension View {
-	func zeitgeistDataTask(perform action: @escaping () async -> Void) -> some View {
-		modifier(DataTaskModifier(action: action))
+	func zeitgeistDataTask(scope: DataTaskModifier.NotificationScope = .all,
+												 perform action: @escaping () async -> Void) -> some View {
+		modifier(DataTaskModifier(scope: scope, action: action))
 	}
 }
 
 extension DataTaskModifier {
-	static func postNotification(_ userInfo: [AnyHashable: Any]? = nil) {
-		NotificationCenter.default.post(name: .ZPSNotification, object: nil, userInfo: userInfo)
+	enum NotificationScope: Comparable {
+		case all, account, project, deployment
+	}
+	
+	static func postNotification(_ userInfo: [AnyHashable: Any]? = nil, scope: NotificationScope = .all) {
+		NotificationCenter.default.post(name: .ZPSNotification, object: scope, userInfo: userInfo)
 	}
 }

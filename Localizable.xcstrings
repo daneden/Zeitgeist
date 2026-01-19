@@ -318,6 +318,7 @@
       }
     },
     "Copy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -357,6 +358,9 @@
           }
         }
       }
+    },
+    "Create new..." : {
+
     },
     "Current Production Deployment" : {
       "extractionState" : "manual",
@@ -575,6 +579,7 @@
       }
     },
     "Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported." : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

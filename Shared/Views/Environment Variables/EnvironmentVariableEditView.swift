@@ -136,7 +136,7 @@ struct EnvironmentVariableEditView: View {
 			print("Successfully created/updated env var with key \(response.key)")
 
 			dismiss()
-			DataTaskModifier.postNotification()
+			DataTaskModifier.postNotification(scope: .project)
 		} catch {
 			print(error)
 		}
