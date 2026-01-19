@@ -112,7 +112,7 @@ struct ProjectsListView: View {
 				}
 			}
 			.searchable(text: $searchText)
-			.zeitgeistDataTask {
+			.zeitgeistDataTask(scope: .project) {
 				do {
 					try await loadProjects()
 					projectsError = nil
