@@ -116,6 +116,11 @@
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		7181774C2F2CD6A1007A2E9E /* YapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7181774B2F2CD6A1007A2E9E /* YapKit */; };
+		7181777B2F30174D007A2E9E /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7181777A2F301733007A2E9E /* Secrets.swift */; };
+		7181777C2F30174D007A2E9E /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7181777A2F301733007A2E9E /* Secrets.swift */; };
+		7181777D2F30174D007A2E9E /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7181777A2F301733007A2E9E /* Secrets.swift */; };
+		7181777F2F301823007A2E9E /* Secrets.swift.template in Resources */ = {isa = PBXBuildFile; fileRef = 7181777E2F301823007A2E9E /* Secrets.swift.template */; };
 		718FC2F02DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
 		718FC2F12DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
 		718FC2F22DFB829C00E1A437 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 718FC2EF2DFB829C00E1A437 /* AppIcon.icon */; };
@@ -264,6 +269,8 @@
 		71622AF228B3B54C00DB34C5 /* StatusBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBannerView.swift; sourceTree = "<group>"; };
 		7162FD7F2880103400D20E62 /* AccountListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListRowView.swift; sourceTree = "<group>"; };
 		716F4E382A4090C4008133F0 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
+		7181777A2F301733007A2E9E /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		7181777E2F301823007A2E9E /* Secrets.swift.template */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.swift.template; sourceTree = "<group>"; };
 		7184F50B2B080997001CA695 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		718FC2EF2DFB829C00E1A437 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		71C154B32A4DE14A00495F47 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -286,6 +293,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7181774C2F2CD6A1007A2E9E /* YapKit in Frameworks */,
 				713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */,
 				7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */,
 				71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */,
@@ -448,6 +456,8 @@
 		7115535F26627F3400A73CD6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7181777E2F301823007A2E9E /* Secrets.swift.template */,
+				7181777A2F301733007A2E9E /* Secrets.swift */,
 				7115536026627F3E00A73CD6 /* KeychainItem.swift */,
 				71F2607F28C48DE40089195B /* NavigationHelpers.swift */,
 				711A4A58266BDF3100DA9EE3 /* NotificationManager.swift */,
@@ -678,6 +688,7 @@
 			mainGroup = 7115533A266279CF00A73CD6;
 			packageReferences = (
 				713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */,
+				7181774A2F2CD6A1007A2E9E /* XCRemoteSwiftPackageReference "YapKit" */,
 			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
@@ -695,6 +706,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7181777F2F301823007A2E9E /* Secrets.swift.template in Resources */,
 				7139DCE72B18A96E00E86183 /* Localizable.xcstrings in Resources */,
 				7109ACFC2B18A47000724454 /* Assets.xcassets in Resources */,
 				718FC2F02DFB829C00E1A437 /* AppIcon.icon in Resources */,
@@ -784,6 +796,7 @@
 				7109AD082B18A47900724454 /* LabelView.swift in Sources */,
 				7109AD292B18A49D00724454 /* OnboardingView.swift in Sources */,
 				715489962F185BDA00FD5CCE /* View+withAccountSwitcher.swift in Sources */,
+				7181777C2F30174D007A2E9E /* Secrets.swift in Sources */,
 				7109AD142B18A48000724454 /* KeychainItem.swift in Sources */,
 				715489AB2F1C201B00FD5CCE /* EnvironmentVariableService.swift in Sources */,
 				715489AD2F1C201B00FD5CCE /* TokenStore.swift in Sources */,
@@ -838,6 +851,7 @@
 				53E8EB9800C39A84BD7FA2A6 /* TokenStore.swift in Sources */,
 				C82ED5CEF51278C0500C0EB6 /* KeyedDecodingContainer+Fallback.swift in Sources */,
 				7154899E2F19A76000FD5CCE /* CommitAuthorAttributionView.swift in Sources */,
+				7181777B2F30174D007A2E9E /* Secrets.swift in Sources */,
 				B1EF3840F859A51089DB621B /* DeploymentMeta.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -847,6 +861,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71059A8D2878756B00BF8B2E /* VercelProjectModel.swift in Sources */,
+				7181777D2F30174D007A2E9E /* Secrets.swift in Sources */,
 				71F9020626656834000A8873 /* VercelSession.swift in Sources */,
 				71611C032665667100119324 /* IntentHandler.swift in Sources */,
 				71F902072665683B000A8873 /* Array.extension.swift in Sources */,
@@ -1259,8 +1274,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/daneden/Suite";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		7181774A2F2CD6A1007A2E9E /* XCRemoteSwiftPackageReference "YapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yapback/YapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		71AE8B9A2E5E1AC7001166B7 /* XCRemoteSwiftPackageReference "Suite" */ = {
@@ -1278,6 +1301,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */;
 			productName = Suite;
+		};
+		7181774B2F2CD6A1007A2E9E /* YapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7181774A2F2CD6A1007A2E9E /* XCRemoteSwiftPackageReference "YapKit" */;
+			productName = YapKit;
 		};
 		71AE8B9B2E5E1AC7001166B7 /* Suite */ = {
 			isa = XCSwiftPackageProductDependency;
