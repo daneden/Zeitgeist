@@ -6,6 +6,11 @@
 //
 
 import SwiftUI
+import YapKit
+
+fileprivate extension FeedbackConfig {
+	static var zeitgeist = FeedbackConfig(apiKey: Secrets.yapKitAPIKey)
+}
 
 struct SettingsView: View {
 	@Environment(\.dismiss) var dismiss
@@ -22,25 +27,7 @@ struct SettingsView: View {
 	
 	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
 	
-	var githubIssuesURL: URL {
-		
-		var body = """
-		> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
-		> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
-
-		App Version: \(ZeitgeistApp.appVersion)
-		"""
-		
-		#if os(iOS)
-		body += """
-		Device: \(UIDevice.modelName)
-		OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
-"""
-		#endif
-		let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-
-		return URL(string: "https://github.com/daneden/zeitgeist/issues/new?body=\(encodedBody)")!
-	}
+	@State private var showFeedbackForm = false
 
 	var body: some View {
 		Form {
@@ -89,9 +76,10 @@ struct SettingsView: View {
 			}
 			
 			Section {
-				Link(destination: githubIssuesURL) {
-					Label("Submit feedback", systemImage: "ladybug")
+				Button("Submit feedback", systemImage: "ladybug") {
+					showFeedbackForm = true
 				}
+				.feedbackSheet(isPresented: $showFeedbackForm, config: .zeitgeist)
 				
 				Link(destination: .ReviewURL) {
 					Label("Review on the App Store", systemImage: "star.fill")
