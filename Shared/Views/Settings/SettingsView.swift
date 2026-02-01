@@ -76,7 +76,7 @@ struct SettingsView: View {
 			}
 			
 			Section {
-				Button("Submit feedback", systemImage: "ladybug") {
+				Button("Submit feedback", systemImage: "exclamationmark.bubble") {
 					showFeedbackForm = true
 				}
 				.feedbackSheet(isPresented: $showFeedbackForm, config: .zeitgeist)
