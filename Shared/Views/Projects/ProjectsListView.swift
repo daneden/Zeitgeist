@@ -21,12 +21,20 @@ struct LoadingListCell: View {
 
 struct ProjectsListView: View {
 	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
-	@EnvironmentObject var session: VercelSession
-	
+	@Environment(\.session) private var session
+
 	@State private var projects: [VercelProject] = []
 	@State private var pagination: Pagination?
 	@State private var searchText = ""
 	@State private var projectsError: SessionError?
+	
+	@State private var showAccountManagementView = false
+
+	@Binding var selectedProject: VercelProject?
+	@Binding var selectedDeployment: VercelDeployment?
+
+	// Read stored project ID for restoration
+	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
 	
 	var filteredProjects: [VercelProject] {
 		if searchText.isEmpty {
@@ -40,13 +48,53 @@ struct ProjectsListView: View {
 	
 	var body: some View {
 		ZStack {
-			List {
+			List(selection: $selectedProject) {
+				#if os(macOS)
+				if let selectedAccount = session?.account {
+					Section {
+						Button {
+							showAccountManagementView = true
+						} label: {
+							HStack {
+								VercelUserAvatarView(account: selectedAccount, size: 24)
+									.id(selectedAccount.id)
+									.transition(.opacity)
+								
+								VStack(alignment: .leading) {
+									Text(verbatim: selectedAccount.name ?? selectedAccount.username)
+									Text("Manage accounts")
+										.font(.caption)
+										.foregroundStyle(.secondary)
+								}
+								
+								Spacer()
+								
+								Image(systemName: "arrow.forward")
+									.symbolVariant(.circle.fill)
+									.symbolRenderingMode(.monochrome)
+									.foregroundStyle(.tertiary)
+							}
+							.contentTransition(.numericText())
+						}
+						.buttonStyle(.bordered)
+						.buttonBorderShape(.capsule)
+						.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+					}
+					.sheet(isPresented: $showAccountManagementView) {
+						AccountManagementView()
+							.modify {
+								if #available(macOS 15, *) {
+									$0.presentationSizing(.form)
+								} else {
+									$0.frame(minHeight: 400)
+								}
+							}
+					}
+				}
+				#endif
+				
 				ForEach(filteredProjects) { project in
-					NavigationLink {
-						ProjectDetailView(projectId: project.id, project: project)
-							.id(project.id)
-							.environmentObject(session)
-					} label: {
+					NavigationLink(value: project) {
 						ProjectsListRowView(project: project)
 							.id(project.id)
 					}
@@ -64,25 +112,17 @@ struct ProjectsListView: View {
 				}
 			}
 			.searchable(text: $searchText)
-			.toolbar {
-				Menu {
-					Picker(selection: $projectSummaryDisplayOption) {
-						ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
-							Text(option.description)
-								.tag(option)
-						}
-					} label: {
-						Label("Show deployment cause for...", systemImage: "rectangle.and.text.magnifyingglass")
-					}
-				} label: {
-					Label("View options", systemImage: "eye")
-						.backportCircleSymbolVariant()
-				}
-			}
-			.zeitgeistDataTask {
+			.zeitgeistDataTask(scope: .project) {
 				do {
 					try await loadProjects()
 					projectsError = nil
+
+					// Restore selection from scene storage if available
+					if selectedProject == nil,
+					   let savedProjectId = selectedProjectId,
+					   let restoredProject = projects.first(where: { $0.id == savedProjectId }) {
+						selectedProject = restoredProject
+					}
 				} catch {
 					print(error)
 					if let error = error as? SessionError {
@@ -99,29 +139,31 @@ struct ProjectsListView: View {
 				PlaceholderView(forRole: .AuthError)
 			}
 		}
-		.navigationTitle(Text("Projects"))
-		.permissionRevocationDialog(session: session)
+		.navigationTitle("Projects")
+		.focusedSceneValue(\.focusedAccount, session?.account)
+		.modifier(OptionalPermissionRevocationDialogModifier(session: session))
 	}
 	
 	func loadProjects(pageId: Int? = nil) async throws {
+		guard let session else { return }
 		if session.requestsDenied == true { return }
-		
+
 		var params: [URLQueryItem] = []
-		
+
 		if let pageId = pageId {
 			params.append(URLQueryItem(name: "from", value: String(pageId - 1)))
 		}
-		
-		var request = VercelAPI.request(for: .projects(), with: session.account.id, queryItems: params)
+
+		var request = VercelAPI.request(for: .projects(version: 10), with: session.account.id, queryItems: params)
 		try session.signRequest(&request)
-		
+
 		if pageId == nil,
 			 let cachedResponse = URLCache.shared.cachedResponse(for: request),
 			 let decodedFromCache = try? JSONDecoder().decode(VercelProject.APIResponse.self, from: cachedResponse.data)
 		{
 			projects = decodedFromCache.projects
 		}
-		
+
 		let (data, response) = try await URLSession.shared.data(for: request)
 		session.validateResponse(response)
 		let decoded = try JSONDecoder().decode(VercelProject.APIResponse.self, from: data)
@@ -138,7 +180,7 @@ struct ProjectsListView: View {
 
 struct ProjectListPlaceholderView: View {
 	var body: some View {
-		NavigationView {
+		NavigationStack {
 			List {
 				ForEach(0..<10, id: \.self) { _ in
 					ProjectsListRowView(project: .exampleData)

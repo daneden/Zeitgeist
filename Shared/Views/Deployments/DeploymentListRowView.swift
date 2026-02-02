@@ -10,6 +10,8 @@ import SwiftUI
 struct DeploymentListRowView: View {
 	var deployment: VercelDeployment
 	var projectName: String?
+	
+	var isCurrentProduction = false
 
 	var body: some View {
 		Label {
@@ -18,7 +20,7 @@ struct DeploymentListRowView: View {
 					if deployment.target == .production {
 						Label("Production deployment", systemImage: "theatermasks")
 							.labelStyle(.iconOnly)
-							.foregroundStyle(.tint)
+							.foregroundStyle(isCurrentProduction ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
 							.symbolVariant(.fill)
 							.imageScale(.small)
 					}
@@ -41,12 +43,19 @@ struct DeploymentListRowView: View {
 						.lineLimit(2)
 				}
 				
-				VStack(alignment: .leading, spacing: 2) {
+				HStack {
+					if let meta = deployment.meta {
+						CommitAuthorAttributionView(commit: meta)
+						
+						Circle()
+							.foregroundStyle(.secondary)
+							.frame(width: 4)
+					}
+					
 					Text("\(deployment.created, style: .relative) ago", comment: "Timestamp for when a deployment was created in a deployment list row")
-						.fixedSize()
-						.foregroundStyle(.secondary)
-						.font(.caption)
 				}
+				.font(.caption)
+				.foregroundStyle(.secondary)
 			}
 		} icon: {
 			DeploymentStateIndicator(state: deployment.state, style: .compact)

@@ -6,9 +6,18 @@
 //
 
 import SwiftUI
+import YapKit
+import StoreKit
+
+fileprivate extension FeedbackConfig {
+	static var zeitgeist = FeedbackConfig(apiKey: Secrets.yapKitAPIKey)
+}
 
 struct SettingsView: View {
-	@Environment(\.dismiss) var dismiss
+	@Environment(\.dismiss) private var dismiss
+	@Environment(\.requestReview) private var requestReview
+	@Environment(AccountManager.self) private var accountManager
+	
 	@AppStorage(Preferences.deploymentNotificationIds) private var deploymentNotificationIds
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
@@ -19,28 +28,22 @@ struct SettingsView: View {
 
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
 	
-	var githubIssuesURL: URL {
-		
-		var body = """
-		> Please give a detailed description of the issue you’re experiencing or the feedback you’d like to provide.
-		> Feel free to attach any relevant screenshots or logs, and please keep the app version and device info in the issue!
-
-		App Version: \(ZeitgeistApp.appVersion)
-		"""
-		
-		#if os(iOS)
-		body += """
-		Device: \(UIDevice.modelName)
-		OS: \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)
-"""
-		#endif
-		let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-
-		return URL(string: "https://github.com/daneden/zeitgeist/issues/new?body=\(encodedBody)")!
-	}
+	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
+	
+	@State private var showFeedbackForm = false
 
 	var body: some View {
 		Form {
+			Section("Display") {
+				Picker(selection: $projectSummaryDisplayOption) {
+					ForEach(ProjectSummaryDisplayOption.allCases, id: \.self) { option in
+						Text(option.description)
+					}
+				} label: {
+					Text("Project list shows")
+				}
+			}
+			
 			Section {
 				Picker(selection: $notificationGrouping) {
 					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
@@ -76,13 +79,14 @@ struct SettingsView: View {
 			}
 			
 			Section {
-				Link(destination: githubIssuesURL) {
-					Label("Submit feedback", systemImage: "ladybug")
+				Button("Leave a review", systemImage: "star.fill") {
+					requestReview()
 				}
 				
-				Link(destination: .ReviewURL) {
-					Label("Review on the App Store", systemImage: "star.fill")
+				Button("Submit feedback", systemImage: "exclamationmark.bubble") {
+					showFeedbackForm = true
 				}
+				.feedbackSheet(isPresented: $showFeedbackForm, config: .zeitgeist)
 			}
 			
 			Section {
@@ -103,8 +107,8 @@ struct SettingsView: View {
 				}.disabled(notificationsResettable)
 				
 				Button(role: .destructive) {
-					Preferences.accounts.forEach { account in
-						VercelSession.deleteAccount(id: account.id)
+					accountManager.accounts.forEach { account in
+						accountManager.deleteAccount(id: account.id)
 					}
 					dismiss()
 				} label: {

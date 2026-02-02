@@ -7,12 +7,32 @@
 
 import SwiftUI
 
-struct DeploymentDetailView: View {
-	@EnvironmentObject var session: VercelSession
+// MARK: - Environment Key for Project
 
-	var accountId: VercelAccount.ID { session.account.id }
+extension EnvironmentValues {
+	@Entry var project: VercelProject?
+}
+
+// MARK: - Deployment Detail View
+
+struct DeploymentDetailView: View {
+	@Environment(\.dismiss) var dismiss
+	@Environment(\.project) var project
+	@Environment(\.session) private var session
+
+	var accountId: VercelAccount.ID? { session?.account.id }
 	var deploymentId: VercelDeployment.ID
 	@State var deployment: VercelDeployment?
+	@State private var actionsService: DeploymentActionsService?
+	@State private var confirmingAction: DeploymentAction?
+
+	private var isCurrentProduction: Bool {
+		guard let deployment, let project else { return false }
+		return deployment.id == project.targets?.production?.id
+	}
+	
+	@State private var showJson = false
+	@State private var deploymentData: Data?
 
 	var body: some View {
 		Form {
@@ -24,78 +44,181 @@ struct DeploymentDetailView: View {
 						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
 					case .promotion(_):
 						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
-						if let commit = deployment.commit {
-							CommitSummary(commit: commit)
+						if let meta = deployment.meta, meta.hasCommitInfo {
+							CommitSummary(meta: meta)
 						}
 					case .manual:
 						Text("Manual deployment", comment: "Manual deployment cause label")
-					case let .gitCommit(commit):
-						CommitSummary(commit: commit)
+					case let .gitCommit(meta):
+						CommitSummary(meta: meta)
 					}
 				}
-				URLDetails(accountId: accountId, deployment: deployment)
-				DeploymentDetails(accountId: accountId, deployment: deployment)
+				if let accountId {
+					URLDetails(accountId: accountId, deployment: deployment)
+				}
+				
+				#if DEBUG
+				Button("View JSON", systemImage: "ellipsis.curlybraces") {
+					showJson = true
+				}
+				.sheet(isPresented: $showJson) {
+					NavigationStack {
+						ScrollView {
+							let json: String? = {
+								let encoder = JSONEncoder()
+								encoder.outputFormatting = .prettyPrinted
+								
+								guard let data = try? encoder.encode(deployment) else { return nil }
+								
+								return String(data: data, encoding: .utf8)
+							}()
+							
+							if let json {
+								Text(json)
+									.monospaced()
+									.textSelection(.enabled)
+									.padding()
+							}
+						}
+					}
+				}
+				#endif
 			} else {
 				ProgressView()
 			}
 		}
 		.navigationTitle(Text("Deployment details"))
+		.toolbar {
+			if let deployment, let service = actionsService {
+				ToolbarItem(placement: .primaryAction) {
+					DeploymentActionsMenu(
+						deployment: deployment,
+						isCurrentProduction: isCurrentProduction,
+						isMutating: service.isMutating,
+						confirmingAction: $confirmingAction
+					)
+				}
+			}
+		}
+		.modifier(DeploymentActionConfirmationsModifier(
+			confirmingAction: $confirmingAction,
+			deployment: deployment,
+			project: project,
+			service: actionsService,
+			onDismiss: { dismiss() }
+		))
+		.focusedSceneValue(\.focusedDeployment, deployment)
+		.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
+		.onAppear {
+			if actionsService == nil, let session, let accountId {
+				actionsService = DeploymentActionsService(session: session, accountId: accountId)
+			}
+		}
 		.zeitgeistDataTask {
 			do {
 				try await loadDeploymentDetails()
 			} catch {
-				print(error)
+				print(error.localizedDescription)
 			}
 		}
 	}
 
 	private func loadDeploymentDetails() async throws {
-		var request = VercelAPI.request(for: .deployments(version: 13, deploymentID: deploymentId), with: accountId)
+		guard let session, let accountId else { return }
+		var request = VercelAPI.request(
+			for: .deployments(version: 13, deploymentID: deploymentId),
+			with: accountId,
+			queryItems: [URLQueryItem(name: "withGitRepoInfo", value: "true")]
+		)
+		
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)
+		deploymentData = data
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
 	}
 }
 
+/// View modifier wrapper for deployment action confirmations
+private struct DeploymentActionConfirmationsModifier: ViewModifier {
+	@Binding var confirmingAction: DeploymentAction?
+	let deployment: VercelDeployment?
+	let project: VercelProject?
+	let service: DeploymentActionsService?
+	let onDismiss: () -> Void
+
+	private var isCurrentProduction: Bool {
+		guard let deployment, let project else { return false }
+		return deployment.id == project.targets?.production?.id
+	}
+
+	func body(content: Content) -> some View {
+		if let deployment, let service {
+			content.deploymentActionConfirmations(
+				confirmingAction: $confirmingAction,
+				deployment: deployment,
+				project: project,
+				isCurrentProduction: isCurrentProduction,
+				service: service,
+				onDismiss: onDismiss
+			)
+		} else {
+			content
+		}
+	}
+}
+
 private struct CommitSummary: View {
-	var commit: AnyCommit
-	
+	var meta: DeploymentMeta
+
 	var body: some View {
-		HStack(alignment: .firstTextBaseline) {
-			Text(commit.commitMessageSummary)
-			Spacer()
-			Text(commit.shortSha)
-				.font(.system(.footnote, design: .monospaced))
+		VStack(alignment: .leading) {
+			HStack(alignment: .firstTextBaseline) {
+				Text(meta.commitMessageSummary)
+				Spacer()
+				if let shortSha = meta.shortSha {
+					Text(shortSha)
+						.font(.system(.footnote, design: .monospaced))
+						.foregroundStyle(.secondary)
+				}
+			}
+			
+			CommitAuthorAttributionView(commit: meta)
+				.font(.caption)
 				.foregroundStyle(.secondary)
 		}
 		.contextMenu {
-			Button {
-				Pasteboard.setString(commit.commitSha)
-			} label: {
-				Label("Copy commit SHA", systemImage: "doc.on.doc")
+			if let sha = meta.commitSha {
+				Button {
+					Pasteboard.setString(sha)
+				} label: {
+					Label("Copy commit SHA", systemImage: "doc.on.doc")
+				}
 			}
 		}
-		
-		Link(destination: commit.commitUrl) {
-			Label {
-				Text("Open in \(commit.provider.name)")
-			} icon: {
-				Image(commit.provider.rawValue)
+
+		if let commitUrl = meta.commitUrl, let provider = meta.provider {
+			Link(destination: commitUrl) {
+				Label {
+					Text("Open in \(provider.name)")
+				} icon: {
+					Image(provider.rawValue)
+				}
 			}
-		}
-		.contextMenu {
-			Button {
-				Pasteboard.setString(commit.commitUrl.absoluteString)
-			} label: {
-				Label("Copy commit URL", systemImage: "doc.on.doc")
+			.contextMenu {
+				Button {
+					Pasteboard.setString(commitUrl.absoluteString)
+				} label: {
+					Label("Copy commit URL", systemImage: "doc.on.doc")
+				}
 			}
 		}
 	}
 }
 
 private struct Overview: View {
+	@Environment(\.session) private var session
 	var deployment: VercelDeployment
 
 	var body: some View {
@@ -112,16 +235,38 @@ private struct Overview: View {
 				if deployment.target == .production {
 					Label("Production", systemImage: "theatermasks")
 						.symbolVariant(.fill)
+				} else if deployment.target == .staging {
+					Label("Staging", systemImage: "staroflife")
+						.symbolVariant(.fill)
 				} else {
 					Text("Preview")
 				}
+			}
+
+			LabelView(Text("Build duration")) {
+				Group {
+					if let building = deployment.building,
+						 let readyAt = deployment.readyAt,
+						 abs(building.distance(to: readyAt)) > 1 {
+						Text(timerInterval: building...readyAt, countsDown: false, showsHours: false)
+					} else if let building = deployment.building {
+						Text(building, style: .timer)
+					} else {
+						Text("—")
+					}
+				}
+				.monospacedDigit()
+			}
+
+			NavigationLink(value: DetailDestinationValue.deploymentLogs(deployment: deployment)) {
+				Label("View logs", systemImage: "terminal")
 			}
 		}
 	}
 }
 
 private struct URLDetails: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 
 	var accountId: VercelAccount.ID
 	var deployment: VercelDeployment
@@ -130,12 +275,12 @@ private struct URLDetails: View {
 
 	var body: some View {
 		Section(header: Text("Deployment URL")) {
-			Link(destination: deployment.url) {
-				Label(deployment.url.absoluteString, systemImage: "link").lineLimit(1)
+			Link(destination: deployment.deploymentURL) {
+				Label(deployment.deploymentURL.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
 
 			Button {
-				Pasteboard.setString(deployment.url.absoluteString)
+				Pasteboard.setString(deployment.deploymentURL.absoluteString)
 			} label: {
 				Label("Copy URL", systemImage: "doc.on.doc")
 			}.keyboardShortcut("c", modifiers: [.command])
@@ -159,6 +304,7 @@ private struct URLDetails: View {
 					.badge(aliases.count)
 			}
 			.task {
+				guard let session else { return }
 				do {
 					var request = VercelAPI.request(
 						for: .deployments(
@@ -180,225 +326,3 @@ private struct URLDetails: View {
 		}
 	}
 }
-
-private struct DeploymentDetails: View {
-	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject var session: VercelSession
-
-	var accountId: VercelAccount.ID
-	var deployment: VercelDeployment
-
-	@State var cancelConfirmation = false
-	@State var deleteConfirmation = false
-	@State var redeployConfirmation = false
-	@State var promoteToProductionConfirmation = false
-	@State var instantRollbackConfirmation = false
-
-	@State var mutating = false
-	@State var recentlyCancelled = false
-
-	var body: some View {
-		Section("Details") {
-			NavigationLink {
-				DeploymentLogView(deployment: deployment)
-					.environmentObject(session)
-			} label: {
-				Label("View logs", systemImage: "terminal")
-			}
-			
-			Group {
-				if let promoteToProductionDataPayload = deployment.promoteToProductionDataPayload {
-					Button {
-						promoteToProductionConfirmation = true
-					} label: {
-						Label("Promote to production", systemImage: "arrow.up.circle")
-					}
-					.confirmationDialog("Promote to production", isPresented: $promoteToProductionConfirmation) {
-						Button(role: .cancel) {
-							promoteToProductionConfirmation = false
-						} label: {
-							Text("Cancel")
-						}
-						
-						Button {
-							Task { await promoteToProduction(data: promoteToProductionDataPayload) }
-						} label: {
-							Text("Promote to production")
-						}
-					} message: {
-						VStack {
-							Text("This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied.")
-						}
-					}
-				}
-				
-				if let redeployPayload = deployment.redeployDataPayload {
-					Button {
-						redeployConfirmation = true
-					} label: {
-						Label("Redeploy", systemImage: "arrow.clockwise")
-					}
-					.confirmationDialog(deployment.target == .production ? "Redeploy to production" : "Redeploy", isPresented: $redeployConfirmation) {
-						Button(role: .cancel) {
-							redeployConfirmation = false
-						} label: {
-							Text("Cancel")
-						}
-						
-						Button {
-							Task { await redeploy(data: redeployPayload) }
-						} label: {
-							Text("Redeploy")
-						}
-						
-						Button {
-							Task { await redeploy(withCache: true, data: redeployPayload) }
-						} label: {
-							Text("Redeploy with existing build cache")
-						}
-					} message: {
-						Text("You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.")
-					}
-				}
-				
-				if (deployment.state != .queued && deployment.state != .building)
-						|| deployment.state == .cancelled
-						|| recentlyCancelled
-				{
-					Button(role: .destructive, action: { deleteConfirmation = true }) {
-						HStack {
-							Label("Delete deployment", systemImage: "trash")
-						}
-					}
-					.alert(isPresented: $deleteConfirmation) {
-						Alert(
-							title: Text("Are you sure you want to delete this deployment?"),
-							message: Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone."),
-							primaryButton: .destructive(Text("Delete", comment: "Confirmation label for deleting a deployment"), action: {
-								Task { await deleteDeployment() }
-							}),
-							secondaryButton: .cancel()
-						)
-					}
-					.symbolRenderingMode(.multicolor)
-				} else {
-					Button(role: .destructive, action: { cancelConfirmation = true }) {
-						HStack {
-							Label("Cancel deployment", systemImage: "xmark")
-							
-							if mutating {
-								Spacer()
-								ProgressView()
-							}
-						}
-					}
-					.alert(isPresented: $cancelConfirmation) {
-						Alert(
-							title: Text("Are you sure you want to cancel this deployment?"),
-							message: Text("This will immediately stop the build, with no option to resume."),
-							primaryButton: .destructive(Text("Cancel deployment"), action: {
-								Task { await cancelDeployment() }
-							}),
-							secondaryButton: .cancel(Text("Close", comment: "Label to dismiss the build cancellation confirmation"))
-						)
-					}
-					.symbolRenderingMode(.multicolor)
-				}
-			}
-			.disabled(mutating)
-		}
-	}
-	
-	func promoteToProduction(data: Data) async {
-		mutating = true
-		
-		do {
-			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, method: .POST)
-			request.httpBody = data
-			try session.signRequest(&request)
-			
-			let _ = try await URLSession.shared.data(for: request)
-			dismiss()
-		} catch {
-			print(error)
-		}
-		
-		mutating = false
-	}
-	
-	func redeploy(withCache: Bool = false, data: Data) async {
-		mutating = true
-		
-		do {
-			var queryItems = [URLQueryItem(name: "forceBuild", value: "1")]
-			
-			if withCache {
-				queryItems.append(URLQueryItem(name: "withCache", value: "1"))
-			}
-			
-			var request = VercelAPI.request(for: .deployments(version: 13), with: accountId, queryItems: queryItems, method: .POST)
-			request.httpBody = data
-			try session.signRequest(&request)
-			
-			let _ = try await URLSession.shared.data(for: request)
-			dismiss()
-		} catch {
-			print(error)
-		}
-		
-		mutating = false
-	}
-
-	func deleteDeployment() async {
-		mutating = true
-
-		do {
-			var request = VercelAPI.request(
-				for: .deployments(version: 13, deploymentID: deployment.id),
-				with: accountId,
-				method: .DELETE
-			)
-			try session.signRequest(&request)
-
-			let (_, response) = try await URLSession.shared.data(for: request)
-
-			if let response = response as? HTTPURLResponse,
-			   response.statusCode == 200
-			{
-				#if !os(macOS)
-					dismiss()
-				#endif
-			}
-		} catch {
-			print("Error deleting deployment: \(error.localizedDescription)")
-		}
-
-		mutating = false
-	}
-
-	func cancelDeployment() async {
-		mutating = true
-
-		do {
-			var request = VercelAPI.request(
-				for: .deployments(version: 12, deploymentID: deployment.id, path: "cancel"),
-				with: accountId,
-				method: .PATCH
-			)
-			try session.signRequest(&request)
-
-			let (_, response) = try await URLSession.shared.data(for: request)
-
-			if let response = response as? HTTPURLResponse,
-			   response.statusCode == 200
-			{
-				recentlyCancelled = true
-			}
-		} catch {
-			print("Error cancelling deployment: \(error.localizedDescription)")
-		}
-
-		mutating = false
-	}
-}
-

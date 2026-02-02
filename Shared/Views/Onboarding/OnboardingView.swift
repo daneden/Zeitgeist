@@ -10,7 +10,8 @@ import SwiftUI
 struct OnboardingView: View {
 	@State var signInModel = SignInViewModel()
 	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
-	
+	@Environment(AccountManager.self) var accountManager
+
 	var body: some View {
 		GeometryReader { geometry in
 			ScrollView {
@@ -20,18 +21,18 @@ struct OnboardingView: View {
 					ZeitgeistLogo()
 						.padding(.vertical)
 						.frame(maxWidth: .infinity)
-					
+
 					Text("Welcome to Zeitgeist")
 						.font(.largeTitle)
 						.fontWeight(.bold)
-					
+
 					Text("Zeitgeist lets you see and manage your Vercel deployments.")
 					Text("Watch builds complete, cancel or delete them, and get quick access to their URLs, logs, and commits.")
 						.padding(.bottom)
-					
+
 					Button {
 						Task {
-							await signInModel.signIn(using: webAuthenticationSession)
+							await signInModel.signIn(using: webAuthenticationSession, accountManager: accountManager)
 						}
 					} label: {
 						Label {

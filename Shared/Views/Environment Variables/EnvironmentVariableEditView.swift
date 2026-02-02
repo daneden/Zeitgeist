@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EnvironmentVariableEditView: View {
-	@EnvironmentObject var session: VercelSession
+	@Environment(\.session) private var session
 	@Environment(\.dismiss) private var dismiss
 	
 	var projectId: VercelProject.ID
@@ -34,117 +34,117 @@ struct EnvironmentVariableEditView: View {
 	}
 	
 	var body: some View {
-		Form {
-			Section {
-				TextField("Name", text: $key)
-					.font(.body.monospaced())
-					.autocorrectionDisabled(true)
-			} footer: {
-				Text("Environment variable names must begin with a letter and can only contain letters, numbers, and underscores")
-			}
-			
-			Section("Value") {
-				TextEditor(text: $value)
-					.font(.body.monospaced())
-					.frame(minHeight: 80)
-					.autocorrectionDisabled(true)
-			}
-			
-			Section {
-				Toggle(isOn: $targetProduction) {
-					Text("Production")
+		NavigationStack {
+			Form {
+				Section {
+					TextField("Name", text: $key)
+						.font(.body.monospaced())
+						.autocorrectionDisabled(true)
+				} footer: {
+					Text("Environment variable names must begin with a letter and can only contain letters, numbers, and underscores")
 				}
 				
-				Toggle(isOn: $targetPreview) {
-					Text("Preview")
+				Section("Value") {
+					TextEditor(text: $value)
+						.font(.body.monospaced())
+						.frame(minHeight: 80)
+						.autocorrectionDisabled(true)
 				}
 				
-				Toggle(isOn: $targetDevelopment) {
-					Text("Development")
-				}
-			} header: {
-				Text("Environment")
-			} footer: {
-				Text("At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website.")
-			}
-			
-			Section {
-				Button {
-					Task {
-						await saveEnvVar()
+				Section {
+					Toggle(isOn: $targetProduction) {
+						Text("Production")
 					}
-				} label: {
-					HStack {
-						Text("Submit", comment: "Button label to save a new environment variable")
-						
-						if saving {
-							Spacer()
-							ProgressView()
+					
+					Toggle(isOn: $targetPreview) {
+						Text("Preview")
+					}
+					
+					Toggle(isOn: $targetDevelopment) {
+						Text("Development")
+					}
+				} header: {
+					Text("Environment")
+				} footer: {
+					Text("At least one target must be selected. For more advanced settings, such as custom Git branch configuration for Preview targets, configure your environment variable on Vercel’s website.")
+				}
+			}
+			.navigationTitle(navBarTitle)
+			.toolbar {
+				ToolbarItem(placement: .confirmationAction) {
+					Button {
+						Task {
+							await saveEnvVar()
+						}
+					} label: {
+						Label {
+							Text("Done")
+						} icon: {
+							if saving {
+								ProgressView()
+							} else {
+								Image(systemName: "checkmark")
+							}
 						}
 					}
+					.labelStyle(.iconOnly)
+					.disabled(!envVarIsValid)
+					.disabled(saving)
 				}
-				.disabled(!envVarIsValid)
-				.disabled(saving)
-			} footer: {
-				Text("A new deployment is required for your changes to take effect.")
+				ToolbarItem(placement: .cancellationAction) {
+					BackportCloseButton {
+						dismiss()
+					}
+				}
 			}
+			#if os(iOS)
+			.navigationBarTitleDisplayMode(.inline)
+			#endif
 		}
-		.navigationTitle(navBarTitle)
-		.toolbar {
-			Button {
-				dismiss()
-			} label: {
-				Text("Cancel")
-			}
-		}
-		#if os(iOS)
-		.navigationBarTitleDisplayMode(.inline)
-		#endif
 	}
 	
 	func saveEnvVar() async {
+		guard let session else { return }
 		saving = true
-		
+
+		let targets = EnvironmentVariableService.buildTargets(
+			production: targetProduction,
+			preview: targetPreview,
+			development: targetDevelopment
+		)
+
 		do {
-			var path = "env"
-			var method: VercelAPI.RequestMethod = .POST
+			let response: VercelEnv
 			if let id {
-				path += "/\(id)"
-				method = .PATCH
+				response = try await EnvironmentVariableService.update(
+					projectId: projectId,
+					envVarId: id,
+					key: key,
+					value: value,
+					targets: targets,
+					session: session
+				)
+			} else {
+				response = try await EnvironmentVariableService.create(
+					projectId: projectId,
+					key: key,
+					value: value,
+					targets: targets,
+					session: session
+				)
 			}
-			var request: URLRequest = VercelAPI.request(for: .projects(projectId, path: path), with: session.account.id, method: method)
-			
-			var targets = [String]()
-			
-			if targetProduction { targets.append("production") }
-			if targetPreview { targets.append("preview") }
-			if targetDevelopment { targets.append("development") }
-			
-			let body: [String: Any] = [
-				"key": key,
-				"value": value,
-				"target": targets,
-				"type": "encrypted"
-			]
-			
-			let encoded = try JSONSerialization.data(withJSONObject: body)
-			request.httpBody = encoded
-			
-			try session.signRequest(&request)
-			let (data, _) = try await URLSession.shared.data(for: request)
-			
-			let response = try JSONDecoder().decode(VercelEnv.self, from: data)
 			print("Successfully created/updated env var with key \(response.key)")
-			
+
 			dismiss()
-			DataTaskModifier.postNotification()
+			DataTaskModifier.postNotification(scope: .project)
 		} catch {
 			print(error)
 		}
-		
+
 		saving = false
 	}
 }
+
 
 struct EnvironmentVariableEditView_Previews: PreviewProvider {
     static var previews: some View {

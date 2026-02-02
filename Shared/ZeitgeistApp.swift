@@ -15,20 +15,28 @@ struct ZeitgeistApp: App {
 	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
 
+	@State private var accountManager = AccountManager()
+	@State private var deepLinkHandler = DeepLinkHandler()
+
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
-				.task {
-					if MigrationHelpers.V3.needsMigration {
-						await MigrationHelpers.V3.migrateAccountIdsToAccounts()
-					}
+				.environment(accountManager)
+				.environment(deepLinkHandler)
+				.onOpenURL { url in
+					deepLinkHandler.pendingDeepLink = deepLinkHandler.parse(url: url)
 				}
 		}
-		
+		.commands {
+			DeploymentCommands()
+		}
+
 		#if os(macOS)
 		Settings {
 			SettingsView()
+				.environment(accountManager)
 				.formStyle(.grouped)
+				.frame(maxWidth: 400)
 		}
 		#endif
 	}

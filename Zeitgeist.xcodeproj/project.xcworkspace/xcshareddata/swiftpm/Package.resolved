@@ -1,13 +1,22 @@
 {
-  "originHash" : "cdcc958cfe6c6dbc4b95b38cfc43b36f3fe0486a5f7f24c29c6672dde47bf70b",
+  "originHash" : "64281583caf9615972861a481121ae27f9d11f97f548d100fb7d3954f1495678",
   "pins" : [
     {
       "identity" : "suite",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/daneden/Suite",
       "state" : {
-        "branch" : "main",
-        "revision" : "13cd0bedf813f14f26787862818aef29ca13a7e5"
+        "revision" : "e9aea55d107c4185103243a1f389d96e12e239e1",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "yapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yapback/YapKit",
+      "state" : {
+        "revision" : "d2a1283254e592f03801719ced7e8aaccfeaf924",
+        "version" : "1.1.0"
       }
     }
   ],

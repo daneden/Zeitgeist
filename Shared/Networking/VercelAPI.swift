@@ -39,7 +39,11 @@ enum VercelAPI {
 			path: String? = nil
 		)
 
-		case projects(_ projectId: VercelProject.ID? = nil, path: String? = nil)
+		case projects(
+			version: Int = 9,
+			_ projectId: VercelProject.ID? = nil,
+			path: String? = nil
+		)
 
 		case account(id: VercelAccount.ID)
 
@@ -47,7 +51,7 @@ enum VercelAPI {
 			switch self {
 			case let .deployments(_, deploymentID, path):
 				return [deploymentID, path].compactMap { $0 }
-			case let .projects(projectId, path):
+			case let .projects(_, projectId, path):
 				return [projectId, path].compactMap { $0 }
 			case .account: return []
 			}
@@ -57,8 +61,8 @@ enum VercelAPI {
 			switch self {
 			case let .deployments(version, _, _):
 				return "v\(version)/deployments/\(subPaths.joined(separator: "/"))"
-			case .projects:
-				return "v9/projects/\(subPaths.joined(separator: "/"))"
+			case let .projects(version, _, _):
+				return "v\(version)/projects/\(subPaths.joined(separator: "/"))"
 			case let .account(id):
 				let isTeam = id.isTeam
 				return isTeam ? "v2/teams/\(id)" : "v2/user"

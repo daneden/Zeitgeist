@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct VercelProject: Decodable, Identifiable {
+struct VercelProject: Decodable, Identifiable, Equatable, Hashable {
 	typealias ID = String
 	let accountId: String
 	let createdAt: Int
@@ -18,6 +18,12 @@ struct VercelProject: Decodable, Identifiable {
 	let targets: Targets?
 	let updatedAt: Int?
 	let link: VercelRepositoryLink?
+	let env: [VercelEnv]?
+	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(id)
+		hasher.combine(accountId)
+	}
 }
 
 extension VercelProject {
@@ -37,7 +43,7 @@ extension VercelProject {
 		let pagination: Pagination
 	}
 
-	struct Targets: Decodable {
+	struct Targets: Decodable, Equatable {
 		let production: VercelDeployment?
 	}
 }
@@ -48,7 +54,7 @@ struct Pagination: Codable {
 	let next: Int?
 }
 
-struct VercelEnv: Codable, Identifiable, Hashable {
+struct VercelEnv: Codable, Identifiable, Hashable, Equatable {
 	let id: String
 	let type: EnvType
 	let key: String
@@ -73,7 +79,7 @@ extension VercelEnv {
 	}
 	
 	enum EnvType: String, Codable {
-		case system, secret, encrypted, plain
+		case system, secret, encrypted, plain, sensitive
 	}
 	
 	struct APIResponse: Codable {

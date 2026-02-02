@@ -10,7 +10,7 @@ import SwiftUI
 struct NotificationPreview: View {
 	var eventType: ZPSEventType = .deployment
 	var projectName = "my-project"
-	var description = "Caused by \(Preferences.accounts.first?.username ?? "daneden")’s commit \"Initial commit\""
+	var description = "Caused by daneden's commit \"Initial commit\""
 	var showsEmoji = false
 	
 	private var title: String {

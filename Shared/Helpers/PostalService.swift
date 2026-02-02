@@ -53,14 +53,6 @@ enum ZPSEventType: String {
 	}
 }
 
-struct ZPSNotificationPayload: Hashable {
-	let deploymentId: String
-	let userId: String
-	let title: String?
-	let body: String
-	let category: ZPSEventType
-}
-
 enum ZPSNotificationCategory: String {
 	case deployment, project
 }

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "—" : {
+
+    },
     "%@ %@" : {
       "comment" : "Deploy hook cause icon and name\nIcon and name of a repository for a project in the projects list\nLabel for a deployment caused by a deploy hook ({icon} {name})\nPromoted deployment cause icon and name\nThe cause of a deployment in the projects list",
       "localizations" : {
@@ -40,7 +43,14 @@
         }
       }
     },
+    "%lld environment variables" : {
+
+    },
+    "•" : {
+
+    },
     "A new deployment is required for your changes to take effect." : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -82,6 +92,9 @@
         }
       }
     },
+    "Actions" : {
+
+    },
     "Add account" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -104,6 +117,7 @@
       }
     },
     "Add new environment variable" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -164,6 +178,7 @@
       }
     },
     "Authenticate" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -203,6 +218,9 @@
         }
       }
     },
+    "Authentication Required" : {
+
+    },
     "Auto-lock after" : {
       "localizations" : {
         "fr" : {
@@ -212,6 +230,9 @@
           }
         }
       }
+    },
+    "Build duration" : {
+
     },
     "Build logs" : {
       "localizations" : {
@@ -297,6 +318,7 @@
       }
     },
     "Copy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -336,6 +358,9 @@
           }
         }
       }
+    },
+    "Create new..." : {
+
     },
     "Current Production Deployment" : {
       "extractionState" : "manual",
@@ -494,6 +519,12 @@
         }
       }
     },
+    "Display" : {
+
+    },
+    "Done" : {
+
+    },
     "Edit" : {
       "localizations" : {
         "fr" : {
@@ -513,6 +544,9 @@
           }
         }
       }
+    },
+    "Edit..." : {
+
     },
     "Environment" : {
       "localizations" : {
@@ -545,6 +579,7 @@
       }
     },
     "Environment variables with Vercel Secrets values are indicated by a padlock icon. Note that creating and updating Secrets is not currently supported." : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -635,6 +670,18 @@
         }
       }
     },
+    "Hide value" : {
+
+    },
+    "Instant rollback" : {
+
+    },
+    "Key" : {
+
+    },
+    "Last updated" : {
+
+    },
     "Latest deployment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -642,6 +689,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernier déploiement"
+          }
+        }
+      }
+    },
+    "Latest deployment for %@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Latest deployment for %1$@: %2$@"
           }
         }
       }
@@ -696,6 +753,9 @@
           }
         }
       }
+    },
+    "Manage accounts" : {
+
     },
     "Manual deployment" : {
       "comment" : "Manual deployment cause label",
@@ -779,6 +839,9 @@
         }
       }
     },
+    "No environment variables" : {
+
+    },
     "No environment variables for project" : {
       "localizations" : {
         "fr" : {
@@ -808,6 +871,9 @@
           }
         }
       }
+    },
+    "No recent deployment" : {
+
     },
     "Notification permissions required" : {
       "localizations" : {
@@ -910,6 +976,9 @@
         }
       }
     },
+    "Please sign in again to continue using this account." : {
+
+    },
     "Preview" : {
       "localizations" : {
         "fr" : {
@@ -999,6 +1068,9 @@
           }
         }
       }
+    },
+    "Project list shows" : {
+
     },
     "Projects" : {
       "localizations" : {
@@ -1103,6 +1175,9 @@
         }
       }
     },
+    "Restore to production" : {
+
+    },
     "Review on the App Store" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1145,6 +1220,9 @@
         }
       }
     },
+    "Show value" : {
+
+    },
     "Sign in with Vercel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1165,6 +1243,9 @@
           }
         }
       }
+    },
+    "Sign out of account" : {
+
     },
     "Sign out of all accounts" : {
       "extractionState" : "manual",
@@ -1199,6 +1280,7 @@
     },
     "Submit" : {
       "comment" : "Button label to save a new environment variable",
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1228,6 +1310,9 @@
           }
         }
       }
+    },
+    "Targets" : {
+
     },
     "Terms of Use" : {
       "localizations" : {
@@ -1279,6 +1364,9 @@
         }
       }
     },
+    "This will restore this deployment to production. Your project's production domains will point to this deployment." : {
+
+    },
     "To get started, sign in with your Vercel account." : {
       "localizations" : {
         "fr" : {
@@ -1289,6 +1377,9 @@
         }
       }
     },
+    "Unlock" : {
+
+    },
     "Value" : {
       "localizations" : {
         "fr" : {
@@ -1298,6 +1389,9 @@
           }
         }
       }
+    },
+    "View JSON" : {
+
     },
     "View logs" : {
       "extractionState" : "manual",
@@ -1311,6 +1405,7 @@
       }
     },
     "View options" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -1369,6 +1464,9 @@
           }
         }
       }
+    },
+    "You are about to create a new deployment with the same source code and build cache as your current deployment, but with the newest configuration from your project settings." : {
+
     },
     "You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings." : {
       "localizations" : {
