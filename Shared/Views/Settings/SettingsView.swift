@@ -7,14 +7,17 @@
 
 import SwiftUI
 import YapKit
+import StoreKit
 
 fileprivate extension FeedbackConfig {
 	static var zeitgeist = FeedbackConfig(apiKey: Secrets.yapKitAPIKey)
 }
 
 struct SettingsView: View {
-	@Environment(\.dismiss) var dismiss
+	@Environment(\.dismiss) private var dismiss
+	@Environment(\.requestReview) private var requestReview
 	@Environment(AccountManager.self) private var accountManager
+	
 	@AppStorage(Preferences.deploymentNotificationIds) private var deploymentNotificationIds
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
@@ -76,14 +79,14 @@ struct SettingsView: View {
 			}
 			
 			Section {
+				Button("Leave a review", systemImage: "star.fill") {
+					requestReview()
+				}
+				
 				Button("Submit feedback", systemImage: "exclamationmark.bubble") {
 					showFeedbackForm = true
 				}
 				.feedbackSheet(isPresented: $showFeedbackForm, config: .zeitgeist)
-				
-				Link(destination: .ReviewURL) {
-					Label("Review on the App Store", systemImage: "star.fill")
-				}
 			}
 			
 			Section {
