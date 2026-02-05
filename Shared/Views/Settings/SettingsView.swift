@@ -63,6 +63,7 @@ struct SettingsView: View {
 				Picker(selection: $authenticationTimeout) {
 					ForEach(timeoutPresets, id: \.self) { preset in
 						Text(Duration.seconds(preset).formatted(.units()))
+							.tag(preset)
 					}
 					
 					Text("Never").tag(TimeInterval.infinity)

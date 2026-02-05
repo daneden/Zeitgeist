@@ -110,12 +110,27 @@ extension AppDelegate {
 		let userInfo = response.notification.request.content.userInfo
 		
 		guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
-					let teamID = userInfo["TEAM_ID"] as? String else { return }
+					let teamID = userInfo["TEAM_ID"] as? String else {
+			Self.logger.warning("Notification missing deployment/team identifiers")
+			return
+		}
+		
+		guard deploymentID != "nil",
+					teamID != "-1",
+					!deploymentID.isEmpty,
+					!teamID.isEmpty else {
+			Self.logger.warning("Notification had invalid deployment/team identifiers")
+			return
+		}
 		
 		switch response.notification.request.content.categoryIdentifier {
 		case ZPSNotificationCategory.deployment.rawValue:
 			#if canImport(UIKit)
-			await UIApplication.shared.open(URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)")!, options: [:])
+			guard let url = URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)") else {
+				Self.logger.warning("Failed to construct deep link for deployment notification")
+				return
+			}
+			await UIApplication.shared.open(url, options: [:])
 			#elseif canImport(AppKit)
 			// Open deep link on macOS
 			#endif
