@@ -17,6 +17,7 @@ struct AuthenticatedContentView: View {
 	@State private var selectedProject: VercelProject?
 	@State private var selectedDeployment: VercelDeployment?
 	@State private var isHandlingDeepLink = false
+	@State private var focusedNavigationState = FocusedNavigationState()
 
 	// Scene storage for navigation state persistence across app launches
 	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
@@ -77,6 +78,10 @@ struct AuthenticatedContentView: View {
 		}
 		.onChange(of: selectedProject) { _, newProject in
 			selectedProjectId = newProject?.id
+			focusedNavigationState.setProject(newProject)
+		}
+		.onChange(of: selectedDeployment) { _, newDeployment in
+			focusedNavigationState.setDeployment(newDeployment)
 		}
 		.onChange(of: deepLinkHandler.pendingDeepLink) { _, newValue in
 			guard let deepLink = newValue, !isHandlingDeepLink else { return }
@@ -85,6 +90,7 @@ struct AuthenticatedContentView: View {
 			}
 		}
 		.environment(\.session, session)
+		.environment(focusedNavigationState)
 	}
 
 	// MARK: - Deep Link Handling
