@@ -7,17 +7,11 @@
 
 import SwiftUI
 
-// MARK: - Environment Key for Project
-
-extension EnvironmentValues {
-	@Entry var project: VercelProject?
-}
-
 // MARK: - Deployment Detail View
 
 struct DeploymentDetailView: View {
 	@Environment(\.dismiss) var dismiss
-	@Environment(\.project) var project
+	@Environment(FocusedNavigationState.self) private var focusedNavigationState
 	@Environment(\.session) private var session
 
 	var accountId: VercelAccount.ID? { session?.account.id }
@@ -33,6 +27,8 @@ struct DeploymentDetailView: View {
 	
 	@State private var showJson = false
 	@State private var deploymentData: Data?
+
+	private var project: VercelProject? { focusedNavigationState.project }
 
 	var body: some View {
 		Form {
@@ -109,10 +105,17 @@ struct DeploymentDetailView: View {
 		))
 		.focusedSceneValue(\.focusedDeployment, deployment)
 		.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
+		.onChange(of: deployment) { _, newDeployment in
+			focusedNavigationState.setDeployment(newDeployment)
+		}
 		.onAppear {
+			focusedNavigationState.setDeployment(deployment)
 			if actionsService == nil, let session, let accountId {
 				actionsService = DeploymentActionsService(session: session, accountId: accountId)
 			}
+		}
+		.onDisappear {
+			focusedNavigationState.clearDeployment(ifMatching: deployment?.id)
 		}
 		.zeitgeistDataTask {
 			do {

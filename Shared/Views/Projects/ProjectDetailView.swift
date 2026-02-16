@@ -10,6 +10,7 @@ import Suite
 
 struct ProjectDetailView: View {
 	@Environment(\.session) private var session
+	@Environment(FocusedNavigationState.self) private var focusedNavigationState
 	var projectId: VercelProject.ID
 	@State var project: VercelProject?
 	@Binding var selectedDeployment: VercelDeployment?
@@ -172,6 +173,15 @@ struct ProjectDetailView: View {
 		}
 		.navigationTitle(navBarTitle)
 		.focusedSceneValue(\.focusedProject, project)
+		.onChange(of: project) { _, newProject in
+			focusedNavigationState.setProject(newProject)
+		}
+		.onAppear {
+			focusedNavigationState.setProject(project)
+		}
+		.onDisappear {
+			focusedNavigationState.clearProject(ifMatching: project?.id)
+		}
 		.onChange(of: filter) { _, _ in
 			Task {
 				try? await loadDeployments()
