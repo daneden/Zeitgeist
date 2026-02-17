@@ -53,7 +53,7 @@ struct LatestDeploymentWidgetView: View {
 	}
 
 	private var systemView: some View {
-		VStack(alignment: .leading, spacing: 4) {
+		VStack(alignment: .leading, spacing: 2) {
 			if let deployment = config.deployment {
 				HStack {
 					DeploymentStateIndicator(state: deployment.state)
@@ -71,23 +71,27 @@ struct LatestDeploymentWidgetView: View {
 
 				Text(deployment.deploymentCause.description)
 					.font(.subheadline)
-					.fontWeight(.bold)
+					.fontWeight(.semibold)
 					.lineLimit(3)
+					.allowsTightening(true)
+					.layoutPriority(1)
 
-				Text(deployment.created, style: .relative)
-					.foregroundStyle(.secondary)
-
-				if !hasProject {
-					Text(deployment.project)
-						.lineLimit(1)
+				Group {
+					Text(deployment.created, style: .relative)
 						.foregroundStyle(.secondary)
+					
+					if !hasProject {
+						Text(deployment.project)
+							.lineLimit(1)
+							.foregroundStyle(.secondary)
+					}
 				}
 			} else {
 				PlaceholderView(forRole: .NoDeployments, alignment: .leading)
 					.font(.footnote)
 			}
 
-			Spacer()
+			Spacer(minLength: 0)
 
 			Group {
 				WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
