@@ -61,13 +61,13 @@ struct PlaceholderView: View {
 	}
 
 	var body: some View {
-		VStack(alignment: alignment, spacing: spacing) {
-			Image(systemName: imageName)
-				.imageScale(.large)
-			text
+		ContentUnavailableView {
+			Label {
+				text
+			} icon: {
+				Image(systemName: imageName)
+			}
 		}
-		.multilineTextAlignment(alignment == .leading ? .leading : .center)
-		.foregroundColor(.secondary)
 	}
 }
 

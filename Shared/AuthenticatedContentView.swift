@@ -25,6 +25,22 @@ struct AuthenticatedContentView: View {
 	// Convenience accessors for cleaner code
 	private var session: VercelSession? { accountManager.currentSession }
 	private var selectedAccount: VercelAccount? { accountManager.selectedAccount }
+	
+	var minColumnWidth: Double {
+		#if os(macOS)
+		200
+		#else
+		300
+		#endif
+	}
+	
+	var idealColumnWidth: Double {
+		#if os(macOS)
+		240
+		#else
+		320
+		#endif
+	}
 
 	var body: some View {
 		NavigationSplitView {
@@ -47,7 +63,7 @@ struct AuthenticatedContentView: View {
 			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
 			.backportNavigationSubtitle(session?.account.name ?? session?.account.username)
-			.navigationSplitViewColumnWidth(min: 200, ideal: 240)
+			.navigationSplitViewColumnWidth(min: minColumnWidth, ideal: idealColumnWidth)
 		} content: {
 			Group {
 				if let selectedProject, session != nil {
@@ -63,7 +79,7 @@ struct AuthenticatedContentView: View {
 				}
 			}
 			.backportNavigationSubtitle(session?.account.name ?? session?.account.username)
-			.navigationSplitViewColumnWidth(min: 200, ideal: 240)
+			.navigationSplitViewColumnWidth(min: minColumnWidth, ideal: idealColumnWidth)
 		} detail: {
 			Group {
 				if let selectedDeployment, session != nil {
@@ -79,6 +95,7 @@ struct AuthenticatedContentView: View {
 			}
 			.id(selectedProject?.id)
 		}
+		.navigationSplitViewStyle(.balanced)
 		.onChange(of: selectedProject) { _, newProject in
 			let normalizedDeployment = normalizedDeployment(for: newProject, deployment: selectedDeployment)
 			if selectedDeployment?.id != normalizedDeployment?.id {
