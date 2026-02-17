@@ -44,6 +44,7 @@ struct AccountManagementButton: View {
 				.buttonBorderShape(.capsule)
 				.sheet(isPresented: $showAccountManagementView) {
 					AccountManagementView()
+					#if os(macOS)
 						.modify {
 							if #available(macOS 15, *) {
 								$0.presentationSizing(.form)
@@ -51,6 +52,7 @@ struct AccountManagementButton: View {
 								$0.frame(minHeight: 400)
 							}
 						}
+					#endif
 				}
 			}
     }
