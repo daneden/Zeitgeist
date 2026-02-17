@@ -50,47 +50,8 @@ struct ProjectsListView: View {
 		ZStack {
 			List(selection: $selectedProject) {
 				#if os(macOS)
-				if let selectedAccount = session?.account {
-					Section {
-						Button {
-							showAccountManagementView = true
-						} label: {
-							HStack {
-								VercelUserAvatarView(account: selectedAccount, size: 24)
-									.id(selectedAccount.id)
-									.transition(.opacity)
-								
-								VStack(alignment: .leading) {
-									Text(verbatim: selectedAccount.name ?? selectedAccount.username)
-									Text("Manage accounts")
-										.font(.caption)
-										.foregroundStyle(.secondary)
-								}
-								
-								Spacer()
-								
-								Image(systemName: "arrow.forward")
-									.symbolVariant(.circle.fill)
-									.symbolRenderingMode(.monochrome)
-									.foregroundStyle(.tertiary)
-							}
-							.contentTransition(.numericText())
-						}
-						.buttonStyle(.bordered)
-						.buttonBorderShape(.capsule)
-						.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-					}
-					.sheet(isPresented: $showAccountManagementView) {
-						AccountManagementView()
-							.modify {
-								if #available(macOS 15, *) {
-									$0.presentationSizing(.form)
-								} else {
-									$0.frame(minHeight: 400)
-								}
-							}
-					}
-				}
+				AccountManagementButton()
+					.padding(.bottom, 8)
 				#endif
 				
 				ForEach(filteredProjects) { project in

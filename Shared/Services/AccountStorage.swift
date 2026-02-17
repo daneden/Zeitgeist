@@ -23,7 +23,8 @@ protocol AccountStorage: Sendable {
 
 /// Default implementation using UserDefaults via the app group container.
 /// This matches the existing Preferences.accounts storage mechanism.
-struct UserDefaultsAccountStorage: AccountStorage {
+struct UserDefaultsAccountStorage: AccountStorage, @unchecked Sendable {
+    // UserDefaults is documented as thread-safe; we treat it as safe to share across tasks.
 	private let store: UserDefaults
 	private let key: String
 

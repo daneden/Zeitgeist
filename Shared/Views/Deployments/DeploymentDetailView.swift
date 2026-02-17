@@ -17,6 +17,7 @@ struct DeploymentDetailView: View {
 	var accountId: VercelAccount.ID? { session?.account.id }
 	var deploymentId: VercelDeployment.ID
 	@State var deployment: VercelDeployment?
+	@Binding var selectedDeployment: VercelDeployment?
 	@State private var actionsService: DeploymentActionsService?
 	@State private var confirmingAction: DeploymentAction?
 
@@ -31,97 +32,91 @@ struct DeploymentDetailView: View {
 	private var project: VercelProject? { focusedNavigationState.project }
 
 	var body: some View {
-		Form {
-			if let deployment {
-				Overview(deployment: deployment)
-				Section("Deployment cause") {
-					switch deployment.deploymentCause {
-					case let .deployHook(name):
-						Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
-					case .promotion(_):
-						Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
-						if let meta = deployment.meta, meta.hasCommitInfo {
+		NavigationStack {
+			Form {
+				if let deployment {
+					Overview(deployment: deployment)
+					Section("Deployment cause") {
+						switch deployment.deploymentCause {
+						case let .deployHook(name):
+							Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
+						case .promotion(_):
+							Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
+							if let meta = deployment.meta, meta.hasCommitInfo {
+								CommitSummary(meta: meta)
+							}
+						case .manual:
+							Text("Manual deployment", comment: "Manual deployment cause label")
+						case let .gitCommit(meta):
 							CommitSummary(meta: meta)
 						}
-					case .manual:
-						Text("Manual deployment", comment: "Manual deployment cause label")
-					case let .gitCommit(meta):
-						CommitSummary(meta: meta)
 					}
-				}
-				if let accountId {
-					URLDetails(accountId: accountId, deployment: deployment)
-				}
-				
-				#if DEBUG
-				Button("View JSON", systemImage: "ellipsis.curlybraces") {
-					showJson = true
-				}
-				.sheet(isPresented: $showJson) {
-					NavigationStack {
-						ScrollView {
-							let json: String? = {
-								let encoder = JSONEncoder()
-								encoder.outputFormatting = .prettyPrinted
+					if let accountId {
+						URLDetails(accountId: accountId, deployment: deployment)
+					}
+					
+#if DEBUG
+					Button("View JSON", systemImage: "ellipsis.curlybraces") {
+						showJson = true
+					}
+					.sheet(isPresented: $showJson) {
+						NavigationStack {
+							ScrollView {
+								let json: String? = {
+									let encoder = JSONEncoder()
+									encoder.outputFormatting = .prettyPrinted
+									
+									guard let data = try? encoder.encode(deployment) else { return nil }
+									
+									return String(data: data, encoding: .utf8)
+								}()
 								
-								guard let data = try? encoder.encode(deployment) else { return nil }
-								
-								return String(data: data, encoding: .utf8)
-							}()
-							
-							if let json {
-								Text(json)
-									.monospaced()
-									.textSelection(.enabled)
-									.padding()
+								if let json {
+									Text(json)
+										.monospaced()
+										.textSelection(.enabled)
+										.padding()
+								}
 							}
 						}
 					}
-				}
-				#endif
-			} else {
-				ProgressView()
-			}
-		}
-		.navigationTitle(Text("Deployment details"))
-		.toolbar {
-			if let deployment, let service = actionsService {
-				ToolbarItem(placement: .primaryAction) {
-					DeploymentActionsMenu(
-						deployment: deployment,
-						isCurrentProduction: isCurrentProduction,
-						isMutating: service.isMutating,
-						confirmingAction: $confirmingAction
-					)
+#endif
+				} else {
+					ProgressView()
 				}
 			}
-		}
-		.modifier(DeploymentActionConfirmationsModifier(
-			confirmingAction: $confirmingAction,
-			deployment: deployment,
-			project: project,
-			service: actionsService,
-			onDismiss: { dismiss() }
-		))
-		.focusedSceneValue(\.focusedDeployment, deployment)
-		.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
-		.onChange(of: deployment) { _, newDeployment in
-			focusedNavigationState.setDeployment(newDeployment)
-		}
-		.onAppear {
-			focusedNavigationState.setDeployment(deployment)
-			if actionsService == nil, let session, let accountId {
-				actionsService = DeploymentActionsService(session: session, accountId: accountId)
+			.navigationTitle(Text("Deployment details"))
+			.toolbar {
+				if let deployment, let service = actionsService {
+					ToolbarItem(placement: .primaryAction) {
+						DeploymentActionsMenu(
+							deployment: deployment,
+							isCurrentProduction: isCurrentProduction,
+							isMutating: service.isMutating,
+							confirmingAction: $confirmingAction
+						)
+					}
+				}
 			}
-		}
-		.onDisappear {
-			focusedNavigationState.clearDeployment(ifMatching: deployment?.id)
-		}
-		.zeitgeistDataTask {
-			do {
-				try await loadDeploymentDetails()
-			} catch {
-				print(error.localizedDescription)
+			.modifier(DeploymentActionConfirmationsModifier(
+				confirmingAction: $confirmingAction,
+				deployment: deployment,
+				project: project,
+				service: actionsService,
+				onDismiss: { dismiss() }
+			))
+			.focusedSceneValue(\.confirmingDeploymentAction, $confirmingAction)
+			.onAppear {
+				if actionsService == nil, let session, let accountId {
+					actionsService = DeploymentActionsService(session: session, accountId: accountId)
+				}
+			}
+			.zeitgeistDataTask {
+				do {
+					try await loadDeploymentDetails()
+				} catch {
+					print(error.localizedDescription)
+				}
 			}
 		}
 	}
@@ -140,6 +135,9 @@ struct DeploymentDetailView: View {
 		deploymentData = data
 		let decoded = try JSONDecoder().decode(VercelDeployment.self, from: data)
 		deployment = decoded
+		if selectedDeployment?.id == decoded.id {
+			selectedDeployment = decoded
+		}
 	}
 }
 
@@ -261,7 +259,9 @@ private struct Overview: View {
 				.monospacedDigit()
 			}
 
-			NavigationLink(value: DetailDestinationValue.deploymentLogs(deployment: deployment)) {
+			NavigationLink {
+				DeploymentLogView(deployment: deployment)
+			} label: {
 				Label("View logs", systemImage: "terminal")
 			}
 		}
