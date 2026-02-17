@@ -197,6 +197,14 @@ struct DeploymentCommands: Commands {
 	@FocusedValue(\.focusedDeployment) private var deployment
 	@FocusedValue(\.confirmingDeploymentAction) private var confirmingAction
 
+	private var hasValidSelectionContext: Bool {
+		guard let project, let deployment, confirmingAction != nil else {
+			return false
+		}
+
+		return deployment.projectId == project.id
+	}
+
 	private var isCurrentProduction: Bool {
 		guard let deployment, let project else { return false }
 		return deployment.id == project.targets?.production?.id
@@ -209,7 +217,7 @@ struct DeploymentCommands: Commands {
 				isCurrentProduction: isCurrentProduction,
 				trigger: { confirmingAction?.wrappedValue = $0 }
 			)
-			.disabled(deployment == nil)
+			.disabled(!hasValidSelectionContext)
 		}
 	}
 }

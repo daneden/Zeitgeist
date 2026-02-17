@@ -10,8 +10,7 @@ import Observation
 
 /// Shared app-level navigation context for the currently focused project and deployment.
 ///
-/// This behaves similarly to React Context: views set and clear focus as they appear/disappear,
-/// while consumers can read the current values from the environment.
+/// Parent navigation state writes focus values, while consumers read them from the environment.
 @Observable
 @MainActor
 final class FocusedNavigationState {
@@ -19,26 +18,16 @@ final class FocusedNavigationState {
 	private(set) var deployment: VercelDeployment?
 
 	func setProject(_ project: VercelProject?) {
+		let previousProjectId = self.project?.id
 		self.project = project
 
-		// Deployment focus cannot exist without a project focus.
-		if project == nil {
+		// Deployment focus cannot exist without a matching project focus.
+		if project == nil || previousProjectId != project?.id {
 			deployment = nil
 		}
 	}
 
-	func clearProject(ifMatching projectId: VercelProject.ID?) {
-		guard project?.id == projectId else { return }
-		project = nil
-		deployment = nil
-	}
-
 	func setDeployment(_ deployment: VercelDeployment?) {
 		self.deployment = deployment
-	}
-
-	func clearDeployment(ifMatching deploymentId: VercelDeployment.ID?) {
-		guard deployment?.id == deploymentId else { return }
-		deployment = nil
 	}
 }

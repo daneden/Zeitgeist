@@ -47,41 +47,53 @@ struct AuthenticatedContentView: View {
 			#endif
 			.navigationTitle(Text(verbatim: "Zeitgeist"))
 			.backportNavigationSubtitle(session?.account.name ?? session?.account.username)
+			.navigationSplitViewColumnWidth(min: 200, ideal: 240)
 		} content: {
 			Group {
 				if let selectedProject, session != nil {
-					ProjectDetailView(projectId: selectedProject.id, project: selectedProject, selectedDeployment: $selectedDeployment)
+					ProjectDetailView(
+						projectId: selectedProject.id,
+						project: selectedProject,
+						selectedProject: $selectedProject,
+						selectedDeployment: $selectedDeployment
+					)
 						.id(selectedProject)
 				} else {
 					PlaceholderView(forRole: .ProjectDetail)
 				}
 			}
 			.backportNavigationSubtitle(session?.account.name ?? session?.account.username)
+			.navigationSplitViewColumnWidth(min: 200, ideal: 240)
 		} detail: {
-			NavigationStack {
-				Group {
-					if let selectedDeployment, session != nil {
-						DeploymentDetailView(deploymentId: selectedDeployment.id, deployment: selectedDeployment)
-							.id(selectedDeployment)
-					} else {
-						PlaceholderView(forRole: .DeploymentDetail)
-					}
-				}
-				.navigationDestination(for: DetailDestinationValue.self) { destination in
-					switch destination {
-					case .deploymentLogs(let deployment):
-						DeploymentLogView(deployment: deployment)
-							.environment(\.session, session)
-					}
+			Group {
+				if let selectedDeployment, session != nil {
+					DeploymentDetailView(
+						deploymentId: selectedDeployment.id,
+						deployment: selectedDeployment,
+						selectedDeployment: $selectedDeployment
+					)
+						.id(selectedDeployment)
+				} else {
+					PlaceholderView(forRole: .DeploymentDetail)
 				}
 			}
+			.id(selectedProject?.id)
 		}
 		.onChange(of: selectedProject) { _, newProject in
+			let normalizedDeployment = normalizedDeployment(for: newProject, deployment: selectedDeployment)
+			if selectedDeployment?.id != normalizedDeployment?.id {
+				selectedDeployment = normalizedDeployment
+			}
 			selectedProjectId = newProject?.id
-			focusedNavigationState.setProject(newProject)
+			syncFocusedNavigationState()
 		}
 		.onChange(of: selectedDeployment) { _, newDeployment in
-			focusedNavigationState.setDeployment(newDeployment)
+			let normalizedDeployment = normalizedDeployment(for: selectedProject, deployment: newDeployment)
+			if selectedDeployment?.id != normalizedDeployment?.id {
+				selectedDeployment = normalizedDeployment
+				return
+			}
+			syncFocusedNavigationState()
 		}
 		.onChange(of: deepLinkHandler.pendingDeepLink) { _, newValue in
 			guard let deepLink = newValue, !isHandlingDeepLink else { return }
@@ -89,6 +101,8 @@ struct AuthenticatedContentView: View {
 				await handleDeepLink(deepLink)
 			}
 		}
+		.focusedSceneValue(\.focusedProject, focusedNavigationState.project)
+		.focusedSceneValue(\.focusedDeployment, focusedNavigationState.deployment)
 		.environment(\.session, session)
 		.environment(focusedNavigationState)
 	}
@@ -126,32 +140,34 @@ struct AuthenticatedContentView: View {
 		}
 
 		do {
-			var deploymentRequest = VercelAPI.request(
-				for: .deployments(version: 13, deploymentID: deploymentId),
-				with: accountId
-			)
-			try session.signRequest(&deploymentRequest)
-
-			// If we have projectId, fetch both in parallel
-			if let projectId {
-				var projectRequest = VercelAPI.request(
-					for: .projects(version: 9, projectId),
+				var deploymentRequest = VercelAPI.request(
+					for: .deployments(version: 13, deploymentID: deploymentId),
 					with: accountId
 				)
-				try session.signRequest(&projectRequest)
+				try session.signRequest(&deploymentRequest)
+				let signedDeploymentRequest = deploymentRequest
 
-				// Try cache first for instant navigation
-				if let (cachedDeployment, cachedProject) = getCachedData(
-					deploymentRequest: deploymentRequest,
-					projectRequest: projectRequest
-				) {
-					selectedProject = cachedProject
-					selectedDeployment = cachedDeployment
-				}
+				// If we have projectId, fetch both in parallel
+				if let projectId {
+					var projectRequest = VercelAPI.request(
+						for: .projects(version: 9, projectId),
+						with: accountId
+					)
+					try session.signRequest(&projectRequest)
+					let signedProjectRequest = projectRequest
 
-				// Fetch both in parallel
-				async let deploymentTask = URLSession.shared.data(for: deploymentRequest)
-				async let projectTask = URLSession.shared.data(for: projectRequest)
+					// Try cache first for instant navigation
+					if let (cachedDeployment, cachedProject) = getCachedData(
+						deploymentRequest: signedDeploymentRequest,
+						projectRequest: signedProjectRequest
+					) {
+						selectedProject = cachedProject
+						selectedDeployment = cachedDeployment
+					}
+
+					// Fetch both in parallel
+					async let deploymentTask = URLSession.shared.data(for: signedDeploymentRequest)
+					async let projectTask = URLSession.shared.data(for: signedProjectRequest)
 
 				let (deploymentResult, projectResult) = try await (deploymentTask, projectTask)
 
@@ -228,6 +244,23 @@ struct AuthenticatedContentView: View {
 			return nil
 		}
 		return try? JSONDecoder().decode(VercelProject.self, from: cachedResponse.data)
+	}
+
+	private func normalizedDeployment(
+		for project: VercelProject?,
+		deployment: VercelDeployment?
+	) -> VercelDeployment? {
+		guard let deployment, deployment.projectId == project?.id else {
+			return nil
+		}
+
+		return deployment
+	}
+
+	private func syncFocusedNavigationState() {
+		let deployment = normalizedDeployment(for: selectedProject, deployment: selectedDeployment)
+		focusedNavigationState.setProject(selectedProject)
+		focusedNavigationState.setDeployment(deployment)
 	}
 }
 
