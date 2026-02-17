@@ -187,6 +187,7 @@ struct DeploymentLogView: View {
 						Link(destination: deployment.inspectorURL) {
 							Label("Open in browser", systemImage: "safari")
 						}
+						.buttonStyle(.bordered)
 					}
 				}
 			}
