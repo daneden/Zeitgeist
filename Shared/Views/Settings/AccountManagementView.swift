@@ -55,7 +55,7 @@ struct AccountManagementView: View {
 		NavigationStack {
 			Group {
 				#if os(macOS)
-				Table(accountManager.accounts, selection: $accountManager.selectedAccountId.animation()) {
+				Table(accountManager.accounts, selection: $accountManager.selectedAccountId) {
 					TableColumn("Account") { account in
 						AccountListRowView(account: account)
 							.environment(self.accountManager)
