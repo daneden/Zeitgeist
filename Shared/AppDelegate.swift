@@ -113,6 +113,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 #endif
 
 extension AppDelegate {
+	@MainActor
 	func userNotificationCenter(_: UNUserNotificationCenter,
 															didReceive response: UNNotificationResponse) async {
 		let userInfo = response.notification.request.content.userInfo

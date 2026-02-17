@@ -33,6 +33,7 @@ struct LatestDeploymentWidgetView: View {
 				Color.clear
 			}
 		}
+		.widgetURL(deepLinkURL)
 		.containerBackground(.background, for: .widget)
 	}
 
@@ -52,59 +53,57 @@ struct LatestDeploymentWidgetView: View {
 	}
 
 	private var systemView: some View {
-		Link(destination: deepLinkURL) {
-			VStack(alignment: .leading, spacing: 4) {
-				if let deployment = config.deployment {
-					HStack {
-						DeploymentStateIndicator(state: deployment.state)
-						Spacer()
-						if deployment.target == .production {
-							Image(systemName: "theatermasks")
-								.foregroundStyle(.tint)
-								.symbolVariant(.fill)
-								.imageScale(.small)
-								.widgetAccentable()
-						}
+		VStack(alignment: .leading, spacing: 4) {
+			if let deployment = config.deployment {
+				HStack {
+					DeploymentStateIndicator(state: deployment.state)
+					Spacer()
+					if deployment.target == .production {
+						Image(systemName: "theatermasks")
+							.foregroundStyle(.tint)
+							.symbolVariant(.fill)
+							.imageScale(.small)
+							.widgetAccentable()
 					}
-					.font(.caption.bold())
-					.padding(.bottom, 2)
+				}
+				.font(.caption.bold())
+				.padding(.bottom, 2)
 
-					Text(deployment.deploymentCause.description)
-						.font(.subheadline)
-						.fontWeight(.bold)
-						.lineLimit(3)
+				Text(deployment.deploymentCause.description)
+					.font(.subheadline)
+					.fontWeight(.bold)
+					.lineLimit(3)
 
-					Text(deployment.created, style: .relative)
+				Text(deployment.created, style: .relative)
+					.foregroundStyle(.secondary)
+
+				if !hasProject {
+					Text(deployment.project)
+						.lineLimit(1)
 						.foregroundStyle(.secondary)
-
-					if !hasProject {
-						Text(deployment.project)
-							.lineLimit(1)
-							.foregroundStyle(.secondary)
-					}
-				} else {
-					PlaceholderView(forRole: .NoDeployments, alignment: .leading)
-						.font(.footnote)
 				}
-
-				Spacer()
-
-				Group {
-					WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
-						.symbolVariant(config.account.identifier == nil ? .none : .fill)
-
-					if let project = config.project,
-						 project.identifier != nil {
-						WidgetLabel(label: project.displayString, iconName: "folder")
-					}
-				}
-				.foregroundStyle(.secondary)
-				.imageScale(.small)
-				.lineLimit(1)
+			} else {
+				PlaceholderView(forRole: .NoDeployments, alignment: .leading)
+					.font(.footnote)
 			}
-			.multilineTextAlignment(.leading)
-			.frame(maxWidth: .infinity, alignment: .leading)
+
+			Spacer()
+
+			Group {
+				WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
+					.symbolVariant(config.account.identifier == nil ? .none : .fill)
+
+				if let project = config.project,
+					 project.identifier != nil {
+					WidgetLabel(label: project.displayString, iconName: "folder")
+				}
+			}
+			.foregroundStyle(.secondary)
+			.imageScale(.small)
+			.lineLimit(1)
 		}
+		.multilineTextAlignment(.leading)
+		.frame(maxWidth: .infinity, alignment: .leading)
 		.font(.footnote)
 		.foregroundStyle(.primary)
 		.symbolRenderingMode(.hierarchical)
