@@ -118,16 +118,21 @@ extension AppDelegate {
 															didReceive response: UNNotificationResponse) async {
 		let userInfo = response.notification.request.content.userInfo
 
-		guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
-					let teamID = userInfo["TEAM_ID"] as? String else { return }
-
-		let projectID = userInfo["PROJECT_ID"] as? String
-
 		switch response.notification.request.content.categoryIdentifier {
 		case ZPSNotificationCategory.deployment.rawValue:
+			guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
+						let teamID = userInfo["TEAM_ID"] as? String else {
+				Self.logger.warning("Deployment notification missing required DEPLOYMENT_ID or TEAM_ID")
+				return
+			}
+
+			let projectID = userInfo["PROJECT_ID"] as? String
 			// Include projectId in URL for parallel fetching optimization
 			let projectPath = projectID.map { "/\($0)" } ?? ""
-			let deepLinkURL = URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)\(projectPath)")!
+			guard let deepLinkURL = URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)\(projectPath)") else {
+				Self.logger.error("Failed to construct deep link URL for deployment \(deploymentID, privacy: .public)")
+				return
+			}
 			#if canImport(UIKit)
 			await UIApplication.shared.open(deepLinkURL, options: [:])
 			#elseif canImport(AppKit)
@@ -230,11 +235,16 @@ extension AppDelegate {
 			}
 
 			content.categoryIdentifier = eventType.rawValue
-			content.userInfo = [
-				"DEPLOYMENT_ID": "\(deploymentId ?? "nil")",
-				"TEAM_ID": "\(teamId ?? "-1")",
-				"PROJECT_ID": "\(projectId)",
+			var notificationUserInfo: [String: String] = [
+				"PROJECT_ID": projectId,
 			]
+			if let deploymentId {
+				notificationUserInfo["DEPLOYMENT_ID"] = deploymentId
+			}
+			if let teamId {
+				notificationUserInfo["TEAM_ID"] = teamId
+			}
+			content.userInfo = notificationUserInfo
 
 			let notificationID = "\(content.threadIdentifier)-\(eventType.rawValue)"
 
