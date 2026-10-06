@@ -1,5 +1,5 @@
 //
-//  View+permissionRevokactionDialog.swift
+//  View+permissionRevocationDialog.swift
 //  Zeitgeist
 //
 //  Created by Daniel Eden on 25/08/2022.
@@ -10,7 +10,7 @@ import SwiftUI
 struct PermissionRevocationDialogModifier: ViewModifier {
 	@Bindable var session: VercelSession
 	@Environment(AccountManager.self) private var accountManager
-	@State var isVisible = false
+	@State private var isVisible = false
 
 	func body(content: Content) -> some View {
 		content
@@ -22,7 +22,8 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 			}
 			.confirmationDialog(
 				"Account permissions revoked",
-				isPresented: $isVisible) {
+				isPresented: $isVisible
+			) {
 				Button(role: .destructive) {
 					accountManager.deleteAccount(id: session.account.id)
 				} label: {
@@ -34,9 +35,9 @@ struct PermissionRevocationDialogModifier: ViewModifier {
 				} label: {
 					Text("Close")
 				}
-				} message: {
-					Text("There was a problem loading data for this account. It may have been deleted, or its access token may have been revoked.")
-				}
+			} message: {
+				Text("There was a problem loading data for this account. It may have been deleted, or its access token may have been revoked.")
+			}
 	}
 }
 

@@ -21,10 +21,16 @@ struct WidgetLabel: View {
 	}
 }
 
+#Preview {
+	VStack(alignment: .leading) {
+		WidgetLabel(label: "Test Account", iconName: "person")
+		WidgetLabel(label: "example-project", iconName: "folder")
+	}
+}
+
 // MARK: - WidgetLabelStyle
 
 private struct WidgetLabelStyle: LabelStyle {
-
 	// MARK: Internal
 
 	func makeBody(configuration: Configuration) -> some View {
@@ -42,5 +48,4 @@ private struct WidgetLabelStyle: LabelStyle {
 	// MARK: Private
 
 	@Environment(\.showsWidgetContainerBackground) private var showsWidgetContainerBackground
-
 }

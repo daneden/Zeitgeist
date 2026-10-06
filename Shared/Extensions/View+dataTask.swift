@@ -10,7 +10,7 @@ import SwiftUI
 struct DataTaskModifier: ViewModifier {
 	@Environment(\.session) private var session
 	@Environment(\.scenePhase) var scenePhase
-	
+
 	let scope: DataTaskModifier.NotificationScope
 	let action: () async -> Void
 
@@ -49,7 +49,7 @@ struct DataTaskModifier: ViewModifier {
 				}
 			}
 	}
-	
+
 	func respondToNotification(in scope: NotificationScope) async {
 		print("Notification scoped to \(scope)")
 		guard self.scope >= scope else {
@@ -62,7 +62,8 @@ struct DataTaskModifier: ViewModifier {
 
 extension View {
 	func zeitgeistDataTask(scope: DataTaskModifier.NotificationScope = .all,
-												 perform action: @escaping () async -> Void) -> some View {
+	                       perform action: @escaping () async -> Void) -> some View
+	{
 		modifier(DataTaskModifier(scope: scope, action: action))
 	}
 }
@@ -71,7 +72,7 @@ extension DataTaskModifier {
 	enum NotificationScope: Comparable {
 		case all, account, project, deployment
 	}
-	
+
 	static func postNotification(_ userInfo: [AnyHashable: Any]? = nil, scope: NotificationScope = .all) {
 		NotificationCenter.default.post(name: .ZPSNotification, object: scope, userInfo: userInfo)
 	}

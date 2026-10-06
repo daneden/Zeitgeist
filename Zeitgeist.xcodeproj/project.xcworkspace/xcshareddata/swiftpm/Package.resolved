@@ -1,6 +1,15 @@
 {
-  "originHash" : "64281583caf9615972861a481121ae27f9d11f97f548d100fb7d3954f1495678",
+  "originHash" : "42b4e1f46b81688ba3e20d371187c933d04cc8e8eea6a6e4411585fe698a7e7a",
   "pins" : [
+    {
+      "identity" : "rehearsal",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/daneden/Rehearsal",
+      "state" : {
+        "revision" : "f3d313efd45fd5c36d5e5401788811e0f30d1925",
+        "version" : "0.4.0"
+      }
+    },
     {
       "identity" : "suite",
       "kind" : "remoteSourceControl",

@@ -11,9 +11,9 @@ import Foundation
 import SwiftUI
 
 class VercelAPIConfiguration: Codable {
-	public let clientId: String = "oac_j50L1tLSVzBpEv1gXEVDdR3g"
+	let clientId: String = "oac_j50L1tLSVzBpEv1gXEVDdR3g"
 
-	public enum CodingKeys: String, CodingKey {
+	enum CodingKeys: String, CodingKey {
 		case clientId = "client_id"
 	}
 }
@@ -64,7 +64,7 @@ final class SignInViewModel {
 			switch result {
 			case .success:
 				return true
-			case .failure(let error):
+			case let .failure(error):
 				print("Failed to add account: \(error)")
 				return false
 			}
@@ -73,22 +73,22 @@ final class SignInViewModel {
 			return false
 		}
 	}
-	
+
 	@discardableResult
 	func signIn(using webAuthenticationSession: WebAuthenticationSession, accountManager: AccountManager) async -> Bool {
-		self.isSigningIn = true
+		isSigningIn = true
 
 		let apiData = VercelAPIConfiguration()
 		let authUrl = VercelURLAuthenticationBuilder(clientID: apiData.clientId)()
 
 		do {
 			let urlWithToken = try await webAuthenticationSession.authenticate(using: authUrl,
-																																				 callbackURLScheme: "https",
-																																				 preferredBrowserSession: .shared)
-			self.isSigningIn = false
+			                                                                   callbackURLScheme: "https",
+			                                                                   preferredBrowserSession: .shared)
+			isSigningIn = false
 			return await processResponseURL(url: urlWithToken, accountManager: accountManager)
 		} catch {
-			self.isSigningIn = false
+			isSigningIn = false
 			print(error.localizedDescription)
 
 			return false

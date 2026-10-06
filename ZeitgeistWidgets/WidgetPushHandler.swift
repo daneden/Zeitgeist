@@ -13,24 +13,24 @@ import WidgetKit
 /// This allows the backend to push updates directly to widgets without requiring the main app to process them.
 @available(iOS 26, macOS 26, *)
 struct ZeitgeistWidgetPushHandler: WidgetPushHandler {
-	func pushTokenDidChange(_ pushInfo: WidgetPushInfo, widgets: [WidgetInfo]) {
+	func pushTokenDidChange(_ pushInfo: WidgetPushInfo, widgets _: [WidgetInfo]) {
 		let tokenString = pushInfo.token.map { String(format: "%02.2hhx", $0) }.joined()
-		
+
 		Self.logger.notice("Widget push token updated: \(tokenString.prefix(16))...")
-		
+
 		// Register the widget push token with each authenticated account
 		let accounts = accountStorage.loadAccounts()
-		
+
 		guard !accounts.isEmpty else {
 			Self.logger.warning("No authenticated accounts found for widget push registration")
 			return
 		}
-		
+
 		for account in accounts {
 			registerWidgetToken(tokenString, for: account)
 		}
 	}
-	
+
 	private let accountStorage: AccountStorage = UserDefaultsAccountStorage()
 
 	private static let logger = Logger(
@@ -41,9 +41,9 @@ struct ZeitgeistWidgetPushHandler: WidgetPushHandler {
 	/// Registers the widget push token with the backend server.
 	private func registerWidgetToken(_ token: String, for account: VercelAccount) {
 		#if DEBUG
-		let platform = "ios_sandbox"
+			let platform = "ios_sandbox"
 		#else
-		let platform = "ios"
+			let platform = "ios"
 		#endif
 
 		guard let url = URL(string: "https://zeitgeist.link/api/registerWidgetPushToken?user_id=\(account.id)&widget_token=\(token)&platform=\(platform)") else {
@@ -53,7 +53,7 @@ struct ZeitgeistWidgetPushHandler: WidgetPushHandler {
 
 		let request = URLRequest(url: url)
 
-		URLSession.shared.dataTask(with: request) { data, response, error in
+		URLSession.shared.dataTask(with: request) { _, response, error in
 			if let error = error {
 				Self.logger.error("Error registering widget token: \(error.localizedDescription)")
 				return

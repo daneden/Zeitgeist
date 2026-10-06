@@ -12,7 +12,10 @@ enum IconType {
 }
 
 struct FeatureDescription: Hashable, Identifiable {
-	var id: Int { hashValue }
+	var id: Int {
+		hashValue
+	}
+
 	var heading: String
 	var description: String
 	var iconName: String
@@ -24,20 +27,20 @@ struct NewFeaturesView: View {
 	@Environment(\.dismiss) private var dismiss
 	let features: [FeatureDescription] = [
 		FeatureDescription(heading: "Projects View",
-											 description: "Browse by projects, and quickly see their Git connections and latest deployments.",
-											 iconName: "folder"),
+		                   description: "Browse by projects, and quickly see their Git connections and latest deployments.",
+		                   iconName: "folder"),
 		FeatureDescription(heading: "Redeploy",
-											 description: "Redeploy instantly from a deployment's detail view, with or without the existing build cache.",
-											 iconName: "arrow.clockwise"),
+		                   description: "Redeploy instantly from a deployment's detail view, with or without the existing build cache.",
+		                   iconName: "arrow.clockwise"),
 		FeatureDescription(heading: "Notification Improvements ",
-											 description: "Manage notifications on a per-project basis, and optionally only get notifications for production deployments.",
-											 iconName: "bell.badge"),
+		                   description: "Manage notifications on a per-project basis, and optionally only get notifications for production deployments.",
+		                   iconName: "bell.badge"),
 		FeatureDescription(heading: "Deploy Hooks",
-											 description: "Added support for deploy hooks means at-a-glance clarity on the cause of a deployment.",
-											 iconName: "hook",
-											 iconType: .custom)
+		                   description: "Added support for deploy hooks means at-a-glance clarity on the cause of a deployment.",
+		                   iconName: "hook",
+		                   iconType: .custom),
 	]
-	
+
 	var body: some View {
 		GeometryReader { geometry in
 			ScrollView {
@@ -61,7 +64,7 @@ struct NewFeaturesView: View {
 								.font(.largeTitle.weight(.light))
 								.foregroundStyle(.tint)
 								.frame(width: width)
-								
+
 								VStack(alignment: .leading) {
 									Text(feature.heading).font(.headline)
 									Text(feature.description).foregroundStyle(.secondary)
@@ -69,10 +72,10 @@ struct NewFeaturesView: View {
 							}
 						}
 					}
-					
+
 					Spacer()
 					Spacer()
-					
+
 					Button {
 						dismiss()
 					} label: {

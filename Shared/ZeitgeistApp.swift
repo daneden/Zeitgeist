@@ -1,5 +1,5 @@
 //
-//  ZeitgesitApp.swift
+//  ZeitgeistApp.swift
 //  Verdant
 //
 //  Created by Daniel Eden on 29/05/2021.
@@ -10,9 +10,9 @@ import SwiftUI
 @main
 struct ZeitgeistApp: App {
 	#if !os(macOS)
-	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+		@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#else
-	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+		@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	#endif
 
 	@State private var accountManager = AccountManager()
@@ -32,12 +32,12 @@ struct ZeitgeistApp: App {
 		}
 
 		#if os(macOS)
-		Settings {
-			SettingsView()
-				.environment(accountManager)
-				.formStyle(.grouped)
-				.frame(maxWidth: 400)
-		}
+			Settings {
+				SettingsView()
+					.environment(accountManager)
+					.formStyle(.grouped)
+					.frame(maxWidth: 400)
+			}
 		#endif
 	}
 }
@@ -46,7 +46,7 @@ extension ZeitgeistApp {
 	static var appVersion: String {
 		Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
 	}
-	
+
 	static var majorAppVersion: String {
 		String(appVersion.first ?? "0")
 	}

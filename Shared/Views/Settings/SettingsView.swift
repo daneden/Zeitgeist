@@ -5,11 +5,11 @@
 //  Created by Daniel Eden on 05/06/2021.
 //
 
+import StoreKit
 import SwiftUI
 import YapKit
-import StoreKit
 
-fileprivate extension FeedbackConfig {
+private extension FeedbackConfig {
 	static var zeitgeist = FeedbackConfig(apiKey: Secrets.yapKitAPIKey)
 }
 
@@ -17,7 +17,7 @@ struct SettingsView: View {
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.requestReview) private var requestReview
 	@Environment(AccountManager.self) private var accountManager
-	
+
 	@AppStorage(Preferences.deploymentNotificationIds) private var deploymentNotificationIds
 	@AppStorage(Preferences.deploymentErrorNotificationIds) private var deploymentErrorNotificationIds
 	@AppStorage(Preferences.deploymentReadyNotificationIds) private var deploymentReadyNotificationIds
@@ -27,9 +27,9 @@ struct SettingsView: View {
 	@AppStorage(Preferences.notificationGrouping) var notificationGrouping
 
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
-	
+
 	@AppStorage(Preferences.projectSummaryDisplayOption) var projectSummaryDisplayOption
-	
+
 	@State private var showFeedbackForm = false
 
 	var body: some View {
@@ -43,7 +43,7 @@ struct SettingsView: View {
 					Text("Project list shows")
 				}
 			}
-			
+
 			Section {
 				Picker(selection: $notificationGrouping) {
 					ForEach(NotificationGrouping.allCases, id: \.self) { grouping in
@@ -67,7 +67,7 @@ struct SettingsView: View {
 					ForEach(timeoutPresets, id: \.self) { preset in
 						Text(Duration.seconds(preset).formatted(.units()))
 					}
-					
+
 					Text("Never").tag(TimeInterval.infinity)
 				} label: {
 					Text("Auto-lock after")
@@ -77,37 +77,37 @@ struct SettingsView: View {
 			} footer: {
 				Text("Authentication is used to protect sensitive information such as environment variables")
 			}
-			
+
 			Section {
 				Button("Leave a review", systemImage: "star.fill") {
 					requestReview()
 				}
-				
+
 				Button("Submit feedback", systemImage: "exclamationmark.bubble") {
 					showFeedbackForm = true
 				}
 				.feedbackSheet(isPresented: $showFeedbackForm, config: .zeitgeist)
 			}
-			
+
 			Section {
 				Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
 					Text("Privacy Policy")
 				}
-				
+
 				Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
 					Text("Terms of Use")
 				}
 			}
-			
+
 			Section("Danger Zone") {
 				Button {
 					resetNotifications()
 				} label: {
 					Label("Reset notification settings", systemImage: "bell.slash")
 				}.disabled(notificationsResettable)
-				
+
 				Button(role: .destructive) {
-					accountManager.accounts.forEach { account in
+					for account in accountManager.accounts {
 						accountManager.deleteAccount(id: account.id)
 					}
 					dismiss()
@@ -118,13 +118,12 @@ struct SettingsView: View {
 		}
 		.navigationTitle(Text("Settings"))
 		#if os(iOS)
-		.toolbar {
-			BackportCloseButton {
-				dismiss()
+			.toolbar {
+				BackportCloseButton {
+					dismiss()
+				}
 			}
-		}
 		#endif
-		
 	}
 }
 
@@ -144,13 +143,13 @@ extension SettingsView {
 	}
 }
 
-fileprivate let timeoutPresets: Array<TimeInterval> = [
+private let timeoutPresets: [TimeInterval] = [
 	60 * 1,
 	60 * 5,
 	60 * 10,
 	60 * 15,
 	60 * 30,
-	60 * 60
+	60 * 60,
 ]
 
 struct SettingsView_Previews: PreviewProvider {

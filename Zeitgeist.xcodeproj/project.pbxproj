@@ -113,6 +113,8 @@
 		71611C032665667100119324 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71611C022665667100119324 /* IntentHandler.swift */; };
 		71623BAE28A1257900551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
 		71623BAF28A1257A00551580 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4498289FD979005105B7 /* Pasteboard.swift */; };
+		7173593D300FA11C0022A6CD /* Rehearsal in Frameworks */ = {isa = PBXBuildFile; productRef = 7173593C300FA11C0022A6CD /* Rehearsal */; };
+		7173593F300FA2120022A6CD /* Rehearsal in Frameworks */ = {isa = PBXBuildFile; productRef = 7173593E300FA2120022A6CD /* Rehearsal */; };
 		7181774C2F2CD6A1007A2E9E /* YapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7181774B2F2CD6A1007A2E9E /* YapKit */; };
 		7181777B2F30174D007A2E9E /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7181777A2F301733007A2E9E /* Secrets.swift */; };
 		7181777C2F30174D007A2E9E /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7181777A2F301733007A2E9E /* Secrets.swift */; };
@@ -292,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7181774C2F2CD6A1007A2E9E /* YapKit in Frameworks */,
+				7173593D300FA11C0022A6CD /* Rehearsal in Frameworks */,
 				713B1DF32E5E3C65009AC3C4 /* Suite in Frameworks */,
 				7109AD382B18A4D200724454 /* StoreKit.framework in Frameworks */,
 				71AE8B9C2E5E1AC7001166B7 /* Suite in Frameworks */,
@@ -304,6 +307,7 @@
 			files = (
 				711553DB266552AE00A73CD6 /* SwiftUI.framework in Frameworks */,
 				711553D9266552AD00A73CD6 /* WidgetKit.framework in Frameworks */,
+				7173593F300FA2120022A6CD /* Rehearsal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +691,7 @@
 			packageReferences = (
 				713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */,
 				7181774A2F2CD6A1007A2E9E /* XCRemoteSwiftPackageReference "YapKit" */,
+				7173593B300FA11C0022A6CD /* XCRemoteSwiftPackageReference "Rehearsal" */,
 			);
 			productRefGroup = 71155344266279CF00A73CD6 /* Products */;
 			projectDirPath = "";
@@ -1274,6 +1279,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		7173593B300FA11C0022A6CD /* XCRemoteSwiftPackageReference "Rehearsal" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daneden/Rehearsal";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
 		7181774A2F2CD6A1007A2E9E /* XCRemoteSwiftPackageReference "YapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/yapback/YapKit";
@@ -1297,6 +1310,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 713B1DF12E5E3C65009AC3C4 /* XCRemoteSwiftPackageReference "Suite" */;
 			productName = Suite;
+		};
+		7173593C300FA11C0022A6CD /* Rehearsal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7173593B300FA11C0022A6CD /* XCRemoteSwiftPackageReference "Rehearsal" */;
+			productName = Rehearsal;
+		};
+		7173593E300FA2120022A6CD /* Rehearsal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7173593B300FA11C0022A6CD /* XCRemoteSwiftPackageReference "Rehearsal" */;
+			productName = Rehearsal;
 		};
 		7181774B2F2CD6A1007A2E9E /* YapKit */ = {
 			isa = XCSwiftPackageProductDependency;

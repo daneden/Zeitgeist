@@ -9,7 +9,7 @@ import Foundation
 
 enum GitSVNProvider: String, Codable {
 	case bitbucket, github, gitlab
-	
+
 	var name: String {
 		switch self {
 		case .bitbucket:
@@ -117,15 +117,41 @@ struct BitBucketRepo: GitRepo, Codable {
 struct VercelRepositoryLink: Decodable, GitRepo, Equatable {
 	private var wrapped: any GitRepo
 
-	var name: String { wrapped.name }
-	var type: GitSVNProvider { wrapped.type }
-	var sourceless: Bool? { wrapped.sourceless }
-	var updatedAt: Int { wrapped.updatedAt }
-	var createdAt: Int { wrapped.createdAt }
-	var productionBranch: String { wrapped.productionBranch }
-	var gitCredentialId: String { wrapped.gitCredentialId }
-	var deployHooks: [GitDeployHook] { wrapped.deployHooks }
-	var org: String { wrapped.org }
+	var name: String {
+		wrapped.name
+	}
+
+	var type: GitSVNProvider {
+		wrapped.type
+	}
+
+	var sourceless: Bool? {
+		wrapped.sourceless
+	}
+
+	var updatedAt: Int {
+		wrapped.updatedAt
+	}
+
+	var createdAt: Int {
+		wrapped.createdAt
+	}
+
+	var productionBranch: String {
+		wrapped.productionBranch
+	}
+
+	var gitCredentialId: String {
+		wrapped.gitCredentialId
+	}
+
+	var deployHooks: [GitDeployHook] {
+		wrapped.deployHooks
+	}
+
+	var org: String {
+		wrapped.org
+	}
 
 	init(from decoder: Decoder) throws {
 		if let githubDecoded = try? GitHubRepo(from: decoder) {

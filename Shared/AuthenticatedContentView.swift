@@ -5,8 +5,8 @@
 //  Created by Daniel Eden on 11/07/2022.
 //
 
-import SwiftUI
 import Suite
+import SwiftUI
 
 struct AuthenticatedContentView: View {
 	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
@@ -19,26 +19,31 @@ struct AuthenticatedContentView: View {
 	@State private var isHandlingDeepLink = false
 	@State private var focusedNavigationState = FocusedNavigationState()
 
-	// Scene storage for navigation state persistence across app launches
+	/// Scene storage for navigation state persistence across app launches
 	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
 
-	// Convenience accessors for cleaner code
-	private var session: VercelSession? { accountManager.currentSession }
-	private var selectedAccount: VercelAccount? { accountManager.selectedAccount }
-	
+	/// Convenience accessors for cleaner code
+	private var session: VercelSession? {
+		accountManager.currentSession
+	}
+
+	private var selectedAccount: VercelAccount? {
+		accountManager.selectedAccount
+	}
+
 	var minColumnWidth: Double {
 		#if os(macOS)
-		200
+			200
 		#else
-		300
+			300
 		#endif
 	}
-	
+
 	var idealColumnWidth: Double {
 		#if os(macOS)
-		240
+			240
 		#else
-		320
+			320
 		#endif
 	}
 
@@ -73,7 +78,7 @@ struct AuthenticatedContentView: View {
 						selectedProject: $selectedProject,
 						selectedDeployment: $selectedDeployment
 					)
-						.id(selectedProject)
+					.id(selectedProject)
 				} else {
 					PlaceholderView(forRole: .ProjectDetail)
 				}
@@ -88,7 +93,7 @@ struct AuthenticatedContentView: View {
 						deployment: selectedDeployment,
 						selectedDeployment: $selectedDeployment
 					)
-						.id(selectedDeployment)
+					.id(selectedDeployment)
 				} else {
 					PlaceholderView(forRole: .DeploymentDetail)
 				}
@@ -134,7 +139,7 @@ struct AuthenticatedContentView: View {
 		}
 
 		switch deepLink {
-		case .deployment(let accountId, let deploymentId, let projectId):
+		case let .deployment(accountId, deploymentId, projectId):
 			await navigateToDeployment(accountId: accountId, deploymentId: deploymentId, projectId: projectId)
 		}
 	}
@@ -157,34 +162,34 @@ struct AuthenticatedContentView: View {
 		}
 
 		do {
-				var deploymentRequest = VercelAPI.request(
-					for: .deployments(version: 13, deploymentID: deploymentId),
+			var deploymentRequest = VercelAPI.request(
+				for: .deployments(version: 13, deploymentID: deploymentId),
+				with: accountId
+			)
+			try session.signRequest(&deploymentRequest)
+			let signedDeploymentRequest = deploymentRequest
+
+			// If we have projectId, fetch both in parallel
+			if let projectId {
+				var projectRequest = VercelAPI.request(
+					for: .projects(version: 9, projectId),
 					with: accountId
 				)
-				try session.signRequest(&deploymentRequest)
-				let signedDeploymentRequest = deploymentRequest
+				try session.signRequest(&projectRequest)
+				let signedProjectRequest = projectRequest
 
-				// If we have projectId, fetch both in parallel
-				if let projectId {
-					var projectRequest = VercelAPI.request(
-						for: .projects(version: 9, projectId),
-						with: accountId
-					)
-					try session.signRequest(&projectRequest)
-					let signedProjectRequest = projectRequest
+				// Try cache first for instant navigation
+				if let (cachedDeployment, cachedProject) = getCachedData(
+					deploymentRequest: signedDeploymentRequest,
+					projectRequest: signedProjectRequest
+				) {
+					selectedProject = cachedProject
+					selectedDeployment = cachedDeployment
+				}
 
-					// Try cache first for instant navigation
-					if let (cachedDeployment, cachedProject) = getCachedData(
-						deploymentRequest: signedDeploymentRequest,
-						projectRequest: signedProjectRequest
-					) {
-						selectedProject = cachedProject
-						selectedDeployment = cachedDeployment
-					}
-
-					// Fetch both in parallel
-					async let deploymentTask = URLSession.shared.data(for: signedDeploymentRequest)
-					async let projectTask = URLSession.shared.data(for: signedProjectRequest)
+				// Fetch both in parallel
+				async let deploymentTask = URLSession.shared.data(for: signedDeploymentRequest)
+				async let projectTask = URLSession.shared.data(for: signedProjectRequest)
 
 				let (deploymentResult, projectResult) = try await (deploymentTask, projectTask)
 
@@ -243,7 +248,8 @@ struct AuthenticatedContentView: View {
 		projectRequest: URLRequest
 	) -> (VercelDeployment, VercelProject)? {
 		guard let cachedDeployment = getCachedDeployment(request: deploymentRequest),
-			  let cachedProject = getCachedProject(request: projectRequest) else {
+		      let cachedProject = getCachedProject(request: projectRequest)
+		else {
 			return nil
 		}
 		return (cachedDeployment, cachedProject)
