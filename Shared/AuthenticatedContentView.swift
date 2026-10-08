@@ -19,6 +19,9 @@ struct AuthenticatedContentView: View {
 	@State private var isHandlingDeepLink = false
 	@State private var focusedNavigationState = FocusedNavigationState()
 	@State private var columnVisibility = NavigationSplitViewVisibility.automatic
+	/// Whether the split view tried to hide the projects list while nothing was selected, meaning
+	/// it can't show all three columns at this width.
+	@State private var keptProjectsListOpen = false
 	#if os(iOS)
 		@Environment(\.horizontalSizeClass) private var horizontalSizeClass
 	#endif
@@ -115,14 +118,22 @@ struct AuthenticatedContentView: View {
 		}
 		.navigationSplitViewStyle(.balanced)
 		// With no project chosen, the content and detail columns hold only placeholders, so lead
-		// with the projects list; once one is chosen, the system decides which columns fit.
+		// with the projects list. Once one is chosen, show its deployments beside the detail where
+		// the split view can't fit all three columns (left to itself, it shows only the detail);
+		// otherwise the system decides.
 		.onChange(of: selectedProject == nil, initial: true) { _, hasNoProject in
-			columnVisibility = hasNoProject ? .all : .automatic
+			if hasNoProject {
+				columnVisibility = .all
+			} else {
+				columnVisibility = keptProjectsListOpen ? .doubleColumn : .automatic
+				keptProjectsListOpen = false
+			}
 		}
 		// The split view resets its visibility while it lays out, at launch and when it resizes,
 		// which hides the projects list again; keep it in view while nothing is selected.
 		.onChange(of: columnVisibility) { _, newVisibility in
 			if selectedProject == nil, newVisibility != .all, isRegularWidth {
+				keptProjectsListOpen = true
 				columnVisibility = .all
 			}
 		}
