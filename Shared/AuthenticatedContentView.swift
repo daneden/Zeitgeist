@@ -18,6 +18,10 @@ struct AuthenticatedContentView: View {
 	@State private var selectedDeployment: VercelDeployment?
 	@State private var isHandlingDeepLink = false
 	@State private var focusedNavigationState = FocusedNavigationState()
+	@State private var columnVisibility = NavigationSplitViewVisibility.automatic
+	#if os(iOS)
+		@Environment(\.horizontalSizeClass) private var horizontalSizeClass
+	#endif
 
 	/// Scene storage for navigation state persistence across app launches
 	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
@@ -29,6 +33,15 @@ struct AuthenticatedContentView: View {
 
 	private var selectedAccount: VercelAccount? {
 		accountManager.selectedAccount
+	}
+
+	/// Column visibility only applies when the split view isn't collapsed into a stack.
+	private var isRegularWidth: Bool {
+		#if os(iOS)
+			horizontalSizeClass == .regular
+		#else
+			true
+		#endif
 	}
 
 	var minColumnWidth: Double {
@@ -48,7 +61,7 @@ struct AuthenticatedContentView: View {
 	}
 
 	var body: some View {
-		NavigationSplitView {
+		NavigationSplitView(columnVisibility: $columnVisibility) {
 			Group {
 				if session != nil {
 					ProjectsListView(selectedProject: $selectedProject, selectedDeployment: $selectedDeployment)
@@ -101,6 +114,18 @@ struct AuthenticatedContentView: View {
 			.id(selectedProject?.id)
 		}
 		.navigationSplitViewStyle(.balanced)
+		// With no project chosen, the content and detail columns hold only placeholders, so lead
+		// with the projects list; once one is chosen, the system decides which columns fit.
+		.onChange(of: selectedProject == nil, initial: true) { _, hasNoProject in
+			columnVisibility = hasNoProject ? .all : .automatic
+		}
+		// The split view resets its visibility while it lays out, at launch and when it resizes,
+		// which hides the projects list again; keep it in view while nothing is selected.
+		.onChange(of: columnVisibility) { _, newVisibility in
+			if selectedProject == nil, newVisibility != .all, isRegularWidth {
+				columnVisibility = .all
+			}
+		}
 		.onChange(of: selectedProject) { _, newProject in
 			let normalizedDeployment = normalizedDeployment(for: newProject, deployment: selectedDeployment)
 			if selectedDeployment?.id != normalizedDeployment?.id {
