@@ -54,7 +54,7 @@ struct PlaceholderView: View {
 					.font(.headline)
 				Text("The selected account has not been authorised on this device. You can try signing out and signing in again.")
 				#if !EXTENSION
-				SignOutButton()
+					SignOutButton()
 				#endif
 			}
 		}

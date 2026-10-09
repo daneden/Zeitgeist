@@ -19,7 +19,7 @@ class NotificationManager {
 
 	@AppStorage(Preferences.deploymentNotificationIds)
 	static var deploymentNotificationIds
-	
+
 	@AppStorage(Preferences.deploymentErrorNotificationIds)
 	static var deploymentErrorNotificationIds
 

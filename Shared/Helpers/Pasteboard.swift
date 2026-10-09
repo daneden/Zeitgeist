@@ -13,7 +13,7 @@ import Foundation
 	import UIKit
 #endif
 
-struct Pasteboard {
+enum Pasteboard {
 	static func setString(_ value: String?) {
 		#if os(macOS)
 			guard let value = value else {

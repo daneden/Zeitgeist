@@ -14,12 +14,17 @@ struct SignOutButton: View {
 	var body: some View {
 		Button {
 			#if !EXTENSION
-			if let session {
-				accountManager.deleteAccount(id: session.account.id)
-			}
+				if let session {
+					accountManager.deleteAccount(id: session.account.id)
+				}
 			#endif
 		} label: {
 			Label("Sign out", systemImage: "person.badge.minus")
 		}
 	}
+}
+
+#Preview {
+	SignOutButton()
+		.environment(AccountManager())
 }

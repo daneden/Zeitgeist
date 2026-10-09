@@ -34,8 +34,8 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 	func getSnapshot(
 		for configuration: SelectAccountIntent,
 		in context: Context,
-		completion: @escaping (LatestDeploymentEntry) -> Void)
-	{
+		completion: @escaping (LatestDeploymentEntry) -> Void
+	) {
 		// For previews, return placeholder immediately
 		if context.isPreview {
 			completion(placeholder(in: context))
@@ -44,7 +44,7 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 
 		Task {
 			guard let intentAccount = configuration.account,
-						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
+			      let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
 			else {
 				Self.logger.debug("No account configured for snapshot")
 				completion(placeholder(in: context))
@@ -78,11 +78,11 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 	func getTimeline(
 		for configuration: SelectAccountIntent,
 		in context: Context,
-		completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void)
-	{
+		completion: @escaping (Timeline<LatestDeploymentEntry>) -> Void
+	) {
 		Task {
 			guard let intentAccount = configuration.account,
-						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
+			      let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
 			else {
 				Self.logger.debug("No account configured for timeline")
 				completion(
@@ -132,8 +132,9 @@ struct LatestDeploymentProvider: IntentTimelineProvider {
 }
 
 // MARK: - LatestDeploymentWidget
+
 struct LatestDeploymentWidget: Widget {
-	public var body: some WidgetConfiguration {
+	var body: some WidgetConfiguration {
 		IntentConfiguration(
 			kind: "LatestDeploymentWidget",
 			intent: SelectAccountIntent.self,
@@ -157,7 +158,7 @@ struct LatestDeploymentWidget: Widget {
 
 @available(iOS 26, macOS 26, *)
 struct LatestDeploymentWidgetWithPushHandler: Widget {
-	public var body: some WidgetConfiguration {
+	var body: some WidgetConfiguration {
 		LatestDeploymentWidget()
 			.body
 			.pushHandler(ZeitgeistWidgetPushHandler.self)

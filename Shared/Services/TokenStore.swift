@@ -64,34 +64,34 @@ struct KeychainTokenStore: TokenStore {
 // MARK: - MockTokenStore (for testing)
 
 #if DEBUG
-/// In-memory token store for unit testing.
-final class MockTokenStore: TokenStore, @unchecked Sendable {
-	private var tokens: [String: String] = [:]
-	private let lock = NSLock()
+	/// In-memory token store for unit testing.
+	final class MockTokenStore: TokenStore, @unchecked Sendable {
+		private var tokens: [String: String] = [:]
+		private let lock = NSLock()
 
-	func getToken(for accountId: String) -> String? {
-		lock.lock()
-		defer { lock.unlock() }
-		return tokens[accountId]
-	}
+		func getToken(for accountId: String) -> String? {
+			lock.lock()
+			defer { lock.unlock() }
+			return tokens[accountId]
+		}
 
-	func setToken(_ token: String, for accountId: String) {
-		lock.lock()
-		defer { lock.unlock() }
-		tokens[accountId] = token
-	}
+		func setToken(_ token: String, for accountId: String) {
+			lock.lock()
+			defer { lock.unlock() }
+			tokens[accountId] = token
+		}
 
-	func removeToken(for accountId: String) {
-		lock.lock()
-		defer { lock.unlock() }
-		tokens.removeValue(forKey: accountId)
-	}
+		func removeToken(for accountId: String) {
+			lock.lock()
+			defer { lock.unlock() }
+			tokens.removeValue(forKey: accountId)
+		}
 
-	/// Clears all stored tokens (useful for test setup/teardown)
-	func clearAll() {
-		lock.lock()
-		defer { lock.unlock() }
-		tokens.removeAll()
+		/// Clears all stored tokens (useful for test setup/teardown)
+		func clearAll() {
+			lock.lock()
+			defer { lock.unlock() }
+			tokens.removeAll()
+		}
 	}
-}
 #endif

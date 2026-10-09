@@ -4,23 +4,24 @@
 //
 //  Created by Daniel Eden on 13/01/2026.
 //
+import Rehearsal
 import SwiftUI
 
 struct DeploymentStateProgressAnimation: View {
 	var state: VercelDeployment.State
-	@State var phase: CGFloat = 0
-	@State var isHidden = true
-	
+	@State private var phase: CGFloat = 0
+	@State private var isHidden = true
+
 	var glowAlignment: UnitPoint {
 		switch state {
 		case .building, .queued:
 			// Move along the top edge from left (x ~ 0.05) to right (x ~ 0.95)
 			UnitPoint(x: 0.05 + 0.90 * phase, y: 0)
 		default:
-				.top
+			.top
 		}
 	}
-	
+
 	var animationDuration: TimeInterval {
 		switch state {
 		case .building: 1
@@ -39,7 +40,7 @@ struct DeploymentStateProgressAnimation: View {
 			.default
 		}
 	}
-	
+
 	var fraction: CGFloat {
 		switch state {
 		case .building, .queued: 0.5
@@ -95,20 +96,16 @@ struct DeploymentStateProgressAnimation: View {
 }
 
 #Preview {
-	@Previewable @State var previewState = VercelDeployment.State.building
-	
-	VStack {
-		Text(previewState.description)
-			.frame(maxWidth: .infinity, alignment: .leading)
-	}
-	.padding()
-	.overlay {
-		DeploymentStateProgressAnimation(state: previewState)
-	}
-	
-	ForEach(VercelDeployment.State.allCases, id: \.self) { state in
-		Button(state.description) {
-			previewState = state
+	Rehearse(DeploymentStateProgressAnimation.self) { param in
+		let state = param("state", default: VercelDeployment.State.building, animation: .default)
+
+		VStack {
+			Text(state.description)
+				.frame(maxWidth: .infinity, alignment: .leading)
+		}
+		.padding()
+		.overlay {
+			DeploymentStateProgressAnimation(state: state)
 		}
 	}
 }

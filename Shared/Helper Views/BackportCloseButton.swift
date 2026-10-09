@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BackportCloseButton: View {
 	let action: () -> Void
-	
+
 	var body: some View {
 		if #available(iOS 26, macOS 26, visionOS 26, watchOS 26, *) {
 			Button(role: .close) {
@@ -24,7 +24,5 @@ struct BackportCloseButton: View {
 }
 
 #Preview {
-	BackportCloseButton {
-		
-	}
+	BackportCloseButton {}
 }

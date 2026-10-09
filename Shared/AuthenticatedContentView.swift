@@ -5,8 +5,8 @@
 //  Created by Daniel Eden on 11/07/2022.
 //
 
-import SwiftUI
 import Suite
+import SwiftUI
 
 struct AuthenticatedContentView: View {
 	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
@@ -18,32 +18,53 @@ struct AuthenticatedContentView: View {
 	@State private var selectedDeployment: VercelDeployment?
 	@State private var isHandlingDeepLink = false
 	@State private var focusedNavigationState = FocusedNavigationState()
+	@State private var columnVisibility = NavigationSplitViewVisibility.automatic
+	/// Whether the split view tried to hide the projects list while nothing was selected, meaning
+	/// it can't show all three columns at this width.
+	@State private var keptProjectsListOpen = false
+	#if os(iOS)
+		@Environment(\.horizontalSizeClass) private var horizontalSizeClass
+	#endif
 
-	// Scene storage for navigation state persistence across app launches
+	/// Scene storage for navigation state persistence across app launches
 	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
 
-	// Convenience accessors for cleaner code
-	private var session: VercelSession? { accountManager.currentSession }
-	private var selectedAccount: VercelAccount? { accountManager.selectedAccount }
-	
-	var minColumnWidth: Double {
-		#if os(macOS)
-		200
+	/// Convenience accessors for cleaner code
+	private var session: VercelSession? {
+		accountManager.currentSession
+	}
+
+	private var selectedAccount: VercelAccount? {
+		accountManager.selectedAccount
+	}
+
+	/// Column visibility only applies when the split view isn't collapsed into a stack.
+	private var isRegularWidth: Bool {
+		#if os(iOS)
+			horizontalSizeClass == .regular
 		#else
-		300
+			true
 		#endif
 	}
-	
+
+	var minColumnWidth: Double {
+		#if os(macOS)
+			200
+		#else
+			300
+		#endif
+	}
+
 	var idealColumnWidth: Double {
 		#if os(macOS)
-		240
+			240
 		#else
-		320
+			320
 		#endif
 	}
 
 	var body: some View {
-		NavigationSplitView {
+		NavigationSplitView(columnVisibility: $columnVisibility) {
 			Group {
 				if session != nil {
 					ProjectsListView(selectedProject: $selectedProject, selectedDeployment: $selectedDeployment)
@@ -73,7 +94,7 @@ struct AuthenticatedContentView: View {
 						selectedProject: $selectedProject,
 						selectedDeployment: $selectedDeployment
 					)
-						.id(selectedProject)
+					.id(selectedProject)
 				} else {
 					PlaceholderView(forRole: .ProjectDetail)
 				}
@@ -88,7 +109,7 @@ struct AuthenticatedContentView: View {
 						deployment: selectedDeployment,
 						selectedDeployment: $selectedDeployment
 					)
-						.id(selectedDeployment)
+					.id(selectedDeployment)
 				} else {
 					PlaceholderView(forRole: .DeploymentDetail)
 				}
@@ -96,6 +117,26 @@ struct AuthenticatedContentView: View {
 			.id(selectedProject?.id)
 		}
 		.navigationSplitViewStyle(.balanced)
+		// With no project chosen, the content and detail columns hold only placeholders, so lead
+		// with the projects list. Once one is chosen, show its deployments beside the detail where
+		// the split view can't fit all three columns (left to itself, it shows only the detail);
+		// otherwise the system decides.
+		.onChange(of: selectedProject == nil, initial: true) { _, hasNoProject in
+			if hasNoProject {
+				columnVisibility = .all
+			} else {
+				columnVisibility = keptProjectsListOpen ? .doubleColumn : .automatic
+				keptProjectsListOpen = false
+			}
+		}
+		// The split view resets its visibility while it lays out, at launch and when it resizes,
+		// which hides the projects list again; keep it in view while nothing is selected.
+		.onChange(of: columnVisibility) { _, newVisibility in
+			if selectedProject == nil, newVisibility != .all, isRegularWidth {
+				keptProjectsListOpen = true
+				columnVisibility = .all
+			}
+		}
 		.onChange(of: selectedProject) { _, newProject in
 			let normalizedDeployment = normalizedDeployment(for: newProject, deployment: selectedDeployment)
 			if selectedDeployment?.id != normalizedDeployment?.id {
@@ -134,7 +175,7 @@ struct AuthenticatedContentView: View {
 		}
 
 		switch deepLink {
-		case .deployment(let accountId, let deploymentId, let projectId):
+		case let .deployment(accountId, deploymentId, projectId):
 			await navigateToDeployment(accountId: accountId, deploymentId: deploymentId, projectId: projectId)
 		}
 	}
@@ -157,34 +198,34 @@ struct AuthenticatedContentView: View {
 		}
 
 		do {
-				var deploymentRequest = VercelAPI.request(
-					for: .deployments(version: 13, deploymentID: deploymentId),
+			var deploymentRequest = VercelAPI.request(
+				for: .deployments(version: 13, deploymentID: deploymentId),
+				with: accountId
+			)
+			try session.signRequest(&deploymentRequest)
+			let signedDeploymentRequest = deploymentRequest
+
+			// If we have projectId, fetch both in parallel
+			if let projectId {
+				var projectRequest = VercelAPI.request(
+					for: .projects(version: 9, projectId),
 					with: accountId
 				)
-				try session.signRequest(&deploymentRequest)
-				let signedDeploymentRequest = deploymentRequest
+				try session.signRequest(&projectRequest)
+				let signedProjectRequest = projectRequest
 
-				// If we have projectId, fetch both in parallel
-				if let projectId {
-					var projectRequest = VercelAPI.request(
-						for: .projects(version: 9, projectId),
-						with: accountId
-					)
-					try session.signRequest(&projectRequest)
-					let signedProjectRequest = projectRequest
+				// Try cache first for instant navigation
+				if let (cachedDeployment, cachedProject) = getCachedData(
+					deploymentRequest: signedDeploymentRequest,
+					projectRequest: signedProjectRequest
+				) {
+					selectedProject = cachedProject
+					selectedDeployment = cachedDeployment
+				}
 
-					// Try cache first for instant navigation
-					if let (cachedDeployment, cachedProject) = getCachedData(
-						deploymentRequest: signedDeploymentRequest,
-						projectRequest: signedProjectRequest
-					) {
-						selectedProject = cachedProject
-						selectedDeployment = cachedDeployment
-					}
-
-					// Fetch both in parallel
-					async let deploymentTask = URLSession.shared.data(for: signedDeploymentRequest)
-					async let projectTask = URLSession.shared.data(for: signedProjectRequest)
+				// Fetch both in parallel
+				async let deploymentTask = URLSession.shared.data(for: signedDeploymentRequest)
+				async let projectTask = URLSession.shared.data(for: signedProjectRequest)
 
 				let (deploymentResult, projectResult) = try await (deploymentTask, projectTask)
 
@@ -243,7 +284,8 @@ struct AuthenticatedContentView: View {
 		projectRequest: URLRequest
 	) -> (VercelDeployment, VercelProject)? {
 		guard let cachedDeployment = getCachedDeployment(request: deploymentRequest),
-			  let cachedProject = getCachedProject(request: projectRequest) else {
+		      let cachedProject = getCachedProject(request: projectRequest)
+		else {
 			return nil
 		}
 		return (cachedDeployment, cachedProject)

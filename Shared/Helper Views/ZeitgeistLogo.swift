@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-fileprivate let zeitgeistLogoColors = [
+private let zeitgeistLogoColors = [
 	Color(red: 0.34, green: 0, blue: 0.78),
 	Color(red: 0.11, green: 0.37, blue: 0.92),
 	Color(red: 0, green: 0.56, blue: 0.97),
@@ -26,12 +26,11 @@ fileprivate let zeitgeistLogoColors = [
 struct ZeitgeistLogo: View {
 	@ScaledMetric var size = 128
 	@State private var appear = false
-	
-	@ViewBuilder
+
 	var clipShape: RoundedRectangle {
 		RoundedRectangle(cornerRadius: size * 0.25, style: .continuous)
 	}
-	
+
 	var body: some View {
 		ZStack {
 			AngularGradient(
@@ -46,13 +45,13 @@ struct ZeitgeistLogo: View {
 					appear.toggle()
 				}
 			}
-			
+
 			Image(systemName: "triangle.fill")
 				.resizable()
 				.scaledToFit()
 				.padding()
 				.padding()
-				.foregroundColor(.white)
+				.foregroundStyle(.white)
 				.shadow(color: .black.opacity(0.3), radius: size * 0.2, x: 0, y: size * 0.1)
 		}
 		.clipShape(clipShape)

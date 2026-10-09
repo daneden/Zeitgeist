@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AvatarMaskViewModifier: ViewModifier {
 	@Environment(\.colorScheme) private var colorScheme
-	
+
 	var blendMode: BlendMode {
 		switch colorScheme {
 		case .dark: return .plusLighter
@@ -17,7 +17,7 @@ struct AvatarMaskViewModifier: ViewModifier {
 		@unknown default: return .normal
 		}
 	}
-	
+
 	func body(content: Content) -> some View {
 		content
 			.clipShape(.circle)

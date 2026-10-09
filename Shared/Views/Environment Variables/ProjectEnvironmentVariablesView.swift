@@ -5,19 +5,19 @@
 //  Created by Daniel Eden on 12/09/2022.
 //
 
-import SwiftUI
 import LocalAuthentication
 import Suite
+import SwiftUI
 
 enum EnvironmentVariableEditingState: Identifiable, Hashable {
 	case createNew
 	case edit(_ envVar: VercelEnv)
-	
+
 	var id: String {
 		switch self {
 		case .createNew:
-			return UUID().uuidString
-		case .edit(let envVar):
+			return "createNew"
+		case let .edit(envVar):
 			return envVar.id
 		}
 	}
@@ -29,35 +29,47 @@ struct ProjectEnvironmentVariablesView: View {
 	@Environment(\.horizontalSizeClass) private var horizontalSizeClass
 	@AppStorage(Preferences.lastAuthenticated) var lastAuthenticated
 	@AppStorage(Preferences.authenticationTimeout) var authenticationTimeout
-	
-	@State var envVars: [VercelEnv] = []
+
+	@State private var envVars: [VercelEnv]
 	var projectId: VercelProject.ID
-	
+
+	init(envVars: [VercelEnv] = [], projectId: VercelProject.ID) {
+		_envVars = State(initialValue: envVars)
+		self.projectId = projectId
+	}
+
 	@State private var editSheetPresented = false
 	@State private var isLoading = false
 	@State private var sortOrder = [KeyPathComparator(\VercelEnv.key)]
 	@State private var editingState: EnvironmentVariableEditingState?
 	@State private var pendingDeletion: VercelEnv?
-	
+	@State private var deletionConfirmationVisible = false
+
+	/// Cached so the sort runs only when `envVars` or `sortOrder` change,
+	/// not on every body evaluation.
+	@State private var sortedEnvVars: [VercelEnv] = []
+
+	private func recomputeSortedEnvVars() {
+		sortedEnvVars = envVars.sorted(using: sortOrder)
+	}
+
 	var isAuthenticated: Bool {
 		abs(lastAuthenticated.distance(to: .now)) < authenticationTimeout
 	}
-	
+
 	var body: some View {
 		NavigationStack {
 			Group {
 				if !isAuthenticated {
 					ContentUnavailableView {
 						Label("Authentication required", systemImage: "lock")
-					} description: {
-						
-					} actions: {
+					} description: {} actions: {
 						Button("Unlock") {
 							authenticate()
 						}
 					}
 				} else if envVars.isEmpty {
-						ContentUnavailableView("No environment variables", systemImage: "text.magnifyingglass")
+					ContentUnavailableView("No environment variables", systemImage: "text.magnifyingglass")
 				} else {
 					Table(of: VercelEnv.self, sortOrder: $sortOrder) {
 						TableColumn("Key", value: \.key) {
@@ -74,26 +86,26 @@ struct ProjectEnvironmentVariablesView: View {
 							ideal: horizontalSizeClass == .compact ? nil : 120,
 							max: horizontalSizeClass == .compact ? nil : 240
 						)
-						
+
 						TableColumn("Value") { envVar in
 							EnvironmentVariableDecryptingView(projectId: projectId, envVar: envVar)
 								.lineLimit(100)
 						}
 						.width(min: 120, ideal: 240, max: 500)
-						
+
 						TableColumn("Last updated", value: \.updated) { envVar in
 							Text(envVar.updated.formatted())
 								.lineLimit(2)
 						}
 						.width(min: 80, ideal: 120, max: 240)
-						
+
 						TableColumn("Targets") { envVar in
 							Text(envVar.target.map { $0.capitalized }.formatted(.list(type: .and)))
 								.lineLimit(3)
 						}
 						.width(min: 80, ideal: 120, max: 240)
 					} rows: {
-						ForEach(envVars.sorted(using: sortOrder)) { envVar in
+						ForEach(sortedEnvVars) { envVar in
 							TableRow(envVar)
 								.contextMenu {
 									Button("Edit", systemImage: "pencil") {
@@ -102,16 +114,18 @@ struct ProjectEnvironmentVariablesView: View {
 										} else {
 											Task {
 												guard let session,
-															let decrypted = try? await EnvironmentVariableService.fetchDecrypted(projectId: projectId, envVarId: envVar.id, session: session) else {
+												      let decrypted = try? await EnvironmentVariableService.fetchDecrypted(projectId: projectId, envVarId: envVar.id, session: session)
+												else {
 													return
 												}
 												editingState = .edit(decrypted)
 											}
 										}
 									}
-									
+
 									Button("Delete", systemImage: "trash", role: .destructive) {
 										pendingDeletion = envVar
+										deletionConfirmationVisible = true
 									}
 								}
 						}
@@ -125,7 +139,7 @@ struct ProjectEnvironmentVariablesView: View {
 						}
 					}) { editingState in
 						switch editingState {
-						case .edit(let envVar):
+						case let .edit(envVar):
 							EnvironmentVariableEditView(
 								projectId: projectId,
 								id: envVar.id,
@@ -141,21 +155,21 @@ struct ProjectEnvironmentVariablesView: View {
 					}
 					.confirmationDialog(
 						"Delete environment variable",
-						isPresented: .constant(pendingDeletion != nil)
-					) {
+						isPresented: $deletionConfirmationVisible,
+						presenting: pendingDeletion
+					) { envVar in
 						Button(role: .cancel) {
 							pendingDeletion = nil
 						} label: {
 							Text("Cancel")
 						}
-						
+
 						Button(role: .destructive) {
-							defer { pendingDeletion = nil }
-							guard let pendingDeletion else { return }
-							
+							pendingDeletion = nil
+
 							Task {
 								do {
-									try await delete(pendingDeletion)
+									try await delete(envVar)
 									DataTaskModifier.postNotification(nil, scope: .project)
 								} catch {
 									print(error.localizedDescription)
@@ -164,7 +178,7 @@ struct ProjectEnvironmentVariablesView: View {
 						} label: {
 							Text("Delete")
 						}
-					} message: {
+					} message: { _ in
 						Text("Are you sure you want to permanently delete this environment variable?")
 					}
 				}
@@ -176,12 +190,12 @@ struct ProjectEnvironmentVariablesView: View {
 					} label: {
 						Label("Create new...", systemImage: "plus")
 							.backportCircleSymbolVariant()
-							#if os(macOS)
+						#if os(macOS)
 							.labelStyle(.titleOnly)
-							#endif
+						#endif
 					}
 				}
-				
+
 				ToolbarItem(placement: .cancellationAction) {
 					BackportCloseButton {
 						dismiss()
@@ -189,6 +203,8 @@ struct ProjectEnvironmentVariablesView: View {
 				}
 			}
 			.navigationTitle(Text("Environment variables"))
+			.onChange(of: envVars, initial: true) { recomputeSortedEnvVars() }
+			.onChange(of: sortOrder) { recomputeSortedEnvVars() }
 			.onAppear {
 				if !isAuthenticated {
 					authenticate()
@@ -208,13 +224,13 @@ struct ProjectEnvironmentVariablesView: View {
 			.animation(.default, value: isAuthenticated)
 		}
 	}
-	
+
 	func delete(_ envVar: VercelEnv) async throws {
 		guard let session else { return }
-		
+
 		try await EnvironmentVariableService.delete(projectId: projectId, envVarId: envVar.id, session: session)
 	}
-	
+
 	func loadEnvironmentVariables() async {
 		guard let session else { return }
 		isLoading = true
@@ -233,19 +249,19 @@ struct ProjectEnvironmentVariablesView: View {
 			print(error)
 		}
 	}
-	
+
 	func authenticate() {
 		let context = LAContext()
 		var error: NSError?
-		
+
 		if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
 			let reason = "Authentication is required to view decrypted environment variables"
-			
+
 			context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authError in
 				if success {
 					lastAuthenticated = .now
 				}
-				
+
 				if let authError = authError {
 					print(authError)
 				}

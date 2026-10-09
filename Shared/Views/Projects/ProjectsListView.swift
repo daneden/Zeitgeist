@@ -5,8 +5,8 @@
 //  Created by Daniel Eden on 08/07/2022.
 //
 
-import SwiftUI
 import Suite
+import SwiftUI
 
 struct LoadingListCell: View {
 	var title: LocalizedStringKey = "Loading"
@@ -27,40 +27,44 @@ struct ProjectsListView: View {
 	@State private var pagination: Pagination?
 	@State private var searchText = ""
 	@State private var projectsError: SessionError?
-	
+
 	@State private var showAccountManagementView = false
 
 	@Binding var selectedProject: VercelProject?
 	@Binding var selectedDeployment: VercelDeployment?
 
-	// Read stored project ID for restoration
+	/// Read stored project ID for restoration
 	@SceneStorage("selectedProjectId") private var selectedProjectId: String?
-	
-	var filteredProjects: [VercelProject] {
+
+	/// Cached so the filter runs only when `projects` or `searchText` change,
+	/// not on every body evaluation.
+	@State private var filteredProjects: [VercelProject] = []
+
+	private func recomputeFilteredProjects() {
 		if searchText.isEmpty {
-			return projects
+			filteredProjects = projects
 		} else {
-			return projects.filter { project in
+			filteredProjects = projects.filter { project in
 				project.name.localizedCaseInsensitiveContains(searchText) || project.link?.repoSlug.localizedCaseInsensitiveContains(searchText) == true
 			}
 		}
 	}
-	
+
 	var body: some View {
 		ZStack {
 			List(selection: $selectedProject) {
 				#if os(macOS)
-				AccountManagementButton()
-					.padding(.bottom, 8)
+					AccountManagementButton()
+						.padding(.bottom, 8)
 				#endif
-				
+
 				ForEach(filteredProjects) { project in
 					NavigationLink(value: project) {
 						ProjectsListRowView(project: project)
 							.id(project.id)
 					}
 				}
-				
+
 				if let pageId = pagination?.next {
 					LoadingListCell(title: "Loading projects")
 						.task {
@@ -81,7 +85,8 @@ struct ProjectsListView: View {
 					// Restore selection from scene storage if available
 					if selectedProject == nil,
 					   let savedProjectId = selectedProjectId,
-					   let restoredProject = projects.first(where: { $0.id == savedProjectId }) {
+					   let restoredProject = projects.first(where: { $0.id == savedProjectId })
+					{
 						selectedProject = restoredProject
 					}
 				} catch {
@@ -91,20 +96,22 @@ struct ProjectsListView: View {
 					}
 				}
 			}
-			
+
 			if projects.isEmpty && projectsError == nil {
 				PlaceholderView(forRole: .NoProjects)
 			}
-			
+
 			if projectsError != nil {
 				PlaceholderView(forRole: .AuthError)
 			}
 		}
 		.navigationTitle("Projects")
+		.onChange(of: projects, initial: true) { recomputeFilteredProjects() }
+		.onChange(of: searchText) { recomputeFilteredProjects() }
 		.focusedSceneValue(\.focusedAccount, session?.account)
 		.modifier(OptionalPermissionRevocationDialogModifier(session: session))
 	}
-	
+
 	func loadProjects(pageId: Int? = nil) async throws {
 		guard let session else { return }
 		if session.requestsDenied == true { return }
@@ -119,8 +126,8 @@ struct ProjectsListView: View {
 		try session.signRequest(&request)
 
 		if pageId == nil,
-			 let cachedResponse = URLCache.shared.cachedResponse(for: request),
-			 let decodedFromCache = try? JSONDecoder().decode(VercelProject.APIResponse.self, from: cachedResponse.data)
+		   let cachedResponse = URLCache.shared.cachedResponse(for: request),
+		   let decodedFromCache = try? JSONDecoder().decode(VercelProject.APIResponse.self, from: cachedResponse.data)
 		{
 			projects = decodedFromCache.projects
 		}
@@ -143,11 +150,15 @@ struct ProjectListPlaceholderView: View {
 	var body: some View {
 		NavigationStack {
 			List {
-				ForEach(0..<10, id: \.self) { _ in
+				ForEach(0 ..< 10, id: \.self) { _ in
 					ProjectsListRowView(project: .exampleData)
 				}
 			}
 			.navigationTitle(Text("Projects"))
 		}.redacted(reason: .placeholder)
 	}
+}
+
+#Preview("Placeholder") {
+	ProjectListPlaceholderView()
 }

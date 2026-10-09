@@ -7,6 +7,20 @@
 
 import Foundation
 
+extension VercelAccount {
+	static var exampleData: VercelAccount {
+		let jsonData = """
+		{
+		  "id": "ErNXfZNwbyDvjvkDpfbyqxqvA33W",
+		  "name": "Max Mayfield",
+		  "avatar": null,
+		  "username": "maxmay"
+		}
+		""".data(using: .utf8)!
+		return try! JSONDecoder().decode(VercelAccount.self, from: jsonData)
+	}
+}
+
 extension VercelProject {
 	static var exampleData: VercelProject {
 		let jsonData = """

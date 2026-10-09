@@ -1,5 +1,5 @@
 //
-//  Session.swift
+//  VercelSession.swift
 //  Verdant
 //
 //  Created by Daniel Eden on 29/05/2021.
@@ -20,7 +20,7 @@ extension SessionError: LocalizedError {
 		switch self {
 		case .notAuthenticated:
 			return "The chosen account has not been authenticated on this device"
-		case .tokenNotFound(let accountId):
+		case let .tokenNotFound(accountId):
 			return "No authentication token found for account: \(accountId)"
 		}
 	}
@@ -30,10 +30,10 @@ extension SessionError: LocalizedError {
 
 extension VercelAccount {
 	func deepEqual(to comparison: VercelAccount) -> Bool {
-		self.id == comparison.id &&
-		self.name == comparison.name &&
-		self.username == comparison.username &&
-		self.avatar == comparison.avatar
+		id == comparison.id &&
+			name == comparison.name &&
+			username == comparison.username &&
+			avatar == comparison.avatar
 	}
 }
 
@@ -87,6 +87,7 @@ final class VercelSession {
 	}
 
 	// MARK: - Authentication
+
 	var authenticationToken: String? {
 		tokenStore.getToken(for: account.id)
 	}
@@ -119,7 +120,8 @@ final class VercelSession {
 
 	func validateResponse(_ response: URLResponse) {
 		if let response = response as? HTTPURLResponse,
-			 response.statusCode == 403 {
+		   response.statusCode == 403
+		{
 			requestsDenied = true
 		}
 	}
@@ -132,7 +134,8 @@ final class VercelSession {
 		if accountLastUpdated == nil {
 			Task { await refreshAccount() }
 		} else if let accountLastUpdated,
-							accountLastUpdated.distance(to: .now) > 60 * 60 {
+		          accountLastUpdated.distance(to: .now) > 60 * 60
+		{
 			Task { await refreshAccount() }
 		}
 

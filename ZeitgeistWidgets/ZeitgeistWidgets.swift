@@ -14,7 +14,7 @@ struct ZeitgeistWidgets: WidgetBundle {
 	var body: some Widget {
 		makeBody()
 	}
-	
+
 	func makeBody() -> some Widget {
 		if #available(iOS 26, macOS 26, *) {
 			return WidgetBundleBuilder.buildBlock(

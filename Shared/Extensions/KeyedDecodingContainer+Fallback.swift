@@ -24,7 +24,7 @@ extension KeyedDecodingContainer {
 	///   - keys: The keys to try, in order of preference
 	/// - Returns: The decoded value
 	/// - Throws: DecodingError if no key contains a valid value
-	func decode<T: Decodable>(_ type: T.Type, forKeys keys: [Key]) throws -> T {
+	func decode<T: Decodable>(_: T.Type, forKeys keys: [Key]) throws -> T {
 		guard let lastKey = keys.last else {
 			throw DecodingError.dataCorrupted(
 				DecodingError.Context(
@@ -57,7 +57,7 @@ extension KeyedDecodingContainer {
 	///   - type: The type to decode
 	///   - keys: The keys to try, in order of preference
 	/// - Returns: The decoded value, or nil if no key contains a value
-	func decodeIfPresent<T: Decodable>(_ type: T.Type, forKeys keys: [Key]) -> T? {
+	func decodeIfPresent<T: Decodable>(_: T.Type, forKeys keys: [Key]) -> T? {
 		for key in keys {
 			if let value = try? decodeIfPresent(T.self, forKey: key) {
 				return value

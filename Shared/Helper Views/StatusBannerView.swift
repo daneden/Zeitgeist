@@ -9,15 +9,15 @@ import SwiftUI
 
 struct StatusBannerView: View {
 	var states: [VercelDeployment.State] = [.building, .ready, .queued, .error]
-	
+
 	var body: some View {
 		VStack(spacing: 16) {
-			ForEach(0..<12, id: \.self) { _ in
+			ForEach(0 ..< 12, id: \.self) { _ in
 				HStack(spacing: 16) {
-					ForEach(0..<6, id: \.self) { i in
-						let state = states[Int.random(in: 0...(states.count-1))]
-						
-						if Int.random(in: 0...4).isMultiple(of: 3) {
+					ForEach(0 ..< 6, id: \.self) { _ in
+						let state = states[Int.random(in: 0 ... (states.count - 1))]
+
+						if Int.random(in: 0 ... 4).isMultiple(of: 3) {
 							DeploymentStateIndicator(state: state, style: .compact).fixedSize()
 						} else {
 							DeploymentStateIndicator(state: state).fixedSize()
@@ -38,7 +38,7 @@ struct StatusBannerView: View {
 }
 
 struct StatusBannerView_Previews: PreviewProvider {
-    static var previews: some View {
-        StatusBannerView()
-    }
+	static var previews: some View {
+		StatusBannerView()
+	}
 }

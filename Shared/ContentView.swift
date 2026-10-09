@@ -14,13 +14,15 @@ struct ContentView: View {
 	@State private var presentNewFeaturesScreen = false
 
 	var body: some View {
+		@Bindable var accountManager = accountManager
 		AuthenticatedContentView()
 			.formStyle(.grouped)
 			.animation(.default, value: accountManager.hasAccounts)
 			.symbolRenderingMode(.hierarchical)
 			.onAppear {
 				if let lastAppVersionOpened,
-					 lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3" {
+				   lastAppVersionOpened == "2" && ZeitgeistApp.majorAppVersion == "3"
+				{
 					presentNewFeaturesScreen = true
 					self.lastAppVersionOpened = ZeitgeistApp.majorAppVersion
 				}
@@ -28,12 +30,12 @@ struct ContentView: View {
 			.sheet(isPresented: $presentNewFeaturesScreen) {
 				NewFeaturesView()
 			}
-			.sheet(isPresented: Binding(get: { !accountManager.hasAccounts }, set: { _ in })) {
+			.sheet(isPresented: $accountManager.needsOnboarding) {
 				OnboardingView()
 					.interactiveDismissDisabled()
-#if !os(iOS)
+				#if !os(iOS)
 					.frame(minWidth: 800, minHeight: 600)
-#endif
+				#endif
 			}
 	}
 }

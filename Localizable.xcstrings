@@ -1501,6 +1501,7 @@
       }
     },
     "View JSON" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

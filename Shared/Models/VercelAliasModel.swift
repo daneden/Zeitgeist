@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct VercelAlias: Codable, Hashable {
+struct VercelAlias: Codable, Hashable, Identifiable {
+	var id: String {
+		uid
+	}
+
 	var uid: String
 	var alias: String
 	var url: URL {
