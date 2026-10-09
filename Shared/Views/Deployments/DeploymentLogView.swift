@@ -46,27 +46,37 @@ struct LogEvent: Codable, Equatable, Identifiable {
 	}
 
 	var text: String {
-		payload.text
+		// Progress lines end with a line break, which Text would draw as an extra blank line.
+		String(payload.text.reversed().drop(while: \.isNewline).reversed())
+	}
+
+	private enum Severity {
+		case normal, warning, error
+	}
+
+	/// Builds also write ordinary progress to stderr (the Vercel CLI banner, echoed commands), so
+	/// only stderr lines that read as warnings or errors stand out.
+	private var severity: Severity {
+		guard type == .stderr else { return .normal }
+		if text.localizedCaseInsensitiveContains("error") || text.contains("ERR!") || text.localizedCaseInsensitiveContains("failed") {
+			return .error
+		}
+		if text.localizedCaseInsensitiveContains("warn") {
+			return .warning
+		}
+		return .normal
 	}
 
 	var outputColor: Color {
-		switch type {
-		case .stderr:
-			if text.localizedCaseInsensitiveContains("warn") {
-				return .orange
-			} else {
-				return .red
-			}
-		default:
-			return .primary
+		switch severity {
+		case .normal: .primary
+		case .warning: .orange
+		case .error: .red
 		}
 	}
 
 	var backgroundStyle: AnyShapeStyle {
-		switch type {
-		case .stderr: return AnyShapeStyle(.quaternary)
-		default: return AnyShapeStyle(.clear)
-		}
+		severity == .normal ? AnyShapeStyle(.clear) : AnyShapeStyle(.quaternary)
 	}
 }
 
@@ -107,7 +117,8 @@ struct LogEventView: View {
 			}
 
 			if display == .log || display == .both {
-				Text(event.text)
+				// An empty Text has no baseline, so a blank line would sit taller than its neighbours.
+				Text(event.text.isEmpty ? " " : event.text)
 					.foregroundStyle(.primary)
 					.fixedSize(horizontal: true, vertical: false)
 					.frame(maxWidth: .infinity, alignment: .leading)
@@ -213,7 +224,11 @@ struct DeploymentLogView: View {
 						Link(destination: deployment.inspectorURL) {
 							Label("Open in browser", systemImage: "safari")
 						}
+						// On iOS a bordered link isn't grouped with the other bar buttons; in iPhone Duo's
+						// vertical bar it would sit beside the title instead.
+						#if os(macOS)
 						.buttonStyle(.bordered)
+						#endif
 					}
 				}
 			}
