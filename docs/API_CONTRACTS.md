@@ -20,7 +20,7 @@ Registers a device for push notifications. Called when the app receives a device
 |-------------|--------|----------|-------------|
 | `user_id`   | string | Yes      | Vercel user ID or team ID |
 | `device_id` | string | Yes      | APNS device token (hex string) |
-| `platform`  | string | Yes      | `ios` or `ios_sandbox` |
+| `platform`  | string | Yes      | `ios`, `ios_sandbox`, `macos` or `macos_sandbox` (the `_sandbox` values are debug builds) |
 
 **Example:**
 ```swift
@@ -33,6 +33,36 @@ let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user
   "status": "new_user_registered" | "device_already_registered"
 }
 ```
+
+---
+
+## Notification Settings Sync
+
+### `POST /api/notificationPreferences`
+
+Sends the device's notification settings and the accounts it is signed into. `NotificationSync` calls it when the token, the accounts or a setting changes, when the app becomes active after a failed sync, and at least once a day. From the first successful sync the server filters events for the device and sends alert pushes (see below); until then the device gets the legacy background payload.
+
+The server also makes the token's registrations match `accounts`: it registers the token under each listed account and removes it from any other, so signing out stops that account's pushes.
+
+**Body:**
+
+```json
+{
+  "device_id": "<hex APNs token>",
+  "platform": "ios" | "ios_sandbox" | "macos" | "macos_sandbox",
+  "accounts": ["team_…", "…"],
+  "preferences": {
+    "building": ["prj_…"],
+    "error": ["prj_…"],
+    "ready": ["prj_…"],
+    "productionOnly": ["prj_…"],
+    "emoji": false,
+    "grouping": "account" | "project" | "deployment"
+  }
+}
+```
+
+**Response:** `{ "status": "preferences_synced" }`, or `400 { "success": false, "error": "…" }`.
 
 ---
 
@@ -75,9 +105,47 @@ request.httpBody = try JSONSerialization.data(withJSONObject: [
 
 ---
 
-## Background Push Notification Payload
+## Push Notification Payloads
 
-The server sends background push notifications when deployment events occur. These are received in `application(_:didReceiveRemoteNotification:)`.
+The server sends one push per device for each event. Its shape depends on whether the device has synced its settings.
+
+### Alert push (synced devices, events the user enabled)
+
+A visible alert with `content-available`, so the app also wakes to refresh. The system localizes the text from the app's string catalog; the app never posts its own notification for it.
+
+```json
+{
+  "aps": {
+    "alert": {
+      "title-loc-key": "%@Deployment ready for %@",
+      "title-loc-args": ["✅ ", "my-app"],
+      "loc-key": "Caused by %@'s commit \"%@\"",
+      "loc-args": ["author", "first line of the commit message"]
+    },
+    "content-available": 1,
+    "sound": "default",
+    "category": "deployment",
+    "thread-id": "<from the grouping setting>"
+  },
+  "zps": 2,
+  "eventType": "deployment-ready",
+  "projectId": "prj_…",
+  "deploymentId": "dpl_…",
+  "teamId": "team_…",
+  "userId": "…",
+  "target": "production"
+}
+```
+
+`apns-collapse-id` is `{thread-id}-{eventType}`, the same identifier the app gives its own notifications.
+
+### Background push (synced devices, all other events)
+
+`{ "aps": { "content-available": 1 }, "zps": 2, … }` with the same custom keys, priority 5 and `apns-expiration: 0`. `zps` tells the app that the server already decided, so it only refreshes.
+
+### Legacy background push (devices that have not synced)
+
+The app filters these itself and posts a local notification. They are received in `application(_:didReceiveRemoteNotification:)`. Mac devices that have not synced get no push.
 
 **Payload Structure:**
 
@@ -99,6 +167,8 @@ The server sends background push notifications when deployment events occur. The
 | `deployment` | Build started |
 | `deployment-ready` | Deployment succeeded |
 | `deployment-error` | Build failed |
+| `deployment-canceled` | Deployment canceled |
+| `project.created` / `project.removed` | Project events; refresh only, never an alert |
 
 ---
 
@@ -204,9 +274,10 @@ struct ContentState: Codable & Hashable {
    └─> Register device token with /api/registerPushNotifications
 
 2. Deployment Started (server receives Vercel webhook)
-   └─> Server sends background push to device
-   └─> App receives in didReceiveRemoteNotification
-   └─> App creates local notification + Live Activity
+   └─> Synced device: server sends an alert push if the settings allow the event, else a background push
+   └─> Other devices: server sends the legacy background push
+   └─> App receives in didReceiveRemoteNotification and refreshes
+   └─> Legacy push only: app creates local notification + Live Activity
    └─> ActivityKit provides push token
    └─> App registers token with /api/registerLiveActivityToken
 
