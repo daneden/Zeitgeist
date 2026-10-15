@@ -21,6 +21,7 @@ import UserNotifications
 	}
 #endif
 
+// The server picks the APNs host from this, so debug builds name the sandbox
 #if os(iOS)
 	#if DEBUG
 		let platform = "ios_sandbox"
@@ -28,14 +29,15 @@ import UserNotifications
 		let platform = "ios"
 	#endif
 #else
-	let platform = "macos"
+	#if DEBUG
+		let platform = "macos_sandbox"
+	#else
+		let platform = "macos"
+	#endif
 #endif
 
 class AppDelegate: NSObject {
 	private let accountStorage: AccountStorage = UserDefaultsAccountStorage()
-
-	@AppStorage(Preferences.notificationEmoji) private var notificationEmoji
-	@AppStorage(Preferences.notificationGrouping) private var notificationGrouping
 
 	private static let logger = Logger(
 		subsystem: Bundle.main.bundleIdentifier!,
@@ -58,11 +60,9 @@ class AppDelegate: NSObject {
 
 			UNUserNotificationCenter.current().delegate = self
 
-			return true
-		}
+			NotificationSync.shared.start()
 
-		func applicationWillEnterForeground(_: UIApplication) {
-			UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+			return true
 		}
 	}
 
@@ -88,9 +88,14 @@ class AppDelegate: NSObject {
 
 #elseif canImport(AppKit)
 	extension AppDelegate: NSApplicationDelegate {
+		func applicationWillFinishLaunching(_: Notification) {
+			// Must be set before launch finishes, or a tap that launches the app is lost
+			UNUserNotificationCenter.current().delegate = self
+		}
+
 		func applicationDidFinishLaunching(_: Notification) {
 			NSApplication.shared.registerForRemoteNotifications()
-			UNUserNotificationCenter.current().delegate = self
+			NotificationSync.shared.start()
 		}
 
 		func applicationWillBecomeActive(_: Notification) {
@@ -121,37 +126,42 @@ extension AppDelegate {
 	                            didReceive response: UNNotificationResponse) async
 	{
 		let userInfo = response.notification.request.content.userInfo
-
-		switch response.notification.request.content.categoryIdentifier {
-		case ZPSNotificationCategory.deployment.rawValue:
-			guard let deploymentID = userInfo["DEPLOYMENT_ID"] as? String,
-			      let teamID = userInfo["TEAM_ID"] as? String
-			else {
-				Self.logger.warning("Deployment notification missing required DEPLOYMENT_ID or TEAM_ID")
-				return
-			}
-
-			let projectID = userInfo["PROJECT_ID"] as? String
-			// Include projectId in URL for parallel fetching optimization
-			let projectPath = projectID.map { "/\($0)" } ?? ""
-			guard let deepLinkURL = URL(string: "zeitgeist://deployment/\(teamID)/\(deploymentID)\(projectPath)") else {
-				Self.logger.error("Failed to construct deep link URL for deployment \(deploymentID, privacy: .public)")
-				return
-			}
-			#if canImport(UIKit)
-				await UIApplication.shared.open(deepLinkURL, options: [:])
-			#elseif canImport(AppKit)
-				NSWorkspace.shared.open(deepLinkURL)
-			#endif
-		default:
-			Self.logger.warning("Uncaught notification category identifier: \(response.notification.request.content.categoryIdentifier, privacy: .public)")
+		/// Local notifications use the uppercase keys; alert pushes from the server use the payload's own
+		func value(_ keys: String...) -> String? {
+			keys.lazy.compactMap { userInfo[$0] as? String }.first
 		}
+
+		// Older builds gave each event type its own category, so route on the payload instead
+		guard let deploymentID = value("DEPLOYMENT_ID", "deploymentId") else {
+			Self.logger.warning("Uncaught notification category identifier: \(response.notification.request.content.categoryIdentifier, privacy: .public)")
+			return
+		}
+
+		guard let accountID = value("TEAM_ID", "teamId", "USER_ID", "userId") else {
+			Self.logger.warning("Deployment notification missing an account ID")
+			return
+		}
+
+		let projectID = value("PROJECT_ID", "projectId")
+		// Include projectId in URL for parallel fetching optimization
+		let projectPath = projectID.map { "/\($0)" } ?? ""
+		guard let deepLinkURL = URL(string: "zeitgeist://deployment/\(accountID)/\(deploymentID)\(projectPath)") else {
+			Self.logger.error("Failed to construct deep link URL for deployment \(deploymentID, privacy: .public)")
+			return
+		}
+		#if canImport(UIKit)
+			await UIApplication.shared.open(deepLinkURL, options: [:])
+		#elseif canImport(AppKit)
+			NSWorkspace.shared.open(deepLinkURL)
+		#endif
 	}
 
 	func registerDeviceTokenWithZPS(_ deviceToken: Data) {
 		Self.logger.trace("Registered for remote notifications; registering in Zeitgeist Postal Service (ZPS)")
 
 		let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+		// NotificationSync sends it to the server with the notification settings
+		Preferences.store.set(token, forKey: Preferences.Keys.apnsDeviceToken.rawValue)
 
 		for account in authenticatedAccounts {
 			let url = URL(string: "https://zeitgeist.link/api/registerPushNotifications?user_id=\(account.id)&device_id=\(token)&platform=\(platform)")!
@@ -181,6 +191,11 @@ extension AppDelegate {
 
 		await DataTaskModifier.postNotification(userInfo)
 
+		// The server already chose whether to alert: the system shows the alert, if any
+		if userInfo["zps"] != nil || (userInfo["aps"] as? [AnyHashable: Any])?["alert"] != nil {
+			return .newData
+		}
+
 		do {
 			let title = userInfo["title"] as? String
 			guard let body = userInfo["body"] as? String else {
@@ -207,9 +222,11 @@ extension AppDelegate {
 				throw ZPSError.EventTypeCastingError(eventType: userInfo["eventType"])
 			}
 
-			guard NotificationManager.userAllowedNotifications(
-				for: eventType,
-				with: projectId,
+			let preferences = NotificationPreferences.current()
+
+			guard preferences.allows(
+				eventType,
+				projectId: projectId,
 				target: VercelDeployment.Target(rawValue: target ?? "")
 			) else {
 				Self.logger.notice("Notification suppressed due to user preferences")
@@ -225,13 +242,13 @@ extension AppDelegate {
 				content.title = body
 			}
 
-			if notificationEmoji {
+			if preferences.emoji {
 				content.title = "\(eventType.emojiPrefix)\(content.title)"
 			}
 
 			content.sound = .default
 
-			switch notificationGrouping {
+			switch preferences.grouping {
 			case .account:
 				content.threadIdentifier = teamId ?? userId ?? "accountForProject-\(projectId)"
 			case .project:
@@ -240,7 +257,9 @@ extension AppDelegate {
 				content.threadIdentifier = deploymentId ?? projectId
 			}
 
-			content.categoryIdentifier = eventType.rawValue
+			content.categoryIdentifier = eventType.associatedState == nil
+				? ZPSNotificationCategory.project.rawValue
+				: ZPSNotificationCategory.deployment.rawValue
 			var notificationUserInfo: [String: String] = [
 				"PROJECT_ID": projectId,
 			]
@@ -249,6 +268,9 @@ extension AppDelegate {
 			}
 			if let teamId {
 				notificationUserInfo["TEAM_ID"] = teamId
+			}
+			if let userId {
+				notificationUserInfo["USER_ID"] = userId
 			}
 			content.userInfo = notificationUserInfo
 

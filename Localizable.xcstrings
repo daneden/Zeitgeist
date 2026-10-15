@@ -43,6 +43,78 @@
         }
       }
     },
+    "%@Build failed for %@" : {
+      "comment" : "Notification title, sent by the server in alert pushes. The first argument is an emoji followed by a space, or nothing; the second is the project name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Build failed for %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Échec de la construction pour %2$@"
+          }
+        }
+      }
+    },
+    "%@Deployment canceled for %@" : {
+      "comment" : "Notification title, sent by the server in alert pushes. The first argument is an emoji followed by a space, or nothing; the second is the project name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Deployment canceled for %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Déploiement annulé pour %2$@"
+          }
+        }
+      }
+    },
+    "%@Deployment ready for %@" : {
+      "comment" : "Notification title, sent by the server in alert pushes. The first argument is an emoji followed by a space, or nothing; the second is the project name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Deployment ready for %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Déploiement prêt pour %2$@"
+          }
+        }
+      }
+    },
+    "%@New build started for %@" : {
+      "comment" : "Notification title, sent by the server in alert pushes. The first argument is an emoji followed by a space, or nothing; the second is the project name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@New build started for %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@Nouvelle construction lancée pour %2$@"
+          }
+        }
+      }
+    },
     "%lld environment variables" : {
       "localizations" : {
         "fr" : {
@@ -277,6 +349,48 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annulé"
+          }
+        }
+      }
+    },
+    "Caused by %@'s commit \"%@\"" : {
+      "comment" : "Notification body, sent by the server in alert pushes. The arguments are the commit author and the first line of the commit message.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caused by %1$@'s commit \"%2$@\""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déclenché par le commit « %2$@ » de %1$@"
+          }
+        }
+      }
+    },
+    "Caused by deploy hook \"%@\"" : {
+      "comment" : "Notification body, sent by the server in alert pushes. The argument is the name of the deploy hook.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déclenché par le hook de déploiement « %@ »"
+          }
+        }
+      }
+    },
+    "Caused by manual deployment" : {
+      "comment" : "Notification body, sent by the server in alert pushes.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déclenché par un déploiement manuel"
           }
         }
       }

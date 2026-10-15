@@ -22,7 +22,9 @@ enum Preferences {
 		     projectSummaryDisplayOption,
 		     lastAuthenticated,
 		     authenticationTimeout,
-		     followLogs
+		     followLogs,
+		     apnsDeviceToken,
+		     notificationSync
 	}
 
 	typealias AppStorageKVPair<T> = (key: Keys, value: T)
