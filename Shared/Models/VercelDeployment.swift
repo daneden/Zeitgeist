@@ -85,18 +85,19 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 	}
 
 	// MARK: - CodingKeys
+
 	//
 	// Maps Swift property names to JSON keys.
 	// Includes aliased keys for fields that differ between API endpoints.
 
 	enum CodingKeys: String, CodingKey {
 		// Aliased fields (different keys per endpoint)
-		case id                         // single-deployment
-		case uid                        // list-deployments
-		case createdAt                  // single-deployment
-		case created                    // list-deployments
-		case state                      // list-deployments
-		case readyState                 // single-deployment
+		case id // single-deployment
+		case uid // list-deployments
+		case createdAt // single-deployment
+		case created // list-deployments
+		case state // list-deployments
+		case readyState // single-deployment
 
 		// Common fields
 		case project = "name"
@@ -114,6 +115,7 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 	}
 
 	// MARK: - Decodable (Manual)
+
 	//
 	// The Vercel API returns different keys depending on the endpoint:
 	// - List deployments (/v6/deployments): uid, created, state
@@ -125,34 +127,35 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		// Decode aliased fields using fallback extension
-		self.id = try container.decode(String.self, forKeys: .uid, .id)
-		self.createdAt = try container.decode(Int.self, forKeys: .created, .createdAt)
-		self.state = try container.decode(State.self, forKeys: .state, .readyState)
+		id = try container.decode(String.self, forKeys: .uid, .id)
+		createdAt = try container.decode(Int.self, forKeys: .created, .createdAt)
+		state = try container.decode(State.self, forKeys: .state, .readyState)
 
 		// Direct mappings
-		self.project = try container.decode(String.self, forKey: .project)
-		self.projectId = try container.decodeIfPresent(String.self, forKey: .projectId)
-		self.target = try container.decodeIfPresent(Target.self, forKey: .target)
-		self.readySubstate = try container.decodeIfPresent(ReadySubstate.self, forKey: .readySubstate)
-		self.creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
-		self.team = try container.decodeIfPresent(TeamOverview.self, forKey: .team)
-		self.teamId = try container.decodeIfPresent(String.self, forKey: .teamId)
-		self.buildingAt = try container.decodeIfPresent(Int.self, forKey: .buildingAt)
-		self.ready = try container.decodeIfPresent(Int.self, forKey: .ready)
-		self.url = try container.decode(String.self, forKey: .url)
+		project = try container.decode(String.self, forKey: .project)
+		projectId = try container.decodeIfPresent(String.self, forKey: .projectId)
+		target = try container.decodeIfPresent(Target.self, forKey: .target)
+		readySubstate = try container.decodeIfPresent(ReadySubstate.self, forKey: .readySubstate)
+		creator = try container.decodeIfPresent(CreatorOverview.self, forKey: .creator)
+		team = try container.decodeIfPresent(TeamOverview.self, forKey: .team)
+		teamId = try container.decodeIfPresent(String.self, forKey: .teamId)
+		buildingAt = try container.decodeIfPresent(Int.self, forKey: .buildingAt)
+		ready = try container.decodeIfPresent(Int.self, forKey: .ready)
+		url = try container.decode(String.self, forKey: .url)
 
 		// Inspector URL with fallback to constructed URL
 		if let inspectorUrl = try container.decodeIfPresent(String.self, forKey: .inspectorUrl) {
 			self.inspectorUrl = inspectorUrl
 		} else {
-			self.inspectorUrl = "\(self.url)/_logs"
+			inspectorUrl = "\(url)/_logs"
 		}
 
 		// Decode meta with graceful fallback to nil
-		self.meta = try? container.decodeIfPresent(DeploymentMeta.self, forKey: .meta)
+		meta = try? container.decodeIfPresent(DeploymentMeta.self, forKey: .meta)
 	}
 
 	// MARK: - Encodable (Manual)
+
 	//
 	// We encode using the single-deployment format (id, createdAt, readyState)
 	// since that's the canonical representation.
@@ -179,33 +182,52 @@ struct VercelDeployment: Identifiable, Hashable, Codable, Equatable {
 		try container.encode(url, forKey: .url)
 		try container.encode(inspectorUrl, forKey: .inspectorUrl)
 	}
+}
 
-	// MARK: - Mock Initializer
+// MARK: - Mock Factory
 
-	init(asMockDeployment: Bool) throws {
-		guard asMockDeployment else {
-			throw DeploymentError.MockDeploymentInitError
-		}
+extension VercelDeployment {
+	/// Creates a deployment populated with placeholder data, for use in previews and tests only.
+	static func mock(
+		id: String = "dpl_mock_00000000",
+		project: String = "Example Project",
+		projectId: String = "prj_mock",
+		state: VercelDeployment.State = .ready,
+		url: String = "zeitgeist-mock.vercel.app",
+		inspectorUrl: String? = nil,
+		createdAt: Int = Int(Date().timeIntervalSince1970 * 1000),
+		target: VercelDeployment.Target = .staging,
+		creator: CreatorOverview = CreatorOverview(uid: "mock-user", username: "Test Account", githubLogin: nil)
+	) -> VercelDeployment {
+		VercelDeployment(
+			id: id,
+			project: project,
+			projectId: projectId,
+			state: state,
+			url: url,
+			inspectorUrl: inspectorUrl ?? "\(url)/_logs",
+			createdAt: createdAt,
+			target: target,
+			creator: creator
+		)
+	}
 
-		id = "dpl_mock_\(UUID().uuidString.prefix(8))"
-		project = "Example Project"
-		projectId = UUID().uuidString
-		state = .allCases.randomElement()!
-		url = "zeitgeist-mock.vercel.app"
-		inspectorUrl = "zeitgeist-mock.vercel.app/_logs"
-		createdAt = Int(Date().timeIntervalSince1970 * 1000)
-		target = .staging
-		creator = CreatorOverview(uid: UUID().uuidString, username: "Test Account", githubLogin: nil)
-		meta = nil
+	private init(id: String, project: String, projectId: String, state: VercelDeployment.State, url: String, inspectorUrl: String, createdAt: Int, target: VercelDeployment.Target, creator: CreatorOverview) {
+		self.id = id
+		self.project = project
+		self.projectId = projectId
+		self.state = state
+		self.url = url
+		self.inspectorUrl = inspectorUrl
+		self.createdAt = createdAt
+		self.target = target
+		self.creator = creator
 		readySubstate = nil
 		team = nil
 		teamId = nil
+		meta = nil
 		buildingAt = nil
 		ready = nil
-	}
-
-	enum DeploymentError: Error {
-		case MockDeploymentInitError
 	}
 }
 
@@ -264,8 +286,8 @@ extension VercelDeployment {
 
 		var description: String {
 			switch self {
-			case .gitCommit(let meta): return meta.commitMessageSummary
-			case .deployHook(let name): return name
+			case let .gitCommit(meta): return meta.commitMessageSummary
+			case let .deployHook(name): return name
 			case .promotion: return "Production rebuild"
 			case .manual: return "Manual deployment"
 			}
@@ -273,7 +295,7 @@ extension VercelDeployment {
 
 		var icon: String? {
 			switch self {
-			case .gitCommit(let meta): return meta.provider?.rawValue
+			case let .gitCommit(meta): return meta.provider?.rawValue
 			case .deployHook: return "hook"
 			case .promotion: return "arrow.up.circle"
 			case .manual: return nil
@@ -286,7 +308,10 @@ extension VercelDeployment {
 
 extension VercelDeployment {
 	struct CreatorOverview: Codable, Identifiable {
-		var id: ID { uid }
+		var id: ID {
+			uid
+		}
+
 		let uid: String
 		let username: String
 		let githubLogin: String?
@@ -346,7 +371,7 @@ extension VercelDeployment {
 			"deploymentId": id,
 			"meta": ["action": "promote"],
 			"name": project,
-			"target": "production"
+			"target": "production",
 		]
 		return try? JSONSerialization.data(withJSONObject: dataDict)
 	}

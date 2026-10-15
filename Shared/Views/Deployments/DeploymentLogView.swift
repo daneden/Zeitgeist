@@ -5,12 +5,13 @@
 //  Created by Daniel Eden on 09/01/2022.
 //
 
-import SwiftUI
+import Rehearsal
 import Suite
+import SwiftUI
 
-fileprivate struct LogEntryMaxWidthPreferenceKey: PreferenceKey {
+private struct LogEntryMaxWidthPreferenceKey: PreferenceKey {
 	static var defaultValue: CGFloat = 0
-	
+
 	static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
 		value = max(value, nextValue())
 	}
@@ -20,44 +21,62 @@ struct LogEvent: Codable, Equatable, Identifiable {
 	enum EventType: String, Codable {
 		case command, stderr, stdout, delimiter, exit
 	}
-	
+
 	struct DeploymentStateInfo: Codable {
 		var name: String
 		var readyState: VercelDeployment.State
 	}
-	
+
 	struct Payload: Codable, Equatable {
 		var id: String
 		var text: String
 		var date: TimeInterval
 		var statusCode: Int?
 	}
-	
+
 	var type: EventType
 	var payload: Payload
-	
-	var id: String { payload.id }
-	var date: Date { Date(timeIntervalSince1970: payload.date / 1000) }
-	var text: String { payload.text }
-	
+
+	var id: String {
+		payload.id
+	}
+
+	var date: Date {
+		Date(timeIntervalSince1970: payload.date / 1000)
+	}
+
+	var text: String {
+		// Progress lines end with a line break, which Text would draw as an extra blank line.
+		String(payload.text.reversed().drop(while: \.isNewline).reversed())
+	}
+
+	private enum Severity {
+		case normal, warning, error
+	}
+
+	/// Builds also write ordinary progress to stderr (the Vercel CLI banner, echoed commands), so
+	/// only stderr lines that read as warnings or errors stand out.
+	private var severity: Severity {
+		guard type == .stderr else { return .normal }
+		if text.localizedCaseInsensitiveContains("error") || text.contains("ERR!") || text.localizedCaseInsensitiveContains("failed") {
+			return .error
+		}
+		if text.localizedCaseInsensitiveContains("warn") {
+			return .warning
+		}
+		return .normal
+	}
+
 	var outputColor: Color {
-		switch type {
-		case .stderr:
-			if text.localizedCaseInsensitiveContains("warn") {
-				return .orange
-			} else {
-				return .red
-			}
-		default:
-			return .primary
+		switch severity {
+		case .normal: .primary
+		case .warning: .orange
+		case .error: .red
 		}
 	}
-	
+
 	var backgroundStyle: AnyShapeStyle {
-		switch type {
-		case .stderr: return AnyShapeStyle(.quaternary)
-		default: return AnyShapeStyle(.clear)
-		}
+		severity == .normal ? AnyShapeStyle(.clear) : AnyShapeStyle(.quaternary)
 	}
 }
 
@@ -65,15 +84,15 @@ struct LogEventView: View {
 	enum DisplayOption {
 		case timestamp, log, both
 	}
-	
+
 	@State private var logLineSize: CGSize = .zero
-	
+
 	var event: LogEvent
 	var display: DisplayOption = .both
-	
+
 	var previousType: LogEvent.EventType? = nil
 	var nextType: LogEvent.EventType? = nil
-	
+
 	private var cornerRadii: RectangleCornerRadii {
 		let matchesPrev = previousType == event.type
 		let matchesNext = nextType == event.type
@@ -88,7 +107,7 @@ struct LogEventView: View {
 			return .init()
 		}
 	}
-	
+
 	var body: some View {
 		HStack(alignment: .firstTextBaseline) {
 			if display == .timestamp || display == .both {
@@ -96,9 +115,10 @@ struct LogEventView: View {
 					.foregroundStyle(.secondary)
 					.fixedSize(horizontal: true, vertical: false)
 			}
-			
+
 			if display == .log || display == .both {
-				Text(event.text)
+				// An empty Text has no baseline, so a blank line would sit taller than its neighbours.
+				Text(event.text.isEmpty ? " " : event.text)
 					.foregroundStyle(.primary)
 					.fixedSize(horizontal: true, vertical: false)
 					.frame(maxWidth: .infinity, alignment: .leading)
@@ -116,6 +136,23 @@ struct LogEventView: View {
 	}
 }
 
+#Preview("Log event") {
+	Rehearse(LogEventView.self) { param in
+		LogEventView(
+			event: LogEvent(
+				type: param.picker("type", options: [LogEvent.EventType.command, .stdout, .stderr], default: .stdout),
+				payload: .init(
+					id: "log_mock",
+					text: param("text", default: "warn: incompatible peer dependencies found"),
+					date: 1_753_000_000_000,
+					statusCode: nil
+				)
+			)
+		)
+		.font(.footnote.monospaced())
+	}
+}
+
 struct DeploymentLogView: View {
 	@Environment(\.session) private var session
 
@@ -128,7 +165,7 @@ struct DeploymentLogView: View {
 	var accountID: VercelAccount.ID? {
 		session?.account.id
 	}
-	
+
 	var body: some View {
 		ScrollViewReader { proxy in
 			GeometryReader { geometry in
@@ -178,16 +215,20 @@ struct DeploymentLogView: View {
 							}
 						}
 					}
-					
+
 					if #available(iOS 26, macOS 26, *) {
 						ToolbarSpacer(.fixed)
 					}
-					
+
 					ToolbarItem {
 						Link(destination: deployment.inspectorURL) {
 							Label("Open in browser", systemImage: "safari")
 						}
+						// On iOS a bordered link isn't grouped with the other bar buttons; in iPhone Duo's
+						// vertical bar it would sit beside the title instead.
+						#if os(macOS)
 						.buttonStyle(.bordered)
+						#endif
 					}
 				}
 			}
@@ -217,7 +258,7 @@ struct DeploymentLogView: View {
 
 				for try await line in data.lines {
 					if let lineAsData = line.data(using: .utf8),
-						 let event = try? JSONDecoder().decode(LogEvent.self, from: lineAsData)
+					   let event = try? JSONDecoder().decode(LogEvent.self, from: lineAsData)
 					{
 						logEvents.append(event)
 					}

@@ -10,9 +10,9 @@ import Foundation
 /// Allows dates to be stored in AppStorage
 extension Date: @retroactive RawRepresentable {
 	public var rawValue: String {
-		self.timeIntervalSinceReferenceDate.description
+		timeIntervalSinceReferenceDate.description
 	}
-	
+
 	public init?(rawValue: String) {
 		self = Date(timeIntervalSinceReferenceDate: Double(rawValue) ?? 0.0)
 	}

@@ -1,5 +1,5 @@
 //
-//  DeploymentDetailLabel.swift
+//  LabelView.swift
 //  Verdant
 //
 //  Created by Daniel Eden on 31/05/2021.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-fileprivate struct ValueLabelStyle: LabelStyle {
+private struct ValueLabelStyle: LabelStyle {
 	func makeBody(configuration: Configuration) -> some View {
 		HStack {
 			configuration.icon
@@ -19,7 +19,7 @@ fileprivate struct ValueLabelStyle: LabelStyle {
 struct LabelView<S: View, Content: View>: View {
 	@ViewBuilder
 	var label: S
-	
+
 	@ViewBuilder
 	var content: Content
 
@@ -41,7 +41,7 @@ extension LabelView where S == Text {
 		self.label = Text(label)
 		self.content = content()
 	}
-	
+
 	init(_ label: Text, @ViewBuilder content: () -> Content) {
 		self.label = label
 		self.content = content()

@@ -12,7 +12,6 @@ import WidgetKit
 // MARK: - LatestDeploymentWidgetView
 
 struct LatestDeploymentWidgetView: View {
-
 	// MARK: Internal
 
 	let config: LatestDeploymentEntry
@@ -21,14 +20,18 @@ struct LatestDeploymentWidgetView: View {
 		Group {
 			switch widgetFamily {
 			case .systemSmall, .systemMedium:
-				systemView
+				LatestDeploymentSystemView(
+					deployment: config.deployment,
+					account: config.account,
+					project: config.project
+				)
 			case .systemLarge, .systemExtraLarge:
-				/// These sizes are unsupported by the widget. See ``LatestDeploymentWidget`` for configuration.
+				// These sizes are unsupported by the widget. See ``LatestDeploymentWidget`` for configuration.
 				Color.clear
 			case .accessoryCircular:
-				circularAccessoryView
+				LatestDeploymentCircularAccessoryView(deployment: config.deployment)
 			case .accessoryRectangular, .accessoryInline:
-				accessoryView
+				LatestDeploymentAccessoryView(deployment: config.deployment)
 			@unknown default:
 				Color.clear
 			}
@@ -41,20 +44,28 @@ struct LatestDeploymentWidgetView: View {
 
 	@Environment(\.widgetFamily) private var widgetFamily
 
-	private var hasProject: Bool {
-		config.project?.identifier != nil
-	}
-
 	private var deepLinkURL: URL {
 		let accountId = config.account.identifier ?? "0"
 		let deploymentId = config.deployment?.id ?? "0"
 		let projectId = config.deployment?.projectId ?? ""
 		return URL(string: "zeitgeist://deployment/\(accountId)/\(deploymentId)/\(projectId)")!
 	}
+}
 
-	private var systemView: some View {
+// MARK: - LatestDeploymentSystemView
+
+private struct LatestDeploymentSystemView: View {
+	let deployment: VercelDeployment?
+	let account: WidgetAccount
+	let project: WidgetProject?
+
+	private var hasProject: Bool {
+		project?.identifier != nil
+	}
+
+	var body: some View {
 		VStack(alignment: .leading, spacing: 2) {
-			if let deployment = config.deployment {
+			if let deployment {
 				HStack {
 					DeploymentStateIndicator(state: deployment.state)
 					Spacer()
@@ -79,7 +90,7 @@ struct LatestDeploymentWidgetView: View {
 				Group {
 					Text(deployment.created, style: .relative)
 						.foregroundStyle(.secondary)
-					
+
 					if !hasProject {
 						Text(deployment.project)
 							.lineLimit(1)
@@ -94,11 +105,12 @@ struct LatestDeploymentWidgetView: View {
 			Spacer(minLength: 0)
 
 			Group {
-				WidgetLabel(label: config.account.displayString, iconName: config.account.identifier?.isTeam == true ? "person.2" : "person")
-					.symbolVariant(config.account.identifier == nil ? .none : .fill)
+				WidgetLabel(label: account.displayString, iconName: account.identifier?.isTeam == true ? "person.2" : "person")
+					.symbolVariant(account.identifier == nil ? .none : .fill)
 
-				if let project = config.project,
-					 project.identifier != nil {
+				if let project,
+				   project.identifier != nil
+				{
 					WidgetLabel(label: project.displayString, iconName: "folder")
 				}
 			}
@@ -113,32 +125,42 @@ struct LatestDeploymentWidgetView: View {
 		.symbolRenderingMode(.hierarchical)
 		.tint(.indigo)
 	}
+}
 
-	@ViewBuilder
-	private var circularAccessoryView: some View {
+// MARK: - LatestDeploymentCircularAccessoryView
+
+private struct LatestDeploymentCircularAccessoryView: View {
+	let deployment: VercelDeployment?
+
+	var body: some View {
 		ZStack {
 			AccessoryWidgetBackground()
-			
+
 			Label {
-				if let deployment = config.deployment {
+				if let deployment {
 					let stateText = Text(deployment.state.description)
 					Text("Latest deployment for \(deployment.project): \(stateText)")
 				} else {
 					Text("No recent deployment")
 				}
 			} icon: {
-				Image(systemName: config.deployment?.state.imageName ?? "arrowtriangle.up.circle")
+				Image(systemName: deployment?.state.imageName ?? "arrowtriangle.up.circle")
 					.imageScale(.large)
 					.font(.largeTitle)
 			}
 			.labelStyle(.iconOnly)
 		}
-		
 	}
+}
 
-	private var accessoryView: some View {
+// MARK: - LatestDeploymentAccessoryView
+
+private struct LatestDeploymentAccessoryView: View {
+	let deployment: VercelDeployment?
+
+	var body: some View {
 		VStack(alignment: .leading) {
-			if let deployment = config.deployment {
+			if let deployment {
 				Label {
 					Text(deployment.project)
 						.font(.headline)
@@ -168,29 +190,26 @@ struct LatestDeploymentWidgetView: View {
 		.allowsTightening(true)
 		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 	}
-
 }
 
 #if DEBUG
 
-struct LatestDeploymentWidgetView_Previews: PreviewProvider {
+	struct LatestDeploymentWidgetView_Previews: PreviewProvider {
+		// MARK: Internal
 
-	// MARK: Internal
+		static var previews: some View {
+			LatestDeploymentWidgetView(config: .mockNoAccount)
+				.previewContext(WidgetPreviewContext(family: widgetFamily))
+				.previewDisplayName("No Account")
 
-	static var previews: some View {
-		LatestDeploymentWidgetView(config: .mockNoAccount)
-			.previewContext(WidgetPreviewContext(family: widgetFamily))
-			.previewDisplayName("No Account")
+			LatestDeploymentWidgetView(config: .mockExample)
+				.previewContext(WidgetPreviewContext(family: widgetFamily))
+				.previewDisplayName("Example")
+		}
 
-		LatestDeploymentWidgetView(config: .mockExample)
-			.previewContext(WidgetPreviewContext(family: widgetFamily))
-			.previewDisplayName("Example")
+		// MARK: Private
+
+		@Environment(\.widgetFamily) private static var widgetFamily
 	}
-
-	// MARK: Private
-
-	@Environment(\.widgetFamily) private static var widgetFamily
-
-}
 
 #endif

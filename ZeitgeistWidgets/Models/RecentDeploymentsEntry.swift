@@ -22,14 +22,16 @@ struct RecentDeploymentsEntry: TimelineEntry {
 
 #if DEBUG
 
-extension RecentDeploymentsEntry {
-	static var mockNoAccount = RecentDeploymentsEntry(
-		account: WidgetAccount(identifier: nil, display: "No Account"))
+	extension RecentDeploymentsEntry {
+		static var mockNoAccount = RecentDeploymentsEntry(
+			account: WidgetAccount(identifier: nil, display: "No Account")
+		)
 
-	static var mockExample = RecentDeploymentsEntry(
-		deployments: Array(repeating: VercelProject.exampleData.targets!.production!, count: 12),
-		account: WidgetAccount(identifier: "1", display: "Test Account"),
-		project: WidgetProject(identifier: "1", display: "example-project"))
-}
+		static var mockExample = RecentDeploymentsEntry(
+			deployments: Array(repeating: VercelProject.exampleData.targets!.production!, count: 12),
+			account: WidgetAccount(identifier: "1", display: "Test Account"),
+			project: WidgetProject(identifier: "1", display: "example-project")
+		)
+	}
 
 #endif

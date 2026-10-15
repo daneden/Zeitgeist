@@ -24,9 +24,9 @@ extension AccountError: LocalizedError {
 			return "Invalid account ID provided"
 		case .invalidToken:
 			return "The provided token is invalid or has been revoked"
-		case .networkError(let error):
+		case let .networkError(error):
 			return "Network error: \(error.localizedDescription)"
-		case .decodingError(let error):
+		case let .decodingError(error):
 			return "Failed to decode account data: \(error.localizedDescription)"
 		}
 	}
@@ -89,10 +89,22 @@ final class AccountManager {
 	}
 
 	/// Whether any accounts are authenticated
-	var hasAccounts: Bool { !accounts.isEmpty }
+	var hasAccounts: Bool {
+		!accounts.isEmpty
+	}
+
+	/// Whether onboarding should be presented. Settable so views can bind
+	/// sheet presentation to it; dismissal is driven by adding an account,
+	/// so the setter intentionally does nothing.
+	var needsOnboarding: Bool {
+		get { !hasAccounts }
+		set {}
+	}
 
 	/// Whether the current session is valid and authenticated
-	var isAuthenticated: Bool { currentSession?.isAuthenticated == true }
+	var isAuthenticated: Bool {
+		currentSession?.isAuthenticated == true
+	}
 
 	// MARK: - Dependencies
 
@@ -106,7 +118,8 @@ final class AccountManager {
 	///   - storage: Backend for persisting account metadata. Defaults to UserDefaults.
 	///   - tokenStore: Backend for secure token storage. Defaults to Keychain.
 	init(storage: AccountStorage = UserDefaultsAccountStorage(),
-	     tokenStore: TokenStore = KeychainTokenStore()) {
+	     tokenStore: TokenStore = KeychainTokenStore())
+	{
 		self.storage = storage
 		self.tokenStore = tokenStore
 		loadAccounts()
@@ -201,7 +214,8 @@ final class AccountManager {
 
 		// Sync any account changes back to storage
 		if let session = currentSession,
-		   let index = accounts.firstIndex(where: { $0.id == session.account.id }) {
+		   let index = accounts.firstIndex(where: { $0.id == session.account.id })
+		{
 			accounts[index] = session.account
 			storage.saveAccounts(accounts)
 		}
@@ -245,7 +259,8 @@ final class AccountManager {
 			let (data, response) = try await URLSession.shared.data(for: request)
 
 			guard let httpResponse = response as? HTTPURLResponse,
-			      (200...299).contains(httpResponse.statusCode) else {
+			      (200 ... 299).contains(httpResponse.statusCode)
+			else {
 				return nil
 			}
 
@@ -258,9 +273,9 @@ final class AccountManager {
 
 	private func registerForNotifications() async {
 		#if os(iOS)
-		UIApplication.shared.registerForRemoteNotifications()
+			UIApplication.shared.registerForRemoteNotifications()
 		#elseif os(macOS)
-		NSApplication.shared.registerForRemoteNotifications()
+			NSApplication.shared.registerForRemoteNotifications()
 		#endif
 	}
 

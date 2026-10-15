@@ -5,15 +5,27 @@
 //  Created by Daniel Eden on 08/07/2022.
 //
 
-import SwiftUI
 import Suite
+import SwiftUI
 
 struct ProjectDetailView: View {
 	@Environment(\.session) private var session
 	var projectId: VercelProject.ID
-	@State var project: VercelProject?
+	@State private var project: VercelProject?
 	@Binding var selectedProject: VercelProject?
 	@Binding var selectedDeployment: VercelDeployment?
+
+	init(
+		projectId: VercelProject.ID,
+		project: VercelProject? = nil,
+		selectedProject: Binding<VercelProject?>,
+		selectedDeployment: Binding<VercelDeployment?>
+	) {
+		self.projectId = projectId
+		_project = State(initialValue: project)
+		_selectedProject = selectedProject
+		_selectedDeployment = selectedDeployment
+	}
 
 	@State private var filter = DeploymentFilter()
 	@State private var deployments: [VercelDeployment] = []
@@ -54,7 +66,8 @@ struct ProjectDetailView: View {
 					}
 
 					if let gitLink = project.link,
-						 let url = gitLink.repoUrl {
+					   let url = gitLink.repoUrl
+					{
 						let slug = gitLink.repoSlug
 						let provider = gitLink.type
 
@@ -67,7 +80,7 @@ struct ProjectDetailView: View {
 						LabelView(Text("Production branch")) {
 							Text(gitLink.productionBranch)
 						}
-						
+
 						LabeledContent {
 							Button("Edit...") {
 								editEnvironmentVariables = true
@@ -119,7 +132,7 @@ struct ProjectDetailView: View {
 								deployment: deployment,
 								isCurrentProduction: deployment.id == project.targets?.production?.id
 							)
-								.id(deployment.id)
+							.id(deployment.id)
 						}
 						.tag(deployment)
 					}
@@ -185,20 +198,23 @@ struct ProjectDetailView: View {
 			}
 		}
 		.sheet(isPresented: $projectNotificationsVisible) {
-			notificationsSheet
+			if let project {
+				ProjectNotificationsSheet(project: project)
+			}
 		}
 	}
 
-	@ViewBuilder
-	var notificationsSheet: some View {
-		if let project {
+	private struct ProjectNotificationsSheet: View {
+		let project: VercelProject
+
+		var body: some View {
 			Group {
 				#if os(iOS)
-				NavigationStack {
-					ProjectNotificationsView(project: project)
-				}
+					NavigationStack {
+						ProjectNotificationsView(project: project)
+					}
 				#else
-				ProjectNotificationsView(project: project)
+					ProjectNotificationsView(project: project)
 				#endif
 			}
 			.presentationDetents([.medium])
@@ -215,16 +231,17 @@ struct ProjectDetailView: View {
 
 	func loadProject() async throws {
 		guard let session else { return }
-		
-		/// Try to decode a current production deployment as soon as possible
+
+		// Try to decode a current production deployment as soon as possible
 		if let currentProductionDeploymentId = project?.targets?.production?.id {
 			let request = VercelAPI.request(for: .deployments(version: 13, deploymentID: currentProductionDeploymentId), with: session.account.id)
 			if let cachedResponse = URLCache.shared.cachedResponse(for: request)?.data,
-				 let decodedFromCache = try? JSONDecoder().decode(VercelDeployment.self, from: cachedResponse) {
-				self.currentProductionDeployment = decodedFromCache
+			   let decodedFromCache = try? JSONDecoder().decode(VercelDeployment.self, from: cachedResponse)
+			{
+				currentProductionDeployment = decodedFromCache
 			}
 		}
-		
+
 		var request = VercelAPI.request(for: .projects(projectId), with: session.account.id)
 		try session.signRequest(&request)
 
@@ -260,8 +277,8 @@ struct ProjectDetailView: View {
 		}
 
 		var request = VercelAPI.request(for: .deployments(),
-																		with: session.account.id,
-																		queryItems: queryItems)
+		                                with: session.account.id,
+		                                queryItems: queryItems)
 		try session.signRequest(&request)
 
 		if pageId == nil,

@@ -15,6 +15,15 @@ extension Array where Element: Hashable {
 			removeAll { $0 == element }
 		}
 	}
+
+	/// Projects membership of an element as a settable Bool, so SwiftUI
+	/// bindings can go through a KeyPath subscript (e.g.
+	/// `$ids[contains: id]`) instead of allocating get/set closures on
+	/// every body evaluation.
+	subscript(contains element: Element) -> Bool {
+		get { contains(element) }
+		set { toggleElement(element, inArray: newValue) }
+	}
 }
 
 extension Array: @retroactive RawRepresentable where Element: Codable {

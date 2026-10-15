@@ -12,11 +12,11 @@ struct AccountListRowView: View {
 	@Environment(AccountManager.self) private var accountManager
 
 	var size: Double {
-#if os(macOS)
-		20
-#else
-		24
-#endif
+		#if os(macOS)
+			20
+		#else
+			24
+		#endif
 	}
 
 	var body: some View {
@@ -33,4 +33,11 @@ struct AccountListRowView: View {
 			}
 		}
 	}
+}
+
+#Preview {
+	List {
+		AccountListRowView(account: .exampleData)
+	}
+	.environment(AccountManager())
 }

@@ -5,8 +5,8 @@
 //  Created by Daniel Eden on 16/01/2026.
 //
 
-import SwiftUI
 import Suite
+import SwiftUI
 
 extension View {
 	func backportNavigationSubtitle(_ subtitle: String?) -> some View {

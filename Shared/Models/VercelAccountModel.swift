@@ -1,5 +1,5 @@
 //
-//  AccountViewModel.swift
+//  VercelAccountModel.swift
 //  Verdant
 //
 //  Created by Daniel Eden on 29/05/2021.
@@ -18,16 +18,30 @@ struct VercelAccount: Account, Codable, Identifiable {
 	typealias ID = String
 
 	private var wrapped: Account
-	
+
 	mutating func updateAccount(to newAccount: VercelAccount) {
-		self.wrapped = newAccount.wrapped
+		wrapped = newAccount.wrapped
 	}
 
-	var id: ID { wrapped.id }
-	var isTeam: Bool { id.isTeam }
-	var avatar: String? { wrapped.avatar }
-	var name: String? { wrapped.name }
-	var username: String { wrapped.username }
+	var id: ID {
+		wrapped.id
+	}
+
+	var isTeam: Bool {
+		id.isTeam
+	}
+
+	var avatar: String? {
+		wrapped.avatar
+	}
+
+	var name: String? {
+		wrapped.name
+	}
+
+	var username: String {
+		wrapped.username
+	}
 
 	enum CodingKeys: String, CodingKey {
 		case id, avatar, name, username

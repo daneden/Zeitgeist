@@ -8,21 +8,21 @@
 import Foundation
 import SwiftUI
 
-struct Preferences {
+enum Preferences {
 	enum Keys: String {
 		case authenticatedAccounts,
-				 lastAppVersionOpened,
+		     lastAppVersionOpened,
 		     notificationsEnabled,
 		     deploymentNotificationsProductionOnly,
 		     deploymentReadyNotificationIds,
 		     deploymentErrorNotificationIds,
 		     deploymentNotificationIds,
-				 notificationGrouping,
-				 notificationEmoji,
-				 projectSummaryDisplayOption,
-				 lastAuthenticated,
-				 authenticationTimeout,
-				 followLogs
+		     notificationGrouping,
+		     notificationEmoji,
+		     projectSummaryDisplayOption,
+		     lastAuthenticated,
+		     authenticationTimeout,
+		     followLogs
 	}
 
 	typealias AppStorageKVPair<T> = (key: Keys, value: T)
@@ -73,7 +73,6 @@ enum NotificationGrouping: String, Codable, RawRepresentable, CaseIterable {
 			return "Deployment"
 		case .account:
 			return "Account"
-
 		}
 	}
 }

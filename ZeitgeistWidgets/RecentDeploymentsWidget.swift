@@ -1,5 +1,5 @@
 //
-//  RecentDeploymentstWidget.swift
+//  RecentDeploymentsWidget.swift
 //  Zeitgeist
 //
 //  Created by Daniel Eden on 31/05/2021.
@@ -33,8 +33,8 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 	func getSnapshot(
 		for configuration: SelectAccountIntent,
 		in context: Context,
-		completion: @escaping (RecentDeploymentsEntry) -> Void)
-	{
+		completion: @escaping (RecentDeploymentsEntry) -> Void
+	) {
 		// For previews, return placeholder immediately
 		if context.isPreview {
 			completion(placeholder(in: context))
@@ -43,7 +43,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 
 		Task {
 			guard let intentAccount = configuration.account,
-						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
+			      let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
 			else {
 				Self.logger.debug("No account configured for snapshot")
 				completion(placeholder(in: context))
@@ -78,11 +78,11 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 	func getTimeline(
 		for configuration: SelectAccountIntent,
 		in context: Context,
-		completion: @escaping (Timeline<RecentDeploymentsEntry>) -> Void)
-	{
+		completion: @escaping (Timeline<RecentDeploymentsEntry>) -> Void
+	) {
 		Task {
 			guard let intentAccount = configuration.account,
-						let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
+			      let account = accountStorage.loadAccounts().first(where: { $0.id == intentAccount.identifier })
 			else {
 				Self.logger.debug("No account configured for timeline")
 				completion(
@@ -113,7 +113,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 								project: configuration.project,
 								relevance: relevance,
 								productionOnly: productionOnly
-							)
+							),
 						],
 						policy: .after(Date().addingTimeInterval(Self.refreshInterval))
 					)
@@ -135,7 +135,7 @@ struct RecentDeploymentsProvider: IntentTimelineProvider {
 // MARK: - RecentDeploymentsWidget
 
 struct RecentDeploymentsWidget: Widget {
-	public var body: some WidgetConfiguration {
+	var body: some WidgetConfiguration {
 		IntentConfiguration(
 			kind: "RecentDeploymentsWidget",
 			intent: SelectAccountIntent.self,
@@ -151,7 +151,7 @@ struct RecentDeploymentsWidget: Widget {
 
 @available(iOS 26, macOS 26, *)
 struct RecentDeploymentsWidgetWithPushHandler: Widget {
-	public var body: some WidgetConfiguration {
+	var body: some WidgetConfiguration {
 		RecentDeploymentsWidget()
 			.body
 			.pushHandler(ZeitgeistWidgetPushHandler.self)

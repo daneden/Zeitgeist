@@ -10,29 +10,47 @@ import SwiftUI
 struct EnvironmentVariableEditView: View {
 	@Environment(\.session) private var session
 	@Environment(\.dismiss) private var dismiss
-	
+
 	var projectId: VercelProject.ID
 	var id: VercelEnv.ID?
-	@State var key = ""
-	@State var value = ""
-	
-	@State var targetProduction = true
-	@State var targetPreview = true
-	@State var targetDevelopment = true
+	@State private var key: String
+	@State private var value: String
+
+	@State private var targetProduction: Bool
+	@State private var targetPreview: Bool
+	@State private var targetDevelopment: Bool
 	@State private var saving = false
-	
+
+	init(
+		projectId: VercelProject.ID,
+		id: VercelEnv.ID? = nil,
+		key: String = "",
+		value: String = "",
+		targetProduction: Bool = true,
+		targetPreview: Bool = true,
+		targetDevelopment: Bool = true
+	) {
+		self.projectId = projectId
+		self.id = id
+		_key = State(initialValue: key)
+		_value = State(initialValue: value)
+		_targetProduction = State(initialValue: targetProduction)
+		_targetPreview = State(initialValue: targetPreview)
+		_targetDevelopment = State(initialValue: targetDevelopment)
+	}
+
 	private var envVarIsValid: Bool {
 		(targetPreview || targetProduction || targetDevelopment) &&
-		key.range(of: #"^[a-zA-Z][_\w]*$"#, options: .regularExpression) != nil
+			key.range(of: #"^[a-zA-Z][_\w]*$"#, options: .regularExpression) != nil
 	}
-	
+
 	var navBarTitle: Text {
 		switch id {
 		case .none: return Text("Add environment variable")
-		case .some(_): return Text("Edit environment variable")
+		case .some: return Text("Edit environment variable")
 		}
 	}
-	
+
 	var body: some View {
 		NavigationStack {
 			Form {
@@ -43,23 +61,23 @@ struct EnvironmentVariableEditView: View {
 				} footer: {
 					Text("Environment variable names must begin with a letter and can only contain letters, numbers, and underscores")
 				}
-				
+
 				Section("Value") {
 					TextEditor(text: $value)
 						.font(.body.monospaced())
 						.frame(minHeight: 80)
 						.autocorrectionDisabled(true)
 				}
-				
+
 				Section {
 					Toggle(isOn: $targetProduction) {
 						Text("Production")
 					}
-					
+
 					Toggle(isOn: $targetPreview) {
 						Text("Preview")
 					}
-					
+
 					Toggle(isOn: $targetDevelopment) {
 						Text("Development")
 					}
@@ -102,7 +120,7 @@ struct EnvironmentVariableEditView: View {
 			#endif
 		}
 	}
-	
+
 	func saveEnvVar() async {
 		guard let session else { return }
 		saving = true
@@ -145,9 +163,8 @@ struct EnvironmentVariableEditView: View {
 	}
 }
 
-
 struct EnvironmentVariableEditView_Previews: PreviewProvider {
-    static var previews: some View {
-			EnvironmentVariableEditView(projectId: "nrrrdcore")
-    }
+	static var previews: some View {
+		EnvironmentVariableEditView(projectId: "nrrrdcore")
+	}
 }

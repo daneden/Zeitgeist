@@ -14,22 +14,37 @@ struct DeploymentDetailView: View {
 	@Environment(FocusedNavigationState.self) private var focusedNavigationState
 	@Environment(\.session) private var session
 
-	var accountId: VercelAccount.ID? { session?.account.id }
+	var accountId: VercelAccount.ID? {
+		session?.account.id
+	}
+
 	var deploymentId: VercelDeployment.ID
-	@State var deployment: VercelDeployment?
+	@State private var deployment: VercelDeployment?
 	@Binding var selectedDeployment: VercelDeployment?
 	@State private var actionsService: DeploymentActionsService?
 	@State private var confirmingAction: DeploymentAction?
+
+	init(
+		deploymentId: VercelDeployment.ID,
+		deployment: VercelDeployment? = nil,
+		selectedDeployment: Binding<VercelDeployment?>
+	) {
+		self.deploymentId = deploymentId
+		_deployment = State(initialValue: deployment)
+		_selectedDeployment = selectedDeployment
+	}
 
 	private var isCurrentProduction: Bool {
 		guard let deployment, let project else { return false }
 		return deployment.id == project.targets?.production?.id
 	}
-	
+
 	@State private var showJson = false
 	@State private var deploymentData: Data?
 
-	private var project: VercelProject? { focusedNavigationState.project }
+	private var project: VercelProject? {
+		focusedNavigationState.project
+	}
 
 	var body: some View {
 		NavigationStack {
@@ -40,7 +55,7 @@ struct DeploymentDetailView: View {
 						switch deployment.deploymentCause {
 						case let .deployHook(name):
 							Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Deploy hook cause icon and name")
-						case .promotion(_):
+						case .promotion:
 							Text("\(Image(systemName: "arrow.up.circle")) \(deployment.deploymentCause.description)", comment: "Promoted deployment cause icon and name")
 							if let meta = deployment.meta, meta.hasCommitInfo {
 								CommitSummary(meta: meta)
@@ -54,33 +69,33 @@ struct DeploymentDetailView: View {
 					if let accountId {
 						URLDetails(accountId: accountId, deployment: deployment)
 					}
-					
-#if DEBUG
-					Button("View JSON", systemImage: "ellipsis.curlybraces") {
-						showJson = true
-					}
-					.sheet(isPresented: $showJson) {
-						NavigationStack {
-							ScrollView {
-								let json: String? = {
-									let encoder = JSONEncoder()
-									encoder.outputFormatting = .prettyPrinted
-									
-									guard let data = try? encoder.encode(deployment) else { return nil }
-									
-									return String(data: data, encoding: .utf8)
-								}()
-								
-								if let json {
-									Text(json)
-										.monospaced()
-										.textSelection(.enabled)
-										.padding()
+
+					#if DEBUG
+						Button("View JSON", systemImage: "ellipsis.curlybraces") {
+							showJson = true
+						}
+						.sheet(isPresented: $showJson) {
+							NavigationStack {
+								ScrollView {
+									let json: String? = {
+										let encoder = JSONEncoder()
+										encoder.outputFormatting = .prettyPrinted
+
+										guard let data = try? encoder.encode(deployment) else { return nil }
+
+										return String(data: data, encoding: .utf8)
+									}()
+
+									if let json {
+										Text(json)
+											.monospaced()
+											.textSelection(.enabled)
+											.padding()
+									}
 								}
 							}
 						}
-					}
-#endif
+					#endif
 				} else {
 					ProgressView()
 				}
@@ -128,7 +143,7 @@ struct DeploymentDetailView: View {
 			with: accountId,
 			queryItems: [URLQueryItem(name: "withGitRepoInfo", value: "true")]
 		)
-		
+
 		try session.signRequest(&request)
 
 		let (data, _) = try await URLSession.shared.data(for: request)
@@ -184,7 +199,7 @@ private struct CommitSummary: View {
 						.foregroundStyle(.secondary)
 				}
 			}
-			
+
 			CommitAuthorAttributionView(commit: meta)
 				.font(.caption)
 				.foregroundStyle(.secondary)
@@ -247,9 +262,10 @@ private struct Overview: View {
 			LabelView(Text("Build duration")) {
 				Group {
 					if let building = deployment.building,
-						 let readyAt = deployment.readyAt,
-						 abs(building.distance(to: readyAt)) > 1 {
-						Text(timerInterval: building...readyAt, countsDown: false, showsHours: false)
+					   let readyAt = deployment.readyAt,
+					   abs(building.distance(to: readyAt)) > 1
+					{
+						Text(timerInterval: building ... readyAt, countsDown: false, showsHours: false)
 					} else if let building = deployment.building {
 						Text(building, style: .timer)
 					} else {
@@ -277,7 +293,7 @@ private struct URLDetails: View {
 	@State private var aliases: [VercelAlias] = []
 
 	var body: some View {
-		Section(header: Text("Deployment URL")) {
+		Section("Deployment URL") {
 			Link(destination: deployment.deploymentURL) {
 				Label(deployment.deploymentURL.absoluteString, systemImage: "link").lineLimit(1)
 			}.keyboardShortcut("o", modifiers: [.command])
@@ -291,9 +307,9 @@ private struct URLDetails: View {
 			DisclosureGroup {
 				if aliases.isEmpty {
 					Text("No aliases assigned to deployment")
-						.foregroundColor(.secondary)
+						.foregroundStyle(.secondary)
 				} else {
-					ForEach(aliases, id: \.self) { alias in
+					ForEach(aliases) { alias in
 						HStack {
 							Link(destination: alias.url) {
 								Text(alias.url.absoluteString).lineLimit(1)

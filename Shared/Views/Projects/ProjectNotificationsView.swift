@@ -8,7 +8,7 @@
 import SwiftUI
 
 #if canImport(ActivityKit)
-import ActivityKit
+	import ActivityKit
 #endif
 
 struct ProjectNotificationsView: View {
@@ -16,7 +16,7 @@ struct ProjectNotificationsView: View {
 
 	var project: VercelProject
 
-	// Assume notifications have been permitted
+	/// Assume notifications have been permitted
 	@State private var notificationsPermitted = true
 
 	@AppStorage(Preferences.deploymentNotificationIds)
@@ -32,33 +32,23 @@ struct ProjectNotificationsView: View {
 	private var deploymentNotificationsProductionOnly
 
 	var body: some View {
-		let allowDeploymentNotifications = Binding {
-			deploymentNotificationIds.contains { $0 == project.id }
-		} set: { deploymentNotificationIds.toggleElement(project.id, inArray: $0) }
-
-		let allowDeploymentErrorNotifications = Binding {
-			deploymentErrorNotificationIds.contains { $0 == project.id }
-		} set: { deploymentErrorNotificationIds.toggleElement(project.id, inArray: $0) }
-
-		let allowDeploymentReadyNotifications = Binding {
-			deploymentReadyNotificationIds.contains { $0 == project.id }
-		} set: { deploymentReadyNotificationIds.toggleElement(project.id, inArray: $0) }
-
-		let productionNotificationsOnly = Binding {
-			deploymentNotificationsProductionOnly.contains { $0 == project.id }
-		} set: { deploymentNotificationsProductionOnly.toggleElement(project.id, inArray: $0) }
+		let allowDeploymentNotifications = $deploymentNotificationIds[contains: project.id]
+		let allowDeploymentErrorNotifications = $deploymentErrorNotificationIds[contains: project.id]
+		let allowDeploymentReadyNotifications = $deploymentReadyNotificationIds[contains: project.id]
+		let productionNotificationsOnly = $deploymentNotificationsProductionOnly[contains: project.id]
 
 		return Form {
 			if !notificationsPermitted {
 				Section("Notification permissions required") {
 					Text("Go to the Settings app to enable notifications for Zeitgeist")
 					#if os(iOS)
-					if let url = URL(string: UIApplication.openSettingsURLString),
-						 UIApplication.shared.canOpenURL(url) {
-						Link(destination: url) {
-							Text("Open Settings")
+						if let url = URL(string: UIApplication.openSettingsURLString),
+						   UIApplication.shared.canOpenURL(url)
+						{
+							Link(destination: url) {
+								Text("Open Settings")
+							}
 						}
-					}
 					#endif
 				}
 			}
@@ -94,18 +84,18 @@ struct ProjectNotificationsView: View {
 		}
 		.navigationTitle(Text("Notifications for \(project.name)"))
 		#if os(iOS)
-		.navigationBarTitleDisplayMode(.inline)
+			.navigationBarTitleDisplayMode(.inline)
 		#endif
-		.onAppear {
-			if notificationsChanged {
+			.onAppear {
+				if notificationsChanged {
+					requestAndUpdateNotificationPermittedStatus()
+				}
+			}
+			.onChange(of: overallNotificationSettings) { _, _ in
 				requestAndUpdateNotificationPermittedStatus()
 			}
-		}
-		.onChange(of: overallNotificationSettings) { _, _ in
-			requestAndUpdateNotificationPermittedStatus()
-		}
 	}
-	
+
 	func requestAndUpdateNotificationPermittedStatus() {
 		Task {
 			if let auth = try? await NotificationManager.requestAuthorization() {
@@ -121,8 +111,14 @@ extension ProjectNotificationsView {
 	private var notificationsChanged: Bool {
 		!overallNotificationSettings.isEmpty
 	}
-	
+
 	private var overallNotificationSettings: [String] {
-		(deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly)
+		deploymentNotificationIds + deploymentReadyNotificationIds + deploymentErrorNotificationIds + deploymentNotificationsProductionOnly
+	}
+}
+
+#Preview {
+	NavigationStack {
+		ProjectNotificationsView(project: .exampleData)
 	}
 }

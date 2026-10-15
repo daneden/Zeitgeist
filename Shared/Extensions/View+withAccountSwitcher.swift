@@ -9,10 +9,10 @@ import SwiftUI
 
 struct WithAccountSwitcherModifier: ViewModifier {
 	@Environment(AccountManager.self) private var accountManager
-	
+
 	@State private var presentSettingsView = false
 	@State private var presentAccountManagementView = false
-	
+
 	func body(content: Content) -> some View {
 		content
 			.toolbar {
@@ -25,7 +25,7 @@ struct WithAccountSwitcherModifier: ViewModifier {
 					}
 					.buttonBorderShape(.circle)
 				}
-				
+
 				ToolbarItem(placement: .secondaryAction) {
 					Button("Settings", systemImage: "gearshape") {
 						presentSettingsView = true

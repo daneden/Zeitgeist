@@ -1,5 +1,5 @@
 //
-//  NotificationPreviews.swift
+//  NotificationPreview.swift
 //  Zeitgeist
 //
 //  Created by Daniel Eden on 23/08/2022.
@@ -12,7 +12,7 @@ struct NotificationPreview: View {
 	var projectName = "my-project"
 	var description = "Caused by daneden's commit \"Initial commit\""
 	var showsEmoji = false
-	
+
 	private var title: String {
 		switch eventType {
 		case .deployment:
@@ -29,46 +29,46 @@ struct NotificationPreview: View {
 			return "\(emoji)Project Removed"
 		}
 	}
-	
+
 	private var emoji: String {
 		guard showsEmoji else { return "" }
-		
+
 		return eventType.emojiPrefix
 	}
-	
-    var body: some View {
-			HStack {
-				Image("StaticAppIcon")
-					.resizable()
-					.frame(width: 28, height: 28)
-					.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-					.padding(.trailing, 8)
-				
-				VStack(alignment: .leading) {
-					Text(title)
-						.font(.subheadline.bold())
-					Text(description)
-						.font(.subheadline)
-				}
-				
-				Spacer(minLength: 0)
+
+	var body: some View {
+		HStack {
+			Image("StaticAppIcon")
+				.resizable()
+				.frame(width: 28, height: 28)
+				.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+				.padding(.trailing, 8)
+
+			VStack(alignment: .leading) {
+				Text(title)
+					.font(.subheadline.bold())
+				Text(description)
+					.font(.subheadline)
 			}
-			.padding()
-			.background(.thinMaterial)
-			.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-    }
+
+			Spacer(minLength: 0)
+		}
+		.padding()
+		.background(.thinMaterial)
+		.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+	}
 }
 
 struct NotificationPreviews_Previews: PreviewProvider {
-    static var previews: some View {
-			Group {
-				NotificationPreview()
-				NotificationPreview(eventType: .deploymentError)
-				
-				NotificationPreview(showsEmoji: true)
-				NotificationPreview(eventType: .deploymentError, showsEmoji: true)
-			}
-			.padding()
-			.previewLayout(.sizeThatFits)
-    }
+	static var previews: some View {
+		Group {
+			NotificationPreview()
+			NotificationPreview(eventType: .deploymentError)
+
+			NotificationPreview(showsEmoji: true)
+			NotificationPreview(eventType: .deploymentError, showsEmoji: true)
+		}
+		.padding()
+		.previewLayout(.sizeThatFits)
+	}
 }

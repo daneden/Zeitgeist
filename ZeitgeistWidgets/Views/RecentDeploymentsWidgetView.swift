@@ -12,7 +12,6 @@ import WidgetKit
 // MARK: - RecentDeploymentsWidgetView
 
 struct RecentDeploymentsWidgetView: View {
-
 	// MARK: Internal
 
 	let config: RecentDeploymentsEntry
@@ -21,12 +20,12 @@ struct RecentDeploymentsWidgetView: View {
 		Group {
 			switch widgetFamily {
 			case .systemSmall, .systemMedium:
-				/// These sizes are unsupported by the widget. See ``RecentDeploymentsWidget`` for configuration.
+				// These sizes are unsupported by the widget. See ``RecentDeploymentsWidget`` for configuration.
 				Color.clear
 			case .systemLarge, .systemExtraLarge:
-				systemView
+				RecentDeploymentsSystemView(config: config)
 			case .accessoryCircular, .accessoryRectangular, .accessoryInline:
-				/// These sizes are unsupported by the widget. See ``RecentDeploymentsWidget`` for configuration.
+				// These sizes are unsupported by the widget. See ``RecentDeploymentsWidget`` for configuration.
 				Color.clear
 			@unknown default:
 				Color.clear
@@ -36,26 +35,33 @@ struct RecentDeploymentsWidgetView: View {
 
 	// MARK: Private
 
-	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
 	@Environment(\.widgetFamily) private var widgetFamily
+}
+
+// MARK: - RecentDeploymentsSystemView
+
+private struct RecentDeploymentsSystemView: View {
+	let config: RecentDeploymentsEntry
+
+	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
 	private var numberOfDeployments: Int {
 		switch dynamicTypeSize {
 		case .xSmall,
-				.small,
-				.medium,
-				.large:
+		     .small,
+		     .medium,
+		     .large:
 			return 5
 		case .accessibility3,
-				.accessibility4,
-				.accessibility5:
+		     .accessibility4,
+		     .accessibility5:
 			return 3
-		default: 
+		default:
 			return 4
 		}
 	}
 
-	private var systemView: some View {
+	var body: some View {
 		VStack(alignment: .leading) {
 			Label(config.productionOnly ? "Recent Production Deployments" : "Recent Deployments", systemImage: "clock")
 				.font(.footnote.bold())
@@ -92,7 +98,8 @@ struct RecentDeploymentsWidgetView: View {
 				Spacer()
 
 				if let project = config.project,
-					 project.identifier != nil {
+				   project.identifier != nil
+				{
 					WidgetLabel(label: project.displayString, iconName: "folder")
 				}
 			}
@@ -101,13 +108,11 @@ struct RecentDeploymentsWidgetView: View {
 			.lineLimit(1)
 		}
 	}
-
 }
 
 // MARK: - RecentDeploymentsListRowView
 
 struct RecentDeploymentsListRowView: View {
-
 	// MARK: Internal
 
 	let accountId: String
@@ -162,29 +167,26 @@ struct RecentDeploymentsListRowView: View {
 	// MARK: Private
 
 	@Environment(\.dynamicTypeSize) private var dynamicTypeSize
-
 }
 
 #if DEBUG
 
-struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
+	struct RecentDeploymentsWidgetView_Previews: PreviewProvider {
+		// MARK: Internal
 
-	// MARK: Internal
+		static var previews: some View {
+			RecentDeploymentsWidgetView(config: .mockNoAccount)
+				.previewContext(WidgetPreviewContext(family: widgetFamily))
+				.previewDisplayName("No Account")
 
-	static var previews: some View {
-		RecentDeploymentsWidgetView(config: .mockNoAccount)
-			.previewContext(WidgetPreviewContext(family: widgetFamily))
-			.previewDisplayName("No Account")
+			RecentDeploymentsWidgetView(config: .mockExample)
+				.previewContext(WidgetPreviewContext(family: widgetFamily))
+				.previewDisplayName("Example")
+		}
 
-		RecentDeploymentsWidgetView(config: .mockExample)
-			.previewContext(WidgetPreviewContext(family: widgetFamily))
-			.previewDisplayName("Example")
+		// MARK: Private
+
+		@Environment(\.widgetFamily) private static var widgetFamily
 	}
-
-	// MARK: Private
-
-	@Environment(\.widgetFamily) private static var widgetFamily
-
-}
 
 #endif

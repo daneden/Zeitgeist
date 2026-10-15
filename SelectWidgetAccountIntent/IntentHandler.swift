@@ -12,7 +12,8 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
 
 	func provideProjectOptionsCollection(for intent: SelectAccountIntent) async throws -> INObjectCollection<WidgetProject> {
 		guard let account = intent.account,
-					let account = accountStorage.loadAccounts().first(where: { $0.id == account.identifier }) else {
+		      let account = accountStorage.loadAccounts().first(where: { $0.id == account.identifier })
+		else {
 			return .init(items: [])
 		}
 
@@ -53,8 +54,8 @@ class IntentHandler: INExtension, SelectAccountIntentHandling {
 			display: firstAccount.name ?? firstAccount.username
 		)
 	}
-	
-	func defaultProject(for intent: SelectAccountIntent) -> WidgetProject? {
+
+	func defaultProject(for _: SelectAccountIntent) -> WidgetProject? {
 		return WidgetProject(identifier: nil, display: "All Projects")
 	}
 }

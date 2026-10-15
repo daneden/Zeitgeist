@@ -3,6 +3,7 @@
 //  Zeitgeist
 //
 
+import Rehearsal
 import SwiftUI
 
 // MARK: - Focused Values
@@ -25,7 +26,9 @@ enum DeploymentAction: String, CaseIterable, Identifiable {
 	case delete
 	case cancel
 
-	var id: Self { self }
+	var id: Self {
+		self
+	}
 
 	// MARK: - UI Metadata
 
@@ -134,7 +137,6 @@ struct DeploymentActionMenuContent: View {
 		}
 	}
 
-	@ViewBuilder
 	private func actionButton(_ action: DeploymentAction, showIcon: Bool = true) -> some View {
 		Button(role: action.isDestructive ? .destructive : nil) {
 			trigger(action)
@@ -190,6 +192,17 @@ struct DeploymentActionsMenu: View {
 	}
 }
 
+#Preview {
+	Rehearse(DeploymentActionsMenu.self) { param in
+		DeploymentActionsMenu(
+			deployment: .mock(state: param("state", default: .ready)),
+			isCurrentProduction: param("isCurrentProduction", default: false),
+			isMutating: param("isMutating", default: false),
+			confirmingAction: .constant(nil)
+		)
+	}
+}
+
 // MARK: - macOS Menu Bar Commands
 
 struct DeploymentCommands: Commands {
@@ -224,131 +237,122 @@ struct DeploymentCommands: Commands {
 
 // MARK: - Confirmation Dialogs
 
+extension DeploymentAction? {
+	/// Projects the currently-confirming action into a per-action `isPresented`
+	/// value, so presentation bindings can go through a KeyPath subscript
+	/// instead of allocating get/set closures on every body evaluation.
+	subscript(isConfirming action: DeploymentAction) -> Bool {
+		get { self == action }
+		set { if !newValue { self = nil } }
+	}
+}
+
 extension View {
 	/// Attaches confirmation dialogs for all deployment actions
 	func deploymentActionConfirmations(
 		confirmingAction: Binding<DeploymentAction?>,
 		deployment: VercelDeployment,
-		project: VercelProject?,
+		project _: VercelProject?,
 		isCurrentProduction: Bool,
 		service: DeploymentActionsService,
 		onDismiss: @escaping () -> Void
 	) -> some View {
-		self
-			.confirmationDialog(
-				"Instant rollback",
-				isPresented: Binding(
-					get: { confirmingAction.wrappedValue == .instantRollback },
-					set: { if !$0 { confirmingAction.wrappedValue = nil } }
-				)
-			) {
-				Button("Cancel", role: .cancel) {}
-				Button("Restore to production") {
-					Task {
-						if await service.instantRollback(deployment) {
+		confirmationDialog(
+			"Instant rollback",
+			isPresented: confirmingAction[isConfirming: .instantRollback]
+		) {
+			Button("Cancel", role: .cancel) {}
+			Button("Restore to production") {
+				Task {
+					if await service.instantRollback(deployment) {
+						onDismiss()
+					}
+				}
+			}
+		} message: {
+			Text("This will restore this deployment to production. Your project's production domains will point to this deployment.")
+		}
+		.confirmationDialog(
+			"Promote to production",
+			isPresented: confirmingAction[isConfirming: .promote]
+		) {
+			Button("Cancel", role: .cancel) {}
+			Button("Promote to production") {
+				Task {
+					let shouldUseStagingPromote = (deployment.target == .staging) || (deployment.target == .production && !isCurrentProduction)
+					let success: Bool
+					if shouldUseStagingPromote, deployment.projectId != nil {
+						success = await service.promoteStagingToProduction(deployment)
+					} else {
+						success = await service.promoteToProduction(deployment)
+					}
+					if success {
+						onDismiss()
+					}
+				}
+			}
+		} message: {
+			Text("This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied.")
+		}
+		.confirmationDialog(
+			deployment.target == .production ? "Redeploy to production" : "Redeploy",
+			isPresented: confirmingAction[isConfirming: .redeploy]
+		) {
+			Button("Cancel", role: .cancel) {}
+			Button("Redeploy") {
+				Task {
+					if await service.redeploy(deployment) {
+						onDismiss()
+					}
+				}
+			}
+		} message: {
+			Text("You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.")
+		}
+		.confirmationDialog(
+			deployment.target == .production ? "Redeploy to production" : "Redeploy",
+			isPresented: confirmingAction[isConfirming: .redeployWithCache]
+		) {
+			Button("Cancel", role: .cancel) {}
+			Button("Redeploy with existing build cache") {
+				Task {
+					if await service.redeploy(deployment, withCache: true) {
+						onDismiss()
+					}
+				}
+			}
+		} message: {
+			Text("You are about to create a new deployment with the same source code and build cache as your current deployment, but with the newest configuration from your project settings.")
+		}
+		.alert(
+			"Are you sure you want to delete this deployment?",
+			isPresented: confirmingAction[isConfirming: .delete]
+		) {
+			Button("Delete deployment", role: .destructive) {
+				Task {
+					if await service.deleteDeployment(deployment) {
+						#if !os(macOS)
 							onDismiss()
-						}
+						#endif
 					}
 				}
-			} message: {
-				Text("This will restore this deployment to production. Your project's production domains will point to this deployment.")
 			}
-			.confirmationDialog(
-				"Promote to production",
-				isPresented: Binding(
-					get: { confirmingAction.wrappedValue == .promote },
-					set: { if !$0 { confirmingAction.wrappedValue = nil } }
-				)
-			) {
-				Button("Cancel", role: .cancel) {}
-				Button("Promote to production") {
-					Task {
-						let shouldUseStagingPromote = (deployment.target == .staging) || (deployment.target == .production && !isCurrentProduction)
-						let success: Bool
-						if shouldUseStagingPromote, deployment.projectId != nil {
-							success = await service.promoteStagingToProduction(deployment)
-						} else {
-							success = await service.promoteToProduction(deployment)
-						}
-						if success {
-							onDismiss()
-						}
-					}
+			Button("Close", role: .cancel) {}
+		} message: {
+			Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone.")
+		}
+		.alert(
+			"Are you sure you want to cancel this deployment?",
+			isPresented: confirmingAction[isConfirming: .cancel]
+		) {
+			Button("Cancel deployment", role: .destructive) {
+				Task {
+					await service.cancelDeployment(deployment)
 				}
-			} message: {
-				Text("This deployment will be promoted to production. This project's domains will point to your new deployment, and all environment variables defined for the production environment in the project settings will be applied.")
 			}
-			.confirmationDialog(
-				deployment.target == .production ? "Redeploy to production" : "Redeploy",
-				isPresented: Binding(
-					get: { confirmingAction.wrappedValue == .redeploy },
-					set: { if !$0 { confirmingAction.wrappedValue = nil } }
-				)
-			) {
-				Button("Cancel", role: .cancel) {}
-				Button("Redeploy") {
-					Task {
-						if await service.redeploy(deployment) {
-							onDismiss()
-						}
-					}
-				}
-			} message: {
-				Text("You are about to create a new deployment with the same source code as your current deployment, but with the newest configuration from your project settings.")
-			}
-			.confirmationDialog(
-				deployment.target == .production ? "Redeploy to production" : "Redeploy",
-				isPresented: Binding(
-					get: { confirmingAction.wrappedValue == .redeployWithCache },
-					set: { if !$0 { confirmingAction.wrappedValue = nil } }
-				)
-			) {
-				Button("Cancel", role: .cancel) {}
-				Button("Redeploy with existing build cache") {
-					Task {
-						if await service.redeploy(deployment, withCache: true) {
-							onDismiss()
-						}
-					}
-				}
-			} message: {
-				Text("You are about to create a new deployment with the same source code and build cache as your current deployment, but with the newest configuration from your project settings.")
-			}
-			.alert(
-				"Are you sure you want to delete this deployment?",
-				isPresented: Binding(
-					get: { confirmingAction.wrappedValue == .delete },
-					set: { if !$0 { confirmingAction.wrappedValue = nil } }
-				)
-			) {
-				Button("Delete deployment", role: .destructive) {
-					Task {
-						if await service.deleteDeployment(deployment) {
-							#if !os(macOS)
-								onDismiss()
-							#endif
-						}
-					}
-				}
-				Button("Close", role: .cancel) {}
-			} message: {
-				Text("Deleting this deployment might break links used in integrations, such as the ones in the pull requests of your Git provider. This action cannot be undone.")
-			}
-			.alert(
-				"Are you sure you want to cancel this deployment?",
-				isPresented: Binding(
-					get: { confirmingAction.wrappedValue == .cancel },
-					set: { if !$0 { confirmingAction.wrappedValue = nil } }
-				)
-			) {
-				Button("Cancel deployment", role: .destructive) {
-					Task {
-						await service.cancelDeployment(deployment)
-					}
-				}
-				Button("Close", role: .cancel) {}
-			} message: {
-				Text("This will immediately stop the build, with no option to resume.")
-			}
+			Button("Close", role: .cancel) {}
+		} message: {
+			Text("This will immediately stop the build, with no option to resume.")
+		}
 	}
 }

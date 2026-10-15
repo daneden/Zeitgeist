@@ -19,7 +19,7 @@ struct VercelProject: Decodable, Identifiable, Equatable, Hashable {
 	let updatedAt: Int?
 	let link: VercelRepositoryLink?
 	let env: [VercelEnv]?
-	
+
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(id)
 		hasher.combine(accountId)
@@ -73,23 +73,31 @@ extension VercelEnv {
 	var created: Date {
 		Date(timeIntervalSince1970: TimeInterval(createdAt / 1000))
 	}
-	
+
 	var updated: Date {
 		Date(timeIntervalSince1970: TimeInterval(updatedAt / 1000))
 	}
-	
+
 	enum EnvType: String, Codable {
 		case system, secret, encrypted, plain, sensitive
 	}
-	
+
 	struct APIResponse: Codable {
 		var envs: [VercelEnv]
 		var pagination: Pagination?
 	}
-	
-	var targetsProduction: Bool { target.contains(where: { $0 == "production" }) }
-	var targetsPreview: Bool { target.contains(where: { $0 == "preview" }) }
-	var targetsDevelopment: Bool { target.contains(where: { $0 == "development" }) }
+
+	var targetsProduction: Bool {
+		target.contains(where: { $0 == "production" })
+	}
+
+	var targetsPreview: Bool {
+		target.contains(where: { $0 == "preview" })
+	}
+
+	var targetsDevelopment: Bool {
+		target.contains(where: { $0 == "development" })
+	}
 }
 
 @available(iOS 16.0, *)
@@ -98,15 +106,15 @@ extension VercelEnv: Transferable {
 		guard let data = try? JSONEncoder().encode(self) else {
 			return Data()
 		}
-		
+
 		return data
 	}
-	
+
 	static var transferRepresentation: some TransferRepresentation {
 		DataRepresentation(exportedContentType: .json) { envVar in
 			envVar.data()
 		}
-		
+
 		CodableRepresentation(contentType: .json)
 	}
 }

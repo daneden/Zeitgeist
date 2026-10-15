@@ -5,12 +5,13 @@
 //  Created by Daniel Eden on 30/05/2021.
 //
 
+import Rehearsal
 import SwiftUI
 
 struct DeploymentListRowView: View {
 	var deployment: VercelDeployment
 	var projectName: String?
-	
+
 	var isCurrentProduction = false
 
 	var body: some View {
@@ -24,17 +25,17 @@ struct DeploymentListRowView: View {
 							.symbolVariant(.fill)
 							.imageScale(.small)
 					}
-					
+
 					Text(deployment.project)
 				}
 				.font(.footnote.bold())
-				
+
 				switch deployment.deploymentCause {
 				case let .deployHook(name):
 					Text("\(Image(deployment.deploymentCause.icon!)) \(name)", comment: "Label for a deployment caused by a deploy hook ({icon} {name})")
 						.lineLimit(2)
 						.imageScale(.small)
-				case .promotion(_):
+				case .promotion:
 					Text("\(Image(systemName: "arrow.up.circle")) Production rebuild", comment: "Label for a deployment caused by a promotion to production")
 						.lineLimit(2)
 						.imageScale(.small)
@@ -42,16 +43,16 @@ struct DeploymentListRowView: View {
 					Text(deployment.deploymentCause.description)
 						.lineLimit(2)
 				}
-				
+
 				HStack {
 					if let meta = deployment.meta {
 						CommitAuthorAttributionView(commit: meta)
-						
+
 						Circle()
 							.foregroundStyle(.secondary)
 							.frame(width: 4)
 					}
-					
+
 					Text("\(deployment.created, style: .relative) ago", comment: "Timestamp for when a deployment was created in a deployment list row")
 				}
 				.font(.caption)
@@ -61,6 +62,12 @@ struct DeploymentListRowView: View {
 			DeploymentStateIndicator(state: deployment.state, style: .compact)
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
-		.overlay(DeploymentStateProgressAnimation(state: deployment.state))
+		.overlay { DeploymentStateProgressAnimation(state: deployment.state) }
+	}
+}
+
+#Preview {
+	Rehearse(DeploymentListRowView.self) { param in
+		DeploymentListRowView(deployment: .mock(state: param("state", default: .queued, animation: .default)))
 	}
 }

@@ -24,12 +24,13 @@ protocol AccountStorage: Sendable {
 /// Default implementation using UserDefaults via the app group container.
 /// This matches the existing Preferences.accounts storage mechanism.
 struct UserDefaultsAccountStorage: AccountStorage, @unchecked Sendable {
-    // UserDefaults is documented as thread-safe; we treat it as safe to share across tasks.
+	// UserDefaults is documented as thread-safe; we treat it as safe to share across tasks.
 	private let store: UserDefaults
 	private let key: String
 
 	init(store: UserDefaults = Preferences.store,
-	     key: String = Preferences.Keys.authenticatedAccounts.rawValue) {
+	     key: String = Preferences.Keys.authenticatedAccounts.rawValue)
+	{
 		self.store = store
 		self.key = key
 	}
@@ -37,7 +38,8 @@ struct UserDefaultsAccountStorage: AccountStorage, @unchecked Sendable {
 	func loadAccounts() -> [VercelAccount] {
 		// @AppStorage uses RawRepresentable which stores arrays as JSON strings, not Data
 		guard let jsonString = store.string(forKey: key),
-		      let data = jsonString.data(using: .utf8) else {
+		      let data = jsonString.data(using: .utf8)
+		else {
 			return []
 		}
 
@@ -65,40 +67,40 @@ struct UserDefaultsAccountStorage: AccountStorage, @unchecked Sendable {
 // MARK: - MockAccountStorage (for testing)
 
 #if DEBUG
-/// In-memory account storage for unit testing.
-final class MockAccountStorage: AccountStorage, @unchecked Sendable {
-	private var accounts: [VercelAccount] = []
-	private let lock = NSLock()
+	/// In-memory account storage for unit testing.
+	final class MockAccountStorage: AccountStorage, @unchecked Sendable {
+		private var accounts: [VercelAccount] = []
+		private let lock = NSLock()
 
-	/// Track save operations for test assertions
-	private(set) var saveCallCount = 0
+		/// Track save operations for test assertions
+		private(set) var saveCallCount = 0
 
-	func loadAccounts() -> [VercelAccount] {
-		lock.lock()
-		defer { lock.unlock() }
-		return accounts
+		func loadAccounts() -> [VercelAccount] {
+			lock.lock()
+			defer { lock.unlock() }
+			return accounts
+		}
+
+		func saveAccounts(_ accounts: [VercelAccount]) {
+			lock.lock()
+			defer { lock.unlock() }
+			self.accounts = accounts
+			saveCallCount += 1
+		}
+
+		/// Pre-populate accounts for testing
+		func setAccounts(_ accounts: [VercelAccount]) {
+			lock.lock()
+			defer { lock.unlock() }
+			self.accounts = accounts
+		}
+
+		/// Clear all data (useful for test setup/teardown)
+		func clearAll() {
+			lock.lock()
+			defer { lock.unlock() }
+			accounts.removeAll()
+			saveCallCount = 0
+		}
 	}
-
-	func saveAccounts(_ accounts: [VercelAccount]) {
-		lock.lock()
-		defer { lock.unlock() }
-		self.accounts = accounts
-		saveCallCount += 1
-	}
-
-	/// Pre-populate accounts for testing
-	func setAccounts(_ accounts: [VercelAccount]) {
-		lock.lock()
-		defer { lock.unlock() }
-		self.accounts = accounts
-	}
-
-	/// Clear all data (useful for test setup/teardown)
-	func clearAll() {
-		lock.lock()
-		defer { lock.unlock() }
-		accounts.removeAll()
-		saveCallCount = 0
-	}
-}
 #endif

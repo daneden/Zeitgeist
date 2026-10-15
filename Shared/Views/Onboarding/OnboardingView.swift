@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
-	@State var signInModel = SignInViewModel()
+	@State private var signInModel = SignInViewModel()
 	@Environment(\.webAuthenticationSession) private var webAuthenticationSession
 	@Environment(AccountManager.self) var accountManager
 
@@ -52,13 +52,13 @@ struct OnboardingView: View {
 					.controlSize(.large)
 					.frame(maxWidth: 400)
 					.disabled(signInModel.isSigningIn)
-					
+
 					Text("To get started, sign in with your Vercel account.")
 						.font(.caption)
-						.foregroundColor(.secondary)
-					
+						.foregroundStyle(.secondary)
+
 					Spacer()
-					
+
 					HStack {
 						Link(destination: URL(string: "https://zeitgeist.daneden.me/privacy")!) {
 							HStack {
@@ -67,7 +67,7 @@ struct OnboardingView: View {
 								Spacer()
 							}
 						}
-						
+
 						Link(destination: URL(string: "https://zeitgeist.daneden.me/terms")!) {
 							HStack {
 								Spacer()
@@ -88,7 +88,7 @@ struct OnboardingView: View {
 					Color.clear.background(.regularMaterial).mask {
 						LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom)
 					}
-					
+
 					StatusBannerView()
 						.redacted(reason: .placeholder)
 				}
